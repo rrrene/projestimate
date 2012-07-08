@@ -928,3 +928,4 @@ en:
   notice_project_finduse_no_parent_project: "The \"%{value}\" project is not linked to any other project (never used as sub-project)"
   notice_project_finduse_no_user: "There is no user associated to the \"%{value}\" project"
   notice_project_finduse_no_group: "There is no group associated to the \"%{value}\" project"
+  notice_no_active_module: "No selected project module"

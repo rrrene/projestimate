@@ -1,5 +1,5 @@
 <div class="row-fluid">
-  <div class="span6 pbs" style='margin: 0px; padding: 0px;'>
+  <div class="span6 pbs" style='margin: 0; padding: 0;'>
     <div class="widget-box collapsible">
       <div class="widget-title">
         <a href="#collapseProduct" data-toggle="collapse">
@@ -11,7 +11,7 @@
           <span class="component_name">
             <%= current_component %>
           </span>
-        "</h5>
+          "</h5>
       </div>
       <div class="collapse in" id="collapseProduct">
         <div class="widget-content resizableProduct">
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div class="span6 estimation_plan" style='margin: 0px; padding: 0px;'>
+  <div class="span6 estimation_plan" style='margin: 0; padding: 0;'>
     <div class="widget-box collapsible">
       <div class="widget-title">
         <a href="#collapseActivity" data-toggle="collapse">
@@ -29,7 +29,8 @@
             <i class="icon-list"></i>
           </span>
         </a>
-        <h5><%= I18n.t(:estimation_plan) %> - <%= current_module_project.nil? ? 'Aucun module de projets sélectionné' : current_module_project %></h5>
+        <h5><%= I18n.t(:estimation_plan) %>
+          - <%= current_module_project.nil? ? I18n.t(:notice_no_active_module) : current_module_project %></h5>
 
         <div class="buttons">
           <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
@@ -51,36 +52,44 @@
 
 <%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :remote => true, :class => 'simple_form') do -%>
 
-  <div class="row-fluid">
-    <div class="span6 input" style='margin: 0px; padding: 0px;'>
-      <div class="widget-box">
-        <div class="widget-title"><span class="icon">
+    <div class="row-fluid">
+      <div class="span6 input" style='margin: 0; padding: 0;'>
+        <div class="widget-box collapsible">
+          <div class="widget-title">
+            <a href="#collapseIn" data-toggle="collapse">
+            <span class="icon">
           <i class="icon-align-left"></i>
         </span>
-          <h5><%= I18n.t(:label_estimation_modules) %> - <%= I18n.t(:label_input_data) %></h5>
-          <div class="buttons">
-            <%= select_tag 'pbs_list',  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }, :selected => current_component.id), :class => 'pull-right', :prompt => 'Product Quick Access' %>
-            <%= submit_tag 'Run', :class => 'btn btn-mini', :title => I18n.t(:tooltip_run_estimation), :id => 'run_estimation' %>
+            </a>
+            <h5><%= I18n.t(:label_input_data) %></h5>
+
+            <div class="buttons">
+              <%= select_tag 'pbs_list', options_for_select(current_project.root_component.subtree.map { |i| [i.name, i.id] }, :selected => current_component.id), :class => 'pull-right', :prompt => 'Product Quick Access' %>
+              <%= submit_tag 'Run', :class => 'btn btn-mini', :title => I18n.t(:tooltip_run_estimation), :id => 'run_estimation' %>
+            </div>
           </div>
-        </div>
-        <div class="widget-content">
-          <div class="input_data">
-            <%=raw display_input.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info')}" : display_input  %>
+          <div class="collapse in" id="collapseIn">
+            <div class="widget-content tab-content">
+              <div class="input_data">
+                <%= raw display_input.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info')}" : display_input %>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="span6 output" style='margin: 0px; padding: 0px;'>
-      <div class="widget-box">
-        <div class="widget-title">
-          <span class="icon">
+      <div class="span6 output" style='margin: 0; padding: 0;'>
+        <div class="widget-box collapsible">
+          <div class="widget-title">
+            <a href="#collapseOut" data-toggle="collapse">
+            <span class="icon">
           <i class="icon-list"></i>
         </span>
-          <h5><%= I18n.t(:label_estimation_modules) %> - <%= I18n.t(:label_output_data) %></h5>
-          <div class="buttons">
+            </a>
+            <h5><%= I18n.t(:label_output_data) %></h5>
+            <!-- <div class="buttons">
             <a href="<%= convert_path('json') %>" class="btn btn-mini btn-warning">
-              JSON
+              Export
             </a>
             <a href="<%= convert_path('xml') %>" class="btn btn-mini btn-warning">
               XML
@@ -94,22 +103,24 @@
             <a href="#tab2" class="btn btn-mini btn-danger" data-toggle="tab">
               Charts
             </a>
+          </div>   -->
           </div>
-        </div>
 
-        <div class="widget-content tab-content">
-          <div id="tab1" class="tab-pane active">
-            <div class="output_data">
-              <%=raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results %>
+          <div class="collapse in" id="collapseOut">
+            <div class="widget-content tab-content">
+              <div id="tab1" class="tab-pane active">
+                <div class="output_data">
+                  <%= raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results %>
+                </div>
+              </div>
+              <div id="tab2" class="tab-pane chart_data">
+
+              </div>
             </div>
-          </div>
-          <div id="tab2" class="tab-pane chart_data">
-
           </div>
         </div>
       </div>
     </div>
-  </div>
 <% end %>
 
 <script>
@@ -119,13 +130,13 @@
             autoclose: true,
             todayHighlight: true,
             todayBtn: true
-        }).on("hide", function(e){
-            $.ajax({
-                url:"check_attribute",
-                type: 'POST',
-                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
-            })
-        });
+        }).on("hide", function (e) {
+                    $.ajax({
+                        url: "check_attribute",
+                        type: 'POST',
+                        data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
+                    })
+                });
 
     });
 </script>

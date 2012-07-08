@@ -928,3 +928,4 @@ fr:
   notice_project_finduse_no_parent_project: "Le projet \"%{value}\" n'est lié à aucun autre projet (jamais utilisé en tant que sous-projet)"
   notice_project_finduse_no_user: "Il n'existe aucun utilisateur associé au projet \"%{value}\""
   notice_project_finduse_no_group: "Il n'existe aucun groupe associé au projet \"%{value}\""
+  notice_no_active_module: "Aucun module de projets sélectionné"
