@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Projestimate</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag :application %>
+  <%= csrf_meta_tag %>
+
+   <script type="text/javascript">
+    $(document).ready(function() {
+
+    $(".login_username").focus(function(){
+        $(".login_username").val("");
+    });
+
+      $(".login_pw").focus(function(){
+        $(".login_pw").val("");
+    });
+
+    setTimeout(hideFlashes, 5000);
+    });
+    var hideFlashes = function() {
+      $("#login_error").fadeOut(2000);
+    }
+  </script>
+
+
+</head>
+<body>
+
+<a href="http://projestimate.org">
+  <img style="position: fixed; top: 0; right: 0; border: 0;" src="/assets/ribbon.gif" alt="Follow us">
+</a>
+
+  <div class="login_background">
+    <div class="login_wrapper">
+      <div class="login_information">
+        <% unless controller.controller_name == "password_resets" %>
+          <%= render :partial => "sessions/new" %>
+        <% else %>
+          <%= render :partial => "retrieve_password" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<script>
+
+</script>
+
+</body>
+</html>

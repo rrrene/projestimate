@@ -1,0 +1,107 @@
+<%= form_for(@module_project) do |f| %>
+  <% if @module_project.errors.any? %>
+    <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+      <h2><%= pluralize(@module_project.errors.count, "error") %> prohibited this module_project from being saved:</h2>
+
+      <ul>
+      <% @module_project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="tabs">
+
+    <ul>
+      <li><a href="#tabs-1">Related attributes </a></li>
+      <!--<li><a href="#tabs-2">ModulesProjects setting</a></li>-->
+    </ul>
+
+    <div id="tabs-1">
+
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <!--<th>Component</th>-->
+          <th>I/O</th>
+          <th>Mandatory</th>
+          <th>Description</th>
+          <th>Links to</th>
+        </tr>
+        <% @module_project.module_project_attributes.each_with_index do |attr, i| %>
+
+          <% unless attr.component.is_root? %>
+            <%= hidden_field_tag "hidden_ids[]", attr.id %>
+          <% else %>
+            <tr class="">
+              <td><%= attr.attribute.nil? ? "-" : attr.attribute.name %></td>
+              <!--<td><%# attr.component.name %></td>-->
+              <!--<td><%# select_tag "mp_alias[]", options_for_select(Attribute.all.map(&:alias), :selected => attr.attribute.nil? ?  '' : attr.attribute.alias) %></td>-->
+              <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"]], :selected => attr.in_out), :prompt => "Choose...", :disabled => !(attr.select_custom_attribute) %> </td>
+              <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => attr.is_mandatory), :prompt => "Choose...", :disabled => !(attr.select_custom_attribute) %></td>
+              <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.select_custom_attribute)  %></td>
+              <td>
+                <strong>Current links</strong>
+                <% unless attr.links.first.nil? %>
+                  <p>
+                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "Edit links", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
+                  </p>
+                <% end %>
+              </td>
+              <td>
+
+                <%= pop_up("attribute_links_#{i}", "Attribute Links #{attr.id}") do %>
+                  <table class="table table-striped">
+                    <tr>
+                      <th>Module name</th>
+                      <th>Associable attributes</th>
+                    </tr>
+
+                      <% if attr.input? %>
+                        <% previous_modules = @module_project.previous %>
+                        <% previous_modules.each do |mp| %>
+                          <tr>
+                            <td><%= mp.pemodule.title %></td>
+                            <td>
+                              <% @project.root_component.module_project_attributes.select{|i| (i.output? && i.module_project_id == mp.id ) }.each do |mpa| %>
+                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
+                                <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
+                                </br>
+                              <% end %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% else %>
+                        <% next_modules = @module_project.next %>
+                        <% next_modules.each do |mp| %>
+                          <tr>
+                            <td><%= mp.pemodule.title %></td>
+                            <td>
+                              <% @project.root_component.module_project_attributes.select{|i| (i.input? && i.module_project_id == mp.id ) }.each do |mpa| %>
+                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
+                                <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
+                                </br>
+                              <% end %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                  </table>
+                <% end %>
+              </td>
+            </tr>
+
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+</div>
+
+<% end %>

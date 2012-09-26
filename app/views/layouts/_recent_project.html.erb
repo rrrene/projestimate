@@ -1,0 +1,8 @@
+<div class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Recent project </a>
+  <ul class="dropdown-menu">
+    <% Project.find_all_by_id(current_user.latest_project).each do |projet| %>
+      <li><%= link_to projet.title, "" %>
+    <% end %>
+  </ul>
+</div>

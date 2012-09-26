@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @acquisition_category.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @acquisition_category.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_acquisition_category_path(@acquisition_category) %> |
+<%= link_to 'Back', acquisition_categories_path %>

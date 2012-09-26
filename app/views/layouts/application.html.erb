@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= @page_title ? @page_title : controller.action_name %></title>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application", "projestimate_script" %>
+  <%= csrf_meta_tag %>
+
+</head>
+<body>
+
+  <a href="http://projestimate.org">
+    <img style="position: fixed; top: 0; right: 0; border: 0; z-index: 3000;" src="/assets/ribbon.gif" alt="Follow us">
+  </a>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="row">
+            <div class="span3">
+              <%= link_to(content_tag(:div, "", :class=> "logoEstimate" ), "/dashboard") %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse">
+
+            <%= render :partial => 'layouts/user_account' %>
+            <%= render :partial => 'layouts/notifications' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class=row>
+        <div class="span3 well">
+
+          <ul class="nav nav-list">
+            <%= render :partial => 'layouts/search_input' %>
+
+            <li class="nav-header"><h5>GLOBAL</h5></li>
+            <li><%= render :partial => 'layouts/recent_project' %></li>
+          </ul>
+
+          <%= render :partial => 'layouts/sidebar_menu' %>
+
+        </div>
+
+        <div class="container-fluid">
+          <div class="row with-margin">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="extra">
+      <div class="extra-inner">
+        <div class="container">
+          <div class="row">
+              <div class="span4">
+                <h4>About</h4>
+                <ul>
+                  <li><a href="javascript:;">About Us</a></li>
+                  <li><a href="javascript:;">Contribute</a></li>
+                  <li><a href="javascript:;">Wiki</a></li>
+                  <li><a href="javascript:;">Support</a></li>
+                </ul>
+              </div>
+
+              <div class="span4">
+                <h4>Legal</h4>
+                <ul>
+                  <li><a href="javascript:;">License</a></li>
+                  <li><a href="javascript:;">Terms of Use</a></li>
+                  <li><a href="javascript:;">Privacy Policy</a></li>
+                  <li><a href="javascript:;">Security</a></li>
+                </ul>
+              </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-inner">
+        <div class="container">
+          <div class="row">
+              <div class="span12">
+                Projestimate © 2012 <a href="http://spirula.info">SPIRULA</a>.
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="popup_mask" style="display:none;"></div>
+  <%= pop_up("popup_component", "Edit component") do -%>
+    <div id="edit_component">
+    </div>
+  <% end %>
+
+</body>
+</html>

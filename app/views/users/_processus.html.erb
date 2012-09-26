@@ -1,0 +1,59 @@
+<% component = Component.find_by_id(session[:component_id]) %>
+
+<div class="span7">
+  <div class="widget">
+    <div class="widget-header">
+      <h3>
+        WBS
+      </h3>
+    </div>
+    <div class="widget-content">
+      <div class="">
+        <%= render :partial => "users/pe_wbs" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget">
+    <div class="widget-header">
+      <h3>
+        Estimation Plan
+      </h3>
+    </div>
+    <div class="widget-content">
+      <%= render :partial => "projects/module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+    </div>
+  </div>
+</div>
+
+
+<div class="span7">
+  <div class="widget">
+    <% unless component.nil? %>
+      <%= form_tag({:controller => "projects", :action => "run_estimation", :component_id => component.id}, :method => "get", :remote => true) %>
+        <% @project.module_projects.each do |mp| %>
+          <% if mp.compatible_with(component.work_element_type.alias) || component %>
+
+          <div class="widget-header">
+            <h3>
+              <%= mp.pemodule.title %> - <%= component.name %>
+            </h3>
+          </div>
+
+          <div class="widget-content">
+            <div class="">
+              <div class="portlet_<%= mp.id %>" >
+                <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+              </div>
+            </div>
+          </div>
+
+          <% end %>
+        <% end %>
+
+      <div class="submit_link">
+        <%= submit_tag "Execute estimation process", :class => "btn btn-danger", :onclick => "loading();" %>
+      </div>
+    <% end %>
+  </div>
+</div>

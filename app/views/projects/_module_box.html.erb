@@ -1,0 +1,23 @@
+<% array_module_positions = local_assigns[:array_module_positions] %>
+<% project = local_assigns[:project] %>
+<% module_project = ModuleProject.find_by_project_id(project.id) %>
+
+
+<table class="table table-bordered">
+  <% for i in 1..array_module_positions %>
+    <tr>
+      <td>Step <%= i %></td>
+      <% ModuleProject.where(:project_id => project.id, :position_y => i).each do |pmod| %>
+        <td>
+          <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
+          <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_up', :project_module_id => pmod.id }, :class => 'icon-arrow-up', :remote => true %>
+          <%= link_to "", pmod, confirm: 'Are you sure?', method: :delete, :class => 'icon-trash', :remote => true %>
+          <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_down', :project_module_id => pmod.id }, :class => 'icon-arrow-down', :remote => true %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+
+

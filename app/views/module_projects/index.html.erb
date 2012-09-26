@@ -1,0 +1,27 @@
+<h1>Listing module_projects</h1>
+
+<table class="tablesorter">
+  <tr>
+    <th>Pemodule</th>
+    <th>Project</th>
+    <th>Position</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @module_projects.each do |module_project| %>
+  <tr>
+    <td><%= module_project.pemodule_id %></td>
+    <td><%module_project.project_id %></td>
+    <!--<td><%# module_project.position %></td>-->
+    <td><%= link_to 'Show', module_project %></td>
+    <td><%= link_to 'Edit', edit_module_project_path(module_project) %></td>
+    <td><%= link_to 'Destroy', module_project, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Module project', new_module_project_path %>

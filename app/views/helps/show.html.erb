@@ -1,0 +1,13 @@
+<p>
+  <strong>Content:</strong>
+  <%=raw @help.content %>
+</p>
+
+<p>
+  <strong>Help type:</strong>
+  <%= @help.help_type_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_help_path(@help) %> |
+<%= link_to 'Back', helps_path %>

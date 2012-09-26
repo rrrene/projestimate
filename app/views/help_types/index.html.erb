@@ -1,0 +1,23 @@
+<h1>Listing help_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @help_types.each do |help_type| %>
+  <tr>
+    <td><%= help_type.name %></td>
+    <td><%= link_to 'Show', help_type %></td>
+    <td><%= link_to 'Edit', edit_help_type_path(help_type) %></td>
+    <td><%= link_to 'Destroy', help_type, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Help type', new_help_type_path %>

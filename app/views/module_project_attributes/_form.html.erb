@@ -1,0 +1,22 @@
+<%= form_for(@mpa) do |f| %>
+  <% if @mpa.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mpa.errors.count, "error") %> prohibited this language from being saved:</h2>
+
+      <ul>
+      <% @mpa.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :in_out %><br />
+    <%= f.text_field :in_out %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<%= form_for(@permission) do |f| %>
+  <% if @permission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@permission.errors.count, "error") %> prohibited this permission from being saved:</h2>
+
+      <ul>
+      <% @permission.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+
+    <%= f.label :is_permission_project %><br />
+    <%= f.select :is_permission_project, options_for_select([true, false]) %>
+    <%= f.label :object_associated %><br />
+    <%= f.select :object_associated, options_for_select(ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == "SchemaMigration" },                                                   :selected => @permission.object_associated ) %>
+
+    <%= label_tag "Parent permission" %><br />
+    <%= select_tag :permission_parent_id, options_for_select(Permission.all.map{|i| [i.description, i.id ]}) %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Save" %>
+
+    <%= f.submit "Apply" %>  </div>
+<% end %>

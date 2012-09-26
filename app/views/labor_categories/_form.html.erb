@@ -1,0 +1,24 @@
+<%= form_for(@labor_category) do |f| %>
+  <% if @labor_category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@labor_category.errors.count, "error") %> prohibited this labor_category from being saved:</h2>
+
+      <ul>
+      <% @labor_category.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

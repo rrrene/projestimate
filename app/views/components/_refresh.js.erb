@@ -1,0 +1,30 @@
+$(".component_tree").html("<%=raw escape_javascript( generate_wbs(@project.root_component, @project, '', 5) ) %>");
+
+$("#main").html("<%= escape_javascript(render(:partial => "users/processus", :locals => { :resultat => @resultat } ))%>");
+
+<% @project.module_projects.each do |mp| %>
+    <% if mp.pemodule.compliant_component_type.include?(current_component.work_element_type.alias) %>
+        <% if @component.work_element_type.alias == "folder" %>
+            $(".folder_<%= mp.id %>").addClass("selected_module");
+        <% elsif @component.work_element_type.alias == "link" %>
+            $(".link_<%= mp.id %>").addClass("selected_module");
+        <% else %>
+            $(".module_<%= mp.id %>").addClass("selected_module");
+        <% end %>
+    <% else %>
+        $(".module_<%= mp.id %>").removeClass("selected_module");
+    <% end %>
+<% end %>
+
+$( ".tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
+
+$('.component_tree > ul li').hover(
+
+    function () {
+      $(this.children).css('display', 'inline');
+    },
+
+    function () {
+     $('.block_link').hide();
+    }
+);

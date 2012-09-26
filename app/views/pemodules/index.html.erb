@@ -1,0 +1,26 @@
+<div class="span12">
+
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+      <th>Alias</th>
+      <th>Description</th>
+      <th colspan="2">Actions</th>
+    </tr>
+
+  <% @pemodules.each do |pemodule| %>
+    <tr class="">
+      <td><%= pemodule.title %></td>
+      <td><%= pemodule.alias %></td>
+      <td><%= pemodule.description %></td>
+      <td><%= link_to 'Edit', edit_pemodule_path(pemodule) %></td>
+      <td><%= link_to 'Destroy', pemodule, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Pemodule', new_pemodule_path %>
+
+</div>

@@ -1,0 +1,436 @@
+/*
+    *= require_self
+    *= require_tree .
+    *= require dataTables/src/demo_table_jui
+*/
+
+.logoEstimate{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -157px -0px; height: 75px; width: 200px;
+}
+
+/* ==================================== LOGIN ====================================*/
+.new_password{
+    width: 539px;
+}
+
+.login_background{
+   background: url('/assets/login_bg1.png') repeat-x;
+}
+
+.login_wrapper{
+    background: url('/assets/login_bg2.png') no-repeat;
+    margin: 0 auto;
+    height: 900px;
+    width: 640px;
+}
+
+.login_information{
+    width: 500px;
+    position: relative;
+    top: 323px;
+    margin-left: 56px;
+}
+
+.login_input{
+    width: 50%;
+    float:left;
+    margin: 0 0 0 25px;
+}
+
+.login_username{
+    line-height: 40px;
+}
+
+.login_right{
+    float:left;
+}
+
+.login_remember_me{
+    margin-left: 25px;
+}
+
+.login_bottom_other{
+    float:right;
+    margin: 0 6px 0 25px;
+    font-size: 11px;
+}
+
+/* Sidebar Icons */
+
+.icn_global_setting {
+    background: url('/assets/iconsProjestimateMenu.png') no-repeat center left;
+    background-position:  0px -20px; height: 20px; width: 20px;
+}
+.icn_estimation {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+	background-position:  0px -40px; height: 20px; width: 20px;
+}
+.icn_organizationals_params {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -60px; height: 20px; width: 20px;
+}
+.icn_organization_setting {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -60px; height: 20px; width: 20px;
+}
+.icn_admins {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -80px; height: 20px; width: 20px;
+}
+.icn_profile {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -100px; height: 20px; width: 20px;
+}
+.icn_groups {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -120px; height: 20px; width: 20px;
+}
+.icn_globals_permissions {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -140px; height: 20px; width: 20px;
+}
+.icn_project_securities {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -160px; height: 20px; width: 20px;
+}
+.icn_events {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -180px; height: 20px; width: 20px;
+}
+.icn_labor_categories {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -200px; height: 20px; width: 20px;
+}
+.icn_master_settings {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -220px; height: 20px; width: 20px;
+}
+
+.icn_projects_global_params {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -240px; height: 20px; width: 20px;
+}
+.icn_pemodules {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -280px; height: 20px; width: 20px;
+}
+.icn_attributes {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -260px; height: 20px; width: 20px;
+}
+.icn_work_element_types {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -300px; height: 20px; width: 20px;
+}
+.icn_project_security_levels {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -320px; height: 20px; width: 20px;
+}
+.icn_permissions {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -140px; height: 20px; width: 20px;
+}
+.icn_languages {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -360px; height: 20px; width: 20px;
+}
+.icn_translations {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -380px; height: 20px; width: 20px;
+}
+.icn_community {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -400px; height: 20px; width: 20px;
+}
+.icn_edit_project {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -540px; height: 20px; width: 20px;
+}
+.icn_see_projects {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -760px; height: 20px; width: 20px;
+}
+.icn_new_project {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -740px; height: 20px; width: 20px;
+}
+.search_input {
+    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background-position:  0px -740px; height: 20px; width: 20px;
+}
+
+/* New/Edit Article Module */
+
+div.field {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #F6F6F6;
+    border: 1px solid #ccc;
+    padding: 1% 0%;
+    margin: 10px 0;
+}
+
+div.field label {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 25px;
+    line-height: 25px;
+    text-shadow: 0 1px 0 #fff;
+    font-weight: bold;
+    padding: 5px 0px 0px 11px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+div.field input{
+    width: 96%;
+    margin: 0 10px;
+    border: 1px solid #bbb;
+    height: 20px;
+    color: #666666;
+}
+
+div.field input:focus {
+    outline: none;
+    border: 1px solid #77BACE;
+    -webkit-box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+    -moz-box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+    box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+}
+
+div.field select {
+    width: 96%;
+    margin: 0 10px;
+    border: 1px solid #bbb;
+    height: 20px;
+    color: #666666;
+    height: 32px;
+}
+
+div.field textarea {
+    width: 96%;
+    margin: 0 10px;
+    border: 1px solid #bbb;
+    height: 20px;
+    color: #666666;
+}
+
+div.field textarea:focus {
+    outline: none;
+    border: 1px solid #77BACE;
+    -webkit-box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+    -moz-box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+    box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
+}
+
+/* ==================================== WBS ====================================*/
+
+#edit_component{
+    margin: 30px 0 0 0;
+}
+
+.component_tree{
+    max-height: 653px;
+    color: #666;
+    overflow-y: auto;
+    clear: both;
+}
+
+.component_tree ul{
+    list-style-type: none;
+}
+
+.block_link{
+   float:left;
+   display:none;
+}
+
+.block_label{
+   margin-left: 8px;
+   float: left;
+   clear: both;
+}
+
+.block_link a.bl{
+   display: inline-block;
+   float: left;
+   margin-left: 2px;
+}
+
+.is_root{
+   color: darkred;
+}
+
+.selected, .unselected{
+
+}
+
+.selected{
+    background-color: lightBlue;
+}
+
+.new_folder{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -443px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.new_undefined{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -427px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.new_link{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -459px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.up{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -41px -349px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.down{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -50px -250px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.folder{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -50px -233px;
+    width: 16px;
+    height: 16px;
+    margin: 0 5px 0 0;
+    padding: 0;
+    float: left;
+}
+
+.link{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -50px -267px;
+    width: 16px;
+    height: 16px;
+    margin: 0 5px 0 0;
+    padding: 0;
+    float: left;
+}
+
+.development{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -112px;
+    width: 16px;
+    height: 16px;
+    margin: 0 5px 0 0;
+    padding: 0;
+    float: left;
+}
+
+.undefined{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -50px -216px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.delete{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -96px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.edit{
+    background: url('/assets/spriteBaseEstimate.png') no-repeat;
+    background-position:  -0px -128px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.libelle{
+    margin-right: 6px;
+}
+
+   /* ==================================== POP UP ====================================*/
+.pop_up {
+    padding-top: 30px;
+    background-color: white;
+    color: #333;
+    width: 900px;
+    border: 3px solid black;
+    margin: auto;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    z-index:9999;
+}
+
+.popup_mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    top:expression(documentElement.scrollTop+body.scrollTop);
+    filter:alpha(opacity=40);/* IE*/
+    -moz-opacity:.40;/* Mozilla*/
+    opacity:.40; /*générale*/
+}
+
+.pop_up_title_bar {
+    background: #ddd;
+    color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+}
+
+.pop_up_title_bar h1{
+	margin: 0 0 0 15px;
+	display: block;
+	float: left;
+	font-weight: normal;
+	border: none;
+	color: #777;
+	font-size: 12px;
+	line-height: 24px;
+}
+
+.pop_up_title_bar .pop_up_close_button {
+    display: block;
+    float: right;
+    height: 24px;
+    line-height: 24px;
+    text-align: right;
+    margin-right: 15px;
+    color: #4d6d24;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+.pop_up_title_bar .pop_up_close_button:hover {
+    color: white;
+}

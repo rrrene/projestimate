@@ -1,0 +1,20 @@
+<div class="span12">
+  <h3>Searches results</h3>
+  <% if @results.blank? %>
+      <p>No result found for <strong><%= params[:search] %></strong></p>
+  <% else %>
+      <ul>
+          <% classes = @results.map{ |i| i.class }.uniq %>
+          <% classes.each do |cla| %>
+              <ul>
+                  <li><%= cla.to_s %></li>
+                  <% @results.each do |res| %>
+                      <% if res.class == cla %>
+                          <li><%= display_result(res, params[:search]) %>
+                      <% end %>
+                  <% end %>
+              </ul>
+          <% end %>
+      </ul>
+  <% end %>
+</div>

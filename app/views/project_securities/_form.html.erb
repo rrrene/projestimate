@@ -1,0 +1,45 @@
+<script>
+  $(document).ready(function() {
+    $('#project_security_project_id').change(function(){
+      $.ajax({url: '/select_users',
+        data: 'project_selected=' + this.value
+      })
+    });
+  });
+</script>
+
+<div class="module width_full">
+
+  <%= form_for(@project_security) do |f| %>
+    <% if @project_security.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@project_security.errors.count, "error") %> prohibited this project_security from being saved:</h2>
+
+        <ul>
+        <% @project_security.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :project %><br />
+      <%= f.select :project_id, options_for_select(@projects, :selected => @project_security.project_id) %>
+    </div>
+    <div class="field">
+      <%= f.label :user %><br />
+      <%= f.select :user_id, options_for_select(@users, :selected => @project_security.user_id) %>
+    </div>
+    <div class="field">
+      <label for="theme">Project Security</label>
+      <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> Full control
+      <br/><%= f.radio_button 'project_security_level', "3", :name => "project_security_level" %> Define
+      <br/><%= f.radio_button 'project_security_level', "2", :name => "project_security_level" %> Modify
+      <br/><%= f.radio_button 'project_security_level', "1", :name => "project_security_level" %> Comment
+      <br/><%= f.radio_button 'project_security_level', "0", :name => "project_security_level" %> Read only
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>

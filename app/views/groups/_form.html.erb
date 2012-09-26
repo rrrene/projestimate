@@ -1,0 +1,81 @@
+  <%= form_for(@group) do |f| %>
+    <% if @group.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+        <ul>
+        <% @group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+    <div class="tabs">
+      <ul>
+        <li><a href="#tabs-1">Global </a></li>
+        <li><a href="#tabs-2">Associated users </a></li>
+        <li><a href="#tabs-3">Associated projects </a></li>
+      </ul>
+
+      <div id="tabs-1">
+
+        <div class="field">
+          <%= f.label :name %><br />
+          <%= f.text_field :name %>
+
+          <%= f.label :description %><br />
+          <%= f.text_area :description %>
+
+          <%= f.label :for_global_permission  %><br />
+          <%= f.check_box :for_global_permission %>
+
+          <%= f.label :for_project_security  %><br />
+          <%= f.check_box :for_project_security %>
+        </div>
+
+      </div>
+
+      <div id="tabs-2">
+        <div class="field">
+
+          <table class="tablesorter">
+            <tr>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            <% @users.each do |group_user| %>
+              <tr>
+                <td><%= group_user.name %></td>
+                <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id}")%></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+
+      <div id="tabs-3">
+        <div class="field">
+          <table class="tablesorter">
+            <tr>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            <% @projects.each do |group_project| %>
+              <tr>
+                <td><%= group_project.title %></td>
+                <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}")%></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+  </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+
+  <% end %>
+

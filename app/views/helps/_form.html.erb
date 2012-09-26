@@ -1,0 +1,35 @@
+<% if @help.help_type.name=="tooltip" %>
+  <% help_type = '' %>
+<% else %>
+  <% help_type = 'display:none;' %>
+<% end %>
+
+<%= form_for(@help) do |f| %>
+  <% if @help.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@help.errors.count, "error") %> prohibited this help from being saved:</h2>
+
+      <ul>
+      <% @help.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content, :class => "editor" %>
+  </div>
+  <%#*<div class="field">%>
+    <%#= f.label :help_type %><br />
+    <%#= f.collection_select :help_type_id, HelpType.all, :id, :name, {}, :onchange => "if(this.value==#{HelpType.find_by_name('tooltip').id}){$('#div_help_help_code').show();}else{$('#div_help_help_code').hide();}" %>
+  <%#*</div>%>
+  <div id="div_help_help_code" class="field" style="<%= help_type %>">
+    <%= f.label :help_code %><br />
+    <%= f.text_field :help_code %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,64 @@
+<h1>Organizationals Parameters</h1>
+
+<div class="tabs">
+
+    <ul>
+        <li><a href="#tabs-1">Organizations</a></li>
+        <li><a href="#tabs-2">Inflation</a></li>
+        <li><a href="#tabs-3">Organizationals labors categories</a></li>
+    </ul>
+
+        <div id="tabs-1">
+          <table>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+
+              <% @organizations.each do |i| %>
+                 <tr>
+                   <td><%= i.name %></td>
+                   <td><%= i.description %></td>
+                   <td><%= link_to 'Show', i %></td>
+                   <td><%= link_to 'Edit', edit_organization_path(i) %></td>
+                   <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                 </tr>
+              <% end %>
+            </table>
+            <%= link_to 'New Organization', new_organization_path %>
+        </div>
+
+        <div id="tabs-2">
+            <p>TODO : inflation</p>
+        </div>
+
+        <div id="tabs-3">
+          <table>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+
+              <% @organizations_labor_categories.each do |i| %>
+                 <tr>
+                   <td><%= i.name %></td>
+                   <td><%= i.description %></td>
+                   <td><%= link_to 'Show', i %></td>
+                   <td><%= link_to 'Edit', edit_organization_labor_category_path(i) %></td>
+                   <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                 </tr>
+              <% end %>
+            </table>
+          <%= link_to 'New OrganizationLaborCategory', new_organization_labor_category_path %>
+        </div>
+    </ul>
+
+</div>
+
+

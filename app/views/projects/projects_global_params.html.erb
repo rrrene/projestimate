@@ -1,0 +1,110 @@
+<div class="span12">
+  <div id="parameter_title">
+    <h2>Projects Globals Parameters</h2>
+  </div>
+
+  <div class="tabs">
+
+      <ul>
+          <li><a href="#tabs-1">Project Area</a></li>
+          <li><a href="#tabs-2">Project Categories</a></li>
+          <li><a href="#tabs-3">Platform Categories</a></li>
+          <li><a href="#tabs-4">Acquisition Categories</a></li>
+      </ul>
+
+          <div id="tabs-1">
+            <table>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+
+                <% ProjectArea.all.each do |i| %>
+                   <tr>
+                     <td><%= i.name %></td>
+                     <td><%= i.description %></td>
+                     <td><%= link_to 'Show', i %></td>
+                     <td><%= link_to 'Edit', edit_project_area_path(i) %></td>
+                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   </tr>
+                <% end %>
+              </table>
+            <%= link_to 'New Project Area', new_project_area_path %>
+          </div>
+
+          <div id="tabs-2">
+              <table>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+
+                <% ProjectCategory.all.each do |i| %>
+                   <tr>
+                     <td><%= i.name %></td>
+                     <td><%= i.description %></td>
+                     <td><%= link_to 'Show', i %></td>
+                     <td><%= link_to 'Edit', edit_project_category_path(i) %></td>
+                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   </tr>
+                <% end %>
+              </table>
+            <%= link_to 'New Project Area', new_project_category_path %>
+          </div>
+
+          <div id="tabs-3">
+            <table>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+
+                <% PlatformCategory.all.each do |i| %>
+                   <tr>
+                     <td><%= i.name %></td>
+                     <td><%= i.description %></td>
+                     <td><%= link_to 'Show', i %></td>
+                     <td><%= link_to 'Edit', edit_platform_category_path(i) %></td>
+                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   </tr>
+                <% end %>
+              </table>
+            <%= link_to 'New Project Area', new_platform_category_path %>
+          </div>
+
+          <div id="tabs-4">
+              <table>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+
+                <% AcquisitionCategory.all.each do |i| %>
+                   <tr>
+                     <td><%= i.name %></td>
+                     <td><%= i.description %></td>
+                     <td><%= link_to 'Show', i %></td>
+                     <td><%= link_to 'Edit', edit_acquisition_category_path(i) %></td>
+                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   </tr>
+                <% end %>
+              </table>
+            <%= link_to 'New Project Area', new_acquisition_category_path %>
+          </div>
+      </ul>
+
+  </div>
+</div>
+

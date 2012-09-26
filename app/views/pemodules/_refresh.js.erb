@@ -1,0 +1,10 @@
+$(".module_box").html("<%= escape_javascript(render(:partial => "projects/module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project })) %>");
+
+$(".module").hover(
+    function(){
+        $(this.children).css('display', 'block');
+    },
+    function () {
+        $('.links').hide();
+    }
+);

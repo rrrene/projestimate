@@ -1,0 +1,39 @@
+<div class="nav-collapse">
+
+  <ul class="nav">
+
+    <li>
+    </li>
+
+    <li>
+      <a href="<%= edit_user_path(current_user) %>">
+        <i class="icon-home"></i>
+        Welcome <%= current_user %>
+      </a>
+    </li>
+
+    <li>
+      <a href="<%= log_out_path %>#">
+        <i class="icon-off"></i>
+        Logout
+      </a>
+    </li>
+
+    <li>
+      <a href="<%= load_master_setting('url_wiki') %>">
+        <i class="icon-file"></i>
+        Wiki
+      </a>
+    </li>
+
+    <li>
+      <a href="<%= load_master_setting('url_service') %>">
+        <i class="icon-eye-open"></i>
+        Services
+      </a>
+    </li>
+
+  </ul>
+
+
+</div>

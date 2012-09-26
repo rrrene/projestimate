@@ -1,0 +1,51 @@
+<%= form_for(@organization_labor_category) do |f| %>
+  <% if @organization_labor_category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@organization_labor_category.errors.count, "error") %> prohibited this organization_labor_category from being saved:</h2>
+
+      <ul>
+      <% @organization_labor_category.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id %><br />
+    <%= f.number_field :id %>
+
+    <%= f.label :organization_id %><br />
+    <%= f.number_field :organization_id %>
+
+    <%= f.label :labor_category_id %><br />
+    <%= f.number_field :labor_category_id %>
+
+    <%= f.label :level %><br />
+    <%= f.text_field :level %>
+
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+
+    <%= f.label :cost_per_hour %><br />
+    <%= f.text_field :cost_per_hour %>
+
+    <%= f.label :base_year %><br />
+    <%= f.number_field :base_year %>
+
+    <%= f.label :currency_id %><br />
+    <%= f.number_field :currency_id %>
+
+    <%= f.label :hour_per_day %><br />
+    <%= f.text_field :hour_per_day %>
+
+    <%= f.label :days_per_year %><br />
+    <%= f.number_field :days_per_year %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

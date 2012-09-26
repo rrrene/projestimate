@@ -1,0 +1,128 @@
+<%= simple_form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1">Global settings </a></li>
+    <li><a href="#tabs-2">Associated groups </a></li>
+    <li><a href="#tabs-3">Associated organizations </a></li>
+    <li><a href="#tabs-4">Associated projects </a></li>
+    <li><a href="#tabs-5">Settings</a></li>
+  </ul>
+  
+  <div id="tabs-1">
+    <div class="field">
+      <%= f.label :first_name %><br />
+      <%= f.text_field :first_name %>
+
+      <%= f.label :surename %><br />
+      <%= f.text_field :surename %>
+
+      <%= f.label :user_name %><br />
+      <%= f.text_field :user_name %>
+
+      <%= f.label :email %><br />
+      <%= f.text_field :email %>
+
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %>
+
+      <%= f.label :initials %><br />
+      <%= f.text_field :initials %>
+
+    <% if can? :edit_own_profile_security, User %>
+
+          <%= f.label :user_status %><br />
+          <%= f.select :user_status, options_for_select([["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]], :selected => @user.user_status) %>
+
+          <%= f.label "Authentication" %><br/>
+          <%= f.select :type_auth, options_for_select([["Applicatif", "app"],["Ldap","ldap"]], :selected => @user.type_auth) %>
+    <% end %>
+    </div>
+
+  </div>
+
+    <div id="tabs-2">
+      <div class="field_checkbox">
+        <%= f.label :groups %><br />
+        <ul>
+          <% @groups.each do |group| %>
+            <li>
+              <%= check_box_tag "user[group_ids][]", group.id, @project_groups.map(&:id).include?(group.id) ? true : false %>
+              <span><%= group.name %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div id="tabs-3">
+      <div class="field_checkbox">
+        <%= f.label :associated_organizations %><br />
+        <ul>
+          <% @organizations.each do |org| %>
+            <li>
+              <%= check_box_tag "user[organization_ids][]", org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+              <span><%= org.name %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  <div id="tabs-4">
+      <div class="field_checkbox">
+        <%= f.label :projets_associés %><br />
+        <ul>
+          <% @projects.each do |project| %>
+            <li>
+              <%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+              <span><%= project.title %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  <div id="tabs-5">
+    <div class="field">
+      <%= f.label :language %><br/>
+      <%= f.collection_select :language_id, Language.all, :id, :name, :include_blank => true %>
+    </div>
+    <div class="field">
+      <%= f.label "Time Zone" %><br />
+      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
+    </div>
+    <div class="field">
+      <p>Assistance</p>
+      <p>Notifications</p>
+      <p>Format d'affichage</p>
+      <p>Décimal</p>
+      <p>Milliers</p>
+      <p>Premier jour de la semaine</p>
+      <p>Première semaine de l'anéne</p>
+      <p>Pref d'export</p>
+    </div>
+  </div>
+
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit "Save" %>
+
+    <%= f.submit "Apply" %>  </div>
+
+<% end %>

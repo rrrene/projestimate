@@ -1,0 +1,2 @@
+module MasterSettingsHelper
+end

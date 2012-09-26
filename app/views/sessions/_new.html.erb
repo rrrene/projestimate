@@ -1,0 +1,41 @@
+<div class="new_password">
+    <%= form_tag sessions_path, :class => "form-horizontal" do %>
+
+    <div class="login_input">
+      <div class="input-prepend">
+        <span class="add-on"><img src="/assets/man.png" /></span>
+        <%= text_field_tag :username, cookies[:login], :class => "login_username", :placeholder => "Username" %>
+      </div>
+
+      <div class="input-prepend">
+        <span class="add-on"><img src="/assets/keez.png" /></span>
+        <%= password_field_tag :password, "", :class => "login_pw", :placeholder => "Password" %>
+      </div>
+
+      <label class="checkbox">
+        <%= check_box_tag :remember_me, 1, params[:remember_me] %>
+        Remember me
+      </label>
+    </div>
+
+    <div class="pull_right">
+
+      <div class="login_connexion">
+        <%= submit_tag "Connect", :class => "btn btn-danger" %>
+      </div>
+
+      <%= link_to "Besoin d'aide ?",  "/help_login", :method => "post", :remote => true %> <br/>
+      <%= link_to "Mot de passe oublié ?", new_password_reset_path, :remote => true %> <br/>
+      <%= link_to "Demander une ouverture de compte", "/ask_new_account", :method => "post", :remote => true %>
+    </div>
+
+
+    <% if flash[:error] -%>
+      <div class='alert alert-error'>
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:error] -%></div>
+    <% end -%>
+
+    <br/>
+  <% end %>
+</div>

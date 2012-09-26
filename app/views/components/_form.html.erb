@@ -1,0 +1,41 @@
+<%= form_for(@component) do |f| %>
+  <% if @component.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@component.errors.count, "error") %> prohibited this component from being saved:</h2>
+
+      <ul>
+        <% @component.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+      
+    </div>
+  <% end %>
+
+    <div class="field" title="Parent component">
+
+      <% unless @component.is_root? %>
+        <%= label_tag "Parent" %><br />
+        <%= select_tag "component_parent_id", options_for_select(@folder_components, :selected => @component.parent_id), :prompt => "Choose..."  %>
+
+        <%= f.label :work_element_type, :title => "Type of the component. You can add work element to Administration > Work Element type Management" %><br />
+        <%= f.collection_select "work_element_type_id", WorkElementType.all, "id", "alias", :html => { :class => "work_element_type" } %>
+      <% end %>
+
+      <% if @component.link? %>
+        <%= f.label :project_link, :title => "Choose a project to make a reference" %><br />
+        <%= f.select :project_link, Project.all.map{|i| [i.title, i.id]} %>
+      <% else %>
+        <%= f.label :name, :title => "Name of the component" %><br />
+        <%= f.text_field :name %>
+      <% end %>
+
+    </div>
+
+  <div class="actions">
+    <%= f.submit "Save" %>
+
+    <%= f.submit "Apply" %>
+  </div>
+
+<% end %>

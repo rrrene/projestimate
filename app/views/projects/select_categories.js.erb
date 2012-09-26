@@ -1,0 +1,8 @@
+$('.acquisition_category > select').html("<%= escape_javascript(select_tag('acquisition_categories', options_for_select(@acquisition_categories), :prompt => 'Choose...')) %>");
+$('.acquisition_category > select').removeAttr('disabled');
+
+$('.platform_category > select').html("<%= escape_javascript(select_tag('platform_categories', options_for_select(@platform_categories), :prompt => 'Choose...')) %>");
+$('.platform_category > select').removeAttr('disabled');
+
+$('.project_category > select').html("<%= escape_javascript(select_tag('project_categories', options_for_select(@project_categories), :prompt => 'Choose...')) %>");
+$('.project_category > select').removeAttr('disabled');

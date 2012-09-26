@@ -1,0 +1,8 @@
+<h2>ProjEstimate - Forgotten password ?</h2>
+<%= form_tag password_resets_path, :method => :post do %>
+    <%= label_tag :user_name_or_email %>
+    <%= text_field_tag :user_name, "", :class => "login_info" %>
+
+  <div class="actions"><%= submit_tag "Send request" %></div>
+  <div class="actions"><%= link_to "Back", "" %></div>
+<% end %>

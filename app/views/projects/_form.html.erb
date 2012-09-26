@@ -1,0 +1,176 @@
+<% action_name = controller.action_name %>
+
+<%= simple_form_for(@project) do |f| %>
+
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1">Global properties </a></li>
+    <% if action_name == "edit" %>
+      <li><a href="#tabs-2">PE-WBS </a></li>
+      <li><a href="#tabs-3">Estimation plan </a></li>
+      <li><a href="#tabs-4">Securities </a></li>
+      <li><a href="#tabs-5">Calendrier </a></li>
+      <li><a href="#tabs-6">Ressource </a></li>
+      <li><a href="#tabs-7">Analyse </a></li>
+    <% end %>
+  </ul>
+
+
+  <div id="tabs-1">
+
+    <%= f.input :title, :input_html => { :class => 'input-xxlarge' } %>
+
+    <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
+
+    <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
+
+    <%= f.input :state, :input_html => { :class => 'input-xxlarge' } do %>
+      <%= f.select :state, @project.states %>
+    <% end %>
+
+    <%= f.input :start_date, :as => :date, :start_year => Date.today.year - 90,
+                                :end_year => Date.today.year - 12, :discard_day => true,
+                                :order => [:month, :year] %>
+
+    <%= f.input :organization_id do %>
+      <%= f.select :organization_id, @organizations, :input_html => { :class => 'input-xxlarge' } %>
+    <% end %>
+
+    <%= f.input :is_model, :input_html => { :class => 'input-xxlarge' } %>
+
+    <div class="">
+      <%= label_tag "Project Area" %><br />
+      <%= select_tag("project_area", options_for_select(@project_areas, :selected => @project_area.nil? ? '' : @project_area.id), :prompt => 'Choose...', :class => 'input-xxlarge') %>
+    </div>
+    <div class=" acquisition_category">
+      <%= label_tag "Acquisition Category" %><br />
+      <%= select_tag('acquisition_categories', options_for_select(@acquisition_categories, :selected => @project.acquisition_category.nil? ? '' : @project.acquisition_category_id), :disabled => @acquisition_categories.blank? ? true : false, :prompt => 'Choose...', :class => 'input-xxlarge') %>
+    </div>
+    <div class="platform_category">
+      <%= label_tag "Platform Category" %><br />
+      <%= select_tag('platform_categories', options_for_select(@platform_categories), :disabled => @project.platform_category.nil? ? '' : @project.acquisition_category_id, :prompt => 'Choose...', :class => 'input-xxlarge') %>
+    </div>
+    <div class="project_category">
+      <%= label_tag "Project Category" %><br />
+      <%= select_tag('project_categories', options_for_select(@project_categories), :disabled => @project.project_category.nil? ? '' : @project.acquisition_category_id, :prompt => 'Choose...', :class => 'input-xxlarge') %>
+    </div>
+
+    </div>
+
+  <% unless action_name == "new" %>
+    <div id="tabs-4">
+      <h3>User securities resume</h3>
+      <table class="tablesorter">
+        <tr>
+          <th>User name</th>
+          <% ProjectSecurityLevel.all.each do |prj_level| %>
+            <th><%= prj_level.name %></th>
+         <% end %>
+        </tr>
+        <% @project.users.each do |user| %>
+          <% securities = user.project_securities_for_select(@project.id) %>
+          <tr>
+             <td><%= user.name %>
+             <% ProjectSecurityLevel.all.each do |prj_level| %>
+               <td><%= radio_button_tag("user_securities_#{user.id}", prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+              <% end %>
+          </tr>
+        <% end %>
+      </table>
+
+
+      <h3>Group securities resume</h3>
+      <table class="tablesorter">
+        <tr>
+          <th>Group name</th>
+          <% ProjectSecurityLevel.all.each do |prj_level| %>
+            <th><%= prj_level.name %></th>
+         <% end %>
+        </tr>
+        <% @project.groups.each do |group| %>
+          <% securities = group.project_securities_for_select(@project.id) %>
+          <tr>
+             <td><%= group.name %>
+             <% ProjectSecurityLevel.all.each do |prj_level| %>
+               <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+
+    <div id="tabs-2">
+       <div class="component_tree">
+         <% unless @project.nil? || @project.wbs.nil? %>
+           <%=raw generate_wbs(@project.wbs.components.last.root, @project, "", 5) %>
+         <% end %>
+       </div>
+    </div>
+
+    <div id="tabs-3">
+      <p>
+        Select a module from the list :
+        <%= select_tag "select_module", options_for_select(@pemodules.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
+      </p>
+      <div class="module_box">
+          <%= render :partial => "module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+  <% end %>
+
+    <div id="tabs-5">
+        <div style="clear: both"></div>
+    </div>
+
+    <div id="tabs-6">
+        <div style="clear: both"></div>
+    </div>
+
+    <div id="tabs-7">
+        <div style="clear: both"></div>
+    </div>
+
+    <div class="actions">
+      <% if action_name == "edit" %>
+        <%= f.submit "Save", :name => 'save', :class => "btn btn-success" %>
+      <% end %>
+
+      <%= f.submit "Apply", :name => 'apply', :class => "btn btn-success" %>
+    </div>
+
+  </div>
+
+</div>
+
+<% end %>
+
+<script>
+  $(document).ready(function() {
+
+    $("#user_id").change(
+            function () {
+              $.ajax({ url:'/load_security_for_selected_user',
+                data:'user_id=' + this.value + '&project_id=' + <%= @project.id %>
+              })
+            }
+    );
+
+    $("#group_id").change(
+            function () {
+              $.ajax({ url:'/load_security_for_selected_group',
+                data:'group_id=' + this.value + '&project_id=' + <%= @project.id %>
+              })
+            }
+    );
+
+      $('#select_module').change(function(){
+        $.ajax({url: '/add_module',
+                method: 'get',
+                data: 'module_selected=' + this.value + '&project_id=' + <%= @project.id %>
+        })
+      });
+
+    });
+</script>
+

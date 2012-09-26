@@ -1,0 +1,10 @@
+<table>
+  <th>Keys</th>
+  <th>Values</th>
+  <% @translations.keys.sort.each do |key| %>
+      <tr>
+        <td> <%= text_field_tag "", key %> </td>
+        <td> <%= text_field_tag "translations[#{key}][]",  @translations[key] %> </td>
+      </tr>
+  <% end %>
+</table>

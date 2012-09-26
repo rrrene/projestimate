@@ -1,0 +1,25 @@
+<h1>Listing master_settings</h1>
+
+<table class="tablesorter">
+  <tr>
+    <th>Key</th>
+    <th>Value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @master_settings.each do |master_setting| %>
+  <tr >
+    <td><%= master_setting.key %></td>
+    <td><%= master_setting.value %></td>
+    <td><%= link_to 'Show', master_setting %></td>
+    <td><%= link_to 'Edit', edit_master_setting_path(master_setting) %></td>
+    <td><%= link_to 'Destroy', master_setting, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Master setting', new_master_setting_path %>

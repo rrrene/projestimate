@@ -1,0 +1,28 @@
+<div class="module width_full">
+
+  <table class="tablesorter">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Project area</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @project_categories.each do |project_category| %>
+    <tr>
+      <td><%= project_category.name %></td>
+      <td><%= project_category.description %></td>
+      <td><%= project_category.project_area_id %></td>
+      <td><%= link_to 'Show', project_category %></td>
+      <td><%= link_to 'Edit', edit_project_category_path(project_category) %></td>
+      <td><%= link_to 'Destroy', project_category, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Project category', new_project_category_path %>
+</div>

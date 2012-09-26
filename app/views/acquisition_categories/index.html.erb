@@ -1,0 +1,31 @@
+<div class="span12">
+  <h1>Listing acquisition_categories</h1>
+
+  <table class="tablesorter">
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Project area</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @acquisition_categories.each do |acquisition_category| %>
+    <tr>
+      <td><%= acquisition_category.id %></td>
+      <td><%= acquisition_category.name %></td>
+      <td><%= acquisition_category.description %></td>
+      <td><%= acquisition_category.project_area_id %></td>
+      <td><%= link_to 'Show', acquisition_category %></td>
+      <td><%= link_to 'Edit', edit_acquisition_category_path(acquisition_category) %></td>
+      <td><%= link_to 'Destroy', acquisition_category, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Acquisition category', new_acquisition_category_path %>
+</div>

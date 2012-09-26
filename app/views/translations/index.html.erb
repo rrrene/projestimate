@@ -1,0 +1,22 @@
+<h1>Translations</h1>
+
+<script>
+    $(document).ready(function() {
+        $("#available_locales").change(function(){
+            $.ajax({ url: '/load_translations',
+                     data: 'locale=' + this.value
+            })
+        });
+    })
+</script>
+
+<%= form_tag translations_path(:locale => params[:locale]), :remote => true do %>
+    <p>
+      Choose a locale : <%= select_tag "available_locales", options_for_select(@available_locales, :selected => params[:locale] || session[:current_locale]), :prompt => 'Choose...' %>
+    </p>
+
+    <div id="list_translations">
+        <%= render :partial => 'list_translations', :object => @translations %>
+    </div>
+    <%= submit_tag "Save Translations" %>
+<% end %>

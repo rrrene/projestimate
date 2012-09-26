@@ -1,0 +1,71 @@
+<%= form_for(@attribute) do |f| %>
+  <% if @attribute.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@attribute.errors.count, "error") %> prohibited this attribute from being saved:</h2>
+
+      <ul>
+      <% @attribute.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name, :title => "Name of the attribute" %><br />
+    <%= f.text_field :name %>
+
+    <%= f.label :alias, :title => "Short name without capital separate by underscore" %><br />
+    <%= f.text_field :alias %>
+
+    <%= f.label :description, :title => "Brief description of attribute" %><br />
+    <%= f.text_area :description %>
+
+    <%= f.label :aggregation, :title => "Aggregation method depending of attribute type (i.e: sum for cost but not for dates)" %><br />
+    <%= f.select :aggregation, options_for_select(Attribute::type_aggregation) %>
+
+    <%= f.label :options, :title => "Validations and options" %><br />
+    <% if @attribute.options.empty? %>
+      <%= select_tag "options[]", options_for_select(Attribute::type_values), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
+      <%= select_tag "options[]", options_for_select(Attribute::value_options), :onchange => "select_boolean(this.value);", :class => "type_value", :style => "display:none;", :prompt => "Choose" %>
+      <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value", :style => "display:none;" } %>
+    <% else %>
+      <%= select_tag "options[]", options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
+      <%= select_tag "options[]", options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => "type_value", :prompt => "Choose" %>
+      <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value" } %>
+    <% end %>
+  </div>
+
+  <script>
+    function select_value_options(elem){
+      if(elem == null || elem == ""){
+        $(".text_field_value").hide();
+        $(".boolean_value").hide();
+        $(".type_value").hide();
+        $(".text_field_value").val("");
+        $(".boolean_value").val("");
+        $(".type_value").val("");
+      }
+      else if(elem == "list" || elem == "array")
+      {
+        $(".text_field_value").show();
+
+        $(".boolean_value").hide();
+        $(".type_value").hide();
+        $(".boolean_value").val("");
+        $(".type_value").val("");
+      }
+      else
+      {
+        $(".text_field_value").show();
+        $(".type_value").show();
+      }
+    }
+  </script>
+
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

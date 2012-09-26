@@ -1,0 +1,27 @@
+<h3>
+  ProjEstimate - Ask a new account
+</h3>
+
+<%= form_tag "/create_inactive_user" %>
+
+<div class="field_login">
+  <%= label_tag :first_name %>
+  <%= text_field_tag :first_name, "", :class => "login_info" %>
+
+  <%= label_tag :surename %>
+  <%= text_field_tag :surename, "",:class => "login_info" %>
+
+  <%= label_tag :user_name %>
+  <%= text_field_tag :user_name, "", :class => "login_info" %>
+
+  <%= label_tag :email %>
+  <%= text_field_tag :email, "", :class => "login_info" %>
+
+  <%= label_tag :language %>
+  <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info", :prompt => "Choose..." %>
+  </div>
+</div>
+
+<div class="actions"><%= link_to "Back", "" %></div>
+<div class="actions"><%= submit_tag "Send request" %></div>
+

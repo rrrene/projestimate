@@ -1,0 +1,35 @@
+<div class="span12">
+  <table class="filters">
+    <tr>
+      <td>Display only</td>
+      <td><%= select_tag "", options_for_select(["pending", "active"]) %></td>
+    </tr>
+  </table>
+
+  <table id="users" class="display" data-source="<%= users_url(format: "json") %>">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Surename</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Time Zone</th>
+        <th>Language</th>
+        <th>Authentication</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Find Use</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+  </table>
+
+  <% User.all.each do |user| %>
+    <%= pop_up("find_use_user_#{user.id}", "#{user}'s relationships") do -%>
+      <%=raw build_find_use_user_popup(user.id) %>
+    <% end %>
+  <% end %>
+
+  <br />
+  <%= link_to 'Creer un nouvel utilisateur', new_user_path %>
+</div>

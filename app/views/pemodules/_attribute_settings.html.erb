@@ -1,0 +1,40 @@
+<table class="tablesorter">
+  <tr>
+    <th style="text-align:left">Name</th>
+    <th style="text-align:left">Description</th>
+    <th style="text-align:left">Default value (low)</th>
+    <th style="text-align:left">Default value (most likely)</th>
+    <th style="text-align:left">Default value (high)</th>
+    <th style="text-align:left">In/Out</th>
+    <th style="text-align:left">Mandatory</th>
+    <th style="text-align:left">Custom Attribute</th>
+    <th style="text-align:left">Project Field</th>
+  </tr>
+
+  <% @attr_modules.each_with_index do |ma, i| %>
+    <%= hidden_field_tag "attributes[]", ma.attribute_id %>
+    <tr class="">
+      <td><%= ma.attribute.nil? ? "-" : ma.attribute.name %></td>
+      <td><%= text_field_tag "description[]", ma.description.blank? ? (ma.attribute.nil? ? "-" :  ma.attribute.description) : ma.description  %></td>
+      <td><%= text_field_tag "numeric_data_low[]", ma.numeric_data_low %></td>
+      <td><%= text_field_tag "numeric_data_most_likely[]", ma.numeric_data_most_likely %></td>
+      <td><%= text_field_tag "numeric_data_high[]", ma.numeric_data_high %></td>
+      <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"]], :selected => ma.in_out), :prompt => "Choose..." %> </td>
+      <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => ma.is_mandatory), :prompt => "Choose..." %></td>
+      <td><%= select_tag "custom_attribute[]", options_for_select([["By user", "user"], ["By module", "module"], ["By project", "project"]], :selected => ma.custom_attribute), :onchange => "toggleProject(this.value, #{i});" %></td>
+      <td><%= select_tag "project_value[]", options_for_select(Project.attribute_names, :selected => ma.project_value), :style => ma.project_value.blank? ? "display:none;" : "", :class => "project_attribute_#{i}", :include_blank => true %></td>
+    </tr>
+  <% end  %>
+</table>
+
+<script>
+  function toggleProject(elem, i){
+    if(elem == "project"){
+      $(".project_attribute_" + i).show();
+    }else{
+      $(".project_attribute_" + i).hide();
+      $(".project_attribute_" + i).val("");
+    }
+  }
+
+</script>
