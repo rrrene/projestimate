@@ -9,7 +9,7 @@ jQuery ->
               sAjaxSource: $('#projects').data('source')
 
               oLanguage:
-               sLengthMenu: "Display _MENU_ records per page"
+               sLengthMenu: "Display _MENU_ records"
                sZeroRecords: "Nothing found - sorry"
                sInfo: "Showing _START_ to _END_ of _TOTAL_ records"
                sInfoEmpty: "Showing 0 to 0 of 0 records"

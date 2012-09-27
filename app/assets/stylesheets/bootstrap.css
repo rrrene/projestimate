@@ -832,6 +832,17 @@ table {
   width: 100%;
   margin-bottom: 20px;
 }
+
+.align-center{
+    text-align: center;
+    margin: 0 auto;
+    width: 50px;
+}
+
+.align-center div, .align-center span, .align-center a{
+    margin-left:15px;
+    text-align:center;
+}
 .table th,
 .table td {
   padding: 8px;

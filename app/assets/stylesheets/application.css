@@ -56,6 +56,14 @@
     font-size: 11px;
 }
 
+[class^="icn_"],
+[class*=" icn_"] {
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  margin-top: 1px;
+}
+
 /* Sidebar Icons */
 
 .icn_global_setting {
@@ -155,8 +163,58 @@
     background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
     background-position:  0px -740px; height: 20px; width: 20px;
 }
+.icn_alert_error {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -163px; height: 18px; width: 18px;
+}
+.icn_alert_success {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+}
+.icn_edit {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -33px -199px; height: 17px; width: 17px;
+    display: inline-block;
+}
+.icn_trash {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -0px -348px; height: 14px; width: 16px;
+    display: inline-block;
+}
+.icn_duplicate {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+.icn_commit {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+.icn_activate {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+.icn_find_use {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+.icn_check_in {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+
+.icn_check_out {
+    background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
+    background-position:  -16px -181px; height: 18px; width: 18px;
+    display: inline-block;
+}
+
 .search_input {
-    background: url('/assets/iconsProjestimateMenu.png')  no-repeat center left;
+    background: url('/assets/iconsProjestimateMenu.png') no-repeat center left;
     background-position:  0px -740px; height: 20px; width: 20px;
 }
 

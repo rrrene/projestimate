@@ -1,29 +1,30 @@
-<h1>Listing attributes</h1>
-    <table class="tablesorter">
-      <tr>
-        <th>Name</th>
-        <th>Alias</th>
-        <th>Description</th>
-        <th>Attribute Type</th>
-        <th></th>
-        <th></th>
-      </tr>
-      <% if @attributes.empty? %>
-        <p style="text-align:center;"> No Attributes found</p>
-       <% else %>
-        <% @attributes.each do |attribute| %>
-          <tr>
-            <td><%= attribute.name %></td>
-            <td><%= attribute.alias %></td>
-            <td><%= attribute.description %></td>
-            <td><%= attribute.data_type.humanize %></td>
-            <td><%= link_to 'Edit', edit_attribute_path(attribute) %></td>
-            <td><%= link_to 'Destroy', attribute, confirm: 'Are you sure?', method: :delete %></td>
-          </tr>
+<div class="span12">
+  <h1>Listing attributes</h1>
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Alias</th>
+          <th>Description</th>
+          <th>Attribute Type</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <% if @attributes.empty? %>
+          <p style="text-align:center;"> No Attributes found</p>
+         <% else %>
+          <% @attributes.each do |attribute| %>
+            <tr>
+              <td><%= attribute.name %></td>
+              <td><%= attribute.alias %></td>
+              <td><%= attribute.description %></td>
+              <td><%= attribute.data_type.humanize %></td>
+              <td><%= link_to 'Edit', edit_attribute_path(attribute) %></td>
+              <td><%= link_to 'Destroy', attribute, confirm: 'Are you sure?', method: :delete %></td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </table>
+      </table>
 
-<br />
 
-<%= link_to 'New Attribute', new_attribute_path %>
+  <%= link_to 'New Attribute', new_attribute_path, :class => "btn" %>
+</div>

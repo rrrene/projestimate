@@ -1,11 +1,14 @@
 <div class="span12">
 
+  <h1>Projestimate Module</h1>
+
   <table class="table table-striped">
     <tr>
       <th>Title</th>
       <th>Alias</th>
       <th>Description</th>
-      <th colspan="2">Actions</th>
+      <th>Status</th>
+      <th colspan="2" class="align-center">Actions</th>
     </tr>
 
   <% @pemodules.each do |pemodule| %>
@@ -13,14 +16,15 @@
       <td><%= pemodule.title %></td>
       <td><%= pemodule.alias %></td>
       <td><%= pemodule.description %></td>
-      <td><%= link_to 'Edit', edit_pemodule_path(pemodule) %></td>
-      <td><%= link_to 'Destroy', pemodule, confirm: 'Are you sure?', method: :delete %></td>
+      <td class="align-center"><%= File.exists?("#{Rails.root}/vendor/plugins/#{pemodule.alias}/lib/#{pemodule.alias}.rb") ? raw("<div class='icn_alert_success'></div>") : raw("<div class='icn_alert_error'></div>") %></td>
+      <td class="align-center"><%= link_to '', edit_pemodule_path(pemodule), :class => "icn_edit" %></td>
+      <td class="align-center"><%= link_to '', pemodule, confirm: 'Are you sure?', method: :delete, :class => "icn_trash" %></td>
     </tr>
   <% end %>
   </table>
 
   <br />
 
-  <%= link_to 'New Pemodule', new_pemodule_path %>
+  <%= link_to 'New Pemodule', new_pemodule_path, :class => "btn" %>
 
 </div>
