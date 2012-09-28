@@ -39,21 +39,6 @@ $(document).ready(function() {
         }
       );
 
-//    $(".loading_message").click(function(){
-//      $.loader({
-//          className:"loading_text",
-//          content:"<strong>Please wait during loading...</strong>"
-//      });
-//    });
-//
-//    $(".loading_message").change(function(){
-//      $.loader({
-//          className:"loading_text",
-//          content:"<strong>Please wait during loading...</strong>"
-//      });
-//    });
-
-
     $("#jump_project_id").change(function(){
         $.ajax({
             url:"change_selected_project",
