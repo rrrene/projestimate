@@ -100,7 +100,7 @@ class PemodulesController < ApplicationController
     @pemodule = Pemodule.find(params[:id])
     @pemodule.destroy
 
-    redirect_to _url
+    redirect_to pemodules_url
   end
 
 
