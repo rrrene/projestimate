@@ -80,6 +80,9 @@ namespace :projestimate do
      user.group_ids = [Group.first.id]
      user.save
 
+     user.project_ids = [Project.first.id]
+     user.save
+
       puts "Create activity categories..."
       #Default actitity category
       array_activity_category =  Array.new
