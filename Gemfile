@@ -14,6 +14,7 @@ end
 gem 'jquery-rails'
 
 #Tests
+
 group :test do
   gem "factory_girl_rails", "~> 3.0"
   gem "rspec-rails", :group => [:test, :development]
