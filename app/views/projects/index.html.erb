@@ -1,43 +1,38 @@
-<div class="span12">
-  <h1>Projects</h1>
-  <div class="form_table_container">
-      <table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Alias</th>
-            <th>Status</th>
-            <th>Start Date</th>
-            <th>Organization</th>
-            <th>Check-out</th>
-            <th>Check-in</th>
-            <th>Duplicate</th>
-            <th>Commit</th>
-            <th>Activate</th>
-            <th>Edit</th>
-            <th>Find Use</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-         <tr>
-         </tr>
-        </tfoot>
-      </table>
-      <% Project.all.each do |project| %>
-        <%=raw build_find_use_project_popup(project.id) %>
-      <% end %>
-  </div>
-
-  <div class="link_index">
-    <% if can? :create_new_project, Project %>
-      <%= link_to 'Creer un nouveau projet', new_project_path, :class => "btn" %><br/>
+<h1>Projects</h1>
+<div class="form_table_container">
+    <table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Alias</th>
+          <th>Status</th>
+          <th>Start Date</th>
+          <th>Organization</th>
+          <th>Check-out</th>
+          <th>Check-in</th>
+          <th>Duplicate</th>
+          <th>Commit</th>
+          <th>Activate</th>
+          <th>Edit</th>
+          <th>Find Use</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+      <tfoot>
+       <tr>
+       </tr>
+      </tfoot>
+    </table>
+    <% Project.all.each do |project| %>
+      <%=raw build_find_use_project_popup(project.id) %>
     <% end %>
-  </div>
-
 </div>
 
-<br />
+<div class="link_index">
+  <% if can? :create_new_project, Project %>
+    <%= link_to 'Creer un nouveau projet', new_project_path, :class => "btn" %><br/>
+  <% end %>
+</div>
