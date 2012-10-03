@@ -4,6 +4,8 @@ namespace :projestimate do
   task :load_default_data => :environment do
 
     puts "Please wait..."
+
+    #TODO: ask if user want dlete old files
     #Delete old data.
     ActivityCategory.delete_all
     Attribute.delete_all

@@ -2,58 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3e26c23-822f-412f-b2ef-f064cf6ca727" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/database-sample.yml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/organizations_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/organizations_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/ability.rb" afterPath="$PROJECT_DIR$/app/models/ability.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/module_project.rb" afterPath="$PROJECT_DIR$/app/models/module_project.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/acquisition_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/acquisition_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/activity_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/activity_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin_settings/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/admin_settings/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/attributes/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/attributes/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/components/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/components/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/components/_refresh.js.erb" afterPath="$PROJECT_DIR$/app/views/components/_refresh.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/components/edit.js.erb" afterPath="$PROJECT_DIR$/app/views/components/edit.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/components/new.js.erb" afterPath="$PROJECT_DIR$/app/views/components/new.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/currencies/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/currencies/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/event_types/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/event_types/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/events/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/events/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/groups/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/groups/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/help_types/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/help_types/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/helps/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/helps/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/labor_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/labor_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/languages/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/languages/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_sidebar_menu.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_sidebar_menu.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/master_settings/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/master_settings/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/module_project_attributes/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/module_project_attributes/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/organization_labor_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/organization_labor_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/organizations/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/organizations/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/password_resets/_retrieve_password.html.erb" afterPath="$PROJECT_DIR$/app/views/password_resets/_retrieve_password.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/password_resets/new.js.erb" afterPath="$PROJECT_DIR$/app/views/password_resets/new.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pemodules/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/pemodules/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pemodules/_refresh.js.erb" afterPath="$PROJECT_DIR$/app/views/pemodules/_refresh.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pemodules/index.html.erb" afterPath="$PROJECT_DIR$/app/views/pemodules/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pemodules/list_attributes.js.erb" afterPath="$PROJECT_DIR$/app/views/pemodules/list_attributes.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pemodules/update_selected_attributes.js.erb" afterPath="$PROJECT_DIR$/app/views/pemodules/update_selected_attributes.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/permissions/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/permissions/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/platform_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/platform_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/project_areas/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/project_areas/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/project_categories/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/project_categories/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/project_securities/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/project_securities/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/project_securities/select_users.js.erb" afterPath="$PROJECT_DIR$/app/views/project_securities/select_users.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/_module_box.html.erb" afterPath="$PROJECT_DIR$/app/views/projects/_module_box.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/_run_estimation.js.erb" afterPath="$PROJECT_DIR$/app/views/projects/_run_estimation.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/edit.js.erb" afterPath="$PROJECT_DIR$/app/views/projects/edit.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/new.js.erb" afterPath="$PROJECT_DIR$/app/views/projects/new.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/select_categories.js.erb" afterPath="$PROJECT_DIR$/app/views/projects/select_categories.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/sessions/ask_new_account.js.erb" afterPath="$PROJECT_DIR$/app/views/sessions/ask_new_account.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/sessions/help_login.js.erb" afterPath="$PROJECT_DIR$/app/views/sessions/help_login.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/translations/load_translations.js.erb" afterPath="$PROJECT_DIR$/app/views/translations/load_translations.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/users/_form.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/_processus.html.erb" afterPath="$PROJECT_DIR$/app/views/users/_processus.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/work_element_types/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/work_element_types/_form.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/tasks/load_default_data.rake" afterPath="$PROJECT_DIR$/lib/tasks/load_default_data.rake" />
     </list>
     <ignored path="projestimate.iws" />
@@ -83,10 +32,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="application_controller.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <file leaf-file-name="load_default_data.rake" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/tasks/load_default_data.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="19" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.45540798">
+            <state line="18" column="22" selection-start="468" selection-end="468" vertical-scroll-proportion="0.5252918">
               <folding />
             </state>
           </provider>
@@ -111,7 +60,6 @@
         <option value="$PROJECT_DIR$/app/views/translations/load_translations.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/organizations_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_sidebar_menu.html.erb" />
-        <option value="$PROJECT_DIR$/lib/tasks/load_default_data.rake" />
         <option value="$PROJECT_DIR$/app/views/acquisition_categories/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/activity_categories/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/admin_settings/_form.html.erb" />
@@ -124,6 +72,7 @@
         <option value="$PROJECT_DIR$/vendor/plugins/cocomo_basic/app/views/cocomo_basic/_cocomo_basic.html.erb" />
         <option value="$PROJECT_DIR$/vendor/plugins/cocomo_basic/lib/tasks/cocomo_basic/cocomo_basic.rake" />
         <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
+        <option value="$PROJECT_DIR$/lib/tasks/load_default_data.rake" />
       </list>
     </option>
   </component>
@@ -183,6 +132,52 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tasks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="projestimate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -529,7 +524,11 @@
       <created>1349190475601</created>
       <updated>1349190475601</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="modules task">
+      <created>1349276069515</created>
+      <updated>1349276069515</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -556,6 +555,7 @@
     <frame x="1920" y="24" width="1920" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.303125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -570,7 +570,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -611,7 +610,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="modules task" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -632,18 +631,12 @@
     <MESSAGE value="Pemodule_url fix" />
     <MESSAGE value="refs #207 and fixed #208" />
     <MESSAGE value="Work in progress" />
+    <MESSAGE value="modules task" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/projects/_form.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="48.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="29" selection-start="102" selection-end="102" vertical-scroll-proportion="-1.25">
@@ -710,13 +703,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/load_default_data.rake">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="41" selection-start="2871" selection-end="2888" vertical-scroll-proportion="-0.02918288">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/pemodule.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -747,7 +733,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="19" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.45540798">
+        <state line="48" column="45" selection-start="1211" selection-end="1211" vertical-scroll-proportion="0.68311197">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/tasks/load_default_data.rake">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="22" selection-start="468" selection-end="468" vertical-scroll-proportion="0.5252918">
           <folding />
         </state>
       </provider>
