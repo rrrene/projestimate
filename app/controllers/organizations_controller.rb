@@ -76,11 +76,10 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  #def organizational_params
-  #  authorize! :manage_organizations, Organization
-  #  set_page_title "Organizational Parameters"
-  #  @organizations = Organization.all || []
-  #  @organizations_labor_categories = OrganizationLaborCategory.all || []
-  #end
+  def organizationals_params
+    set_page_title "Organizational Parameters"
+    @organizations = Organization.all
+    @organizations_labor_categories = OrganizationLaborCategory.all || []
+  end
 
 end

@@ -17,15 +17,15 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div >
     <%= f.label :content %><br />
     <%= f.text_area :content, :class => "editor" %>
   </div>
-  <%#*<div class="field">%>
+  <%#*<div >%>
     <%#= f.label :help_type %><br />
     <%#= f.collection_select :help_type_id, HelpType.all, :id, :name, {}, :onchange => "if(this.value==#{HelpType.find_by_name('tooltip').id}){$('#div_help_help_code').show();}else{$('#div_help_help_code').hide();}" %>
   <%#*</div>%>
-  <div id="div_help_help_code" class="field" style="<%= help_type %>">
+  <div id="div_help_help_code"  style="<%= help_type %>">
     <%= f.label :help_code %><br />
     <%= f.text_field :help_code %>
   </div>

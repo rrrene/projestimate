@@ -20,7 +20,7 @@
   </ul>
   
   <div id="tabs-1">
-    <div class="field">
+    <div >
       <%= f.label :first_name %><br />
       <%= f.text_field :first_name %>
 
@@ -97,15 +97,15 @@
     </div>
 
   <div id="tabs-5">
-    <div class="field">
+    <div >
       <%= f.label :language %><br/>
       <%= f.collection_select :language_id, Language.all, :id, :name, :include_blank => true %>
     </div>
-    <div class="field">
+    <div >
       <%= f.label "Time Zone" %><br />
       <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
     </div>
-    <div class="field">
+    <div >
       <p>Assistance</p>
       <p>Notifications</p>
       <p>Format d'affichage</p>

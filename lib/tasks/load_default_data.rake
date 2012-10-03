@@ -7,6 +7,7 @@ namespace :projestimate do
     #Delete old data.
     ActivityCategory.delete_all
     Attribute.delete_all
+    AttributeModule.delete_all
     LaborCategory.delete_all
     AcquisitionCategory.delete_all
     User.delete_all
@@ -32,17 +33,17 @@ namespace :projestimate do
       #Create default language
       Language.create(:name => "Français", :locale => "fr")
 
-      puts "Create default project..."
+      puts "Create demo project..."
       #Create default project
       Project.create(:title => "Your first project", :description => "Description of your first project", :alias => "project", :state => "open", :start_date => Time.now, :is_model => true)
       project = Project.first
 
-      puts "Create default wbs..."
+      puts "Create demo project wbs..."
       #Create default wbs associated with previous project
       Wbs.create(:project_id => project.id)
       wbs = Wbs.first
 
-      puts "Create component structure and WBS..."
+      puts "Create WBS structure..."
       #Create first work element type (type of a component)
       WorkElementType.create(:name => "Folder", :alias => "folder")
       WorkElementType.create(:name => "Development", :alias => "development")
@@ -55,7 +56,7 @@ namespace :projestimate do
       component = Component.create(:is_root => true, :wbs_id => wbs.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
       component = Component.first
 
-      puts "Initialize data..."
+      puts "Create admin user..."
       #Create first user
       User.create(:first_name => "admin", :surename => "admin", :user_name => "admin", :initials => "ad", :email => "nicolas.renard@spirula.fr", :type_auth => "app", :user_status => "active")
       user = User.first
@@ -155,7 +156,7 @@ namespace :projestimate do
           AcquisitionCategory.create(:name => i[0], :description => i[2])
         end
 
-      puts "Default setting..."
+      puts "Load default setting..."
       #Create master/admin setting
       MasterSetting.create(:key => "url_wiki", :value => "http://vps13831.ovh.net:3000/projects/projestimate/wiki")
       MasterSetting.create(:key => "url_service", :value => "http://vps13831.ovh.net:3000/projects/projestimate/wiki")
@@ -169,11 +170,11 @@ namespace :projestimate do
         ProjectSecurityLevel.create(:name => i)
       end
 
-      puts "Create project area..."
+      puts "Create project areas..."
       #Default project area
       ProjectArea.create(:name => "Software")
 
-      puts "Create permissions..."
+      puts "Create global permissions..."
       #Default permissions
       permissions= [ ["edit_own_profile", "Editer son profil", false],
                      ["validate_user_account", "Valider les comptes utilisateur\r\n", false],
@@ -228,6 +229,7 @@ namespace :projestimate do
         Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2])
       end
 
+      puts "Create default organizations..."
       Organization.create(:name => "Spirula", :description => "Estimation et mesure")
       Organization.create(:name => "Banque de France", :description => "...")
       Organization.create(:name => "PSA Citroen", :description => ":)")
@@ -245,14 +247,21 @@ namespace :projestimate do
         ["Complexity", "complexity", "Application complexity (for COCOMO modules)", "0", [], "average"],
       ]
 
+      puts "Create default attributes..."
       attributes.each do |i|
         Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5])
       end
-
-      #Enjoy :)
-      puts "Default data loaded ! Enjoy."
-    rescue
+    rescue Errno::ECONNREFUSED
+      puts "\n\n\n"
       puts "Default data was not loaded."
+      puts "Please run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+    rescue Exception
+      puts "\n\n\n"
+      puts "Default data was not loaded."
+      puts "Maybe run db:create and db:migrate tasks."
+    ensure
+      puts "\n\n\n"
+      puts "Default data was successfully loaded. Enjoy !"
     end
   end
 end

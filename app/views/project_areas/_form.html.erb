@@ -12,43 +12,43 @@
       </div>
     <% end %>
 
-    <div class="field">
+    <div >
       <%= f.label :name %><br />
       <%= f.text_field :name %>
     </div>
-    <div class="field">
+    <div >
       <%= f.label :description %><br />
       <%= f.text_area :description %>
     </div>
-    <div class="field">
+    <div >
       <h3> Activity Category : </h3>
       <% @activity_categories.each do |ac| %>
         <%= check_box_tag "project_area[activity_category_ids][]", ac.id, @project_area.activity_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
-    <div class="field">
+    <div >
       <h3> Acquisition Category : </h3>
       <% @acquisition_catageories.each do |ac| %>
         <%= check_box_tag "project_area[acquisition_category_ids][]", ac.id, @project_area.acquisition_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
-    <div class="field">
+    <div >
       <h3> Labor Category : </h3>
       <% @labor_catageories.each do |ac| %>
         <%= check_box_tag "project_area[labor_category_ids][]", ac.id, @project_area.labor_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
-    <div class="field">
+    <div >
       <h3> Platform Category : </h3>
       <% @platform_categories.each do |ac| %>
         <%= check_box_tag "project_area[platform_category_ids][]", ac.id, @project_area.platform_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
-    <div class="field">
+    <div >
       <h3> Project Category : </h3>
       <% @project_categories.each do |ac| %>
         <%= check_box_tag "project_area[project_category_ids][]", ac.id, @project_area.project_categories.include?(ac) %>

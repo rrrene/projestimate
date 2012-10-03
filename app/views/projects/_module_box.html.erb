@@ -1,10 +1,10 @@
 <% array_module_positions = local_assigns[:array_module_positions] %>
 <% project = local_assigns[:project] %>
-<% module_project = ModuleProject.find_by_project_id(project.id) %>
+<% module_projects = ModuleProject.where(:project_id => project.id) %>
 
 
 <table class="table table-bordered">
-  <% unless array_module_positions == 1 %>
+  <% unless module_projects.empty? %>
     <% for i in 1..array_module_positions %>
       <tr>
         <td>Step <%= i %></td>

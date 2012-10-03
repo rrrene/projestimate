@@ -22,15 +22,15 @@
         </ul>
       </div>
     <% end %>
-    <div class="field">
+    <div >
       <%= f.label :project %><br />
       <%= f.select :project_id, options_for_select(@projects, :selected => @project_security.project_id) %>
     </div>
-    <div class="field">
+    <div >
       <%= f.label :user %><br />
       <%= f.select :user_id, options_for_select(@users, :selected => @project_security.user_id) %>
     </div>
-    <div class="field">
+    <div >
       <label for="theme">Project Security</label>
       <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> Full control
       <br/><%= f.radio_button 'project_security_level', "3", :name => "project_security_level" %> Define

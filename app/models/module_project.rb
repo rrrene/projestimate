@@ -38,7 +38,11 @@ class ModuleProject < ActiveRecord::Base
   end
 
   def compatible_with(wet_alias)
-    self.pemodule.compliant_component_type.include?(wet_alias)
+    if self.pemodule.compliant_component_type.nil?
+      false
+    else
+      self.pemodule.compliant_component_type.include?(wet_alias)
+    end
   end
 
   def to_s

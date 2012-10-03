@@ -35,7 +35,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    (User.find(session[:current_user_id]) if session[:current_user_id]) || (User.find_by_email(cookies[:login]) if cookies[:login] || nil)
+    begin
+     (User.find(session[:current_user_id]) if session[:current_user_id]) || (User.find_by_email(cookies[:login]) if cookies[:login] || nil)
+    rescue ActiveRecord::RecordNotFound
+      reset_session
+    end
   end
 
   def current_project

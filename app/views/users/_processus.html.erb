@@ -34,7 +34,7 @@
       <% unless current_component.nil? %>
         <%= form_tag({:controller => "projects", :action => "run_estimation", :component_id => current_component.id}, :method => "get", :remote => true) %>
           <% @project.module_projects.each do |mp| %>
-            <% if mp.compatible_with(component.work_element_type.alias) || current_component %>
+            <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
 
             <div class="widget-header">
               <h3>
