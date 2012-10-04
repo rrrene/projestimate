@@ -1,5 +1,5 @@
 <div class="span12">
-  <%= form_for(@admin_setting) do |f| %>
+  <%= simple_form_for(@admin_setting) do |f| %>
     <% if @admin_setting.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@admin_setting.errors.count, "error") %> prohibited this admin_setting from being saved:</h2>
@@ -13,11 +13,9 @@
     <% end %>
 
     <div >
-      <%= f.label :key %><br />
-      <%= f.text_field :key %>
+      <%= f.input :key %>
 
-      <%= f.label :value %><br />
-      <%= f.text_area :value %>
+      <%= f.input :value %>
     </div>
     <div class="actions">
       <%= f.submit %>

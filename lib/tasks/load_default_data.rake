@@ -5,7 +5,7 @@ namespace :projestimate do
 
     puts "Please wait..."
 
-    #TODO: ask if user want dlete old files
+    #TODO: ask if user want delete old files
     #Delete old data.
     ActivityCategory.delete_all
     Attribute.delete_all

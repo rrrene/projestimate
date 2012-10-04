@@ -1,7 +1,7 @@
 <div class="span12">
-  <h1>Permission</h1>
+  <h1>Projects Permissions</h1>
   <%= form_tag({:action=>"set_rights_project_security", :controller=>"permissions"}, :method => "post") do %>
-    <table class="tablesorter permissions">
+    <table class="table table-striped permissions">
       <tr>
         <th style="text-align:left;">Permissions</th>
         <% @project_securitiy_levels.each do |ps| %>

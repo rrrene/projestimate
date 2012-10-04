@@ -1,4 +1,4 @@
-<%= form_for(@labor_category) do |f| %>
+<%= simple_form_for(@labor_category) do |f| %>
   <% if @labor_category.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@labor_category.errors.count, "error") %> prohibited this labor_category from being saved:</h2>
@@ -12,11 +12,9 @@
   <% end %>
 
   <div >
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.input :name %>
 
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.input :description %>
   </div>
   <div class="actions">
     <%= f.submit %>

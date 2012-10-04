@@ -1,8 +1,8 @@
 <div class="span12">
-  <h1>Permissions</h1>
+  <h1>Globals Permissions</h1>
 
   <%= form_tag({:action=>"set_rights", :controller=>"permissions"}, :method => "post") do %>
-    <table class="tablesorter permissions">
+    <table class="table table-striped permissions">
       <tr>
         <th style="text-align:left;">Permissions</th>
         <% @groups.each do |group| %>

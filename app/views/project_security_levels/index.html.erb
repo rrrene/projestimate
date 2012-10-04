@@ -1,5 +1,6 @@
 <div class="span12">
-  <table class="tablesorter">
+  <h1>Project Securities Levels</h1>
+  <table class="table table-striped">
     <tr>
       <th style="text-align:left;">Name</th>
       <th></th>
@@ -7,7 +8,7 @@
     </tr>
 
   <% @project_security_levels.each do |project_security_level| %>
-    <tr class="">
+    <tr>
       <td><%= project_security_level.name %></td>
       <td><%= link_to 'Edit', edit_project_security_level_path(project_security_level) %></td>
       <td><%= link_to 'Destroy', project_security_level, confirm: 'Are you sure?', method: :delete %></td>

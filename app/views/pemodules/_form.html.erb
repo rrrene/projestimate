@@ -53,7 +53,7 @@
     <div id="tabs-2">
       <%= form_tag("/update_selected_attributes", :method => "get") do -%>
         <%= hidden_field_tag "module_id", @pemodule.id %>
-          <table class="tablesorter">
+          <table class="table table-striped">
             <tr>
               <th>Attributes name</th>
               <th>Selected</th>

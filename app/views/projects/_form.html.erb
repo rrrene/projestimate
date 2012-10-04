@@ -1,4 +1,6 @@
 <% action_name = controller.action_name %>
+<h1><%= action_name.humanize %> <%= current_project.title %></h1>
+
 
 <%= simple_form_for(@project) do |f| %>
 
@@ -60,7 +62,7 @@
   <% unless action_name == "new" %>
     <div id="tabs-4">
       <h3>User securities resume</h3>
-      <table class="tablesorter">
+      <table class="table table-striped">
         <tr>
           <th>User name</th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>
@@ -80,7 +82,7 @@
 
 
       <h3>Group securities resume</h3>
-      <table class="tablesorter">
+      <table class="table table-striped">
         <tr>
           <th>Group name</th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>

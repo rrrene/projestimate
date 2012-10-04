@@ -21,35 +21,24 @@
   
   <div id="tabs-1">
     <div >
-      <%= f.label :first_name %><br />
-      <%= f.text_field :first_name %>
+      <%= f.input :first_name %>
 
-      <%= f.label :surename %><br />
-      <%= f.text_field :surename %>
+      <%= f.input :surename %>
 
-      <%= f.label :user_name %><br />
-      <%= f.text_field :user_name %>
+      <%= f.input :user_name %>
 
-      <%= f.label :email %><br />
-      <%= f.text_field :email %>
+      <%= f.input :email %>
 
-      <%= f.label :password %><br />
-      <%= f.password_field :password %>
+      <%= f.input :password %>
 
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation %>
+      <%= f.input :password_confirmation %>
 
-      <%= f.label :initials %><br />
-      <%= f.text_field :initials %>
+      <%= f.input :initials %>
 
-    <% if can? :edit_own_profile_security, User %>
-
-          <%= f.label :user_status %><br />
-          <%= f.select :user_status, options_for_select([["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]], :selected => @user.user_status) %>
-
-          <%= f.label "Authentication" %><br/>
-          <%= f.select :type_auth, options_for_select([["Applicatif", "app"],["Ldap","ldap"]], :selected => @user.type_auth) %>
-    <% end %>
+      <% if can? :edit_own_profile_security, User %>
+        <%=  f.input :user_status, :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
+        <%= f.input :type_auth, :as => :select, :collection => [["Applicatif", "app"],["Ldap","ldap"]] %>
+      <% end %>
     </div>
 
   </div>
@@ -57,64 +46,58 @@
     <div id="tabs-2">
       <div class="field_checkbox">
         <%= f.label :groups %><br />
-        <ul>
+        <table class="table table-striped">
           <% @groups.each do |group| %>
-            <li>
-              <%= check_box_tag "user[group_ids][]", group.id, @project_groups.map(&:id).include?(group.id) ? true : false %>
-              <span><%= group.name %></span>
-            </li>
+            <tr>
+              <td><span><%= group.name %></span></td>
+              <td><%= check_box_tag "user[group_ids][]", group.id, @project_groups.map(&:id).include?(group.id) ? true : false %></td>
+            </tr>
           <% end %>
-        </ul>
+        </table>
       </div>
     </div>
 
     <div id="tabs-3">
       <div class="field_checkbox">
         <%= f.label :associated_organizations %><br />
-        <ul>
+        <table class="table table-striped">
           <% @organizations.each do |org| %>
-            <li>
-              <%= check_box_tag "user[organization_ids][]", org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
-              <span><%= org.name %></span>
-            </li>
+            <tr>
+              <td><span><%= org.name %></span>
+              <td><%= check_box_tag "user[organization_ids][]", org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+            </tr>
           <% end %>
-        </ul>
+        </table>
       </div>
     </div>
 
   <div id="tabs-4">
       <div class="field_checkbox">
         <%= f.label :projets_associés %><br />
-        <ul>
+        <table class="table table-striped">
           <% @projects.each do |project| %>
-            <li>
-              <%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
-              <span><%= project.title %></span>
-            </li>
+            <tr>
+              <td><%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+              <td><span><%= project.title %></span>
+            </tr>
           <% end %>
-        </ul>
+        </table>
       </div>
     </div>
 
   <div id="tabs-5">
-    <div >
-      <%= f.label :language %><br/>
-      <%= f.collection_select :language_id, Language.all, :id, :name, :include_blank => true %>
-    </div>
-    <div >
-      <%= f.label "Time Zone" %><br />
-      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
-    </div>
-    <div >
-      <p>Assistance</p>
-      <p>Notifications</p>
-      <p>Format d'affichage</p>
-      <p>Décimal</p>
-      <p>Milliers</p>
-      <p>Premier jour de la semaine</p>
-      <p>Première semaine de l'anéne</p>
-      <p>Pref d'export</p>
-    </div>
+
+    <%= f.input :language_id, :as => :select, :collection => Language.all %>
+
+    <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.us_zones %>
+    <p>Assistance</p>
+    <p>Notifications</p>
+    <p>Format d'affichage</p>
+    <p>Décimal</p>
+    <p>Milliers</p>
+    <p>Premier jour de la semaine</p>
+    <p>Première semaine de l'anéne</p>
+    <p>Pref d'export</p>
   </div>
 
   </div>

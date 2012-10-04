@@ -1,4 +1,4 @@
-  <%= form_for(@group) do |f| %>
+  <%= simple_form_for(@group) do |f| %>
     <% if @group.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
@@ -22,17 +22,13 @@
       <div id="tabs-1">
 
         <div >
-          <%= f.label :name %><br />
-          <%= f.text_field :name %>
+          <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
 
-          <%= f.label :description %><br />
-          <%= f.text_area :description %>
+          <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
 
-          <%= f.label :for_global_permission  %><br />
-          <%= f.check_box :for_global_permission %>
+          <%= f.input :for_global_permission, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
 
-          <%= f.label :for_project_security  %><br />
-          <%= f.check_box :for_project_security %>
+          <%= f.input :for_project_security, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
         </div>
 
       </div>
@@ -40,7 +36,7 @@
       <div id="tabs-2">
         <div >
 
-          <table class="tablesorter">
+          <table class="table table-striped">
             <tr>
               <th>Name</th>
               <th></th>
@@ -57,7 +53,7 @@
 
       <div id="tabs-3">
         <div >
-          <table class="tablesorter">
+          <table class="table table-striped">
             <tr>
               <th>Name</th>
               <th></th>
