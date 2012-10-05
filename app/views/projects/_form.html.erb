@@ -26,19 +26,17 @@
 
     <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :state, :input_html => { :class => 'input-xxlarge' } do %>
-      <%= f.select :state, @project.states %>
-    <% end %>
+    <%= f.input :state, :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.input :start_date, :as => :date, :start_year => Date.today.year - 90,
                                 :end_year => Date.today.year - 12, :discard_day => true,
-                                :order => [:month, :year] %>
+                                :order => [:year] %>
 
     <%= f.input :organization_id do %>
       <%= f.select :organization_id, @organizations, :input_html => { :class => 'input-xxlarge' } %>
     <% end %>
 
-    <%= f.input :is_model, :input_html => { :class => 'input-xxlarge' } %>
+    <%# f.input :is_model, :input_html => { :class => 'input-xxlarge' } %>
 
     <div class="">
       <%= label_tag "Project Area" %><br />
