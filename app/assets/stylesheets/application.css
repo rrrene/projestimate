@@ -286,10 +286,6 @@ div.field textarea:focus {
 
 /* ==================================== WBS ====================================*/
 
-#edit_component{
-    margin: 30px 0 0 0;
-}
-
 .component_tree{
     max-height: 653px;
     color: #666;

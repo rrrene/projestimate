@@ -19,7 +19,7 @@ class ComponentsController < ApplicationController
 
     if @component.update_attributes(params[:component])
       # Another update attributes...
-      @component.update_attribute :parent, Component.find(params[:component_parent_id])
+      @component.update_attribute :parent, Component.find(params[:parent])
       redirect_to "/dashboard"
     else
       render action: "edit"
