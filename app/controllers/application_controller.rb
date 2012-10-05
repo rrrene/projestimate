@@ -84,8 +84,10 @@ class ApplicationController < ActionController::Base
   end
   
   def set_user_time_zone
-    unless current_user.time_zone.blank?
-      Time.zone = current_user.time_zone
+    if current_user
+      unless current_user.time_zone.blank?
+        Time.zone = current_user.time_zone
+      end
     end
   end
 
@@ -108,9 +110,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
-  rescue_from Exception do |exception|
-    flash[:error] = "Something went wrong :  #{exception.message}"
-    redirect_to root_url
+  if Rails.env == "production"
+    rescue_from Exception do |exception|
+      flash[:error] = "Something went wrong :  #{exception.message}"
+    end
   end
 
   end
