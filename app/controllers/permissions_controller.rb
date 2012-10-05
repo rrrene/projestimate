@@ -1,14 +1,12 @@
-#encoding: utf-8
+  #encoding: utf-8
 class PermissionsController < ApplicationController
-  # GET /permissions
-  # GET /permissions.json
+
   def index
     set_page_title "Permissions listings"
     @permissions = Permission.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @permissions }
     end
   end
 
@@ -20,24 +18,9 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @permissions }
     end
   end
 
-  # GET /permissions/1
-  # GET /permissions/1.json
-  def show
-    authorize! :manage_permissions, Permission
-    @permission = Permission.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @permission }
-    end
-  end
-
-  # GET /permissions/new
-  # GET /permissions/new.json
   def new
     authorize! :manage_permissions, Permission
     set_page_title "Permissions"
@@ -45,7 +28,6 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       format.html # _new.html.erb
-      format.json { render json: @permission }
     end
   end
 
@@ -65,7 +47,7 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       if @permission.save
-        format.html { redirect_to "/admin", notice: 'Function was successfully created.' }
+        format.html { redirect_to permissions_path, notice: 'Function was successfully created.' }
         format.json { render json: @permission, status: :created, location: @permission }
       else
         format.html { render action: "new" }
@@ -81,9 +63,6 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       if @permission.update_attributes(params[:permission])
-        @permission.update_attribute :parent, Permission.find(params[:permission_parent_id])
-        @permission.name = String.keep_clean_space(@permission.name.to_s)
-        @permission.save
 
         format.html { redirect_to "/globals_permissions", notice: 'Function was successfully updated.' }
         format.json { head :ok }
@@ -117,7 +96,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to permissions_path, :notice => "Permissions saved succesfully" }
+      format.html { redirect_to "/globals_permissions", :notice => "Permissions saved succesfully" }
     end
 
   end

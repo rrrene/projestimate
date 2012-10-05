@@ -1,22 +1,13 @@
-<%= simple_form_for(@labor_category) do |f| %>
-  <% if @labor_category.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@labor_category.errors.count, "error") %> prohibited this labor_category from being saved:</h2>
+<div class="span12">
+  <h1><%=  @labor_category.name %></h1>
+  <%= simple_form_for(@labor_category) do |f| %>
 
-      <ul>
-      <% @labor_category.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div >
     <%= f.input :name %>
 
     <%= f.input :description %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>
