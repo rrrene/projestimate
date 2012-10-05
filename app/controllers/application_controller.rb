@@ -84,7 +84,9 @@ class ApplicationController < ActionController::Base
   end
   
   def set_user_time_zone
-    Time.zone = current_user.time_zone if current_user
+    unless current_user.time_zone.blank?
+      Time.zone = current_user.time_zone
+    end
   end
 
   def set_page_title(page_title)

@@ -32,30 +32,19 @@
                                 :end_year => Date.today.year - 12, :discard_day => true,
                                 :order => [:year] %>
 
-    <%= f.input :organization_id do %>
-      <%= f.select :organization_id, @organizations, :input_html => { :class => 'input-xxlarge' } %>
-    <% end %>
+    <%= f.input :organization_id, :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
 
     <%# f.input :is_model, :input_html => { :class => 'input-xxlarge' } %>
 
-    <div class="">
-      <%= label_tag "Project Area" %><br />
-      <%= select_tag("project_area", options_for_select(@project_areas, :selected => @project_area.nil? ? '' : @project_area.id), :prompt => 'Choose...', :class => 'input-xxlarge') %>
-    </div>
-    <div class=" acquisition_category">
-      <%= label_tag "Acquisition Category" %><br />
-      <%= select_tag('acquisition_categories', options_for_select(@acquisition_categories, :selected => @project.acquisition_category.nil? ? '' : @project.acquisition_category_id), :disabled => @acquisition_categories.blank? ? true : false, :prompt => 'Choose...', :class => 'input-xxlarge') %>
-    </div>
-    <div class="platform_category">
-      <%= label_tag "Platform Category" %><br />
-      <%= select_tag('platform_categories', options_for_select(@platform_categories), :disabled => @project.platform_category.nil? ? '' : @project.acquisition_category_id, :prompt => 'Choose...', :class => 'input-xxlarge') %>
-    </div>
-    <div class="project_category">
-      <%= label_tag "Project Category" %><br />
-      <%= select_tag('project_categories', options_for_select(@project_categories), :disabled => @project.project_category.nil? ? '' : @project.acquisition_category_id, :prompt => 'Choose...', :class => 'input-xxlarge') %>
-    </div>
+    <%= f.input :project_area_id, :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
 
-    </div>
+    <%= f.input :acquisition_category_id, :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
+
+    <%= f.input :platform_category_id, :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
+
+    <%= f.input :project_category_id, :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
+
+  </div>
 
   <% unless action_name == "new" %>
     <div id="tabs-4">

@@ -16,15 +16,15 @@ class ProjectsController < ApplicationController
     set_page_title "New project"
 
     @project = Project.new
-    @project_areas = ProjectArea.all.map(&:name)
     @pemodules = Pemodule.all
     @organizations = Organization.all
     @project_modules = @project.pemodules
     @project_security_levels = ProjectSecurityLevel.all
     @module_project = ModuleProject.find_by_project_id(@project.id)
-    @acquisition_categories = []
-    @platform_categories = []
-    @project_categories = []
+    @project_areas = ProjectArea.all
+    @platform_categories = PlatformCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @project_categories = ProjectCategory.all
     @array_module_positions = 0
   end
 
@@ -35,13 +35,10 @@ class ProjectsController < ApplicationController
       @project_area = ProjectArea.find_by_name(params[:project_area_selected])
     end
 
-    unless @project_area.nil?
-      @acquisition_categories = @project_area.acquisition_categories.map{|i| [i.name, i.id] }
-      @platform_categories = @project_area.platform_categories.map{|i| [i.name, i.id] }
-      @project_categories = @project_area.project_categories.map{|i| [i.name, i.id] }
-    else
-      @acquisition_categories = @platform_categories = @project_categories = @project_area = []
-    end
+    @project_areas = ProjectArea.all
+    @platform_categories = PlatformCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @project_categories = ProjectCategory.all
   end
   
   def edit
@@ -49,10 +46,10 @@ class ProjectsController < ApplicationController
     set_page_title "Edit project"
     @project = Project.find(params[:id])
     @user = @project.users.first
-    @project_areas = ProjectArea.all.map{|i| [i.name, i.id] }
-    if @project.project_area
-      @project_area = ProjectArea.find(@project.project_area)
-    end
+    @project_areas = ProjectArea.all
+    @platform_categories = PlatformCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @project_categories = ProjectCategory.all
     @pemodules = Pemodule.all
     @project_modules = @project.pemodules
     @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -60,34 +57,18 @@ class ProjectsController < ApplicationController
     @project_modules = @project.pemodules
     @project_security_levels = ProjectSecurityLevel.all
     @module_project = ModuleProject.find_by_project_id(@project.id)
-
-    unless @project_area.nil?
-      @acquisition_categories = @project_area.acquisition_categories.map{|i| [i.name, i.id] }
-      @platform_categories = @project_area.platform_categories.map{|i| [i.name, i.id] }
-      @project_categories = @project_area.project_categories.map{|i| [i.name, i.id] }
-    else
-      @acquisition_categories = []
-      @platform_categories = []
-      @project_categories = []
-    end
   end
 
   #Create a new project
   def create
     @project = Project.new(params[:project])
 
-    #default project area
-    @project.project_area_id = params[:project_area].to_i
-    @project.acquisition_category_id = params[:acquisition_categories].to_i
-    @project.platform_category_id = params[:platform_categories].to_i
-    @project.project_category_id = params[:project_categories].to_i
-
-    #Module project
-    if params[:is_model]
-      @project.is_model = params[:is_model]
-    else
-      @project.is_model = false
-    end
+    ##Module project
+    #if params[:is_model]
+    #  @project.is_model = params[:is_model]
+    #else
+    #  @project.is_model = false
+    #end
 
     if @project.save
       if current_user.groups.map(&:code_group).include? ("super_admin")
@@ -136,18 +117,11 @@ class ProjectsController < ApplicationController
       end
     end
 
-      if @project.update_attributes(params[:project])
-
-        @project.project_area_id = params[:project_area].to_i
-        @project.acquisition_category_id = params[:acquisition_categories].to_i
-        @project.platform_category_id = params[:platform_categories].to_i
-        @project.project_category_id = params[:project_categories].to_i
-        @project.save
-
-        redirect_to redirect(projects_url), notice: 'La mise a jour a été effectué avec succès.'
-      else
-        redirect_to edit_project_path(@project), error: 'Vérifier les champs suivants'
-      end
+    if @project.update_attributes(params[:project])
+      redirect_to redirect(projects_url), notice: 'La mise a jour a été effectué avec succès.'
+    else
+      redirect_to edit_project_path(@project), error: 'Vérifier les champs suivants'
+    end
   end
   
   def destroy

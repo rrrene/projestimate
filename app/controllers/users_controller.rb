@@ -13,11 +13,6 @@ class UsersController < ApplicationController
         @users = UsersDatatable.new(view_context)
         render json: @users
       }
-      #format.pdf {
-      #  @users = User.all
-      #  render :pdf => "Users",
-      #         :layout => '../users/index_pdf.erb'
-      #}
     end
   end
   
@@ -49,15 +44,7 @@ class UsersController < ApplicationController
 
   def edit
     set_page_title "Edit user"
-
-    #Current user or not
-    @user = User.find(params[:id])
-    if @user.id == current_user.id
-      authorize! :edit_own_profile, User
-    else
-      authorize! :edit_user_account_no_admin, User
-    end
-
+    @user = current_user
     @projects = Project.all
     @organizations = Organization.all
     @groups = Group.all

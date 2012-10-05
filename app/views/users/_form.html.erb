@@ -1,111 +1,100 @@
 <%= simple_form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
-      <ul>
-        <% for message in @user.errors.full_messages %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-<div class="tabs">
-  <ul>
-    <li><a href="#tabs-1">Global settings </a></li>
-    <li><a href="#tabs-2">Associated groups </a></li>
-    <li><a href="#tabs-3">Associated organizations </a></li>
-    <li><a href="#tabs-4">Associated projects </a></li>
-    <li><a href="#tabs-5">Settings</a></li>
-  </ul>
-  
-  <div id="tabs-1">
-    <div >
-      <%= f.input :first_name %>
+  <div class="tabs">
+    <ul>
+      <li><a href="#tabs-1">Global settings </a></li>
+      <li><a href="#tabs-2">Associated groups </a></li>
+      <li><a href="#tabs-3">Associated organizations </a></li>
+      <li><a href="#tabs-4">Associated projects </a></li>
+      <li><a href="#tabs-5">Settings</a></li>
+    </ul>
 
-      <%= f.input :surename %>
+    <div id="tabs-1">
+        <%= f.input :first_name %>
 
-      <%= f.input :user_name %>
+        <%= f.input :surename %>
 
-      <%= f.input :email %>
+        <%= f.input :user_name %>
 
-      <%= f.input :password %>
+        <%= f.input :email %>
 
-      <%= f.input :password_confirmation %>
+        <%= f.input :password %>
 
-      <%= f.input :initials %>
+        <%= f.input :password_confirmation %>
 
-      <% if can? :edit_own_profile_security, User %>
+        <%= f.input :initials %>
+
         <%=  f.input :user_status, :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
+
         <%= f.input :type_auth, :as => :select, :collection => [["Applicatif", "app"],["Ldap","ldap"]] %>
-      <% end %>
+
     </div>
 
-  </div>
-
-    <div id="tabs-2">
-      <div class="field_checkbox">
-        <%= f.label :groups %><br />
-        <table class="table table-striped">
-          <% @groups.each do |group| %>
-            <tr>
-              <td><span><%= group.name %></span></td>
-              <td><%= check_box_tag "user[group_ids][]", group.id, @project_groups.map(&:id).include?(group.id) ? true : false %></td>
-            </tr>
-          <% end %>
-        </table>
+      <div id="tabs-2">
+        <div class="field_checkbox">
+          <%= f.label :groups %><br />
+          <table class="table table-striped">
+            <% @groups.each do |group| %>
+              <tr>
+                <td><span><%= group.name %></span></td>
+                <td><%= check_box_tag "user[group_ids][]", group.id, @project_groups.map(&:id).include?(group.id) ? true : false %></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <div id="tabs-3">
-      <div class="field_checkbox">
-        <%= f.label :associated_organizations %><br />
-        <table class="table table-striped">
-          <% @organizations.each do |org| %>
-            <tr>
-              <td><span><%= org.name %></span>
-              <td><%= check_box_tag "user[organization_ids][]", org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
-            </tr>
-          <% end %>
-        </table>
+      <div id="tabs-3">
+        <div class="field_checkbox">
+          <%= f.label :associated_organizations %><br />
+          <table class="table table-striped">
+            <% @organizations.each do |org| %>
+              <tr>
+                <td><span><%= org.name %></span>
+                <td><%= check_box_tag "user[organization_ids][]", org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+              </tr>
+            <% end %>
+          </table>
+        </div>
       </div>
-    </div>
 
-  <div id="tabs-4">
-      <div class="field_checkbox">
-        <%= f.label :projets_associés %><br />
-        <table class="table table-striped">
-          <% @projects.each do |project| %>
-            <tr>
-              <td><%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
-              <td><span><%= project.title %></span>
-            </tr>
-          <% end %>
-        </table>
+    <div id="tabs-4">
+        <div class="field_checkbox">
+          <%= f.label :projets_associés %><br />
+          <table class="table table-striped">
+            <% @projects.each do |project| %>
+              <tr>
+                <td><%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+                <td><span><%= project.title %></span>
+              </tr>
+            <% end %>
+          </table>
+        </div>
       </div>
+
+    <div id="tabs-5">
+
+      <%= f.input :language_id, :as => :select, :collection => Language.all %>
+
+      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.us_zones %>
+
+      <p>Assistance</p>
+      <p>Notifications</p>
+      <p>Format d'affichage</p>
+      <p>Décimal</p>
+      <p>Milliers</p>
+      <p>Premier jour de la semaine</p>
+      <p>Première semaine de l'anéne</p>
+      <p>Pref d'export</p>
+
     </div>
 
-  <div id="tabs-5">
 
-    <%= f.input :language_id, :as => :select, :collection => Language.all %>
+    <div class="actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
 
-    <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.us_zones %>
-    <p>Assistance</p>
-    <p>Notifications</p>
-    <p>Format d'affichage</p>
-    <p>Décimal</p>
-    <p>Milliers</p>
-    <p>Premier jour de la semaine</p>
-    <p>Première semaine de l'anéne</p>
-    <p>Pref d'export</p>
+      <%= f.submit "Apply", :class => "btn btn-success" %>
+    </div>
   </div>
-
-  </div>
-
-
-  <div class="actions">
-    <%= f.submit "Save" %>
-
-    <%= f.submit "Apply" %>  </div>
 
 <% end %>
