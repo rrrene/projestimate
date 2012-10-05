@@ -1,8 +1,8 @@
 <ul class="nav nav-list">
-  <li class="nav-header"><h5>PROJECTS</h5></li>
+  <li class="nav-header"><h5><%= link_to "PROJECTS", "#" %></h5></li>
   <li class="icn_edit_project"><%= link_to "Edit #{current_project.title}", edit_project_path(current_project) %></li>
   <li class="icn_see_projects"><%= link_to "See all projects", projects_url %></li>
-  <li class="icn_new_project"><%= link_to "Create a new pojects", new_project_path %></li>
+  <li class="icn_new_project"><%= link_to "Create a new projects", new_project_path %></li>
 </ul>
 
 <ul class="nav nav-list">

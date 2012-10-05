@@ -68,7 +68,7 @@ module WbsHelper
       "<li>
         <div class='block_label'>
           <div class='#{component.work_element_type.alias}' onClick='toggle_folder(this);' ></div>
-          #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ", :onclick => "loading();") }
+          #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
         </div>
         <div class='block_link'>
           #{ link_to("", { :controller => 'components', :action => 'new', :wbs_id => project.wbs.id, :comp_parent_id => component.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder') if can? :add_a_component, Component }
