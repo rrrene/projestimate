@@ -110,10 +110,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
-  if Rails.env == "production"
-    rescue_from Exception do |exception|
-      flash[:error] = "Something went wrong :  #{exception.message}"
-    end
-  end
+  #if Rails.env == "production"
+  #  rescue_from Exception do |exception|
+  #    flash[:error] = "Something went wrong :  #{exception.message}"
+  #  end
+  #end
 
   end

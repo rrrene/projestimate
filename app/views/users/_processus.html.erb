@@ -45,7 +45,11 @@
             <div class="widget-content">
               <div class="">
                 <div class="portlet_<%= mp.id %>" >
-                  <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+                  <% begin %>
+                    <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+                  <% rescue %>
+                    <strong>Please load plugin in path projestimate/vendor/plugins/ or contact an admin.</strong>
+                  <% end %>
                 </div>
               </div>
             </div>
