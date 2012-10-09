@@ -133,27 +133,27 @@ function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
 }
 
-function help_and_required(){
-    $('.field label').each(function(){
-        $(this).children('label').addClass($(this).children('input').attr('id') + '_help');
-        $(this).append(" - <a href='#' onclick='return false;' %>[?]</a>");
-    });
-
-    $(".required").each(function(){
-        $(this).children('label').append("<a href='#' onclick='return false;' style='text-decoration:none; color:red'> *</a>");
-    });
-}
-
-function load_tiny_mce(){
-    $('.editor').tinymce({
-        theme: 'advanced',
-        width : "600"
-    });
-}
-
-function run_estimation() {
-    document.getElementById('estimation').submit();
-    $('#display_ajax').show();
-}
+//function help_and_required(){
+//    $('.field label').each(function(){
+//        $(this).children('label').addClass($(this).children('input').attr('id') + '_help');
+//        $(this).append(" - <a href='#' onclick='return false;' %>[?]</a>");
+//    });
+//
+//    $(".required").each(function(){
+//        $(this).children('label').append("<a href='#' onclick='return false;' style='text-decoration:none; color:red'> *</a>");
+//    });
+//}
+//
+//function load_tiny_mce(){
+//    $('.editor').tinymce({
+//        theme: 'advanced',
+//        width : "600"
+//    });
+//}
+//
+//function run_estimation() {
+//    document.getElementById('estimation').submit();
+//    $('#display_ajax').show();
+//}
 
 

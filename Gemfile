@@ -45,7 +45,7 @@ gem 'net-ldap', '~> 0.2.2'
 
 # Web server
 gem 'unicorn'
-gem 'passenger'
+#gem 'passenger'
 group :development do
 #  gem 'mongrel'
 end

@@ -100,7 +100,6 @@ class User < ActiveRecord::Base
         if user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt) && user.active?
           user
         else
-          puts "hello"
           return nil
         end
       end
@@ -148,11 +147,6 @@ class User < ActiveRecord::Base
       scoped
     end
   end
-
-  #Load specific autorizations
-  #def load_specific_autorizations
-  #  return ProjectSecurity.find_by_user_id(self.id).project_security_level_cancan
-  #end
 
   #return the ten latest project
   #TODO: change name of field. Use latest_project instead of ten_latest_project

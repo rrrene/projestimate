@@ -29,7 +29,7 @@
 
 
 <div class="row-fluid">
-  <div class="span4">
+  <div class="span6">
     <div class="widget">
       <% unless current_component.nil? %>
         <%= form_tag({:controller => "projects", :action => "run_estimation", :component_id => current_component.id}, :method => "get", :remote => true) %>
@@ -45,11 +45,8 @@
             <div class="widget-content">
               <div class="">
                 <div class="portlet_<%= mp.id %>" >
-                  <% begin %>
                     <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
-                  <% rescue %>
-                    <strong>Please load plugin in path projestimate/vendor/plugins/ or contact an admin.</strong>
-                  <% end %>
+
                 </div>
               </div>
             </div>
