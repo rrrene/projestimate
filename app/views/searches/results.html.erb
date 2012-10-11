@@ -1,6 +1,6 @@
 <div class="span12">
   <h3>Searches results</h3>
-  <% if @results.blank? %>
+  <% if @results.empty? %>
       <p>No result found for <strong><%= params[:search] %></strong></p>
   <% else %>
       <ul>

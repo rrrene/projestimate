@@ -186,12 +186,12 @@
 }
 .icn_duplicate {
     background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
-    background-position:  -16px -181px; height: 18px; width: 18px;
+    background-position:  -16px -233px; height: 18px; width: 18px;
     display: inline-block;
 }
 .icn_commit {
     background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
-    background-position:  -16px -181px; height: 18px; width: 18px;
+    background-position:  -33px -267px; height: 18px; width: 18px;
     display: inline-block;
 }
 .icn_activate {
@@ -201,18 +201,18 @@
 }
 .icn_find_use {
     background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
-    background-position:  -16px -181px; height: 18px; width: 18px;
+    background-position:  -33px -284px; height: 16px; width: 16px;
     display: inline-block;
 }
 .icn_check_in {
     background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
-    background-position:  -16px -181px; height: 18px; width: 18px;
+    background-position:  -41px -349px; height: 16px; width: 16px;
     display: inline-block;
 }
 
 .icn_check_out {
     background: url('/assets/spriteBaseEstimate.png') no-repeat center left;
-    background-position:  -16px -181px; height: 18px; width: 18px;
+    background-position:  -50px -250px; height: 16px; width: 16px;
     display: inline-block;
 }
 

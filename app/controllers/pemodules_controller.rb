@@ -9,7 +9,7 @@ class PemodulesController < ApplicationController
   def new
     authorize! :manage_modules, Pemodule
     set_page_title "New Modules"
-    @wets = WorkElementType.all.reject{|i| i.name == "Folder" || i.name == "Link"}
+    @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @pemodule = Pemodule.new
     @attributes = Attribute.all
     @attr_modules = []
@@ -18,7 +18,7 @@ class PemodulesController < ApplicationController
   def edit
     authorize! :manage_modules, Pemodule
     set_page_title "Edit Modules"
-    @wets = WorkElementType.all.reject{|i| i.name == "Folder" || i.name == "Link"}
+    @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @pemodule = Pemodule.find(params[:id])
     @attributes = Attribute.all
     @attr_modules = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})

@@ -12,7 +12,7 @@ end
 module ProjestimateMaquette
   class Application < Rails::Application
 
-    config.reload_plugins = true if Rails.env.development?
+    config.reload_plugins = true
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

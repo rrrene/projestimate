@@ -25,33 +25,30 @@
       </div>
     </div>
   </div>
-</div>
 
-
-<div class="row-fluid">
   <div class="span6">
-    <div class="widget">
       <% unless current_component.nil? %>
         <%= form_tag({:controller => "projects", :action => "run_estimation", :component_id => current_component.id}, :method => "get", :remote => true) %>
           <% @project.module_projects.each do |mp| %>
-            <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
+            <div class="widget">
+              <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
 
-            <div class="widget-header">
-              <h3>
-                <%= mp.pemodule.title %> - <%= current_component.name %>
-              </h3>
-            </div>
+              <div class="widget-header">
+                <h3>
+                  <%= mp.pemodule.title %> - <%= current_component.name %>
+                </h3>
+              </div>
 
-            <div class="widget-content">
-              <div class="">
-                <div class="portlet_<%= mp.id %>" >
-                    <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
-
+              <div class="widget-content">
+                <div class="">
+                  <div class="portlet_<%= mp.id %>" >
+                      <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <% end %>
+              <% end %>
+            </div>
           <% end %>
 
         <div class="submit_link">
