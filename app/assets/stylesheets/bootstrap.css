@@ -5891,6 +5891,7 @@ button.close {
     background: white;
     border: 1px solid #D5D5D5;
     min-height:200px;
+    overflow-y: auto;
 }
 
 .with-margin{
