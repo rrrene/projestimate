@@ -41,7 +41,7 @@ private
 
        (project.baseline? || project.locked? || project.closed? ) ?
          commit = link_to('', '#', :class => "icn_commit") :
-         commit = link_to('', {:controller => "projects", :action => "commit", :project_id => project.id }, :class => "icn_commit")
+         commit = link_to('', {:controller => "projects", :action => "commit", :project_id => project.id }, :class => "icn_commit", :title => "Commit")
       [
         project.title.truncate(20),
         project.description.truncate(20),

@@ -42,7 +42,11 @@
               <div class="widget-content">
                 <div class="">
                   <div class="portlet_<%= mp.id %>" >
+                    <%# begin %>
                       <%= render :partial => "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+                    <%# rescue %>
+                      <strong>Please verify module installation</strong>
+                    <%# end %>
                   </div>
                 </div>
               </div>

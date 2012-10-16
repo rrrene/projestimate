@@ -1,3 +1,4 @@
+#encoding: utf-8
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
@@ -17,8 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ########################################################################
-
-#encoding: utf-8
 class ProjectsController < ApplicationController
   helper_method :sort_column
   helper_method :sort_direction
@@ -329,29 +328,34 @@ class ProjectsController < ApplicationController
   end
 
   def duplicate
-    last_prj = Project.find(params[:project_id])
-    new_prj = last_prj.dup
+    old_prj = Project.find(params[:project_id])
+    new_prj = old_prj.dup
 
-    new_prj.group_ids = last_prj.groups.map(&:id)
-    new_prj.user_ids = last_prj.users.map(&:id)
-    new_prj.title = "Copy of #{ last_prj.title }"
+    new_prj.group_ids = old_prj.groups.map(&:id)
+    new_prj.user_ids = old_prj.users.map(&:id)
+    new_prj.title = "Copy of #{ old_prj.title }"
     new_prj.save
 
-    last_prj.module_projects.each do |mp|
+    old_prj.module_projects.each do |mp|
       new_mp = mp.dup
       new_mp.project_id = new_prj.id
       new_mp.save
     end
 
-    last_prj.wbs.components.each do |c|
-      #TODO : duplicate tree hierarchy
+    new_wbs = old_prj.wbs.dup
+    new_wbs.save
+
+    old_prj.wbs.components.each do |c|
       if c.is_root?
-        new_prj.root_component.ancestry = nil
-      else
         new_c = c.dup
         new_c.wbs_id = new_prj.wbs.id
         new_c.ancestry = new_prj.root_component.id
         new_c.save
+      #else
+      #  new_c = c.dup
+      #  new_c.wbs_id = new_wbs.id
+      #  new_c.ancestry = new_prj.root_component.id
+      #  new_c.save
       end
     end
 

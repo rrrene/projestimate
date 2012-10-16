@@ -301,6 +301,8 @@ def load_data!
     attributes.each do |i|
       Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5])
     end
+    puts "\n\n"
+    puts "Default data was successfully loaded. Enjoy !"
   rescue Errno::ECONNREFUSED
     puts "\n\n\n"
     puts "Default data was not loaded."
@@ -309,9 +311,6 @@ def load_data!
     puts "\n\n"
     puts "Default data was not loaded."
     puts "Maybe run db:create and db:migrate tasks."
-  ensure
-    puts "\n\n"
-    puts "Default data was successfully loaded. Enjoy !"
   end
 end
 
