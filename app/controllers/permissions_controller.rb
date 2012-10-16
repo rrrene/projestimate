@@ -22,7 +22,7 @@
 class PermissionsController < ApplicationController
 
   def index
-    set_page_title "Permissions listings"
+    set_page_title "Permissions"
     @permissions = Permission.all
 
     respond_to do |format|
