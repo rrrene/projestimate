@@ -113,7 +113,7 @@ ProjestimateMaquette::Application.routes.draw do
     get "parameters" => "users#parameters", :as => "parameters"
     get "validate" => "users#validate", :as => "validate"
     get "projestimate_globals_parameters" => "users#projestimate_globals_parameters", :as => "projestimate_globals_parameters"
-    get "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
+    post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
     get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
 
   resources :password_resets

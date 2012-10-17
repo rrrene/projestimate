@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
 
   #Send an account request
   def account_request
-    mail(:to => Ad, :subject => "Demande de création de compte")
+    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "Demande de création de compte")
   end
 
   #Confirm validation of account - password is writed
