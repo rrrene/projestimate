@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
 
   #Send an account request
   def account_request
-    mail(:to => "renard760@gmail.com", :subject => "Demande de création de compte")
+    mail(:to => Ad, :subject => "Demande de création de compte")
   end
 
   #Confirm validation of account - password is writed

@@ -2,7 +2,9 @@
   <li class="nav-header"><h5>PROJECTS</h5></li>
   <li><%= render :partial => 'layouts/recent_project' %></li>
   <li class="icn_edit_project"><a href="/dashboard">Home</a></li>
-  <li class="icn_edit_project"><%= link_to "Edit #{current_project.title}", edit_project_path(current_project) %></li>
+  <% if current_project %>
+    <li class="icn_edit_project"><%= link_to "Edit #{current_project.title}", edit_project_path(current_project) %></li>
+  <% end %>
   <li class="icn_see_projects"><%= link_to "All projects", projects_url %></li>
   <li class="icn_new_project"><%= link_to "Create a new projects", new_project_path %></li>
 </ul>

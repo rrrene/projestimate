@@ -76,7 +76,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_component
-    session[:component_id].nil? ? current_project.root_component : Component.find(session[:component_id])
+    if current_project
+      session[:component_id].nil? ? current_project.root_component : Component.find(session[:component_id])
+    end
   end
 
   def load_master_setting(args)

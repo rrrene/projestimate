@@ -50,10 +50,8 @@ class SessionsController < ApplicationController
         end
 
         redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "Welcome #{user.name}" }
-      elsif user.suspended? || user.blacklisted?
+      else #user.suspended? || user.blacklisted?
         redirect_to "/dashboard", :flash => { :error => "Your account is black-listed" }
-      else
-
       end
     else
         redirect_to "/dashboard", :flash => { :error => "Invalid user name or password" }

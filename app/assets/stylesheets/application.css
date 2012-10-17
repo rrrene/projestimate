@@ -29,10 +29,10 @@
     width: 544px;
     position: relative;
     top: 323px;
-    margin-left: 56px;
-    overflow-y: auto;
-    height: 145px;
-    overflow-x: hidden;
+    margin: 56px;
+    /*overflow-y: auto;*/
+    /*height: 145px;*/
+    /*overflow-x: hidden;*/
 }
 
 .login_input{

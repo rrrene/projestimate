@@ -115,15 +115,15 @@ ProjestimateMaquette::Application.routes.draw do
     get "parameters" => "users#parameters", :as => "parameters"
     get "validate" => "users#validate", :as => "validate"
     get "projestimate_globals_parameters" => "users#projestimate_globals_parameters", :as => "projestimate_globals_parameters"
-    post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
+    get "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
     get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
 
 
   resources :sessions
-    get "log_in" => "sessions#new", :as => "log_in"
-    get "log_out" => "sessions#destroy", :as => "log_out"
-    post "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
-    post "help_login" => "sessions#help_login", :as => "help_login"
+  get "log_in" => "sessions#new", :as => "log_in"
+  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
+  get "help_login" => "sessions#help_login", :as => "help_login"
 
 
   resources :translations

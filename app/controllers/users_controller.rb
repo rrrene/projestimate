@@ -21,7 +21,7 @@
 
 class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_filter :verify_authentication, :except => :show
+  before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
 
   def index
     authorize! :edit_user_account_no_admin, User
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
   def edit
     set_page_title "Edit user"
-    @user = current_user
+    @user = User.find(params[:id])
     @projects = Project.all
     @organizations = Organization.all
     @groups = Group.all
@@ -131,8 +131,8 @@ class UsersController < ApplicationController
       if user != nil
         redirect_to root_url, :error => "Email or user name already exist in the database."
       else
-        user = User.new(:email => params[:email], :first_name => params[:first_name], :surename => params[:surename], :user_name => params[:user_name], :is_super_admin => false, :language_id => params[:language], :group_ids =>[3])
-        user.group_ids = [3]
+        user = User.new(:email => params[:email], :first_name => params[:first_name], :surename => params[:surename], :user_name => params[:user_name], :language_id => params[:language])
+        user.group_ids = [Group.last.id]
         user.save
         UserMailer.account_request.deliver
         redirect_to root_url, :notice => "Account demand send with success."

@@ -19,7 +19,7 @@
 ########################################################################
 
 #encoding: utf-8
-#TODO:rename this controller to LoginController or to something most eloquent/verbose/meaningful
+#TODO:rename this controller to something most eloquent/verbose/meaningful
 class PasswordResetsController < ApplicationController
   layout "login"
 
