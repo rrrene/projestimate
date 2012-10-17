@@ -1,24 +1,13 @@
-<%= form_for(@language) do |f| %>
-  <% if @language.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@language.errors.count, "error") %> prohibited this language from being saved:</h2>
+<div class="span12">
+  <%= simple_form_for(@language) do |f| %>
 
-      <ul>
-      <% @language.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div >
+      <%= f.input :name %>
+      <%= f.input :locale %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
-
-  <div >
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-
-    <%= f.label :locale %><br />
-    <%= f.text_field :locale %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

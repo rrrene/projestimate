@@ -8,28 +8,16 @@
   });
 </script>
 
-<div class="module width_full">
+<div class="span12">
 
-  <%= form_for(@project_security) do |f| %>
-    <% if @project_security.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@project_security.errors.count, "error") %> prohibited this project_security from being saved:</h2>
+  <%= simple_form_for(@project_security) do |f| %>
 
-        <ul>
-        <% @project_security.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-    <div >
-      <%= f.label :project %><br />
-      <%= f.select :project_id, options_for_select(@projects, :selected => @project_security.project_id) %>
-    </div>
-    <div >
-      <%= f.label :user %><br />
-      <%= f.select :user_id, options_for_select(@users, :selected => @project_security.user_id) %>
-    </div>
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
+
+    <%= f.input :project_id, :as => :select , :collection => @projects %>
+
+    <%= f.input :user_id, :as => :select , :collection => @users %>
+
     <div >
       <label for="theme">Project Security</label>
       <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> Full control

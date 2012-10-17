@@ -1,27 +1,14 @@
-<div class="module width_full">
-  <%= form_for(@platform_category) do |f| %>
-    <% if @platform_category.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@platform_category.errors.count, "error") %> prohibited this platform_category from being saved:</h2>
+<div class="span12">
+  <%= simple_form_for(@platform_category) do |f| %>
 
-        <ul>
-        <% @platform_category.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
 
-    <div >
-      <%= f.label :name %><br />
-      <%= f.text_field :name %>
-    </div>
-    <div >
-      <%= f.label :description %><br />
-      <%= f.text_area :description %>
-    </div>
+    <%= f.input :name %>
+    <%= f.input :description %>
+
     <div class="actions">
       <%= f.submit %>
     </div>
   <% end %>
+
 </div>

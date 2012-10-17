@@ -1,22 +1,12 @@
-<%= form_for(@mpa) do |f| %>
-  <% if @mpa.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@mpa.errors.count, "error") %> prohibited this language from being saved:</h2>
+<div class="span12">
+  <%= simple_form_for(@mpa) do |f| %>
 
-      <ul>
-      <% @mpa.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
+
+    <%= f.input :in_out %>
+
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
-
-  <div >
-    <%= f.label :in_out %><br />
-    <%= f.text_field :in_out %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

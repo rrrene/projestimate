@@ -2,7 +2,7 @@
   ProjEstimate - Ask a new account
 </h3>
 
-<%= form_tag "/create_inactive_user" %>
+<%= form_tag "/create_inactive_user" do %>
 
 <div class="field_login">
   <%= label_tag :first_name %>
@@ -24,4 +24,6 @@
 
 <div class="actions"><%= link_to "Back", "" %></div>
 <div class="actions"><%= submit_tag "Send request" %></div>
+
+<% end %>
 

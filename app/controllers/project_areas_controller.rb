@@ -78,7 +78,7 @@ class ProjectAreasController < ApplicationController
 
     respond_to do |format|
       if @project_area.save
-        format.html
+        format.html { redirect_to "/projects_global_params", notice: 'Project area was successfully created.' }
         format.json { render json: @project_area, status: :created, location: @project_area }
       else
         format.html { render action: "new" }

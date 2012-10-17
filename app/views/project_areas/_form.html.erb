@@ -1,24 +1,13 @@
-<div class="module width_full">
-  <%= form_for(@project_area) do |f| %>
-    <% if @project_area.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@project_area.errors.count, "error") %> prohibited this project_area from being saved:</h2>
+<div class="span12">
+  <%= simple_form_for(@project_area) do |f| %>
 
-        <ul>
-        <% @project_area.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
 
     <div >
-      <%= f.label :name %><br />
-      <%= f.text_field :name %>
+      <%= f.input :name %><br />
     </div>
     <div >
-      <%= f.label :description %><br />
-      <%= f.text_area :description %>
+      <%= f.input :description %><br />
     </div>
     <div >
       <h3> Activity Category : </h3>

@@ -1,28 +1,16 @@
-<%= form_for(@attribute) do |f| %>
-  <% if @attribute.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@attribute.errors.count, "error") %> prohibited this attribute from being saved:</h2>
+<div class="span12">
+  <%= simple_form_for(@attribute) do |f| %>
 
-      <ul>
-      <% @attribute.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <h1><%= controller.controller_name.humanize.singularize %> </h1>
 
   <div >
-    <%= f.label :name, :title => "Name of the attribute" %><br />
-    <%= f.text_field :name %>
+    <%= f.input :name %>
 
-    <%= f.label :alias, :title => "Short name without capital separate by underscore" %><br />
-    <%= f.text_field :alias %>
+    <%= f.input :alias %>
 
-    <%= f.label :description, :title => "Brief description of attribute" %><br />
-    <%= f.text_area :description %>
+    <%= f.input :description, :title => "Brief description of attribute" %><br />
 
-    <%= f.label :aggregation, :title => "Aggregation method depending of attribute type (i.e: sum for cost but not for dates)" %><br />
-    <%= f.select :aggregation, options_for_select(Attribute::type_aggregation) %>
+    <%= f.input :aggregation, :as => :select, :collection => Attribute::type_aggregation %>
 
     <%= f.label :options, :title => "Validations and options" %><br />
     <% if @attribute.options.empty? %>
@@ -69,3 +57,4 @@
   </div>
 
 <% end %>
+</div>
