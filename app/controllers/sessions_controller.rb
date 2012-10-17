@@ -29,8 +29,6 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:username], params[:password])
     if user
       if user.active?
-
-        #TODO: #Use AASM for user status
         if params[:remember_me]
           cookies[:login] = { :value => user.user_name, :expires => Time.now + 3600}
         end
@@ -48,7 +46,6 @@ class SessionsController < ApplicationController
         else
           session[:current_project_id] = user.projects.first.id
         end
-
         redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "Welcome #{user.name}" }
       else #user.suspended? || user.blacklisted?
         redirect_to "/dashboard", :flash => { :error => "Your account is black-listed" }
@@ -78,5 +75,30 @@ class SessionsController < ApplicationController
   def help_login
   end
 
+    #Display "forgotten password" page
+  def forgotten_password
+  end
+
+  #Reset the password depending of the status of the user
+  def reset_forgotten_password
+    user = User.first(:conditions => ['user_name = ? or email = ?', params[:user_name], params[:user_name] ])
+    if user
+      if user.type_auth == "app" or user.type_auth.blank?
+        if user.active?
+          user.send_password_reset if user
+          redirect_to root_url, :error => "Password reset instructions have been sent."
+        else
+          user.send_password_reset if user
+          redirect_to root_url, :error => "Your account is not active"
+        end
+      elsif user.type_auth == "ldap"
+        redirect_to root_url, :error => "Your account is associated with the corporate directory. Please contact your system administrator."
+      else
+        redirect_to root_url, :error => "Ouch..."
+      end
+    else
+      redirect_to root_url, :error => "Bad user name"
+    end
+  end
 
 end

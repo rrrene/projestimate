@@ -1,4 +1,4 @@
-<div class="new_password">
+<div class="login_page">
     <%= form_tag sessions_path, :class => "form-horizontal" do %>
 
     <div class="login_input">
@@ -25,7 +25,7 @@
       </div>
 
       <%= link_to "Need help ?",  "/help_login", :remote => true %> <br/>
-      <%= link_to "Forgotten password ?", new_password_reset_path, :remote => true %> <br/>
+      <%= link_to "Forgotten password ?", "/forgotten_password", :remote => true %> <br/>
       <%= link_to "Ask a new account", "/ask_new_account", :remote => true %>
     </div>
 
@@ -34,6 +34,11 @@
       <div class='alert alert-error'>
         <button type="button" class="close" data-dismiss="alert">×</button>
         <%= flash[:error] -%></div>
+    <% end -%>
+    <% if flash[:notice] -%>
+      <div class='alert alert-info'>
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:notice] -%></div>
     <% end -%>
 
     <br/>

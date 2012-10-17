@@ -33,9 +33,12 @@ class ApplicationController < ActionController::Base
   before_filter :previous_page
 
   def verify_authentication
-    if session[:current_user_id].nil?
-      session[:remember_address] = self.request.fullpath
-      redirect_to root_url
+    unless self.request.format == "application/json"
+      if session[:current_user_id].nil?
+        session[:remember_address] = self.request.fullpath
+      end
+    else
+      session[:remember_address] = "/dashboard"
     end
   end
 
@@ -127,10 +130,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
-  rescue_from ActionController::RoutingError do |exception|
-    flash[:error] = "Error 404 Not Found"
-    redirect_to root_url
-  end
+  #rescue_from ActionController::RoutingError do |exception|
+  #  flash[:error] = "Error 404 Not Found"
+  #  redirect_to root_url
+  #end
 
   #if Rails.env == "production"
   #  rescue_from Exception do |exception|

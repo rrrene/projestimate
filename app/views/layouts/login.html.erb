@@ -32,10 +32,14 @@
   <img style="position: fixed; top: 0; right: 0; border: 0;" src="/assets/ribbon.gif" alt="Follow us">
 </a>
 
-  <div class="">
-    <div class="">
+  <div class="login_background">
+    <div class="login_wrapper">
       <div class="login_information">
-        <%= render :partial => "sessions/new" %>
+        <% if controller.controller_name == "password_resets" %>
+          <%= render :partial => "sessions/retrieve_password" %>
+        <% else %>
+          <%= render :partial => "sessions/new" %>
+        <% end %>
       </div>
     </div>
   </div>
