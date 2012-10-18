@@ -46,26 +46,25 @@ class GroupsController < ApplicationController
   def create
     authorize! :edit_groups, Group
     @group = Group.new(params[:group])
-    redirect_to groups_path
+    if @group.save
+      redirect_to groups_path
+    else
+      redirect_to new_group_path
+    end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.json
   def update
     @group = Group.find(params[:id])
-    redirect_to groups_path
+    if @group.update_attributes(params[:group])
+      redirect_to groups_path
+    else
+      redirect_to edit_group_path(@group)
+    end
   end
 
-  # DELETE /groups/1
-  # DELETE /groups/1.json
   def destroy
     @group = Group.find(params[:id])
     @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to groups_url }
-      format.json { head :ok }
-    end
+    redirect_to groups_url
   end
-  
 end
