@@ -1,13 +1,17 @@
-<div class="span12">
-  <h1> Users </h1>
-  <table class="filters">
-    <tr>
-      <td>Display only</td>
-      <td><%= select_tag "", options_for_select(["pending", "active"]) %></td>
-    </tr>
-  </table>
+<div class="form_table_container">
+    <table border="0" width="100%"> 
+        <tr>
+          <td><h2>Users</h2></td>
+          <td style="text-align:right;">
+              <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+          </td>
+        </tr>
+        <tr>                                                                          
+          <td>Display only <%= select_tag "", options_for_select(["active","pending","suspended","backlisted"]) %> users</td>      
+        </tr>
+    </table>
 
-  <table id="users" class="display" data-source="<%= users_url(format: "json") %>">
+  <table id="users" class="display table table-striped table-bordered" data-source="<%= users_url(format: "json") %>">
     <thead>
       <tr>
         <th>First Name</th>
@@ -23,14 +27,27 @@
         <th>Delete</th>
       </tr>
     </thead>
+      <tbody>
+      </tbody>
+      <tfoot>
+       <tr>
+       </tr>
+      </tfoot>    
   </table>
-
+  
+    <table border="0" width="100%"> 
+      <tr>
+       <td>    
   <% User.all.each do |user| %>
     <%= pop_up("find_use_user_#{user.id}", "#{user}'s relationships") do -%>
       <%=raw build_find_use_user_popup(user.id) %>
     <% end %>
   <% end %>
+       </td>
+       <td style="text-align:right;">
+            <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+       </td>      
+      </tr>
+    </table>  
 
-  <br />
-  <%= link_to 'Creer un nouvel utilisateur', new_user_path %>
 </div>
