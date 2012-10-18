@@ -31,6 +31,7 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 #Databases
 gem 'mysql2'
 gem 'mysql'
+#gem 'pg'
 
 #Translations
 gem 'globalize3'
