@@ -22,26 +22,36 @@ class AcquisitionCategoriesController < ApplicationController
 
   def new
     authorize! :manage_acquisition_categories, AcquisitionCategory
+    set_page_title "Acquisition Category"
     @acquisition_category = AcquisitionCategory.new
   end
 
   def edit
     authorize! :manage_acquisition_categories, AcquisitionCategory
+    set_page_title "Acquisition Category"
     @acquisition_category = AcquisitionCategory.find(params[:id])
   end
 
   def create
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
-    flash[:notice] = 'Acquisition category was successfully created.'
-    redirect_to "/projects_global_params"
+    if @acquisition_category.save
+      flash[:notice] = "Acquisition category was successfully created."
+      redirect_to "/projects_global_params"
+    else
+      render action: "edit"
+    end
   end
 
   def update
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.find(params[:id])
-    flash[:notice] = 'Acquisition category was successfully updated.'
-    redirect_to "/projects_global_params"
+    if @acquisition_category.update_attributes(params[:acquisition_category])
+      flash[:notice] = "Acquisition category was successfully updated."
+      redirect_to "/projects_global_params"
+    else
+      render action: "edit"
+    end
   end
 
   def destroy

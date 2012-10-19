@@ -40,7 +40,6 @@ ProjestimateMaquette::Application.routes.draw do
   resources :organizations
   get "organizationals_params" => "organizations#organizationals_params", :as => "organizationals_params"
 
-
   resources :labor_categories
 
   resources :acquisition_categories
@@ -69,7 +68,6 @@ ProjestimateMaquette::Application.routes.draw do
   get "list_attributes" => "pemodules#list_attributes"
   get "update_selected_attributes" => "pemodules#update_selected_attributes"
   get "set_attributes_module" => "pemodules#set_attributes_module"
-  post "update"  => "pemodules#update"
   get "estimations_params" => "pemodules#estimations_params", :as => "estimations_params"
   get "export_to_pdf" => "pemodules#export_to_pdf"
 

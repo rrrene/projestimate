@@ -27,6 +27,7 @@ class LaborCategoriesController < ApplicationController
   end
 
   def new
+    set_page_title "Labors Categories"
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new
 
@@ -36,6 +37,7 @@ class LaborCategoriesController < ApplicationController
   end
 
   def edit
+    set_page_title "Labors Categories"
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
   end
@@ -43,13 +45,11 @@ class LaborCategoriesController < ApplicationController
   def create
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new(params[:labor_category])
-
-    respond_to do |format|
-      if @labor_category.save
-        format.html { redirect_to @labor_category, notice: 'Labor category was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
+    if @labor_category.save
+      flash[:notice] = "Labor category was successfully updated."
+      redirect_to labor_categories_path
+    else
+      render action: "edit"
     end
   end
 
@@ -57,12 +57,11 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
 
-    respond_to do |format|
-      if @labor_category.update_attributes(params[:labor_category])
-        format.html { redirect_to @labor_category, notice: 'Labor category was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
+    if @labor_category.update_attributes(params[:labor_category])
+      flash[:notice] = "Labor category was successfully updated."
+      redirect_to labor_categories_path
+    else
+      render action: "edit"
     end
   end
 
@@ -70,10 +69,8 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
     @labor_category.destroy
-
-    respond_to do |format|
-      format.html { redirect_to labor_categories_url }
-    end
+    flash[:notice] = "Labor category was successfully deleted."
+    redirect_to labor_categories_path
   end
 
 end

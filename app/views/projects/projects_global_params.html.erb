@@ -19,14 +19,12 @@
                   <th>Description</th>
                   <th></th>
                   <th></th>
-                  <th></th>
                 </tr>
 
                 <% ProjectArea.all.each do |i| %>
                    <tr>
                      <td><%= i.name %></td>
                      <td><%= i.description %></td>
-                     <td><%= link_to 'Show', i %></td>
                      <td><%= link_to 'Edit', edit_project_area_path(i) %></td>
                      <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
                    </tr>
@@ -42,14 +40,12 @@
                   <th>Description</th>
                   <th></th>
                   <th></th>
-                  <th></th>
                 </tr>
 
                 <% ProjectCategory.all.each do |i| %>
                    <tr>
                      <td><%= i.name %></td>
                      <td><%= i.description %></td>
-                     <td><%= link_to 'Show', i %></td>
                      <td><%= link_to 'Edit', edit_project_category_path(i) %></td>
                      <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
                    </tr>
@@ -65,14 +61,12 @@
                   <th>Description</th>
                   <th></th>
                   <th></th>
-                  <th></th>
                 </tr>
 
                 <% PlatformCategory.all.each do |i| %>
                    <tr>
                      <td><%= i.name %></td>
                      <td><%= i.description %></td>
-                     <td><%= link_to 'Show', i %></td>
                      <td><%= link_to 'Edit', edit_platform_category_path(i) %></td>
                      <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
                    </tr>
@@ -88,14 +82,12 @@
                   <th>Description</th>
                   <th></th>
                   <th></th>
-                  <th></th>
                 </tr>
 
                 <% AcquisitionCategory.all.each do |i| %>
                    <tr>
                      <td><%= i.name %></td>
                      <td><%= i.description %></td>
-                     <td><%= link_to 'Show', i %></td>
                      <td><%= link_to 'Edit', edit_acquisition_category_path(i) %></td>
                      <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
                    </tr>

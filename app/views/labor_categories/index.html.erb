@@ -7,14 +7,12 @@
       <th>Description</th>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
 
     <% @labor_categories.each do |labor_category| %>
       <tr >
         <td><%= labor_category.name %></td>
         <td><%= labor_category.description %></td>
-        <td><%= link_to 'Show', labor_category %></td>
         <td><%= link_to 'Edit', edit_labor_category_path(labor_category) %></td>
         <td><%= link_to 'Destroy', labor_category, confirm: 'Are you sure?', method: :delete %></td>
       </tr>

@@ -19,22 +19,10 @@
 ########################################################################
 
 class OrganizationsController < ApplicationController
-  # GET /organizations/1
-  # GET /organizations/1.json
-  def show
-    authorize! :manage_organizations, Organization
-    @organization = Organization.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @organization }
-    end
-  end
-
-  # GET /organizations/new
-  # GET /organizations/new.json
   def new
     authorize! :manage_organizations, Organization
+    set_page_title "Organizations"
     @organization = Organization.new
 
     respond_to do |format|
@@ -43,14 +31,12 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  # GET /organizations/1/edit
   def edit
+    set_page_title "Organizations"
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
   end
 
-  # POST /organizations
-  # POST /organizations.json
   def create
     authorize! :manage_organizations, Organization
     @organization = Organization.new(params[:organization])
@@ -66,34 +52,23 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  # PUT /organizations/1
-  # PUT /organizations/1.json
   def update
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
-
-    respond_to do |format|
-      if @organization.update_attributes(params[:organization])
-        format.html { redirect_to "/organizationals_params", notice: 'Organization was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
+    if @organization.update_attributes(params[:organization])
+      flash[:notice] = 'Organization was successfully updated.'
+      redirect_to "/organizationals_params"
+    else
+      render action: "edit"
     end
   end
 
-  # DELETE /organizations/1
-  # DELETE /organizations/1.json
   def destroy
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     @organization.destroy
-
-    respond_to do |format|
-      format.html { redirect_to organizations_url }
-      format.json { head :ok }
-    end
+    flash[:notice] = 'Organization was successfully deleted.'
+    redirect_to "/organizationals_params"
   end
 
   def organizationals_params

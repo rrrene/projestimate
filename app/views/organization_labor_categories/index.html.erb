@@ -2,7 +2,6 @@
 
 <table class="table table-striped">
   <tr>
-    <th>Id</th>
     <th>Organization</th>
     <th>Labor category</th>
     <th>Level</th>
@@ -20,7 +19,6 @@
 
 <% @organization_labor_categories.each do |organization_labor_category| %>
   <tr>
-    <td><%= organization_labor_category.id %></td>
     <td><%= organization_labor_category.organization_id %></td>
     <td><%= organization_labor_category.labor_category_id %></td>
     <td><%= organization_labor_category.level %></td>

@@ -41,28 +41,25 @@ class AttributesController < ApplicationController
   def create
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.new(params[:attribute])
-      if @attribute.save
-        redirect_to attributes_url
-      else
-         render action: "new"
-      end
+    if @attribute.save
+      redirect_to attributes_path
+    else
+       render action: "new"
     end
   end
 
   def update
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.find(params[:id])
-    respond_to do |format|
-      if @attribute.update_attributes(params[:attribute])
-        @attribute.update_attribute("options", params[:options])
+    if @attribute.update_attributes(params[:attribute])
+      @attribute.update_attribute("options", params[:options])
 
-        @attribute.attr_type = params[:options][0]
-        @attribute.save
+      @attribute.attr_type = params[:options][0]
+      @attribute.save
 
-        redirect_to attributes_url
-      else
-        render action: "edit"
-      end
+      redirect_to attributes_path
+    else
+      render action: "edit"
     end
   end
 
@@ -71,5 +68,6 @@ class AttributesController < ApplicationController
     @attribute = Attribute.find(params[:id])
     @attribute.destroy
 
-    redirect_to attributes_url
+    redirect_to attributes_path
+  end
 end

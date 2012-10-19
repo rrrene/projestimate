@@ -1,28 +1,35 @@
 <div class="span12">
   <%= simple_form_for(@attribute) do |f| %>
 
-  <h1><%= controller.controller_name.humanize.singularize %> </h1>
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
 
-  <div >
-    <%= f.input :name %>
+    <div >
+      <%= f.input :name %>
 
-    <%= f.input :alias %>
+      <%= f.input :alias %>
 
-    <%= f.input :description, :title => "Brief description of attribute" %><br />
+      <%= f.input :description, :title => "Brief description of attribute" %>
 
-    <%= f.input :aggregation, :as => :select, :collection => Attribute::type_aggregation %>
+      <%= f.input :aggregation, :as => :select, :collection => Attribute::type_aggregation %>
 
-    <%= f.label :options, :title => "Validations and options" %><br />
-    <% if @attribute.options.empty? %>
-      <%= select_tag "options[]", options_for_select(Attribute::type_values), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
-      <%= select_tag "options[]", options_for_select(Attribute::value_options), :onchange => "select_boolean(this.value);", :class => "type_value", :style => "display:none;", :prompt => "Choose" %>
-      <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value", :style => "display:none;" } %>
-    <% else %>
-      <%= select_tag "options[]", options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
-      <%= select_tag "options[]", options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => "type_value", :prompt => "Choose" %>
-      <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value" } %>
-    <% end %>
-  </div>
+      <%= f.label :options, :title => "Validations and options" %>
+
+      <% if @attribute.options.empty? %>
+        <%= select_tag "options[]", options_for_select(Attribute::type_values), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
+        <%= select_tag "options[]", options_for_select(Attribute::value_options), :onchange => "select_boolean(this.value);", :class => "type_value", :style => "display:none;", :prompt => "Choose" %>
+        <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value", :style => "display:none;" } %>
+      <% else %>
+        <%= select_tag "options[]", options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
+        <%= select_tag "options[]", options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => "type_value", :prompt => "Choose" %>
+        <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value" } %>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= f.button :submit %>
+    </div>
+
+  <% end %>
 
   <script>
     function select_value_options(elem){
@@ -50,11 +57,4 @@
       }
     }
   </script>
-
-  <br/>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-
-<% end %>
 </div>
