@@ -1,8 +1,16 @@
 <div class="span12">
 
-  <h1>Projestimate Module</h1>
+    <table border="0" width="100%"> 
+        <tr>
+          <td><h2>Projestimate Module</h2></td>
+          <td style="text-align:right;">
+            <%= link_to 'New Pemodule', new_pemodule_path, :class => "btn" %>
+          </td>
+        </tr>
+    </table>
 
   <table class="table table-striped">
+
     <tr>
       <th>Title</th>
       <th>Alias</th>
@@ -24,17 +32,19 @@
       <% end %>
     <% else %>
       <tr>
-        <td>No projestimate modules has been installed. Please refer to <%= link_to "official documentation", "http://projestimate.org/projects/pe/wiki" %> to install projestimate modules.</td>
+        <td>No projestimate modules has been installed. Please refer to <%= link_to "official documentation", load_master_setting('url_wiki') %> to install projestimate modules.</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
   <% end %>
+      <tr>
+        <td colspan="6" style="text-align:right;"> <%= link_to 'New Pemodule', new_pemodule_path, :class => "btn" %> </td>
+      </tr>
+
   </table>
 
   <br />
-
-  <%= link_to 'New Pemodule', new_pemodule_path, :class => "btn" %>
 
 </div>

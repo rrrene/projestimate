@@ -1,4 +1,6 @@
 source 'http://rubygems.org'
+source 'http://gems.rubyforge.org'
+source 'http://gemcutter.org'
 
 gem 'rails', '3.1.3'
 
@@ -29,6 +31,7 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 #Databases
 gem 'mysql2'
 gem 'mysql'
+#gem 'pg'
 
 #Translations
 gem 'globalize3'
