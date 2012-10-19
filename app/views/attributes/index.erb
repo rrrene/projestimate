@@ -1,5 +1,13 @@
-<div class="span12">
-  <h1>Attributes</h1>
+<div class="form_table_container">
+    <table border="0" width="100%"> 
+        <tr>
+          <td><h2>Attributes</h2></td>
+          <td style="text-align:right;">
+              <%= link_to 'New Attribute', new_attribute_path, :class => "btn" %>
+          </td>
+        </tr>
+    </table>
+
       <table class="table table-striped">
         <tr>
           <th>Name</th>
@@ -24,7 +32,13 @@
           <% end %>
         <% end %>
       </table>
+      
+    <table border="0" width="100%"> 
+      <tr>
+       <td style="text-align:right;">
+            <%= link_to 'New Attribute', new_attribute_path, :class => "btn" %>
+       </td>      
+      </tr>
+    </table>        
 
-
-  <%= link_to 'New Attribute', new_attribute_path, :class => "btn" %>
 </div>
