@@ -42,6 +42,7 @@ private
        (project.baseline? || project.locked? || project.closed? ) ?
          commit = link_to('', '#', :class => "icn_commit") :
          commit = link_to('', {:controller => "projects", :action => "commit", :project_id => project.id }, :class => "icn_commit", :title => "Commit")
+
       [
         project.title.truncate(30),
         project.alias.truncate(20),
@@ -49,10 +50,10 @@ private
         project.start_date,
         project.organization.to_s,
         link_to('', "projects/#{project.id}/edit", :class => "icn_edit", :title => "Edit") +
-        link_to('', {:controller => "projects", :action => "activate", :project_id => project.id }, :class => "icn_activate", :title => "Activate") +
+        link_to('', {:controller => "projects", :action => "activate", :project_id => project.id }, :class => "icn_jump_back", :title => "Activate") +
         link_to('', {:controller => "projects", :action => "find_use", :project_id => project.id }, :remote => true, :class => "icn_find_use", :title => "Find use") +
-        link_to('', {:controller => "projects", :action => "check_out", :project_id => project.id }, :class => "icn_check_out", :title => "Check out") +
-        link_to('', {:controller => "projects", :action => "check_in", :project_id => project.id }, :class => "icn_check_in", :title => "Check in") +
+        #link_to('', {:controller => "projects", :action => "check_out", :project_id => project.id }, :class => "icn_check_out", :title => "Check out") +
+        #link_to('', {:controller => "projects", :action => "check_in", :project_id => project.id }, :class => "icn_check_in", :title => "Check in") +
         link_to('', "projects/#{project.id}/duplicate",  :class => "icn_duplicate", :title => "Duplicate") +
         commit +
         link_to('', project, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")

@@ -23,6 +23,8 @@ class AcquisitionCategory < ActiveRecord::Base
   has_many :projects
   has_and_belongs_to_many :project_areas
 
+  validates_presence_of :name, :description
+
   def to_s
     name
   end

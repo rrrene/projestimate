@@ -2,7 +2,6 @@ asInitVals = new Array()
 jQuery ->
   oTable = $('#projects').dataTable
               sDom: "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
-              sPaginationType: "full_numbers"
               bJQueryUI: true
               bProcessing: true
               bServerSide: true

@@ -4,99 +4,132 @@
   </div>
 
   <div class="tabs">
+    <ul>
+        <li><a href="#tabs-1">Project Area</a></li>
+        <li><a href="#tabs-2">Project Categories</a></li>
+        <li><a href="#tabs-3">Platform Categories</a></li>
+        <li><a href="#tabs-4">Acquisition Categories</a></li>
+    </ul>
 
-      <ul>
-          <li><a href="#tabs-1">Project Area</a></li>
-          <li><a href="#tabs-2">Project Categories</a></li>
-          <li><a href="#tabs-3">Platform Categories</a></li>
-          <li><a href="#tabs-4">Acquisition Categories</a></li>
-      </ul>
+    <div id="tabs-1">
 
-          <div id="tabs-1">
-            <table class="table table-striped">
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th></th>
-                  <th></th>
-                </tr>
+      <table border="0" width="100%">
+        <tr>
+          <td><h2>Project Area</h2></td>
+          <td style="text-align:right;">
+            <%= link_to 'New Project Area', new_project_area_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
 
-                <% ProjectArea.all.each do |i| %>
-                   <tr>
-                     <td><%= i.name %></td>
-                     <td><%= i.description %></td>
-                     <td><%= link_to 'Edit', edit_project_area_path(i) %></td>
-                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-                   </tr>
-                <% end %>
-              </table>
-            <%= link_to 'New Project Area', new_project_area_path %>
-          </div>
+      <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+          </tr>
 
-          <div id="tabs-2">
-              <table class="table table-striped">
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th></th>
-                  <th></th>
-                </tr>
+          <% ProjectArea.all.each do |i| %>
+             <tr>
+               <td><%= i.name %></td>
+               <td><%= i.description %></td>
+               <td><%= link_to 'Edit', edit_project_area_path(i) %></td>
+               <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+             </tr>
+          <% end %>
+        </table>
+    </div>
 
-                <% ProjectCategory.all.each do |i| %>
-                   <tr>
-                     <td><%= i.name %></td>
-                     <td><%= i.description %></td>
-                     <td><%= link_to 'Edit', edit_project_category_path(i) %></td>
-                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-                   </tr>
-                <% end %>
-              </table>
-            <%= link_to 'New Project Category', new_project_category_path %>
-          </div>
+    <div id="tabs-2">
 
-          <div id="tabs-3">
-            <table class="table table-striped">
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th></th>
-                  <th></th>
-                </tr>
+      <table border="0" width="100%">
+        <tr>
+          <td><h2>Project Category</h2></td>
+          <td style="text-align:right;">
+            <%= link_to 'New Project Category', new_project_category_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
 
-                <% PlatformCategory.all.each do |i| %>
-                   <tr>
-                     <td><%= i.name %></td>
-                     <td><%= i.description %></td>
-                     <td><%= link_to 'Edit', edit_platform_category_path(i) %></td>
-                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-                   </tr>
-                <% end %>
-              </table>
-            <%= link_to 'New Platform Category', new_platform_category_path %>
-          </div>
+        <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+          </tr>
 
-          <div id="tabs-4">
-              <table class="table table-striped">
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th></th>
-                  <th></th>
-                </tr>
+          <% ProjectCategory.all.each do |i| %>
+             <tr>
+               <td><%= i.name %></td>
+               <td><%= i.description %></td>
+               <td><%= link_to 'Edit', edit_project_category_path(i) %></td>
+               <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+             </tr>
+          <% end %>
+        </table>
+    </div>
 
-                <% AcquisitionCategory.all.each do |i| %>
-                   <tr>
-                     <td><%= i.name %></td>
-                     <td><%= i.description %></td>
-                     <td><%= link_to 'Edit', edit_acquisition_category_path(i) %></td>
-                     <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-                   </tr>
-                <% end %>
-              </table>
-            <%= link_to 'New Acquisition Category', new_acquisition_category_path %>
-          </div>
-      </ul>
+    <div id="tabs-3">
 
+      <table border="0" width="100%">
+        <tr>
+          <td><h2>Platform Category</h2></td>
+          <td style="text-align:right;">
+            <%= link_to 'New Platform Category', new_platform_category_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <% PlatformCategory.all.each do |i| %>
+           <tr>
+             <td><%= i.name %></td>
+             <td><%= i.description %></td>
+             <td><%= link_to 'Edit', edit_platform_category_path(i) %></td>
+             <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+           </tr>
+        <% end %>
+      </table>
+    </div>
+
+    <div id="tabs-4">
+
+      <table border="0" width="100%">
+        <tr>
+          <td><h2>Acquisition Category</h2></td>
+          <td style="text-align:right;">
+            <%= link_to 'New Acquisition Category', new_acquisition_category_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <% AcquisitionCategory.all.each do |i| %>
+           <tr>
+             <td><%= i.name %></td>
+             <td><%= i.description %></td>
+             <td><%= link_to 'Edit', edit_acquisition_category_path(i) %></td>
+             <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+           </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>
 

@@ -36,7 +36,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.save
       flash[:notice] = "Platform category was successfully created."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-3"
     else
       render action: "edit"
     end
@@ -47,7 +47,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.update_attributes(params[:platform_category])
       flash[:notice] = "Platform category was successfully updated."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-3"
     else
       render action: "edit"
     end
@@ -57,6 +57,6 @@ class PlatformCategoriesController < ApplicationController
     @platform_category = PlatformCategory.find(params[:id])
     @platform_category.destroy
     flash[:notice] = "Platform category was successfully deleted."
-    redirect_to "/projects_global_params"
+    redirect_to "/projects_global_params#tabs-3"
   end
 end

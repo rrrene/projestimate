@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect(url)
-    (params[:save].nil?) ? url : session[:return_to]
+    (params[:apply].nil?) ? url : session[:return_to]
   end
 
   def set_return_to

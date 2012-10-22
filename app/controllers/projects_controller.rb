@@ -22,6 +22,29 @@ class ProjectsController < ApplicationController
   helper_method :sort_column
   helper_method :sort_direction
 
+  before_filter :load_data, :only => [:update, :edit, :new, :create]
+
+  def load_data
+    if params[:id]
+      @project = Project.find(params[:id])
+    else
+      @project = Project.new
+    end
+    @user = @project.users.first
+    @project_areas = ProjectArea.all
+    @platform_categories = PlatformCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @project_categories = ProjectCategory.all
+    @pemodules ||= Pemodule.all
+    @project_modules = @project.pemodules
+    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @organizations = Organization.all
+    @project_modules = @project.pemodules
+    @project_security_levels = ProjectSecurityLevel.all
+    @module_project = ModuleProject.find_by_project_id(@project.id)
+  end
+
+
   def index
     set_page_title "Projects"
     respond_to do |format|
@@ -31,63 +54,14 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    authorize! :create_new_project, Project
     set_page_title "New project"
-
-    @project = Project.new
-    @pemodules = Pemodule.all
-    @organizations = Organization.all
-    @project_modules = @project.pemodules
-    @project_security_levels = ProjectSecurityLevel.all
-    @module_project = ModuleProject.find_by_project_id(@project.id)
-    @project_areas = ProjectArea.all
-    @platform_categories = PlatformCategory.all
-    @acquisition_categories = AcquisitionCategory.all
-    @project_categories = ProjectCategory.all
-    @array_module_positions = 0
-  end
-
-  def select_categories
-    if params[:project_area_selected].is_numeric?
-      @project_area = ProjectArea.find(params[:project_area_selected])
-    else
-      @project_area = ProjectArea.find_by_name(params[:project_area_selected])
-    end
-
-    @project_areas = ProjectArea.all
-    @platform_categories = PlatformCategory.all
-    @acquisition_categories = AcquisitionCategory.all
-    @project_categories = ProjectCategory.all
-  end
-  
-  def edit
-    authorize! :modify_a_project, Project
-    set_page_title "Edit project"
-    @project = Project.find(params[:id])
-    @user = @project.users.first
-    @project_areas = ProjectArea.all
-    @platform_categories = PlatformCategory.all
-    @acquisition_categories = AcquisitionCategory.all
-    @project_categories = ProjectCategory.all
-    @pemodules = Pemodule.all
-    @project_modules = @project.pemodules
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @organizations = Organization.all
-    @project_modules = @project.pemodules
-    @project_security_levels = ProjectSecurityLevel.all
-    @module_project = ModuleProject.find_by_project_id(@project.id)
   end
 
   #Create a new project
   def create
-    @project = Project.new(params[:project])
+    set_page_title "Create project"
 
-    ##Module project
-    #if params[:is_model]
-    #  @project.is_model = params[:is_model]
-    #else
-    #  @project.is_model = false
-    #end
+    @project = Project.new(params[:project])
 
     if @project.save
       if current_user.groups.map(&:code_group).include? ("super_admin")
@@ -105,12 +79,18 @@ class ProjectsController < ApplicationController
 
       redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
     else
-      redirect_to redirect_to session[:return_to], notice: 'Project problem'
+      render(:new)
     end
   end
 
+  #Edit a selected project
+  def edit
+    authorize! :modify_a_project, Project
+    set_page_title "Edit project"
+  end
+
   def update
-    @project = Project.find(params[:id])
+    set_page_title "Edit project"
 
     @project.users.each do |u|
       ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
@@ -139,7 +119,7 @@ class ProjectsController < ApplicationController
     if @project.update_attributes(params[:project])
       redirect_to redirect(projects_url), notice: 'La mise a jour a été effectué avec succès.'
     else
-      redirect_to edit_project_path(@project), error: 'Vérifier les champs suivants'
+      render(:edit)
     end
   end
   
@@ -152,6 +132,19 @@ class ProjectsController < ApplicationController
     session[:current_project_id] = current_user.projects.first
 
     redirect_to session[:return_to]
+  end
+
+  def select_categories
+    if params[:project_area_selected].is_numeric?
+      @project_area = ProjectArea.find(params[:project_area_selected])
+    else
+      @project_area = ProjectArea.find_by_name(params[:project_area_selected])
+    end
+
+    @project_areas = ProjectArea.all
+    @platform_categories = PlatformCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @project_categories = ProjectCategory.all
   end
 
   #Change selected project ("Jump to a project" select box)

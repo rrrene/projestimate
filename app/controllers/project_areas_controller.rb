@@ -47,7 +47,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.save
       flash[:notice] = "Project area was successfully created."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-1"
     else
        render action: "new"
     end
@@ -58,7 +58,7 @@ class ProjectAreasController < ApplicationController
     
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = "Project area was successfully updated."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-1"
     else
        render action: "new"
     end
@@ -68,6 +68,6 @@ class ProjectAreasController < ApplicationController
     @project_area = ProjectArea.find(params[:id])
     @project_area.destroy
     flash[:notice] = "Project area was successfully deleted."
-    redirect_to "/projects_global_params"
+    redirect_to "/projects_global_params#tabs-1"
   end
 end

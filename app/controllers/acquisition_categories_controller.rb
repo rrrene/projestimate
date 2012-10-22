@@ -37,7 +37,7 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = "Acquisition category was successfully created."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-4"
     else
       render action: "edit"
     end
@@ -48,7 +48,7 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.find(params[:id])
     if @acquisition_category.update_attributes(params[:acquisition_category])
       flash[:notice] = "Acquisition category was successfully updated."
-      redirect_to "/projects_global_params"
+      redirect_to "/projects_global_params#tabs-4"
     else
       render action: "edit"
     end
@@ -59,6 +59,6 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.find(params[:id])
     @acquisition_category.destroy
     flash[:notice] = 'Acquisition category was successfully deleted.'
-    redirect_to "/projects_global_params"
+    redirect_to "/projects_global_params#tabs-4"
   end
 end

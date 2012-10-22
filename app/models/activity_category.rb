@@ -22,6 +22,8 @@
 class ActivityCategory < ActiveRecord::Base
   has_and_belongs_to_many :project_areas
 
+  validates_presence_of :name, :description, :alias
+
   def to_s
     name
   end

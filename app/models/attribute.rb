@@ -27,6 +27,8 @@ class Attribute < ActiveRecord::Base
 
   serialize :options, Array
 
+  validates_presence_of :name, :description, :alias
+
   searchable do
     text :name, :description, :alias
   end

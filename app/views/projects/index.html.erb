@@ -1,46 +1,45 @@
-<div class="form_table_container">
-    <table border="0" width="100%"> 
-        <tr>
-          <td><h2>Projects</h2></td>
-          <td style="text-align:right;">
-            <% if can? :create_new_project, Project %>
-              <%= link_to 'Create a new project', new_project_path, :class => "btn" %> 
-            <% end %>
-          </td>
-        </tr>
-    </table>
-    <table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Alias</th>
-          <th>Status</th>
-          <th>Start Date</th>
-          <th>Organization</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-      <tfoot>
-       <tr>
-       </tr>
-      </tfoot>
-    </table>
+<table border="0" width="100%">
+  <tr>
+    <td><h2>Projects</h2></td>
+    <td style="text-align:right;">
+      <% if can? :create_new_project, Project %>
+        <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
+      <% end %>
+    </td>
+  </tr>
+</table>
 
-    <table border="0" width="100%"> 
-      <tr>
-       <td>    
-         <% Project.all.each do |project| %>
-           <%=raw build_find_use_project_popup(project.id) %>
-         <% end %>
-       </td>
-       <td style="text-align:right;">
-         <% if can? :create_new_project, Project %>
-            <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
-         <% end %>
-       </td>      
-      </tr>
-    </table>
+<table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Alias</th>
+      <th>Status</th>
+      <th>Start Date</th>
+      <th>Organization</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  <tfoot>
+   <tr>
+   </tr>
+  </tfoot>
+</table>
 
-</div>
+<table border="0" width="100%">
+  <tr>
+   <td>
+     <% Project.all.each do |project| %>
+       <%=raw build_find_use_project_popup(project.id) %>
+     <% end %>
+   </td>
+   <td style="text-align:right;">
+     <% if can? :create_new_project, Project %>
+        <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
+     <% end %>
+   </td>
+  </tr>
+</table>
+

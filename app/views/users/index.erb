@@ -1,15 +1,11 @@
-<div class="form_table_container">
-    <table border="0" width="100%"> 
-        <tr>
-          <td><h2>Users</h2></td>
-          <td style="text-align:right;">
-              <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
-          </td>
-        </tr>
-        <tr>                                                                          
-          <td>Display only <%= select_tag "", options_for_select(["active","pending","suspended","backlisted"]) %> users</td>      
-        </tr>
-    </table>
+  <table border="0" width="100%">
+    <tr>
+      <td><h2>Users</h2></td>
+      <td style="text-align:right;">
+          <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+      </td>
+    </tr>
+  </table>
 
   <table id="users" class="display table table-striped table-bordered" data-source="<%= users_url(format: "json") %>">
     <thead>
@@ -22,9 +18,7 @@
         <th>Language</th>
         <th>Authentication</th>
         <th>Status</th>
-        <th>Edit</th>
-        <th>Find Use</th>
-        <th>Delete</th>
+        <th>Actions</th>
       </tr>
     </thead>
       <tbody>
@@ -35,19 +29,17 @@
       </tfoot>    
   </table>
   
-    <table border="0" width="100%"> 
-      <tr>
-       <td>    
-  <% User.all.each do |user| %>
-    <%= pop_up("find_use_user_#{user.id}", "#{user}'s relationships") do -%>
-      <%=raw build_find_use_user_popup(user.id) %>
-    <% end %>
-  <% end %>
-       </td>
-       <td style="text-align:right;">
-            <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
-       </td>      
-      </tr>
-    </table>  
-
-</div>
+<table border="0" width="100%">
+  <tr>
+    <td>
+      <% User.all.each do |user| %>
+        <%= pop_up("find_use_user_#{user.id}", "#{user}'s relationships") do -%>
+          <%=raw build_find_use_user_popup(user.id) %>
+        <% end %>
+      <% end %>
+    </td>
+    <td style="text-align:right;">
+      <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+    </td>
+  </tr>
+</table>

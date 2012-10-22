@@ -40,8 +40,8 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  #TODO: MAke other validations
-  validates_presence_of :surename, :first_name, :user_name
+  #TODO: Make other validations
+  validates_presence_of :surename, :first_name, :user_name, :email, :initials, :user_status, :type_auth, :language_id
 
   #AASM
   aasm :column => :user_status do  # defaults to aasm_state
