@@ -54,8 +54,8 @@ private
         link_to('', {:controller => "projects", :action => "find_use", :project_id => project.id }, :remote => true, :class => "icn_find_use", :title => "Find use") +
         #link_to('', {:controller => "projects", :action => "check_out", :project_id => project.id }, :class => "icn_check_out", :title => "Check out") +
         #link_to('', {:controller => "projects", :action => "check_in", :project_id => project.id }, :class => "icn_check_in", :title => "Check in") +
-        link_to('', "projects/#{project.id}/duplicate",  :class => "icn_duplicate", :title => "Duplicate") +
         commit +
+        link_to('', "projects/#{project.id}/duplicate",  :class => "icn_duplicate", :title => "Duplicate") +
         link_to('', project, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
       ]
     end
@@ -70,10 +70,8 @@ private
     projects = projects.page(page).per_page(per_page)
     if params[:sSearch].present?
       projects = projects.where(" title like :search or
-                                  description like :search or
                                   alias like :search or
                                   state like :search",
-                                  search: "%#{params[:sSearch]}%",
                                   search: "%#{params[:sSearch]}%",
                                   search: "%#{params[:sSearch]}%",
                                   search: "%#{params[:sSearch]}%")

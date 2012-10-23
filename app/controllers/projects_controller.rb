@@ -44,7 +44,6 @@ class ProjectsController < ApplicationController
     @module_project = ModuleProject.find_by_project_id(@project.id)
   end
 
-
   def index
     set_page_title "Projects"
     respond_to do |format|

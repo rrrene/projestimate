@@ -43,11 +43,11 @@ private
         user.surename,
         user.user_name,
         user.email,
-        user.time_zone,
-        user.language.nil? ? '-' : user.language.name,
+        user.last_login,
         user.type_auth,
         user.user_status,
         link_to('Edit', "users/#{user.id}/edit"),
+        link_to('Activate', "users/#{user.id}/activate"),
         link_to('Find use', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true),
         link_to('Destroy', user, confirm: 'Are you sure?', method: :delete)
       ]
@@ -65,9 +65,7 @@ private
       users = users.where(" first_name like :search or
                             surename like :search or
                             user_name like :search or
-                            initial like :search or
                             email like :search",
-                            search: "%#{params[:sSearch]}%",
                             search: "%#{params[:sSearch]}%",
                             search: "%#{params[:sSearch]}%",
                             search: "%#{params[:sSearch]}%",

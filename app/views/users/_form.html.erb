@@ -10,6 +10,8 @@
     </ul>
 
     <div id="tabs-1">
+      <fieldset>
+        <legend>Identity</legend>
         <%= f.input :first_name %>
 
         <%= f.input :surename %>
@@ -18,21 +20,50 @@
 
         <%= f.input :email %>
 
+        <%= f.input :initials %>
+      </fieldset>
+
+
+      <fieldset>
+        <legend>Authentication</legend>
         <%= f.input :password %>
 
         <%= f.input :password_confirmation %>
 
-        <%= f.input :initials %>
+        <%= f.input :type_auth, :as => :select, :collection => [["Applicatif", "app"],["Ldap","ldap"]], :label => "User Authentication" %>
 
-        <%=  f.input :user_status, :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
+      </fieldset>
 
-        <%= f.input :type_auth, :as => :select, :collection => [["Applicatif", "app"],["Ldap","ldap"]] %>
+      <fieldset>
+        <legend>Informations</legend>
+
+        <%= f.input :user_status, :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
+
+        <%= f.input :created_at do %>
+          <%= f.text_field :created_at, :disabled => true %>
+        <% end %>
+
+        <%= f.input :updated_at do %>
+          <%= f.text_field :updated_at, :disabled => true %>
+        <% end %>
+
+        <%= f.input :last_login do %>
+          <%= f.text_field :last_login, :disabled => true %>
+        <% end %>
+
+        <%= f.input :previous_login do %>
+          <%= f.text_field :previous_login, :disabled => true %>
+        <% end %>
+
+      </fieldset>
+
+
 
     </div>
 
       <div id="tabs-2">
         <div class="field_checkbox">
-          <%= f.label :groups %><br />
+          <h3><%= f.label :groups %></h3>
           <table class="table table-striped">
             <% @groups.each do |group| %>
               <tr>
@@ -46,7 +77,7 @@
 
       <div id="tabs-3">
         <div class="field_checkbox">
-          <%= f.label :associated_organizations %><br />
+          <h3><%= f.label :associated_organizations %></h3>
           <table class="table table-striped">
             <% @organizations.each do |org| %>
               <tr>
@@ -60,12 +91,12 @@
 
     <div id="tabs-4">
         <div class="field_checkbox">
-          <%= f.label :projets_associés %><br />
+          <h3><%= f.label :projets_associes %></h3>
           <table class="table table-striped">
             <% @projects.each do |project| %>
               <tr>
-                <td><%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
                 <td><span><%= project.title %></span>
+                <td><%= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
               </tr>
             <% end %>
           </table>
@@ -76,7 +107,7 @@
 
       <%= f.input :language_id, :as => :select, :collection => Language.all %>
 
-      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.us_zones %>
+      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name) %>
 
       <p>Assistance</p>
       <p>Notifications</p>

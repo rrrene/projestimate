@@ -23,6 +23,18 @@ class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
 
+  before_filter :load_data, :only => [:update, :edit, :new, :create]
+
+  def load_data
+    @user = User.find(params[:id])
+    @projects = Project.all
+    @organizations = Organization.all
+    @groups = Group.all
+    @project_users = @user.projects
+    @org_users = @user.organizations
+    @project_groups = @user.groups
+  end
+
   def index
     authorize! :edit_user_account_no_admin, User
     set_page_title "Users"
@@ -51,6 +63,7 @@ class UsersController < ApplicationController
 
   def create
     authorize! :edit_user_account_no_admin, User
+    set_page_title "New user"
 
     @user = User.new(params[:user])
     @user.group_ids = Group.find_by_name("Everyone").id
@@ -65,35 +78,19 @@ class UsersController < ApplicationController
   def edit
     set_page_title "Edit user"
     @user = User.find(params[:id])
-    @projects = Project.all
-    @organizations = Organization.all
-    @groups = Group.all
-    @project_users = @user.projects
-    @org_users = @user.organizations
-    @project_groups = @user.groups
   end
 
   #Update user
-  #If user_status changed, an email is sent
   def update
+    set_page_title "Edit user"
+
     params[:user][:group_ids] ||= []
     @user = User.find(params[:id])
 
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to users_path, notice: 'La mise a jour a été effectué avec succès.' }
-        format.json { head :ok }
-      else
-        # TODO: Pas besoin de ce morceau puisque qu'on rapelle edit ?
-        #############################################
-          @projects = Project.all
-          @groups = Group.all
-          @project_users = @user.projects
-          @project_groups = @user.groups
-        #############################################
-        format.html { render "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.update_attributes(params[:user])
+      redirect_to redirect(users_path)
+    else
+      render(:edit)
     end
   end
 
@@ -138,7 +135,7 @@ class UsersController < ApplicationController
         redirect_to root_url, :notice => "Account demand send with success."
       end
     else
-      redirect_to root_url, :error => "Please check all fields."
+      redirect_to redirect(root_url), :error => "Please check all fields."
     end
   end
 
