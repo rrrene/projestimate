@@ -26,42 +26,42 @@ class UserMailer < ActionMailer::Base
   #Send the new password
   def forgotten_password(user)
     @user = user
-    mail(:to => user.email, :subject => "Votre nouveau mot de passe")
+    mail(:to => user.email, :subject => "Projestimate - New password")
   end
 
   #Confirm the new password
   def new_password(user)
     @user = user
-    mail(:to => user.email, :subject => "Confirmation de changements de mots de passe.")
+    mail(:to => user.email, :subject => "Your ProjEstimate password has changed")
   end
 
   #Send an account request
   def account_request
-    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "Demande de création de compte")
+    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "Account request")
   end
 
   #Confirm validation of account - password is writed
   def account_validate(user)
     @user = user
-    mail(:to => @user.email, :subject => "Compte Projestimate validé")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
   end
 
   #Confirm validation of account - the password is not writed
   def account_validate_no_pw(user)
     @user = user
-    mail(:to => @user.email, :subject => "Compte Projestimate validé")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
   end
 
   #Notify than account is suspended
   def account_suspended(user)
     @user = user
-    mail(:to => @user.email, :subject => "Compte Projestimate validé")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
   end
 
   #Confirm validation of account (ldap protocol)
   def account_validate_ldap(user)
     @user = user
-    mail(:to => load_admin_setting("notifications_email"), :subject => "Votre compte Projestimate validé")
+    mail(:to => load_admin_setting("notifications_email"), :subject => "Your ProjEstimate account has changed")
   end
   
 end

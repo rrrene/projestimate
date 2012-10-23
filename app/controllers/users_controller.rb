@@ -125,11 +125,13 @@ class UsersController < ApplicationController
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:surename].blank? || params[:user_name].blank?)
       user = User.first(:conditions => ["user_name = '#{params[:user_name]}' or email = '#{params[:email]}'"])
-      if user != nil
+      if !user.nil?
         redirect_to root_url, :error => "Email or user name already exist in the database."
       else
         user = User.new(:email => params[:email], :first_name => params[:first_name], :surename => params[:surename], :user_name => params[:user_name], :language_id => params[:language])
         user.group_ids = [Group.last.id]
+        user.auth_type = "app"
+        user.user_status = "pending"
         user.save
         UserMailer.account_request.deliver
         redirect_to root_url, :notice => "Account demand send with success."
