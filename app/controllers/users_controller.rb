@@ -196,6 +196,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def about
+    set_page_title "About"
+  end
+
   private
 
   def sort_column

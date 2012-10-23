@@ -101,18 +101,19 @@ ProjestimateMaquette::Application.routes.draw do
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
 
   resources :users
-    get "show_login" => "users#show_login", :as => "show_login"
-    get "dashboard" => "users#show", :as => "dashboard"
-    get "sign_up" => "users#new", :as => "sign_up"
-    get "admin" => "users#admin", :as => "admin"
-    get "master" => "users#master", :as => "master"
-    get "library" => "users#library", :as => "library"
-    get "show_help" => "users#show_help", :as => "help_me"
-    get "parameters" => "users#parameters", :as => "parameters"
-    get "validate" => "users#validate", :as => "validate"
-    get "projestimate_globals_parameters" => "users#projestimate_globals_parameters", :as => "projestimate_globals_parameters"
-    post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
-    get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
+  get "show_login" => "users#show_login", :as => "show_login"
+  get "dashboard" => "users#show", :as => "dashboard"
+  get "sign_up" => "users#new", :as => "sign_up"
+  get "admin" => "users#admin", :as => "admin"
+  get "master" => "users#master", :as => "master"
+  get "library" => "users#library", :as => "library"
+  get "show_help" => "users#show_help", :as => "help_me"
+  get "parameters" => "users#parameters", :as => "parameters"
+  get "validate" => "users#validate", :as => "validate"
+  get "projestimate_globals_parameters" => "users#projestimate_globals_parameters", :as => "projestimate_globals_parameters"
+  post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
+  get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
+  get "about" => "users#about" , :as => "about"
 
   resources :password_resets
   resources :sessions
