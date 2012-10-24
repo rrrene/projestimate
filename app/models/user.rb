@@ -45,10 +45,10 @@ class User < ActiveRecord::Base
 
   #AASM
   aasm :column => :user_status do  # defaults to aasm_state
-    state :active, :initial => true
+    state :active
     state :suspended
     state :blacklisted
-    state :pending
+    state :pending, :initial => true
 
     event :switch_to_suspended do
       transitions :to => :suspended, :from => [:active, :blacklisted, :pending]
@@ -71,6 +71,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  scope :exists, lambda { |login|
+      where("email >= ? OR user_name < ?", login, login)
+  }
+
   #return groups using for global permissions
   def group_for_global_permissions
     self.groups.select{ |i| i.for_global_permission ==  true }
@@ -92,7 +96,8 @@ class User < ActiveRecord::Base
   # Allow to identify the user before the connection.
   def self.authenticate(username, password)
     #Search user from username
-    user = User.find_by_user_name(username)
+
+    user = User.exists(username).first
     if user
       if user.type_auth == "ldap"
         settings = {

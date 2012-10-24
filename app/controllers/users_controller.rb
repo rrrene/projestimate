@@ -26,7 +26,11 @@ class UsersController < ApplicationController
   before_filter :load_data, :only => [:update, :edit, :new, :create]
 
   def load_data
-    @user = User.find(params[:id])
+    if params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = User.new
+    end
     @projects = Project.all
     @organizations = Organization.all
     @groups = Group.all
@@ -51,18 +55,9 @@ class UsersController < ApplicationController
   def new
     authorize! :edit_user_account_no_admin, User
     set_page_title "New user"
-
-    @user = User.new
-    @projects = Project.all
-    @groups = Group.all
-    @project_users = @user.projects
-    @project_groups = @user.groups
-    @organizations = Organization.all
-    @org_users = @user.organizations
   end
 
   def create
-    authorize! :edit_user_account_no_admin, User
     set_page_title "New user"
 
     @user = User.new(params[:user])
@@ -126,18 +121,24 @@ class UsersController < ApplicationController
     unless (params[:email].blank? || params[:first_name].blank? || params[:surename].blank? || params[:user_name].blank?)
       user = User.first(:conditions => ["user_name = '#{params[:user_name]}' or email = '#{params[:email]}'"])
       if !user.nil?
-        redirect_to root_url, :error => "Email or user name already exist in the database."
+        redirect_to root_url, :notice => "Email or user name already exist in the database."
       else
-        user = User.new(:email => params[:email], :first_name => params[:first_name], :surename => params[:surename], :user_name => params[:user_name], :language_id => params[:language])
+        user = User.create(:email => params[:email],
+                           :first_name => params[:first_name],
+                           :surename => params[:surename],
+                           :user_name => params[:user_name],
+                           :language_id => params[:language],
+                           :initials => "your_initials",
+                           :user_status => "pending",
+                           :type_auth => "app")
         user.group_ids = [Group.last.id]
-        user.auth_type = "app"
-        user.user_status = "pending"
         user.save
+
         UserMailer.account_request.deliver
         redirect_to root_url, :notice => "Account demand send with success."
       end
     else
-      redirect_to redirect(root_url), :error => "Please check all fields."
+      redirect_to root_url, :notice => "Please check all fields."
     end
   end
 
