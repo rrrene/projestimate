@@ -22,4 +22,7 @@
 class LaborCategory < ActiveRecord::Base
   has_many :projects
   has_many :organization_labor_categories
+
+  validates_presence_of :name
+
 end

@@ -23,6 +23,8 @@ class WorkElementType < ActiveRecord::Base
   has_many :components
   belongs_to :project_area
 
+  validates_presence_of :name, :alias
+
   #Sunspot needs
   searchable do
     text :name, :description, :alias

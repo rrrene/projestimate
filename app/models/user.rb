@@ -36,11 +36,9 @@ class User < ActiveRecord::Base
 
   serialize :ten_latest_projects, Array
 
-  #TODO : Switch to obeserver
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  #TODO: Make other validations
   validates_presence_of :surename, :first_name, :user_name, :email, :initials, :user_status, :type_auth, :language_id
 
   #AASM

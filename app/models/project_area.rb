@@ -27,6 +27,8 @@ class ProjectArea < ActiveRecord::Base
   has_and_belongs_to_many :project_categories
   belongs_to :project
 
+  validates_presence_of :name
+
   #Sunspot needs
   searchable do
     text :name, :description

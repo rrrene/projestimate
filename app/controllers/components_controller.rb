@@ -23,15 +23,13 @@ class ComponentsController < ApplicationController
   def edit
     @component = Component.find(params[:id])
     set_page_title("Editing #{@component.name}")
+
     @project = Project.find(params[:project_id])
 
     #Select folders which could be a parent of a component
     #a component cannot be its own parent
-    @folder_components = Component.where(:work_element_type_id => WorkElementType.where(:alias => "folder").first.id).select{ |i|
-      i.wbs.project_id == @project.id  }.reject { |i|
-      i.id == @component.id }.map{ |i|
-      [i.name, i.id]
-    }
+    @folder_components = current_project.wbs.components.select{ |i| i.work_element_type.alias == "folder" }
+    @folder_components
   end
 
   def update

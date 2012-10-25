@@ -26,6 +26,8 @@ class Component < ActiveRecord::Base
   belongs_to :work_element_type
   has_many :module_project_attributes
 
+  validates_presence_of :name
+
   #Sunspot needs
   searchable do
     text :name
