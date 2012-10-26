@@ -40,6 +40,7 @@ class AttributesController < ApplicationController
 
   def create
     authorize! :manage_attributes, Attribute
+    set_page_title "Attributes"
     @attribute = Attribute.new(params[:attribute])
     if @attribute.save
       redirect_to attributes_path
@@ -48,16 +49,22 @@ class AttributesController < ApplicationController
     end
   end
 
+  #TODO: refactoring
   def update
+    set_page_title "Attributes"
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.find(params[:id])
     if @attribute.update_attributes(params[:attribute])
-      @attribute.update_attribute("options", params[:options])
-
-      @attribute.attr_type = params[:options][0]
-      @attribute.save
-
-      redirect_to attributes_path
+      if @attribute.update_attribute("options", params[:options])
+        @attribute.attr_type = params[:options][0]
+        if @attribute.save
+          redirect_to attributes_path
+        else
+          render action: "edit"
+        end
+      else
+        render action: "edit"
+      end
     else
       render action: "edit"
     end
