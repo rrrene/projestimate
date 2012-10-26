@@ -46,10 +46,10 @@ private
         user.last_login,
         user.type_auth,
         user.user_status,
-        link_to('Edit', "users/#{user.id}/edit"),
-        link_to('Activate', "users/#{user.id}/activate"),
-        link_to('Find use', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true),
-        link_to('Destroy', user, confirm: 'Are you sure?', method: :delete)
+        link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
+        link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
+        link_to('', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true, :class => "icn_find_use", :title => "Find Use") +
+        link_to('', user, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
       ]
     end
   end

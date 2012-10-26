@@ -2,14 +2,12 @@
   <tr>
     <td><h2>Projects</h2></td>
     <td style="text-align:right;">
-      <% if can? :create_new_project, Project %>
-        <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
-      <% end %>
+      <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
     </td>
   </tr>
 </table>
 
-<table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format= "json") %>">
+<table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
   <thead>
     <tr>
       <th>Title</th>

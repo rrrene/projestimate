@@ -97,22 +97,18 @@ class User < ActiveRecord::Base
 
     user = User.exists(username).first
     if user
+      #ou=People,dc=gpsforprojects,dc=net
       if user.type_auth == "ldap"
-        settings = {
-          #  spirula.spirula.org
-          :host => '192.168.1.150',
-          :base => 'dc=spirula,dc=org',
-          :port => 389,
-          :auth => {
-            :method => :simple,
-            :username => username,
-            :password => password
-          }
-        }
-        #Setup ldap
-        ActiveDirectory::Base.setup(settings)
-        #TODO:bind connection with user/pwd
-        unless ActiveDirectory::User.find(:all).empty?
+        ldap = Net::LDAP.new(:host => MasterSetting.find_by_key("ldap_host").value,
+                             :base => MasterSetting.find_by_key("ldap_base").value,
+                             :port => MasterSetting.find_by_key("ldap_port").value.to_i,
+                             :encryption => :simple_tls,
+                             :auth => {
+                              :method => :simple,
+                              :username => username,
+                              :password => password
+                             })
+        unless ldap.bind
           if user.active?
             user
           end
