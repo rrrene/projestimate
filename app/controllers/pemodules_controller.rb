@@ -45,19 +45,20 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    authorize! :manage_modules, Pemodule
 
-    parameters = {:title => params[:title], :description => params[:description], :alias => params[:alias], :compliant_component_type => params[:compliant_wet], :is_typed => params[:is_typed]}
-
-    if params[:is_typed] == "false"
-      AttributeModule.where(:pemodule_id => params[:id]).each do |attr|
-        attr.delete
-      end
-    end
+    #if params[:is_typed] == "false"
+    #  AttributeModule.where(:pemodule_id => params[:id]).each do |attr|
+    #    attr.delete
+    #  end
+    #end
 
     unless params[:id].blank?
       @pemodule = Pemodule.find(params[:id])
-      @pemodule.update_attributes(parameters)
+      @pemodule.title = params[:pemodule][:title]
+      @pemodule.description = params[:pemodule][:description]
+      @pemodule.alias = params[:pemodule][:alias]
+      @pemodule.compliant_component_type = params[:compliant_wet]
+      @pemodule.save
     else
       @pemodule = Pemodule.new(parameters)
       @pemodule.save

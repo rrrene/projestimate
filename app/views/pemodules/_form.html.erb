@@ -9,19 +9,17 @@
   </ul>
 
   <div id="tabs-1">
-    <%= form_tag("/update", :method => "post") do -%>
+    <%= simple_form_for(@pemodule) do |f| %>
       <%= hidden_field_tag "id", (@pemodule.id || nil) %>
         <div >
-          <%= label_tag :title %><br />
-          <%= text_field_tag :title, @pemodule.title %>
+          <%= f.input :title %>
 
-          <%= label_tag :alias %><br />
-          <%= text_field_tag :alias, @pemodule.alias %>
+          <%= f.input :alias %>
 
-          <%= label_tag :description %><br />
-          <%= text_area_tag :description, @pemodule.description %>
+          <%= f.input :description %>
 
-        <%= label_tag :compatibylity %>
+          <%= f.label :compatibility %>
+
         <table>
           <% @wets.each do |wet| %>
             <tr>
@@ -35,15 +33,10 @@
           <% end %>
         </table>
 
-        <div>
-          <%# label_tag :typed_module %><br />
-          <%# check_box_tag "is_typed", @pemodule.is_typed.nil? ? false : true, @pemodule.is_typed %>
-        </div>
       </div>
 
-
-        <%= submit_tag "Update", :class => "btn btn-success"  %>
-        <span class="on_success_global"></span>
+      <%= submit_tag "Update", :class => "btn btn-success"  %>
+      <span class="on_success_global"></span>
 
     <% end -%>
   </div>

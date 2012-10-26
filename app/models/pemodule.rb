@@ -30,8 +30,8 @@ class Pemodule < ActiveRecord::Base
   has_many :pe_attributes, :source => :attribute, :through => :attribute_modules
 
   serialize :compliant_component_type
-  
-  validates_presence_of :title, :alias, :description
+
+  validates_presence_of :title, :alias, :description, :compliant_component_type
 
   searchable do
     text :title, :description, :alias
