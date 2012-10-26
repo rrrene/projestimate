@@ -28,7 +28,7 @@ class PlatformCategory < ActiveRecord::Base
     text :name, :description
   end
 
-  validates_presence_of :name, : description
+  validates_presence_of :name, :description
 
   #Override
   def to_s
