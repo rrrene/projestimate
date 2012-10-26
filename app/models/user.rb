@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     end
 
     event :switch_to_active do
-      transitions :to => :active, :from => [:suspended, :blacklisted, :pending]
+      transitions :to => :active, :from => [:suspended, :blacklisted, :pending, :active]
     end
 
     event :switch_to_blacklisted do

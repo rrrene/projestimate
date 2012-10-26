@@ -201,6 +201,14 @@ class UsersController < ApplicationController
     set_page_title "About"
   end
 
+  def activate
+    @user = User.find(params[:id])
+    unless @user.active?
+      @user.switch_to_active!
+    end
+    redirect_to users_path
+  end
+
   private
 
   def sort_column
