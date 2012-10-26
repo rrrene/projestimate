@@ -45,13 +45,6 @@ class PemodulesController < ApplicationController
   end
 
   def update
-
-    #if params[:is_typed] == "false"
-    #  AttributeModule.where(:pemodule_id => params[:id]).each do |attr|
-    #    attr.delete
-    #  end
-    #end
-
     unless params[:id].blank?
       @pemodule = Pemodule.find(params[:id])
       @pemodule.title = params[:pemodule][:title]
@@ -65,6 +58,16 @@ class PemodulesController < ApplicationController
     end
 
     redirect_to edit_pemodule_path(@pemodule), :notice => "The changes have been saved correctly"
+  end
+
+  def create
+    @pemodule = Pemodule.new
+    @pemodule.title = params[:pemodule][:title]
+    @pemodule.description = params[:pemodule][:description]
+    @pemodule.alias = params[:pemodule][:alias]
+    @pemodule.compliant_component_type = params[:compliant_wet]
+    @pemodule.save
+    redirect_to pemodules_url
   end
 
   #Update attribute of the pemodule selected (2nd tabs)
