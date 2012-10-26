@@ -94,9 +94,8 @@ class User < ActiveRecord::Base
 
   # Allow to identify the user before the connection.
   def self.authenticate(username, password)
-    #Search user from username
 
-    user = User.exists(username).first
+    user = User.find(:first, :conditions => ["user_name = ? OR email = ?", username, username ])
     if user
       #ou=People,dc=gpsforprojects,dc=net
       if user.type_auth == "ldap"
