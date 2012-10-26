@@ -42,6 +42,8 @@ class AttributesController < ApplicationController
     authorize! :manage_attributes, Attribute
     set_page_title "Attributes"
     @attribute = Attribute.new(params[:attribute])
+    @attribute.options = params[:options]
+    @attribute.attr_type = params[:options][0]
     if @attribute.save
       redirect_to attributes_path
     else
