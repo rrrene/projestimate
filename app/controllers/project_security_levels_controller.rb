@@ -53,11 +53,9 @@ class ProjectSecurityLevelsController < ApplicationController
 
     respond_to do |format|
       if @project_security_level.save
-        format.html { redirect_to @project_security_level, notice: 'Project security level was successfully created.' }
-        format.json { render json: @project_security_level, status: :created, location: @project_security_level }
+        format.html { redirect_to project_security_levels_url, notice: 'Project security level was successfully created.' }
       else
         format.html { render action: "new" }
-        format.json { render json: @project_security_level.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,11 +67,10 @@ class ProjectSecurityLevelsController < ApplicationController
 
     respond_to do |format|
       if @project_security_level.update_attributes(params[:project_security_level])
-        format.html { redirect_to @project_security_level, notice: 'Project security level was successfully updated.' }
+        format.html { redirect_to project_security_levels_url, notice: 'Project security level was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @project_security_level.errors, status: :unprocessable_entity }
       end
     end
   end
