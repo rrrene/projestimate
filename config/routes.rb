@@ -1,5 +1,7 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  resources :auth_methods
+
   resources :admin_settings
 
   resources :master_settings
@@ -114,6 +116,7 @@ ProjestimateMaquette::Application.routes.draw do
   post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
   get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
   get "about" => "users#about" , :as => "about"
+  match 'users/:id/activate' => 'users#activate', :as => 'activate'
 
   resources :password_resets
   resources :sessions
