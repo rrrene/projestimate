@@ -107,45 +107,45 @@ def load_data!
     pjarea=ProjectArea.first
 
     puts "   - Project categories"
-    ProjectCategory.create(:name => "Unknown", :description => "")
+    ProjectCategory.create(:name => "Unknown", :description => "TBD")
     pjcategory=ProjectCategory.first
-    ProjectCategory.create(:name => "Mulimedia", :description => "")
-    ProjectCategory.create(:name => "Network Management", :description => "")
-    ProjectCategory.create(:name => "Office Automation", :description => "")
-    ProjectCategory.create(:name => "Relational Database", :description => "")
-    ProjectCategory.create(:name => "Report Generation", :description => "")
-    ProjectCategory.create(:name => "System & Device Utilities", :description => "")
-    ProjectCategory.create(:name => "Transaction Processing", :description => "")
-    ProjectCategory.create(:name => "Robotics", :description => "")
-    ProjectCategory.create(:name => "Simulation", :description => "")
-    ProjectCategory.create(:name => "Software Development Tools", :description => "")
-    ProjectCategory.create(:name => "Workflow", :description => "")
+    ProjectCategory.create(:name => "Mulimedia", :description => "TBD")
+    ProjectCategory.create(:name => "Network Management", :description => "TBD")
+    ProjectCategory.create(:name => "Office Automation", :description => "TBD")
+    ProjectCategory.create(:name => "Relational Database", :description => "TBD")
+    ProjectCategory.create(:name => "Report Generation", :description => "TBD")
+    ProjectCategory.create(:name => "System & Device Utilities", :description => "TBD")
+    ProjectCategory.create(:name => "Transaction Processing", :description => "TBD")
+    ProjectCategory.create(:name => "Robotics", :description => "TBD")
+    ProjectCategory.create(:name => "Simulation", :description => "TBD")
+    ProjectCategory.create(:name => "Software Development Tools", :description => "TBD")
+    ProjectCategory.create(:name => "Workflow", :description => "TBD")
 
     puts "   - Platform categories"
-    PlatformCategory.create(:name => "Unknown", :description => "")
+    PlatformCategory.create(:name => "Unknown", :description => "TBD")
     plcategory=PlatformCategory.first    
-    PlatformCategory.create(:name => "Client-Server", :description => "")
-    PlatformCategory.create(:name => "Mobile Ground-Based", :description => "")
-    PlatformCategory.create(:name => "Server", :description => "")
-    PlatformCategory.create(:name => "Telecommunications", :description => "")
-    PlatformCategory.create(:name => "Web Based Development", :description => "")
+    PlatformCategory.create(:name => "Client-Server", :description => "TBD")
+    PlatformCategory.create(:name => "Mobile Ground-Based", :description => "TBD")
+    PlatformCategory.create(:name => "Server", :description => "TBD")
+    PlatformCategory.create(:name => "Telecommunications", :description => "TBD")
+    PlatformCategory.create(:name => "Web Based Development", :description => "TBD")
     
     puts "   - Acquisition categories"
     #Default acquisition category
       acquisition_category = Array.new
       acquisition_category = [
-        ["Unknown",""],
-        ["New Development",""],
-        ["Enhancement",""],
-        ["Re-development",""],
-        ["POC",""],
-        ["Purchased",""],
-        ["Porting",""],
-        ["Other",""]
+        ["Unknown","TBD"],
+        ["New Development","TBD"],
+        ["Enhancement","TBD"],
+        ["Re-development","TBD"],
+        ["POC","TBD"],
+        ["Purchased","TBD"],
+        ["Porting","TBD"],
+        ["Other","TBD"]
       ]
 
       acquisition_category.each do |i|
-        AcquisitionCategory.create(:name => i[0], :description => i[2])
+        AcquisitionCategory.create(:name => i[0], :description => i[1])
       end
       accategory=AcquisitionCategory.first
       
@@ -168,7 +168,7 @@ def load_data!
     end
 
     puts "   - Modules"
-    Pemodule.create(:title => "cocomo_basic", :alias => "cocomo_basic", :description => "")
+    Pemodule.create(:title => "cocomo_basic", :alias => "cocomo_basic", :description => "TBD")
 
     puts "   - WBS structure"
     #Create first work element type (type of a component)
@@ -184,9 +184,9 @@ def load_data!
            
     puts "   - Currencies"
     # First need to fix Currency.delete_all 
-    Currency.create(:name => "Euro", :alias => "EUR", :description => "" )
-    Currency.create(:name => "US Dollar", :alias => "USD", :description => "" )
-    Currency.create(:name => "British Pound", :alias => "GBP", :description => "" ) 
+    Currency.create(:name => "Euro", :alias => "EUR", :description => "TBD" )
+    Currency.create(:name => "US Dollar", :alias => "USD", :description => "TBD" )
+    Currency.create(:name => "British Pound", :alias => "GBP", :description => "TBD" ) 
     
     puts "   - Language..."
     #Create default language
@@ -198,27 +198,20 @@ def load_data!
     
     puts "   - Admin setting"    
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !")
-    AdminSetting.create(:key => "notifications_email", :value => "renard760@gmail.com")
+    AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
     
     puts "   - Admin user"
     #Create first user
-    User.create(:first_name => "Administrator", :surename => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :type_auth => "app", :user_status => "active")
+    User.create(:first_name => "Administrator", :surename => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :type_auth => "app", :user_status => "active", :language_id => Language.first.id)
     user = User.first
     user.password = "projestimate"
-    user.language = Language.first
     user.save
     
     puts "   - Default groups"
     #Create default groups
-    group_array = Array.new
-    group_array = [
-                    ["MasterAdmin"],
-                    ["Admin"],
-                    ["Everyone"]
-                  ]
-    group_array.each do |i|
-      Group.create(:name => i[0])
-    end
+    Group.create(:name => "MasterAdmin")
+    Group.create(:name => "Admin")
+    Group.create(:name => "Everyone")
     #Associated default user with group MasterAdmin
     user.group_ids = [Group.first.id]
     user.save
@@ -227,23 +220,23 @@ def load_data!
     #Default labor category
       array_labor_category = Array.new
       array_labor_category = [
-        ["Director",""],
-        ["Manager",""],
-        ["Programm Manager",""],
-        ["Administrator",""],
-        ["Project Manager",""],
-        ["Team leader",""],
-        ["Consultant",""],
-        ["Analyst",""],
-        ["System Analyst",""],
-        ["Architect",""],
-        ["Computer Programmer",""],
-        ["Trainer",""],
-        ["Technician",""],
-        ["Operator",""],
-        ["Support Agent",""],
-        ["Document writer",""],
-        ["Test Agent",""]
+        ["Director","TBD"],
+        ["Manager","TBD"],
+        ["Programm Manager","TBD"],
+        ["Administrator","TBD"],
+        ["Project Manager","TBD"],
+        ["Team leader","TBD"],
+        ["Consultant","TBD"],
+        ["Analyst","TBD"],
+        ["System Analyst","TBD"],
+        ["Architect","TBD"],
+        ["Computer Programmer","TBD"],
+        ["Trainer","TBD"],
+        ["Technician","TBD"],
+        ["Operator","TBD"],
+        ["Support Agent","TBD"],
+        ["Document writer","TBD"],
+        ["Test Agent","TBD"]
       ]
 
       array_labor_category.each do |i|
@@ -266,13 +259,13 @@ def load_data!
               ["Development / System test","System test","This test checks whether all functional requirements are present in the product. If this is the case the product is completed and the product is ready to be transferred to the customer. Else the project falls back to the software requirements activity and the functional requirements have to be adjusted."],
               ["Operation","Operation","The operation and maintenance phases occur simultaneously, the operation-phase consists of activities like assisting users in working with the created software product."],
               ["Maintenance","Maintenance","The maintenance-phase consists of maintenance-tasks to keep the product up and running. The maintenance includes any general enhancements, changes and additions, which might be required by the end-users. These defects and deficiencies are usually documented by the developing organization to enable future solutions and known issues addressing in any future maintenance releases. There is no disposal phase"],
-              ["Documentation","",""],
-              ["Configuration Management","",""],
-              ["Quality management","",""],
-              ["Management","",""],
-              ["Training","",""],
-              ["Distribution","",""],
-              ["Other","",""]
+              ["Documentation","TBD","TBD"],
+              ["Configuration Management","TBD","TBD"],
+              ["Quality management","TBD","TBD"],
+              ["Management","TBD","TBD"],
+              ["Training","TBD","TBD"],
+              ["Distribution","TBD","TBD"],
+              ["Other","TBD","TBD"]
             ]
       array_activity_category.each do |i|
         ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2])
@@ -284,7 +277,7 @@ def load_data!
     Organization.create(:name => "Other", :description => "This could be used to group users that are not members of any orgnaization")
 
     #puts "   - Inflation"
-    #Inflation.create(:organization_id => organization.id, :year => Time.now.strftime("%Y"), :labor_inflation => "1.0", :material_inflation => "1.0", :description => "" )
+    #Inflation.create(:organization_id => organization.id, :year => Time.now.strftime("%Y"), :labor_inflation => "1.0", :material_inflation => "1.0", :description => "TBD" )
     
     #puts "   - Organization Labor Category"
     #OrganizationLaborCategory.create(:labor_category_id => laborcategory, :organization_id => organisation, :name=laborcategory.name)    
@@ -293,7 +286,7 @@ def load_data!
 
     puts "   - Demo project"
     #Create default project
-    Project.create(:title => "Sample project", :description => "This is a sample project for demonstration purpose", :alias => "sample project", :state => "preliminary", :start_date => Time.now.strftime("%Y/%m/%d"), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => pjcategory.id, :platform_category_id => plcategory.id, :acquisition_category_id => accategory.id)
+    Project.create(:title => "Sample project", :description => "This is a sample project for demonstration purpose", :alias => "sample project", :state => "preliminary", :start_date => Time.now.strftime("%Y/%m/%d"), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id =>  AcquisitionCategory.first.id)
     project = Project.first
     #Associated default user with sample project     
     user.project_ids = [Project.first.id]
