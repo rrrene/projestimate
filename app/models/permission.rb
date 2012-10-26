@@ -26,6 +26,6 @@ class Permission < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :project_security_levels
 
-  validates_presence_of :name, :is_permission_project, :object_associated
+  validates_presence_of :name, :is_permission_project
 
 end

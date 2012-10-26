@@ -23,11 +23,12 @@ class PlatformCategory < ActiveRecord::Base
   has_many :projects
   has_and_belongs_to_many :project_areas
 
+  #Sunspot needs
   searchable do
     text :name, :description
   end
 
-  validates_presence_of :name
+  validates_presence_of :name, : description
 
   #Override
   def to_s
