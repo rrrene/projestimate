@@ -44,7 +44,7 @@ gem 'ancestry'
 
 #LDAP
 gem 'activedirectory'
-gem 'net-ldap', '~> 0.2.2'
+gem 'net-ldap'
 
 # Web server
 gem 'unicorn'

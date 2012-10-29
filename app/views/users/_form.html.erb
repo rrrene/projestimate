@@ -23,14 +23,13 @@
         <%= f.input :initials %>
       </fieldset>
 
-
       <fieldset>
         <legend>Authentication</legend>
         <%= f.input :password %>
 
         <%= f.input :password_confirmation %>
 
-        <%= f.input :type_auth, :as => :select, :collection => [["Applicatif", "app"],["Ldap","ldap"]], :label => "User Authentication" %>
+        <%= f.input :auth_type, :as => :select, :collection => AuthMethod.all, :label => "User Authentication" %>
 
       </fieldset>
 
@@ -56,9 +55,6 @@
         <% end %>
 
       </fieldset>
-
-
-
     </div>
 
       <div id="tabs-2">

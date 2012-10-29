@@ -1,0 +1,24 @@
+<div class="span12">
+  <h1>Authentication Methods</h1>
+
+  <table class="table table-striped" >
+    <tr>
+      <th>Name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+
+  <% @auth_methods.each do |auth_method| %>
+    <tr >
+      <td><%= auth_method.name %></td>
+      <td><%= link_to 'Edit', edit_auth_method_path(auth_method) %></td>
+      <td><%= link_to 'Destroy', auth_method, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Auth method', new_auth_method_path %>
+</div>
+

@@ -1,0 +1,19 @@
+<div class="span12">
+  <%= simple_form_for(@auth_method) do |f| %>
+
+    <h1><%= controller.controller_name.humanize.singularize %> </h1>
+
+    <%= f.input :name %>
+    <%= f.input :server_name %>
+    <%= f.input :port %>
+    <%= f.input :base_dn %>
+    <%= f.input :certificate, :as => :select, :collection => ["none", "simple_tls"] %>
+    <%= f.input :user_name_attribute %>
+    <%= f.input :scope %>
+
+    <div class="actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= f.submit "Apply", :class => "btn btn-success" %>
+    </div>
+  <% end %>
+</div>

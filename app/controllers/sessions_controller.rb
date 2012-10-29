@@ -83,7 +83,7 @@ class SessionsController < ApplicationController
   def reset_forgotten_password
     user = User.first(:conditions => ['user_name = ? or email = ?', params[:user_name], params[:user_name] ])
     if user
-      if user.type_auth == "app" or user.type_auth.blank?
+      if user.auth_type == "app" or user.auth_type.blank?
         if user.active?
           user.send_password_reset if user
           redirect_to root_url, :error => "Password reset instructions have been sent."
@@ -91,10 +91,8 @@ class SessionsController < ApplicationController
           user.send_password_reset if user
           redirect_to root_url, :error => "Your account is not active"
         end
-      elsif user.type_auth == "ldap"
-        redirect_to root_url, :error => "Your account is associated with the corporate directory. Please contact your system administrator."
       else
-        redirect_to root_url, :error => "Ouch..."
+        redirect_to root_url, :error => "Your account is associated with the corporate directory/LDAP. Please contact your system administrator to know your ids."
       end
     else
       redirect_to root_url, :error => "Bad user name"

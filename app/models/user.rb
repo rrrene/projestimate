@@ -29,9 +29,10 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :organizations
 
   belongs_to :language
+  belongs_to :auth_method, :foreign_key => "auth_type"
 
   has_many :project_securities
-  
+
   attr_accessor :password, :password_confirmation
 
   serialize :ten_latest_projects, Array
@@ -39,7 +40,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  validates_presence_of :surename, :first_name, :user_name, :email, :user_status, :type_auth
+  validates_presence_of :surename, :first_name, :user_name, :email, :user_status, :auth_type
   validates :password,   :confirmation => true
 
   #AASM
@@ -97,12 +98,11 @@ class User < ActiveRecord::Base
 
     user = User.find(:first, :conditions => ["user_name = ? OR email = ?", username, username ])
     if user
-      #ou=People,dc=gpsforprojects,dc=net
-      if user.type_auth == "ldap"
-        ldap = Net::LDAP.new(:host => MasterSetting.find_by_key("ldap_host").value,
-                             :base => MasterSetting.find_by_key("ldap_base").value,
-                             :port => MasterSetting.find_by_key("ldap_port").value.to_i,
-                             :encryption => :simple_tls,
+      if user.auth_method.name != "app"
+        ldap = Net::LDAP.new(:host => current_user.auth_method.host,
+                             :base => current_user.auth_method.server_url,
+                             :port => current_user.auth_method.port,
+                             :encryption => current_user.auth_method.certificate.to_sym,
                              :auth => {
                               :method => :simple,
                               :username => username,

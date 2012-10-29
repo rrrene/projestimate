@@ -44,7 +44,7 @@ private
         user.user_name,
         user.email,
         user.last_login,
-        user.type_auth,
+        user.auth_method.to_s,
         user.user_status,
         link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
         link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
@@ -83,7 +83,7 @@ private
   end
 
   def sort_column
-    columns = %w[first_name surename user_name email time_zone languages type_auth user_status edit delete]
+    columns = %w[first_name surename user_name email time_zone languages auth_method user_status edit delete]
     columns[params[:iSortCol_0].to_i]
   end
 

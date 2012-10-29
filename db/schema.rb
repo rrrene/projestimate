@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120820140300) do
+ActiveRecord::Schema.define(:version => 20121026090201) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -78,6 +78,18 @@ ActiveRecord::Schema.define(:version => 20120820140300) do
     t.string   "attr_type"
     t.text     "options"
     t.text     "aggregation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "auth_methods", :force => true do |t|
+    t.string   "name"
+    t.string   "server_name"
+    t.integer  "port"
+    t.string   "base_dn"
+    t.string   "user_name_attribute"
+    t.string   "certificate"
+    t.string   "scope"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -434,7 +446,7 @@ ActiveRecord::Schema.define(:version => 20120820140300) do
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.integer  "language_id"
-    t.string   "type_auth"
+    t.integer  "auth_type"
     t.string   "user_status"
     t.text     "ten_latest_projects"
     t.integer  "organization_id"
