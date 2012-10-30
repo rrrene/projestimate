@@ -34,7 +34,7 @@ class Group < ActiveRecord::Base
     self.name
   end
 
-  #Return group project securities for selected project_id
+  #Return group project_securities for selected project_id
   def project_securities_for_select(prj_id)
     self.project_securities.select{ |i| i.project_id == prj_id }.first
   end

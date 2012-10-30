@@ -1,0 +1,4 @@
+
+
+describe OrganizationLaborCategory do
+end

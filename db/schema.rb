@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(:version => 20121026090201) do
 
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
-    t.string   "server_name"
+    t.string   "server_url"
     t.integer  "port"
     t.string   "base_dn"
     t.string   "user_name_attribute"

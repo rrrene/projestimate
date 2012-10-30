@@ -41,8 +41,7 @@ class ModuleProjectAttribute < ActiveRecord::Base
     end
   end
 
-  #Hum...?
-  def select_custom_attribute
+  def custom_attribute?
     if self.custom_attribute == "user"
       true
     else

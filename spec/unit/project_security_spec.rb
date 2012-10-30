@@ -1,11 +1,10 @@
-require 'spec_helper'
+
 
 describe ProjectSecurity do
-  it "should decode level " do
-   #TODO
+  before :each do
+    @project_security = ProjectSecurity.new
   end
 
-  it "should make a link with cancan " do
-   #TODO
+  it "should return the name of level" do
   end
 end

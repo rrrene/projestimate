@@ -201,11 +201,11 @@ def load_data!
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
 
     puts "   - Auth Method"
-    AuthMethod.create(:name => "app", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "none")
+    AuthMethod.create(:name => "app", :server_url => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "none")
     
     puts "   - Admin user"
     #Create first user
-    User.create(:first_name => "Administrator", :surename => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :type_auth => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
+    User.create(:first_name => "Administrator", :surename => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :auth_type => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
     user = User.first
     user.password = "projestimate"
     user.save

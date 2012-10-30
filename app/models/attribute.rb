@@ -33,6 +33,11 @@ class Attribute < ActiveRecord::Base
     text :name, :description, :alias
   end
 
+  #Override
+  def to_s
+    self.name + ' - ' + self.description.truncate(20)
+  end
+
   #Type of the aggregation
   #Not finished
   def self.type_aggregation
@@ -56,7 +61,6 @@ class Attribute < ActiveRecord::Base
 
   # Verify if params val is validate
   def is_validate(val)
-    val
     array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
     unless array.empty?
       str = array[1] + array[2]
@@ -77,21 +81,9 @@ class Attribute < ActiveRecord::Base
     end
   end
 
-  #Override
-  def to_s
-    self.name + ' - ' + self.description.truncate(20)
-  end
-
+  #TODO:metaprog
   def data_type
-    if self.attr_type == "0"
-      "integer"
-    elsif self.attr_type == "1"
-       "string"
-    elsif self.attr_type == "2"
-       "date"
-    else
-       "nil"
-    end
+    self.attr_type
   end
 
 end

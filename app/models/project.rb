@@ -77,18 +77,13 @@ class Project < ActiveRecord::Base
     Component.find_by_wbs_id_and_is_root(self.wbs.id, true)
   end
 
-  #Verbose processus
-  def processus
-    self.module_projects.sort_by(&:position_y).map{|i| i.pemodule.title}.join(' >> ')
-  end
-
   #Override
   def to_s
     self.title + ' - ' + self.description.truncate(20)
   end
 
-  #return project value
-  #Very ugly !
+  #Return project value
+  #TODO: ??!!
   def project_value(attr)
     self.send(attr.project_value.gsub("_id", ''))
   end
@@ -129,7 +124,6 @@ class Project < ActiveRecord::Base
   end
 
   #Generate a estimation plan
-  #TODO:Switch into a helpers !
   #def generate_estimation_flow
   #  tot = []
   #  res = []
@@ -143,7 +137,7 @@ class Project < ActiveRecord::Base
   #  return res
   #end
 
-  #Generate an error ()build error) during building of estimation plan
+  #Generate an error (build error) during building of estimation plan
   def self.build_error
     raise "A build error has been detected. Please verify the integrity of your estimation process."
   end

@@ -1,12 +1,13 @@
-require 'spec_helper'
+
 
 describe Language do
 
-  it 'should be valid' do
-    #assert @language.valid?
+  before :each do
+    @language = Language.first
   end
 
-  it "should return default locale" do
-    #assert_equal "fr", Language.default_locale.locale
+  it 'should be valid' do
+    @language.should be_valid
   end
+
 end

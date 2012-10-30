@@ -1,13 +1,21 @@
-require 'spec_helper'
+
 
 describe Attribute do
 
-  it "should verify validations of value attribute" do
-   #TODO
+  before :each do
+    @attribute = Attribute.first
   end
 
-  it "should decode type" do
-   #TODO
+  it 'should be valid' do
+    @attribute.should be_valid
+  end
+
+  it 'should be validate' do
+    @attribute.is_validate(1).should be_true
+  end
+
+  it 'should return a correct data type' do
+    @attribute.data_type.should eql(@attribute.attr_type)
   end
 
 end

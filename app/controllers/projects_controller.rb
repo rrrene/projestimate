@@ -278,7 +278,7 @@ class ProjectsController < ApplicationController
             unless input_value[mp.pemodule.alias.to_sym].nil?
               @val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
             end
-            if mpa.attribute.data_type == 1
+            if mpa.attribute.data_type == "string"
               mpa.update_attribute("string_data_#{level}", @val)
             else
               #if mpa.attribute.is_validate(@val)

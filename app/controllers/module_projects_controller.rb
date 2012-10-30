@@ -101,7 +101,7 @@ class ModuleProjectsController < ApplicationController
         ModuleProjectAttribute.create(:attribute_id => nil,
                                       :in_out => "input",
                                       :module_project_id => @module_project.id,
-                                      :custom_attribute => true,
+                                      :custom_attribute => "user",
                                       :is_mandatory => true,
                                       :description => "Undefined",
                                       :undefined_attribute => true,
