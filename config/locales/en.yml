@@ -9,6 +9,7 @@ en:
   groups: "Groups"
   global_permissions: "Globals Permissions"
   project_securities: "Project Securities"
+  auth_methods: "Authentication methods"
   events: "Events"
   labor_categories: "Labor categories"
   master: "Master parameters"

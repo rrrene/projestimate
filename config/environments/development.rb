@@ -28,7 +28,7 @@ ProjestimateMaquette::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.gmail.com",
