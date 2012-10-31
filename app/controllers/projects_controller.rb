@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     if params[:id]
       @project = Project.find(params[:id])
     else
-      @project = Project.new
+      @project = Project.new :state => "preliminary"
     end
     @user = @project.users.first
     @project_areas = ProjectArea.all
@@ -379,7 +379,6 @@ class ProjectsController < ApplicationController
     set_page_title "Project global parameters"
   end
 
-  private
   def sort_column                                                                                                                    t
     Project.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end

@@ -29,7 +29,8 @@ class UsersController < ApplicationController
     if params[:id]
       @user = User.find(params[:id])
     else
-      @user = User.new
+      @user = User.new :auth_type => AuthMethod.first,
+                       :user_status => "active"
     end
     @projects = Project.all
     @organizations = Organization.all
@@ -55,6 +56,8 @@ class UsersController < ApplicationController
   def new
     authorize! :edit_user_account_no_admin, User
     set_page_title "New user"
+    @user = User.new( :auth_type => AuthMethod.first,
+                      :user_status => "active")
   end
 
   def create
@@ -64,7 +67,7 @@ class UsersController < ApplicationController
     @user.group_ids = Group.find_by_name("Everyone").id
 
     if @user.save
-      redirect_to users_path, :notice => "La mise a jour a été effectué avec succès."
+      redirect_to redirect(users_path), :notice => "La mise a jour a été effectué avec succès."
     else
       render "new"
     end
