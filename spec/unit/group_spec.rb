@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe Group do
   before :each do

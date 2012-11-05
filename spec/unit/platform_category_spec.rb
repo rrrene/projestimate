@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe PlatformCategory do
   before :each do

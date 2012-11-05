@@ -43,12 +43,13 @@ class UsersController < ApplicationController
   def index
     authorize! :edit_user_account_no_admin, User
     set_page_title "Users"
+    @users = User.page(params[:page]).per_page(5)
+
 
     respond_to do |format|
       format.html
-      format.json {
-        @users = UsersDatatable.new(view_context)
-        render json: @users
+      format.js {
+        render "records_number.js"
       }
     end
   end
@@ -212,6 +213,10 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  def records_number
+    @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
+  end
+
   private
 
   def sort_column
@@ -221,5 +226,4 @@ class UsersController < ApplicationController
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
-
 end

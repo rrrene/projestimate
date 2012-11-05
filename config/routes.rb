@@ -6,7 +6,9 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :master_settings
 
+  resources :searches
   post "searches/results"
+  get "user_search" => "searches#user_search", :as => "user_search"
 
   get "translations/index"
 
@@ -117,6 +119,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
   get "about" => "users#about" , :as => "about"
   match 'users/:id/activate' => 'users#activate', :as => 'activate'
+  get "records_number" => "users#records_number", :as => "records_number"
 
   resources :password_resets
   resources :sessions

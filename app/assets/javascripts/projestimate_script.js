@@ -59,6 +59,15 @@ $(document).ready(function() {
       }
     });
 
+    $('#records_number').change(
+        function(){
+            $.ajax({
+                    url:"records_number",
+                    method: 'GET',
+                    data: "nb=" + this.value
+            })
+    });
+
     $( ".tabs" ).tabs();
 
     $(function() {

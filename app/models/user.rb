@@ -99,21 +99,25 @@ class User < ActiveRecord::Base
     user = User.find(:first, :conditions => ["user_name = ? OR email = ?", username, username ])
     if user
       if user.auth_method.name != "app"
-        ldap = Net::LDAP.new(:host => current_user.auth_method.host,
-                             :base => current_user.auth_method.server_url,
-                             :port => current_user.auth_method.port,
-                             :encryption => current_user.auth_method.certificate.to_sym,
-                             :auth => {
-                              :method => :simple,
-                              :username => username,
-                              :password => password
-                             })
-        unless ldap.bind
-          if user.active?
-            user
+        begin
+          ldap = Net::LDAP.new(:host => user.auth_method.server_name,
+                               :base => user.auth_method.base_dn,
+                               :port => user.auth_method.port.to_i,
+                               :encryption => user.auth_method.certificate.to_sym,
+                               :auth => {
+                                :method => :simple,
+                                :username => "cn=#{username},ou=People,dc=gpsforprojects,dc=net",
+                                :password => password
+                               })
+          if ldap.bind
+            if user.active?
+              return user
+            end
+          else
+            nil
           end
-        else
-          nil
+        rescue
+           nil
         end
       else
         if user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt) && user.active?

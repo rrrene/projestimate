@@ -1,0 +1,40 @@
+<div class="span12" xmlns="http://www.w3.org/1999/html">
+
+  <div class="tabs">
+    <ul>
+      <li><a href="#tabs-1">Users </a></li>
+    </ul>
+
+    <div id="tabs-1">
+
+      <table border="0" width="100%">
+        <tr>
+          <td>
+            <h2>Users</h2>
+          </td>
+          <td style="text-align:right;">
+            <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
+
+      <table border="0" width="100%">
+        <tr>
+          <td>
+            <h5>Display <%= select_tag "records_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> per page</h5>
+          </td>
+          <td>
+            <%= form_tag "user_search", :class => "navbar-search pull-right", :remote => true, :method => :get do %>
+              <h5> Quick Search <%= text_field_tag "user_searches", "", :placeholder => "", :class => "search-input" %> </h5>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+
+      <div id="users">
+        <%= render :partial => 'users', :object => @users %>
+      </div>
+
+    </div>
+  </div>
+</div>

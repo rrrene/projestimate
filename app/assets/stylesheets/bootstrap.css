@@ -3763,8 +3763,8 @@ input[type="submit"].btn.btn-mini {
   color: #999999;
 }
 .pagination {
-  height: 40px;
-  margin: 20px 0;
+  /*height: 40px;*/
+  /*margin: 20px 0;*/
 }
 .pagination ul {
   display: inline-block;

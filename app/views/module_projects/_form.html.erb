@@ -38,7 +38,7 @@
               <td><%= attr.attribute.nil? ? "-" : attr.attribute.name %></td>
               <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"]], :selected => attr.in_out), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %> </td>
               <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => attr.is_mandatory), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %></td>
-              <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.select_custom_attribute)  %></td>
+              <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
               <td>
                 <strong>Current links</strong>
                 <% unless attr.links.first.nil? %>

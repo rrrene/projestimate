@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe ActivityCategory do
   before :each do

@@ -1,3 +1,4 @@
+require "spec_helper"
 describe AcquisitionCategory do
   before :each do
     @acquisition_category = AcquisitionCategory.first

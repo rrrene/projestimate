@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe AdminSetting do
   before :each do

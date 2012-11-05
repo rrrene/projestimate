@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe ProjectCategory do
   before :each do

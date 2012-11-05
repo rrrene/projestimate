@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe ProjectSecurity do
   before :each do

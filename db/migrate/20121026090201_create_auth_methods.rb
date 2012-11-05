@@ -2,7 +2,7 @@ class CreateAuthMethods < ActiveRecord::Migration
   def change
     create_table :auth_methods do |t|
       t.string :name
-      t.string :server_url
+      t.string :server_name
       t.integer :port
       t.string :base_dn
       t.string :user_name_attribute

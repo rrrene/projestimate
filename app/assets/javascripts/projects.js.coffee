@@ -1,7 +1,7 @@
 asInitVals = new Array()
 jQuery ->
   oTable = $('#projects').dataTable
-              sDom: "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
+              sDom: "<'row-fluid'<'span9'l><'span3'f>r>t<'row-fluid'<'span11'i><'span1'p>>"
               bJQueryUI: true
               bProcessing: true
               bServerSide: true

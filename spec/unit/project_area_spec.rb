@@ -1,4 +1,4 @@
-
+require "spec_helper"
 
 describe ProjectArea do
   before :each do
