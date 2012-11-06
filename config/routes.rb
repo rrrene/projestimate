@@ -9,6 +9,7 @@ ProjestimateMaquette::Application.routes.draw do
   resources :searches
   post "searches/results"
   get "user_search" => "searches#user_search", :as => "user_search"
+  get "project_search" => "searches#project_search", :as => "project_search"
 
   get "translations/index"
 

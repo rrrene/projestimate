@@ -123,19 +123,14 @@ class Project < ActiveRecord::Base
     self.wbs.components.select{|i| i.folder? }
   end
 
-  #Generate a estimation plan
-  #def generate_estimation_flow
-  #  tot = []
-  #  res = []
-  #  self.module_projects.each do |mp|
-  #    mp.next.each do |i|
-  #      #if mp.is_linked_to?(i)
-  #      #  res << mp.pemodule.alias
-  #      #end
-  #    end
-  #  end
-  #  return res
-  #end
+    #Search on first_name, surename, email, user_name fields.
+  def self.search(search)
+    if search
+      where('title LIKE ? or alias LIKE ? or state LIKE ?', "%#{search}%","%#{search}%", "%#{search}%" )
+    else
+      scoped
+    end
+  end
 
   #Generate an error (build error) during building of estimation plan
   def self.build_error

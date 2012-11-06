@@ -1,43 +1,40 @@
-<table border="0" width="100%">
-  <tr>
-    <td><h2>Projects</h2></td>
-    <td style="text-align:right;">
-      <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
-    </td>
-  </tr>
-</table>
+<div class="span12" xmlns="http://www.w3.org/1999/html">
 
-<table id="projects" class="display table table-striped table-bordered" data-source="<%= projects_url(format: "json") %>">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Alias</th>
-      <th>Status</th>
-      <th>Start Date</th>
-      <th>Organization</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-  <tfoot>
-   <tr>
-   </tr>
-  </tfoot>
-</table>
+  <div class="tabs">
+    <ul>
+      <li><a href="#tabs-1">Projects </a></li>
+    </ul>
 
-<table border="0" width="100%">
-  <tr>
-   <td>
-     <% Project.all.each do |project| %>
-       <%=raw build_find_use_project_popup(project.id) %>
-     <% end %>
-   </td>
-   <td style="text-align:right;">
-     <% if can? :create_new_project, Project %>
-        <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
-     <% end %>
-   </td>
-  </tr>
-</table>
+    <div id="tabs-1">
 
+      <table border="0" width="100%">
+        <tr>
+          <td>
+            <h2>Projects</h2>
+          </td>
+          <td style="text-align:right;">
+            <%= link_to 'Create a new project', new_project_path, :class => "btn" %>
+          </td>
+        </tr>
+      </table>
+
+      <table border="0" width="100%">
+        <tr>
+          <td>
+            <h5>Display <%= select_tag "records_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> per page</h5>
+          </td>
+          <td>
+            <%= form_tag "project_search", :class => "navbar-search pull-right", :remote => true, :method => :get do %>
+              <h5> Quick Search <%= text_field_tag "project_searches", "", :placeholder => "", :class => "search-input" %> </h5>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+
+      <div id="projects">
+        <%= render :partial => 'projects', :object => @projects %>
+      </div>
+
+    </div>
+  </div>
+</div>

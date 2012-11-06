@@ -46,9 +46,13 @@ class ProjectsController < ApplicationController
 
   def index
     set_page_title "Projects"
+    @projects = Project.page(params[:page]).per_page(5)
+
     respond_to do |format|
       format.html
-      format.json { render json: ProjectsDatatable.new(view_context) }
+      format.js {
+        render "records_number.js"
+      }
     end
   end
 
@@ -335,13 +339,13 @@ class ProjectsController < ApplicationController
     end
 
     new_wbs = old_prj.wbs.dup
+    new_wbs.project_id = new_prj.id
     new_wbs.save
 
     old_prj.wbs.components.each do |c|
       if c.is_root?
         new_c = c.dup
         new_c.wbs_id = new_prj.wbs.id
-        new_c.ancestry = new_prj.root_component.id
         new_c.save
       #else
       #  new_c = c.dup
@@ -377,6 +381,10 @@ class ProjectsController < ApplicationController
 
   def projects_global_params
     set_page_title "Project global parameters"
+  end
+
+  def records_number
+    @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
   end
 
   def sort_column                                                                                                                    t
