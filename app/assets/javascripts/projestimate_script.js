@@ -68,6 +68,15 @@ $(document).ready(function() {
             })
     });
 
+    $('#states').change(
+        function(){
+            $.ajax({
+                    url:"display_states",
+                    method: 'GET',
+                    data: "state=" + this.value
+            })
+    });
+
     $( ".tabs" ).tabs();
 
     $(function() {
@@ -104,28 +113,6 @@ $(document).ready(function() {
         }
     );
 
-    // check to make sure that the browser can handle window.addEventListener
-    if (window.addEventListener) {
-        // create the keys and konami variables
-        var keys = [],
-            konami = "38,38,40,40,37,39,37,39,66,65";
-
-        // bind the keydown event to the Konami function
-        window.addEventListener("keydown", function(e){
-            // push the keycode to the 'keys' array
-            keys.push(e.keyCode);
-
-            // and check to see if the user has entered the Konami code
-            if (keys.toString().indexOf(konami) >= 0) {
-                // do something such as:
-                alert("Projestimate!");
-
-                // and finally clean up the keys array
-                keys = [];
-            };
-        }, true);
-    };
-
 });
 
 function show_popup(elem) {
@@ -141,28 +128,4 @@ function hide_popup(elem) {
 function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
 }
-
-//function help_and_required(){
-//    $('.field label').each(function(){
-//        $(this).children('label').addClass($(this).children('input').attr('id') + '_help');
-//        $(this).append(" - <a href='#' onclick='return false;' %>[?]</a>");
-//    });
-//
-//    $(".required").each(function(){
-//        $(this).children('label').append("<a href='#' onclick='return false;' style='text-decoration:none; color:red'> *</a>");
-//    });
-//}
-//
-//function load_tiny_mce(){
-//    $('.editor').tinymce({
-//        theme: 'advanced',
-//        width : "600"
-//    });
-//}
-//
-//function run_estimation() {
-//    document.getElementById('estimation').submit();
-//    $('#display_ajax').show();
-//}
-
 

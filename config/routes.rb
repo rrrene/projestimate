@@ -121,6 +121,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "about" => "users#about" , :as => "about"
   match 'users/:id/activate' => 'users#activate', :as => 'activate'
   get "records_number" => "users#records_number", :as => "records_number"
+  get "display_states" => "users#display_states", :as => "display_states"
 
   resources :password_resets
   resources :sessions

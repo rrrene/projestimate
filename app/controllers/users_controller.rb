@@ -217,6 +217,14 @@ class UsersController < ApplicationController
     @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
   end
 
+  def display_states
+    unless params[:state] == ""
+      @users = User.where(:user_status => params[:state]).page(params[:page]).per_page(params[:nb].to_i || 1)
+    else
+      @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
+    end
+  end
+
   private
 
   def sort_column

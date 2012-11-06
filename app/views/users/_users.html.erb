@@ -1,4 +1,4 @@
-<table id="users" class="table table-striped table-bordered" %>
+<table class="table table-striped table-bordered" %>
 <thead>
 <tr>
   <th>First Name</th>
@@ -30,25 +30,4 @@
       </td>
     </tr>
   <% end %>
-</table>
-
-<table border="0" width="100%">
-  <tr>
-    <td>
-        <h5>
-          Showing <strong> <%= @users.current_page %> </strong> of <strong> <%= @users.total_pages %> </strong>
-        </h5>
-
-    </td>
-    <td style="text-align:right;">
-      <%= will_paginate @users, :renderer => BootstrapPagination::Rails %>
-    </td>
-    <td>
-      <% @users.each do |user| %>
-        <%= pop_up("find_use_user_#{user.id}", "#{user}'s relationships") do -%>
-          <%=raw build_find_use_user_popup(user.id) %>
-        <% end %>
-      <% end %>
-    </td>
-  </tr>
 </table>
