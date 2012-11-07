@@ -43,7 +43,13 @@
 
     </td>
     <td style="text-align:right;">
-      <%= will_paginate @projects, :renderer => BootstrapPagination::Rails %>
+      <% if @projects.previous_page %>
+        <%= link_to "< Previous", params.merge(page: @projects.previous_page), :remote => true %>
+      <% end %>
+      Page <%= @projects.current_page %> of <%= @projects.total_pages %>
+      <% if @projects.next_page %>
+        <%= link_to "Next >", params.merge(page: @projects.next_page), :remote => true %>
+      <% end %>
     </td>
     <td>
       <% @projects.each do |project| %>

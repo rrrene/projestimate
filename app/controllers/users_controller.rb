@@ -213,13 +213,13 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  def records_number
+  def user_record_number
     @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
   end
 
   def display_states
     unless params[:state] == ""
-      @users = User.where(:user_status => params[:state]).page(params[:page]).per_page(params[:nb].to_i || 1)
+      @users = User.where(:user_status => params[:state]).page(params[:page])
     else
       @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
     end

@@ -59,14 +59,24 @@ $(document).ready(function() {
       }
     });
 
-    $('#records_number').change(
+    $('#user_record_number').change(
         function(){
             $.ajax({
-                    url:"records_number",
+                    url:"user_record_number",
                     method: 'GET',
-                    data: "nb=" + this.value
+                    data: "nb=" + this.value,
             })
     });
+
+    $('#project_record_number').change(
+        function(){
+            $.ajax({
+                    url:"project_record_number",
+                    method: 'GET',
+                    data: "nb=" + this.value,
+            })
+    });
+
 
     $('#states').change(
         function(){

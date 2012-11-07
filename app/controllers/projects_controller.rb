@@ -383,7 +383,7 @@ class ProjectsController < ApplicationController
     set_page_title "Project global parameters"
   end
 
-  def records_number
+  def project_record_number
     @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
   end
 

@@ -22,7 +22,7 @@
         <tr>
           <td>
             <h5>Display only <%= select_tag "states", options_for_select(User.aasm_states_for_select), :prompt => "All", :class => "pull-left span4"%></h5>
-            <h5>Display only <%= select_tag "records_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> per page</h5>
+            <h5>Display only <%= select_tag "user_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> per page</h5>
           </td>
           <td>
             <%= form_tag "user_search", :class => "navbar-search pull-right", :remote => true, :method => :get do %>

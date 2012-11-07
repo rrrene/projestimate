@@ -31,3 +31,24 @@
     </tr>
   <% end %>
 </table>
+
+<table border="0" width="100%">
+  <tr>
+    <td>
+        <h5>
+          Showing <strong> <%= @users.current_page %> </strong> of <strong> <%= @users.total_pages %> </strong>
+        </h5>
+
+    </td>
+    <td style="text-align:right;">
+      <% if @users.previous_page %>
+        <%= link_to "< Previous", params.merge(page: @users.previous_page), :remote => true %>
+      <% end %>
+      Page <%= @users.current_page %> of <%= @users.total_pages %>
+      <% if @users.next_page %>
+        <%= link_to "Next >", params.merge(page: @users.next_page), :remote => true %>
+      <% end %>
+    </td>
+    <td>
+  </tr>
+</table>

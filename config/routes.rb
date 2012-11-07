@@ -102,6 +102,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "find_use" => "projects#find_use" , :as => "find_use"
   get "check_in" => "projects#check_in" , :as => "check_in"
   get "check_out" => "projects#check_out" , :as => "check_out"
+  get "project_record_number" => "projects#project_record_number", :as => "project_record_number"
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
 
@@ -120,7 +121,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
   get "about" => "users#about" , :as => "about"
   match 'users/:id/activate' => 'users#activate', :as => 'activate'
-  get "records_number" => "users#records_number", :as => "records_number"
+  get "user_record_number" => "users#user_record_number", :as => "user_record_number"
   get "display_states" => "users#display_states", :as => "display_states"
 
   resources :password_resets
