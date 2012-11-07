@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026090201) do
+ActiveRecord::Schema.define(:version => 20121107150037) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -278,6 +278,16 @@ ActiveRecord::Schema.define(:version => 20121026090201) do
     t.integer "organization_id"
   end
 
+  create_table "peicons", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
+  end
+
   create_table "pemodules", :force => true do |t|
     t.string   "title"
     t.string   "alias"
@@ -465,6 +475,7 @@ ActiveRecord::Schema.define(:version => 20121026090201) do
     t.integer  "project_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "peicon_id"
   end
 
 end

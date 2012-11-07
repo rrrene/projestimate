@@ -74,4 +74,8 @@ gem 'aasm'
 #Advanced form
 gem 'simple_form'
 
+#Dataepicker bootsrap theme
 gem 'bootstrap-datepicker-rails'
+
+#Icon management
+gem "paperclip", "~> 3.0"

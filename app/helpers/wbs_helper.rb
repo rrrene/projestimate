@@ -33,12 +33,8 @@ module WbsHelper
         component.children.sort_by(&:position).each do |c|
           if c.work_element_type.alias == "folder"
             tree << wbs_folder_links(c, project)
-          elsif c.work_element_type.alias == "component"
-            tree << wbs_navigation_links(c, 'wbs_element')
-          elsif c.work_element_type.alias == "link"
-            tree << wbs_navigation_links(c, 'wbs_link_blue')
           else
-            tree << wbs_navigation_links(c, c.work_element_type.alias)
+            tree << wbs_navigation_links(c)
           end
           generate_wbs(c, project, tree, gap)
         end
@@ -50,11 +46,13 @@ module WbsHelper
       return tree
     end
 
-    def wbs_navigation_links(c, image)
+    def wbs_navigation_links(c)
       "<li class='#{ c.id == session[:component_id] ? 'selected' : '' }'  >
         <div class='block_label'>
-          <div class='#{c.work_element_type.alias}' onClick='toggle_folder(this);' ></div>
-          #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
+          <div onClick='toggle_folder(this);' >
+            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url}
+            #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
+          </div>
         </div>
         <div class='block_link'>
           #{ link_to "", edit_component_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_component, Component}
@@ -69,8 +67,10 @@ module WbsHelper
     def wbs_folder_links(c, project)
       "<li class='#{ c.id == session[:component_id] ? 'selected' : '' }' >
         <div class='block_label'>
-          <div class='#{c.work_element_type.alias}' onClick='toggle_folder(this);' ></div>
-          #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
+          <div onClick='toggle_folder(this);' >
+            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url}
+            #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
+          </div>
         </div>
         <div class='block_link'>
           #{ link_to("", { :controller => 'components', :action => 'new', :wbs_id => project.wbs.id, :comp_parent_id => c.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder ') if can? :add_a_component, Component}
@@ -87,8 +87,10 @@ module WbsHelper
     def wbs_root_links(component, project)
       "<li>
         <div class='block_label'>
-          <div class='#{component.work_element_type.alias}' onClick='toggle_folder(this);' ></div>
-          #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
+          <div onClick='toggle_folder(this);' >
+            #{ image_tag component.work_element_type.peicon.nil? ? '' : component.work_element_type.peicon.icon.url }
+            #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
+          </div>
         </div>
         <div class='block_link'>
           #{ link_to("", { :controller => 'components', :action => 'new', :wbs_id => project.wbs.id, :comp_parent_id => component.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder') if can? :add_a_component, Component }

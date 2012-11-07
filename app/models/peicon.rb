@@ -17,22 +17,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ########################################################################
+class Peicon < ActiveRecord::Base
+  attr_accessible :name, :icon
+  has_attached_file :icon
 
-#WorkElementType has many components and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
-class WorkElementType < ActiveRecord::Base
-  has_many :components
-  belongs_to :project_area
-  belongs_to :peicon
-
-  validates_presence_of :name, :alias
-
-  #Sunspot needs
-  searchable do
-    text :name, :description, :alias
-  end
-
-  #Override
-  def to_s
-    self.name
-  end
+  has_many :work_element_types
 end

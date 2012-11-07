@@ -6,6 +6,7 @@
       <th style="text-align:left;">Name</th>
       <th style="text-align:left;">Alias</th>
       <th style="text-align:left;">Description</th>
+      <th style="text-align:left;">Icon</th>
       <th></th>
       <th></th>
     </tr>
@@ -15,6 +16,7 @@
       <td><%= work_element_type.name %></td>
       <td><%= work_element_type.alias %></td>
       <td><%= work_element_type.description %></td>
+      <td><%= work_element_type.peicon.nil? ? 'None' : image_tag(work_element_type.peicon.icon.url) %></td>
       <td><%= link_to 'Edit', edit_work_element_type_path(work_element_type) %></td>
       <td><%= link_to 'Destroy', work_element_type, confirm: 'Are you sure?', method: :delete %></td>
     </tr>

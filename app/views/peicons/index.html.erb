@@ -1,0 +1,22 @@
+<div class="span12">
+  <h1>Listing icons</h1>
+
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Icon</th>
+      <th>Actions</th>
+    </tr>
+    <% @icons.each do |i| %>
+      <tr>
+        <td><%= i.name %></td>
+        <td><%= image_tag i.icon.url %></td>
+        <td><%= link_to 'Edit', edit_peicon_path(i) %></td>
+        <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= link_to "Add an icon", new_peicon_path %>
+
+</div>

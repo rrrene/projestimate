@@ -35,6 +35,7 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_wet, WorkElementType
     set_page_title "Work Element Type"
     @work_element_type = WorkElementType.new
+    @peicons = Peicon.all
 
     respond_to do |format|
       format.html # _new.html.erb
@@ -47,6 +48,7 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_wet, WorkElementType
     set_page_title "Work Element Type"
     @work_element_type = WorkElementType.find(params[:id])
+    @peicons = Peicon.all
   end
 
   def create

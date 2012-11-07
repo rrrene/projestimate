@@ -1,0 +1,5 @@
+<%= simple_form_for(@icon, :multipart => true) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :icon, :as => :file %>
+  <%= f.submit %>
+<% end %>

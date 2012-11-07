@@ -1,3 +1,4 @@
+#encoding: utf-8
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
@@ -17,22 +18,41 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ########################################################################
-
-#WorkElementType has many components and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
-class WorkElementType < ActiveRecord::Base
-  has_many :components
-  belongs_to :project_area
-  belongs_to :peicon
-
-  validates_presence_of :name, :alias
-
-  #Sunspot needs
-  searchable do
-    text :name, :description, :alias
+class PeiconsController < ApplicationController
+  def index
+    set_page_title "Icons libraries"
+    @icons = Peicon.all
   end
 
-  #Override
-  def to_s
-    self.name
+  def new
+    @icon = Peicon.new
+  end
+
+  def edit
+    @icon = Peicon.find(params[:id])
+  end
+
+  def create
+    @icon = Peicon.new(params[:peicon])
+    @icon.save
+    redirect_to peicons_path
+  end
+
+  def update
+    @icon = Peicon.find(params[:id])
+    @icon.update_attributes(params[:peicon])
+    redirect_to peicons_path
+  end
+
+  def destroy
+    @peicon = Peicon.find(params[:id])
+    @peicon.icon = nil
+    @peicon.save
+    @peicon.destroy
+    redirect_to peicons_path
+  end
+
+  def choose_icon
+    @peicon = Peicon.find(params[:id])
   end
 end
