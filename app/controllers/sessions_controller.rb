@@ -83,7 +83,7 @@ class SessionsController < ApplicationController
   def reset_forgotten_password
     user = User.first(:conditions => ['user_name = ? or email = ?', params[:user_name], params[:user_name] ])
     if user
-      if user.auth_type == "app" or user.auth_type.blank?
+      if user.auth_method.name == "app" or user.auth_method.nil?
         if user.active?
           user.send_password_reset if user
           redirect_to root_url, :error => "Password reset instructions have been sent."
