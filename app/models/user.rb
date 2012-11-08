@@ -164,7 +164,7 @@ class User < ActiveRecord::Base
   #Search on first_name, surename, email, user_name fields.
   def self.search(search)
     if search
-      where('first_name LIKE ? or surename LIKE ? or email LIKE ? or user_name LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%" )
+      where('first_name LIKE ? or surename LIKE ? or email LIKE ? or user_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
     else
       scoped
     end

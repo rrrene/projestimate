@@ -44,12 +44,10 @@ class SearchesController < ApplicationController
 
   def user_search
     @users = User.search(params[:user_searches]).page(params[:page]).per_page(5)
-    #render :partial => "searches/user_search"
   end
 
   def project_search
     @projects = Project.search(params[:project_searches]).page(params[:page]).per_page(5)
-    #render :partial => "searches/project_search"
   end
 
 end
