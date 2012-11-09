@@ -4,10 +4,6 @@ class AuthMethod < ActiveRecord::Base
   has_many :users, :foreign_key => "auth_type"
 
   def to_s
-    if self.name == "app"
-       "Applicatif"
-    else
-      self.name
-    end
+    self.name
   end
 end

@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
 
     user = User.find(:first, :conditions => ["user_name = ? OR email = ?", username, username ])
     if user
-      if user.auth_method.name != "app"
+      if user.auth_method.name != "Application"
         begin
           ldap = Net::LDAP.new(:host => user.auth_method.server_name,
                                :base => user.auth_method.base_dn,

@@ -201,7 +201,7 @@ def load_data!
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
 
     puts "   - Auth Method"
-    AuthMethod.create(:name => "app", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "none")
+    AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "none")
     
     puts "   - Admin user"
     #Create first user

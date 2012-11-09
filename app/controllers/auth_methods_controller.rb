@@ -2,7 +2,7 @@ class AuthMethodsController < ApplicationController
 
   def index
     set_page_title "Authentications Method"
-    @auth_methods = AuthMethod.all
+    @auth_methods = AuthMethod.all.reject{|i| i.name == "Application" }
   end
 
   def edit

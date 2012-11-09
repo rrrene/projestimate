@@ -12,8 +12,8 @@ describe AuthMethod do
   end
 
   it 'should display correct name' do
-    @default_auth_method.to_s.should eql("Applicatif")
-    @another_auth_method.to_s.should_not eql("app")
+    @default_auth_method.to_s.should eql("Application")
+    @another_auth_method.to_s.should_not eql("Application")
   end
 
   it 'should bind and return a boolean' do

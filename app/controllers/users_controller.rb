@@ -134,7 +134,7 @@ class UsersController < ApplicationController
                            :language_id => params[:language],
                            :initials => "your_initials",
                            :user_status => "pending",
-                           :auth_method => AuthMethod.find_by_name("app"))
+                           :auth_method => AuthMethod.find_by_name("Application"))
         user.group_ids = [Group.last.id]
         user.save
 
