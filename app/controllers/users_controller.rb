@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.js {
-        render "records_number.js"
+        render "user_record_number.js"
       }
     end
   end

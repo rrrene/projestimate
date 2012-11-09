@@ -36,12 +36,6 @@
 
 <table border="0" width="100%">
   <tr>
-    <td>
-        <h5>
-          Showing <strong> <%= @projects.current_page %> </strong> of <strong> <%= @projects.total_pages %> </strong>
-        </h5>
-
-    </td>
     <td style="text-align:right;">
       <% if @projects.previous_page %>
         <%= link_to "< Previous", params.merge(page: @projects.previous_page), :remote => true %>

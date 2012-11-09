@@ -18,21 +18,22 @@
         </tr>
       </table>
 
-      <table border="0" width="100%">
-        <tr>
-          <td>
-            <h5>Display <%= select_tag "user_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> records per page</h5>
-          </td>
-          <td>
-            <h5>Filter: <%= select_tag "states", options_for_select(User.aasm_states_for_select, :selected => "active"), :prompt => "All", :class => "pull-left span4"%> Status </h5>
-          </td>
-          <td>
-            <%= form_tag "user_search", :class => "navbar-search pull-right", :remote => true, :method => :get do %>
-              <h5> Search: <%= text_field_tag "user_searches", "", :placeholder => "", :class => "search-input" %> </h5>
-            <% end %>
-          </td>
-        </tr>
-      </table>
+      <%= form_tag "user_search", :remote => true, :method => :get do %>
+        <table border="0" width="100%">
+          <tr>
+            <td>
+              <h5>Display <%= select_tag "user_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> records per page</h5>
+            </td>
+            <td>
+              <h5>Filter: <%= select_tag "states", options_for_select(User.aasm_states_for_select, :selected => "active"), :prompt => "All", :class => "pull-left span4"%> Status </h5>
+            </td>
+            <td>
+              <h5 class="pull-right"> Search: <%= text_field_tag "user_searches", "", :placeholder => "", :class => "search-input" %> </h5>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
 
       <div id="users">
         <%= render :partial => 'users', :object => @users %>
