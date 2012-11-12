@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  validates_presence_of :last_name, :first_name, :user_name, :email, :user_status, :auth_type
+  validates_presence_of :last_name, :first_name, :login_name, :email, :user_status, :auth_type
   validates :password,   :confirmation => true
 
   #AASM
@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   scope :exists, lambda { |login|
-      where("email >= ? OR user_name < ?", login, login)
+      where("email >= ? OR login_name < ?", login, login)
   }
 
   #return groups using for global permissions
@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
   # Allow to identify the user before the connection.
   def self.authenticate(username, password)
 
-    user = User.find(:first, :conditions => ["user_name = ? OR email = ?", username, username ])
+    user = User.find(:first, :conditions => ["login_name = ? OR email = ?", username, username ])
     if user
       if user.auth_method.name != "Application"
         begin
@@ -161,10 +161,10 @@ class User < ActiveRecord::Base
     end while User.exists?(column => self[column])
   end
 
-  #Search on first_name, last_name, email, user_name fields.
+  #Search on first_name, last_name, email, login_name fields.
   def self.search(search)
     if search
-      where('first_name LIKE ? or last_name LIKE ? or email LIKE ? or user_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
+      where('first_name LIKE ? or last_name LIKE ? or email LIKE ? or login_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
     else
       scoped
     end

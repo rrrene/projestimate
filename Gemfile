@@ -16,12 +16,11 @@ end
 gem 'jquery-rails'
 
 #Tests
-
 group :test do
-  gem "factory_girl_rails", "~> 3.0"
-  gem "rspec-rails", :group => [:test, :development]
-  gem "capybara"
-  gem "guard-rspec"
+  gem 'factory_girl_rails', '~> 3.0'
+  gem 'rspec-rails', :group => [:test, :development]
+  gem 'capybara'
+  gem 'guard-rspec'
   gem 'simplecov', :require => false, :group => :test
 end
 
@@ -58,7 +57,6 @@ gem 'capistrano'
 
 #Others
 gem 'will_paginate'
-
 gem 'will_paginate-bootstrap'
 
 # To use debugger
@@ -78,4 +76,4 @@ gem 'simple_form'
 gem 'bootstrap-datepicker-rails'
 
 #Icon management
-gem "paperclip", "~> 3.0"
+gem 'paperclip', '~> 3.0'

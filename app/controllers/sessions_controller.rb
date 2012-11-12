@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
     if user
       if user.active?
         if params[:remember_me]
-          cookies[:login] = { :value => user.user_name, :expires => Time.now + 3600}
+          cookies[:login] = { :value => user.login_name, :expires => Time.now + 3600}
         end
 
         #Last and previous login setting
@@ -81,7 +81,7 @@ class SessionsController < ApplicationController
 
   #Reset the password depending of the status of the user
   def reset_forgotten_password
-    user = User.first(:conditions => ['user_name = ? or email = ?', params[:user_name], params[:user_name] ])
+    user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name] ])
     if user
       if user.auth_method.name == "Application" or user.auth_method.nil?
         if user.active?
