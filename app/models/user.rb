@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  validates_presence_of :surename, :first_name, :user_name, :email, :user_status, :auth_type
+  validates_presence_of :last_name, :first_name, :user_name, :email, :user_status, :auth_type
   validates :password,   :confirmation => true
 
   #AASM
@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
 
   # Returns "Firtname Name"
   def name
-    self.first_name + " " + self.surename
+    self.first_name + " " + self.last_name
   end
 
   #Return true if user is a Administrator
@@ -161,10 +161,10 @@ class User < ActiveRecord::Base
     end while User.exists?(column => self[column])
   end
 
-  #Search on first_name, surename, email, user_name fields.
+  #Search on first_name, last_name, email, user_name fields.
   def self.search(search)
     if search
-      where('first_name LIKE ? or surename LIKE ? or email LIKE ? or user_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
+      where('first_name LIKE ? or last_name LIKE ? or email LIKE ? or user_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
     else
       scoped
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121107150037) do
+ActiveRecord::Schema.define(:version => 20121112123539) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -445,9 +445,9 @@ ActiveRecord::Schema.define(:version => 20121107150037) do
     t.string   "password_salt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "user_name"
+    t.string   "login_name"
     t.string   "first_name"
-    t.string   "surename"
+    t.string   "last_name"
     t.string   "initials"
     t.date     "last_login"
     t.date     "previous_login"

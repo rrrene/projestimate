@@ -450,7 +450,7 @@ CREATE TABLE `users` (
   `updated_at` datetime DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
-  `surename` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
   `initials` varchar(255) DEFAULT NULL,
   `last_login` date DEFAULT NULL,
   `previous_login` date DEFAULT NULL,

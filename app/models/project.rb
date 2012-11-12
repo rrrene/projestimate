@@ -123,7 +123,7 @@ class Project < ActiveRecord::Base
     self.wbs.components.select{|i| i.folder? }
   end
 
-    #Search on first_name, surename, email, user_name fields.
+    #Search on first_name, last_name, email, user_name fields.
   def self.search(search)
     if search
       where('title LIKE ? or alias LIKE ? or state LIKE ?', "%#{search}%","%#{search}%", "%#{search}%" )

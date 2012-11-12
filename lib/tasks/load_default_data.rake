@@ -215,7 +215,7 @@ def load_data!
     
     puts "   - Admin user"
     #Create first user
-    User.create(:first_name => "Administrator", :surename => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :auth_type => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
+    User.create(:first_name => "Administrator", :last_name => "Projestimate", :user_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :auth_type => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
     user = User.first
     user.password = "projestimate"
     user.save
