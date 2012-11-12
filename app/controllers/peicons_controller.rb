@@ -25,23 +25,35 @@ class PeiconsController < ApplicationController
   end
 
   def new
+    set_page_title "Icons libraries"
     @icon = Peicon.new
   end
 
   def edit
+    set_page_title "Icons libraries"
     @icon = Peicon.find(params[:id])
   end
 
   def create
+    set_page_title "Icons libraries"
     @icon = Peicon.new(params[:peicon])
-    @icon.save
-    redirect_to peicons_path
+    if @icon.save
+      redirect_to peicons_path
+    else
+      flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
+      render :new
+    end
   end
 
   def update
+    set_page_title "Icons libraries"
     @icon = Peicon.find(params[:id])
-    @icon.update_attributes(params[:peicon])
-    redirect_to peicons_path
+    if @icon.update_attributes(params[:peicon])
+      redirect_to peicons_path
+    else
+      flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
+      render :edit
+    end
   end
 
   def destroy

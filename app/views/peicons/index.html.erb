@@ -5,12 +5,12 @@
     <tr>
       <th>Name</th>
       <th>Icon</th>
-      <th>Actions</th>
+      <th colspan="2">Actions</th>
     </tr>
     <% @icons.each do |i| %>
       <tr>
         <td><%= i.name %></td>
-        <td><%= image_tag i.icon.url %></td>
+        <td><%= image_tag i.icon.url(:small) %></td>
         <td><%= link_to 'Edit', edit_peicon_path(i) %></td>
         <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
       </tr>

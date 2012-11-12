@@ -1,5 +1,6 @@
 <%= simple_form_for(@icon, :multipart => true) do |f| %>
   <%= f.input :name %>
   <%= f.input :icon, :as => :file %>
+  <h4> The file size must be between 0 and 10 kilobytes. It will be automatically cropped to 16x16 pixels.</h4>
   <%= f.submit %>
 <% end %>

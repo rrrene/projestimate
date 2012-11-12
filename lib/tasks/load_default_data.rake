@@ -51,7 +51,9 @@ namespace :projestimate do
           Permission.delete_all
           Currency.delete_all             
           Language.delete_all 
-                             
+          Peicon.delete_all
+          AuthMethod.delete_all
+
           AdminSetting.delete_all
           User.delete_all
           Group.delete_all
@@ -92,7 +94,7 @@ end
 
 private
 def load_data!
-  begin
+  #begin
     
   puts " Creating Master Parameters ..."
 
@@ -170,15 +172,23 @@ def load_data!
     puts "   - Modules"
     Pemodule.create(:title => "cocomo_basic", :alias => "cocomo_basic", :description => "TBD")
 
+
+    puts "   - Projestimate Icons"
+
+    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"))
+    link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"))
+    undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"))
+    default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"))
+
     puts "   - WBS structure"
     #Create first work element type (type of a component)
-    WorkElementType.create(:name => "Folder", :alias => "folder")
-    WorkElementType.create(:name => "Link", :alias => "link")
-    WorkElementType.create(:name => "Undefined", :alias => "undefined")
-    WorkElementType.create(:name => "Developed Software", :alias => "DevSW")
-    WorkElementType.create(:name => "Purchased Software", :alias => "$SW")
-    WorkElementType.create(:name => "Purchased Hardware", :alias => "$HW")
-    WorkElementType.create(:name => "Purchased Miscellaneous", :alias => "$SMisc")
+    WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id)
+    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id)
+    WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id)
+    WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id)
+    WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id)
+    WorkElementType.create(:name => "Purchased Hardware", :alias => "$HW", :peicon_id => default.id)
+    WorkElementType.create(:name => "Purchased Miscellaneous", :alias => "$SMisc", :peicon_id => default.id)
 
     wet = WorkElementType.first
            
@@ -363,15 +373,15 @@ def load_data!
 
     puts "\n\n"
     puts "Default data was successfully loaded. Enjoy !"
-  rescue Errno::ECONNREFUSED
+  #rescue Errno::ECONNREFUSED
     puts "\n\n\n"
     puts "!!! WARNING - Error: Default data was not loaded, please investigate"
     puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-  rescue Exception
+  #rescue Exception
     puts "\n\n"
     puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
     puts "Maybe run db:create and db:migrate tasks."
-  end
+  #end
 end
 
 

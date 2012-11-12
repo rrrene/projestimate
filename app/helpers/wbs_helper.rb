@@ -50,7 +50,7 @@ module WbsHelper
       "<li class='#{ c.id == session[:component_id] ? 'selected' : '' }'  >
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
-            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url}
+            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
             #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
           </div>
         </div>
@@ -68,7 +68,7 @@ module WbsHelper
       "<li class='#{ c.id == session[:component_id] ? 'selected' : '' }' >
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
-            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url}
+            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
             #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
           </div>
         </div>
@@ -88,7 +88,7 @@ module WbsHelper
       "<li>
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
-            #{ image_tag component.work_element_type.peicon.nil? ? '' : component.work_element_type.peicon.icon.url }
+            #{ image_tag component.work_element_type.peicon.nil? ? '' : component.work_element_type.peicon.icon.url(:small) }
             #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
           </div>
         </div>
