@@ -61,7 +61,7 @@ class UserMailer < ActionMailer::Base
   #Confirm validation of account (ldap protocol)
   def account_validate_ldap(user)
     @user = user
-    mail(:to => load_admin_setting("notifications_email"), :subject => "Your ProjEstimate account has changed")
+    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "Your ProjEstimate account has changed")
   end
   
 end
