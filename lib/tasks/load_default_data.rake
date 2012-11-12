@@ -94,7 +94,7 @@ end
 
 private
 def load_data!
-  #begin
+  begin
     
   puts " Creating Master Parameters ..."
 
@@ -373,15 +373,15 @@ def load_data!
 
     puts "\n\n"
     puts "Default data was successfully loaded. Enjoy !"
-  #rescue Errno::ECONNREFUSED
+  rescue Errno::ECONNREFUSED
     puts "\n\n\n"
     puts "!!! WARNING - Error: Default data was not loaded, please investigate"
     puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-  #rescue Exception
+  rescue Exception
     puts "\n\n"
     puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
     puts "Maybe run db:create and db:migrate tasks."
-  #end
+  end
 end
 
 
