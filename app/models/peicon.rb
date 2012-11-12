@@ -22,8 +22,8 @@ class Peicon < ActiveRecord::Base
   has_attached_file :icon, :styles => { :small => "16x16" }
 
   validates_attachment :icon, :presence => true,
-                    :content_type => { :content_type => "image/png" },
-                    :size => { :in => 0..10.kilobytes }
+                       :content_type => { :content_type => "image/png" },
+                       :size => { :in => 0..10.kilobytes }
 
   has_many :work_element_types
 end
