@@ -43,7 +43,11 @@ class SearchesController < ApplicationController
   end
 
   def user_search
-    @users = User.where(:user_status => params[:states]).search(params[:user_searches]).page(params[:page]).per_page(5)
+    unless params[:states] == ""
+      @users = User.where(:user_status => params[:states]).search(params[:user_searches]).page(params[:page]).per_page(5)
+    else
+      @users = User.search(params[:user_searches]).page(params[:page]).per_page(5)
+    end
   end
 
   def project_search

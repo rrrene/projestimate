@@ -21,15 +21,12 @@
     <%= f.label :content %><br />
     <%= f.text_area :content, :class => "editor" %>
   </div>
-  <%#*<div >%>
-    <%#= f.label :help_type %><br />
-    <%#= f.collection_select :help_type_id, HelpType.all, :id, :name, {}, :onchange => "if(this.value==#{HelpType.find_by_name('tooltip').id}){$('#div_help_help_code').show();}else{$('#div_help_help_code').hide();}" %>
-  <%#*</div>%>
   <div id="div_help_help_code"  style="<%= help_type %>">
     <%= f.label :help_code %><br />
     <%= f.text_field :help_code %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save", :class => "btn btn-success" %>
+    <%= f.submit "Apply", :class => "btn btn-success" %>
   </div>
 <% end %>

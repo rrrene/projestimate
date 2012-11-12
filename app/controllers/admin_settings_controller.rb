@@ -39,7 +39,7 @@ class AdminSettingsController < ApplicationController
     @admin_setting = AdminSetting.new(params[:admin_setting])
     if @admin_setting.save
       flash[:notice] = 'Admin setting was successfully created.'
-      redirect_to admin_settings_path
+      redirect_to redirect(admin_settings_path)
     else
       redirect_to new_admin_setting_path
     end
@@ -49,7 +49,7 @@ class AdminSettingsController < ApplicationController
     @admin_setting = AdminSetting.find(params[:id])
     if @admin_setting.update_attributes(params[:admin_setting])
       flash[:notice] = 'Admin setting was successfully updated.'
-      redirect_to admin_settings_path
+      redirect_to redirect(admin_settings_path)
     else
       redirect_to edit_admin_setting_path(@admin_setting)
     end
