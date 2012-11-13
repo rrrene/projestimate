@@ -123,7 +123,7 @@ class Project < ActiveRecord::Base
     self.wbs.components.select{|i| i.folder? }
   end
 
-  def self.search(search)
+  def self.table_search(search)
     if search
       where('title LIKE ? or alias LIKE ? or state LIKE ?', "%#{search}%","%#{search}%", "%#{search}%" )
     else

@@ -77,3 +77,6 @@ gem 'bootstrap-datepicker-rails'
 
 #Icon management
 gem 'paperclip', '~> 3.0'
+
+#Continious integration and monitoring
+gem 'newrelic_rpm'
