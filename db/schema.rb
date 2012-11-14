@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(:version => 20121112123539) do
     t.string   "server_name"
     t.integer  "port"
     t.string   "base_dn"
-    t.string   "login_name_attribute"
+    t.string   "user_name_attribute"
     t.string   "certificate"
     t.string   "scope"
     t.datetime "created_at"
