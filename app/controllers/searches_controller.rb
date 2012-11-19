@@ -22,7 +22,6 @@ class SearchesController < ApplicationController
 
   #Display search result
   def results
-
     if params[:search].class == Array
       classes = params[:search][:classes].map{ |i| String::keep_clean_space(i).camelcase.constantize }
     else
@@ -37,9 +36,7 @@ class SearchesController < ApplicationController
 
       @results << @res.results
     end
-
     @results = @results.flatten
-
   end
 
   def user_search

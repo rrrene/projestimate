@@ -111,9 +111,10 @@ class UsersController < ApplicationController
 
       @user = current_user
       @project = current_project
+      @pemodules ||= Pemodule.all
 
       if @project
-        @array_module_positions = ModuleProject.find_all_by_project_id(@project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+        @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
       end
     else
       render :layout => "login"
@@ -187,10 +188,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to users_path }
-      format.json { head :ok }
-    end
+    redirect_to users_path
   end
 
   def find_use_user

@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_project
-    prj = Project.find_by_id(session[:current_project_id])
+    prj = Project.where(:id => session[:current_project_id])
     if prj.nil?
       if current_user.nil?
         return nil
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
         current_user.projects.first
       end
     else
-      return prj
+      return prj.first
     end
   end
 

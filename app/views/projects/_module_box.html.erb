@@ -1,3 +1,10 @@
+<% if controller.controller_name == "projects" %>
+  <p>
+    Select a module from the list :
+    <%= select_tag "select_module", options_for_select(@pemodules.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
+  </p>
+<% end %>
+
 <% array_module_positions = local_assigns[:array_module_positions] %>
 <% project = local_assigns[:project] %>
 <% module_projects = ModuleProject.where(:project_id => project.id) %>

@@ -217,6 +217,7 @@ class ProjectsController < ApplicationController
 
     @array_modules = Pemodule.all
     @project = Project.find(params[:project_id])
+    @pemodules ||= Pemodule.all
 
     #Max pos or 1
     @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -253,68 +254,65 @@ class ProjectsController < ApplicationController
   def run_estimation
     @resultat = Array.new
 
-    #TODO:Refactoring this block
-    custom_params = HashWithIndifferentAccess.new(params)
-    custom_params.delete("utf8")
-    custom_params.delete("commit")
-    custom_params.delete("action")
-    custom_params.delete("controller")
-    custom_params.delete("component_id")
-
     @project = current_project
     @component = current_component
     @folders = @project.folders.reverse
-    @val = 0
+    val = 0
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
 
     #For each level...
     ["low", "most_likely", "high"].each do |level|
       #stock input value
-      input_value = custom_params["input_#{level}"]
+
+      input_value  = params["input_#{level}"]
 
       #Execute estimation plan. and stock result
-      @resultat << @project.run_estimation_plan(1, custom_params["input_" + level], {}, @component, current_project) #current_pos, arguments, last_result, others, component, project
+      @resultat << @project.run_estimation_plan(1, input_value, {}, @component, current_project) #current_pos, arguments, last_result, others, component, project
 
       @project.module_projects.each do |mp|
         mp.module_project_attributes.reject{|i| i.component_id != current_component.id}.each do |mpa|
 
           if mpa.input?
+
             unless input_value[mp.pemodule.alias.to_sym].nil?
-              @val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
+              val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
             end
+
+            in_result = {}
             if mpa.attribute.data_type == "string"
-              mpa.update_attribute("string_data_#{level}", @val)
+              in_result["string_data_#{level}"] = val
             else
-              #if mpa.attribute.is_validate(@val)
-                notice = ""
-                mpa.update_attribute("numeric_data_#{level}", @val)
-              #end
+              in_result["numeric_data_#{level}"] = val
             end
+
           else
+            out_result = {}
             @resultat.each do |res|
-              result = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
               if mpa.attribute.data_type == "date"
-                mpa.update_attribute("date_data_#{level}", result)
+                out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
               elsif mpa.attribute.data_type == "string"
-                mpa.update_attribute("string_data_#{level}", result)
+                out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
               else
-                mpa.update_attribute("numeric_data_#{level}", result)
+                out_result["numeric_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
               end
             end
+
+          mpa.update_attributes(out_result)
+          mpa.update_attributes(in_result)
+
           end
           mpa.update_attribute("component_id", current_component.id)
         end
       end
 
       #Pour chaque folder
-      @folders.each do |folder|
-        folder.children.each do |child|
-          folder.module_project_attributes.each do |mpa|
-            %w(low most_likely high).each do |level|
-              mpa.update_attribute("numeric_data_#{level}", folder.children.map{|i| i.send("#{mpa.attribute.alias}_#{level}") }.flatten.compact.sum )
-            end
-          end
+      folder_result = {}
+      @folders.map do |folder| folder.children.map{|j| j.module_project_attributes }.each do |mpa|
+        %w(low most_likely high).each do |level|
+          folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
         end
+        mpa.first.update_attributes(folder_result)
+      end
       end
     end
 
@@ -347,11 +345,6 @@ class ProjectsController < ApplicationController
         new_c = c.dup
         new_c.wbs_id = new_prj.wbs.id
         new_c.save
-      #else
-      #  new_c = c.dup
-      #  new_c.wbs_id = new_wbs.id
-      #  new_c.ancestry = new_prj.root_component.id
-      #  new_c.save
       end
     end
 

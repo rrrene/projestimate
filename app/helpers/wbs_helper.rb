@@ -49,7 +49,7 @@ module WbsHelper
     def wbs_navigation_links(c)
       "<li class='#{ c.id == session[:component_id] ? 'selected' : '' }'  >
         <div class='block_label'>
-          <div onClick='toggle_folder(this);' >
+          <div>
             #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
             #{ link_to(c.name, { :controller => 'components', :action => 'selected_component', :id => c.id}, :remote => true, :class => "libelle") }
           </div>

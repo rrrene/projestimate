@@ -99,12 +99,8 @@
     </div>
 
     <div id="tabs-3">
-      <p>
-        Select a module from the list :
-        <%= select_tag "select_module", options_for_select(@pemodules.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
-      </p>
       <div class="module_box">
-          <%= render :partial => "module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+        <%= render :partial => "module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
       </div>
       <div style="clear: both"></div>
     </div>

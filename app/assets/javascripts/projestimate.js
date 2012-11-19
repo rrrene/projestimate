@@ -3,6 +3,5 @@ function generate_tr_filter(value){
 }
 
 function toggle_folder(elem){
-
     $(elem).parent().parent().next().toggle();
 }
