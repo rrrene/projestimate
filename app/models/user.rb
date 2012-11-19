@@ -94,37 +94,56 @@ class User < ActiveRecord::Base
   end
 
   # Allow to identify the user before the connection.
-  def self.authenticate(username, password)
+  def self.authenticate(login, password)
+    #login can be login_name or email
+    user = User.find(:first, :conditions => ["login_name = ? OR email = ?", login, login ])
 
-    user = User.find(:first, :conditions => ["login_name = ? OR email = ?", username, username ])
+    #if a user is found
     if user
       if user.auth_method.name != "Application"
         begin
-          ldap = Net::LDAP.new(:host => user.auth_method.server_name,
-                               :base => user.auth_method.base_dn,
-                               :port => user.auth_method.port.to_i,
-                               :encryption => user.auth_method.certificate.to_sym,
-                               :auth => {
-                                :method => :simple,
-                                :username => "cn=#{username},ou=People,dc=gpsforprojects,dc=net",
-                                :password => password
-                               })
-          if ldap.bind
-            if user.active?
-              return user
-            end
-          else
-            nil
-          end
+          user.ldap_authentication(password, login)
         rescue
-           nil
+          nil
         end
       else
         if user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt) && user.active?
           user
         else
-          return nil
+          nil
         end
+      end
+    else
+      nil
+    end
+  end
+
+  def ldap_authentication(password, login)
+    self.auth_method.certificate ? use_ssl=:simple_tls : ''
+    ldap_cn = Net::LDAP.new(:host => self.auth_method.server_name,
+                       :base => self.auth_method.base_dn,
+                       :port => self.auth_method.port.to_i,
+                       :encryption => use_ssl,
+                       :auth => {
+                           :method => :simple,
+                           :username => "#{self.auth_method.user_name_attribute.to_s}=#{self.login_name.to_s},#{self.auth_method.base_dn}",
+                           :password => password
+                       })
+
+    #ldap_mail = Net::LDAP.new(:host => self.auth_method.server_name,
+    #                       :base => self.auth_method.base_dn,
+    #                       :port => self.auth_method.port.to_i,
+    #                       :encryption => use_ssl,
+    #                       :auth => {
+    #                           :method => :simple,
+    #                           :username => "#{self.auth_method.mail_attribute.to_s}=#{user.email},#{self.auth_method.base_dn}",
+    #                           :password => password
+    #                       })
+    if ldap_cn.bind
+      if self.active?
+        self
+      else
+        nil
       end
     else
       nil

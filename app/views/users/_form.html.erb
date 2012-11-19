@@ -29,7 +29,7 @@
 
         <%= f.input :password_confirmation %>
 
-        <%= f.input :auth_type, :as => :select, :collection => AuthMethod.all, :label => "User Authentication" %>
+        <%= f.input :auth_type, :as => :select, :collection => AuthMethod.all, :label => "User Authentication", :selected => "Application" %>
 
       </fieldset>
 
@@ -101,7 +101,7 @@
 
     <div id="tabs-5">
 
-      <%= f.input :language_id, :as => :select, :collection => Language.all %>
+      <%= f.input :language_id, :as => :select, :collection => Language.all, :selected => "English" %>
 
       <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name) %>
 
