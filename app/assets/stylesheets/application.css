@@ -14,29 +14,36 @@
     width: 539px;
 }
 
+.login{
+    background: url('/assets/login_bg1.png') repeat-x;
+}
+
 .login_background{
-   background: url('/assets/login_bg1.png') repeat-x;
+    margin: 125px auto;
+    width: 572px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .login_wrapper{
     background: url('/assets/login_bg2.png') no-repeat;
     margin: 0 auto;
-    height: 900px;
-    width: 640px;
+    height: 148px;
+    width: 572px;
 }
 
 .login_information{
-    width: 544px;
     position: relative;
-    top: 323px;
-    margin: 56px;
-    /*overflow-y: auto;*/
-    /*height: 145px;*/
-    /*overflow-x: hidden;*/
+    top: 0;
+    margin: 0 auto;
+    border: 4px solid #DAD7D5;
+    width: 526px;
+    padding: 19px;
+    background-color: white;
 }
 
 .login_input{
-    width: 50%;
+    width: 70%;
     float:left;
     margin: 0 0 0 25px;
 }

@@ -147,8 +147,12 @@ body {
   font-size: 12px;
   line-height: 20px;
   color: #333333;
-  background: url('/assets/bg.png');
 }
+
+.app{
+    background: url('/assets/bg.png');
+}
+
 a {
   color: #0088cc;
   text-decoration: none;

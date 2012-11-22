@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   before_create { generate_token(:auth_token) }
 
   validates_presence_of :last_name, :first_name, :login_name, :email, :user_status, :auth_type
-  validates :password,   :confirmation => true
+  validates :password, :confirmation => true
 
   #AASM
   aasm :column => :user_status do  # defaults to aasm_state
