@@ -24,11 +24,6 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_wet, WorkElementType
     set_page_title "Work Element Type"
     @work_element_types = WorkElementType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @work_element_types }
-    end
   end
 
   def new
@@ -36,11 +31,6 @@ class WorkElementTypesController < ApplicationController
     set_page_title "Work Element Type"
     @work_element_type = WorkElementType.new
     @peicons = Peicon.all
-
-    respond_to do |format|
-      format.html # _new.html.erb
-      format.json { render json: @work_element_type }
-    end
   end
 
   # GET /work_element_types/1/edit

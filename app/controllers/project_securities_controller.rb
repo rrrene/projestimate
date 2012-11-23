@@ -58,10 +58,8 @@ class ProjectSecuritiesController < ApplicationController
       if @project_security.update_attributes(params[:project_security])
         @project_security.update_attribute("project_security_level", params[:project_security_level])
         format.html { redirect_to project_securities_url, notice: 'Project security was successfully updated.' }
-        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @project_security.errors, status: :unprocessable_entity }
       end
     end
   end
