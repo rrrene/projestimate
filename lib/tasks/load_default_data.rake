@@ -46,8 +46,8 @@ namespace :projestimate do
           Attribute.delete_all
           Pemodule.delete_all
           AttributeModule.delete_all
-          WorkElementType.delete_all          
-          ProjectSecurityLevel.delete_all 
+          WorkElementType.delete_all
+          ProjectSecurityLevel.delete_all
           Permission.delete_all
           Currency.delete_all             
           Language.delete_all 
@@ -169,10 +169,6 @@ def load_data!
       Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5])
     end
 
-    puts "   - Modules"
-    Pemodule.create(:title => "cocomo_basic", :alias => "cocomo_basic", :description => "TBD")
-
-
     puts "   - Projestimate Icons"
 
     folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"))
@@ -211,12 +207,11 @@ def load_data!
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
 
     puts "   - Auth Method"
-    AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "none")
+    AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false")
     
     puts "   - Admin user"
     #Create first user
-    User.create(:first_name => "Administrator", :last_name => "Projestimate", :login_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :auth_type => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
-    user = User.first
+    user = User.create(:first_name => "Administrator", :last_name => "Projestimate", :login_name => "admin", :initials => "ad", :email => "youremail@yourcompany.net", :auth_type => AuthMethod.first.id, :user_status => "active", :language_id => Language.first.id)
     user.password = "projestimate"
     user.save
     
