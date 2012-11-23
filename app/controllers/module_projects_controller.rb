@@ -19,42 +19,11 @@
 ########################################################################
 
 class ModuleProjectsController < ApplicationController
-  # GET /module_projects
-  # GET /module_projects.json
+
   def index
     @module_projects = ModuleProject.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @module_projects }
-    end
   end
 
-  # GET /module_projects/1
-  # GET /module_projects/1.json
-  def show
-    @module_project = ModuleProject.find(params[:id])
-    @project = @module_project.project
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @module_project }
-    end
-  end
-
-  # GET /module_projects/new
-  # GET /module_projects/new.json
-  def new
-    @module_project = ModuleProject.new
-    @project = @module_project.project
-
-    respond_to do |format|
-      format.html # _new.html.erb
-      format.json { render json: @module_project }
-    end
-  end
-
-  # GET /module_projects/1/edit
   def edit
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
@@ -62,24 +31,16 @@ class ModuleProjectsController < ApplicationController
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
 
-  # POST /module_projects
-  # POST /module_projects.json
   def create
     @module_project = ModuleProject.new(params[:module_project])
 
-    respond_to do |format|
-      if @module_project.save
-        format.html { redirect_to @module_project, notice: 'Module project was successfully created.' }
-        format.json { render json: @module_project, status: :created, location: @module_project }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @module_project.errors, status: :unprocessable_entity }
-      end
+    if @module_project.save
+      redirect_to redirect(@module_project), notice: 'Module project was successfully created.'
+    else
+      render action: "new"
     end
   end
 
-  # PUT /module_projects/1
-  # PUT /module_projects/1.json
   def update
     @module_project = ModuleProject.find(params[:id])
     maps = params["module_project_attributes"]
@@ -117,14 +78,9 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
-    respond_to do |format|
-        format.html { redirect_to edit_module_project_path(@module_project), notice: 'Module project was successfully updated.' }
-        format.json { head :ok }
-      end
+    redirect_to redirect(edit_module_project_path(@module_project)), notice: 'Module project was successfully updated.'
   end
 
-  # DELETE /module_projects/1
-  # DELETE /module_projects/1.json
   def destroy
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project

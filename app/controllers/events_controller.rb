@@ -36,13 +36,13 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event])
-    redirect_to event_url
+    #@event = Event.new(params[:event])
+    #redirect_to event_url
   end
 
   def update
-    @event = Event.find(params[:id])
-    redirect_to event_url
+    #@event = Event.find(params[:id])
+    #redirect_to event_url
   end
 
   def destroy

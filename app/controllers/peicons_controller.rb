@@ -19,6 +19,7 @@
 #
 ########################################################################
 class PeiconsController < ApplicationController
+
   def index
     set_page_title "Icons libraries"
     @icons = Peicon.all
@@ -38,7 +39,7 @@ class PeiconsController < ApplicationController
     set_page_title "Icons libraries"
     @icon = Peicon.new(params[:peicon])
     if @icon.save
-      redirect_to peicons_path
+      redirect_to redirect(peicons_path)
     else
       flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
       render :new
@@ -49,7 +50,7 @@ class PeiconsController < ApplicationController
     set_page_title "Icons libraries"
     @icon = Peicon.find(params[:id])
     if @icon.update_attributes(params[:peicon])
-      redirect_to peicons_path
+      redirect_to redirect(peicons_path)
     else
       flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
       render :edit

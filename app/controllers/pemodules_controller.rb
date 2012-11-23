@@ -57,7 +57,7 @@ class PemodulesController < ApplicationController
       @pemodule.save
     end
 
-    redirect_to edit_pemodule_path(@pemodule), :notice => "The changes have been saved correctly"
+    redirect_to redirect(edit_pemodule_path(@pemodule)), :notice => "The changes have been saved correctly"
   end
 
   def create
@@ -66,8 +66,12 @@ class PemodulesController < ApplicationController
     @pemodule.description = params[:pemodule][:description]
     @pemodule.alias = params[:pemodule][:alias]
     @pemodule.compliant_component_type = params[:compliant_wet]
-    @pemodule.save
-    redirect_to pemodules_url
+
+    if @pemodule.save
+      redirect_to redirect(pemodules_url)
+    else
+      render :new
+    end
   end
 
   #Update attribute of the pemodule selected (2nd tabs)

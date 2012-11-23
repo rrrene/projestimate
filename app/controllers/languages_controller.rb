@@ -69,15 +69,10 @@ class LanguagesController < ApplicationController
   def create
     authorize! :edit_languages, Language
     @language = Language.new(params[:language])
-
-    respond_to do |format|
-      if @language.save
-        format.html { redirect_to @language, notice: 'Language was successfully created.' }
-        format.json { render json: @language, status: :created, location: @language }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @language.errors, status: :unprocessable_entity }
-      end
+    if @language.save
+      redirect_to redirect(@language), notice: 'Language was successfully created.'
+    else
+      render action: "new"
     end
   end
 
@@ -87,14 +82,10 @@ class LanguagesController < ApplicationController
     authorize! :edit_languages, Language
     @language = Language.find(params[:id])
 
-    respond_to do |format|
-      if @language.update_attributes(params[:language])
-        format.html { redirect_to @language, notice: 'Language was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @language.errors, status: :unprocessable_entity }
-      end
+    if @language.update_attributes(params[:language])
+      redirect_to redirect(@language), notice: 'Language was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
@@ -107,7 +98,6 @@ class LanguagesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to languages_url }
-      format.json { head :ok }
     end
   end
 end

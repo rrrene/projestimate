@@ -27,7 +27,6 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       format.html # _new.html.erb
-      format.json { render json: @organization }
     end
   end
 
@@ -41,14 +40,10 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.new(params[:organization])
 
-    respond_to do |format|
-      if @organization.save
-        format.html { redirect_to "/organizationals_params", notice: 'Organization was successfully created.' }
-        format.json { render json: @organization, status: :created, location: @organization }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
+    if @organization.save
+      redirect_to redirect("/organizationals_params"), notice: 'Organization was successfully created.'
+    else
+      render action: "new"
     end
   end
 
@@ -57,7 +52,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
-      redirect_to "/organizationals_params"
+      redirect_to redirect("/organizationals_params")
     else
       render action: "edit"
     end

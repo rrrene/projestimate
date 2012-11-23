@@ -30,11 +30,9 @@ class ModuleProjectAttributesController < ApplicationController
 
     respond_to do |format|
       if @mpa.update_attributes(params[:module_project_attribute])
-        format.html { redirect_to @mpa, notice: 'MPA was successfully updated.' }
-        format.json { head :ok }
+        format.html { redirect_to redirect(@mpa), notice: 'MPA was successfully updated.' }
       else
         format.html { render action: "edit" }
-        format.json { render json: @mpa.errors, status: :unprocessable_entity }
       end
     end
   end

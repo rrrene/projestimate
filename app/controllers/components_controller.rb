@@ -38,7 +38,7 @@ class ComponentsController < ApplicationController
     if @component.update_attributes(params[:component])
       # Another update attributes...
       @component.update_attribute :parent, Component.find(params[:component][:ancestry])
-      redirect_to "/dashboard"
+      redirect_to redirect("/dashboard")
     else
       render action: "edit"
     end

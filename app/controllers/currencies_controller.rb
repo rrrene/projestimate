@@ -48,7 +48,8 @@ class CurrenciesController < ApplicationController
   def create
     authorize! :manage_currency, Currency
     @currency = Currency.new(params[:currency])
-    redirect_to currencies_url
+    @currency.save
+    redirect_to redirect(currencies_url)
   end
 
   # PUT /currencies/1
@@ -56,7 +57,8 @@ class CurrenciesController < ApplicationController
   def update
     authorize! :manage_currency, Currency
     @currency = Currency.find(params[:id])
-    redirect_to currencies_url
+    @currency.update_attributes(params[:currency])
+    redirect_to redirect(currencies_url)
   end
 
   # DELETE /currencies/1

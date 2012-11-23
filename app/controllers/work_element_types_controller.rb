@@ -56,11 +56,11 @@ class WorkElementTypesController < ApplicationController
     @work_element_type = WorkElementType.new(params[:work_element_type])
     @work_element_type.peicon_id = Peicon.find_by_name("Default").id
 
-      if @work_element_type.save
-        redirect_to work_element_types_path
-      else
-        render action: "new"
-      end
+    if @work_element_type.save
+      redirect_to redirect(work_element_types_path)
+    else
+      render action: "new"
+    end
   end
 
   def update
@@ -69,7 +69,7 @@ class WorkElementTypesController < ApplicationController
 
     if @work_element_type.update_attributes(params[:work_element_type])
       flash[:notice] =  'Work element type was successfully updated.'
-      redirect_to work_element_types_path
+      redirect_to redirect(work_element_types_path)
     else
       render action: "edit"
     end

@@ -54,14 +54,10 @@ class MasterSettingsController < ApplicationController
   def create
     @master_setting = MasterSetting.new(params[:master_setting])
 
-    respond_to do |format|
-      if @master_setting.save
-        format.html { redirect_to master_settings_path, notice: 'Master setting was successfully created.' }
-        format.json { render json: @master_setting, status: :created, location: @master_setting }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @master_setting.errors, status: :unprocessable_entity }
-      end
+    if @master_setting.save
+      redirect_to redirect(master_settings_path), notice: 'Master setting was successfully created.'
+    else
+      render action: "new"
     end
   end
 
@@ -70,14 +66,10 @@ class MasterSettingsController < ApplicationController
   def update
     @master_setting = MasterSetting.find(params[:id])
 
-    respond_to do |format|
-      if @master_setting.update_attributes(params[:master_setting])
-        format.html { redirect_to master_settings_path, notice: 'Master setting was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @master_setting.errors, status: :unprocessable_entity }
-      end
+    if @master_setting.update_attributes(params[:master_setting])
+      redirect_to redirect(master_settings_path), notice: 'Master setting was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
@@ -89,7 +81,6 @@ class MasterSettingsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to master_settings_url }
-      format.json { head :ok }
     end
   end
 end

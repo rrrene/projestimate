@@ -45,13 +45,12 @@ class AttributesController < ApplicationController
     @attribute.options = params[:options]
     @attribute.attr_type = params[:options][0]
     if @attribute.save
-      redirect_to attributes_path
+      redirect_to redirect(attributes_path)
     else
        render action: "new"
     end
   end
 
-  #TODO: refactoring
   def update
     set_page_title "Attributes"
     authorize! :manage_attributes, Attribute
@@ -60,7 +59,7 @@ class AttributesController < ApplicationController
       if @attribute.update_attribute("options", params[:options])
         @attribute.attr_type = params[:options][0]
         if @attribute.save
-          redirect_to attributes_path
+          redirect_to redirect(attributes_path)
         else
           render action: "edit"
         end

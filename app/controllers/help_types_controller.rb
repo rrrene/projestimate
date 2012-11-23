@@ -47,7 +47,7 @@ class HelpTypesController < ApplicationController
     @help_type = HelpType.new
 
     respond_to do |format|
-      format.html # _new.html.erb
+      format.html
       format.json { render json: @help_type }
     end
   end
