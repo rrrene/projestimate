@@ -50,18 +50,15 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3 well">
+        <div class="span2">
 
-          <ul class="nav nav-list">
-          </ul>
-
-          <div style="clear:both;"></div>
-
-          <%= render :partial => 'layouts/sidebar_menu' %>
+          <div class="well sidebar-nav">
+            <%= render :partial => 'layouts/sidebar_menu' %>
+          </div>
 
         </div>
 
-        <div class="span9 with-margin">
+        <div class="span10 with-margin">
           <%= yield %>
         </div>
       </div>
