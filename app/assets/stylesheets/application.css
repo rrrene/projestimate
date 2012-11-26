@@ -66,6 +66,16 @@
     font-size: 11px;
 }
 
+.the-sidebar {
+    position: absolute;
+    width: 220px;
+}
+
+.the-container {
+    margin-top: 10px;
+    margin-left: 260px;
+}
+
 [class^="icn_"],
 [class*=" icn_"] {
   margin-right: 5px;

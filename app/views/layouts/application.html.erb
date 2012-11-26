@@ -27,6 +27,10 @@
             <div class="span3">
               <%= link_to(content_tag(:div, "", :class=> "logoEstimate" ), "/dashboard") %>
             </div>
+
+            <div class="pull-right" style="margin-top:16px;">
+              <%= render :partial => 'layouts/search_input' %>
+            </div>
           </div>
         </div>
       </div>
@@ -40,29 +44,27 @@
 
             <%= render :partial => 'layouts/user_account' %>
             <%= render :partial => 'layouts/notifications' %>
-            <div class="pull-right">
-              <%= render :partial => 'layouts/search_input' %>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="the-sidebar">
+      <div class="well sidebar-nav">
+        <%= render :partial => 'layouts/sidebar_menu' %>
+      </div>
+    </div>
+
+    <div class="container-fluid the-container">
       <div class="row-fluid">
-        <div class="span2">
-
-          <div class="well sidebar-nav">
-            <%= render :partial => 'layouts/sidebar_menu' %>
-          </div>
-
-        </div>
-
-        <div class="span10 with-margin">
+        <div class="span12">
           <%= yield %>
         </div>
       </div>
     </div>
+
+
 
 </body>
 </html>
