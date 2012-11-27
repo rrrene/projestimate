@@ -45,7 +45,7 @@
 .login_input{
     width: 70%;
     float:left;
-    margin: 0 0 0 25px;
+    margin: 0 0 0 0px;
 }
 
 .login_username{
@@ -66,6 +66,13 @@
     font-size: 11px;
 }
 
+.login_username{
+    width: 275px;
+}
+.login_pw{
+    width: 275px;
+}
+
 .the-sidebar {
     position: absolute;
     width: 220px;
@@ -73,7 +80,7 @@
 
 .the-container {
     margin-top: 10px;
-    margin-left: 260px;
+    margin-left: 230px;
 }
 
 [class^="icn_"],

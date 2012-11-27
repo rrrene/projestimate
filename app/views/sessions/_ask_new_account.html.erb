@@ -6,19 +6,19 @@
 
 <div class="field_login">
   <%= label_tag :first_name %>
-  <%= text_field_tag :first_name, "", :class => "login_info" %>
+  <%= text_field_tag :first_name, "", :class => "login_info span5" %>
 
   <%= label_tag :last_name %>
-  <%= text_field_tag :last_name, "",:class => "login_info" %>
+  <%= text_field_tag :last_name, "",:class => "login_info span5" %>
 
   <%= label_tag :login_name %>
-  <%= text_field_tag :login_name, "", :class => "login_info" %>
+  <%= text_field_tag :login_name, "", :class => "login_info span5" %>
 
   <%= label_tag :email %>
-  <%= text_field_tag :email, "", :class => "login_info" %>
+  <%= text_field_tag :email, "", :class => "login_info span5" %>
 
   <%= label_tag :language %>
-  <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info", :prompt => "Choose..." %>
+  <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info span5", :prompt => "Choose..." %>
   </div>
 </div>
 
