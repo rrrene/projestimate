@@ -8,4 +8,4 @@ ProjestimateMaquette::Application.initialize!
 #Encoding.default_external = Encoding::UTF_8
 #Encoding.default_internal = Encoding::UTF_8
 
-APP_VERSION = `git describe --always` unless defined? APP_VERSION
+COMMIT_VERSION = `git rev-list -n1 --abbrev-commit HEAD` unless defined? COMMIT_VERSION
