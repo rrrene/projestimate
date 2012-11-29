@@ -47,7 +47,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.save
       flash[:notice] = "Project area was successfully created."
-      redirect_to "/projects_global_params#tabs-1"
+      redirect_to redirect("/projects_global_params#tabs-1")
     else
        render action: "new"
     end
@@ -58,7 +58,7 @@ class ProjectAreasController < ApplicationController
     
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = "Project area was successfully updated."
-      redirect_to "/projects_global_params#tabs-1"
+      redirect_to redirect("/projects_global_params#tabs-1")
     else
        render action: "new"
     end

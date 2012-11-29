@@ -47,18 +47,18 @@ class GroupsController < ApplicationController
     authorize! :edit_groups, Group
     @group = Group.new(params[:group])
     if @group.save
-      redirect_to groups_path
+      redirect_to redirect(groups_path)
     else
-      redirect_to new_group_path
+      redirect_to redirect(new_group_path)
     end
   end
 
   def update
     @group = Group.find(params[:id])
     if @group.update_attributes(params[:group])
-      redirect_to groups_path
+      redirect_to redirect(groups_path)
     else
-      redirect_to edit_group_path(@group)
+      redirect_to redirect(edit_group_path(@group))
     end
   end
 

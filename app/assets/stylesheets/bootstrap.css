@@ -4804,13 +4804,9 @@ a.thumbnail:hover {
   margin-bottom: 0;
 }
 .well {
-    min-height: 0;
-    padding: 0;
-    margin: 0;
     background-color: whiteSmoke;
     border: 1px solid #e3e3e3;
     padding-bottom: 25px;
-    min-width: 270px;
 }
 .well blockquote {
   border-color: #ddd;

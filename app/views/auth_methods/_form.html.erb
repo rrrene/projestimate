@@ -6,10 +6,9 @@
     <%= f.input :name %>
     <%= f.input :server_name %>
     <%= f.input :port, :as => :select, :collection => ["389", "636"]  %>
-    <%= f.input :base_dn %>
     <%= f.input :certificate, :label => "Use SSL" %>
+    <%= f.input :base_dn %>
     <%= f.input :user_name_attribute %>
-    <%= f.input :scope %>
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

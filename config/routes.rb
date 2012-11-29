@@ -65,10 +65,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :groups
 
-  resources :help_types
-
-  resources :helps
-
   resources :pemodules
   get "processus" => "pemodules#processus"
   get "pemodules_down" => "pemodules#pemodules_down"

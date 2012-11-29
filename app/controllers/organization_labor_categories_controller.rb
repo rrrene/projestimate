@@ -19,30 +19,11 @@
 ########################################################################
 
 class OrganizationLaborCategoriesController < ApplicationController
-  # GET /organization_labor_categories
-  # GET /organization_labor_categories.json
+
   def index
     @organization_labor_categories = OrganizationLaborCategory.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @organization_labor_categories }
-    end
   end
 
-  # GET /organization_labor_categories/1
-  # GET /organization_labor_categories/1.json
-  def show
-    @organization_labor_category = OrganizationLaborCategory.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @organization_labor_category }
-    end
-  end
-
-  # GET /organization_labor_categories/new
-  # GET /organization_labor_categories/new.json
   def new
     @organization_labor_category = OrganizationLaborCategory.new
 
@@ -52,13 +33,10 @@ class OrganizationLaborCategoriesController < ApplicationController
     end
   end
 
-  # GET /organization_labor_categories/1/edit
   def edit
     @organization_labor_category = OrganizationLaborCategory.find(params[:id])
   end
 
-  # POST /organization_labor_categories
-  # POST /organization_labor_categories.json
   def create
     @organization_labor_category = OrganizationLaborCategory.new(params[:organization_labor_category])
 
@@ -73,8 +51,6 @@ class OrganizationLaborCategoriesController < ApplicationController
     end
   end
 
-  # PUT /organization_labor_categories/1
-  # PUT /organization_labor_categories/1.json
   def update
     @organization_labor_category = OrganizationLaborCategory.find(params[:id])
 
@@ -89,8 +65,6 @@ class OrganizationLaborCategoriesController < ApplicationController
     end
   end
 
-  # DELETE /organization_labor_categories/1
-  # DELETE /organization_labor_categories/1.json
   def destroy
     @organization_labor_category = OrganizationLaborCategory.find(params[:id])
     @organization_labor_category.destroy

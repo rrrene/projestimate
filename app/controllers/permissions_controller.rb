@@ -65,14 +65,10 @@ class PermissionsController < ApplicationController
 
     @groups = Group.all
 
-    respond_to do |format|
-      if @permission.save
-        format.html { redirect_to permissions_path, notice: 'Function was successfully created.' }
-        format.json { render json: @permission, status: :created, location: @permission }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @permission.errors, status: :unprocessable_entity }
-      end
+    if @permission.save
+      redirect_to redirect(permissions_path), notice: 'Function was successfully created.'
+    else
+      render action: "new"
     end
   end
 
@@ -80,16 +76,10 @@ class PermissionsController < ApplicationController
   # PUT /permissions/1.json
   def update
     @permission = Permission.find(params[:id])
-
-    respond_to do |format|
-      if @permission.update_attributes(params[:permission])
-
-        format.html { redirect_to "/globals_permissions", notice: 'Function was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @permission.errors, status: :unprocessable_entity }
-      end
+    if @permission.update_attributes(params[:permission])
+      redirect_to redirect("/globals_permissions"), notice: 'Function was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 

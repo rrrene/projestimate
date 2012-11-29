@@ -24,11 +24,6 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_wet, WorkElementType
     set_page_title "Work Element Type"
     @work_element_types = WorkElementType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @work_element_types }
-    end
   end
 
   def new
@@ -36,11 +31,6 @@ class WorkElementTypesController < ApplicationController
     set_page_title "Work Element Type"
     @work_element_type = WorkElementType.new
     @peicons = Peicon.all
-
-    respond_to do |format|
-      format.html # _new.html.erb
-      format.json { render json: @work_element_type }
-    end
   end
 
   # GET /work_element_types/1/edit
@@ -56,11 +46,11 @@ class WorkElementTypesController < ApplicationController
     @work_element_type = WorkElementType.new(params[:work_element_type])
     @work_element_type.peicon_id = Peicon.find_by_name("Default").id
 
-      if @work_element_type.save
-        redirect_to work_element_types_path
-      else
-        render action: "new"
-      end
+    if @work_element_type.save
+      redirect_to redirect(work_element_types_path)
+    else
+      render action: "new"
+    end
   end
 
   def update
@@ -69,7 +59,7 @@ class WorkElementTypesController < ApplicationController
 
     if @work_element_type.update_attributes(params[:work_element_type])
       flash[:notice] =  'Work element type was successfully updated.'
-      redirect_to work_element_types_path
+      redirect_to redirect(work_element_types_path)
     else
       render action: "edit"
     end

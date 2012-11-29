@@ -35,7 +35,7 @@ class ProjectCategoriesController < ApplicationController
 
     if @project_category.save
       flash[:notice] = "Project category was successfully created."
-      redirect_to "/projects_global_params#tabs-2"
+      redirect_to redirect("/projects_global_params#tabs-2")
     else
       render action: "new"
     end
@@ -46,7 +46,7 @@ class ProjectCategoriesController < ApplicationController
 
     if @project_category.update_attributes(params[:project_category])
       flash[:notice] = "Project category was successfully updated."
-      redirect_to "/projects_global_params#tabs-2"
+      redirect_to redirect("/projects_global_params#tabs-2")
     else
       render action: "edit"
     end

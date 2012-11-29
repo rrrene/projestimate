@@ -47,7 +47,7 @@ class LaborCategoriesController < ApplicationController
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
       flash[:notice] = "Labor category was successfully updated."
-      redirect_to labor_categories_path
+      redirect_to redirect(labor_categories_path)
     else
       render action: "edit"
     end
@@ -59,7 +59,7 @@ class LaborCategoriesController < ApplicationController
 
     if @labor_category.update_attributes(params[:labor_category])
       flash[:notice] = "Labor category was successfully updated."
-      redirect_to labor_categories_path
+      redirect_to redirect(labor_categories_path)
     else
       render action: "edit"
     end
