@@ -18,10 +18,14 @@ gem 'jquery-rails'
 #Tests
 group :test do
   gem 'factory_girl_rails', '~> 3.0'
+  #RSpec
   gem 'rspec-rails', :group => [:test, :development]
   gem 'capybara'
   gem 'guard-rspec'
   gem 'simplecov', :require => false, :group => :test
+  #Cucumber
+  #gem 'cucumber-rails', :require => false
+  #gem 'database_cleaner'
 end
 
 # To use ActiveModel has_secure_password

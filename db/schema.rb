@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112123539) do
+ActiveRecord::Schema.define(:version => 20121128093723) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -88,10 +88,10 @@ ActiveRecord::Schema.define(:version => 20121112123539) do
     t.integer  "port"
     t.string   "base_dn"
     t.string   "user_name_attribute"
-    t.string   "certificate"
+    t.boolean  "certificate"
     t.string   "scope"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "components", :force => true do |t|
@@ -280,8 +280,8 @@ ActiveRecord::Schema.define(:version => 20121112123539) do
 
   create_table "peicons", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "icon_file_name"
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
@@ -461,6 +461,9 @@ ActiveRecord::Schema.define(:version => 20121112123539) do
     t.text     "ten_latest_projects"
     t.integer  "organization_id"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
 
   create_table "wbs", :force => true do |t|
     t.integer  "project_id"

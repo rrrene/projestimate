@@ -47,6 +47,7 @@ namespace :projestimate do
           Pemodule.delete_all
           AttributeModule.delete_all
           WorkElementType.delete_all
+          ProjectSecurity.delete_all
           ProjectSecurityLevel.delete_all
           Permission.delete_all
           Currency.delete_all             
@@ -205,6 +206,7 @@ def load_data!
     puts "   - Admin setting"    
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !")
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
+    AdminSetting.create(:key => "password_min_length", :value => "4")
 
     puts "   - Auth Method"
     AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false")
