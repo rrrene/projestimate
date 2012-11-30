@@ -19,7 +19,6 @@
 ########################################################################
 
 # User of the application. User has many projects, groups, permissions and project securities. User have one language
-require 'active_directory'
 class User < ActiveRecord::Base
   include AASM
 
@@ -177,7 +176,7 @@ class User < ActiveRecord::Base
   def send_password_reset
     generate_token(:password_reset_token)
     self.password_reset_sent_at = Time.zone.now
-    self.save!
+    self.save(false)
     UserMailer.forgotten_password(self).deliver
   end
 
