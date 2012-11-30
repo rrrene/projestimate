@@ -12,6 +12,15 @@ describe Component do
     @component.should be_valid
   end
 
+  it "should be not valid without name" do
+    @component.name = ""
+    @component.should_not be_valid
+  end
+
+  it "should return :component name" do
+    @component.to_s.should eql(@component.name)
+  end
+
   it 'should have a correct type' do
     @component.folder?.should be_true
   end

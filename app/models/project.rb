@@ -39,7 +39,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
 
-  validates_presence_of :title, :alias, :state
+  validates_presence_of :state
+  validates  :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
 
   searchable do
     text :title, :description, :alias

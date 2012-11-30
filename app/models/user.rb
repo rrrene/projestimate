@@ -39,8 +39,13 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create { generate_token(:auth_token) }
 
-  validates_presence_of :last_name, :first_name, :login_name, :email, :user_status, :auth_type
-  validates :password, :confirmation => true
+  validates_presence_of :last_name, :first_name, :user_status, :auth_type
+  validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
+  validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i }, :uniqueness => {case_sensitive: false}
+
+  PASSWORD_MIN_LENGTH = AdminSetting.find_by_key("password_min_length").value.to_i
+  validates :password, :presence => true, :length => { :minimum =>  PASSWORD_MIN_LENGTH }, :confirmation => true
+  validates :password_confirmation, :presence => true
 
   #AASM
   aasm :column => :user_status do  # defaults to aasm_state
