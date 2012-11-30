@@ -52,7 +52,7 @@ describe User do
   end
 
   it "should not be valid when email is nil" do
-    @user.email = "test@moi_fr"
+    @user.email = "test@moi.fr"
     @user.email.should match(/\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i)
   end
 
