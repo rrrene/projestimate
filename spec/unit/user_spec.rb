@@ -126,13 +126,12 @@ describe User do
   describe "return value of authenticate method" do
     #before { @new_user =  User.new( :last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin', :email => 'youremail@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'projestimate', :password_confirmation => 'projestimate') }
     before { @new_user = User.first }
-
-    subject {@new_user}
+    #subject {@new_user}
 
     let(:found_user) { User.find_by_email(@new_user.email) }
 
     describe "with valid password" do
-      it { should == User.authenticate(@new_user.login_name, @new_user.password) }
+      it { should == User.authenticate(@new_user.login_name, @new_user.password)}
     end
 
     describe "with invalid password" do
