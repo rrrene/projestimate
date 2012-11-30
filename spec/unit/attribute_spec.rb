@@ -14,8 +14,33 @@ describe Attribute do
     @attribute.is_validate(1).should be_true
   end
 
+  it "should be not valid without name" do
+    @attribute.name = ""
+    @attribute.should_not be_valid
+  end
+
+  it "should be not valid without description" do
+    @attribute.description = ""
+    @attribute.should_not be_valid
+  end
+
+  it "should be not valid without alias" do
+    @attribute.alias = ""
+    @attribute.should_not be_valid
+  end
+
+  it "should be not valid without attribute type :attr_type" do
+    @attribute.attr_type = nil
+    @attribute.should_not be_valid
+  end
+
   it 'should return a correct data type' do
     @attribute.data_type.should eql(@attribute.attr_type)
   end
+
+  specify "should return :name + ' - ' + :description.truncate(20)" do
+    @attribute.to_s.should eql(@attribute.name + ' - ' + @attribute.description.truncate(20) )
+  end
+
 
 end

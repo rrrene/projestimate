@@ -20,6 +20,6 @@
 
 class MasterSetting < ActiveRecord::Base
 
-  validates_presence_of :key, :value
-
+  validates :key, :presence => true, :uniqueness => { :case_sensitive => false}
+  validates :value, :presence => true
 end

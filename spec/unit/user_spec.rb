@@ -51,8 +51,13 @@ describe User do
     @user.should_not be_valid
   end
 
+  it "should not be valid when email is nil" do
+    @user.email = "test@moi_fr"
+    @user.email.should match(/\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i)
+  end
+
   it "should check for email format validation" do
-    @user.email = nil
+    @user.email =
     @user.should_not have(1).errors_on(:email)
     @user.should_not be_valid
   end

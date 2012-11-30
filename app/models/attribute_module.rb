@@ -22,4 +22,6 @@
 class AttributeModule < ActiveRecord::Base
   belongs_to :pemodule
   belongs_to :attribute, :class_name => "Attribute"
+
+  #TODO? validates :pemodule_id, :attribute_id, :presence => true
 end

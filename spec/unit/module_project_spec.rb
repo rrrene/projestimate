@@ -40,6 +40,11 @@ describe ModuleProject do
     @mp5.project.should be_a_kind_of(Project)
   end
 
+
+
+
+
+
   #it "should return previous modules or nil if first modules" do
   #  @mp1.previous.should be_a(Array)
   #  @mp5.previous.should be_a(Array)
