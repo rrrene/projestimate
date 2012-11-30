@@ -126,9 +126,9 @@ class UsersController < ApplicationController
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
       if !user.nil?
-        redirect_to root_url, :notice => "Email or user name already exist in the database."
+        redirect_to root_url, :notice => "  Email or user name already exist in the database."
       else
-        user = User.create(:email => params[:email],
+        user = User.new(:email => params[:email],
                            :first_name => params[:first_name],
                            :last_name => params[:last_name],
                            :login_name => params[:login_name],
@@ -136,9 +136,12 @@ class UsersController < ApplicationController
                            :initials => "your_initials",
                            :user_status => "pending",
                            :auth_method => AuthMethod.find_by_name("Application"))
+
+        user.password = Standards.random_string(8)
         user.group_ids = [Group.last.id]
         user.save
 
+        UserMailer.account_suspended(user).deliver
         UserMailer.account_request.deliver
         redirect_to root_url, :notice => "Account demand send with success."
       end

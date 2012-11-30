@@ -136,16 +136,6 @@ class User < ActiveRecord::Base
                            :username => "#{self.auth_method.user_name_attribute.to_s}=#{self.login_name.to_s},#{self.auth_method.base_dn}",
                            :password => password
                        })
-
-    #ldap_mail = Net::LDAP.new(:host => self.auth_method.server_name,
-    #                       :base => self.auth_method.base_dn,
-    #                       :port => self.auth_method.port.to_i,
-    #                       :encryption => use_ssl,
-    #                       :auth => {
-    #                           :method => :simple,
-    #                           :username => "#{self.auth_method.mail_attribute.to_s}=#{user.email},#{self.auth_method.base_dn}",
-    #                           :password => password
-    #                       })
     if ldap_cn.bind
       if self.active?
         self
