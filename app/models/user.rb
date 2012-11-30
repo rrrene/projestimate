@@ -44,7 +44,10 @@ class User < ActiveRecord::Base
   validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
   validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i }, :uniqueness => {case_sensitive: false}
 
-  PASSWORD_MIN_LENGTH = AdminSetting.find_by_key("password_min_length").value.to_i
+  #PASSWORD_MIN_LENGTH = AdminSetting.find_by_key("password_min_length").value.to_i
+  user_as =  AdminSetting.find_by_key("password_min_length")
+  PASSWORD_MIN_LENGTH = user_as.nil? ? 4 : user_as.value.to_i
+
   validates :password, :presence => true, :length => { :minimum =>  PASSWORD_MIN_LENGTH }, :confirmation => true
   validates :password_confirmation, :presence => true
 

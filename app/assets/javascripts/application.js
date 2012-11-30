@@ -9,5 +9,4 @@
 //= require jquery-ui
 //= require_self
 //= require_tree .
-//= require dataTables/jquery.dataTables
 //= require bootstrap-datepicker

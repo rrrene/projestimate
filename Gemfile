@@ -15,17 +15,30 @@ end
 
 gem 'jquery-rails'
 
-#Tests
 group :test do
   gem 'factory_girl_rails', '~> 3.0'
-  #RSpec
-  gem 'rspec-rails', :group => [:test, :development]
   gem 'capybara'
+  #To satisfy
+
+  # rspec goodies
+  gem 'rspec-rails', :group => [:test, :development]
+
+  # DRb server for testing frameworks
+  gem 'spork'
+
+ # command line tool to easily handle events on file system modifications
+  gem 'guard'
+  gem 'guard-bundler'
   gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'guard-migrate'
+  gem 'guard-rake'
+
+  #Coverage tool
   gem 'simplecov', :require => false, :group => :test
-  #Cucumber
-  #gem 'cucumber-rails', :require => false
-  #gem 'database_cleaner'
+
+  # run some required services using foreman start, more on this at the end of the article
+  gem 'foreman'
 end
 
 # To use ActiveModel has_secure_password
@@ -84,3 +97,4 @@ gem 'paperclip', '~> 3.0'
 
 #Continious integration and monitoring
 gem 'newrelic_rpm'
+
