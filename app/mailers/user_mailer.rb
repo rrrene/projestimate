@@ -63,5 +63,11 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
   end
+
+  #Account created
+  def account_created(user)
+    @user = user
+    mail(:to => @user.email, :subject => "ProjEstimate Account created")
+  end
   
 end

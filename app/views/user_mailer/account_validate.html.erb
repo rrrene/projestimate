@@ -1,9 +1,11 @@
 <p><%= @user.name %></p>
 
-<p>Nous vous confirmons la création de votre compte Projestimate.</p>
-<p>
-  Identifiant : <%= @user.login_name %>
-  Mots de passe: <%= @user.password %>
+<p>Nous vous confirmons l'activation de votre compte Projestimate.</p>
+<p>Nous vous rappelons vos identifiants :
+  <p>
+    <p>login : <%= @user.login_name %></p>
+    <p>password : <%= @user.password %></p>
+  </p>
 </p>
 
 <p>
