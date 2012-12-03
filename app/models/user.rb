@@ -47,8 +47,8 @@ class User < ActiveRecord::Base
   user_as =  AdminSetting.find_by_key("password_min_length")
   PASSWORD_MIN_LENGTH = user_as.nil? ? 4 : user_as.value.to_i
 
-  validates :password, :presence => true, :length => { :minimum =>  PASSWORD_MIN_LENGTH }, :confirmation => true
-  validates :password_confirmation, :presence => true
+  validates :password, :presence => {:on => :create}, :length => { :minimum =>  PASSWORD_MIN_LENGTH, :if => :password_present? }, :confirmation => true
+  validates :password_confirmation, :presence => {:on => :create}
 
   #AASM
   aasm :column => :user_status do  # defaults to aasm_state
@@ -156,6 +156,12 @@ class User < ActiveRecord::Base
       nil
     end
   end
+
+  #Check if password is present
+  def password_present?
+    !password.blank?
+  end
+
 
   #Override
   def to_s
