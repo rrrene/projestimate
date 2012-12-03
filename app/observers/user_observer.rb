@@ -27,9 +27,7 @@ class UserObserver < ActiveRecord::Observer
         UserMailer.account_suspended(user).deliver
       else
         if user.password.blank?
-          if user.auth_method == "Application"
-            user.password = Standards.random_string(8)
-            user.save
+          if user.auth_method.name == "Application"
             UserMailer.account_validate(user).deliver
           else
             UserMailer.account_validate_ldap(user).deliver
