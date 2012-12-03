@@ -67,10 +67,17 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.group_ids = Group.find_by_name("Everyone").id
 
-    if @user.save
-      redirect_to redirect(users_path), :notice => "La mise a jour a été effectué avec succès."
+    #Checking password length
+    user_pass_length = params[:user][:password].length
+    if user_pass_length < good_password_length
+      flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
+      render "new" and return
     else
-      render "new"
+      if @user.save
+        redirect_to redirect(users_path), :notice => "La mise a jour a été effectué avec succès." and return
+      else
+        render "new"
+      end
     end
   end
 
@@ -79,6 +86,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+
   #Update user
   def update
     set_page_title "Edit user"
@@ -86,10 +94,34 @@ class UsersController < ApplicationController
     params[:user][:group_ids] ||= []
     @user = User.find(params[:id])
 
+    #Checking password length
+    user_pass_length = params[:user][:password].length
+    if !params[:user][:password].blank?
+      if user_pass_length < good_password_length
+        flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
+        render(:edit) and return
+      end
+    end
+
     if @user.update_attributes(params[:user])
-      redirect_to redirect(users_path)
+      redirect_to(redirect(users_path)) and return
     else
-      render(:edit)
+      render(:edit) and return
+    end
+
+  end
+
+  #Check password minimum length value
+  def good_password_length
+    begin
+      password_length = default_password_length = 4
+      user_as =  AdminSetting.find_by_key("password_min_length")
+      if !user_as.nil?
+        password_length = user_as.value.to_i
+      end
+      password_length
+    rescue
+      password_length
     end
   end
 

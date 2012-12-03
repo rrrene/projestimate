@@ -121,6 +121,14 @@ describe User do
   end
 
 
+  describe "check if password is not blank" do
+    before {@user.password = ""}
+    it "should not be valid" do
+      @user.password_present?.should be_false
+    end
+  end
+
+
   #AUTHENTICATION VALIDATION
 
   describe "return value of authenticate method" do
