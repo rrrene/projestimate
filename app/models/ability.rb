@@ -45,6 +45,7 @@ class Ability
       #  end
       #end
       #
+
       #user.group_for_project_securities.each do |grp|
       #  prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
       #  unless prj_scrt.nil?

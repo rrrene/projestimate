@@ -109,16 +109,16 @@ describe User do
     end
   end
 
-  describe "when password is too short" do
-    before do
-      #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")
-      #password_min_length.save
-      @user.password = @user.password_confirmation = "abc"
-    end
-    it "should not be valid when password is too short" do
-      @user.should_not be_valid
-    end
-  end
+  #describe "when password is too short" do
+  #  before do
+  #    #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")
+  #    #password_min_length.save
+  #    @user.password = @user.password_confirmation = "abc"
+  #  end
+  #  it "should not be valid when password is too short" do
+  #    @user.should_not be_valid
+  #  end
+  #end
 
 
   describe "check if password is not blank" do
@@ -139,6 +139,7 @@ describe User do
     let(:found_user) { User.find_by_email(@new_user.email) }
 
     describe "with valid password" do
+      #it { should == User.authenticate(@new_user.login_name, @new_user.password)}
       it { should == User.authenticate(@new_user.login_name, @new_user.password)}
     end
 
