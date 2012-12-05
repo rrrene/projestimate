@@ -22,10 +22,10 @@
 #Those attributes are used into AttributeModule
 class Attribute < ActiveRecord::Base
 
+  serialize :options, Array
+
   has_many :attribute_modules, :dependent => :destroy
   has_many :pemodules, :through => :attribute_modules
-
-  serialize :options, Array
 
   validates_presence_of :description, :attr_type
   validates :name, :presence => true,  :uniqueness => true
@@ -33,6 +33,10 @@ class Attribute < ActiveRecord::Base
 
   searchable do
     text :name, :description, :alias
+  end
+
+  def self.attribute_list
+    Object::Attribute.all.map(&:alias)
   end
 
   #Override
@@ -83,7 +87,7 @@ class Attribute < ActiveRecord::Base
     end
   end
 
-  #TODO:metaprog
+  #return the data type
   def data_type
     self.attr_type
   end

@@ -159,11 +159,6 @@ class User < ActiveRecord::Base
     self.first_name + " " + self.last_name
   end
 
-  #Return true if user is a Administrator
-  def admin?
-    self.roles.map(&:code_role).include?("ADMIN")
-  end
-
   #Send email in order to reset user password
   def send_password_reset
     generate_token(:password_reset_token)

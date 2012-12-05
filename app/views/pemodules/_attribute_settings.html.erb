@@ -11,7 +11,7 @@
     <th style="text-align:left">Project Field</th>
   </tr>
 
-  <% @attr_modules.each_with_index do |ma, i| %>
+  <% @attribute_settings.each_with_index do |ma, i| %>
     <%= hidden_field_tag "attributes[]", ma.attribute_id %>
     <tr class="">
       <td><%= ma.attribute.nil? ? "-" : ma.attribute.name %></td>

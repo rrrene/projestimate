@@ -43,6 +43,7 @@ class ModuleProjectsController < ApplicationController
 
   def update
     @module_project = ModuleProject.find(params[:id])
+    @project = current_project
     maps = params["module_project_attributes"]
 
     unless maps.nil?
@@ -55,26 +56,27 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
-    ModuleProjectAttribute.where(:module_project_id => @module_project.id, :undefined_attribute => true).delete_all
+    #ModuleProjectAttribute.where(:module_project_id => @module_project.id, :undefined_attribute => true).destroy_all
+    #if @module_project.pemodule.is_typed?
+    #  @module_project.nb_input_attr.to_i.times do
+    #    ModuleProjectAttribute.create(:attribute_id => nil,
+    #                                  :in_out => "input",
+    #                                  :module_project_id => @module_project.id,
+    #                                  :custom_attribute => "user",
+    #                                  :is_mandatory => true,
+    #                                  :description => "Undefined",
+    #                                  :undefined_attribute => true,
+    #                                    :dimensions => 3)
+    #  end
+    #end
 
-    if @module_project.pemodule.is_typed?
-      @module_project.nb_input_attr.to_i.times do
-        ModuleProjectAttribute.create(:attribute_id => nil,
-                                      :in_out => "input",
-                                      :module_project_id => @module_project.id,
-                                      :custom_attribute => "user",
-                                      :is_mandatory => true,
-                                      :description => "Undefined",
-                                      :undefined_attribute => true,
-                                      :dimensions => 3)
-      end
-    end
-
-    @module_project.module_project_attributes.each_with_index do |mpa, i|
-      if mpa.custom_attribute == true
-        mpa.update_attribute("is_mandatory", params[:is_mandatory][i])
-        mpa.update_attribute("in_out", params[:in_out][i])
-        mpa.update_attribute("description", params[:description][i])
+    @project.wbs.components.each do |c|
+      @module_project.module_project_attributes.select{|i| i.component_id == c.id }.each_with_index do |mpa, j|
+        if mpa.custom_attribute == "user"
+          mpa.update_attribute("is_mandatory", params[:is_mandatory][j])
+          mpa.update_attribute("in_out", params[:in_out][j])
+          mpa.update_attribute("description", params[:description][j])
+        end
       end
     end
 

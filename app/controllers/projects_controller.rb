@@ -229,19 +229,18 @@ class ProjectsController < ApplicationController
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
     my_module_project.pemodule.attribute_modules.each do |am|
       @project.wbs.components.each do |c|
-        mpa = ModuleProjectAttribute.new( :attribute_id => am.attribute.id,
-                                          :module_project_id => my_module_project.id,
-                                          :in_out => am.in_out,
-                                          :is_mandatory => am.is_mandatory,
-                                          :description => am.description,
-                                          :numeric_data_low => am.numeric_data_low,
-                                          :numeric_data_most_likely => am.numeric_data_most_likely,
-                                          :numeric_data_high => am.numeric_data_high,
-                                          :custom_attribute => am.custom_attribute,
-                                          :component_id => c.id,
-                                          :dimensions => am.dimensions,
-                                          :project_value => am.project_value )
-        mpa.save
+        mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
+                                              :module_project_id => my_module_project.id,
+                                              :in_out => am.in_out,
+                                              :is_mandatory => am.is_mandatory,
+                                              :description => am.description,
+                                              :numeric_data_low => am.numeric_data_low,
+                                              :numeric_data_most_likely => am.numeric_data_most_likely,
+                                              :numeric_data_high => am.numeric_data_high,
+                                              :custom_attribute => am.custom_attribute,
+                                              :component_id => c.id,
+                                              :dimensions => am.dimensions,
+                                              :project_value => am.project_value )
       end
     end
 

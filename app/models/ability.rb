@@ -28,13 +28,13 @@ class Ability
     can :manage, :all
 
     #Load user groups permissions
-    if user && !user.groups.empty?
-      permissions_array = []
-      #Filtrer sur les groups for global permissions
-      user.group_for_global_permissions.map{|grp| grp.permissions.map{|i| permissions_array << [i.name, i.object_associated.constantize]}}
-      for perm in permissions_array
-        can perm[0].to_sym, perm[1]
-      end
+    #if user && !user.groups.empty?
+    #  permissions_array = []
+    #  #Filtrer sur les groups for global permissions
+    #  user.group_for_global_permissions.map{|grp| grp.permissions.map{|i| permissions_array << [i.name, i.object_associated.constantize]}}
+    #  for perm in permissions_array
+    #    can perm[0].to_sym, perm[1]
+    #  end
 
       #Specfic project security loading
       #prj_scrt = ProjectSecurity.find_by_user_id(user.id)
@@ -55,9 +55,9 @@ class Ability
       #  end
       #end
 
-      can :manage_attributes, Attribute
+      #can :manage_attributes, Attribute
 
-    end
+    #end
   end
 end
 

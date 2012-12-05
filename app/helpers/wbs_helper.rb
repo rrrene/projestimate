@@ -56,7 +56,7 @@ module WbsHelper
         </div>
         <div class='block_link'>
           #{ link_to "", edit_component_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_component, Component}
-          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :class => 'bl delete' if can? :delete_a_component, Component }
+          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl delete' if can? :delete_a_component, Component }
           #{ link_to "", { :controller => 'components', :action => 'up', :component_id => c.id, :wbs_id => c.wbs_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_component, Component }
           #{ link_to "", { :controller => 'components', :action => 'down' ,:component_id => c.id, :wbs_id => c.wbs_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_component, Component }
         </div>
@@ -77,7 +77,7 @@ module WbsHelper
           #{ link_to "", { :controller => 'components', :action => 'new', :wbs_id => project.wbs.id, :comp_parent_id => c.id, :type_component => "undefined" },:remote => true, :class => 'bl new_undefined ' if can? :add_a_component, Component }
           #{ link_to "", { :controller => 'components', :action => 'new', :wbs_id => project.wbs.id, :comp_parent_id => c.id, :type_component => "link" }, :remote => true, :class => 'bl new_link ' if can? :add_a_component, Component}
           #{ link_to "", edit_component_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_component, Component }
-          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :class => 'bl delete' if can? :delete_a_component, Component }
+          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl delete' if can? :delete_a_component, Component }
           #{ link_to "", { :controller => 'components', :action => 'up', :component_id => c.id, :wbs_id => c.wbs_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_component, Component }
           #{ link_to "", { :controller => 'components', :action => 'down' ,:component_id => c.id, :wbs_id => c.wbs_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_component, Component }
         </div>
@@ -89,7 +89,7 @@ module WbsHelper
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag component.work_element_type.peicon.nil? ? '' : component.work_element_type.peicon.icon.url(:small) }
-            #{ link_to(component.name, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
+            #{ link_to(project.title, { :controller => 'components', :action => 'selected_component', :id => component.id}, :remote => true, :class => "libelle ") }
           </div>
         </div>
         <div class='block_link'>

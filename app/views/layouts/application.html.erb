@@ -12,8 +12,8 @@
 </head>
 <body class="app">
 
-    <% if current_project%>
-      <%= render :partial => 'layouts/component_popup' %>
+    <% if current_project %>
+      <%= render 'layouts/component_popup' %>
     <% end %>
 
     <a href="http://projestimate.org">
@@ -29,7 +29,7 @@
             </div>
 
             <div style="margin-top:16px;">
-              <%= render :partial => 'layouts/search_input' %>
+              <%= render 'layouts/search_input' %>
             </div>
           </div>
         </div>
@@ -41,8 +41,8 @@
       <div class="navbar-inner">
         <div class="container">
 
-            <%= render :partial => 'layouts/user_account' %>
-            <%= render :partial => 'layouts/notifications' %>
+            <%= render 'layouts/user_account' %>
+            <%= render 'layouts/notifications' %>
 
         </div>
       </div>
@@ -50,7 +50,7 @@
 
     <div class="the-sidebar">
       <div class="well sidebar-nav">
-        <%= render :partial => 'layouts/sidebar_menu' %>
+        <%= render 'layouts/sidebar_menu' %>
       </div>
     </div>
 
