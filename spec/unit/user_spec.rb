@@ -259,6 +259,11 @@ describe User do
   it "should be authenticate by the a LDAP directory" do
   end
 
+  it "should return admin group" do
+    @user.admin_groups.should have_at_least(2).items  #Admin and MasterAdmin
+  end
+
+
   it "should be an admin if he had admin right" do
   end
 
@@ -267,8 +272,8 @@ describe User do
 
   it "should add recent projects" do
     project1 = FactoryGirl.create(:project)
-    @user.add_recent_project(project1)
-    @user.ten_latest_projects.first.should eql(project1)
+    @user.add_recent_project(project1.id)
+    @user.ten_latest_projects.first.should eql(project1.id)
   end
 
   it "should return last projects" do

@@ -126,8 +126,25 @@ describe Project do
      #TODO
   end
 
-  it "should generate a folders array" do
-     #TODO
+  it "should be a folder componenet" do
+    project = FactoryGirl.create(:project)
+    project.wbs = FactoryGirl.create(:wbs_1)
+    #peicon_folder = FactoryGirl.create(:peicon_folder)
+    #peicon_link = FactoryGirl.create(:peicon_link)
+    #wet_folder = FactoryGirl.create(:work_element_type_folder, :peicon => FactoryGirl.create(:peicon_folder))
+
+    #project.wbs.components << FactoryGirl.create(:component_folder)
+    #project.wbs.components << FactoryGirl.create(:component_link)
+
+    project.wbs.components.each do |pc|
+      pc.work_element_type.name.should eql("Folder")
+    end
+  end
+
+  it "should return an array of folder" do
+    project = FactoryGirl.create(:project)
+    project.wbs = FactoryGirl.create(:wbs_1)
+    project.folders.should eql(project.wbs.components.select{|i| i.folder? })
   end
 
   it "should raise an error" do

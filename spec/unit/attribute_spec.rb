@@ -6,6 +6,8 @@ describe Attribute do
     @attribute = Attribute.first
   end
 
+  # Attrbutes validations
+
   it 'should be valid' do
     @attribute.should be_valid
   end
@@ -43,4 +45,15 @@ describe Attribute do
   end
 
 
+  # Others method
+
+  it "should return the attribute type" do
+    attribute = FactoryGirl.create(:ksloc_attribute)
+    attribute.data_type.should eql(attribute.attr_type)
+  end
+
+  #TODO
+  #it "should be validate" do
+  #  attribute = FactoryGirl.create(:ksloc_attribute)
+  #end
 end

@@ -34,6 +34,7 @@ class Group < ActiveRecord::Base
     self.name
   end
 
+  #TODO REVIEW function code
   #Return group project_securities for selected project_id
   def project_securities_for_select(prj_id)
     self.project_securities.select{ |i| i.project_id == prj_id }.first
