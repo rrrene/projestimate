@@ -32,7 +32,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @pemodule = Pemodule.new
     @attributes = Attribute.all
-    @attr_modules = []
+    @attribute_settings = []
   end
 
   def edit
@@ -41,7 +41,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @pemodule = Pemodule.find(params[:id])
     @attributes = Attribute.all
-    @attr_modules = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
+    @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
   end
 
   def update
@@ -91,7 +91,7 @@ class PemodulesController < ApplicationController
       end
     end
 
-    @attr_modules = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
+    @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
 
     redirect_to edit_pemodule_path(params[:module_id]), :notice => "The changes have been saved correctly"
   end

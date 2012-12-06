@@ -55,7 +55,7 @@
               <% @attributes.each do |attr| %>
                 <tr class="<%= cycle("even", "odd")%>">
                   <td><%= link_to attr.name, edit_attribute_path(attr) %></td>
-                  <td><%= check_box_tag "attributes[]", "#{attr.id}", @attr_modules.map(&:attribute_id).include?(attr.id) ? true : false %></td>
+                  <td><%= check_box_tag "attributes[]", "#{attr.id}", @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
                   <td><%= attr.description %></td>
                 </tr>
               <% end %>
@@ -70,7 +70,7 @@
         <%= form_tag("/set_attributes_module", :method => "get") do -%>
             <%= hidden_field_tag "module_id", @pemodule.id %>
             <div class="list_attr">
-              <%= render :partial => "attribute_settings", :object => @attr_modules %>
+              <%= render :partial => "attribute_settings", :object => @attribute_settings %>
             </div>
           <%= submit_tag "Update", :class => "btn btn-success"  %>
           <span class="on_success_attr_set"></span>

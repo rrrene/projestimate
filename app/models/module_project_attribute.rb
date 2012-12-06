@@ -34,8 +34,7 @@ class ModuleProjectAttribute < ActiveRecord::Base
 
   #Metaprogrammation
   #input or output
-  MPA = ModuleProjectAttribute.all.map(&:in_out)
-  MPA.each do |type|
+  ModuleProjectAttribute.all.map(&:in_out).each do |type|
     define_method("#{type}?") do
       (self.in_out == type) ? true : false
     end

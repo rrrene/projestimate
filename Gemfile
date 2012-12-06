@@ -2,12 +2,12 @@ source 'http://rubygems.org'
 source 'http://gems.rubyforge.org'
 source 'http://gemcutter.org'
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.2.9'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'coffee-rails', '~> 3.1.1'
+  gem 'coffee-rails'
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-datatables-rails'
   gem 'jquery-ui-rails'

@@ -281,10 +281,10 @@ def load_data!
         ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2])
       end
     
-  puts " Creating  organizations..."
+  puts " Creating organizations..."
     Organization.create(:name => "YourOrganization", :description => "This must be update to match your organization")
     organization = Organization.first
-    Organization.create(:name => "Other", :description => "This could be used to group users that are not members of any orgnaization")
+    Organization.create(:name => "Other", :description => "This could be used to group users that are not members of any organization")
 
     #puts "   - Inflation"
     #Inflation.create(:organization_id => organization.id, :year => Time.now.strftime("%Y"), :labor_inflation => "1.0", :material_inflation => "1.0", :description => "TBD" )

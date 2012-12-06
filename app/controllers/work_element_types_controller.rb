@@ -20,6 +20,8 @@
 
 class WorkElementTypesController < ApplicationController
 
+  before_filter :metaprog
+
   def index
     authorize! :manage_wet, WorkElementType
     set_page_title "Work Element Type"

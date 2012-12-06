@@ -20,6 +20,7 @@
 
 class ComponentsController < ApplicationController
 
+
   def edit
     @component = Component.find(params[:id])
     set_page_title("Editing #{@component.name}")

@@ -31,6 +31,10 @@ class WorkElementType < ActiveRecord::Base
     text :name, :description, :alias
   end
 
+  def self.work_element_type_list
+    Object::WorkElementType.all.map(&:alias)
+  end
+
   #Override
   def to_s
     self.name

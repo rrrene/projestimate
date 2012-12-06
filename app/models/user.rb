@@ -159,11 +159,6 @@ class User < ActiveRecord::Base
     self.first_name + " " + self.last_name
   end
 
-  #Return true if user is a Administrator
-  def admin?
-    self.roles.map(&:code_role).include?("ADMIN")
-  end
-
   #Send email in order to reset user password
   def send_password_reset
     generate_token(:password_reset_token)
@@ -201,15 +196,18 @@ class User < ActiveRecord::Base
 
   #Add in the list of latest project a new project
   def add_recent_project(project_id)
-    self.ten_latest_projects = self.ten_latest_projects.push(project_id)
-    self.ten_latest_projects = self.ten_latest_projects.uniq.reverse
+    val = self.ten_latest_projects.delete(project_id.to_i)
+    if val
+      self.ten_latest_projects.insert(0, val.to_i)
+    else
+      self.ten_latest_projects.insert(0, project_id.to_i)
+    end
     self.save
   end
 
   #Delete in the list of latest project a new project
   def delete_recent_project(project_id)
-    self.ten_latest_projects = self.ten_latest_projects.pop(project_id)
-    self.ten_latest_projects = self.ten_latest_projects.uniq.reverse
+    self.ten_latest_projects.delete(project_id.to_i) if self.ten_latest_projects.include?(project_id.to_i)
     self.save
   end
 

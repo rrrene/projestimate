@@ -40,9 +40,9 @@
       <div class="login_wrapper"> </div>
       <div class="login_information">
         <% if controller.controller_name == "password_resets" %>
-          <%= render :partial => "sessions/retrieve_password" %>
+          <%= render "sessions/retrieve_password" %>
         <% else %>
-          <%= render :partial => "sessions/new" %>
+          <%= render "sessions/new" %>
         <% end %>
       </div>
     </div>
