@@ -16,7 +16,7 @@ end
 gem 'jquery-rails'
 
 group :test do
-  gem 'factory_girl_rails', '~> 3.0'
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'capybara'
   #To satisfy
 
@@ -65,6 +65,7 @@ gem 'net-ldap'
 # Web server
 gem 'unicorn'
 #gem 'passenger'
+
 group :development do
 #  gem 'mongrel'
 

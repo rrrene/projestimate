@@ -92,12 +92,31 @@ describe Project do
     lambda { @project1.commit! }.should change(@project1, :state).from('private').to('baseline')
   end
 
+  it "should return all possible states" do
+    project1 = FactoryGirl.create(:project)
+    project1.states.should eql(Project.aasm_states_for_select)
+  end
+
 
   #OTHERS TESTS
 
   it "should return his root component" do
     @project.root_component.id.should eql(@project.wbs.components.first.id)
   end
+
+  it "should return the good WBS attached to the project" do
+    project = FactoryGirl.create(:project)
+    project.wbs = FactoryGirl.create(:wbs_1)
+    #wbs.project.should eql(project1)
+    project.wbs.project_id.should eql(project.id)
+  end
+
+  it "should be the project root component" do
+    component = FactoryGirl.create(:component)
+    project = component.wbs.project
+    project.root_component.is_root.should be_true
+  end
+
 
   it "should return a good project attribute value" do
      #TODO

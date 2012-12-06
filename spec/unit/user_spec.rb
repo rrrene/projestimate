@@ -8,7 +8,6 @@ describe User do
     @user = User.new(valid_user_hash)  #defined below
   end
 
-
   it "should be valid" do
     @admin.should be_valid
     @user.should be_valid
@@ -103,7 +102,6 @@ describe User do
 
   describe "when password doesn't match confirmation" do
     before { @user.password_confirmation= "changed_pass" }
-
     it "should not be valid" do
       @user.should_not be_valid
     end
@@ -121,33 +119,34 @@ describe User do
   #end
 
 
+  #AUTHENTICATION VALIDATION
+
   describe "check if password is not blank" do
     before {@user.password = ""}
-    it "should not be valid" do
+    it "should return false" do
       @user.password_present?.should be_false
     end
   end
 
-
-  #AUTHENTICATION VALIDATION
-
   describe "return value of authenticate method" do
     #before { @new_user =  User.new( :last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin', :email => 'youremail@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'projestimate', :password_confirmation => 'projestimate') }
-    before { @new_user = User.first }
-    #subject {@new_user}
+    #before { @new_user = User.first }
+    before { @new_user = FactoryGirl.build(:user)}
 
     let(:found_user) { User.find_by_email(@new_user.email) }
+    subject {found_user}
 
     describe "with valid password" do
       #it { should == User.authenticate(@new_user.login_name, @new_user.password)}
-      it { should == User.authenticate(@new_user.login_name, @new_user.password)}
+      it { should == User.authenticate(found_user.login_name, "projestimate")}
     end
 
     describe "with invalid password" do
-      let(:user_with_invalid_password) { User.authenticate(@new_user.login_name, "invalid") }
+      let(:user_with_invalid_password) { User.authenticate(found_user.login_name, "invalid") }
       it { should_not == user_with_invalid_password }
       specify { user_with_invalid_password.should be_false}
     end
+
   end
 
 
@@ -158,7 +157,6 @@ describe User do
     @admin.should be_valid
   end
 
-
   it "should be in pending mode waiting for validation" do
     @user.user_status.should eql('pending')
     @user.user_status='pending'
@@ -166,9 +164,9 @@ describe User do
   end
 
   #check admin status
-  it "should not be an admin account" do
-    @user.auth_type.should_not eql(6)
-    @user.should be_valid
+  it "should be in Admin or MasterAdmin groups to be an admin account" do
+    first_user = User.first
+    first_user.should have_at_least(1).admin_groups
   end
 
   it "should not be an suspending account" do
@@ -233,18 +231,29 @@ describe User do
     lambda { @user.switch_to_pending! }.should change(@user, :user_status).from('blacklisted').to('pending')
   end
 
-
   it "should be have Nom Prenom" do
     @admin.name.should eq("Administrator Projestimate")
   end
 
   it "should return groups array (globals permissions)" do
+    user_groups = @user.group_for_global_permissions
+    user_groups.each do |grp|
+      grp.for_global_permission.should eql("true")
+    end
+  end
+
+  it "should return groups array (project securities)" do
+    user_groups = @user.group_for_project_securities
+    user_groups.each do |grp|
+      grp.for_project_security.should eql("true")
+    end
   end
 
   it "should return groups array (specific permissions)" do
   end
 
   it "should be authenticate by the application" do
+    @user.auth_method.name.should eql("Application")
   end
 
   it "should be authenticate by the a LDAP directory" do
@@ -256,7 +265,14 @@ describe User do
   it "should be delete recent projects" do
   end
 
-  it "should be add recent projects" do
+  it "should add recent projects" do
+    project1 = FactoryGirl.create(:project)
+    @user.add_recent_project(project1)
+    @user.ten_latest_projects.first.should eql(project1)
+  end
+
+  it "should return last projects" do
+    user_last_project = @admin1.ten_latest_projects
   end
 
   it "should return a search result (using for datatables plugins)" do
