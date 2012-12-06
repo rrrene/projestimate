@@ -2,6 +2,7 @@ require "spec_helper"
 describe AcquisitionCategory do
   before :each do
     @acquisition_category = AcquisitionCategory.first
+    #@acquisition_category = Factory
   end
 
   it 'should be valid' do

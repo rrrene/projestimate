@@ -48,5 +48,11 @@ module ProjestimateMaquette
     config.assets.version = '1.0'
 
     #config.force_ssl = true
+
+    # these lines go within the Application class definition
+    config.generators do |g|
+      g.test_framework :rspec, :fixture => true, :views => false, :fixture_replacement => :factory_girl, :view_specs => false
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+    end
   end
 end
