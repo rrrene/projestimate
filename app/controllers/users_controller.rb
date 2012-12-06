@@ -70,7 +70,7 @@ class UsersController < ApplicationController
     #Checking password length
     user_pass_length = params[:user][:password].length
     if user_pass_length < good_password_length
-      flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
+      flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
       render "new" and return
     else
       if @user.save
@@ -98,7 +98,7 @@ class UsersController < ApplicationController
     user_pass_length = params[:user][:password].length
     if !params[:user][:password].blank?
       if user_pass_length < good_password_length
-        flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
+        flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
         render(:edit) and return
       end
     end

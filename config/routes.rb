@@ -26,8 +26,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :languages
 
-  resources :staffs
-
   resources :project_securities
   get "select_users" => "project_securities#select_users", :as => "select_users"
 

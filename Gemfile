@@ -67,6 +67,9 @@ gem 'unicorn'
 #gem 'passenger'
 group :development do
 #  gem 'mongrel'
+
+  #For UML classes diagram generator
+  gem 'railroady', :group => [:development, :test]
 end
 
 # Deploy with Capistrano
@@ -97,4 +100,5 @@ gem 'paperclip', '~> 3.0'
 
 #Continious integration and monitoring
 gem 'newrelic_rpm'
+
 
