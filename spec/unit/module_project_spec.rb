@@ -41,7 +41,7 @@ describe ModuleProject do
   end
 
   it "should return next module project" do
-    pe_project = FactoryGirl.create(:pe_project)
+    #pe_project = FactoryGirl.create(:pe_project)
     #module_project1 = FactoryGirl.create(:module_project1)
     #module_project2 = FactoryGirl.create(:module_project2)
     #module_project1.next.should eql(module_project2)
