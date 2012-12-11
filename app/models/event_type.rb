@@ -18,5 +18,7 @@
 #
 ########################################################################
 
+#Master Data
 class EventType < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
 end

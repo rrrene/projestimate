@@ -18,9 +18,16 @@
 #
 ########################################################################
 
+#Master Data
 #Language of the User
 class Language < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_many :users
+
+  #self relation
+  belongs_to :parent, :class_name => "Language", :foreign_key => "parent_id"
+  has_one    :child,  :class_name => "Language", :inverse_of  => :parent
 
   validates_presence_of :name
   validates_presence_of :locale

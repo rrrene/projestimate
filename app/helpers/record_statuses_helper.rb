@@ -1,3 +1,4 @@
+#encoding: utf-8
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
@@ -18,13 +19,5 @@
 #
 ########################################################################
 
-#Master table
-#Specific attribute for a module (Fcuntionality)
-class AttributeModule < ActiveRecord::Base
-  include UUIDHelper   #module for UUID generation
-
-  belongs_to :pemodule
-  belongs_to :attribute, :class_name => "Attribute"
-
-  #TODO? validates :pemodule_id, :attribute_id, :presence => true
+module RecordStatusesHelper
 end

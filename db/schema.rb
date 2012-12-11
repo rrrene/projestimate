@@ -11,14 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204100536) do
+ActiveRecord::Schema.define(:version => 20121210092342) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "acquisition_categories", ["owner_id"], :name => "index_acquisition_categories_on_owner_id"
+  add_index "acquisition_categories", ["parent_id"], :name => "index_acquisition_categories_on_parent_id"
+  add_index "acquisition_categories", ["record_status_id"], :name => "index_acquisition_categories_on_record_status_id"
+  add_index "acquisition_categories", ["uuid"], :name => "index_acquisition_categories_on_uuid", :unique => true
 
   create_table "acquisition_categories_project_areas", :id => false, :force => true do |t|
     t.integer  "acquisition_category_id"
@@ -33,7 +45,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.string   "alias"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "activity_categories", ["owner_id"], :name => "index_activity_categories_on_owner_id"
+  add_index "activity_categories", ["parent_id"], :name => "index_activity_categories_on_parent_id"
+  add_index "activity_categories", ["record_status_id"], :name => "index_activity_categories_on_record_status_id"
+  add_index "activity_categories", ["uuid"], :name => "index_activity_categories_on_uuid", :unique => true
 
   create_table "activity_categories_project_areas", :id => false, :force => true do |t|
     t.integer  "activity_category_id"
@@ -47,7 +71,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "admin_settings", ["owner_id"], :name => "index_admin_settings_on_owner_id"
+  add_index "admin_settings", ["parent_id"], :name => "index_admin_settings_on_parent_id"
+  add_index "admin_settings", ["record_status_id"], :name => "index_admin_settings_on_record_status_id"
+  add_index "admin_settings", ["uuid"], :name => "index_admin_settings_on_uuid", :unique => true
 
   create_table "attribute_modules", :force => true do |t|
     t.integer  "attribute_id"
@@ -69,7 +105,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.integer  "dimensions"
     t.string   "custom_attribute"
     t.string   "project_value"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "attribute_modules", ["owner_id"], :name => "index_attribute_modules_on_owner_id"
+  add_index "attribute_modules", ["parent_id"], :name => "index_attribute_modules_on_parent_id"
+  add_index "attribute_modules", ["record_status_id"], :name => "index_attribute_modules_on_record_status_id"
+  add_index "attribute_modules", ["uuid"], :name => "index_attribute_modules_on_uuid", :unique => true
 
   create_table "attributes", :force => true do |t|
     t.string   "name"
@@ -80,7 +128,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "aggregation"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "attributes", ["owner_id"], :name => "index_attributes_on_owner_id"
+  add_index "attributes", ["parent_id"], :name => "index_attributes_on_parent_id"
+  add_index "attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
+  add_index "attributes", ["uuid"], :name => "index_attributes_on_uuid", :unique => true
 
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
@@ -91,7 +151,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.boolean  "certificate"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "auth_methods", ["owner_id"], :name => "index_auth_methods_on_owner_id"
+  add_index "auth_methods", ["parent_id"], :name => "index_auth_methods_on_parent_id"
+  add_index "auth_methods", ["record_status_id"], :name => "index_auth_methods_on_record_status_id"
+  add_index "auth_methods", ["uuid"], :name => "index_auth_methods_on_uuid", :unique => true
 
   create_table "components", :force => true do |t|
     t.integer  "wbs_id"
@@ -113,7 +185,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "currencies", ["owner_id"], :name => "index_currencies_on_owner_id"
+  add_index "currencies", ["parent_id"], :name => "index_currencies_on_parent_id"
+  add_index "currencies", ["record_status_id"], :name => "index_currencies_on_record_status_id"
+  add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
 
   create_table "event_types", :force => true do |t|
     t.string   "name"
@@ -121,7 +205,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.string   "icon_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "event_types", ["owner_id"], :name => "index_event_types_on_owner_id"
+  add_index "event_types", ["parent_id"], :name => "index_event_types_on_parent_id"
+  add_index "event_types", ["record_status_id"], :name => "index_event_types_on_record_status_id"
+  add_index "event_types", ["uuid"], :name => "index_event_types_on_uuid", :unique => true
 
   create_table "events", :force => true do |t|
     t.string   "name"
@@ -142,7 +238,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.datetime "updated_at"
     t.boolean  "for_global_permission"
     t.boolean  "for_project_security"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "groups", ["owner_id"], :name => "index_groups_on_owner_id"
+  add_index "groups", ["parent_id"], :name => "index_groups_on_parent_id"
+  add_index "groups", ["record_status_id"], :name => "index_groups_on_record_status_id"
+  add_index "groups", ["uuid"], :name => "index_groups_on_uuid", :unique => true
 
   create_table "groups_permissions", :id => false, :force => true do |t|
     t.integer  "group_id"
@@ -182,7 +290,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "labor_categories", ["owner_id"], :name => "index_labor_categories_on_owner_id"
+  add_index "labor_categories", ["parent_id"], :name => "index_labor_categories_on_parent_id"
+  add_index "labor_categories", ["record_status_id"], :name => "index_labor_categories_on_record_status_id"
+  add_index "labor_categories", ["uuid"], :name => "index_labor_categories_on_uuid", :unique => true
 
   create_table "labor_categories_project_areas", :id => false, :force => true do |t|
     t.integer  "labor_category_id"
@@ -196,7 +316,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.string   "locale"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "languages", ["owner_id"], :name => "index_languages_on_owner_id"
+  add_index "languages", ["parent_id"], :name => "index_languages_on_parent_id"
+  add_index "languages", ["record_status_id"], :name => "index_languages_on_record_status_id"
+  add_index "languages", ["uuid"], :name => "index_languages_on_uuid", :unique => true
 
   create_table "links_module_project_attributes", :id => false, :force => true do |t|
     t.integer "link_id"
@@ -208,7 +340,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "master_settings", ["owner_id"], :name => "index_master_settings_on_owner_id"
+  add_index "master_settings", ["parent_id"], :name => "index_master_settings_on_parent_id"
+  add_index "master_settings", ["record_status_id"], :name => "index_master_settings_on_record_status_id"
+  add_index "master_settings", ["uuid"], :name => "index_master_settings_on_uuid", :unique => true
 
   create_table "module_project_attributes", :force => true do |t|
     t.integer  "attribute_id"
@@ -285,7 +429,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "peicons", ["owner_id"], :name => "index_peicons_on_owner_id"
+  add_index "peicons", ["parent_id"], :name => "index_peicons_on_parent_id"
+  add_index "peicons", ["record_status_id"], :name => "index_peicons_on_record_status_id"
+  add_index "peicons", ["uuid"], :name => "index_peicons_on_uuid", :unique => true
 
   create_table "pemodules", :force => true do |t|
     t.string   "title"
@@ -296,7 +452,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.datetime "updated_at"
     t.text     "compliant_component_type"
     t.boolean  "is_typed"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "pemodules", ["owner_id"], :name => "index_pemodules_on_owner_id"
+  add_index "pemodules", ["parent_id"], :name => "index_pemodules_on_parent_id"
+  add_index "pemodules", ["record_status_id"], :name => "index_pemodules_on_record_status_id"
+  add_index "pemodules", ["uuid"], :name => "index_pemodules_on_uuid", :unique => true
 
   create_table "permissions", :force => true do |t|
     t.string   "object_associated"
@@ -305,7 +473,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_permission_project"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "permissions", ["owner_id"], :name => "index_permissions_on_owner_id"
+  add_index "permissions", ["parent_id"], :name => "index_permissions_on_parent_id"
+  add_index "permissions", ["record_status_id"], :name => "index_permissions_on_record_status_id"
+  add_index "permissions", ["uuid"], :name => "index_permissions_on_uuid", :unique => true
 
   create_table "permissions_project_security_levels", :id => false, :force => true do |t|
     t.integer  "permission_id"
@@ -326,7 +506,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "platform_categories", ["owner_id"], :name => "index_platform_categories_on_owner_id"
+  add_index "platform_categories", ["parent_id"], :name => "index_platform_categories_on_parent_id"
+  add_index "platform_categories", ["record_status_id"], :name => "index_platform_categories_on_record_status_id"
+  add_index "platform_categories", ["uuid"], :name => "index_platform_categories_on_uuid", :unique => true
 
   create_table "platform_categories_project_areas", :id => false, :force => true do |t|
     t.integer  "platform_category_id"
@@ -340,7 +532,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "project_areas", ["owner_id"], :name => "index_project_areas_on_owner_id"
+  add_index "project_areas", ["parent_id"], :name => "index_project_areas_on_parent_id"
+  add_index "project_areas", ["record_status_id"], :name => "index_project_areas_on_record_status_id"
+  add_index "project_areas", ["uuid"], :name => "index_project_areas_on_uuid", :unique => true
 
   create_table "project_areas_project_categories", :id => false, :force => true do |t|
     t.integer  "project_category_id"
@@ -361,7 +565,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "project_categories", ["owner_id"], :name => "index_project_categories_on_owner_id"
+  add_index "project_categories", ["parent_id"], :name => "index_project_categories_on_parent_id"
+  add_index "project_categories", ["record_status_id"], :name => "index_project_categories_on_record_status_id"
+  add_index "project_categories", ["uuid"], :name => "index_project_categories_on_uuid", :unique => true
 
   create_table "project_ressources", :force => true do |t|
     t.string "name"
@@ -380,7 +596,19 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "project_security_levels", ["owner_id"], :name => "index_project_security_levels_on_owner_id"
+  add_index "project_security_levels", ["parent_id"], :name => "index_project_security_levels_on_parent_id"
+  add_index "project_security_levels", ["record_status_id"], :name => "index_project_security_levels_on_record_status_id"
+  add_index "project_security_levels", ["uuid"], :name => "index_project_security_levels_on_uuid", :unique => true
 
   create_table "project_staffs", :force => true do |t|
     t.datetime "created_at"
@@ -417,6 +645,25 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "record_statuses", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "record_statuses", ["owner_id"], :name => "index_record_statuses_on_owner_id"
+  add_index "record_statuses", ["parent_id"], :name => "index_record_statuses_on_parent_id"
+  add_index "record_statuses", ["record_status_id"], :name => "index_record_statuses_on_record_status_id"
+  add_index "record_statuses", ["uuid"], :name => "index_record_statuses_on_uuid", :unique => true
 
   create_table "results", :force => true do |t|
     t.integer "functionality_id"
@@ -471,6 +718,18 @@ ActiveRecord::Schema.define(:version => 20121204100536) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "peicon_id"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "parent_id"
+    t.string   "ref"
   end
+
+  add_index "work_element_types", ["owner_id"], :name => "index_work_element_types_on_owner_id"
+  add_index "work_element_types", ["parent_id"], :name => "index_work_element_types_on_parent_id"
+  add_index "work_element_types", ["record_status_id"], :name => "index_work_element_types_on_record_status_id"
+  add_index "work_element_types", ["uuid"], :name => "index_work_element_types_on_uuid", :unique => true
 
 end

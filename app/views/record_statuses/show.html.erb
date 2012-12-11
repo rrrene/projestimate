@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @record_status.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @record_status.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_record_status_path(@record_status) %> |
+<%= link_to 'Back', record_statuses_path %>

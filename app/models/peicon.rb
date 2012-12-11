@@ -17,7 +17,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ########################################################################
+
+#Master Data
 class Peicon < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   attr_accessible :name, :icon
   has_attached_file :icon, :styles => { :small => "16x16" }
 

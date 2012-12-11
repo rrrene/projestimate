@@ -18,13 +18,9 @@
 #
 ########################################################################
 
-#Master table
-#Specific attribute for a module (Fcuntionality)
-class AttributeModule < ActiveRecord::Base
+#Master Data
+class RecordStatus < ActiveRecord::Base
   include UUIDHelper   #module for UUID generation
 
-  belongs_to :pemodule
-  belongs_to :attribute, :class_name => "Attribute"
-
-  #TODO? validates :pemodule_id, :attribute_id, :presence => true
+  attr_accessible :description, :name
 end

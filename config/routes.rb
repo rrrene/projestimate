@@ -1,5 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  resources :record_statuses
+
+
   resources :peicons
   match 'peicons/:id/choose_icon' => 'peicons#choose_icon', :as => "choose_icon"
 

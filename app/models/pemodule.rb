@@ -18,9 +18,12 @@
 #
 ########################################################################
 
+#Master Data
 #Pemodule represent the Module of the application.
 #Pemodule can be commun(sum, average) or typed(cocomo, pnr...)
 class Pemodule < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   #Project has many module, module has many project
   has_many :module_projects
   has_many :projects, :through => :module_projects

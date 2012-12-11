@@ -18,11 +18,23 @@
 #
 ########################################################################
 
+#Master table
 #Sous-découpage du domaine du projet (elle est lié à la table ProjectAreas).
 class ActivityCategory < ActiveRecord::Base
+  include UUIDHelper    #module for UUID generation
+
   has_and_belongs_to_many :project_areas
 
+  belongs_to :record_status
+  belongs_to :user, :foreign_key => "owner_id"
+
   validates_presence_of :name, :description, :alias
+
+  # This set the record UUID on :create  as a :before_create method
+  def set_uuid
+    #self.uuid = UUI
+  end
+
 
   def to_s
     name

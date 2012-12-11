@@ -18,7 +18,10 @@
 #
 ########################################################################
 
+#Master Data
 class ProjectSecurityLevel < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_many :project_securities
   has_and_belongs_to_many :permissions
 end

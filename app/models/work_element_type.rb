@@ -18,8 +18,11 @@
 #
 ########################################################################
 
+#Master Data
 #WorkElementType has many components and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
 class WorkElementType < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_many :components
   belongs_to :project_area
   belongs_to :peicon

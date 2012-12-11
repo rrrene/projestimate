@@ -1,3 +1,4 @@
+#Special table
 class AuthMethod < ActiveRecord::Base
   validates_presence_of :name, :server_name, :port, :base_dn
 

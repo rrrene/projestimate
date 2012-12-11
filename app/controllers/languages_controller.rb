@@ -69,6 +69,7 @@ class LanguagesController < ApplicationController
   def create
     authorize! :edit_languages, Language
     @language = Language.new(params[:language])
+    @language.record_status_id = RecordStatus.first.id
     if @language.save
       redirect_to redirect(@language), notice: 'Language was successfully created.'
     else

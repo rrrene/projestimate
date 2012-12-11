@@ -18,8 +18,11 @@
 #
 ########################################################################
 
+#Master Data
 #ProjectArea management
 class ProjectArea < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_and_belongs_to_many :activity_categories
   has_and_belongs_to_many :labor_categories
   has_and_belongs_to_many :platform_categories

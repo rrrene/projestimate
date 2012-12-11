@@ -18,8 +18,11 @@
 #
 ########################################################################
 
+#Special Data
 #Group class contains some User.
 class Group < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_and_belongs_to_many :users
   has_and_belongs_to_many :projects
 

@@ -18,9 +18,11 @@
 #
 ########################################################################
 
+#Master table
 #Global attributes of project. Ex : size, cost, result, date etc...
 #Those attributes are used into AttributeModule
 class Attribute < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
 
   serialize :options, Array
 

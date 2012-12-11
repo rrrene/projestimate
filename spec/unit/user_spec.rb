@@ -88,7 +88,7 @@ describe User do
   end
 
   it "should not be valid without password"  do
-    @user.password=''
+    @user.password = ''
     @user.should_not be_valid
   end
 

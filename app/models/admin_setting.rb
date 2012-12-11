@@ -18,7 +18,10 @@
 #
 ########################################################################
 
+# Special table
 class AdminSetting < ActiveRecord::Base
+  include UUIDHelper  # UUID generator
+
   validates :key, :presence => true, :uniqueness => true
   validates :value, :presence => true
 end

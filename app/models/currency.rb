@@ -18,7 +18,10 @@
 #
 ########################################################################
 
+#Master Data
 #Currency - not yet begin
 class Currency < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_many :organization_labor_categories
 end

@@ -18,7 +18,9 @@
 #
 ########################################################################
 
+#Master Data
 class MasterSetting < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
 
   validates :key, :presence => true, :uniqueness => { :case_sensitive => false}
   validates :value, :presence => true

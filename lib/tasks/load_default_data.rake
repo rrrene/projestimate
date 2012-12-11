@@ -76,6 +76,8 @@ namespace :projestimate do
 
           Component.delete_all
           
+          # New class : RecordStatus
+          RecordStatus.delete_all
 
           load_data!
         end
@@ -366,6 +368,20 @@ def load_data!
 
     permissions.each do |i|
       Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2])
+    end
+
+    #RecordStatus
+    record_status = Array.new
+    record_status = [
+        ["Proposed", "TBD"],
+        ["InReview", "TBD"],
+        ["Draft", "TBD"],
+        ["Defined", "TBD"],
+        ["Retired", "TBD"],
+        ["Custom", "TBD"]
+    ]
+    record_status.each do |i|
+      RecordStatus.create(:name => i[0], :description => i[1] )
     end
 
     puts "\n\n"
