@@ -102,4 +102,7 @@ gem 'paperclip', '~> 3.0'
 #Continious integration and monitoring
 gem 'newrelic_rpm'
 
+# UUID tools generator
+gem "uuidtools"
+
 

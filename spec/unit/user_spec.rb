@@ -3,9 +3,12 @@ require "spec_helper"
 describe User do
 
   before :each do
-    @admin1 =  User.first
+    #@admin1 =  User.first
+    @admin1 = FactoryGirl.create(:user)
+    @user2 = FactoryGirl.create(:user2)
     @admin = User.new(admin_user_hash)  #defined below
     @user = User.new(valid_user_hash)  #defined below
+    #@fact_user1 = FactoryGirl.create(:fact1)
   end
 
   it "should be valid" do
@@ -129,9 +132,7 @@ describe User do
   end
 
   describe "return value of authenticate method" do
-    #before { @new_user =  User.new( :last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin', :email => 'youremail@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'projestimate', :password_confirmation => 'projestimate') }
-    #before { @new_user = User.first }
-    before { @new_user = FactoryGirl.build(:user)}
+    before { @new_user = User.first }
 
     let(:found_user) { User.find_by_email(@new_user.email) }
     subject {found_user}
@@ -253,7 +254,7 @@ describe User do
   end
 
   it "should be authenticate by the application" do
-    @user.auth_method.name.should eql("Application")
+    @admin1.auth_method.name.should eql("Application")
   end
 
   it "should be authenticate by the a LDAP directory" do

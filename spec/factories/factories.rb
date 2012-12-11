@@ -1,25 +1,41 @@
 FactoryGirl.define do
   factory :user do
-    first_name "Administrator"
-    last_name  "Projestimate"
-    login_name "admin"
-    initials   "ad"
-    email      "youremail@yourcompany.net"
+    first_name "Administrator1"
+    last_name  "Projestimate1"
+    login_name "admin1"
+    email      "admin1@yourcompany.net"
+    initials   "ad1"
     auth_method
     user_status "active"
     language
-    password   "projestimate"
-    password_confirmation "projestimate"
+    password   "projestimate1"
+    password_confirmation "projestimate1"
   end
+
+
+
+  #trait :admin2 do
+  #  first_name "Administrator2"
+  #  last_name  "Projestimate2"
+  #  login_name "admin2"
+  #  email      "admin2@yourcompany.net"
+  #  initials   "ad2"
+  #end
+  #
+  #trait :fact1 do
+  #  first_name "Administrator1"
+  #  last_name  "Projestimate1"
+  #  login_name "admin1"
+  #  email      "admin1@yourcompany.net"
+  #  initials   "ad1"
+  #end
 
   factory :auth_method do  |auth|
     auth.name "Application"
     auth.server_name "not Necessary"
     auth.port 0
     auth.base_dn "Not necessary"
-    auth.user_name_attribute nil
     auth.certificate 0
-    auth.scope nil
   end
 
   factory :language do
