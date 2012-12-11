@@ -25,6 +25,9 @@ class Language < ActiveRecord::Base
 
   has_many :users
 
+  belongs_to :record_status
+  belongs_to :user, :foreign_key => "owner_id"
+
   #self relation
   belongs_to :parent, :class_name => "Language", :foreign_key => "parent_id"
   has_one    :child,  :class_name => "Language", :inverse_of  => :parent

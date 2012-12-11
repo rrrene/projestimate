@@ -20,9 +20,9 @@
 
 #Master Data
 #Sous-découpage du domaine du projet (elle est lié à la table ProjectAreas).
-include UUIDHelper   #module for UUID generation
-
 class LaborCategory < ActiveRecord::Base
+  include UUIDHelper   #module for UUID generation
+
   has_many :projects
   has_many :organization_labor_categories
 

@@ -92,10 +92,14 @@ class LanguagesController < ApplicationController
 
   # DELETE /languages/1
   # DELETE /languages/1.json
+  # Destroy method on Master table is not going to delete  definitively the record
+  #It is only going to change ths record status : logical deletion
   def destroy
     authorize! :edit_languages, Language
     @language = Language.find(params[:id])
-    @language.destroy
+    #logical deletion
+    @language.rec
+
 
     respond_to do |format|
       format.html { redirect_to languages_url }

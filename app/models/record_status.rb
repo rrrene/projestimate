@@ -23,4 +23,11 @@ class RecordStatus < ActiveRecord::Base
   include UUIDHelper   #module for UUID generation
 
   attr_accessible :description, :name
+
+  belongs_to :record_status
+
+  has_many :acquisition_categories
+  has_many :activity_categories
+  has_many :attributes
+  has_many :attribute_modules
 end
