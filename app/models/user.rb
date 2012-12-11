@@ -211,7 +211,6 @@ class User < ActiveRecord::Base
     self.save
   end
 
-
   #List of Admin group
   def admin_groups
     Group.find_all_by_name(["Admin", "MasterAdmin"])
