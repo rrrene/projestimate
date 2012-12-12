@@ -49,7 +49,6 @@ class Component < ActiveRecord::Base
   #Generate an method numeric_data_low or numeric_data_ml etc...
   #Usage: component1.numeric_data_high
   #Return correct value.
-  #attr_list = Attribute::attribute_list
   attr_list = Object::Attribute::attribute_list
   attr_list.each do |attr|
     define_method("#{attr}") do

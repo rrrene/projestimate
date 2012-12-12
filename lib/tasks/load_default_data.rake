@@ -209,7 +209,7 @@ def load_data!
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !")
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
     AdminSetting.create(:key => "password_min_length", :value => "4")
-    AdminSetting.create(:key => "custom_status_to_consider", :value => "")
+    AdminSetting.create(:key => "custom_status_to_consider", :value => "status1;status2")
 
     puts "   - Auth Method"
     AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false")

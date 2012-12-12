@@ -12,6 +12,10 @@ FactoryGirl.define do
     password_confirmation "projestimate1"
   end
 
+  #factory :unknown_project_category, :class => ProjectCategory do
+  #  name "Unknown"
+  #  description  "TBD"
+  #end
 
 
   #trait :admin2 do
@@ -39,10 +43,14 @@ FactoryGirl.define do
   end
 
   factory :language do
-    name "English"
-    locale "en"
+    name "Test"
+    locale "This is a test"
   end
 
+  factory :ProjectCategory do
+    name "projet1"
+    description "en"
+  end
 
   # Projects
   factory :project do |p|
@@ -53,6 +61,19 @@ FactoryGirl.define do
     p.start_date Time.now
   end
 
+  ## project_security
+  #factory :project_security do |p|
+  #  p.user_id 1
+  #  p.project_id 1
+  #  p.group_id 1
+  #  p.project_security_level_id 1
+  #end
+  #
+  ## project_security_level
+  #factory :project_security_level do |p|
+  #  p.id 1
+  #  p.name "read"
+  #end
 
   # Organizations
   factory :organization do
@@ -103,8 +124,6 @@ FactoryGirl.define do
     wet.association :peicon, :factory => :peicon_link
   end
 
-
-  # Peicon
   factory :peicon_folder, :class => Peicon do
     name "Folder"
     icon_file_name "myFolder"
@@ -119,13 +138,12 @@ FactoryGirl.define do
     icon_file_size 506
   end
 
-
-  # Attributes
-  factory :ksloc_attribute, :class => Attribute do |attr|
-    attr.name "Ksloc1"
-    attr.alias "ksloc1"
-    attr.description "Attribut number 1"
-    attr.attr_type "Integer"
+  factory :attribute, :class => Attribute do |attr|
+     attr.name "attr"
+     attr.alias "attr"
+     attr.description "Attr"
+     attr.attr_type "Integer"
+     attr.options []
   end
 
 

@@ -9,4 +9,5 @@ describe ProjectSecurityLevel do
   it "should be valid" do
     @project_security_level.should be_valid
   end
+
 end

@@ -25,4 +25,17 @@ describe Group do
     group2.should_not be_valid
   end
 
+  it "should be not valid" do
+    @group.name=1
+    @group.to_s.should_not be_instance_of(String)
+  end
+
+  it "should be valid" do
+    @group.to_s.should be_an_instance_of(String)
+  end
+
+  it "should return group name" do
+    @group.to_s.should eql(@group.name)
+  end
+
 end

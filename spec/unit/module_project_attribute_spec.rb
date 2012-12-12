@@ -23,4 +23,16 @@ describe ModuleProjectAttribute do
     @mpa.custom_attribute?.should be_true
   end
 
+  #it "should be not valid" do
+  #  @mpa.attribute.name=1
+  #  @mpa.to_s.should_not be_instance_of(String)
+  #end
+  #
+  #it "should be valid" do
+  #  @mpa.to_s.should be_an_instance_of(String)
+  #end
+
+  #it "should return module project attribute name" do
+  #  @mpa.to_s.should eql(@mpa.attribute.name)
+  #end
 end
