@@ -61,6 +61,19 @@ FactoryGirl.define do
     p.start_date Time.now
   end
 
+  ## project_security
+  #factory :project_security do |p|
+  #  p.user_id 1
+  #  p.project_id 1
+  #  p.group_id 1
+  #  p.project_security_level_id 1
+  #end
+  #
+  ## project_security_level
+  #factory :project_security_level do |p|
+  #  p.id 1
+  #  p.name "read"
+  #end
 
   # Organizations
   factory :organization do
