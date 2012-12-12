@@ -21,7 +21,7 @@
 #
 #
 #namespace :projestimate do
-#  desc "Load default data"
+#  desc "Load default data from remote repository"
 #  task :load_default_data_from_master_repo => :environment do
 #
 #    print "\n You're about to install the default data on #{Rails.env} database. Do you want : \n
@@ -143,20 +143,16 @@
 #
 #    puts "   - Projestimate Icons"
 #
-#    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"))
-#    link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"))
-#    undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"))
-#    default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"))
+#    peicons = Peicon.all.map{|i| [i.name, i.icon] }
+#    peicons.each do |i|
+#      Peicon.create(:name => i[0], :icon => i[1])
+#    end
 #
 #    puts "   - WBS structure"
-#    #Create first work element type (type of a component)
-#    WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id)
-#    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id)
-#    WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id)
-#    WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id)
-#    WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id)
-#    WorkElementType.create(:name => "Purchased Hardware", :alias => "$HW", :peicon_id => default.id)
-#    WorkElementType.create(:name => "Purchased Miscellaneous", :alias => "$SMisc", :peicon_id => default.id)
+#    wets = WorkElementType.all.map{|i| [i.name, i.alias, i.peicon_id] }
+#    wets.each do |i|
+#      WorkElementType.create(:name => i[0], :alias => i[1])
+#    end
 #
 #    wet = WorkElementType.first
 #

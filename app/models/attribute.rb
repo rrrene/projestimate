@@ -74,15 +74,9 @@ class Attribute < ActiveRecord::Base
       str = array[1] + array[2]
       str_to_eval = val + str.to_s
       begin
-        res = eval(str_to_eval)
-        if res.nil?
-          return true
-        else
-          return res
-        end
-      rescue
-        puts "Not compatible to an evaluation"
-        return true
+        eval(str_to_eval)
+      rescue Exception => se
+        return false
       end
     else
       return true
