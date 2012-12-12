@@ -13,3 +13,4 @@ describe ProjectCategory do
   #  @project_category.to_s(1).should_not be_valid
   #end
 end
+
