@@ -1,6 +1,21 @@
-## Projestimate Icons
-#
-#FactoryGirl.define do
+# Projestimate Icons
+
+FactoryGirl.define do
+
+  factory :peicon_folder, :class => Peicon do
+    name "Folder"
+    icon_file_name "myFolder"
+    icon_content_type "image/png"
+    icon_file_size 500
+  end
+
+  factory :peicon_link, :class => Peicon do
+    name "Link"
+    icon_file_name "myLink"
+    icon_content_type "image/png"
+    icon_file_size 506
+  end
+
 #
 #  factory :folder_icon, :class => Peicon do
 #    name "Folder"
@@ -27,4 +42,4 @@
 #  @undefined_icon = FactoryGirl.create(:undefined_icon)
 #  @default_icon = FactotyGirl.create(:default_icon)
 #
-#end
+end
