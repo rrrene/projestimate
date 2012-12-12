@@ -3,7 +3,8 @@ require "spec_helper"
 describe Permission do
 
   before :each do
-    @permission = Permission.first
+    #@permission = Permission.first
+    @permission = FactoryGirl.create(:permission)
   end
 
   it "should be valid" do
@@ -14,7 +15,6 @@ describe Permission do
     @permission.name = ""
     @permission.should_not be_valid
   end
-
 
   it "should be not valid without :is_permission_project" do
     @permission.is_permission_project = ""

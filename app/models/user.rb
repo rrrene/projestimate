@@ -32,6 +32,30 @@ class User < ActiveRecord::Base
 
   has_many :project_securities
 
+  #Master and Special Data Tables
+  has_many :acquisition_categories, :foreign_key => "owner_id"
+  has_many :activity_categories,    :foreign_key => "owner_id"
+  has_many :attributes,             :foreign_key => "owner_id"
+  has_many :attribute_modules,      :foreign_key => "owner_id"
+  has_many :currencies,             :foreign_key => "owner_id"
+  has_many :event_types,            :foreign_key => "owner_id"
+  has_many :labor_categories,       :foreign_key => "owner_id"
+  has_many :languages,              :foreign_key => "owner_id"
+  has_many :master_settings,        :foreign_key => "owner_id"
+  has_many :peicons,                :foreign_key => "owner_id"
+  has_many :pemodules,              :foreign_key => "owner_id"
+  has_many :platform_categories,    :foreign_key => "owner_id"
+  has_many :project_areas,          :foreign_key => "owner_id"
+  has_many :project_categories,     :foreign_key => "owner_id"
+  has_many :project_security_levels, :foreign_key => "owner_id"
+  has_many :record_statuses,         :foreign_key => "owner_id"
+  has_many :work_element_types,      :foreign_key => "owner_id"
+
+  has_many :admin_settings, :foreign_key => "owner_id"
+  has_many :auth_methods,   :foreign_key => "owner_id"
+  has_many :groups,         :foreign_key => "owner_id"
+  has_many :permissions,    :foreign_key => "owner_id"
+
   attr_accessor :password, :password_confirmation
 
   serialize :ten_latest_projects, Array

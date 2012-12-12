@@ -3,7 +3,8 @@ require "spec_helper"
 describe LaborCategory do
 
   before :each do
-    @labor = LaborCategory.first
+    #@labor = LaborCategory.first
+    @labor = FactoryGirl.create(:labor_category)
   end
 
   it 'should be valid' do

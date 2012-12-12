@@ -49,7 +49,8 @@ class LanguagesController < ApplicationController
   def new
     authorize! :edit_languages, Language
     set_page_title "Add a language"
-    @language = Language.new
+    ##@language = Language.new
+    current_user.language.build
 
     respond_to do |format|
       format.html # _new.html.erb

@@ -30,12 +30,6 @@ class ActivityCategory < ActiveRecord::Base
 
   validates_presence_of :name, :description, :alias
 
-  # This set the record UUID on :create  as a :before_create method
-  def set_uuid
-    #self.uuid = UUI
-  end
-
-
   def to_s
     name
   end

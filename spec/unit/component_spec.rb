@@ -3,7 +3,8 @@ require "spec_helper"
 describe Component do
 
   before :each do
-    @component = Component.first
+    #@component = Component.first
+    @component = FactoryGirl.create(:component)
     @c1 = Component.new(:name => "C1")
     @c2 = Component.new(:name => "C1")
   end
@@ -21,7 +22,12 @@ describe Component do
     @component.to_s.should eql(@component.name)
   end
 
-  it 'should have a correct type' do
-    @component.folder?.should be_true
+  #TODO
+  #it 'should have a correct type' do
+  #  @component.folder?.should be_true
+  #end
+
+  it "should be root" do
+    @component.is_root.should be_true
   end
 end

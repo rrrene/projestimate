@@ -49,7 +49,7 @@ FactoryGirl.define do
     p.title "Projet1"
     p.description "Projet N1"
     p.alias "P1"
-    p.state "Preliminary"
+    p.state "preliminary"
     p.start_date Time.now
   end
 
