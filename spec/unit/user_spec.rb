@@ -5,10 +5,9 @@ describe User do
   before :each do
     #@admin1 =  User.first
     @admin1 = FactoryGirl.create(:user)
-    @user2 = FactoryGirl.create(:user2)
     @admin = User.new(admin_user_hash)  #defined below
     @user = User.new(valid_user_hash)  #defined below
-    #@fact_user1 = FactoryGirl.create(:fact1)
+    #@user = FactoryGirl.create(:user, :last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test', :password_confirmation => 'test')
   end
 
   it "should be valid" do
@@ -193,43 +192,50 @@ describe User do
     @user.user_status.should eql("pending")
   end
 
+  #TODO
   #it "should set user_status to 'active' as default status when admin is the author" do
   #  @user = User.new(:last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test', :password_confirmation => 'test')
   #  @user.user_status.should == 'active'
   #end
 
-  it "should set user_status to 'active' when transition to :active" do
-    lambda { @user.switch_to_active! }.should change(@user, :user_status).from('pending').to('active')
-    @user.user_status = 'suspended'
-    lambda { @user.switch_to_active! }.should change(@user, :user_status).from('suspended').to('active')
-    @user.user_status = 'blacklisted'
-    lambda { @user.switch_to_active! }.should change(@user, :user_status).from('blacklisted').to('active')
-  end
+  describe "testing user status transition" do
+    let(:user2) { FactoryGirl.create(:user, :last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :password => 'test', :password_confirmation => 'test') }
 
-  it "should set user_status to 'suspended' when transition to :suspended" do
-    lambda { @user.switch_to_suspended! }.should change(@user, :user_status).from('pending').to('suspended')
-    @user.user_status = 'active'
-    lambda { @user.switch_to_suspended! }.should change(@user, :user_status).from('active').to('suspended')
-    @user.user_status = 'blacklisted'
-    lambda { @user.switch_to_suspended! }.should change(@user, :user_status).from('blacklisted').to('suspended')
-  end
+    it "should set user_status to 'active' when transition to :active" do
+      user2.user_status = "pending"
+      lambda { user2.switch_to_active! }.should change(user2, :user_status).from('pending').to('active')
+      user2.user_status = 'suspended'
+      lambda { user2.switch_to_active! }.should change(user2, :user_status).from('suspended').to('active')
+      user2.user_status = 'blacklisted'
+      lambda { user2.switch_to_active! }.should change(user2, :user_status).from('blacklisted').to('active')
+    end
 
-  it "should set user_status to 'blacklisted' when transition to :blacklisted" do
-    @user.user_status = 'suspended'
-    lambda { @user.switch_to_blacklisted! }.should change(@user, :user_status).from('suspended').to('blacklisted')
-    @user.user_status = 'active'
-    lambda { @user.switch_to_blacklisted! }.should change(@user, :user_status).from('active').to('blacklisted')
-    @user.user_status = 'pending'
-    lambda { @user.switch_to_blacklisted! }.should change(@user, :user_status).from('pending').to('blacklisted')
-  end
+    it "should set user_status to 'suspended' when transition to :suspended" do
+      user2.user_status = "pending"
+      lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('pending').to('suspended')
+      user2.user_status = 'active'
+      lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('active').to('suspended')
+      user2.user_status = 'blacklisted'
+      lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('blacklisted').to('suspended')
+    end
 
-  it "should set user_status to :pending when transition to :pending" do
-    @user.user_status = 'suspended'
-    lambda { @user.switch_to_pending! }.should change(@user, :user_status).from('suspended').to('pending')
-    @user.user_status = 'active'
-    lambda { @user.switch_to_pending! }.should change(@user, :user_status).from('active').to('pending')
-    @user.user_status = 'blacklisted'
-    lambda { @user.switch_to_pending! }.should change(@user, :user_status).from('blacklisted').to('pending')
+    it "should set user_status to 'blacklisted' when transition to :blacklisted" do
+      user2.user_status = 'suspended'
+      lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('suspended').to('blacklisted')
+      user2.user_status = 'active'
+      lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('active').to('blacklisted')
+      user2.user_status = 'pending'
+      lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('pending').to('blacklisted')
+    end
+
+    it "should set user_status to :pending when transition to :pending" do
+      user2.user_status = 'suspended'
+      lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('suspended').to('pending')
+      user2.user_status = 'active'
+      lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('active').to('pending')
+      user2.user_status = 'blacklisted'
+      lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('blacklisted').to('pending')
+    end
   end
 
   it "should be have Nom Prenom" do
