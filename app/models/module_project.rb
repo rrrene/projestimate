@@ -23,14 +23,14 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :project
   has_many :module_project_attributes
 
-  #Return in a array next module project of self.
+  #Return in a array next modules project of self.
   def next
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos + 1), :project_id => self.project.id)
     mps
   end
 
-  #Return in a array previous module project of self.
+  #Return in a array previous modules project of self.
   def previous
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
