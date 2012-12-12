@@ -8,6 +8,18 @@ describe Attribute do
 
   # Attrbutes validations
 
+  #it 'should validate value' do
+  #  @attribute.is_validate(15).should be_true
+  #end
+  #
+  #it 'should validate value' do
+  #  @attribute.is_validate(9).should be_false
+  #end
+  #
+  #it 'should validate value' do
+  #  @attribute.is_validate("toto").should be_false
+  #end
+
   it 'should be valid' do
     @attribute.should be_valid
   end
@@ -47,10 +59,10 @@ describe Attribute do
 
   # Others method
 
-  it "should return the attribute type" do
-    attribute = FactoryGirl.create(:ksloc_attribute)
-    attribute.data_type.should eql(attribute.attr_type)
-  end
+  #it "should return the attribute type" do
+  #  attribute = FactoryGirl.create(:ksloc_attribute)
+  #  attribute.data_type.should eql(attribute.attr_type)
+  #end
 
   #TODO
   #it "should be validate" do

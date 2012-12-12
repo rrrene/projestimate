@@ -12,6 +12,10 @@ FactoryGirl.define do
     password_confirmation "projestimate1"
   end
 
+  #factory :unknown_project_category, :class => ProjectCategory do
+  #  name "Unknown"
+  #  description  "TBD"
+  #end
 
 
   #trait :admin2 do
@@ -39,10 +43,14 @@ FactoryGirl.define do
   end
 
   factory :language do
-    name "English"
-    locale "en"
+    name "Test"
+    locale "This is a test"
   end
 
+  factory :ProjectCategory do
+    name "projet1"
+    description "en"
+  end
 
   # Projects
   factory :project do |p|
@@ -120,13 +128,6 @@ FactoryGirl.define do
   end
 
 
-  # Attributes
-  factory :ksloc_attribute, :class => Attribute do |attr|
-    attr.name "Ksloc1"
-    attr.alias "ksloc1"
-    attr.description "Attribut number 1"
-    attr.attr_type "Integer"
-  end
 
 
   #Pemodule
