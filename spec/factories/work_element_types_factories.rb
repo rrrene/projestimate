@@ -1,12 +1,11 @@
 ## Work Element Types
 #
-#FactoryGirl.define do
-#
-#  factory :folder_wet, :class => WorkElementType do |wet|
-#    wet.name        "Folder"
-#    wet.alias        "folder"
-#    wet.association :peicon, :factory => :folder_icon
-#  end
+FactoryGirl.define do
+  #
+  #factory :folder_wet, :class => WorkElementType do |wet|
+  #  wet.name        "Folder"
+  #  wet.alias        "folder"
+  #end
 #
 #  factory :link_wet, :class => WorkElementType do |wet|
 #    wet.name        "Link"
@@ -49,5 +48,21 @@
 #    wet.alias       "$Misc"
 #    wet.association :peicon, :factory => :default_icon
 #  end
-#end
-#
+
+  factory :work_element_type , :class => WorkElementType do |wet|
+    wet.name "wet"
+    wet.alias "wet"
+
+    trait :wet_folder do  |wetf|
+      wetf.name "Folder1"
+      wetf.alias "folder"
+    end
+
+    trait :wet_link do |wetl|
+      wetl.name "Link"
+      wetl.alias "link"
+    end
+  end
+
+end
+

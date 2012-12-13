@@ -8,7 +8,7 @@ describe ModuleProject do
     @pemodule = Pemodule.new(:title => "Foo",
                             :alias => "foo",
                             :description => "Bar")
-    @mp1 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
+    @mp1 = ModuleProject.create(:project_id => @project.id, :pemodule => @pemodule, :position_y => 1)
     @mp2 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
     @mp3 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
     @mp3 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
@@ -48,7 +48,18 @@ describe ModuleProject do
     #module_project1.next.should eql(module_project2)
   end
 
+  it "should not be a string" do
+    @mp1.pemodule.title=1
+    @mp1.to_s.should_not be_instance_of(String)
+  end
 
+  it "should a string" do
+    @mp1.to_s.should be_an_instance_of(String)
+  end
+
+  it "should return pemodule title" do
+    @mp1.to_s.should eql(@mp1.pemodule.title)
+  end
 
   #it "should return previous modules or nil if first modules" do
   #  @mp1.previous.should be_a(Array)

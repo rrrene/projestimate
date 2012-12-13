@@ -3,31 +3,35 @@ require "spec_helper"
 describe Component do
 
   before :each do
-    #@component = Component.first
-    @component = FactoryGirl.create(:component)
-    @c1 = Component.new(:name => "C1")
-    @c2 = Component.new(:name => "C1")
+    @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
+    @folder = FactoryGirl.create(:folder)
+    @folder1 = FactoryGirl.create(:folder, :name => "Folder11", :work_element_type => @work_element_type)
+    @bad = FactoryGirl.create(:bad, :name => "bad_name")
   end
 
   it 'should be valid' do
-    @component.should be_valid
+    @folder.should be_valid
   end
 
   it "should be not valid without name" do
-    @component.name = ""
-    @component.should_not be_valid
+    @bad.name = ""
+    @bad.should_not be_valid
   end
 
-  it "should return :component name" do
-    @component.to_s.should eql(@component.name)
+  it "should return component name" do
+    @folder.to_s.should eql("Folder1")
   end
 
-  #TODO
-  #it 'should have a correct type' do
-  #  @component.folder?.should be_true
-  #end
-
-  it "should be root" do
-    @component.is_root.should be_true
+  it "should have a correct type" do
+    @folder1.folder?.should be_true
   end
+
+  it "should have return an array of value" do
+    @folder.ksloc.should be_an_instance_of Array
+  end
+
+  it "should have return only one value" do
+    @folder.ksloc_low.should be_empty
+  end
+
 end

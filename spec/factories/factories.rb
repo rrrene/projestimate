@@ -94,25 +94,11 @@ FactoryGirl.define do
     description "Organisation number 1"
   end
 
-
   # Components
   factory :component do
     name "Root compoment"
     is_root true
     wbs
-  end
-
-  #component as folder
-  factory :component_folder, :class => Component do |cf|
-    name "Folder_1"
-    #work_element_type_folder
-    cf.association :work_element_type, :factory => work_element_type_folder
-  end
-
-  #component as link
-  factory :component_link, :class => Component do |cl|
-    cl.name "Link_1"
-    cl.association :work_element_type, :factory => work_element_type_link
   end
 
   #Wbs
@@ -121,34 +107,6 @@ FactoryGirl.define do
   end
 
   factory :wbs_1, class: Wbs do
-  end
-
-
-  #WorkElementType
-  factory :work_element_type_folder , :class => WorkElementType do |wet|
-    wet.name "Folder"
-    wet.alias "folder"
-    wet.association :peicon, :factory => :peicon_folder
-  end
-
-  factory :work_element_type_link , :class => WorkElementType do |wet|
-    wet.name "Link"
-    wet.alias "link"
-    wet.association :peicon, :factory => :peicon_link
-  end
-
-  factory :peicon_folder, :class => Peicon do
-    name "Folder"
-    icon_file_name "myFolder"
-    icon_content_type "image/png"
-    icon_file_size 500
-  end
-
-  factory :peicon_link, :class => Peicon do
-    name "Link"
-    icon_file_name "myLink"
-    icon_content_type "image/png"
-    icon_file_size 506
   end
 
   factory :attribute, :class => Attribute do |attr|
