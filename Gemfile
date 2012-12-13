@@ -22,7 +22,7 @@ group :test do
 
   # rspec goodies
   gem 'rspec-rails', :group => [:test, :development]
-  gem rb-readline
+  gem 'rb-readline'
 
   # DRb server for testing frameworks
   gem 'spork'
