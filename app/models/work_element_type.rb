@@ -24,6 +24,14 @@ class WorkElementType < ActiveRecord::Base
   include UUIDHelper   #module for UUID generation
 
   has_many :components
+
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "WorkElementType", :inverse_of => :parent
+  belongs_to :parent, :class_name => "WorkElementType", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   belongs_to :project_area
   belongs_to :peicon
 

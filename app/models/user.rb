@@ -33,28 +33,28 @@ class User < ActiveRecord::Base
   has_many :project_securities
 
   #Master and Special Data Tables
-  #has_many :acquisition_categories, :foreign_key => "owner_id"
-  #has_many :activity_categories,    :foreign_key => "owner_id"
-  #has_many :attributes,             :foreign_key => "owner_id"
-  #has_many :attribute_modules,      :foreign_key => "owner_id"
-  #has_many :currencies,             :foreign_key => "owner_id"
-  #has_many :event_types,            :foreign_key => "owner_id"
-  #has_many :labor_categories,       :foreign_key => "owner_id"
-  #has_many :owner_languages,        :class_name => "Language",  :foreign_key => "owner_id"
-  #has_many :master_settings,        :foreign_key => "owner_id"
-  #has_many :peicons,                :foreign_key => "owner_id"
-  #has_many :pemodules,              :foreign_key => "owner_id"
-  #has_many :platform_categories,    :foreign_key => "owner_id"
-  #has_many :project_areas,          :foreign_key => "owner_id"
-  #has_many :project_categories,     :foreign_key => "owner_id"
-  #has_many :project_security_levels, :foreign_key => "owner_id"
-  #has_many :record_statuses,         :foreign_key => "owner_id"
-  #has_many :work_element_types,      :foreign_key => "owner_id"
-  #
-  #has_many :admin_settings, :foreign_key => "owner_id"
-  #has_many :auth_methods,   :foreign_key => "owner_id"
-  #has_many :groups,         :foreign_key => "owner_id"
-  #has_many :permissions,    :foreign_key => "owner_id"
+  has_many :change_on_acquisition_categories, :foreign_key => "owner_id", :class_name => "AcquisitionCategory"
+  has_many :change_on_activity_categories,    :foreign_key => "owner_id", :class_name => "AcquisitionCategory"
+  has_many :change_on_attributes,             :foreign_key => "owner_id", :class_name => "Attribute"
+  has_many :change_on_attribute_modules,      :foreign_key => "owner_id", :class_name => "AttributeModule"
+  has_many :change_on_currencies,             :foreign_key => "owner_id", :class_name => "Currency"
+  has_many :change_on_event_types,            :foreign_key => "owner_id", :class_name => "EventType"
+  has_many :change_on_labor_categories,       :foreign_key => "owner_id", :class_name => "LaborCategory"
+  has_many :change_on_languages,              :foreign_key => "owner_id", :class_name => "Language"
+  has_many :change_on_master_settings,        :foreign_key => "owner_id", :class_name => "MasterSetting"
+  has_many :change_on_peicons,                :foreign_key => "owner_id", :class_name => "Peicon"
+  has_many :change_on_pemodules,              :foreign_key => "owner_id", :class_name => "Pemodule"
+  has_many :change_on_platform_categories,    :foreign_key => "owner_id", :class_name => "PlatformCategory"
+  has_many :change_on_project_areas,          :foreign_key => "owner_id", :class_name => "ProjectArea"
+  has_many :change_on_project_categories,     :foreign_key => "owner_id", :class_name => "ProjectCategory"
+  has_many :change_on_project_security_levels, :foreign_key => "owner_id", :class_name => "ProjectSecurityLevel"
+  has_many :change_on_record_statuses,         :foreign_key => "owner_id", :class_name => "RecordStatus"
+  has_many :change_on_work_element_types,      :foreign_key => "owner_id", :class_name => "WorkElementType"
+
+  has_many :change_on_admin_settings, :foreign_key => "owner_id", :class_name => "AdminSetting"
+  has_many :change_on_auth_methods,   :foreign_key => "owner_id", :class_name => "AuthMethod"
+  has_many :change_on_groups,         :foreign_key => "owner_id", :class_name => "Group"
+  has_many :change_on_permissions,    :foreign_key => "owner_id", :class_name => "Permission"
 
   attr_accessor :password, :password_confirmation
 
@@ -67,7 +67,6 @@ class User < ActiveRecord::Base
   validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
   validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i }, :uniqueness => {case_sensitive: false}
 
-  #validates :password, :presence => {:on => :create}, :length => { :minimum =>  PASSWORD_MIN_LENGTH, :if => :password_present? }, :confirmation => true
   validates :password, :presence => {:on => :create}, :confirmation => true
   validates :password_confirmation, :presence => {:on => :create}
 

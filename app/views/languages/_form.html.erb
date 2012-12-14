@@ -2,8 +2,10 @@
   <%= simple_form_for(@language) do |f| %>
 
     <div >
+      <%= f.input :id %>
       <%= f.input :name %>
       <%= f.input :locale %>
+      <%= f.input :change_comment %>
     </div>
 
     <div class="actions">

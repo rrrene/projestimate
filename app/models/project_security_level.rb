@@ -25,5 +25,12 @@ class ProjectSecurityLevel < ActiveRecord::Base
   has_many :project_securities
   has_and_belongs_to_many :permissions
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "ProjectSecurityLevel", :inverse_of => :parent
+  belongs_to :parent, :class_name => "ProjectSecurityLevel", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates :name, :presence => true
 end

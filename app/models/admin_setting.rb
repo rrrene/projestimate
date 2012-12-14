@@ -22,6 +22,13 @@
 class AdminSetting < ActiveRecord::Base
   include UUIDHelper  # UUID generator
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "AdminSetting", :inverse_of  => :parent
+  belongs_to :parent, :class_name => "AdminSetting", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates :key, :presence => true, :uniqueness => true
   validates :value, :presence => true
 end

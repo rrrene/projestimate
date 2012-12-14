@@ -26,6 +26,13 @@ class LaborCategory < ActiveRecord::Base
   has_many :projects
   has_many :organization_labor_categories
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "LaborCategory", :inverse_of => :parent
+  belongs_to :parent, :class_name => "LaborCategory", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates_presence_of :name
 
 end

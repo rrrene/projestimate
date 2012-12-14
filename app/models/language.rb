@@ -25,15 +25,26 @@ class Language < ActiveRecord::Base
 
   has_many :users
 
-  #self relation
-  belongs_to :parent, :class_name => "Language", :foreign_key => "parent_id"
-  has_one    :child,  :class_name => "Language", :inverse_of  => :parent
+  #self relation : Parent<->Child
+  has_one    :child,  :class_name => "Language", :inverse_of => :parent, :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Language", :inverse_of => :child, :foreign_key => "parent_id"
 
   belongs_to :record_status
-  belongs_to :user, :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :name
   validates_presence_of :locale
+
+  #For record deep copy
+  amoeba do
+    enable
+
+    customize(lambda { |original_language, new_language|
+      new_language.ref = original_language.uuid
+      new_language.parent = original_language
+      #original_language.record_status = RecordStatus.find_by_name("Retired")      #when validate
+    })
+  end
 
   #Override
   def to_s

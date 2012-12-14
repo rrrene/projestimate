@@ -49,4 +49,11 @@ class RecordStatus < ActiveRecord::Base
   has_many :groups
   has_many :permissions
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "RecordStatus", :inverse_of => :parent
+  belongs_to :parent, :class_name => "RecordStatus", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
 end
