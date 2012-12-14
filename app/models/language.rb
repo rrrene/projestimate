@@ -51,4 +51,9 @@ class Language < ActiveRecord::Base
     self.name
   end
 
+  #Define method for record_status
+  define_method(:is_proposed?) do
+    (self.record_status.name == "Proposed") ? true : false
+  end
+
 end

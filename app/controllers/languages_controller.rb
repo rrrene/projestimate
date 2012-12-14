@@ -134,15 +134,45 @@ class LanguagesController < ApplicationController
   def get_record_statuses
     @retired_status = RecordStatus.find_by_name("Retired")
     @proposed_status = RecordStatus.find_by_name("Proposed")
+    @defined_status = RecordStatus.find_by_name("Defined")
   end
 
   #validate the record change
   def validate_change
+    authorize! :edit_languages, Language
     @language = Language.find(params[:id])
+    trans_successful = false
+    temp_current_uuid = @language.uuid
     parent_language = @language.parent
-    parent_language.record_status = @retired_status
-    @language.uuid = parent_language.uuid
-    @language.record_status
+    temp_parent_uuid = parent_language.uuid
+
+    begin
+      #Create transaction to avoid uuid duplication error in DB
+      parent_language.transaction do
+        @language.uuid = nil
+        parent_language.record_status = @retired_status
+        parent_language.uuid = temp_current_uuid
+        parent_language.ref = @language.ref
+        @language.save!
+        parent_language.save!
+        trans_successful = true
+      end
+
+      if trans_successful
+        @language.ref = nil
+        @language.uuid = temp_parent_uuid
+        @language.record_status = @defined_status
+
+        if @language.save
+          #redirect_to redirect(@language), notice: 'Changes on language was successfully validated.'
+          redirect_to languages_path notice: 'Changes on language was successfully validated.'
+        else
+          redirect_to languages_path notice: 'Changes validation failed.'
+        end
+       end
+    rescue ActiveRecord::StatementInvalid
+    end
+
   end
 
 end
