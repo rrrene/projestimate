@@ -13,10 +13,10 @@
     <tr >
       <td><%= language.name %></td>
       <td><%= language.locale %></td>
-      <td><%= link_to 'Edit', edit_language_path(language), :class => "icn_edit" %></td>
-      <td><%= link_to 'Destroy', language, confirm: 'Are you sure?', method: :delete, :class => "icn_delete" %></td>
+      <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "Edit" %></td>
+      <td><%= link_to '', language, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <% if language.is_proposed? %>
-        <td><%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?')%></td>
+        <td><%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
       <% end %>
     </tr>
   <% end %>

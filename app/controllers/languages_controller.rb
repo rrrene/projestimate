@@ -19,10 +19,12 @@
 ########################################################################
 
 class LanguagesController < ApplicationController
-  # GET /languages
-  # GET /languages.json
+  include MasterDataHelper
+
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
+  # GET /languages
+  # GET /languages.json
   def index
     authorize! :edit_languages, Language
     set_page_title "Languages"
@@ -138,7 +140,7 @@ class LanguagesController < ApplicationController
   end
 
   #validate the record change
-  def validate_change
+  def validate_change_SAVE
     authorize! :edit_languages, Language
     @language = Language.find(params[:id])
     trans_successful = false
@@ -171,8 +173,8 @@ class LanguagesController < ApplicationController
         end
        end
     rescue ActiveRecord::StatementInvalid
+      put "Erreur"
     end
-
   end
 
 end

@@ -37,12 +37,13 @@ class Language < ActiveRecord::Base
 
   #For record deep copy
   amoeba do
+
     enable
 
     customize(lambda { |original_language, new_language|
       new_language.ref = original_language.uuid
       new_language.parent = original_language
-      #original_language.record_status = RecordStatus.find_by_name("Retired")      #when validate
+      new_language.record_status = RecordStatus.first
     })
   end
 
