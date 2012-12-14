@@ -98,30 +98,46 @@ def load_data_from_master_repo!
   begin
 
   puts " Creating Master Parameters ..."
+    #record_status = ExternalMasterDatabase::ExternalRecordStatus.all.map{|i| [i.name, i.description] }
+    record_status = [
+      ["Proposed", "TBD"],
+      ["InReview", "TBD"],
+      ["Draft", "TBD"],
+      ["Defined", "TBD"],
+      ["Retired", "TBD"],
+      ["Custom", "TBD"]
+    ]
+    record_status.each do |i|
+      RecordStatus.create(:name => i[0], :description => i[1] )
+    end
+
+    #Find orrect record status id
+    #TODO : replace by find_by_uuid
+    rsid = RecordStatus.find_by_name("Defined").id
 
     puts "   - Master setting"
     ms = ExternalMasterDatabase::ExternalMasterSetting.all.map{|i| [i.key, i.value] }
     ms.each do |table_name|
-      MasterSetting.create(:key => table_name[0], :value => table_name[1])
+      MasterSetting.create(:key => table_name[0], :value => table_name[1], :record_status_id => rsid)
     end
 
     puts "   - Project areas"
     project_areas = ExternalMasterDatabase::ExternalProjectArea.all.map{|i| [i.name, i.description] }
     project_areas.each do |table_name|
-      ProjectArea.create(:name => table_name[0], :description => table_name[1])
+      ProjectArea.create(:name => table_name[0], :description => table_name[1], :record_status_id => rsid)
     end
     pjarea = ProjectArea.first
 
     puts "   - Project categories"
     project_categories = ExternalMasterDatabase::ExternalProjectCategory.all.map{|i| [i.name, i.description]}
     project_categories.each do |i|
-      ProjectCategory.create(:name => i[0], :description => i[1])
+      ProjectCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
     end
 
     puts "   - Platform categories"
     platform_categories = ExternalMasterDatabase::ExternalPlatformCategory.all.map{|i| [i.name, i.description]}
     platform_categories.each do |i|
-      PlatformCategory.create(:name => i[0], :description => i[1])
+      PlatformCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
     end
 
     puts "   - Acquisition categories"
@@ -129,25 +145,25 @@ def load_data_from_master_repo!
     acquisition_categories = Array.new
     acquisition_categories = ExternalMasterDatabase::ExternalAcquisitionCategory.all.map{|i| [i.name, i.description]}
     acquisition_categories.each do |i|
-      AcquisitionCategory.create(:name => i[0], :description => i[1])
+      AcquisitionCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
     end
 
     puts "   - Attribute..."
     attributes = ExternalMasterDatabase::ExternalAttribute.all.map{|i| [i.name, i.alias, i.description, i.attr_type, i.aggregation] }
     attributes.each do |i|
-      Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :aggregation => i[4])
+      Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :aggregation => i[4], :record_status_id => rsid)
     end
 
     puts "   - Projestimate Icons"
     peicons = ExternalMasterDatabase::ExternalPeicon.all.map{|i| [i.name] }
     peicons.each do |i|
-      Peicon.create(:name => i[0])
+      Peicon.create(:name => i[0],  :record_status_id => rsid)
     end
 
     puts "   - WBS structure"
     wets = ExternalMasterDatabase::ExternalWorkElementType.all.map{|i| [i.name, i.alias, i.peicon_id] }
     wets.each do |i|
-      WorkElementType.create(:name => i[0], :alias => i[1])
+      WorkElementType.create(:name => i[0], :alias => i[1], :record_status_id => rsid)
     end
 
     wet = WorkElementType.first
@@ -155,19 +171,19 @@ def load_data_from_master_repo!
     puts "   - Currencies"
     curr = ExternalMasterDatabase::ExternalCurrency.all.map{|i| [i.name, i.alias, i.description] }
     curr.each do |i|
-      Currency.create(:name => i[0], :alias => i[1], :description => i[2] )
+      Currency.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid )
     end
 
     puts "   - Language..."
     languages = ExternalMasterDatabase::ExternalLanguage.all.map{|i| [i.name, i.locale] }
     languages.each do |table_name|
-      Language.create(:name => table_name[0], :locale => table_name[1])
+      Language.create(:name => table_name[0], :locale => table_name[1], :record_status_id => rsid)
     end
 
     puts "   - Currencies"
     curr = ExternalMasterDatabase::ExternalAdminSetting.all.map{|i| [i.key, i.value] }
     curr.each do |i|
-      AdminSetting.create(:key => i[0], :value => i[1] )
+      AdminSetting.create(:key => i[0], :value => i[1], :record_status_id => rsid )
     end
 
     puts "   - Auth Method"
@@ -192,7 +208,7 @@ def load_data_from_master_repo!
     puts "   - Labor categories"
     labor_categories = ExternalMasterDatabase::ExternalLaborCategory.all.map{|i| [i.name, i.description] }
     labor_categories.each do |i|
-      LaborCategory.create(:name => i[0], :description => i[1])
+      LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
     end
     laborcategory=LaborCategory.first
 
@@ -200,7 +216,7 @@ def load_data_from_master_repo!
     #Default actitity category
     activity_categories = ExternalMasterDatabase::ExternalActivityCategory.all.map{|i| [i.name, i.alias, i.description] }
         activity_categories.each do |i|
-        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2])
+        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid)
       end
 
     puts " Creating  organizations..."
@@ -238,14 +254,14 @@ def load_data_from_master_repo!
     #Default project Security Level
     project_security_levels =  ExternalMasterDatabase::ExternalProjectSecurityLevel.all.map(&:name)
     project_security_levels.each do |i|
-      ProjectSecurityLevel.create(:name => i[0])
+      ProjectSecurityLevel.create(:name => i[0], :record_status_id => rsid)
     end
 
     puts "Create global permissions..."
     #Default permissions
     permissions = ExternalMasterDatabase::ExternalPermission.all.map{|i| [i.name, i.description, i.is_permission_project] }
     permissions.each do |i|
-      Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2])
+      Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
     end
 
     puts "\n\n"

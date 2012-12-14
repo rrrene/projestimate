@@ -115,4 +115,9 @@ module ExternalMasterDatabase
     establish_connection :external_master_database
     set_table_name :permissions
   end
+
+  class ExternalRecordStatus < ActiveRecord::Base
+    establish_connection :external_master_database
+    set_table_name :record_statuses
+  end
 end
