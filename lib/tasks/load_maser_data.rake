@@ -22,7 +22,7 @@
 
 namespace :projestimate do
   desc "Load default data from remote repository"
-  task :load_default_data_from_master_repo => :environment do
+  task :load_master_data => :environment do
 
     print "\n You're about to install the default data on #{Rails.env} database. Do you want : \n
        1- Delete all data then reinstall default data -- Press 1 \n
@@ -77,12 +77,12 @@ namespace :projestimate do
           Component.delete_all
 
 
-          load_data_from_master_repo!
+          load_maser_data!
         end
         i = false
       elsif response == '2'
         are_you_sure? do
-          load_data_from_master_repo!
+          load_maser_data!
         end
         i = false
       elsif response == '3'
@@ -94,7 +94,7 @@ namespace :projestimate do
 end
 
 private
-def load_data_from_master_repo!
+def load_maser_data!
   begin
 
   puts " Creating Master Parameters ..."

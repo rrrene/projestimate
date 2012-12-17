@@ -2,12 +2,11 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: projestimate
+  database: projestimate_workin
   pool: 5
   username: root
-  password: rootspirula
+  password: spirula
   host: localhost
-
 
 test:
   adapter: mysql2
@@ -16,15 +15,24 @@ test:
   database: projestimate_test
   pool: 5
   username: root
-  password: rootspirula
+  password: spirula
   host: localhost
-
 
 production:
   adapter: mysql2
-  database: projestimate
+  database: projestimate_production
   reconnect: false
   host: localhost
   username: root
-  password: rootspirula
+  password: spirula
+  encoding: utf8
+
+external_master_database:
+  adapter: mysql2
+  database: projestimate_MasterData
+  reconnect: false
+  host: ns305372.ovh.net
+  port: 3306
+  username: projestimate
+  password: projestimate.03.09.12
   encoding: utf8
