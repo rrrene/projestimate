@@ -26,6 +26,13 @@ class Permission < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :project_security_levels
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "Permission", :inverse_of => :parent
+  belongs_to :parent, :class_name => "Permission", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates_presence_of :name, :is_permission_project
 
 end

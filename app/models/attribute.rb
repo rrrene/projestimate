@@ -29,6 +29,13 @@ class Attribute < ActiveRecord::Base
   has_many :attribute_modules, :dependent => :destroy
   has_many :pemodules, :through => :attribute_modules
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "Attribute", :inverse_of => :parent
+  belongs_to :parent, :class_name => "Attribute", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates_presence_of :description, :attr_type
   validates :name, :presence => true,  :uniqueness => true
   validates :alias, :presence => true, :uniqueness => true

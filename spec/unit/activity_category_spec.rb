@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe ActivityCategory do
   before :each do
-    @activity_category = ActivityCategory.first
+    #@activity_category = ActivityCategory.first
+    @activity_category = FactoryGirl.build(:activity_category)
   end
 
   it 'should be valid' do

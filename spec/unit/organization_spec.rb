@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe Organization do
   before :each do
-    @organization = Organization.first
+    #@organization = Organization.first
+    @organization = FactoryGirl.create(:organization)
   end
 
   it "should be valid" do

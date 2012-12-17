@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe PlatformCategory do
   before :each do
-    @platform_category = PlatformCategory.first
+    #@platform_category = PlatformCategory.first
+    @platform_category = FactoryGirl.create(:unknown_platform_category)
   end
 
   it "should be valid" do

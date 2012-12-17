@@ -10,6 +10,11 @@
   <%= @language.locale %>
 </p>
 
+<p>
+  <strong>Comment about changes:</strong>
+  <%= simple_format @language.change_comment %>
+</p>
+
 
 <%= link_to 'Edit', edit_language_path(@language) %> |
 <%= link_to 'Back', languages_path %>

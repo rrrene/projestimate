@@ -6,10 +6,23 @@ FactoryGirl.define do
     email      "admin1@yourcompany.net"
     initials   "ad1"
     auth_method
-    user_status "active"
+    user_status "pending"
     language
     password   "projestimate1"
     password_confirmation "projestimate1"
+  end
+
+  factory :user2, :class => User do
+    first_name "Administrator2"
+    last_name  "Projestimate2"
+    login_name "admin2"
+    email      "youremail2@yourcompany.net"
+    initials   "ad2"
+    auth_method
+    user_status "pending"
+    language
+    password   "projestimate2"
+    password_confirmation "projestimate2"
   end
 
   #factory :unknown_project_category, :class => ProjectCategory do
@@ -57,7 +70,7 @@ FactoryGirl.define do
     p.title "Projet1"
     p.description "Projet N1"
     p.alias "P1"
-    p.state "Preliminary"
+    p.state "preliminary"
     p.start_date Time.now
   end
 

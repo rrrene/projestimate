@@ -3,7 +3,7 @@ require "spec_helper"
 describe ModuleProjectAttribute do
 
   before :each do
-    @project = Project.first
+    @project = FactoryGirl.create(:project)   #@project = Project.first
     @pemodule = Pemodule.new(:title => "Foo",
                             :alias => "foo",
                             :description => "Bar")

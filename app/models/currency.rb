@@ -24,4 +24,12 @@ class Currency < ActiveRecord::Base
   include UUIDHelper   #module for UUID generation
 
   has_many :organization_labor_categories
+
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "Currency", :inverse_of => :parent
+  belongs_to :parent, :class_name => "Currency", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
 end

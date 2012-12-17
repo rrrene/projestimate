@@ -22,6 +22,7 @@ group :test do
 
   # rspec goodies
   gem 'rspec-rails', :group => [:test, :development]
+  gem 'rb-readline'
 
   # DRb server for testing frameworks
   gem 'spork'
@@ -102,7 +103,10 @@ gem 'paperclip', '~> 3.0'
 #Continious integration and monitoring
 gem 'newrelic_rpm'
 
-# UUID tools generator
+#UUID tools generator
 gem "uuidtools"
+
+#For deep copy of ActiveRecord object
+gem 'amoeba'
 
 

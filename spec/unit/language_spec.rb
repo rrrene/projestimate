@@ -3,7 +3,8 @@ require "spec_helper"
 describe Language do
 
   before :each do
-    @language = Language.first
+    #@language = Language.first
+    @language = FactoryGirl.create(:language)
   end
 
   it 'should be valid' do

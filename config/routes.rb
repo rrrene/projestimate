@@ -2,7 +2,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :record_statuses
 
-
   resources :peicons
   match 'peicons/:id/choose_icon' => 'peicons#choose_icon', :as => "choose_icon"
 
@@ -28,6 +27,7 @@ ProjestimateMaquette::Application.routes.draw do
   resources :module_projects
 
   resources :languages
+  match 'languages/:id/validate_change' => 'languages#validate_change', :as => 'validate_change'
 
   resources :project_securities
   get "select_users" => "project_securities#select_users", :as => "select_users"

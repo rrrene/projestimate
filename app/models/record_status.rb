@@ -24,10 +24,36 @@ class RecordStatus < ActiveRecord::Base
 
   attr_accessible :description, :name
 
-  belongs_to :record_status
+  #belongs_to :record_status
+  #has_many :record_statuses
 
   has_many :acquisition_categories
   has_many :activity_categories
   has_many :attributes
   has_many :attribute_modules
+  has_many :currencies
+  has_many :event_types
+  has_many :labor_categories
+  has_many :languages
+  has_many :master_settings
+  has_many :peicons
+  has_many :pemodules
+  has_many :platform_categories
+  has_many :project_areas
+  has_many :project_categories
+  has_many :project_security_levels
+  has_many :work_element_types
+
+  has_many :admin_settings
+  has_many :auth_methods
+  has_many :groups
+  has_many :permissions
+
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "RecordStatus", :inverse_of => :parent
+  belongs_to :parent, :class_name => "RecordStatus", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
 end

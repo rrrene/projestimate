@@ -52,18 +52,17 @@ FactoryGirl.define do
   factory :work_element_type , :class => WorkElementType do |wet|
     wet.name "wet"
     wet.alias "wet"
+
+    trait :wet_folder do  |wetf|
+      wetf.name "Folder1"
+      wetf.alias "folder"
+    end
+
+    trait :wet_link do |wetl|
+      wetl.name "Link"
+      wetl.alias "link"
+    end
   end
 
-  factory :work_element_type_folder , :class => :work_element_type do |wet|
-    wet.name "Folder"
-    wet.alias "folder"
-    wet.association :peicon, :factory => :peicon_folder
-  end
-
-  factory :work_element_type_link , :class => :work_element_type do |wet|
-    wet.name "Link"
-    wet.alias "link"
-    wet.association :peicon, :factory => :peicon_link
-  end
 end
 

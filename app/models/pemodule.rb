@@ -32,6 +32,13 @@ class Pemodule < ActiveRecord::Base
   has_many :attribute_modules
   has_many :pe_attributes, :source => :attribute, :through => :attribute_modules
 
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "Pemodule", :inverse_of => :parent
+  belongs_to :parent, :class_name => "Pemodule", :inverse_of => :child, :foreign_key => "parent_id"
+
+  belongs_to :record_status
+  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   serialize :compliant_component_type
 
   validates_presence_of :title, :alias, :description

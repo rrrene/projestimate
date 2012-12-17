@@ -3,8 +3,10 @@ require "spec_helper"
 describe Component do
 
   before :each do
-    @folder = FactoryGirl.build(:folder)
-    @bad = FactoryGirl.build(:bad)
+    @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
+    @folder = FactoryGirl.create(:folder)
+    @folder1 = FactoryGirl.create(:folder, :name => "Folder11", :work_element_type => @work_element_type)
+    @bad = FactoryGirl.create(:bad, :name => "bad_name")
   end
 
   it 'should be valid' do
@@ -12,6 +14,7 @@ describe Component do
   end
 
   it "should be not valid without name" do
+    @bad.name = ""
     @bad.should_not be_valid
   end
 
@@ -20,7 +23,7 @@ describe Component do
   end
 
   it "should have a correct type" do
-    @folder.folder?.should be_true
+    @folder1.folder?.should be_true
   end
 
   it "should have return an array of value" do
