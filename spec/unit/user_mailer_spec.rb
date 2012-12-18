@@ -40,6 +40,8 @@ describe UserMailer do
       it "should have to user mail from new password" do
         @mailerNew.to[0].should==(@user.email)
       end
+      #Don't modifie please: tests are in echec because the method FOrgotten Password is not fonctionnal'
+
       #Forgotten Password
       #it "should have Subject Projestimate - New password" do
       #  @mailerForgottenPassword.subject.should eq('Projestimate - New password')
