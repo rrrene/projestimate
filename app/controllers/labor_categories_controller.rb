@@ -19,6 +19,9 @@
 ########################################################################
 
 class LaborCategoriesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Labors Categories"
@@ -55,7 +58,8 @@ class LaborCategoriesController < ApplicationController
 
   def update
     authorize! :manage_labor_categories, LaborCategory
-    @labor_category = LaborCategory.find(params[:id])
+    current_labor_category = LaborCategory.find(params[:id])
+    @labor_category = current_labor_category.dup
 
     if @labor_category.update_attributes(params[:labor_category])
       flash[:notice] = "Labor category was successfully updated."
@@ -68,7 +72,10 @@ class LaborCategoriesController < ApplicationController
   def destroy
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
-    @labor_category.destroy
+
+    #logical deletion: delete don't have to suppress records anymore
+    @labor_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+
     flash[:notice] = "Labor category was successfully deleted."
     redirect_to labor_categories_path
   end

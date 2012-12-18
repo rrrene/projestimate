@@ -19,7 +19,7 @@
 ########################################################################
 
 class LanguagesController < ApplicationController
-  include MasterDataHelper
+  include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
@@ -29,7 +29,7 @@ class LanguagesController < ApplicationController
     authorize! :edit_languages, Language
     set_page_title "Languages"
     #@languages = Language.all
-    @languages = Language.where("record_status_id <> ?", @retired_status.id)
+    @languages = Language.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -93,10 +93,8 @@ class LanguagesController < ApplicationController
   # PUT /languages/1.json
   def update
     authorize! :edit_languages, Language
-    #@language = Language.find(params[:id])
     current_language = Language.find(params[:id])
     @language = current_language.dup()
-    @language.save
 
     if @language.update_attributes(params[:language])
       redirect_to redirect(@language), notice: 'Language was successfully updated.'
@@ -104,18 +102,6 @@ class LanguagesController < ApplicationController
       render action: "edit"
     end
   end
-
-  #def update_SAVE
-  #  authorize! :edit_languages, Language
-  #  @language = Language.find(params[:id])
-  #
-  #  if @language.update_attributes(params[:language])
-  #    redirect_to redirect(@language), notice: 'Language was successfully updated.'
-  #  else
-  #    render action: "edit"
-  #  end
-  #end
-
 
   # DELETE /languages/1
   # DELETE /languages/1.json
@@ -132,12 +118,6 @@ class LanguagesController < ApplicationController
     end
   end
 
-  #Get record statuses
-  def get_record_statuses
-    @retired_status = RecordStatus.find_by_name("Retired")
-    @proposed_status = RecordStatus.find_by_name("Proposed")
-    @defined_status = RecordStatus.find_by_name("Defined")
-  end
 
   #validate the record change
   def validate_change_SAVE

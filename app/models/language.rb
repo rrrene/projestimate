@@ -21,40 +21,24 @@
 #Master Data
 #Language of the User
 class Language < ActiveRecord::Base
-  include UUIDHelper   #module for UUID generation
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   has_many :users
 
   #self relation : Parent<->Child
   has_one    :child,  :class_name => "Language", :inverse_of => :parent, :foreign_key => "parent_id"
-  belongs_to :parent, :class_name => "Language", :inverse_of => :child, :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Language", :inverse_of => :child,  :foreign_key => "parent_id"
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates_presence_of :name
-  validates_presence_of :locale
-
-  #For record deep copy
-  amoeba do
-
-    enable
-
-    customize(lambda { |original_language, new_language|
-      new_language.ref = original_language.uuid
-      new_language.parent = original_language
-      new_language.record_status = RecordStatus.first
-    })
-  end
+  validates :name, :locale, :uniqueness => { :case_sensitive => false }
 
   #Override
   def to_s
     self.name
   end
 
-  #Define method for record_status
-  define_method(:is_proposed?) do
-    (self.record_status.name == "Proposed") ? true : false
-  end
+
 
 end

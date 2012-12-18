@@ -19,6 +19,9 @@
 ########################################################################
 
 class WorkElementTypesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :manage_wet, WorkElementType
@@ -43,7 +46,9 @@ class WorkElementTypesController < ApplicationController
 
   def create
     authorize! :manage_wet, WorkElementType
-    @work_element_type = WorkElementType.new(params[:work_element_type])
+    current_work_element_type = WorkElementType.new(params[:work_element_type])
+    @work_element_type = current_work_element_type.dup
+
     @work_element_type.peicon_id = Peicon.find_by_name("Default").id
 
     if @work_element_type.save
@@ -68,7 +73,8 @@ class WorkElementTypesController < ApplicationController
   def destroy
     authorize! :manage_wet, WorkElementType
     @work_element_type = WorkElementType.find(params[:id])
-    @work_element_type.destroy
+    #logical deletion: delete don't have to suppress records anymore
+    @work_element_type.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
 
     redirect_to work_element_types_url
   end

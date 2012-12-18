@@ -1,54 +1,37 @@
-#Module for master data method
+
+require "rubygems"
+require "uuidtools"
+
 module MasterDataHelper
 
-  #Change validation
-  def validate_change
-    #get the record controller name
-    controller = params[:controller]    #controller.controller_name
-    record_class_name =  controller.singularize.capitalize
-    authorize! :"edit_#{record_class_name.downcase.pluralize}", "#{record_class_name.constantize}"
+  def self.included(base)
+    base.class_eval do
+      #UUID generation on create
+      before_create :set_uuid
 
-    #Get the record to validate from its ID
-    @record = record_class_name.constantize.find(params[:id])
-    trans_successful = false
-    #Temporally save uuid
-    temp_current_uuid = @record.uuid
-    parent_record = @record.parent
-    temp_parent_uuid = parent_record.uuid
-
-    begin
-      #Create transaction to avoid uuid duplication error in DB
-      parent_record.transaction do
-        @record.uuid = nil
-        parent_record.record_status = @retired_status
-        parent_record.uuid = temp_current_uuid
-        parent_record.ref = @record.ref
-        @record.save!
-        parent_record.save!
-        trans_successful = true
+      def set_uuid
+        self.uuid = UUIDTools::UUID.timestamp_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"
       end
 
-      if trans_successful
-        @record.ref = nil
-        @record.uuid = temp_parent_uuid
-        @record.record_status = @defined_status
+      #Enable the amoeba gem for deep copy/clone (dup with associations)
+      amoeba do
+        enable
+        customize(lambda { |original_record, new_record|
+          new_record.ref = original_record.uuid
+          new_record.parent = original_record
+          new_record.record_status = RecordStatus.first
+        })
+      end
 
-        if @record.save
-          #redirect_to redirect(@language), notice: 'Changes on language was successfully validated.'
-          flash[:notice] = 'Changes on language was successfully validated.'
-        else
-         flas[:error] =  'Changes validation failed.'
+      #Define method for record status
+      define_method(:is_proposed?) do
+        begin
+          (self.record_status.name == "Proposed") ? true : false
+        rescue
+          false
         end
       end
 
-      #redirect_path = "#{record_class_name.downcase.pluralize}_path"
-      #redirect_to redirect(redirect_path) and return
-      redirect_to :action => "index", :controller => "#{controller}"
-
-    rescue ActiveRecord::StatementInvalid => error
-      put "#{error.message}"
-      flash[:error] = "#{error.message}"
     end
   end
-
 end

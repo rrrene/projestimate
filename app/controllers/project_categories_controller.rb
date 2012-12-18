@@ -19,6 +19,9 @@
 ########################################################################
 
 class ProjectCategoriesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def new
     set_page_title "Project Category"
@@ -42,7 +45,8 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def update
-    @project_category = ProjectCategory.find(params[:id])
+    current_project_category = ProjectCategory.find(params[:id])
+    @project_category = current_project_category.dup
 
     if @project_category.update_attributes(params[:project_category])
       flash[:notice] = "Project category was successfully updated."
@@ -54,7 +58,8 @@ class ProjectCategoriesController < ApplicationController
 
   def destroy
     @project_category = ProjectCategory.find(params[:id])
-    @project_category.destroy
+    #logical deletion: delete don't have to suppress records anymore
+    @project_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
 
     flash[:notice] = "Project category was successfully deleted."
     redirect_to "/projects_global_params#tabs-2"

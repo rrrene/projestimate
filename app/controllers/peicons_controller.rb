@@ -19,6 +19,9 @@
 #
 ########################################################################
 class PeiconsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Icons libraries"
@@ -48,7 +51,9 @@ class PeiconsController < ApplicationController
 
   def update
     set_page_title "Icons libraries"
-    @icon = Peicon.find(params[:id])
+    current_icon = Peicon.find(params[:id])
+    @icon = current_icon.dup
+
     if @icon.update_attributes(params[:peicon])
       redirect_to redirect(peicons_path)
     else

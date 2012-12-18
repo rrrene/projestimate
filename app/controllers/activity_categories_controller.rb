@@ -19,6 +19,9 @@
 ########################################################################
 
 class ActivityCategoriesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def new
     authorize! :manage_activity_categories, ActivityCategory
@@ -38,8 +41,15 @@ class ActivityCategoriesController < ApplicationController
 
   def update
     authorize! :manage_activity_categories, ActivityCategory
-    @activity_category = ActivityCategory.find(params[:id])
-    redirect_to redirect(activity_categories_url)
+    current_activity_category = ActivityCategory.find(params[:id])
+    @activity_category = current_activity_category.dup
+
+    if @activity_category.update_attributes(params[:activity_category])
+      flash[:notice] = "Activity category was successfully updated."
+      redirect_to redirect("/projects_global_params#tabs-4")
+    else
+      render action: "edit"
+    end
   end
 
   def destroy

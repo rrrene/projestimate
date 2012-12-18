@@ -19,4 +19,10 @@ describe LaborCategory do
     @labor.name = ""
     @labor.should_not be_valid
   end
+
+  it "should not be valid when name is already taken" do
+    @labor2 = @labor.dup
+    @labor2.save
+    @labor2.should_not be_valid
+  end
 end

@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     if params[:id]
       @user = User.find(params[:id])
     else
-      @user = User.new :auth_type => AuthMethod.first,
+      @user = User.new :auth_type => AuthMethod.first.id,
                        :user_status => "active"
     end
     @projects = Project.all
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
   def new
     authorize! :edit_user_account_no_admin, User
     set_page_title "New user"
-    @user = User.new( :auth_type => AuthMethod.first,
+    @user = User.new( :auth_type => AuthMethod.first.id,
                       :user_status => "active")
   end
 
