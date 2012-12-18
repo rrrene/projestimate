@@ -108,7 +108,10 @@ describe User do
       @user.should_not be_valid
     end
   end
-
+  #it "sends a e-mail" do
+  #  @user.send_password_reset()
+  #  ActionMailer::Base.deliveries.last.to.should == [@user.email]
+  #end
   #describe "when password is too short" do
   #  before do
   #    #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")

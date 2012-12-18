@@ -32,30 +32,30 @@ class UserMailer < ActionMailer::Base
   #Confirm the new password
   def new_password(user)
     @user = user
-    mail(:to => user.email, :subject => "Your ProjEstimate password has changed")
+    mail(:to => @user.email, :subject => "Your ProjEstimate password has changed")
   end
 
   #Send an account request
   def account_request
-    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "Account request")
+    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "New account request")
   end
 
   #Confirm validation of account - password is writed
   def account_validate(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account is validated")
   end
 
   #Confirm validation of account - the password is not writed
   def account_validate_no_pw(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account has been validated")
   end
 
   #Notify than account is suspended
   def account_suspended(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
+    mail(:to => @user.email, :subject => "Your ProjEstimate account has been suspended")
   end
 
   #Confirm validation of account (ldap protocol)
