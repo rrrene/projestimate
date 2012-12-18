@@ -47,11 +47,17 @@ class AdminSettingsController < ApplicationController
 
   def update
     @admin_setting = AdminSetting.find(params[:id])
-    if @admin_setting.update_attributes(params[:admin_setting])
-      flash[:notice] = 'Admin setting was successfully updated.'
-      redirect_to redirect(admin_settings_path)
+    #if custom value, alors bypass validation admin setting
+    unless @admin_setting.key == "custom_status_to_consider"
+      if @admin_setting.update_attributes(params[:admin_setting])
+        flash[:notice] = 'Admin setting was successfully updated.'
+        redirect_to redirect(admin_settings_path)
+      else
+        redirect_to edit_admin_setting_path(@admin_setting)
+      end
     else
-      redirect_to edit_admin_setting_path(@admin_setting)
+      @admin_setting.update_attribute("value", params[:admin_setting][:value])
+      redirect_to redirect(admin_settings_path)
     end
   end
 

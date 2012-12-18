@@ -2,27 +2,27 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: projestimate_workin
+  database: database_name_dev
   pool: 5
   username: root
-  password: spirula
+  password:
   host: localhost
 
 test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: projestimate_test
+  database: database_name_test
   pool: 5
   username: root
-  password: spirula
+  password:
   host: localhost
 
 production:
   adapter: mysql2
-  database: projestimate_production
+  database: database_name_production
   reconnect: false
   host: localhost
   username: root
-  password: spirula
+  password:
   encoding: utf8
