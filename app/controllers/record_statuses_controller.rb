@@ -20,6 +20,10 @@
 ########################################################################
 
 class RecordStatusesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
+
   # GET /record_statuses
   # GET /record_statuses.json
   def index
@@ -77,7 +81,8 @@ class RecordStatusesController < ApplicationController
   # PUT /record_statuses/1
   # PUT /record_statuses/1.json
   def update
-    @record_status = RecordStatus.find(params[:id])
+    current_record_status = RecordStatus.find(params[:id])
+    @record_status = current_record_status.dup
 
     respond_to do |format|
       if @record_status.update_attributes(params[:record_status])
@@ -94,7 +99,8 @@ class RecordStatusesController < ApplicationController
   # DELETE /record_statuses/1.json
   def destroy
     @record_status = RecordStatus.find(params[:id])
-    @record_status.destroy
+    #logical deletion: delete don't have to suppress records anymore
+    @record_status.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
 
     respond_to do |format|
       format.html { redirect_to record_statuses_url }

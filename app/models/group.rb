@@ -21,7 +21,11 @@
 #Special Data
 #Group class contains some User.
 class Group < ActiveRecord::Base
-  include UUIDHelper   #module for UUID generation
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+
+  #self relation on master data : Parent<->Child
+  has_one    :child,  :class_name => "Group", :inverse_of => :parent, :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Group", :inverse_of => :child,  :foreign_key => "parent_id"
 
   has_and_belongs_to_many :users
   has_and_belongs_to_many :projects

@@ -17,6 +17,9 @@
       <td><%= link_to 'Show', master_setting %></td>
       <td><%= link_to 'Edit', edit_master_setting_path(master_setting) %></td>
       <td><%= link_to 'Destroy', master_setting, confirm: 'Are you sure?', method: :delete %></td>
+      <% if master_setting.is_proposed? %>
+          <td><%= link_to('Validate', "master_settings/#{master_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
+      <% end %>
     </tr>
   <% end %>
   </table>

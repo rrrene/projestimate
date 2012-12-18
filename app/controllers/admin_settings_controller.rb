@@ -19,6 +19,9 @@
 ########################################################################
 
 class AdminSettingsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Parameters"
@@ -46,7 +49,9 @@ class AdminSettingsController < ApplicationController
   end
 
   def update
-    @admin_setting = AdminSetting.find(params[:id])
+    current_admin_setting = AdminSetting.find(params[:id])
+    @admin_setting = current_admin_setting.dup
+
     if @admin_setting.update_attributes(params[:admin_setting])
       flash[:notice] = 'Admin setting was successfully updated.'
       redirect_to redirect(admin_settings_path)
@@ -57,6 +62,7 @@ class AdminSettingsController < ApplicationController
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
+
     @admin_setting.destroy
     flash[:notice] = 'Admin setting was successfully deleted.'
     redirect_to admin_settings_path

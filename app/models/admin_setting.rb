@@ -20,10 +20,10 @@
 
 # Special table
 class AdminSetting < ActiveRecord::Base
-  include UUIDHelper  # UUID generator
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "AdminSetting", :inverse_of  => :parent
+  has_one    :child,  :class_name => "AdminSetting", :inverse_of => :parent, :foreign_key => "parent_id"
   belongs_to :parent, :class_name => "AdminSetting", :inverse_of => :child, :foreign_key => "parent_id"
 
   belongs_to :record_status

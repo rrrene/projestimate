@@ -19,6 +19,9 @@
 ########################################################################
 
 class CurrenciesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :manage_currency, Currency

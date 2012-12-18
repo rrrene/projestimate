@@ -19,6 +19,9 @@
 ########################################################################
 
 class AttributesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :manage_attributes, Attribute
@@ -54,7 +57,9 @@ class AttributesController < ApplicationController
   def update
     set_page_title "Attributes"
     authorize! :manage_attributes, Attribute
-    @attribute = Attribute.find(params[:id])
+    current_attribute = Attribute.find(params[:id])
+    @attribute = current_attribute.dup
+
     if @attribute.update_attributes(params[:attribute])
       if @attribute.update_attribute("options", params[:options])
         @attribute.attr_type = params[:options][0]
@@ -71,10 +76,31 @@ class AttributesController < ApplicationController
     end
   end
 
+  #def update_SAVE
+  #  set_page_title "Attributes"
+  #  authorize! :manage_attributes, Attribute
+  #  @attribute = Attribute.find(params[:id])
+  #  if @attribute.update_attributes(params[:attribute])
+  #    if @attribute.update_attribute("options", params[:options])
+  #      @attribute.attr_type = params[:options][0]
+  #      if @attribute.save
+  #        redirect_to redirect(attributes_path)
+  #      else
+  #        render action: "edit"
+  #      end
+  #    else
+  #      render action: "edit"
+  #    end
+  #  else
+  #    render action: "edit"
+  #  end
+  #end
+
   def destroy
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.find(params[:id])
-    @attribute.destroy
+    #logical deletion: delete don't have to suppress records anymore
+    @attribute.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
 
     redirect_to attributes_path
   end

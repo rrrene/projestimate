@@ -23,6 +23,7 @@ class ProjectsController < ApplicationController
   helper_method :sort_direction
 
   before_filter :load_data, :only => [:update, :edit, :new, :create]
+  before_filter :get_record_statuses
 
   def load_data
     if params[:id]

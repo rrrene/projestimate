@@ -1,12 +1,13 @@
 #Module for master data method
-module MasterDataHelper
+module DataValidationHelper
 
-  #Change validation
+  #Validate changes on record
   def validate_change
     #get the record controller name
     controller = params[:controller]    #controller.controller_name
-    record_class_name =  controller.singularize.capitalize
-    authorize! :"edit_#{record_class_name.downcase.pluralize}", "#{record_class_name.constantize}"
+    record_class_name = controller.classify  #controller.singularize.capitalize
+    #TODO: Define authorization for master data validation
+    #authorize! :"edit_#{record_class_name.downcase.pluralize}", "#{record_class_name.constantize}"
 
     #Get the record to validate from its ID
     @record = record_class_name.constantize.find(params[:id])
@@ -43,7 +44,7 @@ module MasterDataHelper
 
       #redirect_path = "#{record_class_name.downcase.pluralize}_path"
       #redirect_to redirect(redirect_path) and return
-      redirect_to :action => "index", :controller => "#{controller}"
+      redirect_to :back    # :action => "index", :controller => "#{controller}"
 
     rescue ActiveRecord::StatementInvalid => error
       put "#{error.message}"

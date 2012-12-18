@@ -20,6 +20,9 @@
 ########################################################################
 
 class PermissionsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Permissions"

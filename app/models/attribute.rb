@@ -22,7 +22,7 @@
 #Global attributes of project. Ex : size, cost, result, date etc...
 #Those attributes are used into AttributeModule
 class Attribute < ActiveRecord::Base
-  include UUIDHelper   #module for UUID generation
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   serialize :options, Array
 
@@ -30,8 +30,8 @@ class Attribute < ActiveRecord::Base
   has_many :pemodules, :through => :attribute_modules
 
   #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "Attribute", :inverse_of => :parent
-  belongs_to :parent, :class_name => "Attribute", :inverse_of => :child, :foreign_key => "parent_id"
+  has_one    :child,  :class_name => "Attribute", :inverse_of => :parent, :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Attribute", :inverse_of => :child,  :foreign_key => "parent_id"
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

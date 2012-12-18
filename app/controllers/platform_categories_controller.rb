@@ -19,7 +19,9 @@
 ########################################################################
 
 class PlatformCategoriesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
 
+  before_filter :get_record_statuses
 
   def new
     set_page_title "Platform Category"
@@ -43,7 +45,8 @@ class PlatformCategoriesController < ApplicationController
   end
 
   def update
-    @platform_category = PlatformCategory.find(params[:id])
+    current_platform_category = PlatformCategory.find(params[:id])
+    @platform_category = current_platform_category.dup
 
     if @platform_category.update_attributes(params[:platform_category])
       flash[:notice] = "Platform category was successfully updated."
@@ -55,7 +58,9 @@ class PlatformCategoriesController < ApplicationController
 
   def destroy
     @platform_category = PlatformCategory.find(params[:id])
-    @platform_category.destroy
+    #logical deletion: delete don't have to suppress records anymore
+    @platform_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+
     flash[:notice] = "Platform category was successfully deleted."
     redirect_to "/projects_global_params#tabs-3"
   end

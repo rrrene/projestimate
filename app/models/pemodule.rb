@@ -22,7 +22,7 @@
 #Pemodule represent the Module of the application.
 #Pemodule can be commun(sum, average) or typed(cocomo, pnr...)
 class Pemodule < ActiveRecord::Base
-  include UUIDHelper   #module for UUID generation
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   #Project has many module, module has many project
   has_many :module_projects
@@ -33,8 +33,8 @@ class Pemodule < ActiveRecord::Base
   has_many :pe_attributes, :source => :attribute, :through => :attribute_modules
 
   #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "Pemodule", :inverse_of => :parent
-  belongs_to :parent, :class_name => "Pemodule", :inverse_of => :child, :foreign_key => "parent_id"
+  has_one    :child,  :class_name => "Pemodule", :inverse_of => :parent, :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Pemodule", :inverse_of => :child,  :foreign_key => "parent_id"
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
