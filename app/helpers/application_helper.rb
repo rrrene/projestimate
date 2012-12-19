@@ -41,4 +41,10 @@ module ApplicationHelper
 		end
   end
 
+  #Avoid repetition in views when setting page title
+  def page_title(title)
+    content_for :page_title, title
+    "<h1>#{title}</h1>"
+  end
+
 end

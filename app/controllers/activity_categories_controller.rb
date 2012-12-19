@@ -23,6 +23,10 @@ class ActivityCategoriesController < ApplicationController
 
   before_filter :get_record_statuses
 
+  def index
+    @activity_categories = ActivityCategory.all
+  end
+
   def new
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.new
@@ -41,8 +45,13 @@ class ActivityCategoriesController < ApplicationController
 
   def update
     authorize! :manage_activity_categories, ActivityCategory
+    @activity_category = nil
     current_activity_category = ActivityCategory.find(params[:id])
-    @activity_category = current_activity_category.dup
+    if current_activity_category.is_defined?
+      @activity_category = current_activity_category.dup
+    else
+      @activity_category = current_activity_category
+    end
 
     if @activity_category.update_attributes(params[:activity_category])
       flash[:notice] = "Activity category was successfully updated."
@@ -55,7 +64,13 @@ class ActivityCategoriesController < ApplicationController
   def destroy
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.find(params[:id])
-    @activity_category.destroy
+    if @activity_category.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @activity_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @activity_category.destroy
+    end
+
     redirect_to redirect(activity_categories_url)
   end
 end

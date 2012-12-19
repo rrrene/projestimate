@@ -59,9 +59,19 @@ class CurrenciesController < ApplicationController
   # PUT /currencies/1.json
   def update
     authorize! :manage_currency, Currency
-    @currency = Currency.find(params[:id])
-    @currency.update_attributes(params[:currency])
-    redirect_to redirect(currencies_url)
+    @currency = nil
+    current_currency = Currency.find(params[:id])
+    if current_currency.is_defined?
+      @currency = current_currency;dup
+    else
+      @currency = current_currency
+    end
+
+    if @currency.update_attributes(params[:currency])
+      redirect_to redirect(currencies_url), notice: 'Currency was successfully updated.'
+    else
+      render action: "edit"
+    end
   end
 
   # DELETE /currencies/1
@@ -69,7 +79,14 @@ class CurrenciesController < ApplicationController
   def destroy
     authorize! :manage_currency, Currency
     @currency = Currency.find(params[:id])
-    @currency.destroy
+    if @currency.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @currency.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @currency.destroy
+    end
+
+    flash[:notice] = "Currency was successfully deleted."
     redirect_to currencies_url
   end
 end

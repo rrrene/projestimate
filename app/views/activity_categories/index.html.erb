@@ -1,10 +1,11 @@
 <table class="table table-striped">
   <tr>
-    <th>Id</th>
     <th>Name</th>
     <th>Description</th>
     <th>Alias</th>
     <th>Project area</th>
+    <th>Status</th>
+    <th></th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,14 +13,19 @@
 
 <% @activity_categories.each do |activity_category| %>
   <tr>
-    <td><%= activity_category.id %></td>
     <td><%= activity_category.name %></td>
     <td><%= activity_category.description %></td>
     <td><%= activity_category.alias %></td>
-    <td><%= activity_category.project_area_id %></td>
+    <td><%= activity_category.project_area_ids %></td>
+    <td><%= activity_category.record_status.name unless activity_category.record_status.nil? %></td>
     <td><%= link_to 'Show', activity_category %></td>
-    <td><%= link_to 'Edit', edit_activity_category_path(activity_category) %></td>
-    <td><%= link_to 'Destroy', activity_category, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to '', edit_activity_category_path(activity_category), :class => "icn_edit", :title => "Edit" %></td>
+    <td><%= link_to '', activity_category, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+    <td>
+      <% if activity_category.is_proposed? %>
+          <%= link_to('Validate', "activity_categories/#{activity_category.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

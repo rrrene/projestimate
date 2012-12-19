@@ -134,6 +134,7 @@ class ApplicationController < ActionController::Base
     @retired_status = RecordStatus.find_by_name("Retired")
     @proposed_status = RecordStatus.find_by_name("Proposed")
     @defined_status = RecordStatus.find_by_name("Defined")
+    @custom_status = RecordStatus.find_by_name("Custom")
   end
 
 

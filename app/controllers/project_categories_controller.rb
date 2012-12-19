@@ -45,8 +45,13 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def update
+    @project_category = nil
     current_project_category = ProjectCategory.find(params[:id])
-    @project_category = current_project_category.dup
+    if current_project_category.is_defined?
+      @project_category = current_project_category.dup
+    else
+      @project_category = current_project_category
+    end
 
     if @project_category.update_attributes(params[:project_category])
       flash[:notice] = "Project category was successfully updated."
@@ -58,8 +63,12 @@ class ProjectCategoriesController < ApplicationController
 
   def destroy
     @project_category = ProjectCategory.find(params[:id])
-    #logical deletion: delete don't have to suppress records anymore
-    @project_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @project_category.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @project_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @project_category.destroy
+    end
 
     flash[:notice] = "Project category was successfully deleted."
     redirect_to "/projects_global_params#tabs-2"

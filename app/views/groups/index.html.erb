@@ -5,6 +5,8 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
+      <th>Status</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -13,8 +15,14 @@
     <tr class="">
       <td><%= group.name %></td>
       <td><%= group.description %></td>
-      <td><%= link_to 'Edit', edit_group_path(group) %></td>
-      <td><%= link_to 'Destroy', group, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= group.record_status.name unless group.record_status.nil? %></td>
+      <td><%= link_to '', edit_group_path(group), :class => "icn_edit", :title => "Edit" %></td>
+      <td><%= link_to '', group, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <td>
+        <% if group.is_proposed? %>
+            <%= link_to('Validate', "groups/#{group.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

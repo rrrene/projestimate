@@ -32,6 +32,15 @@ module MasterDataHelper
         end
       end
 
+      #Define method for record Defined status
+      define_method(:is_defined?) do
+        begin
+          (self.record_status.name == "Defined") ? true : false
+        rescue
+          false
+        end
+      end
+
     end
   end
 end

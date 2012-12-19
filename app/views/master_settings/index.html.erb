@@ -1,10 +1,11 @@
 <div class="span12">
-  <h1>Master Setting</h1>
+  <h1>Master Settings</h1>
 
   <table class="table table-striped">
     <tr>
       <th>Key</th>
       <th>Value</th>
+      <th>Status</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,12 +15,14 @@
     <tr >
       <td><%= master_setting.key %></td>
       <td><%= master_setting.value %></td>
-      <td><%= link_to 'Show', master_setting %></td>
-      <td><%= link_to 'Edit', edit_master_setting_path(master_setting) %></td>
-      <td><%= link_to 'Destroy', master_setting, confirm: 'Are you sure?', method: :delete %></td>
-      <% if master_setting.is_proposed? %>
-          <td><%= link_to('Validate', "master_settings/#{master_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
-      <% end %>
+      <td><%= master_setting.record_status.name unless master_setting.record_status.nil? %></td>
+      <td><%= link_to '', edit_master_setting_path(master_setting), :class => "icn_edit", :title => "Edit" %></td>
+      <td><%= link_to '', master_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <td>
+          <% if master_setting.is_proposed? %>
+              <%= link_to('Validate', "master_settings/#{master_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+          <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

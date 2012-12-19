@@ -49,8 +49,13 @@ class AdminSettingsController < ApplicationController
   end
 
   def update
+    @admin_setting = nil
     current_admin_setting = AdminSetting.find(params[:id])
-    @admin_setting = current_admin_setting.dup
+    if current_admin_setting.is_defined?
+      @admin_setting = current_admin_setting.dup
+    else
+      @admin_setting = current_admin_setting
+    end
 
     if @admin_setting.update_attributes(params[:admin_setting])
       flash[:notice] = 'Admin setting was successfully updated.'
@@ -62,8 +67,13 @@ class AdminSettingsController < ApplicationController
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
+    if @admin_setting.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @admin_setting.destroy
+    end
 
-    @admin_setting.destroy
     flash[:notice] = 'Admin setting was successfully deleted.'
     redirect_to admin_settings_path
   end

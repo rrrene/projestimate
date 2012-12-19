@@ -5,6 +5,8 @@
     <tr>
       <th>Name</th>
       <th>Locale</th>
+      <th>Status</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -13,11 +15,14 @@
     <tr >
       <td><%= language.name %></td>
       <td><%= language.locale %></td>
+      <td><%= language.record_status.name unless language.record_status.nil? %></td>
       <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', language, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
-      <% if language.is_proposed? %>
-        <td><%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
+      <td>
+        <% if language.is_proposed? %>
+          <%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
       <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

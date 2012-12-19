@@ -1,10 +1,13 @@
 <div class="span12">
-  <h1><%=  @labor_category.name %></h1>
   <%= simple_form_for(@labor_category) do |f| %>
 
     <%= f.input :name %>
 
-    <%= f.input :description %>
+    <%= f.input :description, :input_html => { :rows => 3 } %>
+
+    <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+
+    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

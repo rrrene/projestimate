@@ -49,8 +49,13 @@ class PemodulesController < ApplicationController
 
   def update
     unless params[:id].blank?
+      @pemodule = nil
       current_pemodule = Pemodule.find(params[:id])
-      @pemodule = current_pemodule.dup
+      if current_pemodule.is_defined?
+        @pemodule = current_pemodule.dup
+      else
+        @pemodule = current_pemodule
+      end
 
       @pemodule.title = params[:pemodule][:title]
       @pemodule.description = params[:pemodule][:description]
@@ -131,10 +136,14 @@ class PemodulesController < ApplicationController
   def destroy
     authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])
-    #logical deletion: delete don't have to suppress records anymore
-    @pemodule.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @pemodule.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @pemodule.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @pemodule.destroy
+    end
 
-    redirect_to pemodules_url
+    redirect_to pemodules_url, :notice => "Module was successfully deleted."
   end
 
 

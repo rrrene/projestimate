@@ -35,9 +35,12 @@ class AttributeModulesController < ApplicationController
 
   def destroy
     @attribute_module = AttributeModule.find(params[:id])
-
-    #logical deletion: delete don't have to suppress records anymore
-    @attribute_module.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @attribute_module.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @attribute_module.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @attribute_module.destroy
+    end
 
     redirect_to attribute_modules_url
   end

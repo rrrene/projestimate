@@ -51,8 +51,13 @@ class PeiconsController < ApplicationController
 
   def update
     set_page_title "Icons libraries"
+    @icon = nil
     current_icon = Peicon.find(params[:id])
-    @icon = current_icon.dup
+    if current_icon.is_defined?
+      @icon = current_icon.dup
+    else
+      @icon = current_icon
+    end
 
     if @icon.update_attributes(params[:peicon])
       redirect_to redirect(peicons_path)
@@ -62,12 +67,26 @@ class PeiconsController < ApplicationController
     end
   end
 
+  #def destroy_SAVE
+  #  @peicon = Peicon.find(params[:id])
+  #  @peicon.icon = nil
+  #  @peicon.save
+  #  @peicon.destroy
+  #  redirect_to peicons_path
+  #end
+
   def destroy
     @peicon = Peicon.find(params[:id])
-    @peicon.icon = nil
-    @peicon.save
-    @peicon.destroy
-    redirect_to peicons_path
+    if @peicon.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @peicon.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @peicon.icon = nil
+      @peicon.save
+      @peicon.destroy
+    end
+
+    redirect_to peicons_path, :notice => "Icon was successfully deleted."
   end
 
   def choose_icon

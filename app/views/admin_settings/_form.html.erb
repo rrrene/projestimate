@@ -7,7 +7,12 @@
       <%= f.input :key %>
 
       <%= f.input :value %>
+
+      <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+
+      <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
     </div>
+
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>
       <%= f.submit "Apply", :class => "btn btn-success" %>

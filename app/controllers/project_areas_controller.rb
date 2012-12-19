@@ -57,8 +57,13 @@ class ProjectAreasController < ApplicationController
   end
 
   def update
+    @project_area = nil
     current_project_area = ProjectArea.find(params[:id])
-    @project_area = current_project_area.dup
+    if current_project_area.is_defined?
+      @project_area = current_project_area.dup
+    else
+      @project_area = current_project_area
+    end
 
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = "Project area was successfully updated."
@@ -70,8 +75,12 @@ class ProjectAreasController < ApplicationController
 
   def destroy
     @project_area = ProjectArea.find(params[:id])
-    #logical deletion: delete don't have to suppress records anymore
-    @project_area.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @project_area.is_defined?
+      #logical deletion: delete don't have to suppress records anymore if record status is defined
+      @project_area.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @project_area.destroy
+    end
 
     flash[:notice] = "Project area was successfully deleted."
     redirect_to "/projects_global_params#tabs-1"

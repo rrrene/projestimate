@@ -20,6 +20,9 @@
 ########################################################################
 
 class GroupsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :edit_groups, Group
@@ -54,7 +57,14 @@ class GroupsController < ApplicationController
   end
 
   def update
-    @group = Group.find(params[:id])
+    @group = nil
+    current_group = Group.find(params[:id])
+    if current_group.is_defined?
+      @group = current_group.dup
+    else
+      @group = current_group
+    end
+
     if @group.update_attributes(params[:group])
       redirect_to redirect(groups_path)
     else
@@ -64,7 +74,13 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.find(params[:id])
-    @group.destroy
+    if @group.is_defined
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @group.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @group.destroy
+    end
+    flash[:notice] = "Group was successfully deleted."
     redirect_to groups_url
   end
 end

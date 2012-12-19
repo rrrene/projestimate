@@ -26,6 +26,8 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Status</th>
+            <th></th>
             <th></th>
             <th></th>
           </tr>
@@ -34,11 +36,14 @@
              <tr>
                <td><%= i.name %></td>
                <td><%= i.description %></td>
-               <td><%= link_to 'Edit', edit_project_area_path(i) %></td>
-               <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-               <% if i.is_proposed? %>
-                   <td><%= link_to('Validate', "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
-               <% end %>
+               <td><%= i.record_status.name unless i.record_status.nil? %></td>
+               <td><%= link_to '', edit_project_area_path(i), :class => "icn_edit", :title => "Edit"  %></td>
+               <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
+               <td>
+                   <% if i.is_proposed? %>
+                       <%= link_to('Validate', "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                   <% end %>
+               </td>
              </tr>
           <% end %>
         </table>
@@ -59,6 +64,8 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Status</th>
+            <th></th>
             <th></th>
             <th></th>
           </tr>
@@ -67,11 +74,14 @@
              <tr>
                <td><%= i.name %></td>
                <td><%= i.description %></td>
-               <td><%= link_to 'Edit', edit_project_category_path(i) %></td>
-               <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-               <% if i.is_proposed? %>
-                   <td><%= link_to('Validate', "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
-               <% end %>
+               <td><%= i.record_status.name unless i.record_status.nil? %></td>
+               <td><%= link_to '', edit_project_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
+               <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
+               <td>
+                   <% if i.is_proposed? %>
+                       <%= link_to('Validate', "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                   <% end %>
+               </td>
              </tr>
           <% end %>
         </table>
@@ -92,6 +102,8 @@
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Status</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -100,11 +112,14 @@
            <tr>
              <td><%= i.name %></td>
              <td><%= i.description %></td>
-             <td><%= link_to 'Edit', edit_platform_category_path(i) %></td>
-             <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-             <% if i.is_proposed? %>
-                 <td><%= link_to('Validate', "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
-             <% end %>
+             <td><%= i.record_status.name unless i.record_status.nil? %></td>
+             <td><%= link_to '', edit_platform_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
+             <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
+             <td>
+                 <% if i.is_proposed? %>
+                     <%= link_to('Validate', "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                 <% end %>
+             </td>
            </tr>
         <% end %>
       </table>
@@ -125,6 +140,8 @@
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Status</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -133,11 +150,14 @@
            <tr>
              <td><%= i.name %></td>
              <td><%= i.description %></td>
-             <td><%= link_to 'Edit', edit_acquisition_category_path(i) %></td>
-             <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
-             <% if i.is_proposed? %>
-                 <td><%= link_to('Validate', "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%></td>
-             <% end %>
+             <td><%= i.record_status.name unless i.record_status.nil? %></td>
+             <td><%= link_to '', edit_acquisition_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
+             <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
+             <td>
+                 <% if i.is_proposed? %>
+                     <%= link_to('Validate', "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                 <% end %>
+             </td>
            </tr>
         <% end %>
       </table>

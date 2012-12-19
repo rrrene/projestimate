@@ -9,6 +9,7 @@ ProjestimateMaquette::Application.routes.draw do
   resources :auth_methods
 
   resources :admin_settings
+  match "admin_settings/:id/validate_change" => "admin_settings#validate_change", :as => "validate_change"
 
   resources :master_settings
   match 'master_settings/:id/validate_change' => 'master_settings#validate_change', :as => 'validate_change'
