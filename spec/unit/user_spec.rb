@@ -15,6 +15,10 @@ describe User do
     @user.should be_valid
   end
 
+  it "should return the name of user" do
+    @admin1.to_s.should eql(@admin1.name())
+  end
+
   #ATTRIBUTES AND FORMAT VALIDATIONS
 
   it "should not be valid without last_name"  do
