@@ -89,12 +89,13 @@ end
 
 private
 def load_master_data!
-  #begin
+  begin
+
 
   puts " Creating Master Parameters ..."
-    record_status = ExternalMasterDatabase::ExternalRecordStatus.all.map{|i| [i.name, i.description] }
+    record_status = ExternalMasterDatabase::ExternalRecordStatus.all.map{|i| [i.name, i.description, i.uuid, i.record_status_id, i.custom_value] }
     record_status.each do |i|
-      RecordStatus.create(:name => i[0], :description => i[1] )
+      RecordStatus.create(:name => i[0], :description => i[1], :uuid => i[2], :record_status_id => i[3], :custom_value => i[4] )
     end
 
     #Find orrect record status id
@@ -253,17 +254,17 @@ def load_master_data!
       Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :uuid => i[3], :record_status_id => i[4], :custom_value => i[5])
     end
 
-  #  puts "\n\n"
-  #  puts "Default data was successfully loaded. Enjoy !"
-  #rescue Errno::ECONNREFUSED
-  #  puts "\n\n\n"
-  #  puts "!!! WARNING - Error: Default data was not loaded, please investigate"
-  #  puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-  #rescue Exception
-  #  puts "\n\n"
-  #  puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
-  #  puts "Maybe run db:create and db:migrate tasks."
-  #end
+    puts "\n\n"
+    puts "Default data was successfully loaded. Enjoy !"
+  rescue Errno::ECONNREFUSED
+    puts "\n\n\n"
+    puts "!!! WARNING - Error: Default data was not loaded, please investigate"
+    puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+  rescue Exception
+    puts "\n\n"
+    puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
+    puts "Maybe run db:create and db:migrate tasks."
+  end
 end
 
 
