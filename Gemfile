@@ -103,7 +103,7 @@ gem 'paperclip', '~> 3.0'
 #Continious integration and monitoring
 gem 'newrelic_rpm'
 
-#UUID tools generator
+#UUID generation tools
 gem "uuidtools"
 
 #For deep copy of ActiveRecord object
