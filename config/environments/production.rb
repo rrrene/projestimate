@@ -58,16 +58,7 @@ ProjestimateMaquette::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  ActionMailer::Base.smtp_settings = {
-      :address              => "smtp.sample.com",
-      :port                 => 587,
-      :domain               => "yourdoamine.com",
-      :user_name            => "your_username",
-      :password             => "your_password",
-      :authentication       => "plain",
-      :enable_starttls_auto => true
-  }
-  config.action_mailer.default_url_options = { :host => "yourdoamin.com" }
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true

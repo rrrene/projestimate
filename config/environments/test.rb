@@ -36,17 +36,4 @@ ProjestimateMaquette::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
-
-  ActionMailer::Base.smtp_settings = {
-      :address              => "smtp.sample.com",
-      :port                 => 587,
-      :domain               => "yourdoamine.com",
-      :user_name            => "your_username",
-      :password             => "your_password",
-      :authentication       => "plain",
-      :enable_starttls_auto => true
-  }
-  config.action_mailer.default_url_options = { :host => "yourdoamin.com" }
-  config.action_mailer.delivery_method = :smtp
-
 end

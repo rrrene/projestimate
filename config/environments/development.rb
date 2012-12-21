@@ -27,17 +27,7 @@ ProjestimateMaquette::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = false
 
-  ActionMailer::Base.smtp_settings = {
-      :address              => "smtp.sample.com",
-      :port                 => 587,
-      :domain               => "yourdomain.com",
-      :user_name            => "your_usernname",
-      :password             => "your_password",
-      :authentication       => "plain",
-      :enable_starttls_auto => true
-  }
-
-  config.action_mailer.default_url_options = { :host => "yourdomain.com" }
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
