@@ -5,6 +5,7 @@ FactoryGirl.define do
     ac.name         "Management"
     ac.description  "TBD"
     ac.alias        "TBD"
+    uuid
   end
 
 end

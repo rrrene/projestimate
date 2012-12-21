@@ -4,6 +4,7 @@ FactoryGirl.define do
     p.name        "edit_own_profile"
     p.description "Edit your own profile"
     p.is_permission_project true
+    uuid
   end
 
 end

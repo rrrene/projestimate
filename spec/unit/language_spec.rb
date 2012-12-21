@@ -21,6 +21,11 @@ describe Language do
     @language.should_not be_valid
   end
 
+  it "should not be valid without uuid" do
+    @language.uuid = ""
+    @language.should_not be_valid
+  end
+
   it "should return :language name" do
     @language.to_s.should eql(@language.name)
   end

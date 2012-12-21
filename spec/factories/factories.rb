@@ -1,4 +1,12 @@
+require "rubygems"
+require "uuidtools"
+
 FactoryGirl.define do
+  #sequence to generate UUID on test records
+  sequence :uuid do |n|
+    "#{UUIDTools::UUID.timestamp_create.to_s}"
+  end
+
   factory :user do
     first_name "Administrator1"
     last_name  "Projestimate1"
@@ -53,16 +61,19 @@ FactoryGirl.define do
     auth.port 0
     auth.base_dn "Not necessary"
     auth.certificate 0
+    uuid
   end
 
   factory :language do
     name "Test"
     locale "This is a test"
+    uuid
   end
 
   factory :ProjectCategory do
     name "projet1"
     description "en"
+    uuid
   end
 
   # Projects
@@ -115,6 +126,7 @@ FactoryGirl.define do
      attr.description "Attr"
      attr.attr_type "Integer"
      attr.options []
+    uuid
   end
 
 

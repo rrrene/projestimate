@@ -32,7 +32,7 @@ class Language < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :name, :locale, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :name, :locale, :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
 
   #Override
   def to_s

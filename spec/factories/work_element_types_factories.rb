@@ -56,11 +56,13 @@ FactoryGirl.define do
     trait :wet_folder do  |wetf|
       wetf.name "Folder1"
       wetf.alias "folder"
+      uuid
     end
 
     trait :wet_link do |wetl|
       wetl.name "Link"
       wetl.alias "link"
+      uuid
     end
   end
 
