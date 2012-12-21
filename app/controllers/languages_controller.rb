@@ -19,7 +19,7 @@
 ########################################################################
 
 class LanguagesController < ApplicationController
-  include MasterDataHelper
+  include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
@@ -29,7 +29,7 @@ class LanguagesController < ApplicationController
     authorize! :edit_languages, Language
     set_page_title "Languages"
     #@languages = Language.all
-    @languages = Language.where("record_status_id <> ?", @retired_status.id)
+    @languages = Language.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -63,12 +63,6 @@ class LanguagesController < ApplicationController
   end
 
   # GET /languages/1/edit
-  #def edit_SAVE
-  #  authorize! :edit_languages, Language
-  #  set_page_title "Edit language"
-  #  @language = Language.find(params[:id])
-  #end
-
   def edit
     authorize! :edit_languages, Language
     set_page_title "Edit language"
@@ -93,10 +87,13 @@ class LanguagesController < ApplicationController
   # PUT /languages/1.json
   def update
     authorize! :edit_languages, Language
-    #@language = Language.find(params[:id])
+    @language = nil
     current_language = Language.find(params[:id])
-    @language = current_language.dup()
-    @language.save
+    if current_language.is_defined?
+      @language = current_language.dup()
+    else
+      @language = current_language
+    end
 
     if @language.update_attributes(params[:language])
       redirect_to redirect(@language), notice: 'Language was successfully updated.'
@@ -105,18 +102,6 @@ class LanguagesController < ApplicationController
     end
   end
 
-  #def update_SAVE
-  #  authorize! :edit_languages, Language
-  #  @language = Language.find(params[:id])
-  #
-  #  if @language.update_attributes(params[:language])
-  #    redirect_to redirect(@language), notice: 'Language was successfully updated.'
-  #  else
-  #    render action: "edit"
-  #  end
-  #end
-
-
   # DELETE /languages/1
   # DELETE /languages/1.json
   # Destroy method on Master table is not going to delete  definitively the record
@@ -124,56 +109,16 @@ class LanguagesController < ApplicationController
   def destroy
     authorize! :edit_languages, Language
     @language = Language.find(params[:id])
-    #logical deletion
-    @language.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @language.is_defined?
+      #logical deletion  delete don't have to suppress records anymore on Defined record
+      @language.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @language.destroy
+    end
 
     respond_to do |format|
+      flash[:notice] = "Language was successfully deleted."
       format.html { redirect_to languages_url }
-    end
-  end
-
-  #Get record statuses
-  def get_record_statuses
-    @retired_status = RecordStatus.find_by_name("Retired")
-    @proposed_status = RecordStatus.find_by_name("Proposed")
-    @defined_status = RecordStatus.find_by_name("Defined")
-  end
-
-  #validate the record change
-  def validate_change_SAVE
-    authorize! :edit_languages, Language
-    @language = Language.find(params[:id])
-    trans_successful = false
-    temp_current_uuid = @language.uuid
-    parent_language = @language.parent
-    temp_parent_uuid = parent_language.uuid
-
-    begin
-      #Create transaction to avoid uuid duplication error in DB
-      parent_language.transaction do
-        @language.uuid = nil
-        parent_language.record_status = @retired_status
-        parent_language.uuid = temp_current_uuid
-        parent_language.ref = @language.ref
-        @language.save!
-        parent_language.save!
-        trans_successful = true
-      end
-
-      if trans_successful
-        @language.ref = nil
-        @language.uuid = temp_parent_uuid
-        @language.record_status = @defined_status
-
-        if @language.save
-          #redirect_to redirect(@language), notice: 'Changes on language was successfully validated.'
-          redirect_to languages_path notice: 'Changes on language was successfully validated.'
-        else
-          redirect_to languages_path notice: 'Changes validation failed.'
-        end
-       end
-    rescue ActiveRecord::StatementInvalid
-      put "Erreur"
     end
   end
 

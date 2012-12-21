@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.string   "base_dn"
     t.string   "user_name_attribute"
     t.boolean  "certificate"
-    t.string   "scope"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "uuid"
@@ -701,6 +700,9 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.text     "ten_latest_projects"
     t.integer  "organization_id"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
 
   create_table "wbs", :force => true do |t|
     t.integer  "project_id"

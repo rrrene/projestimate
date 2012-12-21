@@ -19,6 +19,10 @@
 ########################################################################
 
 class MasterSettingsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
+
   # GET /master_settings
   # GET /master_settings.json
   def index
@@ -64,7 +68,13 @@ class MasterSettingsController < ApplicationController
   # PUT /master_settings/1
   # PUT /master_settings/1.json
   def update
-    @master_setting = MasterSetting.find(params[:id])
+    @master_setting = nil
+    current_master_setting = MasterSetting.find(params[:id])
+    if current_master_setting.is_defined?
+      @master_setting = current_master_setting.dup
+    else
+      @master_setting = current_master_setting
+    end
 
     if @master_setting.update_attributes(params[:master_setting])
       redirect_to redirect(master_settings_path), notice: 'Master setting was successfully updated.'
@@ -77,9 +87,15 @@ class MasterSettingsController < ApplicationController
   # DELETE /master_settings/1.json
   def destroy
     @master_setting = MasterSetting.find(params[:id])
-    @master_setting.destroy
+    if @master_setting.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @master_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @master_setting.destroy
+    end
 
     respond_to do |format|
+      flash[:notice] = "Master setting was successfully deleted."
       format.html { redirect_to master_settings_url }
     end
   end

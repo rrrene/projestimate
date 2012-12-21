@@ -6,7 +6,11 @@
     <div >
       <%= f.input :name %>
 
-      <%= f.input :description %><br />
+      <%= f.input :description, :input_html => { :rows => 3 } %>
+
+      <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+
+      <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
     </div>
 
     <div class="actions">

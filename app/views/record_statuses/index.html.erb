@@ -1,25 +1,33 @@
-<h1>Listing record_statuses</h1>
+<div class="span12">
+  <h1>Record status</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
 
-<% @record_statuses.each do |record_status| %>
-  <tr>
-    <td><%= record_status.name %></td>
-    <td><%= record_status.description %></td>
-    <td><%= link_to 'Show', record_status %></td>
-    <td><%= link_to 'Edit', edit_record_status_path(record_status) %></td>
-    <td><%= link_to 'Destroy', record_status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+    <% @record_statuses.each do |record_status| %>
+        <tr >
+          <td><%= record_status.name %></td>
+          <td><%= record_status.description %></td>
+          <td><%= record_status.record_status.name unless record_status.record_status.nil? %></td>
+          <td><%= link_to '', edit_record_status_path(record_status), :class => "icn_edit", :title => "Edit" %></td>
+          <td><%= link_to '', record_status, method: :delete, data: { confirm: 'Are you sure?' }, :class => "icn_trash", :title => "Delete" %></td>
+          <td>
+              <% if record_status.is_proposed? %>
+                  <%= link_to('Validate', "record_statuses/#{record_status.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
+          </td>
+        </tr>
+    <% end %>
+  </table>
 
-<br />
+  <br />
 
-<%= link_to 'New Record status', new_record_status_path %>
+  <%= link_to 'New Record status', new_record_status_path, :class => "btn" %>
+</div>

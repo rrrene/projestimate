@@ -20,6 +20,9 @@
 ########################################################################
 
 class PermissionsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Permissions"
@@ -75,7 +78,14 @@ class PermissionsController < ApplicationController
   # PUT /permissions/1
   # PUT /permissions/1.json
   def update
-    @permission = Permission.find(params[:id])
+    @permission = nil
+    current_permission = Permission.find(params[:id])
+    if current_permission.is_defined?
+      @permission = current_permission.dup
+    else
+      @permission = current_permission
+    end
+
     if @permission.update_attributes(params[:permission])
       redirect_to redirect("/globals_permissions"), notice: 'Function was successfully updated.'
     else
@@ -87,10 +97,14 @@ class PermissionsController < ApplicationController
   # DELETE /permissions/1.json
   def destroy
     @permission = Permission.find(params[:id])
-    @permission.destroy
+    if @permission.is_defined?
+      @permission.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @permission.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to permissions_path }
+      format.html { redirect_to permissions_path, notice: "Permission was successfully deleted." }
       format.json { head :ok }
     end
   end

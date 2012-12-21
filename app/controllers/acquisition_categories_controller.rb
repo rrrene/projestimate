@@ -19,6 +19,9 @@
 ########################################################################
 
 class AcquisitionCategoriesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def new
     authorize! :manage_acquisition_categories, AcquisitionCategory
@@ -45,7 +48,14 @@ class AcquisitionCategoriesController < ApplicationController
 
   def update
     authorize! :manage_acquisition_categories, AcquisitionCategory
-    @acquisition_category = AcquisitionCategory.find(params[:id])
+    @acquisition_category = nil
+    current_acquisition_category = AcquisitionCategory.find(params[:id])
+    if current_acquisition_category.record_status == @defined_status
+      @acquisition_category = current_acquisition_category.dup()
+    else
+      @acquisition_category = current_acquisition_category
+    end
+
     if @acquisition_category.update_attributes(params[:acquisition_category])
       flash[:notice] = "Acquisition category was successfully updated."
       redirect_to redirect("/projects_global_params#tabs-4")
@@ -57,7 +67,14 @@ class AcquisitionCategoriesController < ApplicationController
   def destroy
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.find(params[:id])
-    @acquisition_category.destroy
+    if @acquisition_category.record_status == @defined_status
+      #logical deletion: delete don't have to suppress records anymore on Defined record
+      @acquisition_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      #physical deletion when record is not defined
+      @acquisition_category.destroy
+    end
+
     flash[:notice] = 'Acquisition category was successfully deleted.'
     redirect_to redirect("/projects_global_params#tabs-4")
   end

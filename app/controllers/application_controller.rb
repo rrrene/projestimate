@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_component
   helper_method :load_master_setting
   helper_method :load_admin_setting
+  helper_method :get_record_statuses
 
   before_filter :set_user_time_zone
   before_filter :set_user_language
@@ -127,6 +128,15 @@ class ApplicationController < ActionController::Base
   def current_url(page_title)
     @page_title = page_title
   end
+
+  #Get record statuses
+  def get_record_statuses
+    @retired_status = RecordStatus.find_by_name("Retired")
+    @proposed_status = RecordStatus.find_by_name("Proposed")
+    @defined_status = RecordStatus.find_by_name("Defined")
+    @custom_status = RecordStatus.find_by_name("Custom")
+  end
+
 
   #Rescue method
   rescue_from CanCan::AccessDenied do |exception|

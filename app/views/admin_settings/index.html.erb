@@ -1,10 +1,11 @@
 <div class="span12">
-  <h1>Listing admin_settings</h1>
+  <h1>Administration settings</h1>
 
   <table class="table table-striped" >
     <tr>
       <th>Key</th>
       <th>Value</th>
+      <th>Status</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,8 +15,14 @@
     <tr >
       <td><%= admin_setting.key %></td>
       <td><%= admin_setting.value %></td>
-      <td><%= link_to 'Edit', edit_admin_setting_path(admin_setting) %></td>
-      <td><%= link_to 'Destroy', admin_setting, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= admin_setting.record_status.name unless admin_setting.record_status.nil? %></td>
+      <td><%= link_to '', edit_admin_setting_path(admin_setting), :class => "icn_edit", :title => "Edit" %></td>
+      <td><%= link_to '', admin_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <td>
+          <% if admin_setting.is_proposed? %>
+              <%= link_to('Validate', "admin_settings/#{admin_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+          <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

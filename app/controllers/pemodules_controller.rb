@@ -19,6 +19,9 @@
 ########################################################################
 
 class PemodulesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :manage_modules, Pemodule
@@ -46,7 +49,14 @@ class PemodulesController < ApplicationController
 
   def update
     unless params[:id].blank?
-      @pemodule = Pemodule.find(params[:id])
+      @pemodule = nil
+      current_pemodule = Pemodule.find(params[:id])
+      if current_pemodule.is_defined?
+        @pemodule = current_pemodule.dup
+      else
+        @pemodule = current_pemodule
+      end
+
       @pemodule.title = params[:pemodule][:title]
       @pemodule.description = params[:pemodule][:description]
       @pemodule.alias = params[:pemodule][:alias]
@@ -126,9 +136,14 @@ class PemodulesController < ApplicationController
   def destroy
     authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])
-    @pemodule.destroy
+    if @pemodule.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @pemodule.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @pemodule.destroy
+    end
 
-    redirect_to pemodules_url
+    redirect_to pemodules_url, :notice => "Module was successfully deleted."
   end
 
 

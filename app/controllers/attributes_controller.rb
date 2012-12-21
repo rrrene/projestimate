@@ -19,6 +19,9 @@
 ########################################################################
 
 class AttributesController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     authorize! :manage_attributes, Attribute
@@ -54,7 +57,14 @@ class AttributesController < ApplicationController
   def update
     set_page_title "Attributes"
     authorize! :manage_attributes, Attribute
-    @attribute = Attribute.find(params[:id])
+    @attribute = nil
+    current_attribute = Attribute.find(params[:id])
+    if current_attribute.is_defined?
+      @attribute = current_attribute.dup
+    else
+      @attribute = current_attribute
+    end
+
     if @attribute.update_attributes(params[:attribute])
       if @attribute.update_attribute("options", params[:options])
         @attribute.attr_type = params[:options][0]
@@ -74,7 +84,12 @@ class AttributesController < ApplicationController
   def destroy
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.find(params[:id])
-    @attribute.destroy
+    if @attribute.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @attribute.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @attribute.destroy
+    end
 
     redirect_to attributes_path
   end

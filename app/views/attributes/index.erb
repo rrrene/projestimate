@@ -13,6 +13,8 @@
       <th>Alias</th>
       <th>Description</th>
       <th>Attribute Type</th>
+      <th>Status</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -25,8 +27,14 @@
           <td><%= attribute.alias %></td>
           <td><%= attribute.description %></td>
           <td><%= attribute.attr_type.humanize %></td>
-          <td><%= link_to 'Edit', edit_attribute_path(attribute) %></td>
-          <td><%= link_to 'Destroy', attribute, confirm: 'Are you sure?', method: :delete %></td>
+          <td><%= attribute.record_status.name unless attribute.record_status.nil? %></td>
+          <td><%= link_to '', edit_attribute_path(attribute), :class => "icn_edit", :title => "Edit" %></td>
+          <td><%= link_to '', attribute, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+          <td>
+            <% if attribute.is_proposed? %>
+                <%= link_to('Validate', "attributes/#{attribute.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     <% end %>

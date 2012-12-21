@@ -19,6 +19,9 @@
 ########################################################################
 
 class AdminSettingsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Parameters"
@@ -46,24 +49,31 @@ class AdminSettingsController < ApplicationController
   end
 
   def update
-    @admin_setting = AdminSetting.find(params[:id])
-    #if custom value, alors bypass validation admin setting
-    unless @admin_setting.key == "custom_status_to_consider"
-      if @admin_setting.update_attributes(params[:admin_setting])
-        flash[:notice] = 'Admin setting was successfully updated.'
-        redirect_to redirect(admin_settings_path)
-      else
-        redirect_to edit_admin_setting_path(@admin_setting)
-      end
+    @admin_setting = nil
+    current_admin_setting = AdminSetting.find(params[:id])
+    if current_admin_setting.is_defined?
+      @admin_setting = current_admin_setting.dup
     else
-      @admin_setting.update_attribute("value", params[:admin_setting][:value])
+      @admin_setting = current_admin_setting
+    end
+
+    if @admin_setting.update_attributes(params[:admin_setting])
+      flash[:notice] = 'Admin setting was successfully updated.'
       redirect_to redirect(admin_settings_path)
+    else
+      redirect_to edit_admin_setting_path(@admin_setting)
     end
   end
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
-    @admin_setting.destroy
+    if @admin_setting.is_defined?
+      #logical deletion: delete don't have to suppress records anymore on defined record
+      @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @admin_setting.destroy
+    end
+
     flash[:notice] = 'Admin setting was successfully deleted.'
     redirect_to admin_settings_path
   end

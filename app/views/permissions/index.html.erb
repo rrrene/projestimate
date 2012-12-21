@@ -2,6 +2,7 @@
   <table class="table table-strpied">
       <tr>
         <th>Permissions</th>
+        <th>Status</th>
         <th></th>
         <th></th>
         <th></th>
@@ -10,8 +11,14 @@
     <% @permissions.each do |perm| %>
       <tr>
         <td><%= perm.name %></td>
-        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit" %></td>
-        <td><%= link_to "", perm, confirm: 'Are you sure?', method: :delete, :class => "icn_trash" %></td>
+        <td><%= perm.record_status.name unless perm.record_status.nil? %></td>
+        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => "Edit" %></td>
+        <td><%= link_to "", perm, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+        <td>
+          <% if perm.is_proposed? %>
+              <%= link_to('Validate', "permissions/#{perm.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </table>

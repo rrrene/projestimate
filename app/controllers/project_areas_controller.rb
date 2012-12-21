@@ -19,6 +19,9 @@
 ########################################################################
 
 class ProjectAreasController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def new
     set_page_title "Project Area"
@@ -54,8 +57,14 @@ class ProjectAreasController < ApplicationController
   end
 
   def update
-    @project_area = ProjectArea.find(params[:id])
-    
+    @project_area = nil
+    current_project_area = ProjectArea.find(params[:id])
+    if current_project_area.is_defined?
+      @project_area = current_project_area.dup
+    else
+      @project_area = current_project_area
+    end
+
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = "Project area was successfully updated."
       redirect_to redirect("/projects_global_params#tabs-1")
@@ -66,7 +75,13 @@ class ProjectAreasController < ApplicationController
 
   def destroy
     @project_area = ProjectArea.find(params[:id])
-    @project_area.destroy
+    if @project_area.is_defined?
+      #logical deletion: delete don't have to suppress records anymore if record status is defined
+      @project_area.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @project_area.destroy
+    end
+
     flash[:notice] = "Project area was successfully deleted."
     redirect_to "/projects_global_params#tabs-1"
   end

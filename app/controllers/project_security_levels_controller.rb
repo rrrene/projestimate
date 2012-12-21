@@ -19,6 +19,9 @@
 ########################################################################
 
 class ProjectSecurityLevelsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     @project_security_levels = ProjectSecurityLevel.all
@@ -43,7 +46,8 @@ class ProjectSecurityLevelsController < ApplicationController
   end
 
   def update
-    @project_security_level = ProjectSecurityLevel.find(params[:id])
+    current_project_security_level = ProjectSecurityLevel.find(params[:id])
+    @project_security_level = current_project_security_level.dup
 
     if @project_security_level.update_attributes(params[:project_security_level])
       redirect_to redirect(project_security_levels_url), notice: 'Project security level was successfully updated.'
@@ -54,10 +58,15 @@ class ProjectSecurityLevelsController < ApplicationController
 
   def destroy
     @project_security_level = ProjectSecurityLevel.find(params[:id])
-    @project_security_level.destroy
+    if @project_security_level.is_defined?
+      #logical deletion: delete don't have to suppress records anymore
+      @project_security_level.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @project_security_level.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to project_security_levels_url }
+      format.html { redirect_to project_security_levels_url, notice: "Project security level was successfully deleted." }
       format.json { head :ok }
     end
   end

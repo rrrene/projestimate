@@ -15,6 +15,10 @@ describe User do
     @user.should be_valid
   end
 
+  it "should return the name of user" do
+    @admin1.to_s.should eql(@admin1.name())
+  end
+
   #ATTRIBUTES AND FORMAT VALIDATIONS
 
   it "should not be valid without last_name"  do
@@ -108,7 +112,10 @@ describe User do
       @user.should_not be_valid
     end
   end
-
+  #it "sends a e-mail" do
+  #  @user.send_password_reset()
+  #  ActionMailer::Base.deliveries.last.to.should == [@user.email]
+  #end
   #describe "when password is too short" do
   #  before do
   #    #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")

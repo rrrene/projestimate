@@ -104,7 +104,7 @@ gem 'paperclip', '~> 3.0'
 gem 'newrelic_rpm'
 
 #UUID tools generator
-gem "uuidtools"
+gem 'uuidtools'
 
 #For deep copy of ActiveRecord object
 gem 'amoeba'

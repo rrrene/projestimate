@@ -1,4 +1,7 @@
 class AuthMethodsController < ApplicationController
+  include DataValidationHelper #Module for master data changes validation
+
+  before_filter :get_record_statuses
 
   def index
     set_page_title "Authentications Method"
@@ -17,7 +20,14 @@ class AuthMethodsController < ApplicationController
 
   def update
     set_page_title "Authentications Method"
-    @auth_method = AuthMethod.find(params[:id])
+    @auth_method = nil
+    current_auth_method = AuthMethod.find(params[:id])
+    if current_auth_method.is_defined?
+      @auth_method = current_auth_method.dup
+    else
+      @auth_method = current_auth_method
+    end
+
     if @auth_method.update_attributes(params[:auth_method])
       redirect_to redirect(auth_methods_path)
     else
@@ -36,6 +46,16 @@ class AuthMethodsController < ApplicationController
   end
 
   def destroy
+    @auth_method = AuthMethod.find(params[:id])
+    if @auth_method.is_defined?
+      #logical deletion  delete don't have to suppress records anymore on Defined record
+      @auth_method.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @auth_method.destroy
+    end
 
+    respond_to do |format|
+      format.html { redirect_to auth_methods_url, notice: "Authentication method was successfully deleted." }
+    end
   end
 end

@@ -77,7 +77,7 @@ describe Project do
   end
 
   it "should return valid string" do
-    @project.to_s.should eql(@project.title + ' - ' + @project.description.truncate(20))
+    @project1.to_s.should eql(@project1.title + ' - ' + @project1.description.truncate(20))
   end
 
 

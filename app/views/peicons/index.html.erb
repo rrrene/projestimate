@@ -1,22 +1,29 @@
 <div class="span12">
-  <h1>Listing icons</h1>
+  <h1>Icons</h1>
 
   <table class="table table-striped">
     <tr>
       <th>Name</th>
       <th>Icon</th>
-      <th colspan="2">Actions</th>
+      <th>Status</th>
+      <th colspan="3">Actions</th>
     </tr>
     <% @icons.each do |i| %>
       <tr>
         <td><%= i.name %></td>
         <td><%= image_tag i.icon.url(:small) %></td>
-        <td><%= link_to 'Edit', edit_peicon_path(i) %></td>
-        <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+        <td><%= i.record_status.name unless i.record_status.nil? %></td>
+        <td><%= link_to '', edit_peicon_path(i), :class => "icn_edit", :title => "Edit" %></td>
+        <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+        <td>
+            <% if i.is_proposed? %>
+                <%= link_to('Validate', "peicons/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
+        </td>
       </tr>
     <% end %>
   </table>
 
-  <%= link_to "Add an icon", new_peicon_path %>
+  <%= link_to "Add an icon", new_peicon_path, :class => "btn" %>
 
 </div>

@@ -5,7 +5,8 @@
       <%= f.input :id %>
       <%= f.input :name %>
       <%= f.input :locale %>
-      <%= f.input :change_comment %>
+      <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+      <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
     </div>
 
     <div class="actions">
