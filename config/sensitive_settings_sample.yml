@@ -1,0 +1,17 @@
+# The secret token is used by server to sign all cookies of the application. So its value needs to be unique and protected for each Projestimate instance.
+# To generate your own token value in Rails: 1. Start rails console, 2. Generate the tocken, 3. quit the console, 4. copy/paste the key  in the SECRET_TOKEN param
+# rails c
+# "#{SecureRandom.hex(64)}"
+# quit 
+SECRET_TOKEN: your_generated_token_value
+
+# SMTP_ADDRESS: Allows you to use a remote mail server. Just change it from its default “localhost” setting (eg:smtp.sample.com)
+SMTP_ADDRESS: localhost 
+# SMTP_PORT: On the off chance that your mail server doesn’t run on port 25, you can change it.
+SMTP_PORT: 25
+# SMTP_DOMAIN: If you need to specify a HELO domain, you can do it here (eg:your_domain.com) 
+SMTP_DOMAIN: 
+# SMTP_USER_NAME: If your mail server requires authentication, set the username in this setting.
+SMTP_USER_NAME: 
+# SMTP_PASSWORD: If your mail server requires authentication, set the password in this setting.
+SMTP_PASSWORD: 
