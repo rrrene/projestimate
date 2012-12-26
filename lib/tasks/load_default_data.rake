@@ -54,28 +54,21 @@ namespace :projestimate do
           Language.delete_all 
           Peicon.delete_all
           AuthMethod.delete_all
-
           AdminSetting.delete_all
           User.delete_all
           Group.delete_all
-          
           Organization.delete_all
           #Inflation.delete_all 
-          OrganizationLaborCategory.delete_all         
-              
+          OrganizationLaborCategory.delete_all
           ActivityCategory.delete_all
-                
           LaborCategory.delete_all
-          
           AttributeModule.delete_all
           Project.delete_all
           #ProjectUser.delete_all
           Wbs.delete_all
           ModuleProject.delete_all
           ModuleProjectAttribute.delete_all
-
           Component.delete_all
-          
           # New class : RecordStatus
           RecordStatus.delete_all
 
@@ -209,7 +202,8 @@ def load_data!
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !")
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
     AdminSetting.create(:key => "password_min_length", :value => "4")
-    AdminSetting.create(:key => "custom_status_to_consider", :value => "status1;status2")
+    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil)
+    as.save(:validate => false)
 
     puts "   - Auth Method"
     AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false")
