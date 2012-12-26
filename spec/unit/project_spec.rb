@@ -3,15 +3,12 @@ require "spec_helper"
 describe Project do
 
   before :each do
-    #@project = Factory.build :project
-    #@project = Project.first
     @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
-    #@another_project = Project.first
-    #@user = User.first
     @user = FactoryGirl.build(:user)
 
     @user1 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin1', :email => 'youremail1@yourcompany.net', :user_status => 'active', :auth_type => AuthMethod.first.id, :password => 'test', :password_confirmation => 'test')
-    @project1 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
+    #@project1 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
+    @project1 = FactoryGirl.build(:project)
     @project_security_1 = ProjectSecurity.new(:project_id => @project1.id, :user_id => @user1.id)
     @project_security = ProjectSecurity.new(:project_id => @project.id, :user_id => @user1.id)
   end
