@@ -36,6 +36,7 @@ class WorkElementType < ActiveRecord::Base
   belongs_to :peicon
 
   validates :name, :alias, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :record_status, :presence => true
 
   #Sunspot needs
   searchable do

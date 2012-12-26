@@ -6,6 +6,7 @@ FactoryGirl.define do
     ac.description  "TBD"
     ac.alias        "TBD"
     uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
   end
 
 end

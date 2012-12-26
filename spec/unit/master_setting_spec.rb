@@ -3,7 +3,7 @@ require "spec_helper"
 describe MasterSetting do
 
   before :each do
-    @ms = MasterSetting.first
+    @ms = FactoryGirl.create(:master_setting_wiki_url)
   end
 
   it 'should be valid' do

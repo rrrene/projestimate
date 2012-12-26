@@ -1,8 +1,7 @@
 require "spec_helper"
 describe AcquisitionCategory do
   before :each do
-    @acquisition_category = AcquisitionCategory.first
-    #@acquisition_category = Factory
+    @acquisition_category = FactoryGirl.create(:acquisition_category, :unknown, :name => "ac_new_name")
   end
 
   it 'should be valid' do
@@ -21,6 +20,11 @@ describe AcquisitionCategory do
 
   it "should be not valid without UUID" do
     @acquisition_category.uuid = ""
+    @acquisition_category.should_not be_valid
+  end
+
+  it "should be not valid without record status" do
+    @acquisition_category.record_status = nil
     @acquisition_category.should_not be_valid
   end
 

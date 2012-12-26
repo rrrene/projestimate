@@ -52,6 +52,7 @@ FactoryGirl.define do
   factory :work_element_type , :class => WorkElementType do |wet|
     wet.name "wet"
     wet.alias "wet"
+    association :record_status, :factory => :proposed_status, strategy: :build
 
     trait :wet_folder do  |wetf|
       wetf.name "Folder1"

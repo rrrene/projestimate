@@ -2,12 +2,15 @@ require "spec_helper"
 
 describe ModuleProject do
 
+  proposed_status = FactoryGirl.build(:proposed_status)
   before :each do
     @project = FactoryGirl.create(:project, :title => "M1project", :alias => "M1P", :state => "preliminary")
 
     @pemodule = Pemodule.new(:title => "Foo",
                             :alias => "foo",
                             :description => "Bar",
+                            :uuid => "pepepe",
+                            :record_status => proposed_status,
                             :compliant_component_type=>['Toto'])
 
     @mp1 = ModuleProject.create(:project_id => @project.id, :pemodule => @pemodule, :position_y => 1)

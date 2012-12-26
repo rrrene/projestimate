@@ -38,7 +38,8 @@ class ProjectArea < ActiveRecord::Base
 
   belongs_to :project
 
-  validates_presence_of :name, :description
+  validates_presence_of :description, :record_status
+  validates  :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
 
   #Sunspot needs
   searchable do

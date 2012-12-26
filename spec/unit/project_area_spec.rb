@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe ProjectArea do
   before :each do
-    @project_area = ProjectArea.first
+    @project_area = FactoryGirl.create(:project_area)
   end
 
   it "should be valid" do

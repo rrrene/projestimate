@@ -41,7 +41,8 @@ class Pemodule < ActiveRecord::Base
 
   serialize :compliant_component_type
 
-  validates_presence_of :title, :alias, :description
+  validates_presence_of :description, :record_status
+  validates :title, :alias, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
 
   searchable do
     text :title, :description, :alias

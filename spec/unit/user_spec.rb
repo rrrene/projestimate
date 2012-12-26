@@ -271,7 +271,7 @@ describe User do
   end
 
   it "should be authenticate by the application" do
-    @admin1.auth_method.name.should eql("Application")
+    @admin1.auth_method.name.should match(/Application_\d/)
   end
 
   it "should be authenticate by the a LDAP directory" do

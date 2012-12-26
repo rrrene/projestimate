@@ -32,6 +32,7 @@ class LaborCategory < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :name, :presence => true, :uniqueness => { case_sensitive: false }
+  validates :name, :uuid, :presence => true, :uniqueness => { case_sensitive: false }
+  validates :record_status, :presence => true
 
 end

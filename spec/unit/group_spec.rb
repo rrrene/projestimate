@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Group do
   before :each do
-    @group = Group.first
-    @project = Project.first
+    @group = FactoryGirl.create(:group)
+    @project = FactoryGirl.create(:project)
   end
 
   it 'should be valid' do

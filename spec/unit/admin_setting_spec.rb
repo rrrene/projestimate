@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe AdminSetting do
   before :each do
-    @admin_setting = AdminSetting.first
+    @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
   end
 
   it 'should be valid' do

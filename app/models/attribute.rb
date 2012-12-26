@@ -36,9 +36,8 @@ class Attribute < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates_presence_of :description, :attr_type
-  validates :name, :presence => true,  :uniqueness => true
-  validates :alias, :presence => true, :uniqueness => true
+  validates_presence_of :description, :attr_type, :record_status
+  validates :name, :alias, :uuid, :presence => true,  :uniqueness => { :case_sensitive => false }
 
   searchable do
     text :name, :description, :alias

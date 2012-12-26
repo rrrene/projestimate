@@ -3,7 +3,7 @@ require "spec_helper"
   describe Peicon do
 
     before :each do
-      @peicon = Peicon.first
+      @peicon = FactoryGirl.create(:peicon_folder)
     end
 
     it "should be valid" do
