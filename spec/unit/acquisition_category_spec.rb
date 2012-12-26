@@ -19,6 +19,11 @@ describe AcquisitionCategory do
     @acquisition_category.should_not be_valid
   end
 
+  it "should be not valid without UUID" do
+    @acquisition_category.uuid = ""
+    @acquisition_category.should_not be_valid
+  end
+
   specify "should return :acquisition_category name" do
     @acquisition_category.to_s.should eql(@acquisition_category.name)
   end

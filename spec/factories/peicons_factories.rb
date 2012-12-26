@@ -7,6 +7,7 @@ FactoryGirl.define do
     icon_file_name "myFolder"
     icon_content_type "image/png"
     icon_file_size 500
+    uuid
   end
 
   factory :peicon_link, :class => Peicon do
@@ -14,6 +15,7 @@ FactoryGirl.define do
     icon_file_name "myLink"
     icon_content_type "image/png"
     icon_file_size 506
+    uuid
   end
 
 #

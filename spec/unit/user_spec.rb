@@ -206,7 +206,11 @@ describe User do
   #end
 
   describe "testing user status transition" do
-    let(:user2) { FactoryGirl.create(:user, :last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :password => 'test', :password_confirmation => 'test') }
+    before do
+      @user_copy = @admin1
+      @user_copy.user_status = "pending"
+    end
+    let(:user2) { @user_copy }
 
     it "should set user_status to 'active' when transition to :active" do
       user2.user_status = "pending"
