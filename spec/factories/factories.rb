@@ -51,7 +51,7 @@ FactoryGirl.define do
     first_name #"Administrator2"
     last_name  #"Projestimate2"
     login_name #"admin2"
-    email      #"youremail2@yourcompany.net"
+    email      "youremail2@yourcompany.net"
     initials   #"ad2"
     association :auth_method, :factory => :auth_method, strategy: :build
     user_status "pending"

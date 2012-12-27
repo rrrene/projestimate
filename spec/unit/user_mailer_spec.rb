@@ -4,7 +4,7 @@ describe UserMailer do
       before(:each) do
         ActionMailer::Base.deliveries = []
 
-        @user = FactoryGirl.create(:user, :email=>"sebbar.sabrina@gmail.com")
+        @user = FactoryGirl.create(:user)
         @mailerCreated = UserMailer.account_created(@user)
         @mailerValidateLDAP=UserMailer.account_validate_ldap(@user)
         @mailerAccountsuspended=UserMailer.account_suspended(@user)
