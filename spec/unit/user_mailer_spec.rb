@@ -3,7 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe UserMailer do
       before(:each) do
         ActionMailer::Base.deliveries = []
-        @user = FactoryGirl.create(:user)
+
+        @user = FactoryGirl.create(:user, :email=>"sebbar.sabrina@gmail.com")
         @mailerCreated = UserMailer.account_created(@user)
         @mailerValidateLDAP=UserMailer.account_validate_ldap(@user)
         @mailerAccountsuspended=UserMailer.account_suspended(@user)
