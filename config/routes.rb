@@ -134,13 +134,12 @@ ProjestimateMaquette::Application.routes.draw do
   get "display_states" => "users#display_states", :as => "display_states"
 
   resources :password_resets
+
   resources :sessions
   get "log_in" => "sessions#new", :as => "log_in"
   get "log_out" => "sessions#destroy", :as => "log_out"
   get "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
   get "help_login" => "sessions#help_login", :as => "help_login"
-  get "forgotten_password" => "sessions#forgotten_password", :as => "forgotten_password"
-  post "reset_forgotten_password" => "sessions#reset_forgotten_password", :as => "reset_forgotten_password"
 
 
   resources :translations

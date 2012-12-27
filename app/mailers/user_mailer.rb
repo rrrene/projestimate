@@ -26,7 +26,7 @@ class UserMailer < ActionMailer::Base
   #Send the new password
   def forgotten_password(user)
     @user = user
-    mail(:to => user.email, :subject => "Projestimate - New password")
+    mail(:to => @user.email, :subject => "Projestimate - New password")
   end
 
   #Confirm the new password
