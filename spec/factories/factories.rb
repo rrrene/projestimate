@@ -16,6 +16,10 @@ FactoryGirl.define do
     "email_#{n}@yahoo.fr"
   end
 
+  sequence :password_reset_token do |n|
+    "#{SecureRandom.urlsafe_base64}"
+  end
+
   #factory :user do
   #  first_name "Administrator1"
   #  last_name  "Projestimate1"
@@ -40,6 +44,7 @@ FactoryGirl.define do
     association :language, :factory => :language
     password   "projestimate1"
     password_confirmation "projestimate1"
+    password_reset_token
   end
 
   factory :user2, :class => User do
