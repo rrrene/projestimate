@@ -2,7 +2,7 @@
 FactoryGirl.define do
 
   factory :activity_category do |ac|
-    ac.name         "Management"
+    ac.sequence(:name) {|n|  "Management_#{n}"}
     ac.description  "TBD"
     ac.alias        "TBD"
     uuid

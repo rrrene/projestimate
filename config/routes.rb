@@ -1,5 +1,6 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  #get "gui" => "gui#index", :as => "gui"
   resources :record_statuses
 
   resources :peicons

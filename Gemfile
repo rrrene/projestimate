@@ -111,5 +111,8 @@ gem 'amoeba'
 # Required for rspec and rails command
 gem 'rb-readline'
 
+# GUI tool
+#gem 'fxruby'
+
 
 
