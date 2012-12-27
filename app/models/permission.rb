@@ -34,6 +34,7 @@ class Permission < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates_presence_of :name, :is_permission_project
+  validates_presence_of :is_permission_project, :record_status
+  validates :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
 
 end

@@ -2,8 +2,7 @@ require "spec_helper"
 
 describe ActivityCategory do
   before :each do
-    #@activity_category = ActivityCategory.first
-    @activity_category = FactoryGirl.build(:activity_category)
+    @activity_category = FactoryGirl.create(:activity_category)
   end
 
   it 'should be valid' do
@@ -22,6 +21,16 @@ describe ActivityCategory do
 
   it "should be not valid without :alias" do
     @activity_category.description = ""
+    @activity_category.should_not be_valid
+  end
+
+  it "should not be valid without UUID" do
+    @activity_category.uuid = ""
+    @activity_category.should_not be_valid
+  end
+
+  it "should not be valid without record status" do
+    @activity_category.record_status = nil
     @activity_category.should_not be_valid
   end
 

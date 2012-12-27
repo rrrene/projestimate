@@ -56,4 +56,8 @@ class RecordStatus < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
+  validates :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :description, :presence => true
+  #TODO validate record_status attribute
+
 end

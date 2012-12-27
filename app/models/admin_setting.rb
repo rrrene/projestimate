@@ -29,6 +29,6 @@ class AdminSetting < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :key, :presence => true, :uniqueness => true
-  validates :value, :presence => true
+  validates :key, :uuid, :presence => true, :uniqueness => true
+  validates :value, :record_status, :presence => true
 end

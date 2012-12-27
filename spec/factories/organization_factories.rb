@@ -1,7 +1,10 @@
 #
-#FactoryGirl.define do
-#  factory :organization do
-#    name        "Spirula"
-#    description "First organization"
-#  end
-#end
+FactoryGirl.define do
+
+  # Organizations
+  factory :organization do
+    sequence(:name) {|n| "Organization_#{n}"}
+    sequence(:description) {|n| "Organisation number #{n}"}
+  end
+
+end

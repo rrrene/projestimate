@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Pemodule do
   before :each do
-    #@pemodule = Pemodule.first
-    @pemodule = Pemodule.new(:title => "CocomoBasic", :alias => "cocomo_basic", :description => "CocomoBasic vraiment basic")
+    proposed_status = FactoryGirl.build(:proposed_status)
+    @pemodule = Pemodule.new(:title => "CocomoBasic", :alias => "cocomo_basic", :description => "CocomoBasic vraiment basic", :uuid => "121212", :record_status => proposed_status)
   end
 
   it "should be valid" do

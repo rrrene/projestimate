@@ -5,6 +5,7 @@ FactoryGirl.define do
     p.description "Edit your own profile"
     p.is_permission_project true
     uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
   end
 
 end

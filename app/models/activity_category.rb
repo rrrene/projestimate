@@ -32,7 +32,8 @@ class ActivityCategory < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates_presence_of :name, :description, :alias
+  validates_presence_of :description, :record_status
+  validates :name, :alias, :uuid, :presence  => true, :uniqueness => { :case_sensitive => false }
 
   def to_s
     name

@@ -33,12 +33,13 @@ class PlatformCategory < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
+  validates_presence_of :description, :record_status
+  validates :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+
   #Sunspot needs
   searchable do
     text :name, :description
   end
-
-  validates_presence_of :name, :description
 
   #Override
   def to_s

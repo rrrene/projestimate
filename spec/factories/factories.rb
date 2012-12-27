@@ -2,33 +2,60 @@ require "rubygems"
 require "uuidtools"
 
 FactoryGirl.define do
+
   #sequence to generate UUID on test records
   sequence :uuid do |n|
     "#{UUIDTools::UUID.timestamp_create.to_s}"
   end
 
+  sequence :login_name do |n|
+    "login_name_#{n}"
+  end
+
+  sequence :email do |n|
+    "email_#{n}@yahoo.fr"
+  end
+
+  sequence :password_reset_token do |n|
+    "#{SecureRandom.urlsafe_base64}"
+  end
+
+  #factory :user do
+  #  first_name "Administrator1"
+  #  last_name  "Projestimate1"
+  #  login_name "admin1"
+  #  email      "admin1@yourcompany.net"
+  #  initials   "ad1"
+  #  auth_method
+  #  user_status "pending"
+  #  language
+  #  password   "projestimate1"
+  #  password_confirmation "projestimate1"
+  #end
+
   factory :user do
     first_name "Administrator1"
     last_name  "Projestimate1"
-    login_name "admin1"
-    email      "admin1@yourcompany.net"
+    login_name #"admin1"
+    email      #"admin1@yourcompany.net"
     initials   "ad1"
-    auth_method
+    association :auth_method, :factory => :auth_method
     user_status "pending"
-    language
+    association :language, :factory => :language
     password   "projestimate1"
     password_confirmation "projestimate1"
+    password_reset_token
   end
 
   factory :user2, :class => User do
-    first_name "Administrator2"
-    last_name  "Projestimate2"
-    login_name "admin2"
-    email      "youremail2@yourcompany.net"
-    initials   "ad2"
-    auth_method
+    first_name #"Administrator2"
+    last_name  #"Projestimate2"
+    login_name #"admin2"
+    email      #"youremail2@yourcompany.net"
+    initials   #"ad2"
+    association :auth_method, :factory => :auth_method, strategy: :build
     user_status "pending"
-    language
+    association :language, :factory => :language, :strategy => :build
     password   "projestimate2"
     password_confirmation "projestimate2"
   end
@@ -39,51 +66,13 @@ FactoryGirl.define do
   #end
 
 
-  #trait :admin2 do
-  #  first_name "Administrator2"
-  #  last_name  "Projestimate2"
-  #  login_name "admin2"
-  #  email      "admin2@yourcompany.net"
-  #  initials   "ad2"
-  #end
-  #
-  #trait :fact1 do
-  #  first_name "Administrator1"
-  #  last_name  "Projestimate1"
-  #  login_name "admin1"
-  #  email      "admin1@yourcompany.net"
-  #  initials   "ad1"
-  #end
-
-  factory :auth_method do  |auth|
-    auth.name "Application"
-    auth.server_name "not Necessary"
-    auth.port 0
-    auth.base_dn "Not necessary"
-    auth.certificate 0
-    uuid
-  end
-
-  factory :language do
-    name "Test"
-    locale "This is a test"
-    uuid
-  end
-
   factory :ProjectCategory do
     name "projet1"
     description "en"
     uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
   end
 
-  # Projects
-  factory :project do |p|
-    p.title "Projet1"
-    p.description "Projet N1"
-    p.alias "P1"
-    p.state "preliminary"
-    p.start_date Time.now
-  end
 
   ## project_security
   #factory :project_security do |p|
@@ -99,11 +88,6 @@ FactoryGirl.define do
   #  p.name "read"
   #end
 
-  # Organizations
-  factory :organization do
-    name "Organisation1"
-    description "Organisation number 1"
-  end
 
   # Components
   factory :component do
@@ -126,7 +110,8 @@ FactoryGirl.define do
      attr.description "Attr"
      attr.attr_type "Integer"
      attr.options []
-    uuid
+     uuid
+     association :record_status, :factory => :proposed_status, strategy: :build
   end
 
 

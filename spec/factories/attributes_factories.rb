@@ -7,7 +7,8 @@ FactoryGirl.define do
      attr.description "Cost desc"
      attr.attr_type "Integer"
      attr.options []
-    uuid
+     uuid
+     association :record_status, :factory => :proposed_status, strategy: :build
   end
 
   factory :ksloc_attribute, :class => :attribute do |attr|
@@ -17,5 +18,6 @@ FactoryGirl.define do
      attr.attr_type "Integer"
      attr.options ["integer", ">=", "10"]
      uuid
+     association :record_status, :factory => :proposed_status, strategy: :build
   end
 end

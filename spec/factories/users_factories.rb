@@ -3,29 +3,28 @@
 FactoryGirl.define do
 
   factory :admin, :class => :user do
-    first_name "Administrator"
-    last_name  "Projestimate"
-    login_name "admin"
-    email      "youremail@yourcompany.net"
-    initials   "ad"
-    association :auth_method, :factory => FactoryGirl.build(:auth_method)
+    first_name #"Administrator"
+    last_name  #"Projestimate"
+    login_name #"admin"
+    email      #"youremail@yourcompany.net"
+    initials   #"ad"
+    association :auth_method, :factory => :auth_method, strategy: :build
     user_status "active"
-    #language
-    association :language, :factory => FactoryGirl.build(:language)
+    association :language, :factory => :language, :strategy => :build
     password   "projestimate"
     password_confirmation "projestimate"
   end
 
 
   factory :user3, :class => :user do
-    first_name "Administrator3"
-    last_name  "Projestimate3"
-    login_name "admin3"
-    email      "admin3@yourcompany.net"
-    initials   "ad3"
-    auth_method
+    first_name #"Administrator3"
+    last_name  #"Projestimate3"
+    login_name #"admin3"
+    email      #"admin3@yourcompany.net"
+    initials   #"ad3"
+    association :auth_method, :factory => :auth_method, strategy: :build
     user_status "active"
-    language
+    association :language, :factory => :language, :strategy => :build
     password   "projestimate3"
     password_confirmation "projestimate3"
   end

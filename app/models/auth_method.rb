@@ -2,8 +2,6 @@
 class AuthMethod < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  validates_presence_of :name, :server_name, :port, :base_dn
-
   has_many :users, :foreign_key => "auth_type"
 
   #self relation on master data : Parent<->Child
@@ -12,6 +10,9 @@ class AuthMethod < ActiveRecord::Base
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
+  validates_presence_of :server_name, :port, :base_dn, :record_status
+  validates :name, :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
 
   def to_s
     self.name

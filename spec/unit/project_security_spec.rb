@@ -1,10 +1,15 @@
 require "spec_helper"
 
 describe ProjectSecurity do
+
   before :each do
-    @project_security_level = FactoryGirl.create(:project_security_level)
-    @project_security = FactoryGirl.create(:project_security)
-    @project_security.project_security_level_id= @project_security_level.id
+    @user = FactoryGirl.create(:user)
+    @project = FactoryGirl.create(:project)
+    @project_security_level = FactoryGirl.create(:readOnly_project_security_level)
+
+    #@project_security = FactoryGirl.create(:project_security)
+    #@project_security.project_security_level_id= @project_security_level.id
+    @project_security = ProjectSecurity.create(:user => @user, :project => @project, :project_security_level => @project_security_level)
    end
 
   it "should return '-' if level is nil" do
