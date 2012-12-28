@@ -57,11 +57,16 @@ class AdminSettingsController < ApplicationController
       @admin_setting = current_admin_setting
     end
 
-    if @admin_setting.update_attributes(params[:admin_setting])
-      flash[:notice] = 'Admin setting was successfully updated.'
-      redirect_to redirect(admin_settings_path)
+    if params[:admin_setting][:key] == "custom_status_to_consider"
+      @admin_setting.update_attribute(:value, params[:admin_setting][:value])
+      @admin_setting.update_attribute(:updated_at, params[:admin_setting][:updated_at])
     else
-      redirect_to edit_admin_setting_path(@admin_setting)
+      if @admin_setting.update_attributes(params[:admin_setting])
+        flash[:notice] = 'Admin setting was successfully updated.'
+        redirect_to redirect(admin_settings_path)
+      else
+        redirect_to edit_admin_setting_path(@admin_setting)
+      end
     end
   end
 
