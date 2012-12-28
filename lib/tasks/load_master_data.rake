@@ -99,8 +99,8 @@ def load_master_data!
     end
 
     #Find correct record status id
-    rsid = RecordStatus.find_by_name("Proposed").id
-    ext_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Proposed").id
+    rsid = RecordStatus.find_by_name("Defined").id
+    ext_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
 
     puts "   - Master setting"
     ms = ExternalMasterDatabase::ExternalMasterSetting.all.map{|i| [i.key, i.value, i.uuid] }
