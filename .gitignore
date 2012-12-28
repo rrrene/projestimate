@@ -9,4 +9,5 @@
 /.idea/
 /config/database.yml
 /config/sensitive_settings.yml
+/config/initializers/master_data.rb
 projestimate.iws
