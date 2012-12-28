@@ -43,10 +43,8 @@ class OrganizationLaborCategoriesController < ApplicationController
     respond_to do |format|
       if @organization_labor_category.save
         format.html { redirect_to "/organizationals_params", notice: 'Organization labor category was successfully created.' }
-        format.json { render json: @organization_labor_category, status: :created, location: @organization_labor_category }
       else
         format.html { render action: "new" }
-        format.json { render json: @organization_labor_category.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,10 +55,8 @@ class OrganizationLaborCategoriesController < ApplicationController
     respond_to do |format|
       if @organization_labor_category.update_attributes(params[:organization_labor_category])
         format.html { redirect_to "/organizationals_params", notice: 'Organization labor category was successfully updated.' }
-        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @organization_labor_category.errors, status: :unprocessable_entity }
       end
     end
   end

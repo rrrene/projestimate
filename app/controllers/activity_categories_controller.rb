@@ -40,6 +40,7 @@ class ActivityCategoriesController < ApplicationController
   def create
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.new(params[:activity_category])
+    @activity_category.save
     redirect_to activity_categories_url
   end
 

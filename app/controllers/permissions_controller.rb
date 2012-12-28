@@ -48,10 +48,6 @@ class PermissionsController < ApplicationController
     authorize! :manage_permissions, Permission
     set_page_title "Permissions"
     @permission = Permission.new
-
-    respond_to do |format|
-      format.html # _new.html.erb
-    end
   end
 
   # GET /permissions/1/edit

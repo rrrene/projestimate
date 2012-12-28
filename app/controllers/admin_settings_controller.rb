@@ -44,7 +44,7 @@ class AdminSettingsController < ApplicationController
       flash[:notice] = 'Admin setting was successfully created.'
       redirect_to redirect(admin_settings_path)
     else
-      redirect_to new_admin_setting_path
+      render action: "new"
     end
   end
 
@@ -66,7 +66,7 @@ class AdminSettingsController < ApplicationController
         flash[:notice] = 'Admin setting was successfully updated.'
         redirect_to redirect(admin_settings_path)
       else
-        redirect_to edit_admin_setting_path(@admin_setting)
+        render action: "edit"
       end
     end
   end

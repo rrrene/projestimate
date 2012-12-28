@@ -31,7 +31,7 @@ class AuthMethodsController < ApplicationController
     if @auth_method.update_attributes(params[:auth_method])
       redirect_to redirect(auth_methods_path)
     else
-      render(:edit)
+      render action: "edit"
     end
   end
 
