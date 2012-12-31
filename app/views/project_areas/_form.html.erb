@@ -9,6 +9,11 @@
     <div >
       <%= f.input :description %><br />
     </div>
+
+     <div>
+       <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+     </div>
+
     <div >
       <h3> Activity Category : </h3>
       <% @activity_categories.each do |ac| %>
