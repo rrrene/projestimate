@@ -50,7 +50,7 @@ class AttributesController < ApplicationController
     if @attribute.save
       redirect_to redirect(attributes_path)
     else
-       render action: "new"
+      render action: "new"
     end
   end
 

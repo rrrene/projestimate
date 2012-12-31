@@ -90,43 +90,60 @@ end
 
 private
 def load_data!
-  begin
+  #begin
     
   puts " Creating Master Parameters ..."
 
+    #RecordStatus
+    record_status = Array.new
+    record_status = [
+        ["Proposed", "TBD"],
+        ["InReview", "TBD"],
+        ["Draft", "TBD"],
+        ["Defined", "TBD"],
+        ["Retired", "TBD"],
+        ["Custom", "TBD"]
+    ]
+    record_status.each do |i|
+      RecordStatus.create(:name => i[0], :description => i[1] )
+    end
+
+    #Find correct record status id
+    rsid = RecordStatus.find_by_name("Defined").id
+
     puts "   - Master setting"
     #Create master/admin setting
-    MasterSetting.create(:key => "url_wiki", :value => "http://projestimate.org/projects/pe/wiki")
-    MasterSetting.create(:key => "url_service", :value => "http://projestimate.org/projects/pe/wiki/Community_Services")
+    MasterSetting.create(:key => "url_wiki", :value => "http://projestimate.org/projects/pe/wiki", :record_status_id => rsid)
+    MasterSetting.create(:key => "url_service", :value => "http://projestimate.org/projects/pe/wiki/Community_Services", :record_status_id => rsid)
 
     puts "   - Project areas"
     #Default project area
-    ProjectArea.create(:name => "SW Project", :description => "Software")
+    ProjectArea.create(:name => "SW Project", :description => "Software", :record_status_id => rsid)
     pjarea=ProjectArea.first
 
     puts "   - Project categories"
-    ProjectCategory.create(:name => "Unknown", :description => "TBD")
+    ProjectCategory.create(:name => "Unknown", :description => "TBD", :record_status_id => rsid)
     pjcategory=ProjectCategory.first
-    ProjectCategory.create(:name => "Mulimedia", :description => "TBD")
-    ProjectCategory.create(:name => "Network Management", :description => "TBD")
-    ProjectCategory.create(:name => "Office Automation", :description => "TBD")
-    ProjectCategory.create(:name => "Relational Database", :description => "TBD")
-    ProjectCategory.create(:name => "Report Generation", :description => "TBD")
-    ProjectCategory.create(:name => "System & Device Utilities", :description => "TBD")
-    ProjectCategory.create(:name => "Transaction Processing", :description => "TBD")
-    ProjectCategory.create(:name => "Robotics", :description => "TBD")
-    ProjectCategory.create(:name => "Simulation", :description => "TBD")
-    ProjectCategory.create(:name => "Software Development Tools", :description => "TBD")
-    ProjectCategory.create(:name => "Workflow", :description => "TBD")
+    ProjectCategory.create(:name => "Mulimedia", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Network Management", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Office Automation", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Relational Database", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Report Generation", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "System & Device Utilities", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Transaction Processing", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Robotics", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Simulation", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Software Development Tools", :description => "TBD", :record_status_id => rsid)
+    ProjectCategory.create(:name => "Workflow", :description => "TBD", :record_status_id => rsid)
 
     puts "   - Platform categories"
-    PlatformCategory.create(:name => "Unknown", :description => "TBD")
+    PlatformCategory.create(:name => "Unknown", :description => "TBD", :record_status_id => rsid)
     plcategory=PlatformCategory.first    
-    PlatformCategory.create(:name => "Client-Server", :description => "TBD")
-    PlatformCategory.create(:name => "Mobile Ground-Based", :description => "TBD")
-    PlatformCategory.create(:name => "Server", :description => "TBD")
-    PlatformCategory.create(:name => "Telecommunications", :description => "TBD")
-    PlatformCategory.create(:name => "Web Based Development", :description => "TBD")
+    PlatformCategory.create(:name => "Client-Server", :description => "TBD", :record_status_id => rsid)
+    PlatformCategory.create(:name => "Mobile Ground-Based", :description => "TBD", :record_status_id => rsid)
+    PlatformCategory.create(:name => "Server", :description => "TBD", :record_status_id => rsid)
+    PlatformCategory.create(:name => "Telecommunications", :description => "TBD", :record_status_id => rsid)
+    PlatformCategory.create(:name => "Web Based Development", :description => "TBD", :record_status_id => rsid)
     
     puts "   - Acquisition categories"
     #Default acquisition category
@@ -143,7 +160,7 @@ def load_data!
       ]
 
       acquisition_category.each do |i|
-        AcquisitionCategory.create(:name => i[0], :description => i[1])
+        AcquisitionCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
       end
       accategory=AcquisitionCategory.first
       
@@ -162,25 +179,25 @@ def load_data!
     ]
 
     attributes.each do |i|
-      Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5])
+      Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
     end
 
     puts "   - Projestimate Icons"
 
-    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"))
-    link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"))
-    undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"))
-    default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"))
+    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"), :record_status_id => rsid)
+    link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
+    undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
+    default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
 
     puts "   - WBS structure"
     #Create first work element type (type of a component)
-    WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id)
+    WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id)
-    WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id)
-    WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id)
-    WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id)
-    WorkElementType.create(:name => "Purchased Hardware", :alias => "$HW", :peicon_id => default.id)
-    WorkElementType.create(:name => "Purchased Miscellaneous", :alias => "$SMisc", :peicon_id => default.id)
+    WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id, :record_status_id => rsid)
+    WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id, :record_status_id => rsid)
+    WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id, :record_status_id => rsid)
+    WorkElementType.create(:name => "Purchased Hardware", :alias => "$HW", :peicon_id => default.id, :record_status_id => rsid)
+    WorkElementType.create(:name => "Purchased Miscellaneous", :alias => "$SMisc", :peicon_id => default.id, :record_status_id => rsid)
 
     wet = WorkElementType.first
            
@@ -192,21 +209,21 @@ def load_data!
     
     puts "   - Language..."
     #Create default language
-    Language.create(:name => "English", :locale => "en")
-    Language.create(:name => "Français", :locale => "fr")
+    Language.create(:name => "English", :locale => "en", :record_status_id => rsid)
+    Language.create(:name => "Français", :locale => "fr", :record_status_id => rsid)
 
 
   puts " Creating Admin Parameters ..."
     
     puts "   - Admin setting"    
-    AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !")
-    AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com")
-    AdminSetting.create(:key => "password_min_length", :value => "4")
-    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil)
+    AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !", :record_status_id => rsid)
+    AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com", :record_status_id => rsid)
+    AdminSetting.create(:key => "password_min_length", :value => "4", :record_status_id => rsid)
+    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil, :record_status_id => rsid)
     as.save(:validate => false)
 
     puts "   - Auth Method"
-    AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false")
+    AuthMethod.create(:name => "Application", :server_name => "Not necessary", :port => 0, :base_dn => "Not necessary", :certificate => "false", :record_status_id => rsid)
     
     puts "   - Admin user"
     #Create first user
@@ -216,9 +233,9 @@ def load_data!
     
     puts "   - Default groups"
     #Create default groups
-    Group.create(:name => "MasterAdmin")
-    Group.create(:name => "Admin")
-    Group.create(:name => "Everyone")
+    Group.create(:name => "MasterAdmin", :record_status_id => rsid)
+    Group.create(:name => "Admin", :record_status_id => rsid)
+    Group.create(:name => "Everyone", :record_status_id => rsid)
     #Associated default user with group MasterAdmin
     user.group_ids = [Group.first.id]
     user.save
@@ -247,7 +264,7 @@ def load_data!
       ]
 
       array_labor_category.each do |i|
-        LaborCategory.create(:name => i[0], :description => i[1])
+        LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
       end
       laborcategory=LaborCategory.first
 
@@ -275,7 +292,7 @@ def load_data!
               ["Other","TBD","TBD"]
             ]
       array_activity_category.each do |i|
-        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2])
+        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid)
       end
     
   puts " Creating organizations..."
@@ -296,7 +313,7 @@ def load_data!
     Project.create(:title => "Sample project", :description => "This is a sample project for demonstration purpose", :alias => "sample project", :state => "preliminary", :start_date => Time.now.strftime("%Y/%m/%d"), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id =>  AcquisitionCategory.first.id)
     project = Project.first
     #Associated default user with sample project     
-    user.project_ids = [Project.first.id]
+    user.project_ids = [project.id]
     user.save
     #Create default wbs associated with previous project
     Wbs.create(:project_id => project.id)
@@ -309,7 +326,7 @@ def load_data!
     #Default project Security Level
     project_security_level = ["FullControl","Define","Modify","Comment","ReadOnly"]
     project_security_level.each do |i|
-      ProjectSecurityLevel.create(:name => i)
+      ProjectSecurityLevel.create(:name => i, :record_status_id => rsid)
     end
 
     puts "Create global permissions..."
@@ -362,34 +379,20 @@ def load_data!
                   ]
 
     permissions.each do |i|
-      Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2])
+      Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
     end
 
-    #RecordStatus
-    record_status = Array.new
-    record_status = [
-        ["Proposed", "TBD"],
-        ["InReview", "TBD"],
-        ["Draft", "TBD"],
-        ["Defined", "TBD"],
-        ["Retired", "TBD"],
-        ["Custom", "TBD"]
-    ]
-    record_status.each do |i|
-      RecordStatus.create(:name => i[0], :description => i[1] )
-    end
-
-    puts "\n\n"
-    puts "Default data was successfully loaded. Enjoy !"
-  rescue Errno::ECONNREFUSED
-    puts "\n\n\n"
-    puts "!!! WARNING - Error: Default data was not loaded, please investigate"
-    puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-  rescue Exception
-    puts "\n\n"
-    puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
-    puts "Maybe run db:create and db:migrate tasks."
-  end
+  #  puts "\n\n"
+  #  puts "Default data was successfully loaded. Enjoy !"
+  #rescue Errno::ECONNREFUSED
+  #  puts "\n\n\n"
+  #  puts "!!! WARNING - Error: Default data was not loaded, please investigate"
+  #  puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+  #rescue Exception
+  #  puts "\n\n"
+  #  puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
+  #  puts "Maybe run db:create and db:migrate tasks."
+  #end
 end
 
 

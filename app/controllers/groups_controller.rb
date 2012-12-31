@@ -52,11 +52,13 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to redirect(groups_path)
     else
-      redirect_to redirect(new_group_path)
+      render action: "new"
     end
   end
 
   def update
+    @users = User.all
+    @projects = Project.all
     @group = nil
     current_group = Group.find(params[:id])
     if current_group.is_defined?
@@ -68,7 +70,7 @@ class GroupsController < ApplicationController
     if @group.update_attributes(params[:group])
       redirect_to redirect(groups_path)
     else
-      redirect_to redirect(edit_group_path(@group))
+      render action: "edit"
     end
   end
 

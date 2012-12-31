@@ -40,7 +40,7 @@ class PlatformCategoriesController < ApplicationController
       flash[:notice] = "Platform category was successfully created."
       redirect_to redirect("/projects_global_params#tabs-3")
     else
-      render action: "edit"
+      render action: "new"
     end
   end
 

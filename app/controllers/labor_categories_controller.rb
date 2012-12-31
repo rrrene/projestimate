@@ -52,7 +52,7 @@ class LaborCategoriesController < ApplicationController
       flash[:notice] = "Labor category was successfully updated."
       redirect_to redirect(labor_categories_path)
     else
-      render action: "edit"
+      render action: "new"
     end
   end
 
