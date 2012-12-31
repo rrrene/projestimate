@@ -75,7 +75,7 @@ class ProjectAreasController < ApplicationController
 
   def destroy
     @project_area = ProjectArea.find(params[:id])
-    if @project_area.is_defined?
+    if @project_area.is_defined? || @project_area.is_custom?
       #logical deletion: delete don't have to suppress records anymore if record status is defined
       @project_area.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

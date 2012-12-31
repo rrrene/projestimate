@@ -77,7 +77,7 @@ class PeiconsController < ApplicationController
 
   def destroy
     @peicon = Peicon.find(params[:id])
-    if @peicon.is_defined?
+    if @peicon.is_defined? || @peicon.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @peicon.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

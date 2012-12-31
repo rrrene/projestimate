@@ -34,4 +34,6 @@ class AttributeModule < ActiveRecord::Base
   belongs_to :attribute, :class_name => "Attribute"
 
   #TODO? validates :pemodule_id, :attribute_id, :presence => true
+  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :attribute, :pemodule, :presence => true, :uniqueness => { :scope => :record_status_id }
 end

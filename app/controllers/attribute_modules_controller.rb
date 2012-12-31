@@ -27,7 +27,7 @@ class AttributeModulesController < ApplicationController
     @attribute_module = AttributeModule.new(params[:attribute_module])
 
       if @attribute_module.save
-        redirect_to @attribute_module, notice: 'Attribute module was successfully created.'
+        redirect_to attribute_modules_path, notice: 'Attribute module was successfully created.'
       else
         render action: "new"
       end
@@ -35,7 +35,7 @@ class AttributeModulesController < ApplicationController
 
   def destroy
     @attribute_module = AttributeModule.find(params[:id])
-    if @attribute_module.is_defined?
+    if @attribute_module.is_defined? || @attribute_module.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @attribute_module.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

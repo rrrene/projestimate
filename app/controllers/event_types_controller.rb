@@ -41,7 +41,7 @@ class EventTypesController < ApplicationController
   def create
     authorize! :manage_event_types, EventType
     @event_type = EventType.new(params[:event_type])
-    redirect_to event_type_url
+    redirect_to event_types_path #event_type_url
   end
 
   def update
@@ -55,7 +55,7 @@ class EventTypesController < ApplicationController
     end
 
     if @event_type.update_attributes(params[:event_type])
-      redirect_to event_type_url, notice: 'Event ype was successfully updated.'
+      redirect_to event_types_path, notice: 'Event type was successfully updated.'
     else
       render action: "edit"
     end
@@ -65,7 +65,7 @@ class EventTypesController < ApplicationController
   def destroy
     authorize! :manage_event_types, EventType
     @event_type = EventType.find(params[:id])
-    if @event_type.is_defined?
+    if @event_type.is_defined? || @event_type.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @event_type.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

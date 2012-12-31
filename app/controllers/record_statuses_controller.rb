@@ -69,7 +69,7 @@ class RecordStatusesController < ApplicationController
 
     respond_to do |format|
       if @record_status.save
-        format.html { redirect_to @record_status, notice: 'Record status was successfully created.' }
+        format.html { redirect_to record_statuses_path, notice: 'Record status was successfully created.' }
         format.json { render json: @record_status, status: :created, location: @record_status }
       else
         format.html { render action: "new" }
@@ -81,12 +81,17 @@ class RecordStatusesController < ApplicationController
   # PUT /record_statuses/1
   # PUT /record_statuses/1.json
   def update
+    @record_status = nil
     current_record_status = RecordStatus.find(params[:id])
-    @record_status = current_record_status.dup
+    if current_record_status.is_defined?
+      @record_status = current_record_status.dup
+    else
+      @record_status = current_record_status
+    end
 
     respond_to do |format|
       if @record_status.update_attributes(params[:record_status])
-        format.html { redirect_to @record_status, notice: 'Record status was successfully updated.' }
+        format.html { redirect_to record_statuses_path, notice: 'Record status was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -99,8 +104,12 @@ class RecordStatusesController < ApplicationController
   # DELETE /record_statuses/1.json
   def destroy
     @record_status = RecordStatus.find(params[:id])
-    #logical deletion: delete don't have to suppress records anymore
-    @record_status.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @record_status.is_defined? || @record_status.is_custom?
+      #logical deletion: delete don't have to suppress records anymore
+      @record_status.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @record_status.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to record_statuses_url }

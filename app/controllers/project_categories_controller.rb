@@ -63,7 +63,7 @@ class ProjectCategoriesController < ApplicationController
 
   def destroy
     @project_category = ProjectCategory.find(params[:id])
-    if @project_category.is_defined?
+    if @project_category.is_defined? || @project_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @project_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

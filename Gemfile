@@ -111,7 +111,7 @@ gem 'amoeba'
 # Required for rspec and rails command
 gem 'rb-readline'
 
-# GUI tool
+# FxRuby GUI tool: instead of using the gemfile, install FxRuby from here: https://github.com/lylejohnson/fxruby/wiki/Setting-Up-a-Linux-Build-Environment
 #gem 'fxruby'
 
 

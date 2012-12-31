@@ -74,7 +74,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.find(params[:id])
-    if @group.is_defined
+    if @group.is_defined || @group.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @group.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
