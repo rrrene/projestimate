@@ -12,4 +12,13 @@ FactoryGirl.define do
     association :record_status, :factory => :proposed_status, strategy: :build
   end
 
+  factory :auth_methodLDAP do
+    sequence(:name) {|n| "Application_#{n}"}        #name "Application"
+    server_name "gpsforprojects.net"
+    port 636
+    base_dn "ou=People,dc=gpsforprojects,dc=net"
+    certificate 0
+    uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
+  end
 end
