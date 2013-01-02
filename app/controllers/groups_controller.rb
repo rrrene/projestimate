@@ -52,11 +52,13 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to redirect(groups_path)
     else
-      redirect_to redirect(new_group_path)
+      render action: "new"
     end
   end
 
   def update
+    @users = User.all
+    @projects = Project.all
     @group = nil
     current_group = Group.find(params[:id])
     if current_group.is_defined?
@@ -68,13 +70,13 @@ class GroupsController < ApplicationController
     if @group.update_attributes(params[:group])
       redirect_to redirect(groups_path)
     else
-      redirect_to redirect(edit_group_path(@group))
+      render action: "edit"
     end
   end
 
   def destroy
     @group = Group.find(params[:id])
-    if @group.is_defined
+    if @group.is_defined || @group.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @group.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

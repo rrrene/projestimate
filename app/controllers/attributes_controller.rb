@@ -50,7 +50,7 @@ class AttributesController < ApplicationController
     if @attribute.save
       redirect_to redirect(attributes_path)
     else
-       render action: "new"
+      render action: "new"
     end
   end
 
@@ -84,7 +84,7 @@ class AttributesController < ApplicationController
   def destroy
     authorize! :manage_attributes, Attribute
     @attribute = Attribute.find(params[:id])
-    if @attribute.is_defined?
+    if @attribute.is_defined? || @attribute.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @attribute.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

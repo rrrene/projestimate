@@ -48,10 +48,6 @@ class PermissionsController < ApplicationController
     authorize! :manage_permissions, Permission
     set_page_title "Permissions"
     @permission = Permission.new
-
-    respond_to do |format|
-      format.html # _new.html.erb
-    end
   end
 
   # GET /permissions/1/edit
@@ -97,7 +93,7 @@ class PermissionsController < ApplicationController
   # DELETE /permissions/1.json
   def destroy
     @permission = Permission.find(params[:id])
-    if @permission.is_defined?
+    if @permission.is_defined? || @permission.is_custom?
       @permission.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
       @permission.destroy

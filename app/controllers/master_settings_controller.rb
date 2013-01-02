@@ -87,7 +87,7 @@ class MasterSettingsController < ApplicationController
   # DELETE /master_settings/1.json
   def destroy
     @master_setting = MasterSetting.find(params[:id])
-    if @master_setting.is_defined?
+    if @master_setting.is_defined? || @master_setting.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @master_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

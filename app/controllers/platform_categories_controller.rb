@@ -40,7 +40,7 @@ class PlatformCategoriesController < ApplicationController
       flash[:notice] = "Platform category was successfully created."
       redirect_to redirect("/projects_global_params#tabs-3")
     else
-      render action: "edit"
+      render action: "new"
     end
   end
 
@@ -63,7 +63,7 @@ class PlatformCategoriesController < ApplicationController
 
   def destroy
     @platform_category = PlatformCategory.find(params[:id])
-    if @platform_category.record_status == @defined_status
+    if @platform_category.is_defined? || @platform_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @platform_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

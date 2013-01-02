@@ -67,7 +67,7 @@ class AcquisitionCategoriesController < ApplicationController
   def destroy
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.find(params[:id])
-    if @acquisition_category.record_status == @defined_status
+    if @acquisition_category.is_defined? || @acquisition_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on Defined record
       @acquisition_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

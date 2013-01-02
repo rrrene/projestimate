@@ -52,7 +52,7 @@ class LaborCategoriesController < ApplicationController
       flash[:notice] = "Labor category was successfully updated."
       redirect_to redirect(labor_categories_path)
     else
-      render action: "edit"
+      render action: "new"
     end
   end
 
@@ -77,7 +77,7 @@ class LaborCategoriesController < ApplicationController
   def destroy
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
-    if @labor_category.is_defined?
+    if @labor_category.is_defined? || @labor_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @labor_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

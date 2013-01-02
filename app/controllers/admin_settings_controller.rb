@@ -44,7 +44,7 @@ class AdminSettingsController < ApplicationController
       flash[:notice] = 'Admin setting was successfully created.'
       redirect_to redirect(admin_settings_path)
     else
-      redirect_to new_admin_setting_path
+      render action: "new"
     end
   end
 
@@ -66,14 +66,14 @@ class AdminSettingsController < ApplicationController
         flash[:notice] = 'Admin setting was successfully updated.'
         redirect_to redirect(admin_settings_path)
       else
-        redirect_to edit_admin_setting_path(@admin_setting)
+        render action: "edit"
       end
     end
   end
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
-    if @admin_setting.is_defined?
+    if @admin_setting.is_defined? || @admin_setting.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

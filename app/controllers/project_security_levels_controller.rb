@@ -58,7 +58,7 @@ class ProjectSecurityLevelsController < ApplicationController
 
   def destroy
     @project_security_level = ProjectSecurityLevel.find(params[:id])
-    if @project_security_level.is_defined?
+    if @project_security_level.is_defined? || @project_security_level.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @project_security_level.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

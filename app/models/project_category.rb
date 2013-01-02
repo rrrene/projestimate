@@ -36,7 +36,8 @@ class ProjectCategory < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :description, :record_status
-  validates  :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
 
   #Sunspot needs
   searchable do

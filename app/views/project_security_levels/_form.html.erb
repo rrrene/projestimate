@@ -5,6 +5,7 @@
 
 
     <%= f.input :name %>
+    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

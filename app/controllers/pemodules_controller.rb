@@ -136,7 +136,7 @@ class PemodulesController < ApplicationController
   def destroy
     authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])
-    if @pemodule.is_defined?
+    if @pemodule.is_defined? || @pemodule.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @pemodule.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

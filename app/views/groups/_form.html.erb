@@ -26,6 +26,8 @@
 
           <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
 
+          <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+
           <%= f.input :for_global_permission, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
 
           <%= f.input :for_project_security, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>

@@ -40,6 +40,7 @@ class ActivityCategoriesController < ApplicationController
   def create
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.new(params[:activity_category])
+    @activity_category.save
     redirect_to activity_categories_url
   end
 
@@ -64,7 +65,7 @@ class ActivityCategoriesController < ApplicationController
   def destroy
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.find(params[:id])
-    if @activity_category.is_defined?
+    if @activity_category.is_defined? || @activity_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @activity_category.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

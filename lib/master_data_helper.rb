@@ -40,6 +40,15 @@ module MasterDataHelper
         end
       end
 
+      #Custom record status
+      define_method(:is_custom?) do
+        begin
+          (self.record_status.name == "Custom") ? true : false
+        rescue
+          false
+        end
+      end
+
     end
   end
 end
