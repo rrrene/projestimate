@@ -47,7 +47,7 @@ class AuthMethodsController < ApplicationController
 
   def destroy
     @auth_method = AuthMethod.find(params[:id])
-    if @auth_method.is_defined?
+    if @auth_method.is_defined? || @auth_method.is_custom?
       #logical deletion  delete don't have to suppress records anymore on Defined record
       @auth_method.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

@@ -77,7 +77,7 @@ class LanguagesController < ApplicationController
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
-      redirect_to redirect(@language), notice: 'Language was successfully created.'
+      redirect_to redirect(languages_path), notice: 'Language was successfully created.'
     else
       render action: "new"
     end
@@ -96,7 +96,7 @@ class LanguagesController < ApplicationController
     end
 
     if @language.update_attributes(params[:language])
-      redirect_to redirect(@language), notice: 'Language was successfully updated.'
+      redirect_to redirect(languages_path), notice: 'Language was successfully updated.'
     else
       render action: "edit"
     end
@@ -109,7 +109,7 @@ class LanguagesController < ApplicationController
   def destroy
     authorize! :edit_languages, Language
     @language = Language.find(params[:id])
-    if @language.is_defined?
+    if @language.is_defined? || @language.is_custom?
       #logical deletion  delete don't have to suppress records anymore on Defined record
       @language.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

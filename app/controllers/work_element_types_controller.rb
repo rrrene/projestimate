@@ -73,8 +73,12 @@ class WorkElementTypesController < ApplicationController
   def destroy
     authorize! :manage_wet, WorkElementType
     @work_element_type = WorkElementType.find(params[:id])
-    #logical deletion: delete don't have to suppress records anymore
-    @work_element_type.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if @work_element_type.is_defined? || @work_element_type.is_custom?
+      #logical deletion: delete don't have to suppress records anymore
+      @work_element_type.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    else
+      @work_element_type.destroy
+    end
 
     redirect_to work_element_types_url
   end

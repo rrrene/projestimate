@@ -73,7 +73,7 @@ class AdminSettingsController < ApplicationController
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
-    if @admin_setting.is_defined?
+    if @admin_setting.is_defined? || @admin_setting.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else

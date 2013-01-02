@@ -12,7 +12,8 @@ class AuthMethod < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :server_name, :port, :base_dn, :record_status
-  validates :name, :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false }
 
   def to_s
     self.name

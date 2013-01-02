@@ -29,6 +29,7 @@ class MasterSetting < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :key, :uuid, :presence => true, :uniqueness => { :case_sensitive => false}
   validates :value, :record_status, :presence => true
+  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :key,  :presence => true, :uniqueness => { :case_sensitive => false, :scope => :record_status_id }
 end
