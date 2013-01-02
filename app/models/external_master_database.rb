@@ -61,6 +61,8 @@ module ExternalMasterDatabase
 
   class ExternalMasterSetting < ActiveRecord::Base
     establish_connection HOST
+    has_one    :child,  :class_name => "ExternalMasterSetting", :inverse_of => :parent, :foreign_key => "parent_id"
+    belongs_to :parent, :class_name => "ExternalMasterSetting", :inverse_of => :child,  :foreign_key => "parent_id"
     self.table_name = "master_settings"
     scope :defined, lambda {|cs| where("record_status_id = ?", cs) }
   end
@@ -127,6 +129,8 @@ module ExternalMasterDatabase
 
   class ExternalGroup < ActiveRecord::Base
     establish_connection HOST
+    has_one    :child,  :class_name => "ExternalGroup", :inverse_of => :parent, :foreign_key => "parent_id"
+    belongs_to :parent, :class_name => "ExternalGroup", :inverse_of => :child,  :foreign_key => "parent_id"
     self.table_name = "groups"
     scope :defined, lambda {|cs| where("record_status_id = ?", cs) }
   end
