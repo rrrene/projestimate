@@ -88,7 +88,8 @@
   margin-right: 5px;
   line-height: 14px;
   vertical-align: text-top;
-  margin-top: 1px;
+  margin-top: -2px;
+  display: inline-block;
 }
 
 /* Sidebar Icons */

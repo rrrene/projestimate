@@ -1,48 +1,48 @@
 <ul class="nav nav-list" xmlns="http://www.w3.org/1999/html">
   <li class="nav-header"><h5>PROJECTS</h5></li>
   <li><%= render 'layouts/recent_project' %></li>
-  <li class="icn_edit_project"><a href="/dashboard">Home</a></li>
+  <li><a href="/dashboard"><i class="icn_estimation"></i>Home</a></li>
   <% if current_project %>
-    <li class="icn_edit_project"><%= link_to "Edit #{current_project.title}", edit_project_path(current_project) %></li>
+    <li><a href="<%= edit_project_path(current_project)%>"><i class="icn_estimation"></i> Edit <%= current_project.title %></a></li>
   <% end %>
-  <li class="icn_see_projects"><%= link_to "All projects", projects_url %></li>
-  <li class="icn_new_project"><%= link_to "Create a new projects", new_project_path %></li>
+  <li><a href="<%= projects_url %>"><i class="icn_estimation"></i> All projects </a></li>
+  <li><a href="<%= new_project_path %>"><i class="icn_estimation"></i>Create a new projects </a></li>
 </ul>
 
 <ul class="nav nav-list">
   <li class="nav-header"><h5>LIBRARY</h5></li>
-  <li class="icn_global_setting"><a href="/projects_global_params"><%= I18n.t(:project_global_setting) %></a></li>
-  <li class="icn_estimation"><a href="/estimations_params"> <%= I18n.t(:estimation_setting) %></a></li>
-  <li class="icn_organizationals_params"><a href="/organizationals_params"> <%= I18n.t(:organization_setting) %></a></li>
-  <li class="icn_organization_setting"><a href="#">Template</a></li>
+  <li><a href="/projects_global_params"><i class="icn_estimation"></i><%= I18n.t(:project_global_setting) %></a></li>
+  <li><a href="/estimations_params"> <i class="icn_estimation"></i><%= I18n.t(:estimation_setting) %></a></li>
+  <li><a href="/organizationals_params"> <i class="icn_estimation"></i><%= I18n.t(:organization_setting) %></a></li>
+  <li><a href="#"><i class="icn_estimation"></i>Template</a></li>
 </ul>
 
 <ul class="nav nav-list">
   <li class="nav-header"><h5>ADMIN</h5></li>
-  <li class="icn_admins"><a href="<%= admin_settings_path %>"> <%= I18n.t(:administration) %></a></li>
-  <li class="icn_profile"><a href="<%= users_path %>"><%= I18n.t(:users) %></a></li>
-  <li class="icn_groups"><a href="<%= groups_path %>"> <%= I18n.t(:groups) %></a></li>
-  <li class="icn_globals_permissions"><a href="/globals_permissions"><%= I18n.t(:global_permissions) %></a></li>
-  <li class="icn_project_securities"><a href="<%= project_securities_path %>"><%= I18n.t(:project_securities) %></a></li>
-  <li class="icn_project_securities"><a href="<%= auth_methods_path %>"><%= I18n.t(:auth_methods) %></a></li>
-  <li class="icn_events"><a href="<%= events_path %>"><%= I18n.t(:events) %></a></li>
+  <li><a href="<%= admin_settings_path %>"><i class="icn_estimation"></i> <%= I18n.t(:administration) %></a></li>
+  <li><a href="<%= users_path %>"> <i class="icn_estimation"></i><%= I18n.t(:users) %></a></li>
+  <li><a href="<%= groups_path %>"> <i class="icn_estimation"></i><%= I18n.t(:groups) %></a></li>
+  <li><a href="/globals_permissions"> <i class="icn_estimation"></i> <%= I18n.t(:global_permissions) %></a></li>
+  <li><a href="<%= project_securities_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:project_securities) %></a></li>
+  <li><a href="<%= auth_methods_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:auth_methods) %></a></li>
+  <li><a href="<%= events_path %>"> <i class="icn_estimation"></i><%= I18n.t(:events) %></a></li>
 </ul>
 
 <% if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")  %>
   <ul class="nav nav-list">
     <li class="nav-header"><h5>MASTER</h5></li>
-    <li class="icn_master_settings"><a href="<%= master_settings_path %>"> <%= I18n.t(:master) %></a></li>
-    <li class="icn_projects_global_params"><a href="/projects_global_params"> <%= I18n.t(:project_global_parameters) %></a></li>
-    <li class="icn_attributes"><a href="<%= attributes_path %>"> <%= I18n.t(:attributes) %></a></li>
-    <li class="icn_labor_categories"><a href="<%= labor_categories_path %>"> <%= I18n.t(:labor_categories) %></a></li>
-    <li class="icn_pemodules"><a href="<%= pemodules_path %>"> <%= I18n.t(:projestimate_module) %></a></li>
-    <li class="icn_work_element_types"><a href="<%= work_element_types_path %>"> <%= I18n.t(:work_element) %></a></li>
-    <li class="icn_project_security_levels"><a href="<%= project_security_levels_path %>"> <%= I18n.t(:security_level) %></a></li>
-    <li class="icn_permissions"><a href="<%= permissions_path %>"><%= I18n.t(:global_permission) %></a></li>
-    <li class="icn_permissions"><a href="<%= peicons_path %>">Projestimate Icons</a></li>
-    <li class="icn_languages"><a href="<%= languages_path %>"><%= I18n.t(:languages) %></a></li>
-    <li class="icn_translations"><a href="/translations"> <%= I18n.t(:translations) %></a></li>
-    <li class="icn_community"><a href="#"><%= I18n.t(:community) %></a></li>
-    <li class="icn_attributes"><a href="<%= record_statuses_path %>"> <%= I18n.t(:record_status) %></a></li>
+    <li><a href="<%= master_settings_path %>"> <i class="icn_estimation"></i><%= I18n.t(:master) %></a></li>
+    <li><a href="/projects_global_params"> <i class="icn_estimation"></i><%= I18n.t(:project_global_parameters) %></a></li>
+    <li><a href="<%= attributes_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:attributes) %></a></li>
+    <li><a href="<%= labor_categories_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:labor_categories) %></a></li>
+    <li><a href="<%= pemodules_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:projestimate_module) %></a></li>
+    <li><a href="<%= work_element_types_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:work_element) %></a></li>
+    <li><a href="<%= project_security_levels_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:security_level) %></a></li>
+    <li><a href="<%= permissions_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:global_permission) %></a></li>
+    <li><a href="<%= peicons_path %>"> <i class="icn_estimation"></i> Projestimate Icons</a></li>
+    <li><a href="<%= languages_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:languages) %></a></li>
+    <li><a href="/translations"> <i class="icn_estimation"></i> <%= I18n.t(:translations) %></a></li>
+    <li><a href="#"> <i class="icn_estimation"></i><%= I18n.t(:community) %></a></li>
+    <li><a href="<%= record_statuses_path %>"> <i class="icn_estimation"></i> <%= I18n.t(:record_status) %></a></li>
   </ul>
 <% end %>
