@@ -1,8 +1,12 @@
 <%= simple_form_for(@icon, :multipart => true) do |f| %>
   <%= f.input :name %>
-  <%= f.input :icon, :as => :file %>
-  <h4> You can upload any PNG image file smaller than 10 kilobytes from your hard drive.
-  We will automatically resize large images to 16x16 pixels.</h4>
+  <%= f.input :icon, :as => :file,
+              :hint => 'You can upload any PNG image file smaller than 10 kilobytes from your hard drive.
+                        We will automatically resize large images to 16x16 pixels.' %><br />
+
+  <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+  <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+
   <div class="actions">
     <%= f.submit "Save", :class => "btn btn-success" %>
     <%= f.submit "Apply", :class => "btn btn-success" %>

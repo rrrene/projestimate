@@ -16,7 +16,7 @@
       <td><%= link_to '', edit_project_security_level_path(project_security_level), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', project_security_level, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% if project_security_level.is_proposed? %>
+        <% unless project_security_level.is_defined? %>
             <%= link_to('Validate', "project_security_levels/#{project_security_level.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
         <% end %>
       </td>

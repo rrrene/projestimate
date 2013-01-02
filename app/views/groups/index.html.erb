@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Groups</h1>
+  <h2>Groups</h2>
 
   <table class="table table-striped">
     <tr>
@@ -19,7 +19,7 @@
       <td><%= link_to '', edit_group_path(group), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', group, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% if group.is_proposed? %>
+        <% unless group.is_defined? %>
             <%= link_to('Validate', "groups/#{group.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
         <% end %>
       </td>

@@ -521,3 +521,5 @@ div.field textarea:focus {
 .pop_up_title_bar .pop_up_close_button:hover {
     color: white;
 }
+
+.action_title { color: #0088cc; }

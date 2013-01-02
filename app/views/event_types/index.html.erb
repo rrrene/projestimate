@@ -1,4 +1,4 @@
-<h1>Listing event_types</h1>
+<h2>Event types</h2>
 
 <table class="table table-striped">
   <tr>
@@ -18,10 +18,15 @@
     <td><%= link_to 'Show', event_type %></td>
     <td><%= link_to 'Edit', edit_event_type_path(event_type) %></td>
     <td><%= link_to 'Destroy', event_type, confirm: 'Are you sure?', method: :delete %></td>
+    <td>
+      <% unless event_type.is_defined? %>
+          <%= link_to('Validate', "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Event type', new_event_type_path %>
+<%= link_to 'New Event type', new_event_type_path, :class => "btn" %>

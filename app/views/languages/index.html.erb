@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Languages</h1>
+  <h2>Languages</h2>
 
   <table class="table table-striped">
     <tr>
@@ -19,7 +19,7 @@
       <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', language, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% if language.is_proposed? %>
+        <% unless language.is_defined? %>
           <%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
       <% end %>
       </td>

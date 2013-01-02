@@ -1,7 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
   #GUIs controller
-  get "gui" => "gui#index", :as => "gui"
+  #resources :gui
+  #get "gui" => "gui#index", :as => "gui"
 
   resources :record_statuses
 
@@ -67,6 +68,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'project_areas/:id/validate_change' => 'project_areas#validate_change', :as => 'validate_change'
 
   resources :event_types
+  match 'event_types/:id/validate_change' => 'event_types#validate_change', :as => 'validate_change'
 
   resources :events
 
