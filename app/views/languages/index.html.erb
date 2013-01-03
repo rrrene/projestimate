@@ -19,9 +19,13 @@
       <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', language, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% unless language.is_defined? %>
-          <%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-      <% end %>
+        <% if language.is_retired? %>
+            <%= link_to('Restore', "languages/#{language.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+        <% else %>
+            <% unless language.is_defined? %>
+                <%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>

@@ -20,6 +20,15 @@
               <%= link_to('Validate', "permissions/#{perm.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
           <% end %>
         </td>
+        <td>
+          <% if perm.is_retired? %>
+              <%= link_to('Restore', "permissions/#{perm.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+          <% else %>
+              <% unless perm.is_defined? %>
+                  <%= link_to('Validate', "permissions/#{perm.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </table>

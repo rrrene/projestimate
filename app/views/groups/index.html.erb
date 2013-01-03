@@ -19,8 +19,12 @@
       <td><%= link_to '', edit_group_path(group), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', group, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% unless group.is_defined? %>
-            <%= link_to('Validate', "groups/#{group.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+        <% if group.is_retired? %>
+            <%= link_to('Restore', "groups/#{group.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+        <% else %>
+            <% unless group.is_defined? %>
+                <%= link_to('Validate', "groups/#{group.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
         <% end %>
       </td>
     </tr>

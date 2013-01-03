@@ -19,7 +19,7 @@
     <%= f.input :icon_url %><br />
 
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+    <%= f.association :record_status, :label => "Status", :selected => (@event_type.is_defined_or_nil? ? @proposed_status.id : @event_type.record_status_id), :disabled => (true if @event_type.is_retired?) %><br />
   </div>
   <div class="actions">
     <%= f.submit "Save" %>

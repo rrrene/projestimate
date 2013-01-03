@@ -21,6 +21,15 @@
             <%= link_to('Validate', "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
         <% end %>
       </td>
+      <td>
+        <% if auth_method.is_retired? %>
+            <%= link_to('Restore', "auth_methods/#{auth_method.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+        <% else %>
+            <% unless auth_method.is_defined? %>
+                <%= link_to('Validate', "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

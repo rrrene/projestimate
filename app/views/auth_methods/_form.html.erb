@@ -9,7 +9,7 @@
     <%= f.input :user_name_attribute %>  <br />
 
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+    <%= f.association :record_status, :label => "Status", :selected => (@auth_method.is_defined_or_nil? ? @proposed_status.id : @auth_method.record_status_id), :disabled => (true if @auth_method.is_retired?) %><br />
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

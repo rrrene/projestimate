@@ -16,9 +16,13 @@
         <td><%= link_to '', edit_peicon_path(i), :class => "icn_edit", :title => "Edit" %></td>
         <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
         <td>
-            <% unless i.is_defined? %>
-                <%= link_to('Validate', "peicons/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-            <% end %>
+          <% if i.is_retired? %>
+              <%= link_to('Restore', "peicons/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+          <% else %>
+              <% unless i.is_defined? %>
+                  <%= link_to('Validate', "peicons/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
+          <% end %>
         </td>
       </tr>
     <% end %>

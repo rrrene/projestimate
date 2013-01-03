@@ -13,7 +13,7 @@
 
       <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
 
-      <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+      <%= f.association :record_status, :label => "Status", :selected => (@activity_category.is_defined_or_nil? ? @proposed_status.id : @activity_category.record_status_id), :disabled => (true if @activity_category.is_retired?)  %><br />
     </div>
 
     <div class="actions">

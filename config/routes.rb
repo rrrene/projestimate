@@ -146,6 +146,9 @@ ProjestimateMaquette::Application.routes.draw do
   get "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
   get "help_login" => "sessions#help_login", :as => "help_login"
 
+  #Master Data validation and restoration routes
+  match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
+
 
   resources :translations
   get "load_translations" => "translations#load_translations", :as => "load_translations"

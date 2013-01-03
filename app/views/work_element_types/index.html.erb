@@ -23,9 +23,18 @@
       <td><%= link_to 'Edit', edit_work_element_type_path(work_element_type) %></td>
       <td><%= link_to 'Destroy', work_element_type, confirm: 'Are you sure?', method: :delete %></td>
       <td>
-          <% if work_element_type.is_proposed? %>
+          <% unless work_element_type.is_defined? %>
               <%= link_to('Validate', "work_element_types/#{work_element_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
           <% end %>
+      </td>
+      <td>
+         <% if work_element_type.is_retired? %>
+              <%= link_to('Restore', "work_element_types/#{work_element_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+         <% else %>
+              <% unless work_element_type.is_defined? %>
+                  <%= link_to('Validate', "work_element_types/#{work_element_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
+         <% end %>
       </td>
     </tr>
   <% end %>
