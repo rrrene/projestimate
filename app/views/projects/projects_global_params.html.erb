@@ -40,7 +40,7 @@
                <td><%= link_to '', edit_project_area_path(i), :class => "icn_edit", :title => "Edit"  %></td>
                <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
                <td>
-                   <% if i.is_proposed? %>
+                   <% unless i.is_defined? %>
                        <%= link_to('Validate', "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                    <% end %>
                </td>
@@ -78,7 +78,7 @@
                <td><%= link_to '', edit_project_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
                <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
                <td>
-                   <% if i.is_proposed? %>
+                   <% unless i.is_defined? %>
                        <%= link_to('Validate', "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                    <% end %>
                </td>
@@ -116,7 +116,7 @@
              <td><%= link_to '', edit_platform_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
              <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
              <td>
-                 <% if i.is_proposed? %>
+                 <% unless i.is_defined? %>
                      <%= link_to('Validate', "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                  <% end %>
              </td>
@@ -154,7 +154,7 @@
              <td><%= link_to '', edit_acquisition_category_path(i), :class => "icn_edit", :title => "Edit"  %></td>
              <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete"  %></td>
              <td>
-                 <% if i.is_proposed? %>
+                 <% unless i.is_defined? %>
                      <%= link_to('Validate', "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                  <% end %>
              </td>

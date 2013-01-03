@@ -18,7 +18,7 @@ en:
   projestimate_module: "Module"
   work_element: "Work Element"
   security_level: "Security level"
-  global_permission: "Global permission parameters"
+  global_permission: "Globals Permissions"
   languages: "Languages"
   translations: "Translations"
   community: "Community"

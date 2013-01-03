@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Authentication Methods</h1>
+  <h2>Authentication Methods</h2>
 
   <table class="table table-striped" >
     <tr>
@@ -17,7 +17,7 @@
       <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', auth_method, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-        <% if auth_method.is_proposed? %>
+        <% unless auth_method.is_defined? %>
             <%= link_to('Validate', "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
         <% end %>
       </td>

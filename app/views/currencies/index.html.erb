@@ -1,4 +1,4 @@
-<h1>Currencies</h1>
+<h2>Currencies</h2>
 
 <table class="table table-striped">
   <tr>
@@ -22,7 +22,7 @@
     <td><%= link_to '', edit_currency_path(currency), :class => "icn_edit", :title => "Edit" %></td>
     <td><%= link_to '', currency, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
     <td>
-      <% if currency.is_proposed? %>
+      <% unless currency.is_defined? %>
           <%= link_to('Validate', "currencies/#{currency.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
       <% end %>
     </td>

@@ -1,16 +1,17 @@
 <div class="span12">
   <%= simple_form_for(@permission) do |f| %>
 
-      <h1><%= controller.controller_name.humanize.singularize %> </h1>
-
       <%= f.input :name %>
 
-      <%= f.input :description %><br />
+      <%= f.input :description, :input_html => { :rows => 3 } %>
 
       <%= f.input :is_permission_project, :as => :select, :collection => [true, false] %>
 
-      <%= f.input :object_associated, :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == "SchemaMigration" } %>
+      <%= f.input :object_associated, :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == "SchemaMigration" } %> <br />
 
+      <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+
+      <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>
       <%= f.submit "Apply", :class => "btn btn-success" %>

@@ -1,3 +1,4 @@
+<h2>Permissions</h2>
 <div class="span12">
   <table class="table table-strpied">
       <tr>
@@ -15,7 +16,7 @@
         <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => "Edit" %></td>
         <td><%= link_to "", perm, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
         <td>
-          <% if perm.is_proposed? %>
+          <% unless perm.is_defined? %>
               <%= link_to('Validate', "permissions/#{perm.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
           <% end %>
         </td>

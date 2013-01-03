@@ -1,4 +1,4 @@
-<%= form_for(@event_type) do |f| %>
+<%= simple_form_for(@event_type) do |f| %>
   <% if @event_type.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@event_type.errors.count, "error") %> prohibited this event_type from being saved:</h2>
@@ -12,16 +12,16 @@
   <% end %>
 
   <div >
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.input :name %><br />
 
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.input :description, :input_html => { :rows => 3 }  %><br />
 
-    <%= f.label :icon_url %><br />
-    <%= f.text_field :icon_url %>
+    <%= f.input :icon_url %><br />
+
+    <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save" %>
   </div>
 <% end %>
