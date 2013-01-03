@@ -22,9 +22,9 @@ describe UserMailer do
         it "should have to user mail from created mail" do
           @mailerCreated.to[0].should==(@user.email)
         end
-        it "should send Account created emails" do
-          @mailerCreated.deliver
-        end
+        #it "should send Account created emails" do
+        #  @mailerCreated.deliver
+        #end
       end
       describe "Validate LDAP" do
         it "should have Subject Your ProjEstimate account has changed" do
@@ -33,9 +33,9 @@ describe UserMailer do
         it "should have to user mail from validateLDAP" do
           @mailerValidateLDAP.to[0].should==(@user.email)
         end
-        it "should send Account validatedLDAP emails" do
-          @mailerValidateLDAP.deliver
-        end
+        #it "should send Account validatedLDAP emails" do
+        #  @mailerValidateLDAP.deliver
+        #end
       end
       describe "Account suspended" do
         it "should have Subject Your ProjEstimate account has changed" do
@@ -44,9 +44,9 @@ describe UserMailer do
         it "should have to user mail from validateLDAP" do
           @mailerAccountsuspended.to[0].should==(@user.email)
         end
-        it "should send Account suspended emails" do
-          @mailerAccountsuspended.deliver
-        end
+        #it "should send Account suspended emails" do
+        #  @mailerAccountsuspended.deliver
+        #end
       end
       describe "Reset password" do
         it "should have Subject Your ProjEstimate password has changed" do
@@ -55,9 +55,9 @@ describe UserMailer do
         it "should have to user mail from new password" do
           @mailerNew.to[0].should==(@user.email)
         end
-        it "should send password reseted emails" do
-          @mailerNew.deliver
-        end
+        #it "should send password reseted emails" do
+        #  @mailerNew.deliver
+        #end
       end
       describe "Forgotten password" do
       #Don't modifie please: tests are in echec because the method FOrgotten Password is not fonctionnal'
@@ -67,9 +67,9 @@ describe UserMailer do
         it "should have to user mail from forgotten password" do
           @mailerForgottenPassword.to[0].should==(@user.email)
         end
-        it "should send reset password emails" do
-          @mailerAccountValidate.deliver
-        end
+        #it "should send reset password emails" do
+        #  @mailerAccountValidate.deliver
+        #end
       end
       describe "New account request" do
         it "should have Subject New account request" do
@@ -78,9 +78,9 @@ describe UserMailer do
         it "should have to user mail from New account request" do
           @mailerAccountRequest.to[0].should==(AdminSetting.find_by_key("notifications_email").value)
         end
-        it "should send new account request emails" do
-          @mailerAccountRequest.deliver
-        end
+        #it "should send new account request emails" do
+        #  @mailerAccountRequest.deliver
+        #end
       end
       describe "Account validated" do
         it "should have Subject Your ProjEstimate account is validated" do
@@ -89,9 +89,9 @@ describe UserMailer do
         it "should have to user mail from Account Validate" do
           @mailerAccountValidate.to[0].should==(@user.email)
         end
-        it "should send Account validated emails" do
-          @mailerAccountValidate.deliver
-        end
+        #it "should send Account validated emails" do
+        #  @mailerAccountValidate.deliver
+        #end
       end
       describe "Account validated without password" do
         it "should have Subject Your ProjEstimate account has been validated" do
@@ -100,9 +100,9 @@ describe UserMailer do
         it "should have to user mail from Account Validate without password" do
           @mailerAccountValidateNoPw.to[0].should==(@user.email)
         end
-        it "should send Account ValidateNoPw emails" do
-          @mailerAccountValidateNoPw.deliver
-        end
+        #it "should send Account ValidateNoPw emails" do
+        #  @mailerAccountValidateNoPw.deliver
+        #end
       end
 
 end
