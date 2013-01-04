@@ -49,7 +49,7 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
-      flash[:notice] = "Labor category was successfully updated."
+      flash[:notice] = "Labor category was successfully created."
       redirect_to redirect(labor_categories_path)
     else
       render action: "new"

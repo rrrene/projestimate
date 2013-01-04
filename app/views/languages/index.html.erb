@@ -12,7 +12,7 @@
     </tr>
 
   <% @languages.each do |language| %>
-    <tr >
+    <tr>
       <td><%= language.name %></td>
       <td><%= language.locale %></td>
       <td><%= language.record_status.name unless language.record_status.nil? %></td>

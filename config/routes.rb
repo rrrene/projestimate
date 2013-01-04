@@ -1,8 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
   #GUIs controller
-  #resources :gui
-  #get "gui" => "gui#index", :as => "gui"
+  resources :gui
+  get "gui" => "gui#index", :as => "gui"
 
   resources :record_statuses
 
@@ -147,6 +147,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "help_login" => "sessions#help_login", :as => "help_login"
 
   #Master Data validation and restoration routes
+  match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'
   match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
 
 

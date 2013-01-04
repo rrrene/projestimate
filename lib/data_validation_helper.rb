@@ -30,7 +30,7 @@ module DataValidationHelper
         temp_parent_uuid = parent_record.uuid
         #Create transaction to avoid uuid duplication error in DB
         parent_record.transaction do
-          @record.uuid = nil
+          @record.uuid = UUIDTools::UUID.timestamp_create.to_s
           parent_record.record_status = @retired_status
           parent_record.uuid = temp_current_uuid
           parent_record.ref = @record.ref
@@ -77,7 +77,7 @@ module DataValidationHelper
       if @record.is_retired?
         #Temporally save uuid
         temp_current_uuid = @record.uuid
-        child_record = @record.child
+        child_record =  record_class_name.constantize.find_by_uuid(@record.ref) #@record.child
 
         if child_record.nil?
           @record.record_status = @defined_status
@@ -92,12 +92,12 @@ module DataValidationHelper
 
           #Create transaction to avoid uuid duplication error in DB
           child_record.transaction do
-            @record.uuid = nil
+            @record.uuid = UUIDTools::UUID.timestamp_create.to_s
             child_record.record_status = @retired_status
             child_record.uuid = temp_current_uuid
             child_record.ref = @record.ref
-            @record.save!
-            child_record.save!
+            @record.save!(:validate => false)
+            child_record.save!(:validate => false)
             trans_successful = true
           end
 
