@@ -24,26 +24,26 @@ namespace :projestimate do
   desc "Load default data from remote repository"
   task :update_master_data => :environment do
 
-    print "\n You're about to update default data on #{Rails.env} database. Do you want : \n
-       1- Update existing default data -- Press 1 \n
-       2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
-    \n"
-
-    i = true
-    while i do
-      STDOUT.flush
-      response = STDIN.gets.chomp!
-
-      if response == '1'
-        are_you_sure? do
+    #print "\n You're about to update default data on #{Rails.env} database. Do you want : \n
+    #   1- Update existing default data -- Press 1 \n
+    #   2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
+    #\n"
+    #
+    #i = true
+    #while i do
+    #  STDOUT.flush
+    #  response = STDIN.gets.chomp!
+    #
+    #  if response == '1'
+    #    are_you_sure? do
           update_master_data!
-        end
-        i = false
-      elsif response == '2'
-        puts "Nothing to do. Bye."
-        i = false
-      end
-    end
+    #    end
+    #    i = false
+    #  elsif response == '2'
+    #    puts "Nothing to do. Bye."
+    #    i = false
+    #  end
+    #end
   end
 end
 
@@ -53,23 +53,32 @@ def update_master_data!
       ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
       loc_defined_rs_id = RecordStatus.find_by_name("Defined").id
 
-      #puts " Updating Master Parameters ..."
-      #exts = ExternalMasterDatabase::ExternalRecordStatus.all.map{|i| [i.name, i.description, i.uuid, i.record_status_id] }
-      #ext_uuids = ExternalMasterDatabase::ExternalRecordStatus.all.map(&:uuid)
-      #locals = RecordStatus.all
-      #exts.each do |ext|
-      #    locals.each do |loc|
-      #      if ext[2] == loc.uuid
-      #        loc.update_attributes({:name => ext[0], :description => ext[1]})
-      #      elsif !ext_uuids.include?(loc.uuid) and ext[3] == ext_defined_rs_id
-      #        RecordStatus.create(:name => ext[0], :description => ext[1], :uuid => ext[2] )
-      #      end
-      #    end
-      #  end
+      puts " Updating Master Parameters ..."
+
+      puts "   - Record Status"
+
+      exts = ExternalMasterDatabase::ExternalRecordStatus.all
+      locals = RecordStatus.all
+      exts.each do |ext|
+        locals.each do |loc|
+          if ext.ref == loc.uuid
+            loc.update_attribute(:name, ext.child.name)
+            loc.update_attribute(:description, ext.child.description)
+          end
+
+          if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+           if !locals.map(&:uuid).include?(ext.ref)
+             ms = RecordStatus.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+             ms.update_attribute("uuid", ext.uuid)
+           end
+         end
+        end
+      end
 
       puts "   - Master setting"
       exts = ExternalMasterDatabase::ExternalMasterSetting.all
       locals = MasterSetting.all
+
       exts.each do |ext|
         locals.each do |loc|
           if ext.ref == loc.uuid
@@ -78,9 +87,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          ms = MasterSetting.create(:key => ext.child.key, :value => ext.child.value, :record_status_id => loc_defined_rs_id)
-          ms.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            ms = MasterSetting.create(:key => ext.key, :value => ext.value, :record_status_id => loc_defined_rs_id)
+            ms.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -91,13 +102,15 @@ def update_master_data!
         locals.each do |loc|
           if ext.ref == loc.uuid
             loc.update_attribute(:name, ext.child.name)
-            loc.update_attribute(:description, ext.child.description)
+            loc.update_attribute(:description, ext.description)
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          pa = ProjectArea.create(:name => ext.child.name, :description => ext.child.description, :record_status_id => loc_defined_rs_id)
-          pa.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            pa = ProjectArea.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            pa.update_attribute("uuid", ext.uuid)
+          end
         end
 
       end
@@ -107,15 +120,19 @@ def update_master_data!
       locals = ProjectCategory.all
       exts.each do |ext|
         locals.each do |loc|
-          if ext.ref == loc.uuid
-            loc.update_attribute(:name, ext.child.name)
-            loc.update_attribute(:description, ext.child.description)
+          if ext.ref == loc.uuid and !ext.ref.nil?
+            if !locals.map(&:uuid).include?(ext.ref)
+              loc.update_attribute(:name, ext.child.name)
+              loc.update_attribute(:description, ext.child.description)
+            end
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          pc = ProjectCategory.create(:name => ext.child.name, :description => ext.child.description, :record_status_id => loc_defined_rs_id)
-          pc.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            pc = ProjectCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            pc.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -130,9 +147,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          pc = PlatformCategory.create(:name => ext.child.name, :description => ext.child.description, :record_status_id => loc_defined_rs_id)
-          pc.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            pc = PlatformCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            pc.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -148,9 +167,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          acq = AcquisitionCategory.create(:name => ext.child.name, :description => ext.child.description, :record_status_id => loc_defined_rs_id)
-          acq.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            acq = AcquisitionCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            acq.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -163,9 +184,12 @@ def update_master_data!
             loc.update_attribute(:name, ext.child.name)
           end
         end
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          icn = Peicon.create(:name => ext.child.name, :record_status_id => loc_defined_rs_id)
-          icn.update_attribute("uuid", ext.uuid)
+
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            icn = Peicon.create(:name => ext.name, :record_status_id => loc_defined_rs_id)
+            icn.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -182,9 +206,11 @@ def update_master_data!
             loc.update_attribute(:aggregation, ext.child.aggregation)
           end
         end
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.uuid)
-          a = Attribute.create(:name => ext.name, :description => ext.description, :alias => ext.alias, :attr_type => ext.attr_type, :aggregation => ext.aggregation, :record_status_id => loc_defined_rs_id)
-          a.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            a = Attribute.create(:name => ext.name, :description => ext.description, :alias => ext.alias, :attr_type => ext.attr_type, :aggregation => ext.aggregation, :record_status_id => loc_defined_rs_id)
+            a.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -198,9 +224,12 @@ def update_master_data!
             loc.update_attribute(:alias, ext.child.alias)
           end
         end
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.uuid)
-          wet = WorkElementType.create(:name => ext.child.name, :alias => ext.child.alias, :record_status_id => loc_defined_rs_id)
-          wet.update_attribute("uuid", ext.uuid)
+
+        if ext.record_status_id == ext_defined_rs_id  and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            wet = WorkElementType.create(:name => ext.name, :alias => ext.alias, :record_status_id => loc_defined_rs_id)
+            wet.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -214,27 +243,31 @@ def update_master_data!
             loc.update_attribute(:locale, ext.child.locale)
           end
         end
-        if ext.record_status_id == ext_defined_rs_id and locals.map(&:uuid).include?(ext.ref)
-          l = Language.create(:name => ext.name, :locale => ext.locale, :record_status_id => loc_defined_rs_id)
-          l.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id  and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            l = Language.create(:name => ext.name, :locale => ext.locale, :record_status_id => loc_defined_rs_id)
+            l.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
-      puts "   - Admin Setting"
-      exts = ExternalMasterDatabase::ExternalAdminSetting.all
-      locals = AdminSetting.all
-      exts.each do |ext|
-        locals.each do |loc|
-          if ext.ref == loc.uuid
-            loc.update_attribute(:key, ext.child.key)
-            loc.update_attribute(:value, ext.child.value)
-          end
-        end
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          as = AdminSetting.create(:key => ext.key, :value => ext.value, :record_status_id => loc_defined_rs_id)
-          as.update_attribute("uuid", ext.uuid)
-        end
-      end
+      #puts "   - Admin Setting"
+      #exts = ExternalMasterDatabase::ExternalAdminSetting.all
+      #locals = AdminSetting.all
+      #exts.each do |ext|
+      #  locals.each do |loc|
+      #    if ext.ref == loc.uuid
+      #      loc.update_attribute(:key, ext.child.key)
+      #      loc.update_attribute(:value, ext.child.value)
+      #    end
+      #  end
+      #  if ext.record_status_id == ext_defined_rs_id  and !ext.ref.nil?
+      #    if !locals.map(&:uuid).include?(ext.ref)
+      #      as = AdminSetting.create(:key => ext.key, :value => ext.value, :record_status_id => loc_defined_rs_id)
+      #      as.update_attribute("uuid", ext.uuid)
+      #    end
+      #  end
+      #end
 
       puts "   - Auth Method"
       exts = ExternalMasterDatabase::ExternalAuthMethod.all
@@ -250,9 +283,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          am = AuthMethod.create(:name => ext.name, :server_name => ext.server_name, :port => ext.port, :base_dn => ext.base_dn, :certificate => ext.certificate, :record_status_id => loc_defined_rs_id)
-          am.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            am = AuthMethod.create(:name => ext.name, :server_name => ext.server_name, :port => ext.port, :base_dn => ext.base_dn, :certificate => ext.certificate, :record_status_id => loc_defined_rs_id)
+            am.update_attribute("uuid", ext.uuid)
+          end
         end
       end
       #
@@ -268,9 +303,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          gp = Group.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
-          gp.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            gp = Group.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            gp.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -286,9 +323,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          lc = LaborCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
-          lc.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id  and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            lc = LaborCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            lc.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -304,9 +343,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          ac = ActivityCategory.create(:name => ext.child.name, :description => ext.child.description, :record_status_id => loc_defined_rs_id)
-          ac.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id  and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            ac = ActivityCategory.create(:name => ext.name, :description => ext.description, :record_status_id => loc_defined_rs_id)
+            ac.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -320,9 +361,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          psl = ProjectSecurityLevel.create(:name => ext.name, :record_status_id => loc_defined_rs_id)
-          psl.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            psl = ProjectSecurityLevel.create(:name => ext.name, :record_status_id => loc_defined_rs_id)
+            psl.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
@@ -338,9 +381,11 @@ def update_master_data!
           end
         end
 
-        if ext.record_status_id == ext_defined_rs_id and !locals.map(&:uuid).include?(ext.ref)
-          psl = Permission.create(:name => ext.name, :description => ext.description, :is_permission_project => ext.is_permission_project, :record_status_id => loc_defined_rs_id)
-          psl.update_attribute("uuid", ext.uuid)
+        if ext.record_status_id == ext_defined_rs_id and !ext.ref.nil?
+          if !locals.map(&:uuid).include?(ext.ref)
+            psl = Permission.create(:name => ext.name, :description => ext.description, :is_permission_project => ext.is_permission_project, :record_status_id => loc_defined_rs_id)
+            psl.update_attribute("uuid", ext.uuid)
+          end
         end
       end
 
