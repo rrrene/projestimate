@@ -1,8 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
   #GUIs controller
-  resources :gui
-  get "gui" => "gui#index", :as => "gui"
+  #resources :gui
+  #get "gui" => "gui#index", :as => "gui"
 
   resources :record_statuses
 
