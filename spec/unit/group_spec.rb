@@ -4,6 +4,7 @@ describe Group do
   before :each do
     @group = FactoryGirl.create(:group)
     @project = FactoryGirl.create(:project)
+    @proposed_status = FactoryGirl.build(:proposed_status)
   end
 
   it 'should be valid' do
@@ -19,8 +20,14 @@ describe Group do
     @group.should_not be_valid
   end
 
+  it "should not be valid without uuid" do
+    @group.uuid = ""
+    @group.should_not be_valid
+  end
+
   it "should not be valid  when group name already exists" do
     group2 = @group.dup
+    group2.record_status = @proposed_status
     group2.save
     group2.should_not be_valid
   end

@@ -4,6 +4,7 @@ describe MasterSetting do
 
   before :each do
     @ms = FactoryGirl.create(:master_setting_wiki_url)
+    @proposed_status = FactoryGirl.build(:proposed_status)
   end
 
   it 'should be valid' do
@@ -22,6 +23,7 @@ describe MasterSetting do
 
   it "should not be valid with duplicated key" do
     ms2 = @ms.dup
+    ms2.record_status = @proposed_status
     ms2.save
     ms2.should_not be_valid
   end

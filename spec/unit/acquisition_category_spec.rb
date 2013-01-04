@@ -1,7 +1,7 @@
 require "spec_helper"
 describe AcquisitionCategory do
   before :each do
-    @acquisition_category = FactoryGirl.create(:acquisition_category, :unknown, :name => "ac_new_name")
+    @acquisition_category = FactoryGirl.create(:acquisition_category, :unknown)
   end
 
   it 'should be valid' do
