@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Master Settings</h1>
+  <h2>Master Settings</h2>
 
   <table class="table table-striped">
     <tr>
@@ -19,9 +19,13 @@
       <td><%= link_to '', edit_master_setting_path(master_setting), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', master_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
-          <% if master_setting.is_proposed? %>
-              <%= link_to('Validate', "master_settings/#{master_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-          <% end %>
+        <% if master_setting.is_retired? %>
+            <%= link_to('Restore', "master_settings/#{master_setting.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+        <% else %>
+            <% unless master_setting.is_defined? %>
+                <%= link_to('Validate', "master_settings/#{master_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+            <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>

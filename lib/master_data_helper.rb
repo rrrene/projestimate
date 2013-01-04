@@ -40,6 +40,25 @@ module MasterDataHelper
         end
       end
 
+      #Retired method for record Retired status
+      define_method(:is_retired?) do
+        begin
+          (self.record_status.name == "Retired") ? true : false
+        rescue
+          false
+        end
+      end
+
+      # If record status id defined or nil
+      define_method(:is_defined_or_nil?) do
+        begin
+          ((self.record_status.name == "Defined") || (self.record_status.nil?)) ? true : false
+        rescue
+          false
+        end
+      end
+
+
       #Custom record status
       define_method(:is_custom?) do
         begin

@@ -5,7 +5,7 @@
     <%= f.input :name %><br />
     <%= f.input :description, :input_html => { :rows => 3 } %><br />
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+    <%= f.association :record_status, :label => "Status", :selected => (@project_category.record_status_id.nil? ? @project_category.id : @project_category.record_status.id), :disabled => (true if @project_category.is_retired?) %><br />
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

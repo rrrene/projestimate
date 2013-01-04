@@ -16,7 +16,11 @@
 
           <%= f.input :alias %>
 
-          <%= f.input :description %>
+          <%= f.input :description, :input_html => { :rows => 3 } %>
+
+          <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+
+          <%= f.association :record_status, :label => "Status", :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id), :disabled => (true if @pemodule.is_retired?) %><br />
 
           <%= f.label :compatibility %>
 
@@ -33,7 +37,7 @@
           <% end %>
         </table>
 
-      </div>
+      </div><br />
 
       <%= submit_tag "Update", :class => "btn btn-success"  %>
       <span class="on_success_global"></span>

@@ -1,7 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
   #GUIs controller
-  get "gui" => "gui#index", :as => "gui"
+  #resources :gui
+  #get "gui" => "gui#index", :as => "gui"
 
   resources :record_statuses
 
@@ -67,6 +68,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'project_areas/:id/validate_change' => 'project_areas#validate_change', :as => 'validate_change'
 
   resources :event_types
+  match 'event_types/:id/validate_change' => 'event_types#validate_change', :as => 'validate_change'
 
   resources :events
 
@@ -143,6 +145,9 @@ ProjestimateMaquette::Application.routes.draw do
   get "log_out" => "sessions#destroy", :as => "log_out"
   get "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
   get "help_login" => "sessions#help_login", :as => "help_login"
+
+  #Master Data validation and restoration routes
+  match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
 
 
   resources :translations

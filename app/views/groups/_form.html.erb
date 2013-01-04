@@ -25,8 +25,9 @@
           <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
 
           <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
+          <%= f.input :change_comment, :input_html => { :rows => 3 } %>
 
-          <%= f.association :record_status, :label => "Status", :selected => @proposed_status.id %><br />
+          <%= f.association :record_status, :label => "Status", :selected => (@group.is_defined_or_nil? ? @proposed_status.id : @group.record_status_id), :disabled => (true if @group.is_retired?) %><br />
 
           <%= f.input :for_global_permission, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
 
