@@ -24,26 +24,26 @@ namespace :projestimate do
   desc "Load default data from remote repository"
   task :update_master_data => :environment do
 
-    #print "\n You're about to update default data on #{Rails.env} database. Do you want : \n
-    #   1- Update existing default data -- Press 1 \n
-    #   2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
-    #\n"
-    #
-    #i = true
-    #while i do
-    #  STDOUT.flush
-    #  response = STDIN.gets.chomp!
-    #
-    #  if response == '1'
-    #    are_you_sure? do
+    print "\n You're about to update default data on #{Rails.env} database. Do you want : \n
+       1- Update existing default data -- Press 1 \n
+       2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
+    \n"
+
+    i = true
+    while i do
+      STDOUT.flush
+      response = STDIN.gets.chomp!
+
+      if response == '1'
+        are_you_sure? do
           update_master_data!
-    #    end
-    #    i = false
-    #  elsif response == '2'
-    #    puts "Nothing to do. Bye."
-    #    i = false
-    #  end
-    #end
+        end
+        i = false
+      elsif response == '2'
+        puts "Nothing to do. Bye."
+        i = false
+      end
+    end
   end
 end
 
