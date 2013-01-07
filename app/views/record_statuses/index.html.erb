@@ -12,16 +12,20 @@
     </tr>
 
     <% @record_statuses.each do |record_status| %>
-        <tr >
+        <tr>
           <td><%= record_status.name %></td>
           <td><%= record_status.description %></td>
-          <td><%= record_status.base_status.name unless record_status.base_status.nil? %></td>
+          <td><%= record_status.record_status.name unless record_status.record_status.nil? %></td>
           <td><%= link_to '', edit_record_status_path(record_status), :class => "icn_edit", :title => "Edit" %></td>
           <td><%= link_to '', record_status, method: :delete, data: { confirm: 'Are you sure?' }, :class => "icn_trash", :title => "Delete" %></td>
           <td>
-              <% unless record_status.is_defined? %>
-                  <%= link_to('Validate', "record_statuses/#{record_status.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-              <% end %>
+            <% if record_status.is_retired? %>
+                <%= link_to('Restore', "record_statuses/#{record_status.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+            <% else %>
+                <% unless record_status.is_defined? %>
+                    <%= link_to('Validate', "record_statuses/#{record_status.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                <% end %>
+            <% end %>
           </td>
         </tr>
     <% end %>

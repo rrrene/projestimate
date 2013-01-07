@@ -1,3 +1,4 @@
+
 <%= simple_form_for(@record_status) do |f| %>
   <%= f.error_notification %>
 
@@ -5,7 +6,7 @@
     <%= f.input :name %>
     <%= f.input :description %>
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :base_status %><br />
+    <%= f.association :record_status, :label => "Status", :selected => (@record_status.is_defined_or_nil? ? @proposed_status.id : @record_status.record_status_id), :disabled => (true if @record_status.is_retired?) %><br />
   </div>
 
   <div class="form-actions">

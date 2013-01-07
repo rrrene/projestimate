@@ -22,14 +22,11 @@
 class RecordStatus < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  attr_accessible :description, :name
-
-  #belongs_to :record_status
-  #has_many :record_statuses
+  attr_accessible :description, :name, :change_comment, :record_status_id
 
   has_many :acquisition_categories
   has_many :activity_categories
-  has_many :attributes
+  has_many :associated_attributes, :class_name => "Attribute"
   has_many :attribute_modules
   has_many :currencies
   has_many :event_types
@@ -50,9 +47,8 @@ class RecordStatus < ActiveRecord::Base
   has_many :permissions
 
   #self relation for status
-  belongs_to :base_status, :class_name => "RecordStatus", :foreign_key => "status_id"
-  has_many :children, :class_name => "RecordStatus",  :inverse_of => :base_status, :foreign_key => "status_id"
-
+  has_many :record_statuses, :class_name => "RecordStatus", :foreign_key => "record_status_id"
+  belongs_to :record_status, :class_name => "RecordStatus", :foreign_key => "record_status_id"
 
   #self relation on master data : Parent<->Child
   has_one    :child,  :class_name => "RecordStatus", :inverse_of => :parent, :foreign_key => "parent_id"
@@ -63,6 +59,5 @@ class RecordStatus < ActiveRecord::Base
   validates :description, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
-  #TODO validate record_status attribute
 
 end

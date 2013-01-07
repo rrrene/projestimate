@@ -7,19 +7,19 @@ FactoryGirl.define do
     description "TBD"
 
     trait :unknown do
-      name "Unknown"
+      sequence(:name) { |n| "Unknown#{n}" }
       uuid
       association :record_status, :factory => :proposed_status, strategy: :build
     end
 
     trait :newDevelopment do
-      name "New_Development"
+      sequence(:name) { |n| "New_Development#{n}" }
       uuid
       association :record_status, :factory => :proposed_status, strategy: :build
     end
 
     trait :enhancement do
-      name "Enhancement"
+      sequence(:name) { |n| "Enhancement#{n}" }
       uuid
       association :record_status, :factory => :proposed_status, strategy: :build
     end
