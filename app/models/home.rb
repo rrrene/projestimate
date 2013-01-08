@@ -1,4 +1,6 @@
 class Home < ActiveRecord::Base
+  include ExternalMasterDatabase
+
   def self.update_master_data!
     begin
         ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
@@ -352,4 +354,22 @@ class Home < ActiveRecord::Base
       puts "Maybe run db:create and db:migrate tasks."
     end
   end
+
+  def self.latest_repo_update
+    dates = Array.new
+    [ExternalLanguage, ExternalAttribute].each do |table|
+      if table == Attribute
+        dates << Object::Attribute::attribute_updated_at
+      else
+        dates << table.all.map(&:updated_at)
+      end
+    end
+    res = dates.flatten.compact.max
+    res
+  end
+
+  def self.latest_update
+    $latest_update
+  end
+
 end
