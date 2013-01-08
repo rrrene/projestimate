@@ -13,3 +13,11 @@
   Some external component or contributions bundled with ProjEstimate may be published under other AGPLv3-compatible licenses.
   For these, please refer to the relevant source files and/or license files, in the source code tree.
 </p>
+
+<p>
+</p>
+
+<span>
+  <%= link_to "Update Master Data", update_install_path, :class => "btn", :disable_with => "Please wait. It could take a while", :onclick => "$('#spiner').toggle();" %>
+  <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
+</span>
