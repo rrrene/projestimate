@@ -1,6 +1,7 @@
 require 'simplecov'
-SimpleCov.start 'rails'
-
+SimpleCov.start 'rails' do
+  add_group 'Tasks', 'lib/tasks'
+end
 #require 'factory_girl'
 #load "spec/factories/factories"
 
@@ -25,6 +26,7 @@ Spork.each_run do
   load "#{Rails.root}/config/routes.rb"
   Dir["#{Rails.root}/app/**/*.rb"].each {|f| load f}
   Dir["#{Rails.root}/lib/**/*.rb"].each {|f| load f}
+  require Rails.root.join("app/controllers/application_controller")
 
   # This code will be run each time you run your specs.
   RSpec.configure do |config|

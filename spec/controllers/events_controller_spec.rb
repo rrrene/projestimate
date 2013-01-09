@@ -1,12 +1,16 @@
 require 'spec_helper'
 describe EventsController do
   before :each do
-    @event = Event.new(:id=>1,:name => 'Event1', :description => 'Event number 1', :start_date => nil, :end_date => nil, :event_type_id => nil, :project_id => nil)
+    @event = FactoryGirl.create(:event)
   end
   describe "GET index" do
     it "renders the index template" do
       get :index
       response.should render_template("index")
+    end
+    it "assigns all attributes as @attributes" do
+      get :index
+      assigns(:event)==(@event)
     end
   end
   describe "New" do
@@ -14,6 +18,29 @@ describe EventsController do
       get :new
       response.should render_template("new")
     end
+    it "assigns a new event as @event" do
+      get :new
+      assigns(:event).should be_a_new_record
+    end
   end
 
+  describe "GET edit" do
+    it "assigns the requested attribute as @attribute" do
+      get :edit, {:id => @event.to_param}
+      assigns(:event)==([@event])
+    end
+  end
+
+  describe "DELETE destroy" do
+    it "redirects to the event list" do
+      delete :destroy, {:id => @event.to_param}
+      response.should redirect_to(event_url)
+    end
+    it "destroys the requested event" do
+          expect {
+            delete :destroy, {:id => @event.to_param}
+          }.to change(Event, :count).by(-1)
+    end
+
+  end
 end
