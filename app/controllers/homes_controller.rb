@@ -5,6 +5,7 @@ class HomesController < ApplicationController
   def update_install
     Home::update_master_data!
     $latest_update = Time.now
-    redirect_to root_url
+    flash[:notice] = "Projestimate data have been updated successfully."
+    redirect_to "/about"
   end
 end
