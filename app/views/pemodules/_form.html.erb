@@ -10,8 +10,10 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@pemodule) do |f| %>
+      <%= f.error_notification %>
+
       <%= hidden_field_tag "id", (@pemodule.id || nil) %>
-        <div >
+       <div>
           <%= f.input :title %>
 
           <%= f.input :alias %>
@@ -20,11 +22,17 @@
 
           <%= f.input :change_comment, :input_html => { :rows => 3 } %>
 
-          <%= f.association :record_status, :label => "Status", :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id), :disabled => (true if @pemodule.is_retired?) %><br />
+          <%= f.association :record_status, :label => "Status",
+                            :collection => @pemodule.record_status_collection,
+                            :input_html => {:class => "record_status"},
+                            :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
+                            :disabled => (true if @pemodule.is_retired?) %><br />
+
+          <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @pemodule.is_custom?) %><br />
 
           <%= f.label :compatibility %>
 
-        <table>
+         <table>
           <% @wets.each do |wet| %>
             <tr>
               <td><%= wet.name %></td>
@@ -35,7 +43,7 @@
               <% end %>
             </tr>
           <% end %>
-        </table>
+         </table>
 
       </div><br />
 
@@ -58,7 +66,7 @@
             </tr>
               <% @attributes.each do |attr| %>
                 <tr class="<%= cycle("even", "odd")%>">
-                  <td><%= link_to attr.name, edit_attribute_path(attr) %></td>
+                  <td><%= link_to attr.name, edit_attribute_path(attr) unless attr.nil? %></td>
                   <td><%= check_box_tag "attributes[]", "#{attr.id}", @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
                   <td><%= attr.description %></td>
                 </tr>

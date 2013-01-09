@@ -11,6 +11,7 @@ module ExternalMasterDatabase
       :encoding => "utf8"
   }
 
+
   class ExternalAcquisitionCategory < ActiveRecord::Base
     establish_connection HOST
     has_one    :child,  :class_name => "ExternalAcquisitionCategory", :inverse_of => :parent, :foreign_key => "parent_id"

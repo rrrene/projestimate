@@ -12,7 +12,7 @@
       <tr>
         <td><%= i.name %></td>
         <td><%= image_tag i.icon.url(:small) %></td>
-        <td><%= i.record_status.name unless i.record_status.nil? %></td>
+        <td><%= i.record_status.name unless i.record_status.nil? %> <%= i.show_custom_value %></td>
         <td><%= link_to '', edit_peicon_path(i), :class => "icn_edit", :title => "Edit" %></td>
         <td><%= link_to '', i, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
         <td>

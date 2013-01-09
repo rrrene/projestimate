@@ -4,6 +4,7 @@ require "uuidtools"
 module MasterDataHelper
 
   def self.included(base)
+
     base.class_eval do
       #UUID generation on create
       #before_validation :set_uuid
@@ -52,7 +53,7 @@ module MasterDataHelper
       # If record status id defined or nil
       define_method(:is_defined_or_nil?) do
         begin
-          ((self.record_status.name == "Defined") || (self.record_status.nil?)) ? true : false
+          ( (self.record_status.name == "Defined") || (self.record_status.nil?) ) ? true : false
         rescue
           false
         end
@@ -68,6 +69,40 @@ module MasterDataHelper
         end
       end
 
+
+      #Allow to show or not the record custom value (only if record_status = Custom) on List
+      def show_custom_value
+        if self.is_custom?
+          "( #{self.custom_value} ) "
+        end
+      end
+
+      #Method to manage select tag in form
+      def disable_select
+
+      end
+
+      #Defining select conditions in form
+      def conditions_for_select
+
+      end
     end
-  end
+
+    #Show record status collection list according to current_user permission
+    def record_status_collection
+      @record_statuses = RecordStatus.all
+      begin
+
+        if self.new_record?
+          @record_statuses = RecordStatus.where("name = ?", "Proposed")
+        else
+          @record_statuses = RecordStatus.where("name <> ?", "Defined")
+        end
+      rescue
+        nil
+      end
+    end
+
+  end #END self.included
+
 end

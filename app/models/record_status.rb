@@ -22,7 +22,7 @@
 class RecordStatus < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  attr_accessible :description, :name, :change_comment, :record_status_id
+  #attr_accessible :description, :name, :change_comment, :record_status_id, :custom_value
 
   has_many :acquisition_categories
   has_many :activity_categories
@@ -47,8 +47,8 @@ class RecordStatus < ActiveRecord::Base
   has_many :permissions
 
   #self relation for status
-  has_many :record_statuses, :class_name => "RecordStatus", :foreign_key => "record_status_id"
-  belongs_to :record_status, :class_name => "RecordStatus", :foreign_key => "record_status_id"
+  has_many :record_statuses#, :class_name => "RecordStatus", :foreign_key => "record_status_id"
+  belongs_to :record_status#, :class_name => "RecordStatus", :foreign_key => "record_status_id"
 
   #self relation on master data : Parent<->Child
   has_one    :child,  :class_name => "RecordStatus", :inverse_of => :parent, :foreign_key => "parent_id"
@@ -56,8 +56,8 @@ class RecordStatus < ActiveRecord::Base
 
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :description, :presence => true
+  validates :description, :record_status, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
-
+  validates :custom_value, :presence => true, :if => :is_custom?
 end

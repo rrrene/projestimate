@@ -1,17 +1,18 @@
 <div class="span4">
   <%= simple_form_for(@component) do |f| %>
+    <%= f.error_notification %>
 
-        <% unless @component.is_root? %>
-          <%= f.input :ancestry, :as => :select, :collection => @folder_components %>
+    <% unless @component.is_root? %>
+      <%= f.input :ancestry, :as => :select, :collection => @folder_components %>
 
-          <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all %>
-        <% end %>
+      <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all %>
+    <% end %>
 
-        <% if @component.link? %>
-          <%= f.input :project_link, :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
-        <% else %>
-          <%= f.input :name %>
-        <% end %>
+    <% if @component.link? %>
+      <%= f.input :project_link, :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
+    <% else %>
+      <%= f.input :name %>
+    <% end %>
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-primary" %>

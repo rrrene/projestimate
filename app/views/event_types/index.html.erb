@@ -5,6 +5,7 @@
     <th>Name</th>
     <th>Description</th>
     <th>Icon url</th>
+    <th>Status</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +16,7 @@
     <td><%= event_type.name %></td>
     <td><%= event_type.description %></td>
     <td><%= event_type.icon_url %></td>
+    <td><%= event_type.record_status.name unless event_type.record_status.nil? %>  <%= event_type.show_custom_value %></td>
     <td><%= link_to 'Show', event_type %></td>
     <td><%= link_to 'Edit', edit_event_type_path(event_type) %></td>
     <td><%= link_to 'Destroy', event_type, confirm: 'Are you sure?', method: :delete %></td>

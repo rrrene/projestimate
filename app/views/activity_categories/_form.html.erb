@@ -1,20 +1,24 @@
 <div class="span12">
 
   <%= simple_form_for(@activity_category) do |f| %>
+    <%= f.error_notification %>
 
-    <div >
+     <div>
       <%= f.input :name %><br />
 
-      <%= f.input :description %><br />
+      <%= f.input :description, :input_html => { :rows => 3 } %><br />
 
       <%= f.input :alias %><br />
 
-      <%= f.input :project_area_id %><br />
-
       <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
 
-      <%= f.association :record_status, :label => "Status", :selected => (@activity_category.is_defined_or_nil? ? @proposed_status.id : @activity_category.record_status_id), :disabled => (true if @activity_category.is_retired?)  %><br />
-    </div>
+      <%= f.association :record_status, :label => "Status",  :collection => @activity_category.record_status_collection,
+                        :input_html => { :class => "record_status"},
+                        :selected => (@activity_category.is_defined_or_nil? ? @proposed_status.id : @activity_category.record_status_id),
+                        :disabled => (true if @activity_category.is_retired?)  %><br />
+
+      <%= f.input :custom_value, :input_html => { :class => "custom_value"}, :disabled => (true unless @activity_category.is_custom?) %>
+   </div>
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

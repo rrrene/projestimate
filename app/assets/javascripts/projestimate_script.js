@@ -123,6 +123,19 @@ $(document).ready(function() {
         }
     );
 
+
+    //Need to disable or enable the custom_value field according to the record_status value
+    $(".record_status").change(function(){
+        var status_text = $('select.record_status :selected').text();
+        if(status_text == "Custom"){
+            $(".custom_value").removeAttr("disabled");
+        }
+        else{
+            $(".custom_value").attr("disabled", true);
+        }
+    });
+
+
 });
 
 function show_popup(elem) {
@@ -138,4 +151,7 @@ function hide_popup(elem) {
 function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
 }
+
+
+
 

@@ -17,7 +17,7 @@
     <td><%= currency.name %></td>
     <td><%= currency.alias %></td>
     <td><%= currency.description %></td>
-    <td><%= currency.record_status.name unless currency.record_status.nil? %></td>
+    <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
     <td><%= link_to 'Show', currency %></td>
     <td><%= link_to '', edit_currency_path(currency), :class => "icn_edit", :title => "Edit" %></td>
     <td><%= link_to '', currency, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>

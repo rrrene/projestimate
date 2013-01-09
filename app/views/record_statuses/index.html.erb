@@ -15,7 +15,7 @@
         <tr>
           <td><%= record_status.name %></td>
           <td><%= record_status.description %></td>
-          <td><%= record_status.record_status.name unless record_status.record_status.nil? %></td>
+          <td><%= record_status.record_status.name unless record_status.record_status.nil? %><%= record_status.show_custom_value %></td>
           <td><%= link_to '', edit_record_status_path(record_status), :class => "icn_edit", :title => "Edit" %></td>
           <td><%= link_to '', record_status, method: :delete, data: { confirm: 'Are you sure?' }, :class => "icn_trash", :title => "Delete" %></td>
           <td>

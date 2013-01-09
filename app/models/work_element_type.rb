@@ -37,6 +37,7 @@ class WorkElementType < ActiveRecord::Base
 
   validates :record_status, :presence => true
   validates :name, :alias, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
+  validates :custom_value, :presence => true, :if => :is_custom?
 
   #Sunspot needs
   searchable do

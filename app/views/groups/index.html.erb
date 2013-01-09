@@ -15,7 +15,7 @@
     <tr class="">
       <td><%= group.name %></td>
       <td><%= group.description %></td>
-      <td><%= group.record_status.name unless group.record_status.nil? %></td>
+      <td><%= group.record_status.name unless group.record_status.nil? %> <%= group.show_custom_value %></td>
       <td><%= link_to '', edit_group_path(group), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', group, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>

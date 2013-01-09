@@ -27,6 +27,7 @@ class PemodulesController < ApplicationController
     authorize! :manage_modules, Pemodule
     set_page_title "Modules"
     @pemodules = Pemodule.all
+    @attributes = Attribute.all
   end
 
   def new
@@ -50,6 +51,9 @@ class PemodulesController < ApplicationController
   def update
     unless params[:id].blank?
       @pemodule = nil
+      @wets = WorkElementType.all.reject{|i| i.alias == "link"}
+      @attributes = Attribute.all
+
       current_pemodule = Pemodule.find(params[:id])
       if current_pemodule.is_defined?
         @pemodule = current_pemodule.dup
@@ -76,6 +80,8 @@ class PemodulesController < ApplicationController
     @pemodule.description = params[:pemodule][:description]
     @pemodule.alias = params[:pemodule][:alias]
     @pemodule.compliant_component_type = params[:compliant_wet]
+    @wets = WorkElementType.all.reject{|i| i.alias == "link"}
+    @attributes = Attribute.all
 
     if @pemodule.save
       redirect_to redirect(pemodules_url)

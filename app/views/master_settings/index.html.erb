@@ -15,7 +15,7 @@
     <tr >
       <td><%= master_setting.key %></td>
       <td><%= master_setting.value %></td>
-      <td><%= master_setting.record_status.name unless master_setting.record_status.nil? %></td>
+      <td><%= master_setting.record_status.name unless master_setting.record_status.nil? %> <%= master_setting.show_custom_value %></td>
       <td><%= link_to '', edit_master_setting_path(master_setting), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', master_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>

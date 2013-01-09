@@ -8,15 +8,12 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :peicons
   match 'peicons/:id/choose_icon' => 'peicons#choose_icon', :as => "choose_icon"
-  match 'peicons/:id/validate_change' => 'peicons#validate_change', :as => 'validate_change'
 
   resources :auth_methods
 
   resources :admin_settings
-  match "admin_settings/:id/validate_change" => "admin_settings#validate_change", :as => "validate_change"
 
   resources :master_settings
-  match 'master_settings/:id/validate_change' => 'master_settings#validate_change', :as => 'validate_change'
 
   resources :searches
   post "searches/results"
@@ -34,7 +31,6 @@ ProjestimateMaquette::Application.routes.draw do
   resources :module_projects
 
   resources :languages
-  match 'languages/:id/validate_change' => 'languages#validate_change', :as => 'validate_change'
 
   resources :project_securities
   get "select_users" => "project_securities#select_users", :as => "select_users"
@@ -42,10 +38,8 @@ ProjestimateMaquette::Application.routes.draw do
   resources :attributes
 
   resources :project_categories
-  match 'project_categories/:id/validate_change' => 'project_categories#validate_change', :as => 'validate_change'
 
   resources :platform_categories
-  match 'platform_categories/:id/validate_change' => 'platform_categories#validate_change', :as => 'validate_change'
 
   resources :work_element_types
 
@@ -59,16 +53,12 @@ ProjestimateMaquette::Application.routes.draw do
   get "organizationals_params" => "organizations#organizationals_params", :as => "organizationals_params"
 
   resources :labor_categories
-  match 'labor_categories/:id/validate_change' => 'labor_categories#validate_change', :as => 'validate_change'
 
   resources :acquisition_categories
-  match 'acquisition_categories/:id/validate_change' => 'acquisition_categories#validate_change', :as => 'validate_change'
 
   resources :project_areas
-  match 'project_areas/:id/validate_change' => 'project_areas#validate_change', :as => 'validate_change'
 
   resources :event_types
-  match 'event_types/:id/validate_change' => 'event_types#validate_change', :as => 'validate_change'
 
   resources :events
 
@@ -76,7 +66,6 @@ ProjestimateMaquette::Application.routes.draw do
   post "set_rights" => "permissions#set_rights", :as => "set_rights"
   post "set_rights_project_security" => "permissions#set_rights_project_security", :as => "set_rights_project_security"
   get "globals_permissions" => "permissions#globals_permissions", :as => "globals_permissions"
-  match 'permissions/:id/validate_change' => 'permissions#validate_change', :as => 'validate_change'
 
   resources :groups
 

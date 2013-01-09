@@ -27,7 +27,7 @@
           <td><%= attribute.alias %></td>
           <td><%= attribute.description %></td>
           <td><%= attribute.attr_type.humanize %></td>
-          <td><%= attribute.record_status.name unless attribute.record_status.nil? %></td>
+          <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
           <td><%= link_to '', edit_attribute_path(attribute), :class => "icn_edit", :title => "Edit" %></td>
           <td><%= link_to '', attribute, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
           <td>

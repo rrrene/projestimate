@@ -1,4 +1,5 @@
 <%= simple_form_for(@work_element_type) do |f| %>
+  <%= f.error_notification %>
 
   <div >
     <%= f.input :name %>
@@ -7,7 +8,15 @@
 
     <%= f.input :description, :input_html => { :rows => 3 } %>
     <%= f.input :change_comment, :input_html => { :rows => 3 } %>
-    <%= f.association :record_status, :label => "Status", :selected => (@work_element_type.is_defined_or_nil? ? @proposed_status.id : @work_element_type.record_status_id), :disabled => (true if @work_element_type.is_retired?) %><br />
+
+    <%= f.association :record_status, :label => "Status",
+                      :collection => @work_element_type.record_status_collection,
+                      :input_html => {:class => "record_status"},
+                      :selected => (@work_element_type.is_defined_or_nil? ? @proposed_status.id : @work_element_type.record_status_id),
+                      :disabled => (true if @work_element_type.is_retired?) %><br />
+
+    <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @work_element_type.is_custom?) %><br />
+
     <p>
       <div class="my_peicon">
         <% if @work_element_type.peicon%>

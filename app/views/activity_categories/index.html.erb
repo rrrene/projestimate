@@ -17,7 +17,7 @@
     <td><%= activity_category.description %></td>
     <td><%= activity_category.alias %></td>
     <td><%= activity_category.project_area_ids %></td>
-    <td><%= activity_category.record_status.name unless activity_category.record_status.nil? %></td>
+    <td><%= activity_category.record_status.name unless activity_category.record_status.nil? %> <%= activity_category.show_custom_value %></td>
     <td><%= link_to 'Show', activity_category %></td>
     <td><%= link_to '', edit_activity_category_path(activity_category), :class => "icn_edit", :title => "Edit" %></td>
     <td><%= link_to '', activity_category, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
