@@ -1,6 +1,6 @@
 <h2><%= link_to "ProjEstimate", "http://projestimate.org/" %></h2>
 <p>
-  Version : 0.3.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to "checking for new release", "http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog" %>)
+  Version : 0.4.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to "checking for new release", "http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog" %>)
 </p>
 
 <p>
@@ -13,3 +13,17 @@
   Some external component or contributions bundled with ProjEstimate may be published under other AGPLv3-compatible licenses.
   For these, please refer to the relevant source files and/or license files, in the source code tree.
 </p>
+
+<p>
+</p>
+
+<span>
+  <p>
+    Latest update : <%= Home::latest_update.in_time_zone(current_user.time_zone) %>
+  </p>
+  <p>
+    Latest MasterData Repository update : <%= Home::latest_repo_update.in_time_zone(current_user.time_zone) %>
+  </p>
+  <%= link_to "Download and apply MasterData update", update_install_path, :class => "btn", :disable_with => "Please wait. It could take a while", :onclick => "$('#spiner').toggle();" %>
+  <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
+</span>

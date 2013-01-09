@@ -1,5 +1,7 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
+
   #GUIs controller
   #resources :gui
   #get "gui" => "gui#index", :as => "gui"

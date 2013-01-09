@@ -49,6 +49,10 @@ class Attribute < ActiveRecord::Base
     Object::Attribute.all.map(&:alias)
   end
 
+  def self.attribute_updated_at
+    Object::Attribute.all.map(&:updated_at)
+  end
+
   #Override
   def to_s
     self.name + ' - ' + self.description.truncate(20)
