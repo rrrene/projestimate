@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source 'http://gems.rubyforge.org'
 source 'http://gemcutter.org'
 
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.11'
 
 # Gems used only for assets and not required
 # in production environments by default.

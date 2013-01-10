@@ -19,10 +19,10 @@
 
 <span>
   <p>
-    Latest update : <%= Home::latest_update.in_time_zone(current_user.time_zone) %>
+    Latest update : <%= $latest_update || "None" %>
   </p>
   <p>
-    Latest MasterData Repository update : <%= Home::latest_repo_update.in_time_zone(current_user.time_zone) %>
+    Latest MasterData Repository update : <%= Home::latest_repo_update || "None" %>
   </p>
   <%= link_to "Download and apply MasterData update", update_install_path, :class => "btn", :disable_with => "Please wait. It could take a while", :onclick => "$('#spiner').toggle();" %>
   <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
