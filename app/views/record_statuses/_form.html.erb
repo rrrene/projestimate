@@ -6,7 +6,14 @@
     <%= f.input :name %>
     <%= f.input :description %>
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :record_status, :label => "Status", :selected => (@record_status.is_defined_or_nil? ? @proposed_status.id : @record_status.record_status_id), :disabled => (true if @record_status.is_retired?) %><br />
+
+    <%= f.association :record_status, :label => "Status",
+                      :collection => @record_status.record_status_collection,
+                      :input_html => {:class => "record_status"},
+                      :selected => (@record_status.is_defined_or_nil? ? @proposed_status.id : @record_status.record_status_id),
+                      :disabled => (true if @record_status.is_retired?) %><br />
+
+    <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @record_status.is_custom?) %><br />
   </div>
 
   <div class="form-actions">

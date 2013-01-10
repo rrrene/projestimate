@@ -46,10 +46,11 @@ class WorkElementTypesController < ApplicationController
 
   def create
     authorize! :manage_wet, WorkElementType
-    current_work_element_type = WorkElementType.new(params[:work_element_type])
-    @work_element_type = current_work_element_type.dup
+    @work_element_type = WorkElementType.new(params[:work_element_type])
 
-    @work_element_type.peicon_id = Peicon.find_by_name("Default").id
+    @peicons = Peicon.all
+    peicon = Peicon.find_by_name("Default")
+    @work_element_type.peicon_id = peicon.nil? ? nil : peicon.id
 
     if @work_element_type.save
       redirect_to redirect(work_element_types_path)
@@ -60,7 +61,15 @@ class WorkElementTypesController < ApplicationController
 
   def update
     authorize! :manage_wet, WorkElementType
-    @work_element_type = WorkElementType.find(params[:id])
+    @work_element_type = nil
+    current_work_element_type = WorkElementType.find(params[:id])
+    if current_work_element_type.is_defined?
+      @work_element_type = current_work_element_type.dup
+    else
+      @work_element_type = current_work_element_type
+    end
+
+    @peicons = Peicon.all
 
     if @work_element_type.update_attributes(params[:work_element_type])
       flash[:notice] =  'Work element type was successfully updated.'

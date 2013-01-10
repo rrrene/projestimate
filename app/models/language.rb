@@ -35,6 +35,7 @@ class Language < ActiveRecord::Base
   validates :record_status, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :locale, :presence => true, :uniqueness => { :case_sensitive => false, :scope => :record_status_id }
+  validates :custom_value, :presence => true, :if => :is_custom?
 
   #Override
   def to_s

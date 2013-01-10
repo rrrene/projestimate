@@ -22,26 +22,25 @@ class ProjectAreasController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
+  before_filter :get_associations_records, :only => [:new, :edit, :create, :update]
+
+  def get_associations_records
+    @activity_categories = ActivityCategory.all
+    @acquisition_categories = AcquisitionCategory.all
+    @labor_categories = LaborCategory.all
+    @platform_categories = PlatformCategory.all
+    @project_categories = ProjectCategory.all
+  end
 
   def new
     set_page_title "Project Area"
     @project_area = ProjectArea.new
-    @activity_categories = ActivityCategory.all
-    @acquisition_catageories = AcquisitionCategory.all
-    @labor_catageories = LaborCategory.all
-    @platform_categories = PlatformCategory.all
-    @project_categories = ProjectCategory.all
   end
 
   # GET /project_areas/1/edit
   def edit
     set_page_title "Project Area"
     @project_area = ProjectArea.find(params[:id])
-    @activity_categories = ActivityCategory.all
-    @acquisition_catageories = AcquisitionCategory.all
-    @labor_catageories = LaborCategory.all
-    @platform_categories = PlatformCategory.all
-    @project_categories = ProjectCategory.all
   end
 
 

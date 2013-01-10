@@ -36,6 +36,7 @@ class PlatformCategory < ActiveRecord::Base
   validates_presence_of :description, :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
+  validates :custom_value, :presence => true, :if => :is_custom?
 
   #Sunspot needs
   searchable do

@@ -1,5 +1,6 @@
 <div class="span12">
   <%= simple_form_for(@attribute) do |f| %>
+    <%= f.error_notification %>
 
     <div >
       <%= f.input :name %>
@@ -24,7 +25,13 @@
 
       <%= f.input :change_comment, :input_html => { :rows => 3 } %>
 
-      <%= f.association :record_status, :label => "Status", :selected => (@attribute.is_defined_or_nil? ? @proposed_status.id : @attribute.record_status_id), :disabled => (true if @attribute.is_retired?) %><br />
+      <%= f.association :record_status, :label => "Status",
+                        :collection => @attribute.record_status_collection,
+                        :input_html => {:class => "record_status"},
+                        :selected => (@attribute.is_defined_or_nil? ? @proposed_status.id : @attribute.record_status_id),
+                        :disabled => (true if @attribute.is_retired?) %><br />
+
+      <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @attribute.is_custom?) %>
     </div>
 
     <div class="actions">

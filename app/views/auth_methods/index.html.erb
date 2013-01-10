@@ -13,14 +13,9 @@
   <% @auth_methods.each do |auth_method| %>
     <tr >
       <td><%= auth_method.name %></td>
-      <td><%= auth_method.record_status.name unless auth_method.record_status.nil? %></td>
+      <td><%= auth_method.record_status.name unless auth_method.record_status.nil? %> <%= auth_method.show_custom_value %></td>
       <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', auth_method, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
-      <td>
-        <% unless auth_method.is_defined? %>
-            <%= link_to('Validate', "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-        <% end %>
-      </td>
       <td>
         <% if auth_method.is_retired? %>
             <%= link_to('Restore', "auth_methods/#{auth_method.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
@@ -36,6 +31,6 @@
 
   <br />
 
-  <%= link_to 'New Auth method', new_auth_method_path %>
+  <%= link_to 'New Authentication method', new_auth_method_path, :class => "btn" %>
 </div>
 

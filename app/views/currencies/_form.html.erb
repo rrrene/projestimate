@@ -1,12 +1,19 @@
 <div class="span12">
   <%= simple_form_for(@currency) do |f| %>
+      <%= f.error_notification %>
 
       <%= f.input :name %>
       <%= f.input :alias %>
       <%= f.input :description, :input_html => {:rows => 4} %> <br />
 
       <%= f.input :change_comment, :input_html => { :rows => 4 } %><br />
-      <%= f.association :record_status, :label => "Status", :selected => (@currency.is_defined_or_nil? ? @proposed_status.id : @currency.record_status_id), :disabled => (true if @currency.is_retired?) %><br />
+      <%= f.association :record_status, :label => "Status",
+                        :collection => @currency.record_status_collection,
+                        :input_html => {:class => "record_status"},
+                        :selected => (@currency.is_defined_or_nil? ? @proposed_status.id : @currency.record_status_id),
+                        :disabled => (true if @currency.is_retired?) %><br />
+
+      <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @currency.is_custom?)  %><br />
 
       <div class="actions">
         <%= f.submit "Save", :class => "btn btn-success" %>

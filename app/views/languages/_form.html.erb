@@ -1,11 +1,19 @@
 <div class="span12">
   <%= simple_form_for(@language) do |f| %>
+    <%= f.error_notification %>
 
     <div >
       <%= f.input :name %>
       <%= f.input :locale %>
       <%= f.input :change_comment, :input_html => { :rows => 3 } %>
-      <%= f.association :record_status, :label => "Status", :selected => (@language.is_defined_or_nil? ? @proposed_status.id : @language.record_status_id), :disabled => (true if @language.is_retired?) %><br />
+      <%= f.association :record_status, :label => "Status",
+                        :collection => @language.record_status_collection,
+                        :input_html => { :class => "record_status"},
+                        :selected => (@language.is_defined_or_nil? ? @proposed_status.id : @language.record_status_id),
+                        :disabled => (true if @language.is_retired?) %><br />
+
+      <%= f.input :custom_value, :input_html => { :class => "custom_value" }, :disabled => (true unless @language.is_custom?) %><br />
+
     </div>
 
     <div class="actions">

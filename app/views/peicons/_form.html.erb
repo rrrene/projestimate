@@ -1,11 +1,20 @@
 <%= simple_form_for(@icon, :multipart => true) do |f| %>
+  <%= f.error_notification %>
+
   <%= f.input :name %>
   <%= f.input :icon, :as => :file,
               :hint => 'You can upload any PNG image file smaller than 10 kilobytes from your hard drive.
                         We will automatically resize large images to 16x16 pixels.' %><br />
 
   <%= f.input :change_comment, :input_html => { :rows => 3 } %>
-  <%= f.association :record_status, :label => "Status", :selected => (@icon.is_defined_or_nil? ? @proposed_status.id : @icon.record_status_id), :disabled => (true if @icon.is_retired?) %><br />
+
+  <%= f.association :record_status, :label => "Status",
+                    :collection => @icon.record_status_collection,
+                    :input_html => {:class => "record_status"},
+                    :selected => (@icon.is_defined_or_nil? ? @proposed_status.id : @icon.record_status_id),
+                    :disabled => (true if @icon.is_retired?) %><br />
+
+  <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @icon.is_custom?) %><br />
 
   <div class="actions">
     <%= f.submit "Save", :class => "btn btn-success" %>

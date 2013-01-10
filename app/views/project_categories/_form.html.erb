@@ -1,11 +1,18 @@
 <div class="span12">
   <%= simple_form_for(@project_category) do |f| %>
-
+    <%= f.error_notification %>
 
     <%= f.input :name %><br />
     <%= f.input :description, :input_html => { :rows => 3 } %><br />
     <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
-    <%= f.association :record_status, :label => "Status", :selected => (@project_category.record_status_id.nil? ? @project_category.id : @project_category.record_status.id), :disabled => (true if @project_category.is_retired?) %><br />
+
+    <%= f.association :record_status, :label => "Status",
+                      :collection => @project_category.record_status_collection,
+                      :input_html => {:class => "record_status"},
+                      :selected => (@project_category.is_defined_or_nil? ? @proposed_status.id : @project_category.record_status_id),
+                      :disabled => (true if @project_category.is_retired?) %><br />
+
+    <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @project_category.is_custom?) %><br />
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>

@@ -15,7 +15,7 @@
       <tr >
         <td><%= labor_category.name %></td>
         <td><%= labor_category.description %></td>
-        <td><%= labor_category.record_status.name unless labor_category.record_status.nil? %></td>
+        <td><%= labor_category.record_status.name unless labor_category.record_status.nil? %> <%= labor_category.show_custom_value %></td>
         <td><%= link_to '', edit_labor_category_path(labor_category), :class => "icn_edit", :title => "Edit" %></td>
         <td><%= link_to '', labor_category, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
         <td>

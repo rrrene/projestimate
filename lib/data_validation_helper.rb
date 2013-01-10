@@ -129,5 +129,4 @@ module DataValidationHelper
     end
   end
 
-
 end

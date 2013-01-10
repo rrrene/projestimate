@@ -1,14 +1,20 @@
 <div class="span12">
   <%= simple_form_for(@acquisition_category) do |f| %>
+    <%= f.error_notification %>
 
-    <div >
+    <div>
       <%= f.input :name %>
 
       <%= f.input :description, :input_html => { :rows => 3 } %>
 
       <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
 
-      <%= f.association :record_status, :label => "Status", :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id), :disabled => (true if @acquisition_category.is_retired?) %><br />
+      <%= f.association :record_status, :label => "Status", :collection => @acquisition_category.record_status_collection,
+                        :input_html => { :class => "record_status"},
+                        :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
+                        :disabled => (true if @acquisition_category.is_retired?) %><br />
+
+      <%= f.input :custom_value, :input_html => { :class => "custom_value"}, :disabled => (true unless @acquisition_category.is_custom?) %>
     </div>
 
     <div class="actions">

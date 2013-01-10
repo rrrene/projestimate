@@ -12,7 +12,7 @@
   <% @project_security_levels.each do |project_security_level| %>
     <tr>
       <td><%= project_security_level.name %></td>
-      <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %></td>
+      <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
       <td><%= link_to '', edit_project_security_level_path(project_security_level), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', project_security_level, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <td>
