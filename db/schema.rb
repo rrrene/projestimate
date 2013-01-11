@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121210092342) do
+ActiveRecord::Schema.define(:version => 20130111111627) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.string   "name"
     t.integer  "project_link"
     t.integer  "position"
+    t.integer  "copy_id"
   end
 
   add_index "components", ["ancestry"], :name => "index_components_on_ancestry"
@@ -283,6 +284,11 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "help_code"
+  end
+
+  create_table "homes", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "labor_categories", :force => true do |t|
@@ -636,6 +642,7 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.text     "purpose"
     t.text     "level_of_detail"
     t.text     "scope"
+    t.integer  "copy_number"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
@@ -651,6 +658,7 @@ ActiveRecord::Schema.define(:version => 20121210092342) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"

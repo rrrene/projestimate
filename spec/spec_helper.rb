@@ -1,3 +1,5 @@
+require 'uuidtools'
+
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_group 'Tasks', 'lib/tasks'

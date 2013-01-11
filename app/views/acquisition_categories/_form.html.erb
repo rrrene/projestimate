@@ -14,7 +14,9 @@
                         :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
                         :disabled => (true if @acquisition_category.is_retired?) %><br />
 
-      <%= f.input :custom_value, :input_html => { :class => "custom_value"}, :disabled => (true unless @acquisition_category.is_custom?) %>
+      <%= f.input :custom_value, :input_html => { :class => "custom_value"},
+                  :disabled => (true unless @acquisition_category.is_custom?),
+                  :hint => "Is needed only when Status = Custom" %>
     </div>
 
     <div class="actions">

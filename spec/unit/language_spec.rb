@@ -7,6 +7,7 @@ describe Language do
     #@language = FactoryGirl.create(:language, record_status: proposed_status)
     @language = FactoryGirl.create(:language)
     @language2 = FactoryGirl.create(:language)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -27,6 +28,17 @@ describe Language do
     @language.uuid = ""
     @language.should_not be_valid
   end
+
+  it "should not be valid without record_status" do
+    @language.record_status = nil
+    @language.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @language.record_status = @custom_status
+    @language.should_not be_valid
+  end
+
 
   it "should return :language name" do
     @language.to_s.should eql(@language.name)

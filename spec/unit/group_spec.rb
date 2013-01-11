@@ -5,6 +5,7 @@ describe Group do
     @group = FactoryGirl.create(:group)
     @project = FactoryGirl.create(:project)
     @proposed_status = FactoryGirl.build(:proposed_status)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -30,6 +31,11 @@ describe Group do
     group2.record_status = @proposed_status
     group2.save
     group2.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @group.record_status = @custom_status
+    @group.should_not be_valid
   end
 
   it "should be not valid" do

@@ -5,6 +5,7 @@ describe Permission do
   before :each do
     #@permission = Permission.first
     @permission = FactoryGirl.create(:permission)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it "should be valid" do
@@ -13,6 +14,11 @@ describe Permission do
 
   it "should be not valid without :name" do
     @permission.name = ""
+    @permission.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @permission.record_status = @custom_status
     @permission.should_not be_valid
   end
 

@@ -3,6 +3,7 @@ require "spec_helper"
 describe ActivityCategory do
   before :each do
     @activity_category = FactoryGirl.create(:activity_category)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -31,6 +32,11 @@ describe ActivityCategory do
 
   it "should not be valid without record status" do
     @activity_category.record_status = nil
+    @activity_category.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @activity_category.record_status = @custom_status
     @activity_category.should_not be_valid
   end
 

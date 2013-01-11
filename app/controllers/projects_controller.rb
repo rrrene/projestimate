@@ -321,35 +321,81 @@ class ProjectsController < ApplicationController
     end
   end
 
+  #def duplicate_save
+  #  old_prj = Project.find(params[:project_id])
+  #  new_prj = old_prj.dup
+  #
+  #  new_prj.group_ids = old_prj.groups.map(&:id)
+  #  new_prj.user_ids = old_prj.users.map(&:id)
+  #  new_prj.title = "Copy of #{ old_prj.title }"
+  #  new_prj.save
+  #
+  #  old_prj.module_projects.each do |mp|
+  #    new_mp = mp.dup
+  #    new_mp.project_id = new_prj.id
+  #    new_mp.save
+  #  end
+  #
+  #  new_wbs = old_prj.wbs.dup
+  #  new_wbs.project_id = new_prj.id
+  #  new_wbs.save
+  #
+  #  old_prj.wbs.components.each do |c|
+  #    if c.is_root?
+  #      new_c = c.dup
+  #      new_c.wbs_id = new_prj.wbs.id
+  #      new_c.save
+  #    end
+  #  end
+  #
+  #  redirect_to "/projects"
+  #end
+
+
+  #Method to duplicate project and associated WBS
   def duplicate
-    old_prj = Project.find(params[:project_id])
-    new_prj = old_prj.dup
+    begin
+      old_prj = Project.find(params[:project_id])
+      old_prj.copy_number = old_prj.copy_number.to_i + 1
+      old_prj.save
 
-    new_prj.group_ids = old_prj.groups.map(&:id)
-    new_prj.user_ids = old_prj.users.map(&:id)
-    new_prj.title = "Copy of #{ old_prj.title }"
-    new_prj.save
+      new_prj = old_prj.amoeba_dup
 
-    old_prj.module_projects.each do |mp|
-      new_mp = mp.dup
-      new_mp.project_id = new_prj.id
-      new_mp.save
-    end
+      if new_prj.save
+        #Managing the compoment tree
+        old_prj_components = old_prj.wbs.components
+        new_prj_components = new_prj.wbs.components
 
-    new_wbs = old_prj.wbs.dup
-    new_wbs.project_id = new_prj.id
-    new_wbs.save
-
-    old_prj.wbs.components.each do |c|
-      if c.is_root?
-        new_c = c.dup
-        new_c.wbs_id = new_prj.wbs.id
-        new_c.save
+        new_prj_components.each do |new_c|
+          unless new_c.is_root?
+            new_ancestor_ids_list = []
+            new_c.ancestor_ids.each do |ancestor_id|
+               ancestor_id = Component.find_by_wbs_id_and_copy_id(new_c.wbs_id, ancestor_id).id
+               new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_c.ancestry = new_ancestor_ids_list.join('/')
+            new_c.save
+          end
+        end
+        #raise "#{RuntimeError}"
       end
+
+      #old_prj.module_projects.each do |mp|
+      #  new_mp = mp.dup
+      #  new_mp.project_id = new_prj.id
+      #  new_mp.save
+      #end
+
+      flash[:success] = "Project was successfully duplicated"
+      redirect_to "/projects" and return
+    rescue
+      old_prj.number_of_copy = old_prj.copy_number.to_i + 1
+      flash["Error"] = "Error happen on Project duplication"
+      redirect_to "/projects"
     end
 
-    redirect_to "/projects"
   end
+
 
   def commit
     project = Project.find(params[:project_id])

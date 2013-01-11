@@ -4,6 +4,7 @@ require "spec_helper"
 
     before :each do
       @peicon = FactoryGirl.create(:peicon_folder)
+      @custom_status = FactoryGirl.build(:custom_status)
     end
 
     it "should be valid" do
@@ -12,6 +13,11 @@ require "spec_helper"
 
     it "should not be valid without :icon_file_name" do
       @peicon.icon_file_name = ""
+      @peicon.should_not be_valid
+    end
+
+    it "should not be valid without custom_value when record_status='Custom'" do
+      @peicon.record_status = @custom_status
       @peicon.should_not be_valid
     end
 

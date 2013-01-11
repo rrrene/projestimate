@@ -12,7 +12,9 @@
                         :selected => (@language.is_defined_or_nil? ? @proposed_status.id : @language.record_status_id),
                         :disabled => (true if @language.is_retired?) %><br />
 
-      <%= f.input :custom_value, :input_html => { :class => "custom_value" }, :disabled => (true unless @language.is_custom?) %><br />
+      <%= f.input :custom_value, :input_html => { :class => "custom_value" },
+                  :disabled => (true unless @language.is_custom?),
+                  :hint => "Is needed when status = Custom" %><br />
 
     </div>
 
