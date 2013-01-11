@@ -5,6 +5,7 @@ describe AuthMethod do
     @default_auth_method = FactoryGirl.create(:auth_method)
     proposed_status = FactoryGirl.build(:proposed_status)
     @another_auth_method = AuthMethod.new(:name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :certificate => "simple_tls", :uuid => "124563", :record_status => proposed_status)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -24,6 +25,11 @@ describe AuthMethod do
 
   it 'should not be valid without record status' do
     @default_auth_method.record_status = nil
+    @default_auth_method.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @default_auth_method.record_status = @custom_status
     @default_auth_method.should_not be_valid
   end
 

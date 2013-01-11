@@ -50,6 +50,7 @@ class Pemodule < ActiveRecord::Base
     text :title, :description, :alias
   end
 
+
   #Override
   def to_s
     self.title

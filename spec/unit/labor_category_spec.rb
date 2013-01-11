@@ -6,6 +6,7 @@ describe LaborCategory do
     #@labor = LaborCategory.first
     @labor = FactoryGirl.create(:labor_category)
     @proposed_status = FactoryGirl.build(:proposed_status)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -18,6 +19,11 @@ describe LaborCategory do
 
   it "should not be valid without name" do
     @labor.name = ""
+    @labor.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @labor.record_status = @custom_status
     @labor.should_not be_valid
   end
 

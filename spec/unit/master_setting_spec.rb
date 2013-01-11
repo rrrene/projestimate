@@ -5,6 +5,7 @@ describe MasterSetting do
   before :each do
     @ms = FactoryGirl.create(:master_setting_wiki_url)
     @proposed_status = FactoryGirl.build(:proposed_status)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -18,6 +19,11 @@ describe MasterSetting do
 
   it "should not be valid without :value" do
     @ms.value = ""
+    @ms.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @ms.record_status = @custom_status
     @ms.should_not be_valid
   end
 

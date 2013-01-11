@@ -4,6 +4,7 @@ describe Pemodule do
   before :each do
     proposed_status = FactoryGirl.build(:proposed_status)
     @pemodule = Pemodule.new(:title => "CocomoBasic", :alias => "cocomo_basic", :description => "CocomoBasic vraiment basic", :uuid => "121212", :record_status => proposed_status)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it "should be valid" do
@@ -26,6 +27,11 @@ describe Pemodule do
 
   it "should not be valid without description" do
     @pemodule.description = ""
+    @pemodule.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @pemodule.record_status = @custom_status
     @pemodule.should_not be_valid
   end
 

@@ -2,6 +2,7 @@ require "spec_helper"
 describe AcquisitionCategory do
   before :each do
     @acquisition_category = FactoryGirl.create(:acquisition_category, :unknown)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should be valid' do
@@ -25,6 +26,11 @@ describe AcquisitionCategory do
 
   it "should be not valid without record status" do
     @acquisition_category.record_status = nil
+    @acquisition_category.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @acquisition_category.record_status = @custom_status
     @acquisition_category.should_not be_valid
   end
 

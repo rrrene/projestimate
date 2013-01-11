@@ -69,22 +69,30 @@ module MasterDataHelper
         end
       end
 
+      #Draft record status
+      define_method(:is_draft?) do
+        begin
+          (self.record_status.name == "Draft") ? true : false
+        rescue
+          false
+        end
+      end
+
+      #InReview record status
+      define_method(:is_inReview?) do
+        begin
+          (self.record_status.name == "InReview") ? true : false
+        rescue
+          false
+        end
+      end
+
 
       #Allow to show or not the record custom value (only if record_status = Custom) on List
       def show_custom_value
         if self.is_custom?
           "( #{self.custom_value} ) "
         end
-      end
-
-      #Method to manage select tag in form
-      def disable_select
-
-      end
-
-      #Defining select conditions in form
-      def conditions_for_select
-
       end
     end
 

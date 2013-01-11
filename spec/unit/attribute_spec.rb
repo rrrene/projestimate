@@ -4,6 +4,7 @@ describe Attribute do
 
   before :each do
     @attribute = FactoryGirl.create(:ksloc_attribute)
+    @custom_status = FactoryGirl.build(:custom_status)
   end
 
   it 'should validate 15 because 15 is greather than 10' do
@@ -47,6 +48,11 @@ describe Attribute do
 
   it "should be not valid without alias" do
     @attribute.alias = ""
+    @attribute.should_not be_valid
+  end
+
+  it "should not be valid without custom_value when record_status='Custom'" do
+    @attribute.record_status = @custom_status
     @attribute.should_not be_valid
   end
 

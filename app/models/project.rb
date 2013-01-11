@@ -39,6 +39,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
 
+  #serialize :ten_latest_projects
   validates_presence_of :state
   validates  :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
 
@@ -61,7 +62,21 @@ class Project < ActiveRecord::Base
       transitions :to => :in_review, :from => :in_progress
       transitions :to => :baseline, :from => [:private, :in_review]
     end
+  end
 
+
+  amoeba do
+    enable
+    #include_field [:wbs]  #working very well
+    include_field [:wbs, :pemodules, :groups, :users]
+
+    customize(lambda { |original_project, new_project|
+      new_project.title = "Copy_#{ original_project.copy_number} of #{original_project.title}"
+      new_project.alias = "Copy_#{ original_project.copy_number} of #{original_project.alias}"
+    })
+
+    #prepend :title => "Copy of "
+    propagate
   end
 
   #Return possible states of project

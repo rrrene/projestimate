@@ -35,6 +35,27 @@ class Component < ActiveRecord::Base
     text :name
   end
 
+  #Enable the amoeba gem for deep copy/clone (dup with associations)
+  amoeba do
+    enable
+
+    customize(lambda { |original_component, new_component|
+      new_component.copy_id = original_component.id
+
+    })
+
+    #customize(lambda { |original_component, new_component|
+    #  ancestry_list = original_component.ancestry
+    #  unless ancestry_list.nil?
+    #    ancestry_list = ancestry_list.split('/')
+    #    ancestry_list.each do |ancestry|
+    #      regex original_component.ancestry => {:replace => /#{ancestry}/, :with => new_component.id}
+    #    end
+    #  end
+    #})
+
+  end
+
   #Metaprogrammation
   #Generate an method folder?, link?, etc...
   #Usage: component1.folder?
