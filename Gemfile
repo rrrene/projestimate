@@ -112,7 +112,7 @@ gem 'amoeba'
 gem 'rb-readline'
 
 # FxRuby GUI tool: instead of using the gemfile, install FxRuby from here: https://github.com/lylejohnson/fxruby/wiki/Setting-Up-a-Linux-Build-Environment
-gem 'fxruby'
+#gem 'fxruby'
 
 
 
