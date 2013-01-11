@@ -20,8 +20,10 @@
     <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @auth_method.is_custom?) %><br />
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% if can? :update, @auth_method %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% end %>
     </div>
   <% end %>
 </div>

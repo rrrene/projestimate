@@ -27,6 +27,8 @@ class Ability
 #    Uncomment in order to authorize everybody to manage all the app
     can :manage, :all
 
+    cannot :update, :all, :record_status => {:name => "Retired"}
+
     #Load user groups permissions
     #if user && !user.groups.empty?
     #  permissions_array = []

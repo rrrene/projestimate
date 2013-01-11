@@ -16,8 +16,10 @@
       <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @currency.is_custom?)  %><br />
 
       <div class="actions">
-        <%= f.submit "Save", :class => "btn btn-success" %>
-        <%= f.submit "Apply", :class => "btn btn-success" %>
+        <% if can? :update, @currency %>
+            <%= f.submit "Save", :class => "btn btn-success" %>
+            <%= f.submit "Apply", :class => "btn btn-success" %>
+        <% end %>
       </div>
   <% end %>
 </div>

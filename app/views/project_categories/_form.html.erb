@@ -15,8 +15,10 @@
     <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @project_category.is_custom?) %><br />
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% if can? :update, @project_category %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% end %>
     </div>
   <% end %>
 </div>

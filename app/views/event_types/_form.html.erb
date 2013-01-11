@@ -30,6 +30,8 @@
 
   </div>
   <div class="actions">
-    <%= f.submit "Save" %>
+    <% if can? :update, @event_type %>
+        <%= f.submit "Save" %>
+    <% end %>
   </div>
 <% end %>

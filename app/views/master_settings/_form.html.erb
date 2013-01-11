@@ -16,8 +16,10 @@
       <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @master_setting.is_custom?) %><br />
     </div>
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% if can? :update, @master_setting %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% end %>
     </div>
   <% end %>
 </div>

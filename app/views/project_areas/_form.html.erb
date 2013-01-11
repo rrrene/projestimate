@@ -59,8 +59,10 @@
     </div> <br />
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% if can? :update, @project_area %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% end %>
     </div>
 
   <% end %>

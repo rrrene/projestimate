@@ -21,8 +21,10 @@
    </div>
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% if can? :update, @activity_category %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+       <% end %>
     </div>
   <% end %>
 </div>
