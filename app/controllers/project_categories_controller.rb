@@ -48,7 +48,8 @@ class ProjectCategoriesController < ApplicationController
     @project_category = nil
     current_project_category = ProjectCategory.find(params[:id])
     if current_project_category.is_defined?
-      @project_category = current_project_category.dup
+      @project_category = current_project_category.amoeba_dup
+      @project_category.owner_id = current_user.id
     else
       @project_category = current_project_category
     end

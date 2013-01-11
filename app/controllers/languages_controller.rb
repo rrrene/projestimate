@@ -90,7 +90,8 @@ class LanguagesController < ApplicationController
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
-      @language = current_language.dup()
+      @language = current_language.amoeba_dup
+      @language.owner_id = current_user.id
     else
       @language = current_language
     end

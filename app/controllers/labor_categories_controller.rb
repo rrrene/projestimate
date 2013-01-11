@@ -61,7 +61,8 @@ class LaborCategoriesController < ApplicationController
     @labor_category = nil
     current_labor_category = LaborCategory.find(params[:id])
     if current_labor_category.is_defined?
-      @labor_category = current_labor_category.dup
+      @labor_category = current_labor_category.amoeba_dup
+      @labor_category.owner_id = current_user.id
     else
       @labor_category = current_labor_category
     end

@@ -359,7 +359,7 @@ class ProjectsController < ApplicationController
       old_prj.copy_number = old_prj.copy_number.to_i + 1
       old_prj.save
 
-      new_prj = old_prj.amoeba_dup
+      new_prj = old_prj.amoeba_dup   #amoeba gem is configured in Project class model
 
       if new_prj.save
         #Managing the compoment tree

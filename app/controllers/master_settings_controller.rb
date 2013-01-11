@@ -71,7 +71,8 @@ class MasterSettingsController < ApplicationController
     @master_setting = nil
     current_master_setting = MasterSetting.find(params[:id])
     if current_master_setting.is_defined?
-      @master_setting = current_master_setting.dup
+      @master_setting = current_master_setting.amoeba_dup
+      @master_setting.owner_id = current_user.id
     else
       @master_setting = current_master_setting
     end

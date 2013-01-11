@@ -49,7 +49,8 @@ class EventTypesController < ApplicationController
     @event_type = nil
     current_event_type = EventType.find(params[:id])
     if current_event_type.is_defined?
-      @event_type = current_event_type.dup
+      @event_type = current_event_type.amoeba_dup
+      @event_type.owner_id = current_user.id
     else
       @event_type = current_event_type
     end

@@ -49,7 +49,8 @@ class ActivityCategoriesController < ApplicationController
     @activity_category = nil
     current_activity_category = ActivityCategory.find(params[:id])
     if current_activity_category.is_defined?
-      @activity_category = current_activity_category.dup
+      @activity_category = current_activity_category.amoeba_dup
+      @activity_category.owner_id = current_user.id
     else
       @activity_category = current_activity_category
     end

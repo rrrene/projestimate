@@ -62,7 +62,8 @@ class GroupsController < ApplicationController
     @group = nil
     current_group = Group.find(params[:id])
     if current_group.is_defined?
-      @group = current_group.dup
+      @group = current_group.amoeba_dup
+      @group.owner_id = current_user.id
     else
       @group = current_group
     end

@@ -84,7 +84,8 @@ class RecordStatusesController < ApplicationController
     @record_status = nil
     current_record_status = RecordStatus.find(params[:id])
     if current_record_status.is_defined?
-      @record_status = current_record_status.dup
+      @record_status = current_record_status.amoeba_dup
+      @record_status.owner_id = current_user.id
     else
       @record_status = current_record_status
     end

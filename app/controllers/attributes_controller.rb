@@ -60,7 +60,8 @@ class AttributesController < ApplicationController
     @attribute = nil
     current_attribute = Attribute.find(params[:id])
     if current_attribute.is_defined?
-      @attribute = current_attribute.dup
+      @attribute = current_attribute.amoeba_dup
+      @attribute.owner_id = current_user.id
     else
       @attribute = current_attribute
     end

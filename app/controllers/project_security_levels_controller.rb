@@ -46,8 +46,14 @@ class ProjectSecurityLevelsController < ApplicationController
   end
 
   def update
+    @project_security_level = nil
     current_project_security_level = ProjectSecurityLevel.find(params[:id])
-    @project_security_level = current_project_security_level.dup
+    if current_project_security_level.is_defined?
+      @project_security_level = current_project_security_level.amoeba_dup
+      @project_security_level.owner_id = current_user.id
+    else
+      @project_security_level = current_project_security_level
+    end
 
     if @project_security_level.update_attributes(params[:project_security_level])
       redirect_to redirect(project_security_levels_url), notice: 'Project security level was successfully updated.'

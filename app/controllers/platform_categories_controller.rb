@@ -48,7 +48,8 @@ class PlatformCategoriesController < ApplicationController
     @platform_category = nil
     current_platform_category = PlatformCategory.find(params[:id])
     if current_platform_category.is_defined?
-      @platform_category = current_platform_category.dup
+      @platform_category = current_platform_category.amoeba_dup
+      @platform_category.owner_id = current_user.id
     else
       @platform_category = current_platform_category
     end

@@ -62,7 +62,8 @@ class CurrenciesController < ApplicationController
     @currency = nil
     current_currency = Currency.find(params[:id])
     if current_currency.is_defined?
-      @currency = current_currency;dup
+      @currency = current_currency.amoeba_dup
+      @currency.owner_id = current_user.id
     else
       @currency = current_currency
     end

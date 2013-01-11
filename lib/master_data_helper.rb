@@ -100,7 +100,6 @@ module MasterDataHelper
     def record_status_collection
       @record_statuses = RecordStatus.all
       begin
-
         if self.new_record?
           @record_statuses = RecordStatus.where("name = ?", "Proposed")
         else

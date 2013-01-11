@@ -64,7 +64,8 @@ class WorkElementTypesController < ApplicationController
     @work_element_type = nil
     current_work_element_type = WorkElementType.find(params[:id])
     if current_work_element_type.is_defined?
-      @work_element_type = current_work_element_type.dup
+      @work_element_type = current_work_element_type.amoeba_dup
+      @work_element_type.owner_id = current_user.id
     else
       @work_element_type = current_work_element_type
     end

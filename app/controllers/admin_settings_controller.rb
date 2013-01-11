@@ -52,7 +52,8 @@ class AdminSettingsController < ApplicationController
     @admin_setting = nil
     current_admin_setting = AdminSetting.find(params[:id])
     if current_admin_setting.is_defined?
-      @admin_setting = current_admin_setting.dup
+      @admin_setting = current_admin_setting.amoeba_dup
+      @admin_setting.owner_id = current_user.id
     else
       @admin_setting = current_admin_setting
     end

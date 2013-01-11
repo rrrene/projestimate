@@ -56,7 +56,8 @@ class PemodulesController < ApplicationController
 
       current_pemodule = Pemodule.find(params[:id])
       if current_pemodule.is_defined?
-        @pemodule = current_pemodule.dup
+        @pemodule = current_pemodule.amoeba_dup
+        @pemodule.owner_id = current_user.id
       else
         @pemodule = current_pemodule
       end

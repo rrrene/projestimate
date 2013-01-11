@@ -77,7 +77,8 @@ class PermissionsController < ApplicationController
     @permission = nil
     current_permission = Permission.find(params[:id])
     if current_permission.is_defined?
-      @permission = current_permission.dup
+      @permission = current_permission.amoeba_dup
+      @permission.owner_id = current_user.id
     else
       @permission = current_permission
     end

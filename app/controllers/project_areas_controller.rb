@@ -59,7 +59,8 @@ class ProjectAreasController < ApplicationController
     @project_area = nil
     current_project_area = ProjectArea.find(params[:id])
     if current_project_area.is_defined?
-      @project_area = current_project_area.dup
+      @project_area = current_project_area.amoeba_dup
+      @project_area.owner_id = current_user.id
     else
       @project_area = current_project_area
     end

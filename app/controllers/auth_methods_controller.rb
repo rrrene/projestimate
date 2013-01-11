@@ -23,7 +23,8 @@ class AuthMethodsController < ApplicationController
     @auth_method = nil
     current_auth_method = AuthMethod.find(params[:id])
     if current_auth_method.is_defined?
-      @auth_method = current_auth_method.dup
+      @auth_method = current_auth_method.amoeba_dup
+      @auth_method.owner_id = current_user.id
     else
       @auth_method = current_auth_method
     end

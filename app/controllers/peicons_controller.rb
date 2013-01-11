@@ -54,7 +54,8 @@ class PeiconsController < ApplicationController
     @icon = nil
     current_icon = Peicon.find(params[:id])
     if current_icon.is_defined?
-      @icon = current_icon.dup
+      @icon = current_icon.amoeba_dup
+      @icon.owner_id = current_user.id
     else
       @icon = current_icon
     end
