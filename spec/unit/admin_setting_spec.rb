@@ -18,6 +18,7 @@ describe AdminSetting do
 
   it "should not have duplicated keys" do
     @admin_setting2 = @admin_setting.dup
+    @admin_setting2.key = @admin_setting.key
     @admin_setting2.record_status = @proposed_status
     @admin_setting2.save
     @admin_setting2.should_not be_valid

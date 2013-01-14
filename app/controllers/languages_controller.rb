@@ -86,7 +86,7 @@ class LanguagesController < ApplicationController
   # PUT /languages/1
   # PUT /languages/1.json
   def update
-    authorize! :edit_languages, Language
+    authorize! :edit_languages, Language, :message => "Unable to update 'Retired' language"
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?

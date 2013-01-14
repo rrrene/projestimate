@@ -41,6 +41,9 @@ group :test do
   gem 'foreman'
 end
 
+#using with RSpec in tests
+gem 'devise'
+
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
