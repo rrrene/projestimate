@@ -90,43 +90,53 @@ class Home < ActiveRecord::Base
     locals = local.send(:all)
 
     #We have to consider statuses listed in custom_status_to_consider
-    custom_status_to_consider = ExternalMasterDatabase::ExternalAdminSetting.find_by_key("custom_status_to_consider")
+    custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
     unless custom_status_to_consider.nil?
       statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
+
+      return if statuses_to_consider.empty?
 
       first_custom_value = statuses_to_consider.first
       custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rsid, first_custom_value)
 
       #Get the custom record parent index from defined record
       index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-      custom_parent_record = index.nil? ? nil : externals["#{index}"]
+      custom_parent_record = index.nil? ? nil : externals[index]
       unless custom_parent_record.nil?
         custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
-        custom_parent_record_ref = custom_parent_record.ref
         fields.each do |field|
           #Update the defined record with the Custom one value
           custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
         end
         custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-        externals["#{index}"] = custom_parent_record
+        externals[index] = custom_parent_record
       end
     end
 
-    externals.each do |extern|
-      locals.each do |locale|
-        if extern.uuid == locale.uuid
-          fields.each do |field|
-            locale.update_attribute(:"#{field}", extern.send(field.to_sym))
-          end
-        end
-      end
-
-      if extern.record_status_id == ext_defined_rs_id and !extern.ref.nil?
-        if !locals.map(&:uuid).include?(extern.ref)
-          self.create_records(external, local, fields)
+    externals.each do |ext|
+      local_record = local.find.where("uuid = ?", ext.uuid)
+      unless local_record.nil?
+        fields.each do |field|
+          local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
         end
       end
     end
+
+    #externals.each do |extern|
+    #  locals.each do |locale|
+    #    if extern.uuid == locale.uuid
+    #      fields.each do |field|
+    #        locale.update_attribute(:"#{field}", extern.send(field.to_sym))
+    #      end
+    #    end
+    #  end
+    #
+    #  if extern.record_status_id == ext_defined_rs_id
+    #    if !locals.map(&:uuid).include?(extern.ref)
+    #      self.create_records(external, local, fields)
+    #    end
+    #  end
+    #end
   end
 
   #calling create_records(ExternalMasterDatabase::ExternalLanguage, Language, ["name", "description"])
@@ -143,16 +153,18 @@ class Home < ActiveRecord::Base
     externals = external.send(:defined, ext_rsid).send(:all)
 
     #We have to consider statuses listed in custom_status_to_consider
-    custom_status_to_consider = ExternalMasterDatabase::ExternalAdminSetting.find_by_key("custom_status_to_consider")
+    custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
     unless custom_status_to_consider.nil?
       statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
+
+      return if statuses_to_consider.empty?
 
       first_custom_value = statuses_to_consider.first
       custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rsid, first_custom_value)
 
       #Get the custom record parent index from defined record
       index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-      custom_parent_record = index.nil? ? nil : externals["#{index}"]
+      custom_parent_record = index.nil? ? nil : externals[index]
       unless custom_parent_record.nil?
         custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
         custom_parent_record_ref = custom_parent_record.ref
@@ -162,7 +174,7 @@ class Home < ActiveRecord::Base
           custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
         end
         custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-        externals["#{index}"] = custom_parent_record
+        externals[index] = custom_parent_record
       end
     end
 
@@ -210,10 +222,10 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name"])
+      self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
 
       puts "   - WBS structure"
-      self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id"])
+      self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
 
       wet = WorkElementType.first
 
