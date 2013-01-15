@@ -101,9 +101,6 @@ class Home < ActiveRecord::Base
         end
       end
     end
-
-
-    end
   end
 
   #calling create_records(ExternalMasterDatabase::ExternalLanguage, Language, ["name", "description"])
