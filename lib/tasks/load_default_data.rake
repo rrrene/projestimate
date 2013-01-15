@@ -19,6 +19,7 @@
 #
 ########################################################################
 
+require "uuidtools"
 
 namespace :projestimate do
   desc "Load default data"
@@ -38,39 +39,12 @@ namespace :projestimate do
       if response == '1'
         are_you_sure? do
           puts "Deleting all data...\n"
-          MasterSetting.delete_all
-          ProjectArea.delete_all
-          ProjectCategory.delete_all              
-          PlatformCategory.delete_all             
-          AcquisitionCategory.delete_all
-          Attribute.delete_all
-          Pemodule.delete_all
-          AttributeModule.delete_all
-          WorkElementType.delete_all
-          ProjectSecurity.delete_all
-          ProjectSecurityLevel.delete_all
-          Permission.delete_all
-          Currency.delete_all             
-          Language.delete_all 
-          Peicon.delete_all
-          AuthMethod.delete_all
-          AdminSetting.delete_all
-          User.delete_all
-          Group.delete_all
-          Organization.delete_all
-          #Inflation.delete_all 
-          OrganizationLaborCategory.delete_all
-          ActivityCategory.delete_all
-          LaborCategory.delete_all
-          AttributeModule.delete_all
-          Project.delete_all
-          #ProjectUser.delete_all
-          Wbs.delete_all
-          ModuleProject.delete_all
-          ModuleProjectAttribute.delete_all
-          Component.delete_all
-          # New class : RecordStatus
-          RecordStatus.delete_all
+          tables = []
+          ActiveRecord::Base.connection.execute("show tables").each { |r| tables << r[0] }
+          tables = tables - ["schema_migrations"]
+          tables.each do |table|
+            ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+          end
 
           load_data!
         end
@@ -219,7 +193,7 @@ def load_data!
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !", :record_status_id => rsid)
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com", :record_status_id => rsid)
     AdminSetting.create(:key => "password_min_length", :value => "4", :record_status_id => rsid)
-    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil, :record_status_id => rsid)
+    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil, :record_status_id => rsid, :uuid => UUIDTools::UUID.timestamp_create.to_s)
     as.save(:validate => false)
 
     puts "   - Auth Method"
