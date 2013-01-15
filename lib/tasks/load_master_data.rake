@@ -37,46 +37,17 @@ namespace :projestimate do
       if response == '1'
         are_you_sure? do
           puts "Deleting all data...\n"
-          MasterSetting.delete_all
-          ProjectArea.delete_all
-          ProjectCategory.delete_all
-          PlatformCategory.delete_all
-          AcquisitionCategory.delete_all
-          Attribute.delete_all
-          Pemodule.delete_all
-          AttributeModule.delete_all
-          WorkElementType.delete_all
-          ProjectSecurity.delete_all
-          ProjectSecurityLevel.delete_all
-          Permission.delete_all
-          Currency.delete_all
-          Language.delete_all
-          Peicon.delete_all
-          AuthMethod.delete_all
+          tables = []
+          ActiveRecord::Base.connection.execute("show tables").each { |r| tables << r[0] }
+          tables = tables - ["schema_migrations"]
+          tables.each do |table|
+            ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+          end
 
-          AdminSetting.delete_all
-          User.delete_all
-          Group.delete_all
+          #Deleting all association tables data
+          #association_tables = ["acquisition_categories_project_areas", "activity_categories_project_areas", "groups_permissions", "groups_projects", "groups_users", "labor_categories_project_areas", "links_module_project_attributes", "organizations_users", "permissions_project_security_levels", "permissions_users", "platform_categories_project_areas", "project_areas_project_categories", "project_areas_work_element_types" ]
 
-          Organization.delete_all
-          #Inflation.delete_all
-          OrganizationLaborCategory.delete_all
-
-          ActivityCategory.delete_all
-
-          LaborCategory.delete_all
-
-          AttributeModule.delete_all
-          Project.delete_all
-          #ProjectUser.delete_all
-          Wbs.delete_all
-          ModuleProject.delete_all
-          ModuleProjectAttribute.delete_all
-
-          Component.delete_all
-          RecordStatus.delete_all
-
-
+          puts "Loading Master Data"
           Home::load_master_data!
         end
         i = false

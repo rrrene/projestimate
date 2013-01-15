@@ -29,8 +29,13 @@ class AdminSetting < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :value, :record_status, :presence => true
+  validates :record_status, :presence => true
+  validates :value, :presence => true, :unless => :is_custom_value_to_consider?
   validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
   validates :key,  :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false }
   validates :custom_value, :presence => true, :if => :is_custom?
+
+  def is_custom_value_to_consider?
+    self.key == "custom_status_to_consider"
+  end
 end

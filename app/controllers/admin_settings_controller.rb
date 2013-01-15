@@ -58,18 +58,19 @@ class AdminSettingsController < ApplicationController
       @admin_setting = current_admin_setting
     end
 
-    if params[:admin_setting][:key] == "custom_status_to_consider"
-      @admin_setting.update_attribute(:value, params[:admin_setting][:value])
-      @admin_setting.update_attribute(:updated_at, params[:admin_setting][:updated_at])
-      redirect_to redirect(admin_settings_path)
-    else
+    #if params[:admin_setting][:key] == "custom_status_to_consider"
+    #  @admin_setting.update_attribute(:value, params[:admin_setting][:value])
+    #  @admin_setting.update_attribute(:updated_at, params[:admin_setting][:updated_at])
+    #  redirect_to redirect(admin_settings_path)
+    #else
       if @admin_setting.update_attributes(params[:admin_setting])
         flash[:notice] = 'Admin setting was successfully updated.'
         redirect_to redirect(admin_settings_path)
       else
+        flash[:notice] = 'Problem !'
         render action: "edit"
       end
-    end
+    #end
   end
 
   def destroy
