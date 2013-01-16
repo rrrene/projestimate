@@ -147,9 +147,4 @@ class Project < ActiveRecord::Base
     end
   end
 
-  #Generate an error (build error) during building of estimation plan
-  def self.build_error
-    raise "A build error has been detected. Please verify the integrity of your estimation process."
-  end
-
 end

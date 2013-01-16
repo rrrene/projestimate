@@ -154,6 +154,10 @@ describe User do
       specify { user_with_invalid_password.should be_false}
     end
 
+    describe "ldap authentication" do
+      #@new_user.ldap_authentication("fauxmotdepasse", @new_user.login_name).should be_nil
+    end
+
   end
 
 
