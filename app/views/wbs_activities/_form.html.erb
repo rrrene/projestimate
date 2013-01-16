@@ -1,0 +1,13 @@
+<div class="span12">
+  <h2>WBS Activity</h2>
+  <%= simple_form_for(@wbs_activity) do |f| %>
+      <%= f.error_notification %>
+
+      <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
+      <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
+      <%= f.input :organization_id, :as => :select, :collection => Organization.all, :input_html => { :class => 'input-xxlarge' } %>
+      <%= f.input :state, :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => { :class => 'input-xxlarge' } %>
+
+    <%= f.submit %>
+  <% end %>
+</div>

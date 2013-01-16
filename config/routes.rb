@@ -1,10 +1,6 @@
 ProjestimateMaquette::Application.routes.draw do
 
-  get "wbs_activity/index"
-
-  get "wbs_activity/edit"
-
-  get "wbs_activity/new"
+  resources :wbs_activities
 
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
 
