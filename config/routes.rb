@@ -1,5 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  resources :wbs_activity_elements
+
+
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
 
   #GUIs controller
