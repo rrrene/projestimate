@@ -15,10 +15,12 @@
     <tr >
       <td><%= wbs_activity.name %></td>
       <td><%= wbs_activity.description %></td>
-      <td><%= wbs_activity.organization.name unless wbs_activity.organization.nil? %></td>
+      <td><%= wbs_activity.organization unless wbs_activity.organization.nil? %></td>
       <td><%= wbs_activity.state %></td>
       <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
-      <td><%= link_to '', wbs_activity, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <% unless wbs_activity.retired? %>
+        <td><%= link_to '', wbs_activity, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <% end %>
     </tr>
   <% end %>
   </table>

@@ -731,14 +731,11 @@ ActiveRecord::Schema.define(:version => 20130116095218) do
   create_table "wbs_activity_elements", :force => true do |t|
     t.string   "uuid"
     t.integer  "wbs_activity_id"
-    t.integer  "wbs_project_id"
-    t.string   "short_name",      :limit => 50
     t.string   "name"
     t.text     "description"
     t.string   "ancestry"
-    t.boolean  "exclude"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"

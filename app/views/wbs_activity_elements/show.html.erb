@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Wbs activity:</b>
+  <%= @wbs_activity_element.wbs_activity.name unless @wbs_activity_element.wbs_activity.nil? %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @wbs_activity_element.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @wbs_activity_element.description %>
+</p>
+
+<p>
+  <b>Ancestry:</b>
+  <%= @wbs_activity_element.ancestry %>
+</p>
+
+
+<%= link_to 'Edit', edit_wbs_activity_element_path(@wbs_activity_element) %> |
+<%= link_to 'Back', wbs_activity_elements_path %>
