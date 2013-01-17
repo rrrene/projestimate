@@ -59,6 +59,14 @@ module MasterDataHelper
         end
       end
 
+      # If record status id defined or custom
+      define_method(:is_proposed_or_custom?) do
+        begin
+          ( (self.record_status.name == "Proposed") || (self.record_status.name == "Custom") ) ? true : false
+        rescue
+          false
+        end
+      end
 
       #Custom record status
       define_method(:is_custom?) do

@@ -11,6 +11,13 @@ class AuthMethodsController < ApplicationController
   def edit
     @auth_method = AuthMethod.find(params[:id])
     set_page_title "Edit #{@auth_method.name}"
+
+    unless @auth_method.child.nil?
+      if @auth_method.child.is_proposed_or_custom?
+        flash[:notice] = "This Authentication method can't be edited, because the previous changes have not yet been validated."
+        redirect_to auth_methods_path
+      end
+    end
   end
 
   def new
