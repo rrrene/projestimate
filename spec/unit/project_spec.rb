@@ -124,7 +124,7 @@ describe Project do
   end
 
   it "should execute correctly a estimation plan" do
-     #TODO
+     #
   end
 
   it "should be a folder componenet" do
@@ -148,9 +148,11 @@ describe Project do
     project.folders.should eql(project.wbs.components.select{|i| i.folder? })
   end
 
-  it "should raise an error" do
-     #TODO
+  it "should return table search" do
+    Project::table_search("").should be_kind_of(ActiveRecord::Relation)
+    Project::table_search("").should be_an_instance_of(ActiveRecord::Relation)
   end
+
 
   after :each do
     #clean up

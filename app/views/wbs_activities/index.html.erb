@@ -1,0 +1,30 @@
+<div class="span12">
+  <h2>WBS Activity</h2>
+
+  <table class="table table-striped" >
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Organization</th>
+      <th>State</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @wbs_activities.each do |wbs_activity| %>
+    <tr >
+      <td><%= wbs_activity.name %></td>
+      <td><%= wbs_activity.description %></td>
+      <td><%= wbs_activity.organization.name unless wbs_activity.organization.nil? %></td>
+      <td><%= wbs_activity.state %></td>
+      <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
+      <td><%= link_to '', wbs_activity, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New WBS Activity', new_wbs_activity_path, :class => "btn" %>
+</div>
+

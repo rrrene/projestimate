@@ -22,6 +22,7 @@
 class Organization < ActiveRecord::Base
 
   has_and_belongs_to_many :users
+  has_many :wbs_activities, :dependent => :destroy
 
   #validates_presence_of :name
   validates :name, :presence => true, :uniqueness => { :case_sensitive => false }

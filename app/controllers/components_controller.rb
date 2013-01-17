@@ -29,7 +29,7 @@ class ComponentsController < ApplicationController
 
     #Select folders which could be a parent of a component
     #a component cannot be its own parent
-    @folder_components = current_project.wbs.components.select{ |i| i.work_element_type.alias == "folder" }
+    @folder_components = @project.wbs.components.select{ |i| i.work_element_type.alias == "folder" }
     @folder_components
   end
 
