@@ -61,12 +61,10 @@ class Home < ActiveRecord::Base
       puts "\n\n\n"
       puts "!!! WARNING - Error: Default data was not loaded, please investigate"
       puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-      flash["Error"] = "!!! WARNING - Error: Default data was not loaded, please investigate. <br /> Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
     rescue Exception
       puts "\n\n"
       puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
       puts "Maybe run db:create and db:migrate tasks."
-      flash["Error"] = "!!! WARNING - Exception: Default data was not loaded, please investigate... <br /> Maybe run db:create and db:migrate tasks."
     end
   end
 
@@ -121,7 +119,6 @@ class Home < ActiveRecord::Base
       elsif ext.record_status_id == ext_custom_rs_id
         corresponding_local_rs_id = loc_custom_rs_id
       end
-
 
 
       local_record = local.find_by_uuid(ext.uuid)
@@ -197,7 +194,7 @@ class Home < ActiveRecord::Base
   end
 
   def self.load_master_data!
-    begin
+    #begin
       record_status = ExternalMasterDatabase::ExternalRecordStatus.all
       record_status.each do |i|
         rs = RecordStatus.new(:name => i.name, :description => i.description)
@@ -281,7 +278,7 @@ class Home < ActiveRecord::Base
       user.save
 
       #Create default wbs associated with previous project
-      PeWbsProject.create(:project_id => project.id)
+      PeWbsProject.create(:name => "PE-WBS-Sample", :project_id => project.id)
       pe_wbs_project = PeWbsProject.first
 
       #Create root component
@@ -296,16 +293,14 @@ class Home < ActiveRecord::Base
 
       puts "\n\n"
       puts "Default data was successfully loaded. Enjoy !"
-    rescue Errno::ECONNREFUSED
-      puts "\n\n\n"
-      puts "!!! WARNING - Error: Default data was not loaded, please investigate."
-      puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement."
-      flash["Error"] = "!!! WARNING - Error: Default data was not loaded, please investigate. <br /> Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-    rescue Exception
-      puts "\n\n"
-      puts "!!! WARNING - Exception: Default data was not loaded, please investigate..."
-      puts "Maybe run db:create and db:migrate tasks."
-      flash["Error"] = "!!! WARNING - Exception: Default data was not loaded, please investigate... <br /> Maybe run db:create and db:migrate tasks."
-    end
+    #rescue Errno::ECONNREFUSED
+    #  puts "\n\n\n"
+    #  puts "!!! WARNING - Error: Default data was not loaded, please investigate."
+    #  puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement."
+    #rescue Exception
+    #  puts "\n\n"
+    #  puts "!!! WARNING - Exception: Default data was not loaded, please investigate..."
+    #  puts "Maybe run db:create and db:migrate tasks."
+    #end
   end
 end
