@@ -8,11 +8,6 @@ class WbsActivity < ActiveRecord::Base
     state :draft, :initial => true
     state :defined
     state :retired
-
-    event :view do
-      transitions :to => :read, :from => [:unread]
-    end
-
   end
 
   belongs_to :organization
