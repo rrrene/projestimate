@@ -5,7 +5,7 @@
     <% unless @component.is_root? %>
       <%= f.input :ancestry, :as => :select, :collection => @folder_components, :label => "Parent", :selected => @component.parent.id %>
 
-      <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all %>
+      <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all, :include_blank => false %>
     <% end %>
 
     <% if @component.link? %>
