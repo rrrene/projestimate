@@ -166,7 +166,7 @@ def load_data!
     puts "   - WBS structure"
     #Create first work element type (type of a component)
     WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id, :record_status_id => rsid)
-    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id)
+    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id, :record_status_id => rsid)
