@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116092924) do
+ActiveRecord::Schema.define(:version => 20130116095218) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -658,6 +658,7 @@ ActiveRecord::Schema.define(:version => 20130116092924) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -726,6 +727,19 @@ ActiveRecord::Schema.define(:version => 20130116092924) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "wbs_activity_elements", :force => true do |t|
+    t.string   "uuid"
+    t.integer  "wbs_activity_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "ancestry"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"
+  add_index "wbs_activity_elements", ["wbs_activity_id"], :name => "index_wbs_activity_elements_on_wbs_activity_id"
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"

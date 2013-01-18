@@ -21,6 +21,9 @@
 #WBS has many component and belongs to project
 class Wbs < ActiveRecord::Base
   has_many :components, :dependent => :destroy
+
+  has_many :wbs_activity_elements, :dependent => :destroy
+
   belongs_to :project
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)

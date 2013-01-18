@@ -12,4 +12,5 @@ class WbsActivity < ActiveRecord::Base
 
   belongs_to :organization
 
+  has_many :wbs_activity_elements, :dependent => :destroy
 end

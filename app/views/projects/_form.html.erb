@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h1>New Projects</h1>
+  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update Project"%></h2>
 <% else %>
   <h1><%= action_name.humanize %> <%= current_project.title %></h1>
 <% end %>

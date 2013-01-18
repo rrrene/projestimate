@@ -39,6 +39,13 @@ class AttributesController < ApplicationController
     authorize! :manage_attributes, Attribute
     set_page_title "Attributes"
     @attribute = Attribute.find(params[:id])
+
+    unless @attribute.child.nil?
+      if @attribute.child.is_proposed_or_custom?
+        flash[:notice] = "This Attribute can't be edited, because the previous changes have not yet been validated."
+        redirect_to attributes_path
+      end
+    end
   end
 
   def create

@@ -33,6 +33,13 @@ class ProjectSecurityLevelsController < ApplicationController
 
   def edit
     @project_security_level = ProjectSecurityLevel.find(params[:id])
+
+    unless @project_security_level.child.nil?
+      if @project_security_level.child.is_proposed_or_custom?
+        flash[:notice] = "This security level can not be edited, previous changes have not yet been validated."
+        redirect_to project_security_levels_path
+      end
+    end
   end
 
   def create

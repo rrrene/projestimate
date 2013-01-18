@@ -15,7 +15,7 @@
     <tr >
       <td><%= wbs_activity.name %></td>
       <td><%= wbs_activity.description %></td>
-      <td><%= wbs_activity.organization %></td>
+      <td><%= wbs_activity.organization unless wbs_activity.organization.nil? %></td>
       <td><%= wbs_activity.state %></td>
       <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
       <% unless wbs_activity.retired? %>
