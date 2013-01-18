@@ -29,7 +29,7 @@ class ComponentsController < ApplicationController
 
     #Select folders which could be a parent of a component
     #a component cannot be its own parent
-    @folder_components = @project.wbs.components.select{ |i| i.work_element_type.alias == "folder" }
+    @folder_components = @project.pe_wbs_project.components.select{ |i| i.work_element_type.alias == "folder" }
     @folder_components
   end
 
@@ -48,7 +48,7 @@ class ComponentsController < ApplicationController
   def destroy
     #set somes variables
     component = Component.find(params[:id])
-    @project = component.wbs.project
+    @project = component.pe_wbs_project.project
     @component = @project.root_component
 
     component.module_project_attributes.each do |mpa|
@@ -59,7 +59,7 @@ class ComponentsController < ApplicationController
     component.destroy
 
     #Reload position
-    @project.wbs.components.each_with_index do |c,i|
+    @project.pe_wbs_project.components.each_with_index do |c,i|
       c.position = i
       c.save
     end
@@ -81,11 +81,11 @@ class ComponentsController < ApplicationController
 
   #Create a new component and refresh the partials
   def new
-    @wbs = Wbs.find(params[:wbs_id])
-    @project = @wbs.project
+    @pe_wbs_project = PeWbsProject.find(params[:pe_wbs_project_id])
+    @project = @pe_wbs_project.project
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @component = Component.new
-    @component.wbs_id = params[:wbs_id]
+    @component.pe_wbs_project_id = params[:pe_wbs_project_id]
     @component.parent_id = params[:comp_parent_id]
 
     if params[:type_component] == "folder"
@@ -98,7 +98,7 @@ class ComponentsController < ApplicationController
       @component.name = "New component"
       @component.work_element_type_id = WorkElementType.find_by_alias("undefined").id
     end
-    @component.position = @wbs.components.map(&:position).max + 1
+    @component.position = @pe_wbs_project.components.map(&:position).max + 1
     @component.save
 
     #Set current component
@@ -123,7 +123,7 @@ class ComponentsController < ApplicationController
 
     component_a = Component.find(params[:component_id])
     unless component_a.position == 1
-      component_b = Component.find_by_position_and_wbs_id(component_a.position - 1, params[:wbs_id])
+      component_b = Component.find_by_position_and_pe_wbs_project_id(component_a.position - 1, params[:pe_wbs_project_id])
       component_a.update_attribute("position", component_a.position - 1)
       component_b.update_attribute("position", component_b.position + 1)
     end
@@ -138,7 +138,7 @@ class ComponentsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     component_a = Component.find(params[:component_id])
-    unless component_a.position == @project.wbs.components.map(&:position).max
+    unless component_a.position == @project.pe_wbs_project.components.map(&:position).max
       component_b = Component.find_by_position(component_a.position + 1)
       component_a.update_attribute("position", component_a.position + 1)
       component_b.update_attribute("position", component_b.position - 1)

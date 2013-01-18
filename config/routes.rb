@@ -92,7 +92,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "down" => "components#down"
   get "selected_component" => "components#selected_component"
 
-  resources :wbs
+  resources :pe_wbs_projects
 
   resources :projects
   get "add_module" => "projects#add_module"

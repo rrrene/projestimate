@@ -18,12 +18,12 @@
 #
 ########################################################################
 
-#Component of the WBS. Component belongs to a type (dev, cots, folder, link...)
+#Component of the PE-WBS-Project. Component belongs to a type (dev, cots, folder, link...)
 #Component use Ancestry gem (has_ancestry). See ancestry on github for more informations.
 class Component < ActiveRecord::Base
   has_ancestry
 
-  belongs_to :wbs
+  belongs_to :pe_wbs_project
   belongs_to :work_element_type
 
   has_many :module_project_attributes

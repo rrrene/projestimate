@@ -93,15 +93,15 @@ FactoryGirl.define do
   factory :component do
     name "Root compoment"
     is_root true
-    wbs
+    pe_wbs_project
   end
 
-  #Wbs
-  factory :wbs do
+  #PeWbsProject
+  factory :pe_wbs_project do
     project
   end
 
-  factory :wbs_1, class: Wbs do
+  factory :wbs_1, class: PeWbsProject do
   end
 
   factory :attribute, :class => Attribute do |attr|

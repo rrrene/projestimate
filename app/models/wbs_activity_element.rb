@@ -6,7 +6,7 @@ class WbsActivityElement < ActiveRecord::Base
   attr_accessible :ancestry, :description, :name, :uuid, :wbs_activity_id
 
   belongs_to :wbs_activity
-  belongs_to :wbs
+  belongs_to :pe_wbs_project
 
   validates :name, :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :wbs_activity_id, :presence => true
@@ -15,7 +15,7 @@ class WbsActivityElement < ActiveRecord::Base
   end
 
   def wbs_project_name
-    self.wbs.nil? ? "" : "#{self.wbs.name}"
+    self.pe_wbs_project.nil? ? "" : "#{self.pe_wbs_project.name}"
   end
 
 end

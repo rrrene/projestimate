@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116095218) do
+ActiveRecord::Schema.define(:version => 20130118103846) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20130116095218) do
   add_index "auth_methods", ["uuid"], :name => "index_auth_methods_on_uuid", :unique => true
 
   create_table "components", :force => true do |t|
-    t.integer  "wbs_id"
+    t.integer  "pe_wbs_project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ancestry"
@@ -425,6 +425,13 @@ ActiveRecord::Schema.define(:version => 20130116095218) do
   create_table "organizations_users", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "organization_id"
+  end
+
+  create_table "pe_wbs_projects", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "peicons", :force => true do |t|
@@ -711,12 +718,6 @@ ActiveRecord::Schema.define(:version => 20130116095218) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
-
-  create_table "wbs", :force => true do |t|
-    t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "wbs_activities", :force => true do |t|
     t.string   "uuid"

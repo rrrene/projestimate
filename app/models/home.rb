@@ -122,6 +122,8 @@ class Home < ActiveRecord::Base
         corresponding_local_rs_id = loc_custom_rs_id
       end
 
+
+
       local_record = local.find_by_uuid(ext.uuid)
       unless local_record.nil?
         fields.each do |field|
@@ -279,11 +281,11 @@ class Home < ActiveRecord::Base
       user.save
 
       #Create default wbs associated with previous project
-      Wbs.create(:project_id => project.id)
-      wbs = Wbs.first
+      PeWbsProject.create(:project_id => project.id)
+      pe_wbs_project = PeWbsProject.first
 
       #Create root component
-      component = Component.create(:is_root => true, :wbs_id => wbs.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
+      component = Component.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
       component = Component.first
 
       puts "Create project security level..."

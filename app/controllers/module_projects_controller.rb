@@ -70,7 +70,7 @@ class ModuleProjectsController < ApplicationController
     #  end
     #end
 
-    @project.wbs.components.each do |c|
+    @project.pe_wbs_project.components.each do |c|
       @module_project.module_project_attributes.select{|i| i.component_id == c.id }.each_with_index do |mpa, j|
         if mpa.custom_attribute == "user"
           mpa.update_attribute("is_mandatory", params[:is_mandatory][j])

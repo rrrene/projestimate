@@ -23,11 +23,11 @@ class ProjectObserver < ActiveRecord::Observer
 
   #def after_create(project)
     #New default wbs
-    #wbs = Wbs.new(:project => project)
-    #wbs.save
+    #pe_wbs_project = PeWbsProject.new(:project => project)
+    #pe_wbs_project.save
 
     #New root component
-    #component = Component.new(:is_root => true, :wbs_id => wbs.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
+    #component = Component.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
     #component.save
   #end
 
