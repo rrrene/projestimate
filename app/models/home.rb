@@ -1,6 +1,10 @@
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
+  EXTERNAL_BASES = [ExternalLanguage, ExternalAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
+                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
+                    ExternalPermission]
+
   def self.update_master_data!
     puts "Updating from Master Data"
     begin
@@ -70,7 +74,7 @@ class Home < ActiveRecord::Base
 
   def self.latest_repo_update
     dates = Array.new
-    [ExternalLanguage, ExternalAttribute].each do |table|
+    EXTERNAL_BASES.each do |table|
       if table == Attribute
         dates << Object::Attribute::attribute_updated_at
       else

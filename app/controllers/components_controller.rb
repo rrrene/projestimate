@@ -41,7 +41,7 @@ class ComponentsController < ApplicationController
       @component.update_attribute :parent, Component.find(params[:component][:ancestry])
       redirect_to redirect("/dashboard")
     else
-      flash[:notice] = "Please verify components value"
+      flash[:error] = "Please verify components value"
       redirect_to redirect("/dashboard")
     end
   end
