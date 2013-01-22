@@ -66,31 +66,32 @@ class AdminSettingsController < ApplicationController
       @admin_setting = current_admin_setting
     end
 
-    #if params[:admin_setting][:key] == "custom_status_to_consider"
-    #  @admin_setting.update_attribute(:value, params[:admin_setting][:value])
-    #  @admin_setting.update_attribute(:updated_at, params[:admin_setting][:updated_at])
-    #  redirect_to redirect(admin_settings_path)
-    #else
-      if @admin_setting.update_attributes(params[:admin_setting])
-        flash[:notice] = 'Admin setting was successfully updated.'
-        redirect_to redirect(admin_settings_path)
-      else
-        flash[:notice] = 'Problem !'
-        render action: "edit"
-      end
-    #end
+    if @admin_setting.update_attributes(params[:admin_setting])
+      flash[:notice] = 'Admin setting was successfully updated.'
+      redirect_to redirect(admin_settings_path)
+    else
+      flash[:notice] = 'A error has occured during the update.'
+      render action: "edit"
+    end
   end
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
-    if @admin_setting.is_defined? || @admin_setting.is_custom?
-      #logical deletion: delete don't have to suppress records anymore on defined record
-      @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
-    else
+    if @admin_setting.is_local? and User.local_instance?
       @admin_setting.destroy
+      flash[:notice] = 'Admin setting was successfully deleted.'
+    else
+      if @admin_setting.is_defined? || @admin_setting.is_custom?
+        #logical deletion: delete don't have to suppress records anymore on defined record
+        @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+        flash[:notice] = 'Admin setting was successfully updated.'
+      else
+        @admin_setting.destroy
+        flash[:notice] = 'Admin setting was successfully deleted.'
+      end
+      flash[:notice] = "You can't delete this record"
     end
 
-    flash[:notice] = 'Admin setting was successfully deleted.'
     redirect_to admin_settings_path
   end
 end

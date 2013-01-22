@@ -204,6 +204,7 @@ class Home < ActiveRecord::Base
         rs = RecordStatus.new(:name => i.name, :description => i.description)
         rs.save(:validate => false)
       end
+      rsid = RecordStatus.find_by_name("Defined").id
 
       puts "Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -227,7 +228,11 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      #self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
+      link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
+      undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
+      default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
 
       puts "   - WBS structure"
       self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])

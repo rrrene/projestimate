@@ -95,6 +95,15 @@ module MasterDataHelper
         end
       end
 
+      #isLocal record status
+      define_method(:is_local?) do
+        begin
+          (self.record_status.name == "local") ? true : false
+        rescue
+          false
+        end
+      end
+
 
       #Allow to show or not the record custom value (only if record_status = Custom) on List
       def show_custom_value

@@ -142,7 +142,6 @@ class ApplicationController < ActionController::Base
     @custom_status = RecordStatus.find_by_name("Custom")
   end
 
-
   #Rescue method
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = "Access denied!"

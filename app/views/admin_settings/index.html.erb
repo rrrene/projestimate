@@ -17,7 +17,9 @@
       <td><%= admin_setting.value %></td>
       <td><%= admin_setting.record_status.name unless admin_setting.record_status.nil? %> <%= admin_setting.show_custom_value %></td>
       <td><%= link_to '', edit_admin_setting_path(admin_setting), :class => "icn_edit", :title => "Edit" %></td>
-      <td><%= link_to '', admin_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <% if admin_setting.is_local? and User.local_instance? %>
+        <td><%= link_to '', admin_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <% end %>
       <td>
         <% if admin_setting.is_retired? %>
             <%= link_to('Restore', "admin_settings/#{admin_setting.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>

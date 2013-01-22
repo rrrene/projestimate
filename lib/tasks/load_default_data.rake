@@ -76,7 +76,8 @@ def load_data!
         ["Draft", "TBD"],
         ["Defined", "TBD"],
         ["Retired", "TBD"],
-        ["Custom", "TBD"]
+        ["Custom", "TBD"],
+        ["Local", "TBD"]
     ]
     record_status.each do |i|
       RecordStatus.create(:name => i[0], :description => i[1] )
@@ -158,7 +159,7 @@ def load_data!
 
     puts "   - Projestimate Icons"
 
-    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"), :record_status_id => rsid)
+    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
     link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
     undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
     default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
