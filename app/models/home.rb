@@ -91,7 +91,7 @@ class Home < ActiveRecord::Base
     ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
     ext_custom_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
-    externals = external.send(:defined, ext_defined_rs_id).send(:all)
+    externals = external.send(:defined, ext_defined_rs_id, ext_custom_rs_id).send(:all)
     locals = local.send(:all)
 
     #We have to consider statuses listed in custom_status_to_consider
@@ -158,31 +158,8 @@ class Home < ActiveRecord::Base
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
-    externals = external.send(:defined, ext_rsid).send(:all)
+    externals = external.send(:defined, ext_rsid, ext_custom_rsid).send(:all)
 
-    #We have to consider statuses listed in custom_status_to_consider
-    #custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
-    #unless custom_status_to_consider.nil?
-    #  statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
-    #
-    #  first_custom_value = statuses_to_consider.first
-    #  custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rsid, first_custom_value)
-    #
-    #  #Get the custom record parent index from defined record
-    #  index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-    #  custom_parent_record = index.nil? ? nil : externals[index]
-    #  unless custom_parent_record.nil?
-    #    custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
-    #    custom_parent_record_ref = custom_parent_record.ref
-    #
-    #    fields.each do |field|
-    #      #Update the defined record with the Custom one value
-    #      custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
-    #    end
-    #    custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-    #    externals[index] = custom_parent_record
-    #  end
-    #end
 
     #for each external records...
     externals.each do |ext|
@@ -197,6 +174,7 @@ class Home < ActiveRecord::Base
     end
   end
 
+  #Load MasterData from scratch
   def self.load_master_data!
     #begin
       record_status = ExternalMasterDatabase::ExternalRecordStatus.all
