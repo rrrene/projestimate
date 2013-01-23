@@ -88,8 +88,10 @@ class Home < ActiveRecord::Base
   def self.update_records(external, local, fields)
     loc_defined_rs_id = RecordStatus.find_by_name("Defined").id
     loc_custom_rs_id = RecordStatus.find_by_name("Custom").id
+    loc_local_rs_id = RecordStatus.find_by_name("Local").id
     ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
     ext_custom_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
+    ext_local_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Local").id
 
     externals = external.send(:defined, ext_defined_rs_id, ext_custom_rs_id).send(:all)
     locals = local.send(:all)

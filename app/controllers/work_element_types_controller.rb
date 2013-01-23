@@ -43,8 +43,8 @@ class WorkElementTypesController < ApplicationController
     @work_element_type = WorkElementType.find(params[:id])
     @peicons = Peicon.all
 
-    unless @work_element_type.child.nil?
-      if @work_element_type.child.is_proposed_or_custom?
+    unless @work_element_type.child_reference.nil?
+      if @work_element_type.child_reference.is_proposed_or_custom?
         flash[:notice] = "This work element type can not be edited, previous changes have not yet been validated."
         redirect_to work_element_types_path
       end

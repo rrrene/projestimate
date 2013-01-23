@@ -6,6 +6,10 @@ module MasterDataHelper
   def self.included(base)
 
     base.class_eval do
+
+      #has_one    :child_reference,  :class_name => "#{base}", :inverse_of => :parent_reference, :foreign_key => "reference_id"
+      #belongs_to :parent_reference, :class_name => "#{base}", :inverse_of => :child_reference,  :foreign_key => "reference_id"
+
       #UUID generation on create
       #before_validation :set_uuid
       #TODO: validate uuid format and length in model
@@ -17,10 +21,19 @@ module MasterDataHelper
       amoeba do
         enable
         customize(lambda { |original_record, new_record|
-          new_record.ref = original_record.uuid
-          new_record.parent = original_record
-          new_record.record_status = RecordStatus.first
+          new_record.reference_uuid = original_record.uuid
+          new_record.reference_id = original_record.id
+          new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
         })
+      end
+
+      #Local method for local instance record
+      define_method(:is_local_record?) do
+        begin
+          (self.record_status.name == "Local") ? true : false
+        rescue
+          false
+        end
       end
 
       #Define method for record status
@@ -98,8 +111,8 @@ module MasterDataHelper
 
       #Allow to show or not the record custom value (only if record_status = Custom) on List
       def show_custom_value
-        if self.is_custom?
-          "( #{self.custom_value} ) "
+        if self.is_custom? || self.is_local_record?
+          self.custom_value.blank? ? "" : "( #{self.custom_value} ) "
         end
       end
     end

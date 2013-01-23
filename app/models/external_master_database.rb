@@ -4,8 +4,8 @@ module ExternalInclude
 
     base.class_eval do
       unless base.to_s == "ExternalInclude:Module"
-        has_one    :child,  :class_name => "#{base}", :inverse_of => :parent, :foreign_key => "parent_id"
-        belongs_to :parent, :class_name => "#{base}", :inverse_of => :child,  :foreign_key => "parent_id"
+        has_one    :child_reference,  :class_name => "#{base}", :inverse_of => :parent_reference, :foreign_key => "reference_id"
+        belongs_to :parent_reference, :class_name => "#{base}", :inverse_of => :child_reference,  :foreign_key => "reference_id"
 
         current_table_name = base.to_s
         current_table_name1 =  current_table_name.gsub!("ExternalMasterDatabase::", "")

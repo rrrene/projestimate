@@ -26,6 +26,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
+  helper_method :is_master_instance?    #Identify if we are on Master or Local instance
+
   helper_method :current_user
   helper_method :current_project
   helper_method :current_component
@@ -37,6 +39,12 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
+
+  #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
+  #This method test if we are on Master or Local instance
+  def is_master_instance?
+    defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+  end
 
   def verify_authentication
     unless self.request.format == "application/json"
@@ -140,6 +148,7 @@ class ApplicationController < ActionController::Base
     @proposed_status = RecordStatus.find_by_name("Proposed")
     @defined_status = RecordStatus.find_by_name("Defined")
     @custom_status = RecordStatus.find_by_name("Custom")
+    @local_status = RecordStatus.find_by_name("Local")
   end
 
 

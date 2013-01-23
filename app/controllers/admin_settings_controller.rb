@@ -37,8 +37,8 @@ class AdminSettingsController < ApplicationController
     set_page_title "Parameters"
     @admin_setting = AdminSetting.find(params[:id])
 
-    unless @admin_setting.child.nil?
-      if @admin_setting.child.is_proposed_or_custom?
+    unless @admin_setting.child_reference.nil?
+      if @admin_setting.child_reference.is_proposed_or_custom?
         flash[:notice] = "This administration setting record can not be edited, previous changes have not yet been validated."
         redirect_to admin_settings_path
       end

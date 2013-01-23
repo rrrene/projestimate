@@ -12,9 +12,20 @@ class AuthMethodsController < ApplicationController
     @auth_method = AuthMethod.find(params[:id])
     set_page_title "Edit #{@auth_method.name}"
 
-    unless @auth_method.child.nil?
-      if @auth_method.child.is_proposed_or_custom?
-        flash[:notice] = "This Authentication method can't be edited, because the previous changes have not yet been validated."
+    if is_master_instance?
+      @auth_method.record_status = @proposed_status
+
+      unless @auth_method.child_reference.nil?
+        if @auth_method.child_reference.is_proposed_or_custom?
+          flash[:notice] = "This Authentication method can't be edited, because the previous changes have not yet been validated."
+          redirect_to auth_methods_path and return
+        end
+      end
+    else
+      if @auth_method.is_local_record?
+        @auth_method.record_status = @local_status
+      else
+        flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
         redirect_to auth_methods_path
       end
     end
@@ -29,11 +40,18 @@ class AuthMethodsController < ApplicationController
     set_page_title "Authentications Method"
     @auth_method = nil
     current_auth_method = AuthMethod.find(params[:id])
+
     if current_auth_method.is_defined?
       @auth_method = current_auth_method.amoeba_dup
       @auth_method.owner_id = current_user.id
     else
       @auth_method = current_auth_method
+    end
+
+    unless is_master_instance?
+      if @auth_method.is_local_record?
+        @auth_method.custom_value = "Locally edited"
+      end
     end
 
     if @auth_method.update_attributes(params[:auth_method])
@@ -46,6 +64,13 @@ class AuthMethodsController < ApplicationController
   def create
     set_page_title "Authentications Method"
     @auth_method = AuthMethod.new(params[:auth_method])
+    #If we are on local instance, Status is set to "Local"
+    if is_master_instance?
+      @auth_method.record_status = @proposed_status
+    else
+      @auth_method.record_status = @local_status
+    end
+
     if @auth_method.save
       redirect_to redirect(auth_methods_path)
     else
@@ -55,11 +80,20 @@ class AuthMethodsController < ApplicationController
 
   def destroy
     @auth_method = AuthMethod.find(params[:id])
-    if @auth_method.is_defined? || @auth_method.is_custom?
-      #logical deletion  delete don't have to suppress records anymore on Defined record
-      @auth_method.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if is_master_instance?
+      if @auth_method.is_defined? || @auth_method.is_custom?
+        #logical deletion  delete don't have to suppress records anymore on Defined record
+        @auth_method.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+      else
+        @auth_method.destroy
+      end
     else
-      @auth_method.destroy
+      if @auth_method.is_local_record?
+        @auth_method.destroy
+      else
+        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        redirect_to redirect(auth_methods_path)  and return
+      end
     end
 
     respond_to do |format|

@@ -27,8 +27,8 @@ class AcquisitionCategory < ActiveRecord::Base
   has_and_belongs_to_many :project_areas
 
   #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "AcquisitionCategory", :inverse_of => :parent, :foreign_key => "parent_id"
-  belongs_to :parent, :class_name => "AcquisitionCategory", :inverse_of => :child,  :foreign_key => "parent_id"
+  has_one    :child_reference,  :class_name => "AcquisitionCategory", :inverse_of => :parent_reference, :foreign_key => "reference_id"
+  belongs_to :parent_reference, :class_name => "AcquisitionCategory", :inverse_of => :child_reference,  :foreign_key => "reference_id"
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

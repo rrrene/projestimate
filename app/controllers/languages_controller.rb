@@ -68,8 +68,8 @@ class LanguagesController < ApplicationController
     set_page_title "Edit language"
     @language = Language.find(params[:id])
 
-    unless @language.child.nil?
-      if @language.child.is_proposed_or_custom?
+    unless @language.child_reference.nil?
+      if @language.child_reference.is_proposed_or_custom?
         flash[:notice] = "This language can not be edited, previous changes have not yet been validated"
         redirect_to languages_path
       end

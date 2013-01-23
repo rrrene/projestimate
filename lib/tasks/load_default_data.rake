@@ -76,7 +76,8 @@ def load_data!
         ["Draft", "TBD"],
         ["Defined", "TBD"],
         ["Retired", "TBD"],
-        ["Custom", "TBD"]
+        ["Custom", "TBD"],
+        ["Local", "TBD"]
     ]
     record_status.each do |i|
       RecordStatus.create(:name => i[0], :description => i[1] )
