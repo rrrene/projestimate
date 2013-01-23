@@ -1,6 +1,20 @@
-<div class="span12">
-  <h2>WBS Activity Elements</h2>
+<h2>WBS Activity Elements</h2>
 
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1">Tree view</a></li>
+    <li><a href="#tabs-2">Table view </a></li>
+  </ul>
+
+  <div id="tabs-1">
+    <div class="well component_tree">
+      <% @wbs_activities.each do |wbs_activity| %>
+        <%=raw generate_activity_element_tree(wbs_activity.wbs_activity_elements.first, 0) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="tabs-2">
     <table class="table table-striped" >
       <tr>
         <th>Name</th>
@@ -13,34 +27,11 @@
         <th></th>
       </tr>
 
-    <% @wbs_activity_elements.each do |wbs_activity_element| %>
-      <tr>
-        <td><%= wbs_activity_element.name %></td>
-        <td><%= wbs_activity_element.wbs_activity.name unless wbs_activity_element.wbs_activity.nil? %></td>
-        <td><%= wbs_activity_element.description %></td>
-        <td><%= wbs_activity_element.ancestry %></td>
-        <td><%= wbs_activity_element.record_status.name unless wbs_activity_element.record_status.nil? %><%= wbs_activity_element.show_custom_value %></td>
-
-        <td><%= link_to '', edit_wbs_activity_element_path(wbs_activity_element), :class => "icn_edit", :title => "Edit" %></td>
-        <td><%= link_to '', wbs_activity_element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
-
-        <td>
-          <% if is_master_instance? && !wbs_activity_element.is_local_record? %>
-              <% if wbs_activity_element.is_retired? %>
-                  <%= link_to('Restore', "wbs_activity_elements/#{wbs_activity_element.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
-              <% else %>
-                  <% unless wbs_activity_element.is_defined? %>
-                      <%= link_to('Validate', "wbs_activity_elements/#{wbs_activity_element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
-                  <% end %>
-              <% end %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+      <% @wbs_activity_elements.each do |wbs_activity_element| %>
+        <%= render :partial => 'wbs_activity_element', :object => wbs_activity_element %>
+      <% end %>
     </table>
 
-<br />
-
-<%= link_to 'New Wbs activity element', new_wbs_activity_element_path, :class => "btn" %>
-
+    <%= link_to 'New WBS Activity Element', new_wbs_activity_element_path, :class => "btn" %>
+  </div>
 </div>
