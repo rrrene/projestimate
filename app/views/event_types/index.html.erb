@@ -21,11 +21,13 @@
     <td><%= link_to 'Edit', edit_event_type_path(event_type) %></td>
     <td><%= link_to 'Destroy', event_type, confirm: 'Are you sure?', method: :delete %></td>
     <td>
-      <% if event_type.is_retired? %>
-          <%= link_to('Restore', "event_types/#{event_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
-      <% else %>
-          <% unless event_type.is_defined? %>
-              <%= link_to('Validate', "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+      <% if is_master_instance? && !event_type.is_local_record? %>
+          <% if event_type.is_retired? %>
+              <%= link_to('Restore', "event_types/#{event_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+          <% else %>
+              <% unless event_type.is_defined? %>
+                  <%= link_to('Validate', "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
           <% end %>
       <% end %>
     </td>

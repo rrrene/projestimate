@@ -42,8 +42,8 @@ class ProjectAreasController < ApplicationController
     set_page_title "Project Area"
     @project_area = ProjectArea.find(params[:id])
 
-    unless @project_area.child.nil?
-      if @project_area.child.is_proposed_or_custom?
+    unless @project_area.child_reference.nil?
+      if @project_area.child_reference.is_proposed_or_custom?
         flash[:notice] = "This project area can not be edited, previous changes have not yet been validated."
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
       end

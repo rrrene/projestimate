@@ -52,8 +52,8 @@ class MasterSettingsController < ApplicationController
     set_page_title "Projestimate Global Parameters"
     @master_setting = MasterSetting.find(params[:id])
 
-    unless @master_setting.child.nil?
-      if @master_setting.child.is_proposed_or_custom?
+    unless @master_setting.child_reference.nil?
+      if @master_setting.child_reference.is_proposed_or_custom?
         flash[:notice] = "This master setting can not be edited, previous changes have not yet been validated."
         redirect_to master_settings_path
       end

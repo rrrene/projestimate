@@ -23,62 +23,31 @@ class LanguagesController < ApplicationController
 
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
-  # GET /languages
-  # GET /languages.json
   def index
     authorize! :edit_languages, Language
     set_page_title "Languages"
-    #@languages = Language.all
     @languages = Language.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @languages }
-    end
   end
 
-  # GET /languages/1
-  # GET /languages/1.json
-  def show
-    authorize! :edit_languages, Language
-    @language = Language.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @language }
-    end
-  end
-
-  # GET /languages/new
-  # GET /languages/new.json
   def new
     authorize! :edit_languages, Language
     set_page_title "Add a language"
     @language = Language.new
-
-    respond_to do |format|
-      format.html # _new.html.erb
-      format.json { render json: @language }
-    end
   end
 
-  # GET /languages/1/edit
   def edit
     authorize! :edit_languages, Language
     set_page_title "Edit language"
     @language = Language.find(params[:id])
 
-    unless @language.child.nil?
-      if @language.child.is_proposed_or_custom?
+    unless @language.child_reference.nil?
+      if @language.child_reference.is_proposed_or_custom?
         flash[:notice] = "This language can not be edited, previous changes have not yet been validated"
         redirect_to languages_path
       end
     end
   end
 
-
-  # POST /languages
-  # POST /languages.json
   def create
     authorize! :edit_languages, Language
     @language = Language.new(params[:language])
@@ -90,8 +59,6 @@ class LanguagesController < ApplicationController
     end
   end
 
-  # PUT /languages/1
-  # PUT /languages/1.json
   def update
     authorize! :edit_languages, Language, :message => "Unable to update 'Retired' language"
     @language = nil
@@ -111,8 +78,6 @@ class LanguagesController < ApplicationController
     end
   end
 
-  # DELETE /languages/1
-  # DELETE /languages/1.json
   # Destroy method on Master table is not going to delete  definitively the record
   #It is only going to change ths record status : logical deletion
   def destroy

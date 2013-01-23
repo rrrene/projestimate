@@ -32,8 +32,8 @@ class PlatformCategoriesController < ApplicationController
     set_page_title "Platform Category"
     @platform_category = PlatformCategory.find(params[:id])
 
-    unless @platform_category.child.nil?
-      if @platform_category.child.is_proposed_or_custom?
+    unless @platform_category.child_reference.nil?
+      if @platform_category.child_reference.is_proposed_or_custom?
         flash[:notice] = "This platform category can not be edited, previous changes have not yet been validated."
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
       end

@@ -26,33 +26,25 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
+  helper_method :is_master_instance?    #Identify if we are on Master or Local instance
+
   helper_method :current_user
   helper_method :current_project
   helper_method :current_component
   helper_method :load_master_setting
   helper_method :load_admin_setting
   helper_method :get_record_statuses
-  helper_method :good_password_length
 
   before_filter :set_user_time_zone
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
 
-  #Check password minimum length value
-  def good_password_length
-    begin
-      password_length = default_password_length = 4
-      user_as =  AdminSetting.find_by_key("password_min_length")
-      if !user_as.nil?
-        password_length = user_as.value.to_i
-      end
-      password_length
-    rescue
-      password_length
-    end
+  #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
+  #This method test if we are on Master or Local instance
+  def is_master_instance?
+    defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
   end
-
 
   def verify_authentication
     unless self.request.format == "application/json"
@@ -66,7 +58,7 @@ class ApplicationController < ActionController::Base
 
   def redirect(url)
     begin
-    (params[:commit] == "save" or params[:commit] == "Save") ? url : session[:return_to]
+      (params[:commit] == "save" or params[:commit] == "Save") ? url : session[:return_to]
     rescue
       url
     end
@@ -156,7 +148,9 @@ class ApplicationController < ActionController::Base
     @proposed_status = RecordStatus.find_by_name("Proposed")
     @defined_status = RecordStatus.find_by_name("Defined")
     @custom_status = RecordStatus.find_by_name("Custom")
+    @local_status = RecordStatus.find_by_name("Local")
   end
+
 
   #Rescue method
   rescue_from CanCan::AccessDenied do |exception|

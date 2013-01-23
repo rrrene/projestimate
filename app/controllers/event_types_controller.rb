@@ -37,8 +37,8 @@ class EventTypesController < ApplicationController
     authorize! :manage_event_types, EventType
     @event_type = EventType.find(params[:id])
 
-    unless @event_type.child.nil?
-      if @event_type.child.is_proposed_or_custom?
+    unless @event_type.child_reference.nil?
+      if @event_type.child_reference.is_proposed_or_custom?
         flash[:notice] = "This event type can not be edited, previous changes have not yet been validated."
         redirect_to event_types_path
       end

@@ -21,11 +21,13 @@
         <td><%= link_to '', admin_setting, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
       <% end %>
       <td>
-        <% if admin_setting.is_retired? %>
-            <%= link_to('Restore', "admin_settings/#{admin_setting.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
-        <% else %>
-            <% unless admin_setting.is_defined? %>
-                <%= link_to('Validate', "admin_settings/#{admin_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+        <% if is_master_instance? && !admin_setting.is_local_record? %>
+            <% if admin_setting.is_retired? %>
+                <%= link_to('Restore', "admin_settings/#{admin_setting.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+            <% else %>
+                <% unless admin_setting.is_defined? %>
+                    <%= link_to('Validate', "admin_settings/#{admin_setting.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                <% end %>
             <% end %>
         <% end %>
       </td>

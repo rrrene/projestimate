@@ -243,8 +243,4 @@ class User < ActiveRecord::Base
     self.time_zone.nil? ? "UTC" : self.time_zone
   end
 
-  def self.local_instance?
-    defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
-  end
-
 end

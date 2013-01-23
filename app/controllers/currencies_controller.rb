@@ -45,8 +45,8 @@ class CurrenciesController < ApplicationController
     authorize! :manage_currency, Currency
     @currency = Currency.find(params[:id])
 
-    unless @currency.child.nil?
-      if @currency.child.is_proposed_or_custom?
+    unless @currency.child_reference.nil?
+      if @currency.child_reference.is_proposed_or_custom?
         flash[:notice] = "This currency can not be edited, previous changes have not yet been validated."
         redirect_to currencies_path
       end

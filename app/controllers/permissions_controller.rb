@@ -56,8 +56,8 @@ class PermissionsController < ApplicationController
     set_page_title "Permissions"
     @permission = Permission.find(params[:id])
 
-    unless @permission.child.nil?
-      if @permission.child.is_proposed_or_custom?
+    unless @permission.child_reference.nil?
+      if @permission.child_reference.is_proposed_or_custom?
         flash[:notice] = "This permission can not be edited, previous changes have not yet been validated."
         redirect_to permissions_path
       end

@@ -44,11 +44,39 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @users = User.all
     @projects = Project.all
+
+    if is_master_instance?
+      @group.record_status = @proposed_status
+
+      unless @group.child_reference.nil?
+        if @group.child_reference.is_proposed_or_custom?
+          flash[:notice] = "This Group can't be edited, because the previous changes have not yet been validated."
+          redirect_to groups_path and return
+        end
+      end
+    else
+      if @group.is_local_record?
+        @group.record_status = @local_status
+      else
+        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        redirect_to redirect(groups_path) and return
+      end
+    end
   end
 
   def create
     authorize! :edit_groups, Group
+    @users = User.all
+    @projects = Project.all
     @group = Group.new(params[:group])
+
+    #If we are on local instance, Status is set to "Local"
+    if is_master_instance?
+      @group.record_status = @proposed_status
+    else
+      @group.record_status = @local_status
+    end
+
     if @group.save
       redirect_to redirect(groups_path)
     else
@@ -61,11 +89,18 @@ class GroupsController < ApplicationController
     @projects = Project.all
     @group = nil
     current_group = Group.find(params[:id])
+
     if current_group.is_defined?
       @group = current_group.amoeba_dup
       @group.owner_id = current_user.id
     else
       @group = current_group
+    end
+
+    unless is_master_instance?
+      if @group.is_local_record?
+        @group.custom_value = "Locally edited"
+      end
     end
 
     if @group.update_attributes(params[:group])
@@ -77,12 +112,22 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.find(params[:id])
-    if @group.is_defined || @group.is_custom?
-      #logical deletion: delete don't have to suppress records anymore on defined record
-      @group.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+    if is_master_instance?
+      if @group.is_defined? || @group.is_custom?
+        #logical deletion: delete don't have to suppress records anymore on defined record
+        @group.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
+      else
+        @group.destroy
+      end
     else
-      @group.destroy
+      if @group.is_local_record?
+        @group.destroy
+      else
+        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        redirect_to redirect(groups_path)  and return
+      end
     end
+
     flash[:notice] = "Group was successfully deleted."
     redirect_to groups_url
   end

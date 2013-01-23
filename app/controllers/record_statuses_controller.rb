@@ -61,8 +61,8 @@ class RecordStatusesController < ApplicationController
   def edit
     @record_status = RecordStatus.find(params[:id])
 
-    unless @record_status.child.nil?
-      if @record_status.child.is_proposed_or_custom?
+    unless @record_status.child_reference.nil?
+      if @record_status.child_reference.is_proposed_or_custom?
         flash[:notice] = "This status can not be edited, previous changes have not yet been validated."
         redirect_to record_statuses_path
       end
