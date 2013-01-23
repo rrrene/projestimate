@@ -32,11 +32,27 @@ class ApplicationController < ActionController::Base
   helper_method :load_master_setting
   helper_method :load_admin_setting
   helper_method :get_record_statuses
+  helper_method :good_password_length
 
   before_filter :set_user_time_zone
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
+
+  #Check password minimum length value
+  def good_password_length
+    begin
+      password_length = default_password_length = 4
+      user_as =  AdminSetting.find_by_key("password_min_length")
+      if !user_as.nil?
+        password_length = user_as.value.to_i
+      end
+      password_length
+    rescue
+      password_length
+    end
+  end
+
 
   def verify_authentication
     unless self.request.format == "application/json"
