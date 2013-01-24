@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130123094336) do
+ActiveRecord::Schema.define(:version => 20130123152603) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -158,21 +158,6 @@ ActiveRecord::Schema.define(:version => 20130123094336) do
   add_index "auth_methods", ["record_status_id"], :name => "index_auth_methods_on_record_status_id"
   add_index "auth_methods", ["reference_id"], :name => "index_auth_methods_on_parent_id"
   add_index "auth_methods", ["uuid"], :name => "index_auth_methods_on_uuid", :unique => true
-
-  create_table "components", :force => true do |t|
-    t.integer  "pe_wbs_project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "ancestry"
-    t.boolean  "is_root"
-    t.integer  "work_element_type_id"
-    t.string   "name"
-    t.integer  "project_link"
-    t.integer  "position"
-    t.integer  "copy_id"
-  end
-
-  add_index "components", ["ancestry"], :name => "index_components_on_ancestry"
 
   create_table "currencies", :force => true do |t|
     t.string   "name"
@@ -367,7 +352,7 @@ ActiveRecord::Schema.define(:version => 20130123094336) do
     t.date     "date_data_most_likely"
     t.date     "date_data_high"
     t.boolean  "undefined_attribute"
-    t.integer  "component_id"
+    t.integer  "pbs_project_element_id"
     t.integer  "dimensions"
     t.string   "custom_attribute"
     t.string   "project_value"
@@ -414,6 +399,21 @@ ActiveRecord::Schema.define(:version => 20130123094336) do
     t.integer "user_id"
     t.integer "organization_id"
   end
+
+  create_table "pbs_project_elements", :force => true do |t|
+    t.integer  "pe_wbs_project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "ancestry"
+    t.boolean  "is_root"
+    t.integer  "work_element_type_id"
+    t.string   "name"
+    t.integer  "project_link"
+    t.integer  "position"
+    t.integer  "copy_id"
+  end
+
+  add_index "pbs_project_elements", ["ancestry"], :name => "index_components_on_ancestry"
 
   create_table "pe_wbs_projects", :force => true do |t|
     t.string   "name"

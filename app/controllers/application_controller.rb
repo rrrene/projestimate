@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
 
   def current_component
     if current_project
-      session[:component_id].nil? ? current_project.root_component : Component.find(session[:component_id])
+      session[:pbs_project_element_id].nil? ? current_project.root_component : PbsProjectElement.find(session[:pbs_project_element_id])
     end
   end
 

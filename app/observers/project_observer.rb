@@ -26,9 +26,9 @@ class ProjectObserver < ActiveRecord::Observer
     #pe_wbs_project = PeWbsProject.new(:project => project)
     #pe_wbs_project.save
 
-    #New root component
-    #component = Component.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
-    #component.save
+    #New root pbs_project_element
+    #pbs_project_element = PbsProjectElement.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
+    #pbs_project_element.save
   #end
 
   #def before_destroy(project)

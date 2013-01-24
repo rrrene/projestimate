@@ -32,10 +32,6 @@ class Pemodule < ActiveRecord::Base
   has_many :attribute_modules
   has_many :pe_attributes, :source => :attribute, :through => :attribute_modules
 
-  #self relation on master data : Parent<->Child
-  has_one    :child_reference,  :class_name => "Pemodule", :inverse_of => :parent_reference, :foreign_key => "reference_id"
-  belongs_to :parent_reference, :class_name => "Pemodule", :inverse_of => :child_reference,  :foreign_key => "reference_id"
-
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 

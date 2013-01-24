@@ -23,10 +23,6 @@
 class Group < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  #self relation on master data : Parent<->Child
-  has_one    :child_reference,  :class_name => "Group", :inverse_of => :parent_reference, :foreign_key => "reference_id"
-  belongs_to :parent_reference, :class_name => "Group", :inverse_of => :child_reference,  :foreign_key => "reference_id"
-
   has_and_belongs_to_many :users
   has_and_belongs_to_many :projects
 

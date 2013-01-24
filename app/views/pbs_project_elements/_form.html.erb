@@ -1,14 +1,14 @@
 <div class="span4">
-  <%= simple_form_for(@component) do |f| %>
+  <%= simple_form_for(@pbs_project_element) do |f| %>
     <%= f.error_notification %>
 
-    <% unless @component.is_root? %>
-      <%= f.input :ancestry, :as => :select, :collection => @folder_components, :label => "Parent", :selected => @component.parent.id %>
+    <% unless @pbs_project_element.is_root? %>
+      <%= f.input :ancestry, :as => :select, :collection => @folder_components, :label => "Parent", :selected => @pbs_project_element.parent.id %>
 
       <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all, :include_blank => false %>
     <% end %>
 
-    <% if @component.link? %>
+    <% if @pbs_project_element.link? %>
       <%= f.input :project_link, :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
     <% else %>
       <%= f.input :name %>

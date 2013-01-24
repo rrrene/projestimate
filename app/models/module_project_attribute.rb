@@ -24,7 +24,7 @@ class ModuleProjectAttribute < ActiveRecord::Base
 
   belongs_to :attribute
   belongs_to :module_project
-  belongs_to :component
+  belongs_to :pbs_project_element
 
   has_and_belongs_to_many :links,
                           :class_name => "ModuleProjectAttribute",

@@ -90,7 +90,7 @@ FactoryGirl.define do
 
 
   # Components
-  factory :component do
+  factory :pbs_project_element do
     name "Root compoment"
     is_root true
     pe_wbs_project
