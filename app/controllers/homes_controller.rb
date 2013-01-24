@@ -1,7 +1,4 @@
 class HomesController < ApplicationController
-  def about
-  end
-
   def update_install
     begin
       Home::update_master_data!

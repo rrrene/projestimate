@@ -3,11 +3,11 @@
     <%= f.error_notification %>
 
     <div>
-      <%= f.input :key %>
+      <%= f.input :key, :input_html => {:disabled => (User.local_instance? && @admin_setting)} %>
 
-      <%= f.input :value, :input_html => {:rows => 5} %>
+      <%= f.input :value, :input_html => {:rows => 5 } %>
 
-      <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+      <%= f.input :change_comment, :input_html => { :rows => 3, :disabled => (User.local_instance? && @admin_setting) } %><br />
 
       <%= f.association :record_status, :label => "Status",
                         :collection => @admin_setting.record_status_collection,

@@ -339,6 +339,7 @@ div.field textarea:focus {
 
 .block_link{
    float:left;
+   padding-left: 10px;
    display:none;
 }
 

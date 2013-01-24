@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
 
   def redirect(url)
     begin
-    (params[:commit] == "save" or params[:commit] == "Save") ? url : session[:return_to]
+      (params[:commit] == "save" or params[:commit] == "Save") ? url : session[:return_to]
     rescue
       url
     end

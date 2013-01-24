@@ -12,7 +12,6 @@
 <ul class="nav nav-list">
   <li class="nav-header"><h5>LIBRARY</h5></li>
   <li><a href="/projects_global_params"><i class="icn_estimation"></i><%= I18n.t(:project_global_setting) %></a></li>
-  <li><a href="<%= wbs_activities_path %>"><i class="icn_estimation"></i>WBS-Activities</a></li>
   <li><a href="/estimations_params"> <i class="icn_estimation"></i><%= I18n.t(:estimation_setting) %></a></li>
   <li><a href="/organizationals_params"> <i class="icn_estimation"></i><%= I18n.t(:organization_setting) %></a></li>
   <li><a href="<%= wbs_activities_path%>"> <i class="icn_estimation"></i><%= I18n.t(:wbs_activities) %></a></li>
@@ -31,7 +30,7 @@
   <li><a href="<%= events_path %>"> <i class="icn_estimation"></i><%= I18n.t(:events) %></a></li>
 </ul>
 
-<% if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")  %>
+<% if is_master_instance?  %>
   <ul class="nav nav-list">
     <li class="nav-header"><h5>MASTER</h5></li>
     <li><a href="<%= master_settings_path %>"> <i class="icn_estimation"></i><%= I18n.t(:master) %></a></li>
