@@ -23,12 +23,16 @@ class WbsActivityElementsController < ApplicationController
   def new
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.new
+    if params[:parent_id]
+      @selected = WbsActivityElement.find(params[:parent_id])
+    end
     @potential_parents = WbsActivityElement.all
   end
 
   def edit
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.find(params[:id])
+    @selected = @wbs_activity_element.parent
     @potential_parents = WbsActivityElement.all
 
     if is_master_instance?

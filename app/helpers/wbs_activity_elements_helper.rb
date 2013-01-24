@@ -1,8 +1,8 @@
 module WbsActivityElementsHelper
 
-  def generate_activity_element_tree(element, gap)
+  def generate_activity_element_tree(element, gap, tree)
     #Root is always display
-    tree = String.new
+    tree ||= String.new
     unless element.nil?
       if element.is_root?
         tree << "<ul>
@@ -34,7 +34,7 @@ module WbsActivityElementsHelper
                       </div>
                     </li>"
 
-          generate_activity_element_tree(e, gap)
+          generate_activity_element_tree(e, gap, tree)
         end
         tree << "</ul>"
       end
@@ -44,16 +44,16 @@ module WbsActivityElementsHelper
 
   def link_activity_element(element)
     res = String.new
-    res << link_to( '', new_wbs_activity_element_path, :class => "icn_duplicate")
+    res << link_to( '', new_wbs_activity_element_path(:parent_id => element.id), :class => "icn_duplicate")
     res << link_to( '', edit_wbs_activity_element_path(element), :class => "icn_edit", :title => "Edit")
     res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
 
     if is_master_instance? && !(element.record_status.to_s == 'Local')
       if element.record_status.to_s == 'Retired'
-        res << link_to('', 'wbs_activity_elements/#{wbs_activity_element.id}/restore_change', confirm: 'Do you confirm restoring this record as defined ?', :title => 'restore changes', :class => 'icn_jump_back')
+        res << link_to('', "/wbs_activity_elements/#{element.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => 'restore changes', :class => 'icn_jump_back')
       else
         unless element.record_status.to_s == 'Defined'
-          res << link_to('', 'wbs_activity_elements/#{wbs_activity_element.id}/validate_change', confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
+          res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
         end
       end
     end
