@@ -66,7 +66,16 @@ module MasterDataHelper
       # If record status id defined or nil
       define_method(:is_defined_or_nil?) do
         begin
-          ( (self.record_status.name == "Defined") || (self.record_status.nil?) ) ? true : false
+          ((self.record_status.name == "Defined") || (self.record_status.nil?)) ? true : false
+        rescue
+          false
+        end
+      end
+
+      # If record status id local or nil
+      define_method(:is_local_or_nil?) do
+        begin
+          ((self.record_status.name == "Local") || (self.record_status.nil?)) ? true : false
         rescue
           false
         end
@@ -131,12 +140,17 @@ module MasterDataHelper
       @record_statuses = RecordStatus.all
       begin
         if self.new_record?
-          @record_statuses = RecordStatus.where("name = ?", "Proposed")
+          if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+            @record_statuses = RecordStatus.where("name = ?", "Proposed")
+          else
+            @record_statuses = RecordStatus.where("name = ?", "Local")
+          end
         else
           @record_statuses = RecordStatus.where("name <> ?", "Defined")
         end
+
       rescue
-        nil
+        []
       end
     end
 
