@@ -7,11 +7,11 @@ module MasterDataHelper
 
     base.class_eval do
 
-      #has_one    :child_reference,  :class_name => "#{base}", :inverse_of => :parent_reference, :foreign_key => "reference_id"
-      #belongs_to :parent_reference, :class_name => "#{base}", :inverse_of => :child_reference,  :foreign_key => "reference_id"
+      #self relation on master data : Parent<->Child
+      has_one    :child_reference,  :class_name => "#{base}", :inverse_of => :parent_reference, :foreign_key => "reference_id"
+      belongs_to :parent_reference, :class_name => "#{base}", :inverse_of => :child_reference,  :foreign_key => "reference_id"
 
       #UUID generation on create
-      #before_validation :set_uuid
       #TODO: validate uuid format and length in model
       before_validation(:on => :create) do
         self.uuid = UUIDTools::UUID.timestamp_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"

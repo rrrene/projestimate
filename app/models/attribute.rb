@@ -29,10 +29,6 @@ class Attribute < ActiveRecord::Base
   has_many :attribute_modules, :dependent => :destroy
   has_many :pemodules, :through => :attribute_modules
 
-  #self relation on master data : Parent<->Child
-  has_one    :child_reference,  :class_name => "Attribute", :inverse_of => :parent_reference, :foreign_key => "reference_id"
-  belongs_to :parent_reference, :class_name => "Attribute", :inverse_of => :child_reference,  :foreign_key => "reference_id"
-
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 

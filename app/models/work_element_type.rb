@@ -19,15 +19,11 @@
 ########################################################################
 
 #Master Data
-#WorkElementType has many components and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
+#WorkElementType has many pbs_project_elements and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
 class WorkElementType < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  has_many :components
-
-  #self relation on master data : Parent<->Child
-  has_one    :child_reference,  :class_name => "WorkElementType", :inverse_of => :parent_reference, :foreign_key => "reference_id"
-  belongs_to :parent_reference, :class_name => "WorkElementType", :inverse_of => :child_reference,  :foreign_key => "reference_id"
+  has_many :pbs_project_elements
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

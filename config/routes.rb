@@ -86,11 +86,11 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :groups
 
-  resources :components
-  get "new" => "components#new"
-  get "up" => "components#up"
-  get "down" => "components#down"
-  get "selected_component" => "components#selected_component"
+  resources :pbs_project_elements
+  get "new" => "pbs_project_elements#new"
+  get "up" => "pbs_project_elements#up"
+  get "down" => "pbs_project_elements#down"
+  get "selected_pbs_project_element" => "pbs_project_elements#selected_pbs_project_element"
 
   resources :pe_wbs_projects
 

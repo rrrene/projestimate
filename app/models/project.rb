@@ -87,9 +87,9 @@ class Project < ActiveRecord::Base
     end
   end
 
-  #Return the root component of the pe-wbs-project and consequetly of the project.
+  #Return the root pbs_project_element of the pe-wbs-project and consequetly of the project.
   def root_component
-    Component.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
+    PbsProjectElement.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
   end
 
   #Override
@@ -135,7 +135,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_project.components.select{|i| i.folder? }
+    self.pe_wbs_project.pbs_project_elements.select{|i| i.folder? }
   end
 
   def self.table_search(search)

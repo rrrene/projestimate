@@ -18,9 +18,9 @@
 #
 ########################################################################
 
-#PE-WBS6Project has many component and belongs to project
+#PE-WBS6Project has many pbs_project_element and belongs to project
 class PeWbsProject < ActiveRecord::Base
-  has_many :components, :dependent => :destroy
+  has_many :pbs_project_elements, :dependent => :destroy
 
   has_many :wbs_activity_elements, :dependent => :destroy
 
@@ -32,7 +32,7 @@ class PeWbsProject < ActiveRecord::Base
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    include_field :components
+    include_field :pbs_project_elements
     propagate
   end
 

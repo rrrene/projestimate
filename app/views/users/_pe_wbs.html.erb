@@ -1,5 +1,5 @@
 <div class="component_tree">
   <% unless @project.nil? || @project.pe_wbs_project.nil? %>
-      <%=raw generate_wbs(@project.pe_wbs_project.components.last.root, @project, "", 5) %>
+      <%=raw generate_wbs(@project.pe_wbs_project.pbs_project_elements.last.root, @project, "", 5) %>
   <% end %>
 </div>

@@ -265,9 +265,9 @@ class Home < ActiveRecord::Base
       PeWbsProject.create(:name => "PE-WBS-Sample", :project_id => project.id)
       pe_wbs_project = PeWbsProject.first
 
-      #Create root component
-      component = Component.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
-      component = Component.first
+      #Create root pbs_project_element
+      pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
+      pbs_project_element = PbsProjectElement.first
 
       puts "Create project security level..."
       self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ["name", "uuid"])

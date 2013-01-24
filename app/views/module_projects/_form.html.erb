@@ -31,7 +31,7 @@
         </tr>
         <% @module_project.module_project_attributes.each_with_index do |attr, i| %>
 
-          <% unless attr.component.is_root? %>
+          <% unless attr.pbs_project_element.is_root? %>
             <%= hidden_field_tag "hidden_ids[]", attr.id %>
           <% else %>
             <tr class="">

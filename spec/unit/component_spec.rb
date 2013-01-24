@@ -18,7 +18,7 @@ describe Component do
     @bad.should_not be_valid
   end
 
-  it "should return component name" do
+  it "should return PBS Project element name" do
     @folder.to_s.should eql("Folder1")
   end
 
