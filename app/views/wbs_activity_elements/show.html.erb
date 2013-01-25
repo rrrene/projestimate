@@ -1,25 +1,35 @@
-<p id="notice"><%= notice %></p>
+<h2>WBS Activity Elements</h2>
 
-<p>
-  <b>Wbs activity:</b>
-  <%= @wbs_activity_element.wbs_activity.name unless @wbs_activity_element.wbs_activity.nil? %>
-</p>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1">Tree view</a></li>
+    <li><a href="#tabs-2">Table view </a></li>
+  </ul>
 
-<p>
-  <b>Name:</b>
-  <%= @wbs_activity_element.name %>
-</p>
+  <div id="tabs-1">
+    <div class="well component_tree">
+      <%=raw generate_activity_element_tree(@wbs_activity.wbs_activity_elements.first, 0, "") %>
+    </div>
+  </div>
 
-<p>
-  <b>Description:</b>
-  <%= @wbs_activity_element.description %>
-</p>
+  <div id="tabs-2">
+    <table class="table table-striped" >
+      <tr>
+        <th>Name</th>
+        <th>Wbs activity</th>
+        <th>Description</th>
+        <th>Ancestry</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
 
-<p>
-  <b>Ancestry:</b>
-  <%= @wbs_activity_element.ancestry %>
-</p>
+      <% @wbs_activity.wbs_activity_elements.each do |wbs_activity_element| %>
+        <%= render :partial => 'wbs_activity_element', :object => wbs_activity_element %>
+      <% end %>
+    </table>
 
-
-<%= link_to 'Edit', edit_wbs_activity_element_path(@wbs_activity_element) %> |
-<%= link_to 'Back', wbs_activity_elements_path %>
+    <%= link_to 'New WBS Activity Element', new_wbs_activity_element_path(:activity_id => @wbs_activity.id), :class => "btn" %>
+  </div>
+</div>

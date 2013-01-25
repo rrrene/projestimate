@@ -65,6 +65,10 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.save
+
+      @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @local_status)
+      @wbs_activity_element.save
+
       redirect_to wbs_activities_path
     else
       render :new

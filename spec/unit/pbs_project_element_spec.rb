@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Component do
+describe PbsProjectElement do
 
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)

@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe ComponentsController do
+describe PbsProjectElementsController do
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
     @folder = FactoryGirl.create(:folder)
