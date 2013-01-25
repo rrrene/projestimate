@@ -13,15 +13,24 @@ class WbsActivityElement < ActiveRecord::Base
 
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
+  validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}, :unless => :check_reference
   validates :wbs_activity_id, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
 
   def wbs_activity_name
+    name
   end
 
   def wbs_project_name
     self.pe_wbs_project.nil? ? "" : "#{self.pe_wbs_project.name}"
+  end
+
+  def check_reference
+    if self.wbs_activity and self.parent
+      !self.siblings.map(&:name).include?(self.name)
+    else
+      true
+    end
   end
 
 end

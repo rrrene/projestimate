@@ -4,15 +4,9 @@ class WbsActivityElementsController < ApplicationController
 
   before_filter :get_record_statuses
 
-  def index
-    set_page_title "WBS-Activity elements"
-    @wbs_activities = WbsActivity.all
-    @wbs_activity_elements = WbsActivityElement.all
-  end
-
   def show
     set_page_title "WBS-Activity elements"
-    @wbs_activity_element = WbsActivityElement.find(params[:id])
+    @wbs_activity = WbsActivity.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -23,10 +17,16 @@ class WbsActivityElementsController < ApplicationController
   def new
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.new
+
+    if params[:activity_id]
+      @wbs_activity = WbsActivity.find(params[:activity_id])
+      @potential_parents = @wbs_activity.wbs_activity_elements
+    end
+
     if params[:parent_id]
       @selected = WbsActivityElement.find(params[:parent_id])
     end
-    @potential_parents = WbsActivityElement.all
+
   end
 
   def edit
@@ -40,7 +40,7 @@ class WbsActivityElementsController < ApplicationController
       unless @wbs_activity_element.child_reference.nil?
         if @wbs_activity_element.child_reference.is_proposed_or_custom?
           flash[:notice] = "This Wbs-Activity element can't be edited, previous changes have not yet been validated."
-          redirect_to wbs_activity_elements_url and return
+          redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity) and return
         end
       end
     else
@@ -63,10 +63,13 @@ class WbsActivityElementsController < ApplicationController
       @wbs_activity_element.record_status = @local_status
     end
 
-    if @wbs_activity_element.save
-      redirect_to wbs_activity_elements_path, notice: 'Wbs activity element was successfully created.'
+    if @wbs_activity_element.valid?
+      @wbs_activity_element.save
+      redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity), notice: 'Wbs activity element was successfully created.'
     else
-       render action: "new"
+      @wbs_activity = @wbs_activity_element.wbs_activity
+      flash[:error] = "Please verify form"
+      render action: "new"
     end
   end
 
@@ -110,12 +113,12 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to redirect(wbs_activity_elements_path)  and return
+        redirect_to redirect(wbs_activities_path)  and return
       end
     end
 
     respond_to do |format|
-      format.html { redirect_to wbs_activity_elements_url }
+      format.html { redirect_to wbs_activities_path }
       format.json { head :no_content }
     end
   end
