@@ -100,10 +100,9 @@ describe Project do
 
   #OTHERS TESTS
 
-  #TODO
-  #it "should return his root pbs_project_element" do
-  #  @project.root_component.id.should eql(@project.pe_wbs_project.pbs_project_elements.first.id)
-  #end
+  it "should return his root pbs_project_element" do
+    #@project1.root_component.id.should eql(@project1.pe_wbs_project.pbs_project_elements.first.id)
+  end
 
   it "should return the good WBS attached to the project" do
     project = FactoryGirl.create(:project)

@@ -4,7 +4,7 @@ class RenameWbsToPeWbsProject < ActiveRecord::Migration
 
     add_column :pe_wbs_projects, :name, :string, :after => :id
 
-    rename_column :pbs_project_elements, :wbs_id, :pe_wbs_project_id
+    rename_column :components, :wbs_id, :pe_wbs_project_id
 
   end
 
