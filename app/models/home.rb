@@ -7,7 +7,7 @@ class Home < ActiveRecord::Base
 
   def self.update_master_data!
     puts "Updating from Master Data"
-    begin
+    #begin
       puts "Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
 
@@ -59,17 +59,17 @@ class Home < ActiveRecord::Base
       puts "Create global permissions..."
       self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ["name", "description", "is_permission_project", "uuid"])
 
-      puts "\n\n"
-      puts "Default data was successfully loaded. Enjoy !"
-    rescue Errno::ECONNREFUSED
-      puts "\n\n\n"
-      puts "!!! WARNING - Error: Default data was not loaded, please investigate"
-      puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-    rescue Exception
-      puts "\n\n"
-      puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
-      puts "Maybe run db:create and db:migrate tasks."
-    end
+      #puts "\n\n"
+      #puts "Default data was successfully loaded. Enjoy !"
+    #rescue Errno::ECONNREFUSED
+    #  puts "\n\n\n"
+    #  puts "!!! WARNING - Error: Default data was not loaded, please investigate"
+    #  puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+    #rescue Exception
+    #  puts "\n\n"
+    #  puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
+    #  puts "Maybe run db:create and db:migrate tasks."
+    #end
   end
 
   def self.latest_repo_update
@@ -93,28 +93,41 @@ class Home < ActiveRecord::Base
     ext_custom_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
     ext_local_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Local").id
 
-    externals = external.send(:defined, ext_defined_rs_id, ext_custom_rs_id).send(:all)
+    externals = external.send(:defined, ext_defined_rs_id).send(:all)
     locals = local.send(:all)
+
 
     #We have to consider statuses listed in custom_status_to_consider
     custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
-    unless custom_status_to_consider.nil?
+    unless custom_status_to_consider.blank?
       statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
 
-      first_custom_value = statuses_to_consider.first
-      custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rs_id, first_custom_value)
-
-      #Get the custom record parent index from defined record
-      index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-      custom_parent_record = index.nil? ? nil : externals[index]
-      unless custom_parent_record.nil?
-        custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
-        fields.each do |field|
-          #Update the defined record with the Custom one value
-          custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
+      statuses_to_consider.each do |custom_value|
+        #For each custom_value_to_consider, we find the corresponding record on Master with the same custom value
+        ext_custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rs_id, custom_value)
+        #If there is at least one custom record to consider
+        unless ext_custom_record.nil?
+          #We need to get the external record parent, then priority is given to the custom one
+          ext_custom_record_parent = external.find_by_uuid(ext_custom_record.reference_uuid)
+          #If the record has no parent, it will be added in the list to be consider for the update
+          if ext_custom_record_parent.nil?
+            externals.push(ext_custom_record)
+          else
+            #Else, the record has its parent (may be already consider for update)
+            #In this case, priority is given to  custom one
+            new_fields = fields - %w(uuid)
+            #externals[externals.index()]
+            externals.map! { |item|
+              if item.uuid == ext_custom_record.reference_uuid
+                new_fields.each do |field|
+                  item.update_attribute(:"#{field}", ext_custom_record.send(field.to_sym))
+                end
+              else
+                item
+              end
+            }
+          end
         end
-        custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-        externals[index] = custom_parent_record
       end
     end
 
@@ -126,16 +139,18 @@ class Home < ActiveRecord::Base
         corresponding_local_rs_id = loc_custom_rs_id
       end
 
-
-      local_record = local.find_by_uuid(ext.uuid)
+      local_record =  local.where("uuid = ? and record_status_id <> ? and custom_value <> ?", ext.uuid, loc_local_rs_id, "Locally edited").first #local.find_by_uuid(ext.uuid)
       unless local_record.nil?
         fields.each do |field|
           local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
         end
-        local_record.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
+        local_record.update_attribute(:record_status_id, corresponding_local_rs_id)
+        puts "Test"
+        local_record.update_attribute(:change_comment, ext.change_comment)
       end
 
       unless locals.map(&:uuid).include?(ext.uuid)
+        puts "nouvel enregistrement"
         #self.create_records(external, local, fields)
         obj = local.send(:new)
         #for each fields
@@ -160,7 +175,7 @@ class Home < ActiveRecord::Base
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
-    externals = external.send(:defined, ext_rsid, ext_custom_rsid).send(:all)
+    externals = external.send(:custom_defined, ext_rsid, ext_custom_rsid).send(:all)
 
 
     #for each external records...

@@ -11,7 +11,8 @@ module ExternalInclude
         current_table_name1 =  current_table_name.gsub!("ExternalMasterDatabase::", "")
         current_table_name2 =  current_table_name1.gsub!("External", "")
         base.table_name = current_table_name2.tableize
-        scope :defined, lambda {|de, cu| where("record_status_id = ? or record_status_id = ?", de, cu) }
+        scope :defined, lambda {|de| where("record_status_id = ?", de) }
+        scope :custom_defined, lambda {|de, cu| where("record_status_id = ? or record_status_id = ?", de, cu) }
       end
     end
 

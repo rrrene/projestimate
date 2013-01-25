@@ -129,9 +129,11 @@ module MasterDataHelper
 
       #Allow to show or not the record custom value (only if record_status = Custom) on List
       def show_custom_value
-        if self.is_custom? || self.is_local_record?
+        #if self.is_custom? || self.is_local_record?
+        unless self.is_local_record?
           self.custom_value.blank? ? "" : "( #{self.custom_value} ) "
         end
+
       end
     end
 
