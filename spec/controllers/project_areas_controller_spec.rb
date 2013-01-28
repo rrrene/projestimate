@@ -8,7 +8,7 @@ describe ProjectAreasController do
     @admin = FactoryGirl.create(:user)
   end
 
-  log_user(@admin)
+  #log_user(@admin)
   describe "New" do
     it "renders the new template" do
       get :new

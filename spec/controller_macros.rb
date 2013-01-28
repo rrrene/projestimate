@@ -2,6 +2,10 @@
 
 
 module ControllerMacros
+  #def login_as_admin
+  #  user = User.new(:login_name => "Admin", :email => "admin@example.com", :password => "secret", :language_id=> 7, :auth_type=>3, :user_status=>"active")
+  #  session[:user_id] = user.id
+  #end
 
   #def login_as_admin
   #  before :each do
@@ -12,18 +16,18 @@ module ControllerMacros
   #    sign_in user
   #  end
   #end
-  def log_user
-    auth_method = FactoryGirl.create(:auth_method)
-    language = FactoryGirl.create(:en_language)
-    user = FactoryGirl.create(:user, :first_name => "Administrator", :last_name => "Projestimate", :initials => "ad", :login_name => "admin", :email => "admin@gmail.com", :user_status => "active", :auth_method => auth_method, :language => language)
-    User.anonymous
-    get "/dashbord"
-    assert_equal nil, session[:user_id]
-    assert_response :success
-    assert_template "account/login"
-    post "/dashbord", :login_name =>user.login_name, :password => user.password
-    assert_equal login, User.find(session[:user_id]).login
-  end
+  #def log_user
+  #  auth_method = FactoryGirl.create(:auth_method)
+  #  language = FactoryGirl.create(:en_language)
+  #  user = FactoryGirl.create(:user, :first_name => "Administrator", :last_name => "Projestimate", :initials => "ad", :login_name => "admin", :email => "admin@gmail.com", :user_status => "active", :auth_method => auth_method, :language => language)
+  #  User.anonymous
+  #  get "/dashbord"
+  #  assert_equal nil, session[:user_id]
+  #  assert_response :success
+  #  assert_template "account/login"
+  #  post "/dashbord", :login_name =>user.login_name, :password => user.password
+  #  assert_equal login, User.find(session[:user_id]).login
+  #end
   #def login_as_user
   #  before :each do
   #    #@request.env["devise.mapping"] = Devise.mappings[:user]
