@@ -1,10 +1,6 @@
 require 'spec_helper'
 describe LanguagesController do
-  #login_as_admin
-  #it "should have current_user" do
-  #  subject.current_user.should_not be_nil
-  #end
-  #
+
   describe "GET index" do
     it "renders the index template" do
       get :index
@@ -27,5 +23,4 @@ describe LanguagesController do
       response.should render_template("edit")
     end
   end
-
 end
