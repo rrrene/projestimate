@@ -86,6 +86,13 @@ def load_data!
     #Find correct record status id
     rsid = RecordStatus.find_by_name("Defined").id
 
+    puts "   - Record Status"
+    #Update record status to "Defined"
+    record_statuses = RecordStatus.all
+    record_statuses.each do |rs|
+      rs.update_attribute(:record_status_id, rsid)
+    end
+
     puts "   - Master setting"
     #Create master/admin setting
     MasterSetting.create(:key => "url_wiki", :value => "http://projestimate.org/projects/pe/wiki", :record_status_id => rsid)

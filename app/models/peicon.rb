@@ -23,6 +23,7 @@ class Peicon < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   attr_accessible :name, :icon, :record_status_id
+
   has_attached_file :icon, :styles => { :small => "16x16" }
 
   validates_attachment :icon, :presence => true,

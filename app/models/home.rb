@@ -27,7 +27,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "icon_file_name", "icon_content_type", "icon_updated_at", "icon_file_size", "uuid"])
 
       puts "   - WorkElementType"
       self.update_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
@@ -39,7 +39,8 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalLanguage, Language, ["name", "locale", "uuid"])
 
       puts "   - Admin Settings"
-      self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
+      #self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "uuid"])
 
       puts "   - Auth Method"
       self.update_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ["name", "server_name", "port", "base_dn", "certificate", "uuid"])
@@ -93,32 +94,53 @@ class Home < ActiveRecord::Base
     ext_custom_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
     ext_local_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Local").id
 
-    externals = external.send(:defined, ext_defined_rs_id, ext_custom_rs_id).send(:all)
+    externals = external.send(:defined, ext_defined_rs_id).send(:all)
     locals = local.send(:all)
+    fields = fields + %w(change_comment)
 
     #We have to consider statuses listed in custom_status_to_consider
     custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
-    unless custom_status_to_consider.nil?
+    unless custom_status_to_consider.blank?
       statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
+      puts "Custom_value_liste = #{statuses_to_consider}"
 
-      first_custom_value = statuses_to_consider.first
-      custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rs_id, first_custom_value)
+      statuses_to_consider.each do |custom_value|
+        #For each custom_value_to_consider, we find the corresponding record on Master with the same custom value
+        ext_custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rs_id, custom_value)
+        puts "Custom_value = #{custom_value}"
 
-      #Get the custom record parent index from defined record
-      index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-      custom_parent_record = index.nil? ? nil : externals[index]
-      unless custom_parent_record.nil?
-        custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
-        fields.each do |field|
-          #Update the defined record with the Custom one value
-          custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
+        #If there is at least one custom record to consider
+        unless ext_custom_record.nil?
+          #We need to get the external record parent, then priority is given to the custom one
+          ext_custom_record_parent = external.find_by_uuid(ext_custom_record.reference_uuid)
+
+          #If the record has no parent, it will be added in the list to be consider for the update
+          if ext_custom_record_parent.nil?
+            externals.push(ext_custom_record)
+            puts "J ai pas de Parent"
+          else
+            #Else, the record has its parent (may be already consider for update)
+            #In this case, priority is given to  custom one
+            new_fields = fields - %w(uuid)
+
+            externals.map! { |item|
+              if item.uuid == ext_custom_record.reference_uuid
+                new_fields.each do |field|
+                  item.send("#{field}=", ext_custom_record.send(field.to_sym))
+                end
+                item
+              else
+                item
+              end
+            }
+
+          end
         end
-        custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-        externals[index] = custom_parent_record
       end
     end
 
     externals.each do |ext|
+      puts "ext = #{ext}"
       corresponding_local_rs_id = nil
       if ext.record_status_id == ext_defined_rs_id
         corresponding_local_rs_id = loc_defined_rs_id
@@ -126,16 +148,19 @@ class Home < ActiveRecord::Base
         corresponding_local_rs_id = loc_custom_rs_id
       end
 
-
-      local_record = local.find_by_uuid(ext.uuid)
+      #We only need to update Defined or Custom record (local and locally edited records will be kept intact)
+      local_record =  local.where("uuid = ? and record_status_id <> ? and custom_value <> ?", ext.uuid, loc_local_rs_id, "Locally edited").first #local.find_by_uuid(ext.uuid)
       unless local_record.nil?
         fields.each do |field|
           local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
         end
-        local_record.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
+        local_record.update_attribute(:record_status_id, corresponding_local_rs_id)
+        puts "Test"
+        local_record.update_attribute(:change_comment, ext.change_comment)
       end
 
       unless locals.map(&:uuid).include?(ext.uuid)
+        puts "nouvel enregistrement"
         #self.create_records(external, local, fields)
         obj = local.send(:new)
         #for each fields
@@ -143,7 +168,8 @@ class Home < ActiveRecord::Base
           #we update our local object with the external value
           obj.update_attribute(:"#{field}", ext.send(field.to_sym))
         end
-        obj.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
+        obj.update_attribute(:record_status_id, corresponding_local_rs_id)
+        obj.update_attribute(:change_comment, ext.change_comment)
       end
 
     end
@@ -155,12 +181,12 @@ class Home < ActiveRecord::Base
   #fields: fields concerned
   def self.create_records(external, loc, fields)
     #Find correct record status id
-    rsid = RecordStatus.find_by_name("Defined").id
+    local_defined_rs_id = RecordStatus.find_by_name("Defined").id
     ext_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
-    externals = external.send(:defined, ext_rsid, ext_custom_rsid).send(:all)
+    externals = external.send(:custom_defined, ext_rsid, ext_custom_rsid).send(:all)
 
 
     #for each external records...
@@ -172,7 +198,7 @@ class Home < ActiveRecord::Base
         #we update our local object with the external value
         obj.update_attribute(:"#{field}", ext.send(field.to_sym))
       end
-      obj.update_attributes(:record_status_id => rsid, :change_comment => ext.change_comment)
+      obj.update_attributes(:record_status_id => local_defined_rs_id, :change_comment => ext.change_comment)
     end
   end
 
@@ -180,11 +206,20 @@ class Home < ActiveRecord::Base
   def self.load_master_data!
     #begin
       record_status = ExternalMasterDatabase::ExternalRecordStatus.all
+      puts "Record_status length = #{record_status.count}"
       record_status.each do |i|
-        rs = RecordStatus.new(:name => i.name, :description => i.description)
+        rs = RecordStatus.new(:name => i.name, :description => i.description, :uuid => i.uuid)
         rs.save(:validate => false)
+        #rs.save
       end
-      rsid = RecordStatus.find_by_name("Defined").id
+
+      local_defined_rs_id = RecordStatus.find_by_name("Defined").id
+
+      puts "   - Updating Record Status"  #Update record status to "Defined"
+      record_statuses = RecordStatus.all
+      record_statuses.each do |rs|
+        rs.update_attribute(:record_status_id, local_defined_rs_id)
+      end
 
       puts "Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -209,10 +244,10 @@ class Home < ActiveRecord::Base
 
       puts "   - Projestimate Icons"
       #self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
-      folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
-      link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
-      undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
-      default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
+      folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => local_defined_rs_id)
+      link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => local_defined_rs_id)
+      undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => local_defined_rs_id)
+      default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => local_defined_rs_id)
 
       puts "   - WBS structure"
       self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
