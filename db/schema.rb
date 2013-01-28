@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130111111627) do
+ActiveRecord::Schema.define(:version => 20130118103846) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20130111111627) do
   add_index "auth_methods", ["uuid"], :name => "index_auth_methods_on_uuid", :unique => true
 
   create_table "components", :force => true do |t|
-    t.integer  "wbs_id"
+    t.integer  "pe_wbs_project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ancestry"
@@ -425,6 +425,13 @@ ActiveRecord::Schema.define(:version => 20130111111627) do
   create_table "organizations_users", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "organization_id"
+  end
+
+  create_table "pe_wbs_projects", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "peicons", :force => true do |t|
@@ -711,11 +718,28 @@ ActiveRecord::Schema.define(:version => 20130111111627) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
 
-  create_table "wbs", :force => true do |t|
-    t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "wbs_activities", :force => true do |t|
+    t.string   "uuid"
+    t.string   "name"
+    t.string   "state"
+    t.text     "description"
+    t.integer  "organization_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
+
+  create_table "wbs_activity_elements", :force => true do |t|
+    t.string   "uuid"
+    t.integer  "wbs_activity_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "ancestry"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"
+  add_index "wbs_activity_elements", ["wbs_activity_id"], :name => "index_wbs_activity_elements_on_wbs_activity_id"
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"

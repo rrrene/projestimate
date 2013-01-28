@@ -73,12 +73,12 @@ class ProjectsController < ApplicationController
         current_user.save
       end
 
-    #New default wbs
-    wbs = Wbs.new(:project => @project)
-    wbs.save
+    #New default pe_wbs_project
+    pe_wbs_project = PeWbsProject.new(:project => @project)
+    pe_wbs_project.save
 
     #New root component
-    component = Component.new(:is_root => true, :wbs_id => wbs.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
+    component = Component.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
     component.save
 
       redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
@@ -229,7 +229,7 @@ class ProjectsController < ApplicationController
 
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
     my_module_project.pemodule.attribute_modules.each do |am|
-      @project.wbs.components.each do |c|
+      @project.pe_wbs_project.components.each do |c|
         mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
                                               :module_project_id => my_module_project.id,
                                               :in_out => am.in_out,
@@ -336,14 +336,14 @@ class ProjectsController < ApplicationController
   #    new_mp.save
   #  end
   #
-  #  new_wbs = old_prj.wbs.dup
+  #  new_wbs = old_prj.pe_wbs_project.dup
   #  new_wbs.project_id = new_prj.id
   #  new_wbs.save
   #
-  #  old_prj.wbs.components.each do |c|
+  #  old_prj.pe_wbs_project.components.each do |c|
   #    if c.is_root?
   #      new_c = c.dup
-  #      new_c.wbs_id = new_prj.wbs.id
+  #      new_c.pe_wbs_project_id = new_prj.pe_wbs_project.id
   #      new_c.save
   #    end
   #  end
@@ -352,7 +352,7 @@ class ProjectsController < ApplicationController
   #end
 
 
-  #Method to duplicate project and associated WBS
+  #Method to duplicate project and associated pe_wbs_project
   def duplicate
     begin
       old_prj = Project.find(params[:project_id])
@@ -363,14 +363,14 @@ class ProjectsController < ApplicationController
 
       if new_prj.save
         #Managing the compoment tree
-        old_prj_components = old_prj.wbs.components
-        new_prj_components = new_prj.wbs.components
+        old_prj_components = old_prj.pe_wbs_project.components
+        new_prj_components = new_prj.pe_wbs_project.components
 
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
             new_c.ancestor_ids.each do |ancestor_id|
-               ancestor_id = Component.find_by_wbs_id_and_copy_id(new_c.wbs_id, ancestor_id).id
+               ancestor_id = Component.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
                new_ancestor_ids_list.push(ancestor_id)
             end
             new_c.ancestry = new_ancestor_ids_list.join('/')

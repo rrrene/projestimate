@@ -166,7 +166,7 @@ def load_data!
     puts "   - WBS structure"
     #Create first work element type (type of a component)
     WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id, :record_status_id => rsid)
-    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id)
+    WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Developed Software", :alias => "DevSW", :peicon_id => default.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Purchased Software", :alias => "$SW", :peicon_id => default.id, :record_status_id => rsid)
@@ -289,11 +289,11 @@ def load_data!
     #Associated default user with sample project     
     user.project_ids = [project.id]
     user.save
-    #Create default wbs associated with previous project
-    Wbs.create(:project_id => project.id)
-    wbs = Wbs.first
+    #Create default Pe-wbs-Project associated with previous project
+    PeWbsProject.create(:project_id => project.id)
+    pe_wbs_project = PeWbsProject.first
     #Create root component
-    component = Component.create(:is_root => true, :wbs_id => wbs.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
+    component = Component.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
     component = Component.first
 
     puts "Create project security level..."

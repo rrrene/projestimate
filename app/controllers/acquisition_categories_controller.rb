@@ -33,6 +33,13 @@ class AcquisitionCategoriesController < ApplicationController
     authorize! :manage_acquisition_categories, AcquisitionCategory
     set_page_title "Acquisition Category"
     @acquisition_category = AcquisitionCategory.find(params[:id])
+
+    unless @acquisition_category.child.nil?
+      if @acquisition_category.child.is_proposed_or_custom?
+        flash[:notice] = "This Acquisition category can not be edited, previous changes have not yet been validated"
+        redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
+      end
+    end
   end
 
   def create
@@ -40,7 +47,7 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = "Acquisition category was successfully created."
-      redirect_to redirect("/projects_global_params#tabs-4")
+      redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
     else
       render action: "edit"
     end
@@ -51,14 +58,15 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = nil
     current_acquisition_category = AcquisitionCategory.find(params[:id])
     if current_acquisition_category.record_status == @defined_status
-      @acquisition_category = current_acquisition_category.dup()
+      @acquisition_category = current_acquisition_category.amoeba_dup
+      @acquisition_category.owner_id = current_user.id
     else
       @acquisition_category = current_acquisition_category
     end
 
     if @acquisition_category.update_attributes(params[:acquisition_category])
       flash[:notice] = "Acquisition category was successfully updated."
-      redirect_to redirect("/projects_global_params#tabs-4")
+      redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
     else
       render action: "edit"
     end
@@ -76,6 +84,6 @@ class AcquisitionCategoriesController < ApplicationController
     end
 
     flash[:notice] = 'Acquisition category was successfully deleted.'
-    redirect_to redirect("/projects_global_params#tabs-4")
+    redirect_to projects_global_params_path(:anchor => "tabs-4")
   end
 end

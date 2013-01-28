@@ -36,6 +36,13 @@ class PeiconsController < ApplicationController
   def edit
     set_page_title "Icons libraries"
     @icon = Peicon.find(params[:id])
+
+    unless @icon.child.nil?
+      if @icon.child.is_proposed_or_custom?
+        flash[:notice] = "This Projestimate Icon can not be edited, previous changes have not yet been validated."
+        redirect_to peicons_path
+      end
+    end
   end
 
   def create

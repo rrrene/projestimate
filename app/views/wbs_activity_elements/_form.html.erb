@@ -1,0 +1,21 @@
+<div class="span12">
+  <% action_name = controller.action_name %>
+  <% if %w(new edit).include?(action_name) %>
+      <h2><%= ("#{action_name}" == "new")? "New WBS-Activity Element" : "Update WBS-Activity Element"%></h2>
+  <% end %>
+
+  <%= simple_form_for(@wbs_activity_element) do |f| %>
+      <%= f.error_notification %>
+
+        <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
+        <%= f.association :wbs_activity, :collection => current_user_wbs_activities.map{|i| [i.name, i.id]}, :label => "WBS-Activity", :input_html => { :class => 'input-xxlarge' } %>
+
+        <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
+
+        <%= f.button :submit %>
+
+  <% end %>
+</div>
+
+
+

@@ -43,6 +43,13 @@ class LaborCategoriesController < ApplicationController
     set_page_title "Labors Categories"
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
+
+    unless @labor_category.child.nil?
+      if @labor_category.child.is_proposed_or_custom?
+        flash[:notice] = "This labor category can not be edited, previous changes have not yet been validated."
+        redirect_to redirect(labor_categories_path)
+      end
+    end
   end
 
   def create

@@ -34,7 +34,7 @@ class Project < ActiveRecord::Base
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
 
-  has_one :wbs, :dependent => :destroy
+  has_one :pe_wbs_project, :dependent => :destroy
 
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
@@ -67,8 +67,7 @@ class Project < ActiveRecord::Base
 
   amoeba do
     enable
-    #include_field [:wbs]  #working very well
-    include_field [:wbs, :pemodules, :groups, :users]
+    include_field [:pe_wbs_project, :pemodules, :groups, :users]
 
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number} of #{original_project.title}"
@@ -88,9 +87,9 @@ class Project < ActiveRecord::Base
     end
   end
 
-  #Return the root component of the wbs and consequetly of the project.
+  #Return the root component of the pe-wbs-project and consequetly of the project.
   def root_component
-    Component.find_by_wbs_id_and_is_root(self.wbs.id, true)
+    Component.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
   end
 
   #Override
@@ -136,7 +135,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.wbs.components.select{|i| i.folder? }
+    self.pe_wbs_project.components.select{|i| i.folder? }
   end
 
   def self.table_search(search)
@@ -145,11 +144,6 @@ class Project < ActiveRecord::Base
     else
       scoped
     end
-  end
-
-  #Generate an error (build error) during building of estimation plan
-  def self.build_error
-    raise "A build error has been detected. Please verify the integrity of your estimation process."
   end
 
 end

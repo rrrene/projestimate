@@ -102,19 +102,19 @@ describe Project do
 
   #TODO
   #it "should return his root component" do
-  #  @project.root_component.id.should eql(@project.wbs.components.first.id)
+  #  @project.root_component.id.should eql(@project.pe_wbs_project.components.first.id)
   #end
 
   it "should return the good WBS attached to the project" do
     project = FactoryGirl.create(:project)
-    project.wbs = FactoryGirl.create(:wbs_1)
-    #wbs.project.should eql(project1)
-    project.wbs.project_id.should eql(project.id)
+    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
+    #pe_wbs_project.project.should eql(project1)
+    project.pe_wbs_project.project_id.should eql(project.id)
   end
 
   it "should be the project root component" do
     component = FactoryGirl.create(:component)
-    project = component.wbs.project
+    project = component.pe_wbs_project.project
     project.root_component.is_root.should be_true
   end
 
@@ -124,33 +124,35 @@ describe Project do
   end
 
   it "should execute correctly a estimation plan" do
-     #TODO
+     #
   end
 
   it "should be a folder componenet" do
     project = FactoryGirl.create(:project)
-    project.wbs = FactoryGirl.create(:wbs_1)
+    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
     #peicon_folder = FactoryGirl.create(:peicon_folder)
     #peicon_link = FactoryGirl.create(:peicon_link)
     #wet_folder = FactoryGirl.create(:work_element_type_folder, :peicon => FactoryGirl.create(:peicon_folder))
 
-    #project.wbs.components << FactoryGirl.create(:component_folder)
-    #project.wbs.components << FactoryGirl.create(:component_link)
+    #project.pe_wbs_project.components << FactoryGirl.create(:component_folder)
+    #project.pe_wbs_project.components << FactoryGirl.create(:component_link)
 
-    project.wbs.components.each do |pc|
+    project.pe_wbs_project.components.each do |pc|
       pc.work_element_type.name.should eql("Folder")
     end
   end
 
   it "should return an array of folder" do
     project = FactoryGirl.create(:project)
-    project.wbs = FactoryGirl.create(:wbs_1)
-    project.folders.should eql(project.wbs.components.select{|i| i.folder? })
+    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
+    project.folders.should eql(project.pe_wbs_project.components.select{|i| i.folder? })
   end
 
-  it "should raise an error" do
-     #TODO
+  it "should return table search" do
+    Project::table_search("").should be_kind_of(ActiveRecord::Relation)
+    Project::table_search("").should be_an_instance_of(ActiveRecord::Relation)
   end
+
 
   after :each do
     #clean up

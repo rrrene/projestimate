@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h1>New Projects</h1>
+  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update Project"%></h2>
 <% else %>
   <h1><%= action_name.humanize %> <%= current_project.title %></h1>
 <% end %>
@@ -12,7 +12,7 @@
   <ul>
     <li><a href="#tabs-1">Global properties </a></li>
     <% if action_name == "edit" %>
-      <li><a href="#tabs-2">PE-WBS </a></li>
+      <li><a href="#tabs-2">PE-WBS Project </a></li>
       <li><a href="#tabs-3">Estimation plan </a></li>
       <li><a href="#tabs-4">Securities </a></li>
       <li><a href="#tabs-5">Calendrier </a></li>
@@ -92,8 +92,8 @@
 
     <div id="tabs-2">
        <div class="component_tree">
-         <% unless @project.nil? || @project.wbs.nil? %>
-           <%=raw generate_wbs(@project.wbs.components.last.root, @project, "", 5) %>
+         <% unless @project.nil? || @project.pe_wbs_project.nil? %>
+           <%=raw generate_wbs(@project.pe_wbs_project.components.last.root, @project, "", 5) %>
          <% end %>
        </div>
     </div>

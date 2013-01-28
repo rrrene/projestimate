@@ -18,6 +18,22 @@
 #
 ########################################################################
 
-#encoding: utf-8
-class WbsController < ApplicationController
+#PE-WBS6Project has many component and belongs to project
+class PeWbsProject < ActiveRecord::Base
+  has_many :components, :dependent => :destroy
+
+  has_many :wbs_activity_elements, :dependent => :destroy
+
+  belongs_to :project
+
+  validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :project_id, :presence => true
+
+  #Enable the amoeba gem for deep copy/clone (dup with associations)
+  amoeba do
+    enable
+    include_field :components
+    propagate
+  end
+
 end

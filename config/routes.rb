@@ -1,5 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
+  resources :wbs_activities
+  resources :wbs_activity_elements
+
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
 
   #GUIs controller
@@ -89,7 +92,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "down" => "components#down"
   get "selected_component" => "components#selected_component"
 
-  resources :wbs
+  resources :pe_wbs_projects
 
   resources :projects
   get "add_module" => "projects#add_module"

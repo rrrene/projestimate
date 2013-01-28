@@ -31,6 +31,13 @@ class PlatformCategoriesController < ApplicationController
   def edit
     set_page_title "Platform Category"
     @platform_category = PlatformCategory.find(params[:id])
+
+    unless @platform_category.child.nil?
+      if @platform_category.child.is_proposed_or_custom?
+        flash[:notice] = "This platform category can not be edited, previous changes have not yet been validated."
+        redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
+      end
+    end
   end
 
   def create
@@ -38,7 +45,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.save
       flash[:notice] = "Platform category was successfully created."
-      redirect_to redirect("/projects_global_params#tabs-3")
+      redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
     else
       render action: "new"
     end
@@ -56,7 +63,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.update_attributes(params[:platform_category])
       flash[:notice] = "Platform category was successfully updated."
-      redirect_to redirect("/projects_global_params#tabs-3")
+      redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
     else
       render action: "edit"
     end
@@ -72,6 +79,6 @@ class PlatformCategoriesController < ApplicationController
     end
 
     flash[:notice] = "Platform category was successfully deleted."
-    redirect_to "/projects_global_params#tabs-3"
+    redirect_to projects_global_params_path(:anchor => "tabs-3")
   end
 end
