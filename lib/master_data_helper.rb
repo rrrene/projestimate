@@ -133,8 +133,8 @@ module MasterDataHelper
         unless self.is_local_record?
           self.custom_value.blank? ? "" : "( #{self.custom_value} ) "
         end
-
       end
+
     end
 
     #Show record status collection list according to current_user permission

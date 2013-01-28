@@ -10,7 +10,7 @@ module DataValidationHelper
     #TODO: Define authorization for master data validation
     #authorize! :"edit_#{record_class_name.downcase.pluralize}", "#{record_class_name.constantize}"
 
-    begin
+    #begin
       #Get the record to validate from its ID
       @record = record_class_name.constantize.find(params[:id])
       trans_successful = false
@@ -24,7 +24,7 @@ module DataValidationHelper
         if @record.save
           flash[:notice] = 'Changes on record was successfully validated.'
         else
-          flash[:error] =  'Changes validation failed.'
+          flash[:error] =  'Changes validation failed with no parent.'
         end
       else
         temp_parent_uuid = parent_record.uuid
@@ -54,14 +54,14 @@ module DataValidationHelper
 
       redirect_to :back and return
 
-    rescue ActiveRecord::StatementInvalid => error
-      put "#{error.message}"
-      flash[:error] = "#{error.message}"
-      redirect_to :back and return
-    rescue ActiveRecord::RecordInvalid => err
-      flash[:error] = "#{err.message}"
-      redirect_to :back
-    end
+    #rescue ActiveRecord::StatementInvalid => error
+    #  put "#{error.message}"
+    #  flash[:error] = "#{error.message}"
+    #  redirect_to :back and return
+    #rescue ActiveRecord::RecordInvalid => err
+    #  flash[:error] = "#{err.message}"
+    #  redirect_to :back
+    #end
   end
 
 

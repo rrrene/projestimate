@@ -20,7 +20,6 @@ module ExternalInclude
 end
 
 
-
 module ExternalMasterDatabase
 
   HOST = {
