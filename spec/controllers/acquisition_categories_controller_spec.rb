@@ -24,23 +24,6 @@ describe AcquisitionCategoriesController do
     end
   end
 
-  describe "DELETE destroy" do
-    #it "redirects to the acquisition_category list" do
-    #  delete :destroy, {:id => @acquisition_category.to_param}
-    #  #response.should redirect_to redirect(:back)
-    #end
-    #it "destroys the requested acquisition_category" do
-    #  if @acquisition_category.record_status == @defined_status
-    #    expect{ @acquisition_category.record_status == @retired_status }
-    #  else
-    #    expect {
-    #      #delete :destroy, {:id => @acquisition_category.to_param}
-    #    }.to change(AcquisitionCategory, :count).by(-1)
-    #  end
-    #end
-
-  end
-
   describe "Create" do
 
   end

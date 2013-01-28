@@ -16,7 +16,7 @@ module DataValidationHelper
       trans_successful = false
       #Temporally save uuid
       temp_current_uuid = @record.uuid
-      parent_record = @record.parent
+      parent_record = @record.parent_reference
 
       #If record parent is nil (for new created record)...only status is going to change
       if parent_record.nil?
@@ -33,14 +33,14 @@ module DataValidationHelper
           @record.uuid = UUIDTools::UUID.timestamp_create.to_s
           parent_record.record_status = @retired_status
           parent_record.uuid = temp_current_uuid
-          parent_record.ref = @record.ref
+          parent_record.reference_uuid = @record.reference_uuid
           @record.save!
           parent_record.save!
           trans_successful = true
         end
 
         if trans_successful
-          @record.ref = nil
+          @record.reference_uuid = nil
           @record.uuid = temp_parent_uuid
           @record.record_status = @defined_status
 
@@ -77,7 +77,7 @@ module DataValidationHelper
       if @record.is_retired?
         #Temporally save uuid
         temp_current_uuid = @record.uuid
-        child_record =  record_class_name.constantize.find_by_uuid(@record.ref) #@record.child
+        child_record =  record_class_name.constantize.find_by_uuid(@record.reference_uuid) #@record.child
 
         if child_record.nil?
           @record.record_status = @defined_status
@@ -95,14 +95,14 @@ module DataValidationHelper
             @record.uuid = UUIDTools::UUID.timestamp_create.to_s
             child_record.record_status = @retired_status
             child_record.uuid = temp_current_uuid
-            child_record.ref = @record.ref
+            child_record.reference_uuid = @record.reference_uuid
             @record.save!(:validate => false)
             child_record.save!(:validate => false)
             trans_successful = true
           end
 
           if trans_successful
-            @record.ref = nil
+            @record.reference_uuid = nil
             @record.uuid = temp_child_uuid
             @record.record_status = @defined_status
 

@@ -6,8 +6,12 @@ module MasterDataHelper
   def self.included(base)
 
     base.class_eval do
+
+      #self relation on master data : Parent<->Child
+      has_one    :child_reference,  :class_name => "#{base}", :inverse_of => :parent_reference, :foreign_key => "reference_id"
+      belongs_to :parent_reference, :class_name => "#{base}", :inverse_of => :child_reference,  :foreign_key => "reference_id"
+
       #UUID generation on create
-      #before_validation :set_uuid
       #TODO: validate uuid format and length in model
       before_validation(:on => :create) do
         self.uuid = UUIDTools::UUID.timestamp_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"
@@ -17,10 +21,19 @@ module MasterDataHelper
       amoeba do
         enable
         customize(lambda { |original_record, new_record|
-          new_record.ref = original_record.uuid
-          new_record.parent = original_record
-          new_record.record_status = RecordStatus.first
+          new_record.reference_uuid = original_record.uuid
+          new_record.reference_id = original_record.id
+          new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
         })
+      end
+
+      #Local method for local instance record
+      define_method(:is_local_record?) do
+        begin
+          (self.record_status.name == "Local") ? true : false
+        rescue
+          false
+        end
       end
 
       #Define method for record status
@@ -53,7 +66,16 @@ module MasterDataHelper
       # If record status id defined or nil
       define_method(:is_defined_or_nil?) do
         begin
-          ( (self.record_status.name == "Defined") || (self.record_status.nil?) ) ? true : false
+          ((self.record_status.name == "Defined") || (self.record_status.nil?)) ? true : false
+        rescue
+          false
+        end
+      end
+
+      # If record status id local or nil
+      define_method(:is_local_or_nil?) do
+        begin
+          ((self.record_status.name == "Local") || (self.record_status.nil?)) ? true : false
         rescue
           false
         end
@@ -95,11 +117,20 @@ module MasterDataHelper
         end
       end
 
+      #isLocal record status
+      define_method(:is_local?) do
+        begin
+          (self.record_status.name == "local") ? true : false
+        rescue
+          false
+        end
+      end
+
 
       #Allow to show or not the record custom value (only if record_status = Custom) on List
       def show_custom_value
-        if self.is_custom?
-          "( #{self.custom_value} ) "
+        if self.is_custom? || self.is_local_record?
+          self.custom_value.blank? ? "" : "( #{self.custom_value} ) "
         end
       end
     end
@@ -109,12 +140,17 @@ module MasterDataHelper
       @record_statuses = RecordStatus.all
       begin
         if self.new_record?
-          @record_statuses = RecordStatus.where("name = ?", "Proposed")
+          if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+            @record_statuses = RecordStatus.where("name = ?", "Proposed")
+          else
+            @record_statuses = RecordStatus.where("name = ?", "Local")
+          end
         else
           @record_statuses = RecordStatus.where("name <> ?", "Defined")
         end
+
       rescue
-        nil
+        []
       end
     end
 

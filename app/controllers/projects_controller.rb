@@ -74,12 +74,12 @@ class ProjectsController < ApplicationController
       end
 
     #New default pe_wbs_project
-    pe_wbs_project = PeWbsProject.new(:project => @project)
+    pe_wbs_project = PeWbsProject.new(:project => @project, :name => "PE-WBS-#{@project.title}")
     pe_wbs_project.save
 
-    #New root component
-    component = Component.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
-    component.save
+    #New root pbs_project_element
+    pbs_project_element = PbsProjectElement.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
+    pbs_project_element.save
 
       redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
     else
@@ -229,7 +229,7 @@ class ProjectsController < ApplicationController
 
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
     my_module_project.pemodule.attribute_modules.each do |am|
-      @project.pe_wbs_project.components.each do |c|
+      @project.pe_wbs_project.pbs_project_elements.each do |c|
         mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
                                               :module_project_id => my_module_project.id,
                                               :in_out => am.in_out,
@@ -239,7 +239,7 @@ class ProjectsController < ApplicationController
                                               :numeric_data_most_likely => am.numeric_data_most_likely,
                                               :numeric_data_high => am.numeric_data_high,
                                               :custom_attribute => am.custom_attribute,
-                                              :component_id => c.id,
+                                              :pbs_project_element_id => c.id,
                                               :dimensions => am.dimensions,
                                               :project_value => am.project_value )
       end
@@ -255,7 +255,7 @@ class ProjectsController < ApplicationController
     @resultat = Array.new
 
     @project = current_project
-    @component = current_component
+    @pbs_project_element = current_component
     @folders = @project.folders.reverse
     val = 0
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
@@ -267,10 +267,10 @@ class ProjectsController < ApplicationController
       input_value  = params["input_#{level}"]
 
       #Execute estimation plan. and stock result
-      @resultat << @project.run_estimation_plan(1, input_value, {}, @component, current_project) #current_pos, arguments, last_result, others, component, project
+      @resultat << @project.run_estimation_plan(1, input_value, {}, @pbs_project_element, current_project) #current_pos, arguments, last_result, others, pbs_project_element, project
 
       @project.module_projects.each do |mp|
-        mp.module_project_attributes.reject{|i| i.component_id != current_component.id}.each do |mpa|
+        mp.module_project_attributes.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
 
           if mpa.input?
 
@@ -301,7 +301,7 @@ class ProjectsController < ApplicationController
           mpa.update_attributes(in_result)
 
           end
-          mpa.update_attribute("component_id", current_component.id)
+          mpa.update_attribute("pbs_project_element_id", current_component.id)
         end
       end
 
@@ -317,7 +317,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :partial => "components/refresh" }
+      format.js { render :partial => "pbs_project_elements/refresh" }
     end
   end
 
@@ -340,7 +340,7 @@ class ProjectsController < ApplicationController
   #  new_wbs.project_id = new_prj.id
   #  new_wbs.save
   #
-  #  old_prj.pe_wbs_project.components.each do |c|
+  #  old_prj.pe_wbs_project.pbs_project_elements.each do |c|
   #    if c.is_root?
   #      new_c = c.dup
   #      new_c.pe_wbs_project_id = new_prj.pe_wbs_project.id
@@ -363,14 +363,14 @@ class ProjectsController < ApplicationController
 
       if new_prj.save
         #Managing the compoment tree
-        old_prj_components = old_prj.pe_wbs_project.components
-        new_prj_components = new_prj.pe_wbs_project.components
+        old_prj_components = old_prj.pe_wbs_project.pbs_project_elements
+        new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
 
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
             new_c.ancestor_ids.each do |ancestor_id|
-               ancestor_id = Component.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
+               ancestor_id = PbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
                new_ancestor_ids_list.push(ancestor_id)
             end
             new_c.ancestry = new_ancestor_ids_list.join('/')

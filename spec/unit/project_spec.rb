@@ -100,10 +100,9 @@ describe Project do
 
   #OTHERS TESTS
 
-  #TODO
-  #it "should return his root component" do
-  #  @project.root_component.id.should eql(@project.pe_wbs_project.components.first.id)
-  #end
+  it "should return his root pbs_project_element" do
+    #@project1.root_component.id.should eql(@project1.pe_wbs_project.pbs_project_elements.first.id)
+  end
 
   it "should return the good WBS attached to the project" do
     project = FactoryGirl.create(:project)
@@ -112,9 +111,9 @@ describe Project do
     project.pe_wbs_project.project_id.should eql(project.id)
   end
 
-  it "should be the project root component" do
-    component = FactoryGirl.create(:component)
-    project = component.pe_wbs_project.project
+  it "should be the project root pbs_project_element" do
+    pbs_project_element = FactoryGirl.create(:pbs_project_element)
+    project = pbs_project_element.pe_wbs_project.project
     project.root_component.is_root.should be_true
   end
 
@@ -134,10 +133,10 @@ describe Project do
     #peicon_link = FactoryGirl.create(:peicon_link)
     #wet_folder = FactoryGirl.create(:work_element_type_folder, :peicon => FactoryGirl.create(:peicon_folder))
 
-    #project.pe_wbs_project.components << FactoryGirl.create(:component_folder)
-    #project.pe_wbs_project.components << FactoryGirl.create(:component_link)
+    #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_folder)
+    #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_link)
 
-    project.pe_wbs_project.components.each do |pc|
+    project.pe_wbs_project.pbs_project_elements.each do |pc|
       pc.work_element_type.name.should eql("Folder")
     end
   end
@@ -145,7 +144,7 @@ describe Project do
   it "should return an array of folder" do
     project = FactoryGirl.create(:project)
     project.pe_wbs_project = FactoryGirl.create(:wbs_1)
-    project.folders.should eql(project.pe_wbs_project.components.select{|i| i.folder? })
+    project.folders.should eql(project.pe_wbs_project.pbs_project_elements.select{|i| i.folder? })
   end
 
   it "should return table search" do

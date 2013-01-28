@@ -86,11 +86,11 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :groups
 
-  resources :components
-  get "new" => "components#new"
-  get "up" => "components#up"
-  get "down" => "components#down"
-  get "selected_component" => "components#selected_component"
+  resources :pbs_project_elements
+  get "new" => "pbs_project_elements#new"
+  get "up" => "pbs_project_elements#up"
+  get "down" => "pbs_project_elements#down"
+  get "selected_pbs_project_element" => "pbs_project_elements#selected_pbs_project_element"
 
   resources :pe_wbs_projects
 
@@ -115,21 +115,13 @@ ProjestimateMaquette::Application.routes.draw do
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
 
   resources :users
-  get "show_login" => "users#show_login", :as => "show_login"
   get "dashboard" => "users#show", :as => "dashboard"
   get "sign_up" => "users#new", :as => "sign_up"
-  get "admin" => "users#admin", :as => "admin"
-  get "master" => "users#master", :as => "master"
-  get "library" => "users#library", :as => "library"
-  get "show_help" => "users#show_help", :as => "help_me"
-  get "parameters" => "users#parameters", :as => "parameters"
   get "validate" => "users#validate", :as => "validate"
-  get "projestimate_globals_parameters" => "users#projestimate_globals_parameters", :as => "projestimate_globals_parameters"
   post "create_inactive_user" => "users#create_inactive_user", :as => "create_inactive_user"
   get "find_use_user" => "users#find_use_user" , :as => "find_use_user"
   get "about" => "users#about" , :as => "about"
   match 'users/:id/activate' => 'users#activate', :as => 'activate'
-  get "user_record_number" => "users#user_record_number", :as => "user_record_number"
   get "display_states" => "users#display_states", :as => "display_states"
 
   resources :password_resets

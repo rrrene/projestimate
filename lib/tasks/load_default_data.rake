@@ -76,7 +76,8 @@ def load_data!
         ["Draft", "TBD"],
         ["Defined", "TBD"],
         ["Retired", "TBD"],
-        ["Custom", "TBD"]
+        ["Custom", "TBD"],
+        ["Local", "TBD"]
     ]
     record_status.each do |i|
       RecordStatus.create(:name => i[0], :description => i[1] )
@@ -146,7 +147,7 @@ def load_data!
       ["Staffing", "staffing", "Staff required to accomplish a task", "integer", [], "sum"],
       ["Staffing complexity", "staffing_complexity", "A rating of the project's inherent difficulty in terms of the rate at which staff are added to a project.", "integer", [], "average"],
       ["Effective technology", "effective_technology", "A composite metric that captures factors relating to the efficiency or productivity with which development can be carried out.", "integer", [], "average"],
-      ["End date", "end_date", "End date for a task, a component. Dependent of delay.", "date", [], "maxi"], 
+      ["End date", "end_date", "End date for a task, a pbs_project_element. Dependent of delay.", "date", [], "maxi"],
       ["Effort", "effort", "Effort in Man-Months", "integer", [], "average"],
       ["Duration", "duration", "Duration of a task", "integer", [], "average"],
       ["Complexity", "complexity", "Application complexity (for COCOMO modules)", "integer", [], "average"],
@@ -158,13 +159,13 @@ def load_data!
 
     puts "   - Projestimate Icons"
 
-    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png", "r"), :record_status_id => rsid)
+    folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
     link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
     undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
     default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
 
     puts "   - WBS structure"
-    #Create first work element type (type of a component)
+    #Create first work element type (type of a pbs_project_element)
     WorkElementType.create(:name => "Folder", :alias => "folder", :peicon_id => folder.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Link", :alias => "link", :peicon_id => link.id, :record_status_id => rsid)
     WorkElementType.create(:name => "Undefined", :alias => "undefined", :peicon_id => undefined.id, :record_status_id => rsid)
@@ -290,11 +291,11 @@ def load_data!
     user.project_ids = [project.id]
     user.save
     #Create default Pe-wbs-Project associated with previous project
-    PeWbsProject.create(:project_id => project.id)
+    PeWbsProject.create(:project_id => project.id, :name => "PE-WBS-#{project.title}")
     pe_wbs_project = PeWbsProject.first
-    #Create root component
-    component = Component.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
-    component = Component.first
+    #Create root pbs_project_element
+    pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
+    pbs_project_element = PbsProjectElement.first
 
     puts "Create project security level..."
     #Default project Security Level
@@ -334,11 +335,11 @@ def load_data!
                    ["modify_a_project", "Modifier un projet", true],
                    ["access_to_a_project", "Access to project", true],
                    ["list_project", "View the list of Project (project index)", true],
-                   ["add_a_component", "Add a Component", true],
-                   ["delete_a_component", "Delete Component", true],
-                   ["move_a_component", "Move Component", true],
-                   ["edit_a_component", "Edit Component", true],
-                   ["access_to_a_component", "Access Component", true],
+                   ["add_a_pbs_project_element", "Add a PbsProjectElement", true],
+                   ["delete_a_pbs_project_element", "Delete PbsProjectElement", true],
+                   ["move_a_pbs_project_element", "Move PbsProjectElement", true],
+                   ["edit_a_pbs_project_element", "Edit PbsProjectElement", true],
+                   ["access_to_a_pbs_project_element", "Access PbsProjectElement", true],
                    ["add_a_module_to_a_process", "Add Mdoule to project estimation process", true],
                    ["delete_a_module_project", "Delete a project module", true],
                    ["move_a_module_project", "Move a project module", true],

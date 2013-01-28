@@ -8,9 +8,25 @@
       <%= f.error_notification %>
 
         <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
-        <%= f.association :wbs_activity, :collection => current_user_wbs_activities.map{|i| [i.name, i.id]}, :label => "WBS-Activity", :input_html => { :class => 'input-xxlarge' } %>
+
+        <%= f.input :wbs_activity_id, :as => :hidden, :label => "WBS-Activity", :input_html => { :value => @wbs_activity.id, :class => 'input-xxlarge' } %>
+
+          <%= f.input :parent_id, :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected.nil? ? '' : @selected.id,  :input_html => { :class => 'input-xxlarge' } %>
 
         <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
+
+        <% if is_master_instance? %>
+
+          <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+
+          <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
+                            :collection => @wbs_activity_element.record_status_collection,
+                            :input_html => {:class => "record_status"},
+                            :selected => (@wbs_activity_element.is_defined_or_nil? ? @proposed_status.id : @wbs_activity_element.record_status_id),
+                            :disabled => (true if @wbs_activity_element.is_retired?) %><br />
+
+          <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />
+        <% end %>
 
         <%= f.button :submit %>
 

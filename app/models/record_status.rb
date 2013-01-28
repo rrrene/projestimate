@@ -50,14 +50,14 @@ class RecordStatus < ActiveRecord::Base
   has_many :record_statuses, :class_name => "RecordStatus", :foreign_key => "record_status_id"
   belongs_to :record_status, :class_name => "RecordStatus", :foreign_key => "record_status_id"
 
-  #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "RecordStatus", :inverse_of => :parent, :foreign_key => "parent_id"
-  belongs_to :parent, :class_name => "RecordStatus", :inverse_of => :child,  :foreign_key => "parent_id"
-
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :description, :presence => true      #:record_status,
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
+
+  def to_s
+    name
+  end
 end

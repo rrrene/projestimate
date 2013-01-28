@@ -20,7 +20,7 @@
 
 #Component of the PE-WBS-Project. Component belongs to a type (dev, cots, folder, link...)
 #Component use Ancestry gem (has_ancestry). See ancestry on github for more informations.
-class Component < ActiveRecord::Base
+class PbsProjectElement < ActiveRecord::Base
   has_ancestry
 
   belongs_to :pe_wbs_project
@@ -39,8 +39,8 @@ class Component < ActiveRecord::Base
   amoeba do
     enable
 
-    customize(lambda { |original_component, new_component|
-      new_component.copy_id = original_component.id
+    customize(lambda { |original_pbs_project_elt, new_pbs_project_elt|
+      new_pbs_project_elt.copy_id = original_pbs_project_elt.id
 
     })
 

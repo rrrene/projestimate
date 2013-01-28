@@ -23,10 +23,6 @@
 class Group < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
-  #self relation on master data : Parent<->Child
-  has_one    :child,  :class_name => "Group", :inverse_of => :parent, :foreign_key => "parent_id"
-  belongs_to :parent, :class_name => "Group", :inverse_of => :child,  :foreign_key => "parent_id"
-
   has_and_belongs_to_many :users
   has_and_belongs_to_many :projects
 
@@ -37,7 +33,8 @@ class Group < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :record_status, :presence => true
+  validates :record_status, :presence => true##, :if => :on_master_instance?   #defined in MasterDataHelper
+
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?

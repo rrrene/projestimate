@@ -1,6 +1,10 @@
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
+  EXTERNAL_BASES = [ExternalLanguage, ExternalAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
+                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
+                    ExternalPermission]
+
   def self.update_master_data!
     puts "Updating from Master Data"
     begin
@@ -70,7 +74,7 @@ class Home < ActiveRecord::Base
 
   def self.latest_repo_update
     dates = Array.new
-    [ExternalLanguage, ExternalAttribute].each do |table|
+    EXTERNAL_BASES.each do |table|
       if table == Attribute
         dates << Object::Attribute::attribute_updated_at
       else
@@ -84,10 +88,12 @@ class Home < ActiveRecord::Base
   def self.update_records(external, local, fields)
     loc_defined_rs_id = RecordStatus.find_by_name("Defined").id
     loc_custom_rs_id = RecordStatus.find_by_name("Custom").id
+    loc_local_rs_id = RecordStatus.find_by_name("Local").id
     ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
     ext_custom_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
+    ext_local_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Local").id
 
-    externals = external.send(:defined, ext_defined_rs_id).send(:all)
+    externals = external.send(:defined, ext_defined_rs_id, ext_custom_rs_id).send(:all)
     locals = local.send(:all)
 
     #We have to consider statuses listed in custom_status_to_consider
@@ -154,31 +160,8 @@ class Home < ActiveRecord::Base
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
-    externals = external.send(:defined, ext_rsid).send(:all)
+    externals = external.send(:defined, ext_rsid, ext_custom_rsid).send(:all)
 
-    #We have to consider statuses listed in custom_status_to_consider
-    #custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
-    #unless custom_status_to_consider.nil?
-    #  statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
-    #
-    #  first_custom_value = statuses_to_consider.first
-    #  custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rsid, first_custom_value)
-    #
-    #  #Get the custom record parent index from defined record
-    #  index = custom_record.nil? ? nil : externals.index(custom_record.parent)
-    #  custom_parent_record = index.nil? ? nil : externals[index]
-    #  unless custom_parent_record.nil?
-    #    custom_parent_record_uuid = custom_parent_record.uuid #temporary save the parent uuid
-    #    custom_parent_record_ref = custom_parent_record.ref
-    #
-    #    fields.each do |field|
-    #      #Update the defined record with the Custom one value
-    #      custom_parent_record.update_attribute(:"#{field}", custom_record.send(field.to_sym))
-    #    end
-    #    custom_parent_record.update_attribute(:uuid, custom_parent_record_uuid)
-    #    externals[index] = custom_parent_record
-    #  end
-    #end
 
     #for each external records...
     externals.each do |ext|
@@ -193,6 +176,7 @@ class Home < ActiveRecord::Base
     end
   end
 
+  #Load MasterData from scratch
   def self.load_master_data!
     #begin
       record_status = ExternalMasterDatabase::ExternalRecordStatus.all
@@ -200,6 +184,7 @@ class Home < ActiveRecord::Base
         rs = RecordStatus.new(:name => i.name, :description => i.description)
         rs.save(:validate => false)
       end
+      rsid = RecordStatus.find_by_name("Defined").id
 
       puts "Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -223,7 +208,11 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      #self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
+      link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => rsid)
+      undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => rsid)
+      default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => rsid)
 
       puts "   - WBS structure"
       self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
@@ -281,9 +270,9 @@ class Home < ActiveRecord::Base
       PeWbsProject.create(:name => "PE-WBS-Sample", :project_id => project.id)
       pe_wbs_project = PeWbsProject.first
 
-      #Create root component
-      component = Component.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
-      component = Component.first
+      #Create root pbs_project_element
+      pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
+      pbs_project_element = PbsProjectElement.first
 
       puts "Create project security level..."
       self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ["name", "uuid"])

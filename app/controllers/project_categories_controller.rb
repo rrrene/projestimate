@@ -32,8 +32,8 @@ class ProjectCategoriesController < ApplicationController
     set_page_title "Project Category"
     @project_category = ProjectCategory.find(params[:id])
 
-    unless @project_category.child.nil?
-      if @project_category.child.is_proposed_or_custom?
+    unless @project_category.child_reference.nil?
+      if @project_category.child_reference.is_proposed_or_custom?
         flash[:notice] = "This project category can not be edited, previous changes have not yet been validated."
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
       end

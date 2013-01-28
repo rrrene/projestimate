@@ -36,8 +36,8 @@ class ActivityCategoriesController < ApplicationController
     authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.find(params[:id])
 
-    unless @activity_category.child.nil?
-      if @activity_category.child.is_proposed_or_custom?
+    unless @activity_category.child_reference.nil?
+      if @activity_category.child_reference.is_proposed_or_custom?
         flash[:notice] = "This Activity category can not be edited, previous changes have not yet been validated"
         redirect_to activity_categories_path
       end

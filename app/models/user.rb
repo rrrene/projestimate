@@ -239,4 +239,8 @@ class User < ActiveRecord::Base
     Group.find_all_by_name(["Admin", "MasterAdmin"])
   end
 
+  def tz
+    self.time_zone.nil? ? "UTC" : self.time_zone
+  end
+
 end

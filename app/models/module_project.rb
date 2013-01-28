@@ -38,7 +38,7 @@ class ModuleProject < ActiveRecord::Base
   end
 
   #Define if two module of project linked between them.
-  def is_linked_to?(mp, component_id)
+  def is_linked_to?(mp, pbs_project_element_id)
     self.module_project_attributes.each do |mpa|
       while !(mpa.links.empty?) do
         return true
@@ -48,7 +48,7 @@ class ModuleProject < ActiveRecord::Base
   end
 
   #Return the list of attributes that two modules of the project linked between them.
-  def liaison(mp, component_id)
+  def liaison(mp, pbs_project_element_id)
     self.module_project_attributes.each do |i|
       while !(i.links.empty?) do
         return i.links.first

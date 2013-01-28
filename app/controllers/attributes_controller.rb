@@ -40,8 +40,8 @@ class AttributesController < ApplicationController
     set_page_title "Attributes"
     @attribute = Attribute.find(params[:id])
 
-    unless @attribute.child.nil?
-      if @attribute.child.is_proposed_or_custom?
+    unless @attribute.child_reference.nil?
+      if @attribute.child_reference.is_proposed_or_custom?
         flash[:notice] = "This Attribute can't be edited, because the previous changes have not yet been validated."
         redirect_to attributes_path
       end

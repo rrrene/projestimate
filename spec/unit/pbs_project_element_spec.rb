@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Component do
+describe PbsProjectElement do
 
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
@@ -18,7 +18,7 @@ describe Component do
     @bad.should_not be_valid
   end
 
-  it "should return component name" do
+  it "should return PBS Project element name" do
     @folder.to_s.should eql("Folder1")
   end
 

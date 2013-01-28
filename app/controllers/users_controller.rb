@@ -111,20 +111,6 @@ class UsersController < ApplicationController
 
   end
 
-  #Check password minimum length value
-  def good_password_length
-    begin
-      password_length = default_password_length = 4
-      user_as =  AdminSetting.find_by_key("password_min_length")
-      if !user_as.nil?
-        password_length = user_as.value.to_i
-      end
-      password_length
-    rescue
-      password_length
-    end
-  end
-
   #Dashboard of the application
   def show
     set_page_title "Dashboard"
@@ -139,7 +125,7 @@ class UsersController < ApplicationController
           User.first.update_attribute(:ten_latest_projects, tlp.uniq)
         end
 
-      session[:component_id] = nil
+      session[:pbs_project_element_id] = nil
 
       @user = current_user
       @project = current_project
@@ -182,43 +168,6 @@ class UsersController < ApplicationController
     end
   end
 
-  #Show help
-  def show_help
-    set_page_title "Help"
-    @faq = Help.find_by_help_type_id(HelpType.find_by_name("faq"))
-  end
-
-  def library
-    authorize! :access_to_admin, User
-    set_page_title "Library"
-  end
-
-  #Display administration page
-  def admin
-    authorize! :access_to_admin, User
-    set_page_title "Administration"
-  end
-
-  def master
-    authorize! :access_to_admin, User
-    set_page_title "Master parameters"
-  end
-
-  #Display parameters page
-  def parameters
-    set_page_title "Global Parameters"
-  end
-
-  def projestimate_globals_parameters
-    set_page_title "Projestimate Global Parameters"
-  end
-
-  #Apply filter on users index
-  def apply_filter
-    fields = params[:filter].flatten(2).reject{|i| i == "" }
-    @users = User.select(fields)
-  end
-
   def destroy
     @user = User.find(params[:id])
     @user.destroy
@@ -247,10 +196,6 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  def user_record_number
-    @users = User.page(params[:page]).per_page(params[:nb].to_i || 1)
-  end
-
   def display_states
     unless params[:state] == ""
       @users = User.where(:user_status => params[:state]).page(params[:page])
@@ -259,13 +204,4 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-
-  def sort_column
-    User.column_names.include?(params[:sort]) ? params[:sort] : "first_name"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-  end
 end

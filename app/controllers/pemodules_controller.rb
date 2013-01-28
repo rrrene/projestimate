@@ -47,8 +47,8 @@ class PemodulesController < ApplicationController
     @attributes = Attribute.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
 
-    unless @pemodule.child.nil?
-      if @pemodule.child.is_proposed_or_custom?
+    unless @pemodule.child_reference.nil?
+      if @pemodule.child_reference.is_proposed_or_custom?
         flash[:notice] = "This projestimate module can not be edited, previous changes have not yet been validated."
         redirect_to pemodules_path
       end

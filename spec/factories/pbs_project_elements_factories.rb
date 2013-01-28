@@ -6,7 +6,7 @@ FactoryGirl.define do
   #  cl.association :work_element_type#, :factory =>  :work_element_type_folder
   #end
 
-  #factory :component do
+  #factory :pbs_project_element do
   #  name "Component"
   #  is_root false
   #
@@ -19,12 +19,12 @@ FactoryGirl.define do
   #  end
   #end
 
-  factory :folder, :class => Component do
+  factory :folder, :class => PbsProjectElement do
     name "Folder1"
     is_root false
   end
 
-  factory :bad, :class => Component do |cl|
+  factory :bad, :class => PbsProjectElement do |cl|
     cl.name ""
     cl.is_root false
   end

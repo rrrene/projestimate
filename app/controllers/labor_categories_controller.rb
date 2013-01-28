@@ -44,8 +44,8 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
 
-    unless @labor_category.child.nil?
-      if @labor_category.child.is_proposed_or_custom?
+    unless @labor_category.child_reference.nil?
+      if @labor_category.child_reference.is_proposed_or_custom?
         flash[:notice] = "This labor category can not be edited, previous changes have not yet been validated."
         redirect_to redirect(labor_categories_path)
       end

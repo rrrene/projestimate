@@ -22,11 +22,13 @@
     <td><%= link_to '', edit_activity_category_path(activity_category), :class => "icn_edit", :title => "Edit" %></td>
     <td><%= link_to '', activity_category, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
     <td>
-      <% if activity_category.is_retired? %>
-          <%= link_to('Restore', "activity_categories/#{activity_category.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
-      <% else %>
-          <% unless activity_category.is_defined? %>
-              <%= link_to('Validate', "activity_categories/#{activity_category.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+      <% if is_master_instance? && !activity_category.is_local_record?%>
+          <% if activity_category.is_retired? %>
+              <%= link_to('Restore', "activity_categories/#{activity_category.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+          <% else %>
+              <% unless activity_category.is_defined? %>
+                  <%= link_to('Validate', "activity_categories/#{activity_category.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
           <% end %>
       <% end %>
     </td>

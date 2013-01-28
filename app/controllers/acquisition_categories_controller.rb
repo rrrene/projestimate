@@ -34,8 +34,8 @@ class AcquisitionCategoriesController < ApplicationController
     set_page_title "Acquisition Category"
     @acquisition_category = AcquisitionCategory.find(params[:id])
 
-    unless @acquisition_category.child.nil?
-      if @acquisition_category.child.is_proposed_or_custom?
+    unless @acquisition_category.child_reference.nil?
+      if @acquisition_category.child_reference.is_proposed_or_custom?
         flash[:notice] = "This Acquisition category can not be edited, previous changes have not yet been validated"
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       end

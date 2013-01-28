@@ -26,7 +26,7 @@
 
   <div class="span6">
       <% unless current_component.nil? %>
-        <%= form_tag({:controller => "projects", :action => "run_estimation", :component_id => current_component.id}, :method => "get", :remote => true) %>
+        <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :method => "get", :remote => true) %>
           <% @project.module_projects.each do |mp| %>
             <div class="widget">
               <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
