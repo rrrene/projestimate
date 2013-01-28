@@ -104,7 +104,7 @@
 
       <%= f.input :language_id, :as => :select, :collection => Language.all, :selected => "English" %>
 
-      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name), :include_blank => false %>
+      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name), :include_blank => false, :selected => @user.time_zone || "GMT" %>
 
       <p>Assistance</p>
       <p>Notifications</p>
