@@ -27,7 +27,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "icon_file_name", "icon_content_type", "icon_updated_at", "icon_file_size", "uuid"])
 
       puts "   - WorkElementType"
       self.update_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
