@@ -5,7 +5,7 @@
   <td><%= wbs_activity_element.ancestry %></td>
   <td><%= wbs_activity_element.record_status.name unless wbs_activity_element.record_status.nil? %><%= wbs_activity_element.show_custom_value %></td>
 
-  <td><%= link_to '', edit_wbs_activity_element_path(wbs_activity_element, :parent_id => wbs_activity_element.id, :activity_id => wbs_activity_element.wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
+  <td><%= link_to '', edit_wbs_activity_element_path(wbs_activity_element, :activity_id => wbs_activity_element.wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
   <td><%= link_to '', wbs_activity_element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
 
   <td>
