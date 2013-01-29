@@ -187,6 +187,21 @@ class UsersController < ApplicationController
     set_page_title "About"
   end
 
+  #Check password minimum length value
+  def good_password_length
+    begin
+      password_length = default_password_length = 4
+      user_as =  AdminSetting.find_by_key("password_min_length")
+      if !user_as.nil?
+        password_length = user_as.value.to_i
+      end
+      password_length
+    rescue
+      password_length
+    end
+  end
+
+
   def activate
     @user = User.find(params[:id])
     unless @user.active?

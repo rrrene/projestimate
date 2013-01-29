@@ -2,6 +2,7 @@ require 'spec_helper'
 describe ActivityCategoriesController do
   before :each do
     @activity_category = FactoryGirl.create(:activity_category)
+    @params = { :id => @activity_category.id }
   end
   describe "GET index" do
     it "renders the index template" do
@@ -31,16 +32,37 @@ describe ActivityCategoriesController do
     end
   end
 
+  describe "create" do
+    #it "renders the create template" do
+    #  @params = { :name => "FRench",:alias=>"test",:description=>"test", :record_status=>23, :uuid => "1", :custom_value=>"custom"  }
+    #  post :create, @params
+    #  response.should be_success
+    #end
+    #it "renders the create template" do
+    #  @params = { :name => "Breton", :locale => "br" }
+    #  post :create, @params
+    #  response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
+    #end
+  end
+  describe "PUT update" do
+    describe "with valid params" do
+      it "updates the requested acquisition_category" do
+        @params = { :id=> @activity_category.id,:name => "FRench",:alias=>"test",:description=>"test", :record_status=>23, :uuid => "1", :custom_value=>"custom" }
+        put :update, @params
+        response.should be_success
+      end
+    end
+  end
   describe "DELETE destroy" do
-    #it "redirects to the activity_category list" do
-    #  delete :destroy, {:id => :activity_category.to_param}
-    #  response.should redirect_to(activity_categories_url)
+    #it "destroys the requested @acquisition_category" do
+    #    @params = { :id => @acquisition_category.id }
+    #    delete :destroy, @params
+    #    response.should be_success
     #end
-    #it "destroys the requested activity_category" do
-    #  expect {
-    #    delete :destroy, {:id => :activity_category.to_param}
-    #  }.to change(ActivityCategory, :count).by(-1)
+    #it "redirects to the acquisition_category list" do
+    #  @params = { :id => @activity_category.id }
+    #  delete :destroy, @params
+    #  response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
     #end
-
   end
 end

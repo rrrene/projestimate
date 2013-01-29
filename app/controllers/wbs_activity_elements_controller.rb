@@ -32,8 +32,15 @@ class WbsActivityElementsController < ApplicationController
   def edit
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.find(params[:id])
-    @selected = @wbs_activity_element.parent
-    @potential_parents = WbsActivityElement.all
+
+    if params[:activity_id]
+      @wbs_activity = WbsActivity.find(params[:activity_id])
+      @potential_parents = @wbs_activity.wbs_activity_elements
+    end
+
+    if params[:parent_id]
+      @selected = WbsActivityElement.find(params[:parent_id])
+    end
 
     if is_master_instance?
 
@@ -90,8 +97,12 @@ class WbsActivityElementsController < ApplicationController
       end
     end
 
+    if params[:wbs_activity_element][:wbs_activity_id]
+      @wbs_activity = WbsActivity.find(params[:wbs_activity_element][:wbs_activity_id])
+    end
+
     if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
-      redirect_to wbs_activity_elements_path, notice: 'Wbs activity element was successfully updated.'
+      redirect_to wbs_activity_element_path(@wbs_activity.id), notice: 'Wbs activity element was successfully updated.'
     else
       render action: "edit"
     end

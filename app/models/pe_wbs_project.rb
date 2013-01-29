@@ -22,8 +22,6 @@
 class PeWbsProject < ActiveRecord::Base
   has_many :pbs_project_elements, :dependent => :destroy
 
-  has_many :wbs_activity_elements, :dependent => :destroy
-
   belongs_to :project
 
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}

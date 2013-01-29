@@ -1,12 +1,12 @@
 module WbsActivityElementsHelper
 
-  def generate_activity_element_tree(element, gap, tree)
+  def generate_activity_element_tree(element, tree)
     #Root is always display
     tree ||= String.new
     unless element.nil?
       if element.is_root?
-        tree << "<ul>
-                   <li>
+        tree << "<ul style='margin-left:1em;'>
+                   <li style='margin-left:-1em;'>
                     <div class='block_label'>
                       <div>
                         <span class='#{ element.record_status.to_s == 'Proposed' ? 'label label-important' : '' }' >Root element - #{element.name} </span>
@@ -19,11 +19,10 @@ module WbsActivityElementsHelper
       end
 
       if element.has_children?
-        gap = gap + 2
-        tree << "<ul class='sortable' style='margin-left:#{gap}px; border-left: 1px solid black; padding-left: 8px;''>"
+        tree << "<ul class='sortable'>"
         element.children.each do |e|
           tree << "<ul>
-                     <li>
+                     <li style='margin-left:#{element.depth}em;' >
                       <div class='block_label'>
                         <div>
                         <span class='#{ (e.record_status.to_s == "Proposed") ? 'label label-important' : '' }' > #{e.name} </span>
@@ -34,7 +33,7 @@ module WbsActivityElementsHelper
                       </div>
                     </li>"
 
-          generate_activity_element_tree(e, gap, tree)
+          generate_activity_element_tree(e, tree)
         end
         tree << "</ul>"
       end
@@ -45,7 +44,7 @@ module WbsActivityElementsHelper
   def link_activity_element(element)
     res = String.new
     res << link_to( '', new_wbs_activity_element_path(:parent_id => element.id, :activity_id => element.wbs_activity), :class => "icn_duplicate")
-    res << link_to( '', edit_wbs_activity_element_path(element), :class => "icn_edit", :title => "Edit")
+    res << link_to( '', edit_wbs_activity_element_path(element, :parent_id => element.id, :activity_id => element.wbs_activity), :class => "icn_edit", :title => "Edit")
     res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
 
     if is_master_instance? && !(element.record_status.to_s == 'Local')

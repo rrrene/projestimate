@@ -23,28 +23,30 @@ describe RecordStatusesController do
   # This should return the minimal set of attributes required to create a valid
   # RecordStatus. As you add validations to RecordStatus, be sure to
   # update the return value of this method accordingly.
-  #def valid_attributes
-  #  { "name" => "Proposed",
-  #  }
-  #end
+  def valid_attributes
+    {
+        "name" => "Proposed",
+    }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # RecordStatusesController. Be sure to keep this updated too.
-  #def valid_session
-  #  {
-  #  }
-  #end
-  #before :each do
-  #  @record_status = FactoryGirl.create(:record_statuses)
-  #end
+  def valid_session
+    {
+
+    }
+  end
+  before :each do
+    @record_status = FactoryGirl.create(:proposed_status)
+  end
   #
   #describe "GET index" do
   #  it "assigns all record_statuses as @record_statuses" do
-  #    #record_status = RecordStatus.create! valid_attributes
-  #    #get :index, {}, valid_session
+  #    record_status = RecordStatus.create! valid_attributes
+  #    get :index, {}, valid_session
   #    get :index
-  #    assigns(:record_statuses).should eq(@record_status)
+  #    assigns(:proposed_status).should eq(@record_status)
   #  end
   #end
 
