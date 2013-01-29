@@ -102,12 +102,10 @@ class Home < ActiveRecord::Base
     custom_status_to_consider = AdminSetting.find_by_key("custom_status_to_consider")
     unless custom_status_to_consider.blank?
       statuses_to_consider = custom_status_to_consider.value.nil? ? [] : custom_status_to_consider.value.split(";")
-      puts "Custom_value_liste = #{statuses_to_consider}"
 
       statuses_to_consider.each do |custom_value|
         #For each custom_value_to_consider, we find the corresponding record on Master with the same custom value
         ext_custom_record = external.find_by_record_status_id_and_custom_value(ext_custom_rs_id, custom_value)
-        puts "Custom_value = #{custom_value}"
 
         #If there is at least one custom record to consider
         unless ext_custom_record.nil?
@@ -117,11 +115,10 @@ class Home < ActiveRecord::Base
           #If the record has no parent, it will be added in the list to be consider for the update
           if ext_custom_record_parent.nil?
             externals.push(ext_custom_record)
-            puts "J ai pas de Parent"
           else
             #Else, the record has its parent (may be already consider for update)
             #In this case, priority is given to  custom one
-            new_fields = fields - %w(uuid)
+            new_fields = fields + %w(record_status_id) - %w(uuid)
 
             externals.map! { |item|
               if item.uuid == ext_custom_record.reference_uuid
@@ -140,7 +137,6 @@ class Home < ActiveRecord::Base
     end
 
     externals.each do |ext|
-      puts "ext = #{ext}"
       corresponding_local_rs_id = nil
       if ext.record_status_id == ext_defined_rs_id
         corresponding_local_rs_id = loc_defined_rs_id
@@ -149,19 +145,18 @@ class Home < ActiveRecord::Base
       end
 
       #We only need to update Defined or Custom record (local and locally edited records will be kept intact)
-      local_record =  local.where("uuid = ? and record_status_id <> ? and custom_value <> ?", ext.uuid, loc_local_rs_id, "Locally edited").first #local.find_by_uuid(ext.uuid)
-      unless local_record.nil?
-        fields.each do |field|
-          local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
-        end
-        local_record.update_attribute(:record_status_id, corresponding_local_rs_id)
-        puts "Test"
-        local_record.update_attribute(:change_comment, ext.change_comment)
-      end
+      local_record = local.corresponding_local_record(ext.uuid, loc_local_rs_id).first
 
-      unless locals.map(&:uuid).include?(ext.uuid)
-        puts "nouvel enregistrement"
-        #self.create_records(external, local, fields)
+      if locals.map(&:uuid).include?(ext.uuid)
+        unless local_record.nil?
+          fields.each do |field|
+            local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
+          end
+          local_record.update_attribute(:record_status_id, corresponding_local_rs_id)
+          local_record.update_attribute(:change_comment, ext.change_comment)
+        end
+
+      else
         obj = local.send(:new)
         #for each fields
         fields.each do |field|
@@ -186,8 +181,7 @@ class Home < ActiveRecord::Base
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Custom").id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
-    externals = external.send(:custom_defined, ext_rsid, ext_custom_rsid).send(:all)
-
+    externals = external.send(:defined, ext_rsid).send(:all)
 
     #for each external records...
     externals.each do |ext|
@@ -206,7 +200,6 @@ class Home < ActiveRecord::Base
   def self.load_master_data!
     #begin
       record_status = ExternalMasterDatabase::ExternalRecordStatus.all
-      puts "Record_status length = #{record_status.count}"
       record_status.each do |i|
         rs = RecordStatus.new(:name => i.name, :description => i.description, :uuid => i.uuid)
         rs.save(:validate => false)
