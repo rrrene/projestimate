@@ -7,7 +7,7 @@ class Home < ActiveRecord::Base
 
   def self.update_master_data!
     puts "Updating from Master Data"
-    begin
+    #begin
       puts "Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
 
@@ -60,17 +60,17 @@ class Home < ActiveRecord::Base
       puts "Create global permissions..."
       self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ["name", "description", "is_permission_project", "uuid"])
 
-      puts "\n\n"
-      puts "Default data was successfully loaded. Enjoy !"
-    rescue Errno::ECONNREFUSED
-      puts "\n\n\n"
-      puts "!!! WARNING - Error: Default data was not loaded, please investigate"
-      puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-    rescue Exception
-      puts "\n\n"
-      puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
-      puts "Maybe run db:create and db:migrate tasks."
-    end
+    #  puts "\n\n"
+    #  puts "Default data was successfully loaded. Enjoy !"
+    #rescue Errno::ECONNREFUSED
+    #  puts "\n\n\n"
+    #  puts "!!! WARNING - Error: Default data was not loaded, please investigate"
+    #  puts "Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+    #rescue Exception
+    #  puts "\n\n"
+    #  puts "!!! WARNING - Exception: Default data was not loaded, please investigate"
+    #  puts "Maybe run db:create and db:migrate tasks."
+    #end
   end
 
   def self.latest_repo_update
@@ -130,7 +130,6 @@ class Home < ActiveRecord::Base
                 item
               end
             }
-
           end
         end
       end
@@ -144,10 +143,10 @@ class Home < ActiveRecord::Base
         corresponding_local_rs_id = loc_custom_rs_id
       end
 
-      #We only need to update Defined or Custom record (local and locally edited records will be kept intact)
-      local_record = local.corresponding_local_record(ext.uuid, loc_local_rs_id).first
-
       if locals.map(&:uuid).include?(ext.uuid)
+        #We only need to update Defined or Custom record (local and locally edited records will be kept intact)
+        local_record = local.corresponding_local_record(ext.uuid, loc_local_rs_id).first
+
         unless local_record.nil?
           fields.each do |field|
             local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
@@ -206,9 +205,10 @@ class Home < ActiveRecord::Base
         #rs.save
       end
 
+      ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name("Defined").id
       local_defined_rs_id = RecordStatus.find_by_name("Defined").id
 
-      puts "   - Updating Record Status"  #Update record status to "Defined"
+      puts "   - Record Status"  #Update record status to "Defined"
       record_statuses = RecordStatus.all
       record_statuses.each do |rs|
         rs.update_attribute(:record_status_id, local_defined_rs_id)
@@ -237,10 +237,22 @@ class Home < ActiveRecord::Base
 
       puts "   - Projestimate Icons"
       #self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
-      folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => local_defined_rs_id)
-      link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => local_defined_rs_id)
-      undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => local_defined_rs_id)
-      default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => local_defined_rs_id)
+      #folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => local_defined_rs_id)
+      #link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => local_defined_rs_id)
+      #undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => local_defined_rs_id)
+      #default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => local_defined_rs_id)
+
+      #Need to have same UUID as Master Instance Icons
+      external_icons =  ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
+
+      external_icons.each do |ext_icon|
+        if %w(Folder Link Undefined Default).include?(ext_icon.name)
+          icon_name = ext_icon.name.downcase
+          icon = Peicon.create(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}.png"), :record_status_id => local_defined_rs_id)
+          icon.update_attribute(:uuid, ext_icon.uuid)
+        end
+      end
+
 
       puts "   - WBS structure"
       self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
