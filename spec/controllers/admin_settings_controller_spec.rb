@@ -3,6 +3,7 @@ describe AdminSettingsController do
   before :each do
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
     @proposed_status = FactoryGirl.build(:proposed_status)
+    @params = { :id => @admin_setting.id }
   end
   describe "GET index" do
     it "renders the index template" do
@@ -32,16 +33,37 @@ describe AdminSettingsController do
     end
   end
 
-  describe "DELETE destroy" do
-    #it "redirects to the admin_setting list" do
-    #  delete :destroy, {:id => :admin_setting.to_param}
+  describe "create" do
+    it "renders the create template" do
+      @params = {:record_status_id=>2, :value=>"WElcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
+      post :create, @params
+      response.should be_success
+    end
+    #it "renders the create template" do
+    #  @params = {:record_status_id=>2, :value=>"WElcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
+    #  post :create, @params
     #  response.should redirect_to(admin_settings_path)
     #end
-    #it "destroys the requested admin_setting" do
-    #  expect {
-    #    delete :destroy, {:id => :admin_setting.to_param}
-    #  }.to change(AdminSetting, :count).by(-1)
+  end
+  describe "PUT update" do
+    describe "with valid params" do
+      it "updates the requested @admin_setting" do
+        @params = { :id=> @admin_setting.id,:record_status_id=>2, :value=>"WElcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
+        put :update, @params
+        response.should be_success
+      end
+    end
+  end
+  describe "DELETE destroy" do
+    #it "destroys the requested @admin_setting" do
+    #    @params = { :id => @admin_setting.id }
+    #    delete :destroy, @params
+    #    response.should be_success
     #end
-
+    it "redirects to the @admin_setting list" do
+      @params = { :id => @admin_setting.id }
+      delete :destroy, @params
+      response.should redirect_to (admin_settings_path)
+    end
   end
 end

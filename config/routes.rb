@@ -132,6 +132,8 @@ ProjestimateMaquette::Application.routes.draw do
   get "log_out" => "sessions#destroy", :as => "log_out"
   get "ask_new_account"  => "sessions#ask_new_account", :as => "ask_new_account"
   get "help_login" => "sessions#help_login", :as => "help_login"
+  get "forgotten_password" => "sessions#forgotten_password", :as => "forgotten_password"
+  post "reset_forgotten_password" => "sessions#reset_forgotten_password", :as => "reset_forgotten_password"
 
   #Master Data validation and restoration routes
   match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'
