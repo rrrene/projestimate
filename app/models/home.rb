@@ -40,7 +40,7 @@ class Home < ActiveRecord::Base
 
       puts "   - Admin Settings"
       #self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
-      self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
 
       puts "   - Auth Method"
       self.update_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ["name", "server_name", "port", "base_dn", "certificate", "uuid"])
@@ -148,6 +148,13 @@ class Home < ActiveRecord::Base
         local_record = local.corresponding_local_record(ext.uuid, loc_local_rs_id).first
 
         unless local_record.nil?
+
+          if local.to_s == "AdminSetting"
+            if local_record.custom_value == "Locally edited"
+              fields = fields - ["value"]
+            end
+          end
+
           fields.each do |field|
             local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
           end

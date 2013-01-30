@@ -1,14 +1,14 @@
-  <%= simple_form_for(@group) do |f| %>
+<%= simple_form_for(@group) do |f| %>
     <% if @group.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+        <div id="error_explanation">
+          <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
 
-        <ul>
-        <% @group.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
+          <ul>
+            <% @group.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
     <% end %>
 
 
@@ -21,7 +21,7 @@
 
       <div id="tabs-1">
 
-        <div >
+        <div id="tabs-1-group" data-enable_update="<%= enable_update_in_local? %>" >
           <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
 
           <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 } %>
@@ -30,10 +30,10 @@
               <%= f.input :change_comment, :input_html => { :rows => 3 } %>
 
               <%= f.input :record_status_id, :as => :select, :label => "Status", :required => (is_master_instance? ? true : false),
-                                :collection => @group.record_status_collection,
-                                :input_html => {:class => "record_status"},
-                                :selected => (@group.is_defined_or_nil? ? @proposed_status.id : @group.record_status_id),
-                                :disabled => (true if @group.is_retired?) %><br />
+                          :collection => @group.record_status_collection,
+                          :input_html => {:class => "record_status"},
+                          :selected => (@group.is_defined_or_nil? ? @proposed_status.id : @group.record_status_id),
+                          :disabled => (true if @group.is_retired?) %><br />
 
               <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @group.is_custom?) %><br />
           <% end %>
@@ -54,10 +54,10 @@
               <th></th>
             </tr>
             <% @users.each do |group_user| %>
-              <tr>
-                <td><%= group_user.name %></td>
-                <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id}")%></td>
-              </tr>
+                <tr>
+                  <td><%= group_user.name %></td>
+                  <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id}")%></td>
+                </tr>
             <% end %>
           </table>
         </div>
@@ -71,22 +71,22 @@
               <th></th>
             </tr>
             <% @projects.each do |group_project| %>
-              <tr>
-                <td><%= group_project.title %></td>
-                <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}")%></td>
-              </tr>
+                <tr>
+                  <td><%= group_project.title %></td>
+                  <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}")%></td>
+                </tr>
             <% end %>
           </table>
         </div>
       </div>
-  </div>
+    </div>
 
-  <div class="actions">
-    <% if can? :update, @group %>
-        <%= f.submit "Save", :class => "btn btn-success" %>
-        <%= f.submit "Apply", :class => "btn btn-success" %>
-    <% end %>
-  </div>
+    <div class="actions">
+      <% if can? :update, @group %>
+          <%= f.submit "Save", :class => "btn btn-success" %>
+          <%= f.submit "Apply", :class => "btn btn-success" %>
+      <% end %>
+    </div>
 
-  <% end %>
+<% end %>
 

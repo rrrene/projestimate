@@ -24,6 +24,6 @@
   <p>
     Latest MasterData Repository update : <%= Home::latest_repo_update.nil? ? "None" : Home::latest_repo_update.in_time_zone(current_user.tz) %>
   </p>
-  <%= link_to "Download and apply MasterData update", update_install_path, :class => "btn", :disable_with => "Please wait. It could take a while", :onclick => "$('#spiner').toggle();" %>
+  <%= link_to "Download and apply MasterData update", update_install_path, :class => "btn", :disable_with => "Please wait. It could take a while", :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
   <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
 </span>

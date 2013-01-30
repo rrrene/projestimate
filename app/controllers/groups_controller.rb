@@ -24,6 +24,10 @@ class GroupsController < ApplicationController
 
   before_filter :get_record_statuses
 
+  helper_method :enable_update_in_local?
+  helper_method :user_organizations_users
+  helper_method :user_organizations_projects
+
   def index
     authorize! :edit_groups, Group
     set_page_title "Groups"
@@ -57,9 +61,10 @@ class GroupsController < ApplicationController
     else
       if @group.is_local_record?
         @group.record_status = @local_status
-      else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to redirect(groups_path) and return
+        ##flash[:notice] = "testons"
+      #else
+      #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
+      #  redirect_to redirect(groups_path)
       end
     end
   end
@@ -90,7 +95,7 @@ class GroupsController < ApplicationController
     @group = nil
     current_group = Group.find(params[:id])
 
-    if current_group.is_defined?
+    if current_group.is_defined? && is_master_instance?
       @group = current_group.amoeba_dup
       @group.owner_id = current_user.id
     else
@@ -120,7 +125,7 @@ class GroupsController < ApplicationController
         @group.destroy
       end
     else
-      if @group.is_local_record?
+      if @group.is_local_record? || @group.is_retired?
         @group.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
@@ -131,4 +136,52 @@ class GroupsController < ApplicationController
     flash[:notice] = "Group was successfully deleted."
     redirect_to groups_url
   end
+
+  def enable_update_in_local?
+    if is_master_instance?
+      true
+    else
+      if params[:action] == "new"
+        true
+      elsif params[:action] == "edit"
+        @group = Group.find(params[:id])
+        if @group.is_local_record?
+          true
+        else
+          if params[:anchor] == "tabs-1"
+            false
+          end
+        end
+      end
+    end
+  end
+
+
+
+  def associated_users
+    @group = Group.find(params[:id])
+  end
+
+  def associated_projects
+    @group = Group.find(params[:id])
+  end
+
+  def user_organizations_users
+    users = []
+    organizations = current_user.organizations
+    organizations.each do |org|
+      users = users + org.users
+    end
+    users
+  end
+
+  def user_organizations_projects
+    projects = []
+    organizations = current_user.organizations
+    organizations.each do |org|
+      projects = projects + org.projects
+    end
+    projects
+  end
+
 end

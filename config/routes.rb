@@ -85,6 +85,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "export_to_pdf" => "pemodules#export_to_pdf"
 
   resources :groups
+  get "associated_user" => "groups#associated_user" , :as => "associated_user"
 
   resources :pbs_project_elements
   get "new" => "pbs_project_elements#new"
