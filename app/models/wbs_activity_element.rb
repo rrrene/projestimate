@@ -9,8 +9,6 @@ class WbsActivityElement < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   belongs_to :wbs_activity
-  belongs_to :pe_wbs_project
-
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}, :unless => :check_reference

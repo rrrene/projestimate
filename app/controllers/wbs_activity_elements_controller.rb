@@ -23,9 +23,7 @@ class WbsActivityElementsController < ApplicationController
       @potential_parents = @wbs_activity.wbs_activity_elements
     end
 
-    if params[:parent_id]
-      @selected = WbsActivityElement.find(params[:parent_id])
-    end
+    @selected_parent ||= WbsActivityElement.find(params[:selected_parent_id])
 
   end
 
@@ -38,9 +36,7 @@ class WbsActivityElementsController < ApplicationController
       @potential_parents = @wbs_activity.wbs_activity_elements
     end
 
-    if params[:parent_id]
-      @selected = WbsActivityElement.find(params[:parent_id])
-    end
+    @selected_parent = @wbs_activity_element.parent
 
     if is_master_instance?
 
@@ -63,6 +59,8 @@ class WbsActivityElementsController < ApplicationController
   def create
     @wbs_activity_element = WbsActivityElement.new(params[:wbs_activity_element])
 
+    @selected = @wbs_activity_element.parent
+
     #If we are on local instance, Status is set to "Local"
     if is_master_instance?   #so not on master
       @wbs_activity_element.record_status = @proposed_status
@@ -84,11 +82,16 @@ class WbsActivityElementsController < ApplicationController
     @wbs_activity_element = nil
     current_wbs_activity_element = WbsActivityElement.find(params[:id])
 
+    @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
+    @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
+
+    @selected_parent = current_wbs_activity_element
+
     if current_wbs_activity_element.is_defined?
       @wbs_activity_element = current_wbs_activity_element.amoeba_dup
       @wbs_activity_element.owner_id = current_user.id
     else
-      @wbs_activity_element = current_wbs_activity_element
+      @wbs_activity_element = current_wbs_activity_element.parent
     end
 
     unless is_master_instance?
@@ -101,7 +104,7 @@ class WbsActivityElementsController < ApplicationController
       @wbs_activity = WbsActivity.find(params[:wbs_activity_element][:wbs_activity_id])
     end
 
-    if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
+    if current_wbs_activity_element.update_attributes(params[:wbs_activity_element])
       redirect_to wbs_activity_element_path(@wbs_activity.id), notice: 'Wbs activity element was successfully updated.'
     else
       render action: "edit"

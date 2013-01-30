@@ -17,6 +17,14 @@ module MasterDataHelper
         self.uuid = UUIDTools::UUID.timestamp_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"
       end
 
+      #scope for find methods
+      scope :by_uuid, lambda {|uuid| where("uuid = ?", uuid) }
+      scope :by_record_status_id, lambda {|record_status_id| where("record_status_id <> ?", record_status_id) }
+      scope :custom_value, lambda {|custom_value| where("custom_value <> ?", custom_value) }
+
+      scope :corresponding_local_record, lambda { |guid, loc| where("uuid = ? AND record_status_id <> ? AND (custom_value IS NULL OR custom_value <> ?)", guid, loc, "Locally edited") }
+
+
       #Enable the amoeba gem for deep copy/clone (dup with associations)
       amoeba do
         enable
