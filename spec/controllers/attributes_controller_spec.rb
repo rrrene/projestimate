@@ -2,6 +2,7 @@ require 'spec_helper'
 describe AttributesController do
   before :each do
     @attribute = FactoryGirl.create(:ksloc_attribute)
+    @params = { :id => @attribute.id }
   end
 
   describe "GET index" do
@@ -31,10 +32,26 @@ describe AttributesController do
       assigns(:ksloc_attribute)==(@attribute)
     end
   end
-  describe "PUT update" do
+  describe "create" do
+    #it "renders the create template" do
+    #  @params = { :name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status=>23, :custom_value=>"local"}
+    #  post :create, @params
+    #  response.should be_success
+    #end
+    #it "renders the create template" do
+    #  @params = { :name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status=>23, :custom_value=>"local"}
+    #  post :create, @params
+    #  response.should redirect_to redirect(attributes_path)
+    #end
   end
-
-  describe "POST create" do
+  describe "PUT update" do
+    describe "with valid params" do
+      it "updates the requested acquisition_category" do
+        @params = { :id=> @attribute.id,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status=>23, :custom_value=>"local" }
+        put :update, @params
+        response.should be_success
+      end
+    end
   end
 
   describe "DELETE destroy" do

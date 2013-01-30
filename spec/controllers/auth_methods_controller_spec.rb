@@ -18,30 +18,49 @@ describe AuthMethodsController do
   describe "New" do
     it "renders the new template" do
       get :new
-      response.should render_template("new")
+      response.should be_success
     end
-    #it "assigns a new default_auth_method as @default_auth_method" do
-    #  get :new
-    #  assigns(:default_auth_method).should be_a_new_record
+
+  end
+  describe "PUT update" do
+    describe "with valid params" do
+      it "updates the requested acquisition_category" do
+        @params = { :id=> @default_auth_method.id,:server_name=>"Not necessary", :port=>0, :base_dn=>"Not necessary", :record_status_id=>23, :uuid=>1, :name=>"Not necessary", :custum_value=>"local"}
+        put :update, @params
+        response.should be_success
+      end
+    end
+  end
+  describe "create" do
+    it "renders the create template" do
+      @params = { :server_name=>"Not necessary", :port=>0, :base_dn=>"Not necessary", :record_status_id=>23, :uuid=>1, :name=>"Not necessary", :custum_value=>"local" }
+      post :create, @params
+      response.should be_success
+    end
+    #it "renders the create template" do
+    #  @params = { :name => "Breton", :locale => "br" }
+    #  post :create, @params
+    #  response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
     #end
   end
-
   describe "GET edit" do
     it "assigns the requested default_auth_method as @default_auth_method" do
-      get :edit, {:id => @default_auth_method.to_param}
+      get :edit, {:id => @default_auth_method.id}
       assigns(:default_auth_method)==([@default_auth_method])
     end
   end
 
   describe "DELETE destroy" do
-    #it "redirects to the admin_setting list" do
-    #  delete :destroy, {:id => :admin_setting.to_param}
-    #  response.should redirect_to(admin_settings_path)
+
+    #it "destroys the requested @@default_auth_method" do
+    #    @params = { :id => @default_auth_method.id }
+    #    delete :destroy, @params
+    #    response.should be_success
     #end
-    #it "destroys the requested admin_setting" do
-    #  expect {
-    #    delete :destroy, {:id => :admin_setting.to_param}
-    #  }.to change(AdminSetting, :count).by(-1)
+    #it "redirects to the @auth_method list" do
+    #  @params = { :id => @default_auth_method.id }
+    #  delete :destroy, @params
+    #  response.should redirect_to(auth_methods_path)
     #end
 
   end
