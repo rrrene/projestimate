@@ -66,7 +66,7 @@ class WbsActivitiesController < ApplicationController
 
     if @wbs_activity.save
 
-      @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @local_status)
+      @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @proposed_status)
       @wbs_activity_element.save
 
       redirect_to wbs_activities_path
@@ -78,7 +78,7 @@ class WbsActivitiesController < ApplicationController
   def destroy
     @wbs_activity = WbsActivity.find(params[:id])
     if is_master_instance?
-      if @wbs_activity.draft?
+      if @wbs_activity.draft? || @wbs_activity.is_retired?
         @wbs_activity.delete
       elsif @wbs_activity.defined?
         @wbs_activity.state = "retired"
@@ -87,7 +87,7 @@ class WbsActivitiesController < ApplicationController
         flash[:notice] = "It's impossible to delete a retired activity"
       end
     else
-      if @wbs_activity.is_local_record?
+      if @wbs_activity.is_local_record? || @wbs_activity.is_retired?
         @wbs_activity.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"

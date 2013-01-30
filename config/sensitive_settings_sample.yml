@@ -5,6 +5,9 @@
 # quit 
 SECRET_TOKEN: your_generated_token_value
 
+# Host url using for reset password URL (eg:http://domain.org)
+HOST_URL: http://domain.org:3005
+
 # SMTP_ADDRESS: Allows you to use a remote mail server. Just change it from its default “localhost” setting (eg:smtp.sample.com)
 SMTP_ADDRESS: localhost 
 # SMTP_PORT: On the off chance that your mail server doesn’t run on port 25, you can change it.

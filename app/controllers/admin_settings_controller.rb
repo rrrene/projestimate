@@ -83,7 +83,7 @@ class AdminSettingsController < ApplicationController
       flash[:notice] = 'Admin setting was successfully updated.'
       redirect_to redirect(admin_settings_path)
     else
-      flash[:notice] = 'A error has occured during the update.'
+      flash[:notice] = 'A error has occurred during the update.'
       render action: "edit"
     end
   end

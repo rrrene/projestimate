@@ -8,3 +8,5 @@ ActionMailer::Base.smtp_settings = {
     :authentication => SETTINGS['SMTP_AUTHENTICATION'],
     :enable_starttls_auto => true
 }
+
+ProjestimateMaquette::Application.config.action_mailer.default_url_options = { :host => SETTINGS['HOST_URL'] }

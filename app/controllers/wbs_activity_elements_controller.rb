@@ -123,7 +123,7 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       end
     else
-      if @wbs_activity_element.is_local_record?
+      if @wbs_activity_element.is_local_record? || @wbs_activity_element.is_retired?
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
