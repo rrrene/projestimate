@@ -19,10 +19,6 @@ class WbsActivityElement < ActiveRecord::Base
     name
   end
 
-  def wbs_project_name
-    self.pe_wbs_project.nil? ? "" : "#{self.pe_wbs_project.name}"
-  end
-
   def check_reference
     if self.wbs_activity and self.parent
       !self.siblings.map(&:name).include?(self.name)

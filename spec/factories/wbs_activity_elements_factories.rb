@@ -3,9 +3,7 @@
 FactoryGirl.define do
   factory :wbs_activity_element do
     uuid "MyString"
-    wbs_activity_id 1
     name "MyString"
     description "MyText"
-    ancestry "MyString"
   end
 end

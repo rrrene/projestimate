@@ -52,4 +52,8 @@ describe Group do
     @group.to_s.should eql(@group.name)
   end
 
+  it "should return group project_securities for selected project_id" do
+    @group.project_securities_for_select(@project.id).should eql(@group.project_securities.first)
+  end
+
 end

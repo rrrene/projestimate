@@ -46,19 +46,22 @@ describe ModuleProject do
     @mp5.project.should be_a_kind_of(Project)
   end
   #Don't modifie please: tests are in echec because methods next and previous are not fonctionnal'
-  #it "should return next module project" do
-  #  @mp4.next().include?(@mp5).should be_true
-  #end
-  #it "should return previous module project" do
-  #  @mp5.previous().include?(@mp4).should be_true
-  #end
-  #
-  #it "should not return next module project" do
-  #  @mp5.next().include?(@mp4).should be_false
-  #end
-  #it "should not return previous module project" do
-  #  @mp4.previous().include?(@mp5).should be_false
-  #end
+  it "should return next module project" do
+    @mp4.next().include?(@mp5).should be_true
+  end
+  it "should return previous module project" do
+    @mp5.previous().include?(@mp4).should be_true
+  end
+
+  it "should not return next module project" do
+    @mp5.next().include?(@mp4).should be_false
+  end
+  it "should not return previous module project" do
+    @mp4.previous().include?(@mp5).should be_false
+  end
+
+
+
   it "should be return false if pemodule.compliant_component_type is nil" do
     @mp2.pemodule.compliant_component_type=nil
     @mp2.compatible_with('Toto').should be_false
@@ -83,16 +86,16 @@ describe ModuleProject do
   end
 
 
-  #it "should return previous modules or nil if first modules" do
-  #  @mp1.previous.should be_a(Array)
-  #  @mp5.previous.should be_a(Array)
-  #
-  #  @mp1.previous.should be_empty
-  #
-  #  @mp5.previous.size.should eql(2)
-  #  @mp3.previous.size.should eql(2)
-  #  @mp5.previous.first.position_y.should eql(2)
-  #end
+  it "should return previous modules or nil if first modules" do
+    @mp1.previous.should be_a(Array)
+    @mp5.previous.should be_a(Array)
+
+    @mp1.previous.should be_empty
+
+    @mp5.previous.size.should eql(2)
+    @mp3.previous.size.should eql(2)
+    @mp5.previous.first.position_y.should eql(2)
+  end
   #
   #it "should verify if two modules in the same project are linked" do
   #
