@@ -90,23 +90,29 @@ class AdminSettingsController < ApplicationController
 
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
-    if @admin_setting.is_local? and User.local_instance?
-      @admin_setting.destroy
-      flash[:notice] = 'Admin setting was successfully deleted.'
-    else
+
+    if is_master_instance?
       if @admin_setting.is_defined? || @admin_setting.is_custom?
         #logical deletion: delete don't have to suppress records anymore on defined record
         @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
-        flash[:notice] = 'Admin setting was successfully updated.'
+        flash[:notice] = 'Admin setting was successfully deleted.'
       else
         @admin_setting.destroy
         flash[:notice] = 'Admin setting was successfully deleted.'
       end
-      flash[:notice] = "You can't delete this record"
+      #if in local instance
+    else
+      if @admin_setting.is_local_record?
+        @admin_setting.destroy
+        flash[:notice] = 'Admin setting was successfully deleted.'
+      else
+        flash[:notice] = "You can't delete master data record"
+      end
     end
 
     redirect_to admin_settings_path
   end
+
 
   def admin_setting_selected_status
     begin
