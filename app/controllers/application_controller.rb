@@ -70,7 +70,6 @@ class ApplicationController < ActionController::Base
 
   def previous_page
     session[:now] ||= ""
-
     session[:previous] = session[:now]
     session[:now] = request.referer
   end
