@@ -29,20 +29,29 @@ namespace :projestimate do
        2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
     \n"
 
-    i = true
-    while i do
-      STDOUT.flush
-      response = STDIN.gets.chomp!
+    if (defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")) && Rails.env=="production"
+      print "You can't update yourself, as you already are on MasterData instance. \n"
+      print "Nothing to do. Bye. \n"
+      print "\n"
 
-      if response == '1'
-        are_you_sure? do
-          Home::update_master_data!
+    else
+
+      i = true
+      while i do
+        STDOUT.flush
+        response = STDIN.gets.chomp!
+
+        if response == '1'
+          are_you_sure? do
+            Home::update_master_data!
+          end
+          i = false
+        elsif response == '2'
+          puts "Nothing to do. Bye."
+          i = false
         end
-        i = false
-      elsif response == '2'
-        puts "Nothing to do. Bye."
-        i = false
       end
+
     end
   end
 end

@@ -14,10 +14,10 @@ describe ProjectSecurity do
 
   it "should return '-' if level is nil" do
     @project_security.project_security_level_id=nil
-    @project_security.level.should match('-')
+    @project_security.level.should eql('-')
   end
 
   it "should return level name if level is not nil" do
-    @project_security.level.should match(@project_security_level.name)
+    @project_security.level.should eql(@project_security_level.name)
   end
 end

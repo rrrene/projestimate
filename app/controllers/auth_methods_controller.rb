@@ -88,7 +88,7 @@ class AuthMethodsController < ApplicationController
         @auth_method.destroy
       end
     else
-      if @auth_method.is_local_record?
+      if @auth_method.is_local_record? || @auth_method.is_retired?
         @auth_method.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"

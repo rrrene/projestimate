@@ -89,6 +89,7 @@ $(document).ready(function() {
 
     $( ".tabs" ).tabs();
 
+
     $(function() {
         $("#users th a, #users .pagination a").live("click", function() {
           $.getScript(this.href);
@@ -134,6 +135,35 @@ $(document).ready(function() {
             $(".custom_value").attr("disabled", true);
         }
     });
+
+
+    //Disable all elements in DIV
+
+    $.fn.disable = function() {
+        return this.each(function() {
+            if (typeof this.disabled != "undefined") {
+                $(this).data('jquery.disabled', this.disabled);
+
+                this.disabled = true;
+            }
+        });
+    };
+
+    $.fn.enable = function() {
+        return this.each(function() {
+            if (typeof this.disabled != "undefined") {
+                this.disabled = $(this).data('jquery.disabled');
+            }
+        });
+    };
+
+    test = $('#tabs-1-group').data('enable_update');
+    if(test == false){
+        $('#tabs-1-group *').disable();
+    }
+
+
+    //END disabled all elements in DIV
 
 
 });

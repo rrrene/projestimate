@@ -29,32 +29,41 @@ namespace :projestimate do
        2- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
     \n"
 
-    i = true
-    while i do
-      STDOUT.flush
-      response = STDIN.gets.chomp!
+    if (defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")) && Rails.env=="production"
+      print "You can't load yourself, as you already are on MasterData instance. \n"
+      print "Nothing to do. Bye. \n"
+      print "\n"
 
-      if response == '1'
-        are_you_sure? do
-          puts "Deleting all data...\n"
-          tables = []
-          ActiveRecord::Base.connection.execute("show tables").each { |r| tables << r[0] }
-          tables = tables - ["schema_migrations"]
-          tables.each do |table|
-            ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+    else
+
+      i = true
+      while i do
+        STDOUT.flush
+        response = STDIN.gets.chomp!
+
+        if response == '1'
+          are_you_sure? do
+            puts "Deleting all data...\n"
+            tables = []
+            ActiveRecord::Base.connection.execute("show tables").each { |r| tables << r[0] }
+            tables = tables - ["schema_migrations"]
+            tables.each do |table|
+              ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+            end
+
+            #Deleting all association tables data
+            #association_tables = ["acquisition_categories_project_areas", "activity_categories_project_areas", "groups_permissions", "groups_projects", "groups_users", "labor_categories_project_areas", "links_module_project_attributes", "organizations_users", "permissions_project_security_levels", "permissions_users", "platform_categories_project_areas", "project_areas_project_categories", "project_areas_work_element_types" ]
+
+            puts "Loading Master Data"
+            Home::load_master_data!
           end
-
-          #Deleting all association tables data
-          #association_tables = ["acquisition_categories_project_areas", "activity_categories_project_areas", "groups_permissions", "groups_projects", "groups_users", "labor_categories_project_areas", "links_module_project_attributes", "organizations_users", "permissions_project_security_levels", "permissions_users", "platform_categories_project_areas", "project_areas_project_categories", "project_areas_work_element_types" ]
-
-          puts "Loading Master Data"
-          Home::load_master_data!
+          i = false
+        elsif response == '2'
+          puts "Nothing to do. Bye."
+          i = false
         end
-        i = false
-      elsif response == '2'
-        puts "Nothing to do. Bye."
-        i = false
       end
+
     end
   end
 end

@@ -33,6 +33,10 @@ module ExternalMasterDatabase
       :encoding => "utf8"
   }
 
+  class ExternalSchemaMigration < ActiveRecord::Base
+    establish_connection HOST
+    self.table_name = "schema_migrations"
+  end
 
   class ExternalAcquisitionCategory < ActiveRecord::Base
     establish_connection HOST
