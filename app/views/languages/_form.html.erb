@@ -4,6 +4,8 @@
 
     <div >
       <%= f.input :name %>
+      <%= f.input :uuid %>
+
       <%= f.input :locale %>
       <%= f.input :change_comment, :input_html => { :rows => 3 } %>
       <%= f.association :record_status, :label => "Status",

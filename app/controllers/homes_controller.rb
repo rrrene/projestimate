@@ -19,17 +19,32 @@ class HomesController < ApplicationController
         local_last_schema_version = ActiveRecord::Migrator.current_version  #current local migration version
 
         if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
+          puts "Same schema version"
           #Check if pull is needed
-          ##need_to_pull = "git pull --dry-run" ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
+          #need_to_pull = `git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
+          need_to_pull = "test" #`git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
 
-          Home::update_master_data!
-          $latest_update = Time.now
-          flash[:notice] = "Projestimate data have been updated successfully."
-          redirect_to "/about" and return
+          #testing =  system('git pull --dry-run')
+          #puts "testing = #{testing}"
+
+          #puts "COMMIT_VERSION = #{COMMIT_VERSION}"
+          #
+          #puts "NEEDED_TO_PULL = #{need_to_pull}"
+          #puts "NEEDED_TO_UPDATE = #{NEEDED_TO_UPDATE}"
+
+          if need_to_pull.nil? || need_to_pull.blank?
+            puts "Your repository is up to date"
+            flash[:notice] =  "you already have the latest MasterData"
+          else
+            Home::update_master_data!
+            $latest_update = Time.now
+            flash[:notice] = "Projestimate data have been updated successfully."
+          end
         else
           flash[:error] = "Your local DB schema differ to the MasterData one, please check for modifications or run 'rake db:migrate' command "
-          redirect_to "/about" and return
         end
+
+        redirect_to "/about"
 
       #rescue Errno::ECONNREFUSED
       #  flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
