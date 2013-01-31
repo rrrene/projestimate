@@ -37,7 +37,6 @@ class ProjectAreasController < ApplicationController
     @project_area = ProjectArea.new
   end
 
-  # GET /project_areas/1/edit
   def edit
     set_page_title "Project Area"
     @project_area = ProjectArea.find(params[:id])
