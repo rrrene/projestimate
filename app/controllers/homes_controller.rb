@@ -13,12 +13,15 @@ class HomesController < ApplicationController
         # git show --stat
        #git log -1 --stat
 
-      external_last_schemas_version = ExternalMasterDatabase::ExternalSchemaMigration.all.last
+        external_last_schemas_version = ExternalMasterDatabase::ExternalSchemaMigration.all.last
         version = nil
         #To get all version : ActiveRecord::Migrator.get_all_versions
         local_last_schema_version = ActiveRecord::Migrator.current_version  #current local migration version
 
         if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
+          #Check if pull is needed
+          ##need_to_pull = "git pull --dry-run" ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
+
           Home::update_master_data!
           $latest_update = Time.now
           flash[:notice] = "Projestimate data have been updated successfully."
