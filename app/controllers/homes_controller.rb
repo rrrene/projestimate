@@ -1,7 +1,7 @@
 class HomesController < ApplicationController
   def update_install
     if is_master_instance?
-      flash[:notice] = "You can't update yourself, as you already are on Master Instance"
+      flash[:error] = "You can't update yourself, as you already are on Master Instance"
       redirect_to "/about"
     else
       #begin
