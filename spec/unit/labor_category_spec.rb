@@ -29,7 +29,6 @@ describe LaborCategory do
 
   it "should not be valid when name is already taken" do
     @labor2 = @labor.dup
-    @labor2.record_status =  @proposed_status
     @labor2.save
     @labor2.should_not be_valid
   end

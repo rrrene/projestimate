@@ -54,6 +54,7 @@ class AttributesController < ApplicationController
     @attribute = Attribute.new(params[:attribute])
     @attribute.options = params[:options]
     @attribute.attr_type = params[:options][0]
+
     if @attribute.save
       redirect_to redirect(attributes_path)
     else

@@ -63,8 +63,8 @@ Spork.each_run do
     config.order = "random"
 
     #Manage user authentication on test
-    config.include Devise::TestHelpers, :type => :controller
-    config.extend ControllerMacros, :type => :controller
+    #config.include Devise::TestHelpers, :type => :controller
+    config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller
 
   end
 end

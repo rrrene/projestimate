@@ -2,10 +2,36 @@
 
 
 module ControllerMacros
-  #def login_as_admin
-  #  user = User.new(:login_name => "Admin", :email => "admin@example.com", :password => "secret", :language_id=> 7, :auth_type=>3, :user_status=>"active")
-  #  session[:user_id] = user.id
-  #end
+
+  def login_as_admin
+    #we create other record status
+    defined_record_status = RecordStatus.find_or_create_by_name(:name => "Defined", :description => "Test Saly")
+
+    proposed_status = RecordStatus.find_or_create_by_name(:name => "Proposed", :description => "tbd", :record_status_id => defined_record_status.id)
+    custom_status = RecordStatus.find_or_create_by_name(:name => "Custom", :description => "tbd", :record_status_id => defined_record_status.id)
+    draft_status = RecordStatus.find_or_create_by_name(:name => "Draft", :description => "tbd", :record_status_id => defined_record_status.id)
+    retired_status = RecordStatus.find_or_create_by_name(:name => "Retired", :description => "tbd", :record_status_id => defined_record_status.id)
+    inReview_status = RecordStatus.find_or_create_by_name(:name => "InReview", :description => "tbd", :record_status_id => defined_record_status.id)
+    local_status = RecordStatus.find_or_create_by_name(:name => "Local", :description => "tbd", :record_status_id => defined_record_status.id)
+
+    first_language = Language.first
+    if first_language.nil?
+      first_language = Language.new(:name => "English", :locale => "EN", :record_status_id => defined_record_status.id)
+      first_language.save
+    end
+
+    first_auth_method = AuthMethod.first
+    if first_auth_method.nil?
+      first_auth_method = AuthMethod.new(:name => "Application", :server_name => "Not used", :port => 0, :record_status_id => defined_record_status.id)
+      first_auth_method.save
+    end
+
+    user = User.new(:first_name => "Projestimate", :last_name => "Administrator", :login_name => "Admin", :email => "admin@example.com", :password => "secret", :password_confirmation => "secret", :language_id => first_language.id, :auth_type => first_auth_method.id, :user_status=>"active")
+    user.save
+    session[:current_user_id] = user.id
+    current_user = user
+  end
+
 
   #def login_as_admin
   #  before :each do
@@ -16,6 +42,8 @@ module ControllerMacros
   #    sign_in user
   #  end
   #end
+
+
   #def log_user
   #  auth_method = FactoryGirl.create(:auth_method)
   #  language = FactoryGirl.create(:en_language)

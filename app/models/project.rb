@@ -89,7 +89,8 @@ class Project < ActiveRecord::Base
 
   #Return the root pbs_project_element of the pe-wbs-project and consequetly of the project.
   def root_component
-    PbsProjectElement.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
+    #PbsProjectElement.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
+    self.pe_wbs_project
   end
 
   #Override

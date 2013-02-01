@@ -29,7 +29,6 @@ describe Group do
   it "should not be valid  when group name already exists" do
     group2 = @group.dup
     group2.name = @group.name
-    group2.record_status = @proposed_status
     group2.save
     group2.should_not be_valid
   end

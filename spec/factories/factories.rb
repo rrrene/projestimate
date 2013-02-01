@@ -90,7 +90,7 @@ FactoryGirl.define do
 
 
   # Components
-  factory :pbs_project_element do
+  factory :pbs_project_element_first, :class => PbsProjectElement do
     name "Root compoment"
     is_root true
     pe_wbs_project
@@ -98,10 +98,12 @@ FactoryGirl.define do
 
   #PeWbsProject
   factory :pe_wbs_project do
-    project
+    name "Pe_Wbs_Root"
+    #project
   end
 
   factory :wbs_1, class: PeWbsProject do
+    sequence(:name)   {|n| "Pe-WBS-Project_#{n}"}
   end
 
   factory :attribute, :class => Attribute do |attr|

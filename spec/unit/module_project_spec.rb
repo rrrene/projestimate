@@ -14,12 +14,12 @@ describe ModuleProject do
                             :compliant_component_type=>['Toto'])
 
     @mp1 = ModuleProject.create(:project_id => @project.id, :pemodule => @pemodule, :position_y => 1)
-    @mp2 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
-    @mp3 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
-    @mp3 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
-    @mp3 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 3)
-    @mp4 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 4)
-    @mp5 = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 5)
+    @mp2 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
+    @mp3 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
+    @mp3 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 2)
+    @mp3 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 3)
+    @mp4 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 4)
+    @mp5 = ModuleProject.create(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 5)
   end
 
   it "should have a valid module" do
@@ -87,14 +87,14 @@ describe ModuleProject do
 
 
   it "should return previous modules or nil if first modules" do
-    @mp1.previous.should be_a(Array)
-    @mp5.previous.should be_a(Array)
+    @mp1.previous.should be_empty
+    @mp5.previous.should_not be_empty    #be_a_kind_of
 
     @mp1.previous.should be_empty
 
-    @mp5.previous.size.should eql(2)
+    @mp5.previous.size.should eql(1)
     @mp3.previous.size.should eql(2)
-    @mp5.previous.first.position_y.should eql(2)
+    @mp5.previous.first.position_y.should eql(4)
   end
   #
   #it "should verify if two modules in the same project are linked" do

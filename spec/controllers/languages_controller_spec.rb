@@ -1,9 +1,14 @@
 require 'spec_helper'
+
 describe LanguagesController do
+
   before :each do
-    @language = FactoryGirl.create(:language, :id=>7)
+    login_as_admin
+
+    @language = FactoryGirl.create(:language)
     @params = { :id => @language.id }
   end
+
   describe "GET index" do
     it "renders the index template" do
       get :index
@@ -37,6 +42,7 @@ describe LanguagesController do
     #  response.should redirect_to redirect(languages_path)
     #end
   end
+
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested record_status" do
@@ -46,6 +52,7 @@ describe LanguagesController do
       end
     end
   end
+
   describe "DELETE destroy" do
     #it "destroys the requested record_status" do
     #    @params = { :id => @language.id }

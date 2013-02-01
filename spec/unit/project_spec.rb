@@ -106,15 +106,23 @@ describe Project do
 
   it "should return the good WBS attached to the project" do
     project = FactoryGirl.create(:project)
-    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
+    pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
+
     #pe_wbs_project.project.should eql(project1)
     project.pe_wbs_project.project_id.should eql(project.id)
   end
 
   it "should be the project root pbs_project_element" do
-    pbs_project_element = FactoryGirl.create(:pbs_project_element)
-    project = pbs_project_element.pe_wbs_project.project
-    project.root_component.is_root.should be_true
+
+    project = FactoryGirl.create(:project)
+    pe_wbs_project_1 = FactoryGirl.create(:wbs_1, :project_id => project.id)
+
+    pbs_project_element = FactoryGirl.create(:pbs_project_element, :folder, :is_root => true)
+    pbs_project_element.pe_wbs_project = pe_wbs_project_1
+
+
+    #project.root_component.is_root?.should be_true
+    project.root_component.should eq(pbs_project_element)
   end
 
 
@@ -128,7 +136,7 @@ describe Project do
 
   it "should be a folder componenet" do
     project = FactoryGirl.create(:project)
-    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
+    pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
     #peicon_folder = FactoryGirl.create(:peicon_folder)
     #peicon_link = FactoryGirl.create(:peicon_link)
     #wet_folder = FactoryGirl.create(:work_element_type_folder, :peicon => FactoryGirl.create(:peicon_folder))
@@ -143,7 +151,7 @@ describe Project do
 
   it "should return an array of folder" do
     project = FactoryGirl.create(:project)
-    project.pe_wbs_project = FactoryGirl.create(:wbs_1)
+    pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
     project.folders.should eql(project.pe_wbs_project.pbs_project_elements.select{|i| i.folder? })
   end
 

@@ -15,6 +15,7 @@ describe AttributesController do
       assigns(:ksloc_attribute)==(@attribute)
     end
   end
+
   describe "New" do
     it "renders the new template" do
       get :new
@@ -32,6 +33,7 @@ describe AttributesController do
       assigns(:ksloc_attribute)==(@attribute)
     end
   end
+
   describe "create" do
     #it "renders the create template" do
     #  @params = { :name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status=>23, :custom_value=>"local"}
@@ -44,10 +46,11 @@ describe AttributesController do
     #  response.should redirect_to redirect(attributes_path)
     #end
   end
+
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested acquisition_category" do
-        @params = { :id=> @attribute.id,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status=>23, :custom_value=>"local" }
+        @params = { :id=> @attribute.id,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status => RecordStatus.first.id, :custom_value=>"local" }
         put :update, @params
         response.should be_success
       end

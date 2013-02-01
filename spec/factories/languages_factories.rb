@@ -15,6 +15,7 @@ FactoryGirl.define do
   #  uuid
   #end
   #
+
   #factory :fr_language, :class => Language do
   #  name "Français1"
   #  locale "fr1"

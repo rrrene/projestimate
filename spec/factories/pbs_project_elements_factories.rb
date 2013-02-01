@@ -6,18 +6,18 @@ FactoryGirl.define do
   #  cl.association :work_element_type#, :factory =>  :work_element_type_folder
   #end
 
-  #factory :pbs_project_element do
-  #  name "Component"
-  #  is_root false
-  #
-  #  trait :folder do
-  #    name "Folder1"
-  #  end
-  #
-  #  trait :bad do
-  #    name "bad"
-  #  end
-  #end
+  factory :pbs_project_element do
+    name "Component"
+    is_root false
+
+    trait :folder do
+      name "Folder"
+    end
+
+    trait :bad do
+      name "bad"
+    end
+  end
 
   factory :folder, :class => PbsProjectElement do
     name "Folder1"
@@ -28,4 +28,5 @@ FactoryGirl.define do
     cl.name ""
     cl.is_root false
   end
+
 end
