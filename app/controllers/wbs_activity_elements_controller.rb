@@ -23,7 +23,7 @@ class WbsActivityElementsController < ApplicationController
       @potential_parents = @wbs_activity.wbs_activity_elements
     end
 
-    @selected_parent ||= WbsActivityElement.find(params[:selected_parent_id])
+    @selected_parent ||= WbsActivityElement.find_by_id(params[:selected_parent_id])
 
   end
 
@@ -130,14 +130,11 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to redirect(wbs_activities_path)  and return
+        redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)  and return
       end
     end
 
-    respond_to do |format|
-      format.html { redirect_to wbs_activities_path }
-      format.json { head :no_content }
-    end
+    redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
   end
 
 end
