@@ -6,6 +6,6 @@ FactoryGirl.define do
     name "MyString"
     state "MyString"
     description "MyText"
-    organization_id 1
+    #organization_id 1
   end
 end

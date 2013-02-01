@@ -17,7 +17,8 @@ describe WorkElementTypesController do
 
   describe "Edit" do
     it "renders the new template" do
-      get :edit
+      @wet = FactoryGirl.create(:work_element_type, :wet_folder)
+      get :edit, {:id => @wet.id}
       response.should render_template("edit")
     end
   end

@@ -11,7 +11,8 @@ describe WbsActivitiesController do
 
   describe "GET 'edit'" do
     it "returns http success" do
-      get 'edit'
+      @wbs_activity = FactoryGirl.create(:wbs_activity)
+      get 'edit', {:id => @wbs_activity.id}
       response.should be_success
     end
   end
