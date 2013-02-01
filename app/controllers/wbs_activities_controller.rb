@@ -12,7 +12,6 @@ class WbsActivitiesController < ApplicationController
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
 
-
     if @wbs_activity.defined?
       flash[:notice] = "It's impossible to edit a defined activity"
       redirect_to wbs_activities_path and return

@@ -10,4 +10,5 @@ ProjestimateMaquette::Application.initialize!
 
 COMMIT_VERSION = `git rev-list -n1 --abbrev-commit HEAD` unless defined? COMMIT_VERSION
 
-NEEDED_TO_UPDATE=`git pull --dry-run`  unless defined?  NEEDED_TO_UPDATE
+#NEEDED_TO_UPDATE =`git pull --dry-run | grep -q -v 'Already up-to-date`  unless defined?  NEEDED_TO_UPDATE
+#NEEDED_TO_UPDATE =%x(git pull --dry-run | grep -q -v 'Already up-to-date`)  unless defined?  NEEDED_TO_UPDATE

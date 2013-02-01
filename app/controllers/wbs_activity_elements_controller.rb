@@ -43,7 +43,6 @@ class WbsActivityElementsController < ApplicationController
     @selected_parent = @wbs_activity_element.parent
 
     if is_master_instance?
-
       unless @wbs_activity_element.child_reference.nil?
         if @wbs_activity_element.child_reference.is_proposed_or_custom?
           flash[:notice] = "This Wbs-Activity element can't be edited, previous changes have not yet been validated."

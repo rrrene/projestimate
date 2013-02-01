@@ -50,8 +50,6 @@ class GroupsController < ApplicationController
     @projects = Project.all
 
     if is_master_instance?
-      @group.record_status = @proposed_status
-
       unless @group.child_reference.nil?
         if @group.child_reference.is_proposed_or_custom?
           flash[:notice] = "This Group can't be edited, because the previous changes have not yet been validated."
