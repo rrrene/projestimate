@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => {:on => :create}
 
   #AASM
-  aasm :column => :user_status do  # defaults to aasm_state
+  aasm :column => :user_status do
     state :active
     state :suspended
     state :blacklisted
