@@ -23,7 +23,7 @@ class WbsActivityElementsController < ApplicationController
       @potential_parents = @wbs_activity.wbs_activity_elements
     end
 
-    @selected_parent ||= WbsActivityElement.find(params[:selected_parent_id])
+    @selected_parent ||= WbsActivityElement.find_by_id(params[:selected_parent_id])
 
   end
 
@@ -33,7 +33,11 @@ class WbsActivityElementsController < ApplicationController
 
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
-      @potential_parents = @wbs_activity.wbs_activity_elements
+      if @wbs_activity_element.ancestry.nil?
+        @potential_parents = []
+      else
+        @potential_parents = @wbs_activity.wbs_activity_elements
+      end
     end
 
     @selected_parent = @wbs_activity_element.parent
@@ -50,7 +54,7 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.record_status = @local_status
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to wbs_activity_elements_url
+        redirect_to wbs_activity_element_path(@wbs_activity.id)
       end
     end
   end
@@ -83,14 +87,13 @@ class WbsActivityElementsController < ApplicationController
 
     @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
     @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
-
     @selected_parent = current_wbs_activity_element
 
     if current_wbs_activity_element.is_defined?
       @wbs_activity_element = current_wbs_activity_element.amoeba_dup
       @wbs_activity_element.owner_id = current_user.id
     else
-      @wbs_activity_element = current_wbs_activity_element.parent
+      @wbs_activity_element = current_wbs_activity_element
     end
 
     unless is_master_instance?
@@ -103,7 +106,7 @@ class WbsActivityElementsController < ApplicationController
       @wbs_activity = WbsActivity.find(params[:wbs_activity_element][:wbs_activity_id])
     end
 
-    if current_wbs_activity_element.update_attributes(params[:wbs_activity_element])
+    if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
       redirect_to wbs_activity_element_path(@wbs_activity.id), notice: 'Wbs activity element was successfully updated.'
     else
       render action: "edit"
@@ -126,14 +129,11 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to redirect(wbs_activities_path)  and return
+        redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)  and return
       end
     end
 
-    respond_to do |format|
-      format.html { redirect_to wbs_activities_path }
-      format.json { head :no_content }
-    end
+    redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
   end
 
 end
