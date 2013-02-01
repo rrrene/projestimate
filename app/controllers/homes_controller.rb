@@ -6,13 +6,6 @@ class HomesController < ApplicationController
     else
       #begin
 
-        #"git remote show origin"   "git config --get remote.origin.url"
-        #git log -1 --format="%cd"      #To obtain date and time of the last commit in a current branch one
-        #git log --name-status HEAD^..HEAD
-        # git show --summary
-        # git show --stat
-       #git log -1 --stat
-
         external_last_schemas_version = ExternalMasterDatabase::ExternalSchemaMigration.all.last
         version = nil
         #To get all version : ActiveRecord::Migrator.get_all_versions
@@ -22,15 +15,7 @@ class HomesController < ApplicationController
           puts "Same schema version"
           #Check if pull is needed
           #need_to_pull = `git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
-          need_to_pull = "test" #`git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
-
-          #testing =  system('git pull --dry-run')
-          #puts "testing = #{testing}"
-
-          #puts "COMMIT_VERSION = #{COMMIT_VERSION}"
-          #
-          #puts "NEEDED_TO_PULL = #{need_to_pull}"
-          #puts "NEEDED_TO_UPDATE = #{NEEDED_TO_UPDATE}"
+          need_to_pull = "test"
 
           if need_to_pull.nil? || need_to_pull.blank?
             puts "Your repository is up to date"

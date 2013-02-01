@@ -13,8 +13,6 @@ class AuthMethodsController < ApplicationController
     set_page_title "Edit #{@auth_method.name}"
 
     if is_master_instance?
-      @auth_method.record_status = @proposed_status
-
       unless @auth_method.child_reference.nil?
         if @auth_method.child_reference.is_proposed_or_custom?
           flash[:notice] = "This Authentication method can't be edited, because the previous changes have not yet been validated."
