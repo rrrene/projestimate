@@ -1,11 +1,10 @@
 class HomesController < ApplicationController
   def update_install
-    if is_master_instance?
-      flash[:error] = "You can't update yourself, as you already are on Master Instance"
-      redirect_to "/about"
-    else
-      #begin
-
+    begin
+      if is_master_instance?
+        flash[:error] = "You can't update yourself, as you already are on Master Instance"
+        redirect_to "/about" and return
+      else
         external_last_schemas_version = ExternalMasterDatabase::ExternalSchemaMigration.all.last
         version = nil
         #To get all version : ActiveRecord::Migrator.get_all_versions
@@ -28,16 +27,16 @@ class HomesController < ApplicationController
         else
           flash[:error] = "Your local DB schema differ to the MasterData one, please check for modifications or run 'rake db:migrate' command "
         end
+      end
 
-        redirect_to "/about"
+      redirect_to("/about") and return
 
-      #rescue Errno::ECONNREFUSED
-      #  flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-      #  redirect_to "/about" and return
-      #rescue Exception
-      #  flash[:error] = "!!! WARNING - Exception: Default data was not loaded, please investigate... Maybe run db:create and db:migrate tasks."
-      #  redirect_to "/about"
-      #end
+    rescue Errno::ECONNREFUSED
+      flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+      redirect_to "/about" and return
+    rescue Exception
+      flash[:error] = "!!! WARNING - Exception: Default data was not loaded, please investigate... Maybe run db:create and db:migrate tasks."
+      redirect_to "/about"
     end
   end
 end

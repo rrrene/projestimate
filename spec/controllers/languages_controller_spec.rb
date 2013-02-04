@@ -44,10 +44,13 @@ describe LanguagesController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do
+    before :each do
+      @new_language = FactoryGirl.create(:language)
+    end
+
+    context "with valid params" do
       it "updates the requested record_status" do
-        @params = { :id=> @language.id, :name => "French", :locale => "frr" }
-        put :update, @params
+        put :update, id: @new_language, language: FactoryGirl.attributes_for(:language)
         response.should be_success
       end
     end

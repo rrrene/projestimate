@@ -48,10 +48,14 @@ describe AttributesController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do
+    before :each do
+      @new_attribute = FactoryGirl.create(:cost_attribute)
+    end
+
+    context "with valid params" do
       it "updates the requested acquisition_category" do
         @params = { :id=> @attribute.id,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status => RecordStatus.first.id, :custom_value=>"local" }
-        put :update, @params
+        put :update, id: @new_attribute, attribute: FactoryGirl.attributes_for(:cost_attribute)
         response.should be_success
       end
     end

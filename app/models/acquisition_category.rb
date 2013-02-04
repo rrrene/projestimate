@@ -30,7 +30,7 @@ class AcquisitionCategory < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates_presence_of :description, :record_status
-  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }#,:length => { :within => 20..100 }, :format => { :with => /^[a-z0-9][-a-z0-9]*[a-z0-9]$/i }
+  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false } #,:length => { :within => 20..100 }, :format => { :with => /^[a-z0-9][-a-z0-9]*[a-z0-9]$/i }
   validates :name, :presence => true, :uniqueness => { :case_sensitive => false, :scope => :record_status_id }
   validates :custom_value, :presence => true, :if => :is_custom?
 

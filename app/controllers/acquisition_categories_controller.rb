@@ -66,7 +66,8 @@ class AcquisitionCategoriesController < ApplicationController
 
     if @acquisition_category.update_attributes(params[:acquisition_category])
       flash[:notice] = "Acquisition category was successfully updated."
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
+      #redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
+      redirect_to redirect("/projects_global_params#tabs-4")
     else
       render action: "edit"
     end

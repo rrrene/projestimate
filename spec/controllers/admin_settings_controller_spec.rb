@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe AdminSettingsController do
   before :each do
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
@@ -35,7 +36,7 @@ describe AdminSettingsController do
 
   describe "create" do
     it "renders the create template" do
-      @params = {:record_status_id=>2, :value=>"WElcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
+      @params = {:record_status_id=>2, :value=>"Welcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
       post :create, @params
       response.should be_success
     end
@@ -45,15 +46,20 @@ describe AdminSettingsController do
     #  response.should redirect_to(admin_settings_path)
     #end
   end
+
   describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested @admin_setting" do
-        @params = { :id=> @admin_setting.id,:record_status_id=>2, :value=>"WElcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
-        put :update, @params
+    before :each do
+      @my_admin_setting = FactoryGirl.create(:admin_setting, :welcome_message)
+    end
+
+    context "with valid params" do
+      it "updates the requested @admin_setting and redirect to the updated admin_setting" do
+        put :update, id: @my_admin_setting, admin_setting: FactoryGirl.attributes_for(:admin_setting, :welcome_message)
         response.should be_success
       end
     end
   end
+
   describe "DELETE destroy" do
     #it "destroys the requested @admin_setting" do
     #    @params = { :id => @admin_setting.id }

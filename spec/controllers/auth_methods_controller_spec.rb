@@ -20,17 +20,21 @@ describe AuthMethodsController do
       get :new
       response.should be_success
     end
-
   end
+
   describe "PUT update" do
-    describe "with valid params" do
+    before :each do
+      @auth_method = FactoryGirl.create(:auth_method)
+    end
+    context "with valid params" do
       it "updates the requested acquisition_category" do
-        @params = { :id=> @default_auth_method.id,:server_name=>"Not necessary", :port=>0, :base_dn=>"Not necessary", :record_status_id=>23, :uuid=>1, :name=>"Not necessary", :custum_value=>"local"}
-        put :update, @params
+        #@params = { :id=> @default_auth_method.id,:server_name=>"Not necessary", :port=>0, :base_dn=>"Not necessary", :record_status_id=>23, :uuid=>1, :name=>"Not necessary", :custum_value=>"local"}
+        put :update, id: @auth_method, auth_method: FactoryGirl.attributes_for(:auth_method)
         response.should be_success
       end
     end
   end
+
   describe "create" do
     it "renders the create template" do
       @params = { :server_name=>"Not necessary", :port=>0, :base_dn=>"Not necessary", :record_status_id=>23, :uuid=>1, :name=>"Not necessary", :custum_value=>"local" }
@@ -43,6 +47,7 @@ describe AuthMethodsController do
     #  response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
     #end
   end
+
   describe "GET edit" do
     it "assigns the requested default_auth_method as @default_auth_method" do
       get :edit, {:id => @default_auth_method.id}

@@ -39,15 +39,20 @@ describe AcquisitionCategoriesController do
     #  response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
     #end
   end
+
   describe "PUT update" do
-    describe "with valid params" do
+    before :each do
+      @new_ac =  FactoryGirl.create(:acquisition_category)
+    end
+
+    context "with valid params" do
       it "updates the requested acquisition_category" do
-        @params = { :id=> @acquisition_category.id,:name => "FRench", :uuid => "1", :custom_value=>"custom" }
-        put :update, @params
+        put :update, id: @new_ac, acquisition_category: FactoryGirl.attributes_for(:acquisition_category)
         response.should be_success
       end
     end
   end
+
   describe "DELETE destroy" do
     #it "destroys the requested @acquisition_category" do
     #    @params = { :id => @acquisition_category.id }
