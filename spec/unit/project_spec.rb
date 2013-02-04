@@ -3,7 +3,7 @@ require "spec_helper"
 describe Project do
 
   before :each do
-    @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
+    @project = FactoryGirl.create(:project) #, :title => "projet11", :alias => "P11")
     @user = FactoryGirl.build(:user)
 
     @user1 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin1', :email => 'youremail1@yourcompany.net', :user_status => 'active', :auth_type => AuthMethod.first.id, :password => 'test', :password_confirmation => 'test')
