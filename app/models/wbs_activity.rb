@@ -21,4 +21,5 @@ class WbsActivity < ActiveRecord::Base
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
+
 end
