@@ -117,9 +117,8 @@ describe Project do
     project = FactoryGirl.create(:project)
     pe_wbs_project_1 = FactoryGirl.create(:wbs_1, :project_id => project.id)
 
-    pbs_project_element = FactoryGirl.create(:pbs_project_element, :folder, :is_root => true)
-    pbs_project_element.pe_wbs_project = pe_wbs_project_1
-
+    pbs_project_element = FactoryGirl.create(:pbs_project_element, :folder, :is_root => true, :pe_wbs_project => pe_wbs_project_1)
+    #pbs_project_element.pe_wbs_project = pe_wbs_project_1
 
     #project.root_component.is_root?.should be_true
     project.root_component.should eq(pbs_project_element)
