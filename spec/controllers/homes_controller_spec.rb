@@ -12,7 +12,8 @@ describe HomesController do
   describe "GET 'update_install'" do
     it "returns http success" do
       get 'update_install'
-      response.should be_success
+      flash[:notice].should eq("Projestimate data have been updated successfully.")
+      flash[:error].should be_nil
     end
   end
 
