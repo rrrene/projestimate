@@ -3,15 +3,13 @@
 
 FactoryGirl.define do
   factory :acquisition_category do
-    sequence(:name) {|n| "ac#{n}"}
     description "TBD"
-    uuid
-    association :record_status, :factory => :proposed_status, :strategy => :build
 
     trait :unknown do
       sequence(:name) { |n| "Unknown#{n}" }
       uuid
       association :record_status, :factory => :proposed_status, :strategy => :build
+
     end
 
     trait :newDevelopment do

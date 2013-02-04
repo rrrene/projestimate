@@ -42,12 +42,12 @@ describe AcquisitionCategoriesController do
 
   describe "PUT update" do
     before :each do
-      @new_ac =  FactoryGirl.create(:acquisition_category)
+      @new_ac =  FactoryGirl.create(:acquisition_category, :newDevelopment)
     end
 
     context "with valid params" do
       it "updates the requested acquisition_category" do
-        put :update, id: @new_ac, acquisition_category: FactoryGirl.attributes_for(:acquisition_category)
+        put :update, id: @new_ac, acquisition_category: FactoryGirl.attributes_for(:acquisition_category, :newDevelopment)
         response.should be_success
       end
     end
