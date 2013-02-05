@@ -12,16 +12,16 @@
 
     <div id="tabs-1">
       <fieldset>
-        <legend>Identity</legend>
-        <%= f.input :first_name %>
+        <legend><%= I18n.t "identity" %></legend>
+        <%= f.input :first_name, :label => "#{I18n.t "first_name"}"  %>
 
-        <%= f.input :last_name %>
+        <%= f.input :last_name, :label => "#{I18n.t "last_name"}" %>
 
-        <%= f.input :login_name %>
+        <%= f.input :login_name, :label => "#{I18n.t "login_name"}" %>
 
-        <%= f.input :email %>
+        <%= f.input :email, :label => "#{I18n.t "email"}" %>
 
-        <%= f.input :initials %>
+        <%= f.input :initials, :label => "#{I18n.t "initials"}" %>
       </fieldset>
 
       <fieldset>
@@ -112,7 +112,7 @@
       <p>Décimal</p>
       <p>Milliers</p>
       <p>Premier jour de la semaine</p>
-      <p>Première semaine de l'anéne</p>
+      <p>Première semaine de l'année</p>
       <p>Pref d'export</p>
 
     </div>
