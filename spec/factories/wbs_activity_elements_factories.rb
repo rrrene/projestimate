@@ -2,8 +2,11 @@
 
 FactoryGirl.define do
   factory :wbs_activity_element do
-    uuid "MyString"
-    name "MyString"
-    description "MyText"
+    uuid
+    sequence(:name) {|n| "Wbs-Activity #{n}"}
+    description "TBD"
+    association :record_status, :factory => :proposed_to_save_status
+    association :wbs_activity,  :factory => :wbs_activity
   end
+
 end

@@ -356,12 +356,12 @@ class ProjectsController < ApplicationController
   def duplicate
     begin
       old_prj = Project.find(params[:project_id])
-      old_prj.copy_number = old_prj.copy_number.to_i + 1
-      old_prj.save
 
       new_prj = old_prj.amoeba_dup   #amoeba gem is configured in Project class model
 
       if new_prj.save
+        old_prj.save  #Original project copy number will be incremented to 1
+
         #Managing the compoment tree
         old_prj_components = old_prj.pe_wbs_project.pbs_project_elements
         new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
@@ -389,11 +389,9 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project was successfully duplicated"
       redirect_to "/projects" and return
     rescue
-      old_prj.number_of_copy = old_prj.copy_number.to_i + 1
-      flash["Error"] = "Error happen on Project duplication"
+      flash["Error"] = "Duplication failed: Error happened on Project duplication"
       redirect_to "/projects"
     end
-
   end
 
 

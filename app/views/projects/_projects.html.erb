@@ -18,7 +18,7 @@
       <td><%= project.organization %>
       <td>
         <%=
-          (project.baseline? || project.locked? || project.closed? ) ?
+          (project.baseline? || project.access_locked? || project.closed? ) ?
             commit = link_to('', '#', :class => "icn_commit") :
             commit = link_to('', {:controller => "projects", :action => "commit", :project_id => project.id }, :class => "icn_commit", :title => "Commit")
 

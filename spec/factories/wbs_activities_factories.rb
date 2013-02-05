@@ -7,6 +7,6 @@ FactoryGirl.define do
     state "Defined"
     description "MyText"
     association :record_status, :factory => :proposed_status, strategy: :build
-    #organization_id 1
   end
+
 end

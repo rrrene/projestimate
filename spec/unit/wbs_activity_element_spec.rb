@@ -1,23 +1,23 @@
 require "spec_helper"
-describe WbsActivityElement do
-  before :each do
-    @WbsActivity=  FactoryGirl.create(:wbs_activity)
-    @WbsActivityElement = FactoryGirl.create(:wbs_activity_element,:wbs_activity_id=>@WbsActivity.id)
-    @WbsActivityElement2 = FactoryGirl.create(:wbs_activity_element,:wbs_activity_id=>@WbsActivity.id, :name=>1)
 
+describe WbsActivityElement do
+
+  before :each do
+    @wbs_activity=  FactoryGirl.create(:wbs_activity)
+    @wbs_activity_element = FactoryGirl.create(:wbs_activity_element)
+    @wbs_activity_element2 = FactoryGirl.create(:wbs_activity_element, :name=>1)
   end
 
   it 'should return wbs_activity name' do
-    @WbsActivityElement.wbs_activity_name.should eql(@WbsActivityElement.name)
+    @wbs_activity_element.wbs_activity_name.should eql(@wbs_activity_element.name)
   end
+
   it "should be not valid" do
-    @WbsActivityElement2.wbs_activity_name.should_not be_instance_of(String)
+    @wbs_activity_element2.wbs_activity_name.should_not be_instance_of(String)
   end
 
   it "should be valid" do
-    @WbsActivityElement.wbs_activity_name.should be_an_instance_of(String)
+    @wbs_activity_element.should be_valid
   end
-
-
 
 end
