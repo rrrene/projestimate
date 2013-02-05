@@ -25,6 +25,10 @@ describe User do
     @user.last_name=''
     @user.should_not be_valid
   end
+  it "should be return error message"  do
+    @user.last_name=''
+    @user.should_not be_valid
+  end
 
   it "should not be valid without first_name"  do
     @user.first_name=''
