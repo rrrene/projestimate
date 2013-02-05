@@ -69,16 +69,17 @@ class UsersController < ApplicationController
 
     #Checking password length
     user_pass_length = params[:user][:password].length
-    if user_pass_length < good_password_length
-      flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
-      render "new" and return
-    else
+    #if user_pass_length < good_password_length
+    #  flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
+    #  render "new" and return
+    #else
       if @user.save
-        redirect_to redirect(users_path), :notice => "La mise a jour a été effectué avec succès." and return
+        redirect_to redirect(users_path), :notice => "The account was successfully created"
       else
         render "new"
       end
-    end
+
+    #end
   end
 
   def edit
@@ -95,18 +96,18 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     #Checking password length
-    user_pass_length = params[:user][:password].length
-    if !params[:user][:password].blank?
-      if user_pass_length < good_password_length
-        flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
-        render(:edit) and return
-      end
-    end
+    #user_pass_length = params[:user][:password].length
+    #if !params[:user][:password].blank?
+    #  if user_pass_length < good_password_length
+    #    flash[:password_error] = "password is too short (minimum is #{good_password_length} characters)"
+    #    render(:edit) and return
+    #  end
+    #end
 
     if @user.update_attributes(params[:user])
-      redirect_to(redirect(users_path)) and return
+      redirect_to(redirect(users_path), :notice => "The account was successfully updated." )
     else
-      render(:edit) and return
+      render(:edit)
     end
 
   end
@@ -186,21 +187,6 @@ class UsersController < ApplicationController
   def about
     set_page_title "About"
   end
-
-  #Check password minimum length value
-  def good_password_length
-    begin
-      password_length = default_password_length = 4
-      user_as =  AdminSetting.find_by_key("password_min_length")
-      if !user_as.nil?
-        password_length = user_as.value.to_i
-      end
-      password_length
-    rescue
-      password_length
-    end
-  end
-
 
   def activate
     @user = User.find(params[:id])

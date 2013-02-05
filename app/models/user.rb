@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
 
   validates :password, :presence => {:on => :create}, :confirmation => true
   validates :password_confirmation, :presence => {:on => :create}
+  validate :password_length, :on => :create
 
   #AASM
   aasm :column => :user_status do
@@ -101,7 +102,22 @@ class User < ActiveRecord::Base
   scope :exists, lambda { |login|
       where("email >= ? OR login_name < ?", login, login)
   }
-
+  #Check password minimum length value
+  def password_length
+    begin
+      password_length = default_password_length = 4
+      user_as =  AdminSetting.find_by_key("password_min_length")
+      if !user_as.nil?
+        password_length = user_as.value.to_i
+      end
+      password_length
+    rescue
+      password_length
+    end
+    if self.password.length<password_length
+      errors.add(:password, "password is too short (minimum is #{password_length} characters)")
+    end
+  end
   #return groups using for global permissions
   def group_for_global_permissions
     self.groups.select{ |i| i.for_global_permission ==  true }
