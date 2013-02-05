@@ -12,6 +12,12 @@ FactoryGirl.define do
       uuid
     end
 
+    trait :proposed_to_save do
+      sequence(:name){|n| "Proposed_#{n}" }
+      description "TBD"
+      uuid
+    end
+
     trait :inReview do
       name "InReview"
       description "TBD"
@@ -47,6 +53,10 @@ FactoryGirl.define do
 
     factory :proposed_status do
       proposed
+    end
+
+    factory :proposed_to_save_status do
+      proposed_to_save
     end
 
     factory :defined_status do

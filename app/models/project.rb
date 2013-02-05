@@ -53,7 +53,7 @@ class Project < ActiveRecord::Base
     state :in_progress
     state :in_review
     state :private
-    state :locked
+    state :access_locked      ##locked
     state :baseline
     state :closed
 
@@ -70,8 +70,10 @@ class Project < ActiveRecord::Base
     include_field [:pe_wbs_project, :pemodules, :groups, :users]
 
     customize(lambda { |original_project, new_project|
-      new_project.title = "Copy_#{ original_project.copy_number} of #{original_project.title}"
-      new_project.alias = "Copy_#{ original_project.copy_number} of #{original_project.alias}"
+      new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
+      new_project.alias = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.alias}"
+      new_project.copy_number = 0
+      original_project.copy_number = original_project.copy_number.to_i+1
     })
 
     #prepend :title => "Copy of "

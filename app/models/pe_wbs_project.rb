@@ -31,6 +31,11 @@ class PeWbsProject < ActiveRecord::Base
   amoeba do
     enable
     include_field :pbs_project_elements
+
+    customize(lambda { |original_pe_wbs, new_pe_wbs|
+      new_pe_wbs.name = "PE-WBS Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{new_pe_wbs.project.title }"          #"Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
+    })
+
     propagate
   end
 

@@ -6,6 +6,7 @@ describe AdminSettingsController do
     @proposed_status = FactoryGirl.build(:proposed_status)
     @params = { :id => @admin_setting.id }
   end
+
   describe "GET index" do
     it "renders the index template" do
       get :index
@@ -16,6 +17,7 @@ describe AdminSettingsController do
       assigns(:admin_setting)==(@admin_setting)
     end
   end
+
   describe "New" do
     it "renders the new template" do
       get :new
@@ -53,6 +55,10 @@ describe AdminSettingsController do
     end
 
     context "with valid params" do
+      it "located the requested @admin_setting" do
+
+      end
+
       it "updates the requested @admin_setting and redirect to the updated admin_setting" do
         put :update, id: @my_admin_setting, admin_setting: FactoryGirl.attributes_for(:admin_setting, :welcome_message)
         response.should be_success
