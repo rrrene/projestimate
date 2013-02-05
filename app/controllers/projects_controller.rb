@@ -321,36 +321,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  #def duplicate_save
-  #  old_prj = Project.find(params[:project_id])
-  #  new_prj = old_prj.dup
-  #
-  #  new_prj.group_ids = old_prj.groups.map(&:id)
-  #  new_prj.user_ids = old_prj.users.map(&:id)
-  #  new_prj.title = "Copy of #{ old_prj.title }"
-  #  new_prj.save
-  #
-  #  old_prj.module_projects.each do |mp|
-  #    new_mp = mp.dup
-  #    new_mp.project_id = new_prj.id
-  #    new_mp.save
-  #  end
-  #
-  #  new_wbs = old_prj.pe_wbs_project.dup
-  #  new_wbs.project_id = new_prj.id
-  #  new_wbs.save
-  #
-  #  old_prj.pe_wbs_project.pbs_project_elements.each do |c|
-  #    if c.is_root?
-  #      new_c = c.dup
-  #      new_c.pe_wbs_project_id = new_prj.pe_wbs_project.id
-  #      new_c.save
-  #    end
-  #  end
-  #
-  #  redirect_to "/projects"
-  #end
-
 
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
