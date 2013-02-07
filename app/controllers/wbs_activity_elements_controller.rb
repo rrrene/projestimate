@@ -131,4 +131,5 @@ class WbsActivityElementsController < ApplicationController
 
     redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
   end
+
 end

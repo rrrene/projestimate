@@ -4,6 +4,7 @@
       <h2><%= ("#{action_name}" == "new")? "New WBS-Activity Element" : "Update WBS-Activity Element"%></h2>
   <% end %>
 
+
   <%= simple_form_for(@wbs_activity_element) do |f| %>
       <%= f.error_notification %>
 

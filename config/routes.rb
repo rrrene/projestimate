@@ -2,6 +2,7 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_activities
   resources :wbs_activity_elements
+  match 'wbs_activities/:wbs_activity_id/duplicate_me' => 'wbs_activities#duplicate_me', :as => :duplicate_me
 
   resources :wbs_activities do
     collection { post :import }

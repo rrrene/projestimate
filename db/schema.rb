@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206085413) do
+ActiveRecord::Schema.define(:version => 20130123152603) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.string   "base_dn"
     t.string   "user_name_attribute"
     t.boolean  "certificate"
+    t.string   "scope"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "uuid"
@@ -260,11 +261,6 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "help_code"
-  end
-
-  create_table "homes", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "labor_categories", :force => true do |t|
@@ -410,7 +406,6 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.string   "name"
     t.integer  "project_link"
     t.integer  "position"
-    t.integer  "copy_id"
   end
 
   add_index "pbs_project_elements", ["ancestry"], :name => "index_components_on_ancestry"
@@ -630,7 +625,6 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.text     "purpose"
     t.text     "level_of_detail"
     t.text     "scope"
-    t.integer  "copy_number"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
@@ -695,9 +689,6 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.integer  "organization_id"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
-
   create_table "wbs_activities", :force => true do |t|
     t.string   "uuid"
     t.string   "name"
@@ -733,7 +724,6 @@ ActiveRecord::Schema.define(:version => 20130206085413) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"

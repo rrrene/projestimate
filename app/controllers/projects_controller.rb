@@ -333,7 +333,6 @@ class ProjectsController < ApplicationController
         old_prj.save  #Original project copy number will be incremented to 1
 
         #Managing the compoment tree
-        old_prj_components = old_prj.pe_wbs_project.pbs_project_elements
         new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
 
         new_prj_components.each do |new_c|
