@@ -1,7 +1,18 @@
+  #encoding: utf-8
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
+
+  def import
+      begin
+        WbsActivityElement.import(params[:file])
+        flash[:notice] = "Import successful."
+      rescue
+        flash[:error] = "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."
+      end
+    redirect_to wbs_activities_path
+  end
 
   def index
     set_page_title "WBS activities"
@@ -83,7 +94,7 @@ class WbsActivitiesController < ApplicationController
     @wbs_activity = WbsActivity.find(params[:id])
     if is_master_instance?
       if @wbs_activity.draft? || @wbs_activity.is_retired?
-        @wbs_activity.delete
+        @wbs_activity.destroy
       elsif @wbs_activity.defined?
         @wbs_activity.state = "retired"
         @wbs_activity.save

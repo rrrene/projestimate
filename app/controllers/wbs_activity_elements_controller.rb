@@ -7,11 +7,7 @@ class WbsActivityElementsController < ApplicationController
   def show
     set_page_title "WBS-Activity elements"
     @wbs_activity = WbsActivity.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @wbs_activity_element }
-    end
+    @wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
   end
 
   def new
@@ -135,5 +131,4 @@ class WbsActivityElementsController < ApplicationController
 
     redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
   end
-
 end

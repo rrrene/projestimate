@@ -48,5 +48,10 @@
   <br />
 
   <%= link_to 'New WBS Activity', new_wbs_activity_path, :class => "btn" %>
+  <h2>Import WBS Activity</h2>
+  <%= form_tag import_wbs_activities_path, :multipart => true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+  <% end %>
 </div>
 

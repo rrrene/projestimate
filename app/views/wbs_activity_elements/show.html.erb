@@ -15,6 +15,7 @@
   <div id="tabs-2">
     <table class="table table-striped" >
       <tr>
+        <th>Hierarchy</th>
         <th>Name</th>
         <th>Wbs activity</th>
         <th>Description</th>
@@ -25,10 +26,14 @@
         <th></th>
       </tr>
 
-      <% @wbs_activity.wbs_activity_elements.each do |wbs_activity_element| %>
+      <% @wbs_activity_elements.each do |wbs_activity_element| %>
         <%= render :partial => 'wbs_activity_element', :object => wbs_activity_element %>
       <% end %>
+
     </table>
+    <p>
+     <%= will_paginate @wbs_activity_elements %>
+    </p>
 
     <%= link_to 'New WBS Activity Element', new_wbs_activity_element_path(:activity_id => @wbs_activity.id), :class => "btn" %>
   </div>

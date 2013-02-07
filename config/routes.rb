@@ -3,12 +3,12 @@ ProjestimateMaquette::Application.routes.draw do
   resources :wbs_activities
   resources :wbs_activity_elements
 
+  resources :wbs_activities do
+    collection { post :import }
+  end
+
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
   match 'homes/about' => 'homes#about', :as => 'about'
-
-  #GUIs controller
-  #resources :gui
-  #get "gui" => "gui#index", :as => "gui"
 
   resources :record_statuses
 
@@ -25,8 +25,6 @@ ProjestimateMaquette::Application.routes.draw do
   post "searches/results"
   get "user_search" => "searches#user_search", :as => "user_search"
   get "project_search" => "searches#project_search", :as => "project_search"
-
-  get "translations/index"
 
   resources :project_security_levels
 
@@ -139,7 +137,6 @@ ProjestimateMaquette::Application.routes.draw do
   #Master Data validation and restoration routes
   match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'
   match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
-
 
   resources :translations
   get "load_translations" => "translations#load_translations", :as => "load_translations"

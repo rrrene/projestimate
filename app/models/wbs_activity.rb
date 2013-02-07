@@ -1,4 +1,5 @@
-class WbsActivity < ActiveRecord::Base
+  #encoding: utf-8
+  class WbsActivity < ActiveRecord::Base
 
   include AASM
   include MasterDataHelper
