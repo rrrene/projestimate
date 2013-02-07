@@ -12,6 +12,7 @@
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
 
     </tr>
 
@@ -24,6 +25,7 @@
       <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
       <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
       <td><%= link_to '', wbs_activity_element_path(wbs_activity), :class => "icn_commit", :title => "View elements" %></td>
+      <td><%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_me",  :class => "icn_duplicate", :title => "Duplicate") %></td>
       <td>
           <% unless wbs_activity.retired? %>
             <%= link_to '', wbs_activity, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %>

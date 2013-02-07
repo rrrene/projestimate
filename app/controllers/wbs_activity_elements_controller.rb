@@ -7,6 +7,8 @@ class WbsActivityElementsController < ApplicationController
   def show
     set_page_title "WBS-Activity elements"
     @wbs_activity = WbsActivity.find(params[:id])
+    @all_elements =  @wbs_activity.wbs_activity_elements
+    @wbs_activity_all_elements = WbsActivityElement.sort_by_ancestry(@all_elements)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,13 +33,11 @@ class WbsActivityElementsController < ApplicationController
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
-    if params[:activity_id]
-      @wbs_activity = WbsActivity.find(params[:activity_id])
-      if @wbs_activity_element.ancestry.nil?
-        @potential_parents = []
-      else
-        @potential_parents = @wbs_activity.wbs_activity_elements
-      end
+    @wbs_activity = @wbs_activity_element.wbs_activity
+    if @wbs_activity_element.ancestry.nil?
+      @potential_parents = []
+    else
+      @potential_parents = @wbs_activity.wbs_activity_elements
     end
 
     @selected_parent = @wbs_activity_element.parent
@@ -77,17 +77,21 @@ class WbsActivityElementsController < ApplicationController
     else
       @wbs_activity = @wbs_activity_element.wbs_activity
       flash[:error] = "Please verify form"
+
+      if params['wbs_activity_element']['wbs_activity_id']
+        @wbs_activity = @wbs_activity_element.wbs_activity
+        @potential_parents = @wbs_activity.wbs_activity_elements
+      end
+      @selected_parent = WbsActivityElement.find(params[:wbs_activity_element][:parent_id])
+
       render action: "new"
     end
   end
 
+
   def update
     @wbs_activity_element = nil
     current_wbs_activity_element = WbsActivityElement.find(params[:id])
-
-    @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
-    @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
-    @selected_parent = current_wbs_activity_element
 
     if current_wbs_activity_element.is_defined?
       @wbs_activity_element = current_wbs_activity_element.amoeba_dup
@@ -95,6 +99,10 @@ class WbsActivityElementsController < ApplicationController
     else
       @wbs_activity_element = current_wbs_activity_element
     end
+
+    @wbs_activity = @wbs_activity_element.wbs_activity
+    @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
+    @selected_parent = @wbs_activity_element.parent
 
     unless is_master_instance?
       if @wbs_activity_element.is_local_record?

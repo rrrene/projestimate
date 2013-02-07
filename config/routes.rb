@@ -2,6 +2,7 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_activities
   resources :wbs_activity_elements
+  match 'wbs_activities/:wbs_activity_id/duplicate_me' => 'wbs_activities#duplicate_me', :as => :duplicate_me
 
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
   match 'homes/about' => 'homes#about', :as => 'about'

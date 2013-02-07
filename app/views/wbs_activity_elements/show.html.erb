@@ -25,7 +25,8 @@
         <th></th>
       </tr>
 
-      <% @wbs_activity.wbs_activity_elements.each do |wbs_activity_element| %>
+
+      <% @wbs_activity_all_elements.each do |wbs_activity_element| %>
         <%= render :partial => 'wbs_activity_element', :object => wbs_activity_element %>
       <% end %>
     </table>

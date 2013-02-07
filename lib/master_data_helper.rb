@@ -25,7 +25,7 @@ module MasterDataHelper
       scope :corresponding_local_record, lambda { |guid, loc| where("uuid = ? AND record_status_id <> ? AND (custom_value IS NULL OR custom_value <> ?)", guid, loc, "Locally edited") }
 
 
-      #Enable the amoeba gem for deep copy/clone (dup with associations)
+      ##Enable the amoeba gem for deep copy/clone (dup with associations)
       amoeba do
         enable
         customize(lambda { |original_record, new_record|
@@ -34,6 +34,24 @@ module MasterDataHelper
           new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
         })
       end
+
+      #amoeba do
+      #  enable
+      #  #include_field [:wbs_activity_elements]
+      #
+      #  customize(lambda { |original_wbs_activity, new_wbs_activity|
+      #    #new_wbs_activity.uuid = "1234"
+      #    new_wbs_activity.reference_uuid = original_wbs_activity.uuid
+      #    new_wbs_activity.reference_id = original_wbs_activity.id
+      #
+      #    #new_wbs_activity.name = "Copy_#{ original_wbs_activity.copy_number.to_i+1} of #{original_wbs_activity.name}"
+      #
+      #    #new_wbs_activity.copy_number = 0
+      #    #original_wbs_activity.copy_number = original_wbs_activity.copy_number.to_i+1
+      #  })
+      #
+      #  propagate
+      #end
 
       #Local method for local instance record
       define_method(:is_local_record?) do
