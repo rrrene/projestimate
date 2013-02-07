@@ -25,10 +25,6 @@ describe User do
     @user.last_name=''
     @user.should_not be_valid
   end
-  it "should be return error message"  do
-    @user.last_name=''
-    @user.should_not be_valid
-  end
 
   it "should not be valid without first_name"  do
     @user.first_name=''
@@ -42,15 +38,14 @@ describe User do
   end
 
   describe "when login_name is already taken" do
-    before do
-      user = User.first
-      @user_with_same_login = user.dup
-      @user_with_same_login.login_name = user.login_name.upcase
-      @user_with_same_login.save
-    end
 
     it "should not be_valid" do
-      @user_with_same_login.should_not be_valid
+      #@user_with_same_login = @user
+      #@user_with_same_login.should_not be_valid
+      u1 = @admin1.dup
+      u1.login_name = @admin1.login_name
+      u1.save
+      u1.should_not be_valid
     end
   end
 
@@ -72,15 +67,15 @@ describe User do
   end
 
   describe "when email address is already taken" do
-    before do
-      user = User.first
-      @user_with_same_email = user.dup
-      @user_with_same_email.email = user.email.upcase
-      @user_with_same_email.save
-    end
 
     it "should not be valid" do
-      @user_with_same_email.should_not be_valid
+      #@user_with_same_email = @user
+      #@user_with_same_email.should_not be_valid
+
+      u1 = @admin1.dup
+      u1.email = @admin1.email
+      u1.save
+      u1.should_not be_valid
     end
   end
 
