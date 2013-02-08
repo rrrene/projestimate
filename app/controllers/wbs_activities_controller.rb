@@ -4,12 +4,12 @@ class WbsActivitiesController < ApplicationController
   before_filter :get_record_statuses
 
   def import
-    #begin
+    begin
       WbsActivityElement.import(params[:file])
       flash[:notice] = "Import successful."
-    #rescue
+    rescue
       flash[:error] = "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."
-    #end
+    end
     redirect_to wbs_activities_path
   end
 
