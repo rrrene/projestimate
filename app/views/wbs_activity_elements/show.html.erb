@@ -7,8 +7,6 @@
   </ul>
 
   <div id="tabs-1">
-    <%= will_paginate @wbs_activity_elements %>
-
     <div class="well component_tree">
       <%=raw generate_activity_element_tree(@wbs_activity_elements.first, "") %>
     </div>

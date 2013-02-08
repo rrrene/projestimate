@@ -93,7 +93,7 @@ class WbsActivitiesController < ApplicationController
     @wbs_activity = WbsActivity.find(params[:id])
     if is_master_instance?
       if @wbs_activity.draft? || @wbs_activity.is_retired?
-        @wbs_activity.delete
+        @wbs_activity.destroy
       elsif @wbs_activity.defined?
         @wbs_activity.state = "retired"
         @wbs_activity.save

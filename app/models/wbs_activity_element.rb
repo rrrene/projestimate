@@ -100,11 +100,11 @@
     ActiveRecord::Base.connection.execute("INSERT INTO wbs_activity_elements(created_at,description,dotted_id,name,record_status_id,wbs_activity_id) VALUES #{@inserts.join(",")}")
 
     elements = @wbs_activity.wbs_activity_elements
-    build_ancestry(elements)
+    build_ancestry(elements, @wbs_activity.id)
 
   end
 
-  def self.build_ancestry(elements)
+  def self.build_ancestry(elements, activity_id)
 
 
     elements.each do |elt|
@@ -116,7 +116,7 @@
         if idse == hierarchy
           elt.ancestry = @root_element_id
         else
-          pere = WbsActivityElement.find_by_dotted_id(idse)
+          pere = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id(idse, activity_id)
           unless pere.nil?
             ancestors << pere.ancestry
             ancestors << pere.id
