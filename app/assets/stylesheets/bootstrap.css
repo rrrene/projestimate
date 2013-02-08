@@ -149,10 +149,6 @@ body {
   color: #333333;
 }
 
-.app{
-    background: url('/assets/bg.png');
-}
-
 a {
   color: #0088cc;
   text-decoration: none;
@@ -549,6 +545,7 @@ h1 {
 h2 {
   font-size: 24px;
   line-height: 40px;
+  font-weight: normal;
 }
 h3 {
   font-size: 18px;

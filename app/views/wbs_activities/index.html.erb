@@ -1,5 +1,5 @@
-<div class="span12">
   <h2>WBS Activities</h2>
+
 
   <table class="table table-striped" >
     <tr>
@@ -47,13 +47,25 @@
   <% end %>
   </table>
 
-  <br />
+  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %> <a href="#myModal" role="button" class="btn" data-toggle="modal">Import from a CSV file</a>
 
-  <%= link_to 'New WBS Activity', new_wbs_activity_path, :class => "btn" %>
-  <h2>Import WBS Activity</h2>
-  <%= form_tag import_wbs_activities_path, :multipart => true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import" %>
-  <% end %>
-</div>
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <%= form_tag import_wbs_activities_path, :multipart => true do %>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Import WBS Activity</h3>
+        </div>
+        <div class="modal-body">
+            <%= file_field_tag :file %>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <%= submit_tag "Import", :class => "btn btn-primary", :onclick => "$('.loading').show();"  %>
+        </div>
+        <div class="loading span11 hide">
+          <h4>Please wait during import... <%= image_tag "ajax-loader.gif" %> </h4>
+        </div>
+      </div>
+    <% end %>
+  </div>
 

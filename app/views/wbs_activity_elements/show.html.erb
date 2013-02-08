@@ -7,14 +7,17 @@
   </ul>
 
   <div id="tabs-1">
+    <%= will_paginate @wbs_activity_elements %>
+
     <div class="well component_tree">
-      <%=raw generate_activity_element_tree(@wbs_activity.wbs_activity_elements.first, "") %>
+      <%=raw generate_activity_element_tree(@wbs_activity_elements.first, "") %>
     </div>
   </div>
 
   <div id="tabs-2">
     <table class="table table-striped" >
       <tr>
+        <th>Hierarchy</th>
         <th>Name</th>
         <th>Wbs activity</th>
         <th>Description</th>
@@ -29,6 +32,9 @@
         <%= render :partial => 'wbs_activity_element', :object => wbs_activity_element %>
       <% end %>
     </table>
+    <p>
+     <%= will_paginate @wbs_activity_elements %>
+    </p>
 
     <%= link_to 'New WBS Activity Element', new_wbs_activity_element_path(:activity_id => @wbs_activity.id), :class => "btn" %>
   </div>
