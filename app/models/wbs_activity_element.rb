@@ -86,13 +86,11 @@
     @root_element.save
 
     #for each row save in data base
-    CSV.open(file.path, 'r', :encoding => 'ISO-8859-1:utf-8', :quote_char => "\"", :row_sep => :auto) do |csv|
+    CSV.open(file.path, 'r', :encoding => 'ISO-8859-1:utf-8', :quote_char => "\"", :row_sep => :auto, :col_sep => ";" ) do |csv|
       @inserts = []
-      array = []
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
-          array = row.first.split(";").flatten
-          @inserts.push "('#{Time.now}', \"#{array[2]}\", '#{array[0]}', \"#{array[1]}\", #{@localstatus.id}, #{@wbs_activity.id})"
+          @inserts.push("(\"#{Time.now}\", \"#{row[2]}\", \"#{row[0]}\", \"#{row[1].gsub("\"", "\"\"")}\", #{@localstatus.id}, #{@wbs_activity.id})")
         end
       end
     end
@@ -105,25 +103,26 @@
   end
 
   def self.build_ancestry(elements, activity_id)
-
-
     elements.each do |elt|
-      hierarchy = elt.dotted_id
-      ancestors = []
-      @root_element_id = WbsActivityElement.find_by_dotted_id("0").id
-      unless hierarchy == "0"
-        idse = hierarchy.split(/^(.*)\.[^\.]*.$/).last
-        if idse == hierarchy
-          elt.ancestry = @root_element_id
-        else
-          pere = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id(idse, activity_id)
-          unless pere.nil?
-            ancestors << pere.ancestry
-            ancestors << pere.id
+      ActiveRecord::Base.transaction do
+
+        hierarchy = elt.dotted_id
+        ancestors = []
+        @root_element_id = WbsActivityElement.find_by_dotted_id("0").id
+        unless hierarchy == "0"
+          idse = hierarchy.split(/^(.*)\.[^\.]*.$/).last
+          if idse == hierarchy
+            elt.ancestry = @root_element_id
+          else
+            pere = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id(idse, activity_id)
+            unless pere.nil?
+              ancestors << pere.ancestry
+              ancestors << pere.id
+            end
+            elt.ancestry = ancestors.join('/')
           end
-          elt.ancestry = ancestors.join('/')
+          elt.save(:validate => false)
         end
-        elt.save(:validate => false)
       end
     end
   end
