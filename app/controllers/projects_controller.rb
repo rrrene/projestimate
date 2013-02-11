@@ -49,12 +49,7 @@ class ProjectsController < ApplicationController
     set_page_title "Projects"
     @projects = Project.page(params[:page]).per_page(5)
 
-    respond_to do |format|
-      format.html
-      format.js {
-        render "records_number.js"
-      }
-    end
+    render :partial => "project_record_number"
   end
 
   def new

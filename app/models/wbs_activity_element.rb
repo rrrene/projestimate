@@ -108,7 +108,7 @@
 
         hierarchy = elt.dotted_id
         ancestors = []
-        @root_element_id = WbsActivityElement.find_by_dotted_id("0").id
+        @root_element_id = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id("0", activity_id).id
         unless hierarchy == "0"
           idse = hierarchy.split(/^(.*)\.[^\.]*.$/).last
           if idse == hierarchy
