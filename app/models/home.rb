@@ -1,14 +1,21 @@
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
-  EXTERNAL_BASES = [ExternalLanguage, ExternalAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
+  EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
                     ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
                     ExternalPermission]
 
   def self.update_master_data!
-    puts "Updating from Master Data"
+    puts "Updating from Master Data..."
     #begin
-      puts "Master Settings"
+
+      puts "   - WBS Activity"
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivity, MasterSetting, ["name", "description", "uuid"])
+
+      puts "   - WBS Activity Elements"
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, MasterSetting, ["name", "description", "dotted_id", "uuid"])
+
+      puts "   - Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
 
       puts "   - Project areas"
@@ -221,7 +228,30 @@ class Home < ActiveRecord::Base
         rs.update_attribute(:record_status_id, local_defined_rs_id)
       end
 
-      puts "Master Settings"
+      puts "   - Wbs Activity"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
+
+      puts "   - Wbs Activity Element"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ["name", "description", "dotted_id", "uuid"])
+
+      puts "       - Rebuilding tree in progress..."
+      activities = WbsActivity.all
+      elements = WbsActivityElement.all
+      ext_activities = ExternalMasterDatabase::ExternalWbsActivity.all
+      ext_elements = ExternalMasterDatabase::ExternalWbsActivityElement.all
+
+      ext_activities.each do |ext_act|
+        ext_elements.each do |ext_elt|
+          if ext_act.id == ext_elt.wbs_activity_id
+            if ext_act.record_status_id == ext_defined_rs_id
+              act = WbsActivity.find_by_uuid(ext_act.uuid)
+              ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements wea SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
+            end
+          end
+        end
+      end
+
+      puts "   - Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
 
       puts "   - Project areas"
@@ -236,18 +266,12 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalPlatformCategory, PlatformCategory, ["name", "description", "uuid"])
 
       puts "   - Acquisition categories"
-      #Default acquisition category
       self.create_records(ExternalMasterDatabase::ExternalAcquisitionCategory, AcquisitionCategory, ["name", "description", "uuid"])
 
       puts "   - Attribute..."
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
-      #self.create_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "uuid"])
-      #folder = Peicon.create(:name => "Folder", :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => local_defined_rs_id)
-      #link = Peicon.create(:name => "Link", :icon => File.new("#{Rails.root}/public/link.png", "r"), :record_status_id => local_defined_rs_id)
-      #undefined = Peicon.create(:name => "Undefined", :icon => File.new("#{Rails.root}/public/undefined.png", "r"), :record_status_id => local_defined_rs_id)
-      #default = Peicon.create(:name => "Default", :icon => File.new("#{Rails.root}/public/default.png", "r"), :record_status_id => local_defined_rs_id)
 
       #Need to have same UUID as Master Instance Icons
       external_icons =  ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
@@ -299,7 +323,7 @@ class Home < ActiveRecord::Base
       puts "   - Activity categories"
       self.create_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ["name", "alias", "description", "uuid"])
 
-      puts " Creating  organizations..."
+      puts "   - Organizations"
       Organization.create(:name => "YourOrganization", :description => "This must be update to match your organization")
       Organization.create(:name => "Other", :description => "This could be used to group users that are not members of any orgnaization")
       organization = Organization.first
@@ -321,14 +345,14 @@ class Home < ActiveRecord::Base
       pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
       pbs_project_element = PbsProjectElement.first
 
-      puts "Create project security level..."
+      puts "   - Create project security level..."
       self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ["name", "uuid"])
 
-      puts "Create global permissions..."
+      puts "   - Create global permissions..."
       self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ["name", "description", "is_permission_project", "uuid"])
 
       puts "\n\n"
-      puts "Default data was successfully loaded. Enjoy !"
+      puts "   - Default data was successfully loaded. Enjoy !"
     #rescue Errno::ECONNREFUSED
     #  puts "\n\n\n"
     #  puts "!!! WARNING - Error: Default data was not loaded, please investigate."

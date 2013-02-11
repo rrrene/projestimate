@@ -12,9 +12,6 @@
   belongs_to :wbs_activity
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  #validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}, :unless => :check_reference
-
-  validate  :wbs_activity, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
 
   validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
@@ -46,14 +43,6 @@
 
   def wbs_activity_name
     name
-  end
-
-  def check_reference
-    if self.wbs_activity and self.parent
-      !self.siblings.map(&:name).include?(self.name)
-    else
-      true
-    end
   end
 
   def self.to_csv(options = {})
@@ -105,7 +94,6 @@
   def self.build_ancestry(elements, activity_id)
     elements.each do |elt|
       ActiveRecord::Base.transaction do
-
         hierarchy = elt.dotted_id
         ancestors = []
         @root_element_id = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id("0", activity_id).id
@@ -124,6 +112,19 @@
           elt.save(:validate => false)
         end
       end
+    end
+  end
+
+  def self.rebuild(elements, activity_id)
+    elements.each do |elt|
+      ancestors = []
+      pere = WbsActivityElement.find_by_wbs_activity_id(activity_id)
+      unless pere.nil?
+        ancestors << pere.ancestry
+        ancestors << pere.id
+      end
+      elt.ancestry = ancestors.join('/')
+      elt.save(:validate => false)
     end
   end
 end

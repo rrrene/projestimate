@@ -33,6 +33,18 @@ module ExternalMasterDatabase
       :encoding => "utf8"
   }
 
+  class ExternalWbsActivity < ActiveRecord::Base
+    establish_connection HOST
+    self.table_name = "wbs_activities"
+    include ExternalInclude
+  end
+
+  class ExternalWbsActivityElement < ActiveRecord::Base
+    establish_connection HOST
+    self.table_name = "wbs_activity_elements"
+    include ExternalInclude
+  end
+
   class ExternalSchemaMigration < ActiveRecord::Base
     establish_connection HOST
     self.table_name = "schema_migrations"
