@@ -56,7 +56,7 @@
   end
 
 
-  def self.import(file)
+  def self.import(file, sep)
     #find localstatus
     @localstatus = RecordStatus.find_by_name("Local")
 
@@ -75,8 +75,9 @@
                                            :parent => nil)
     @root_element.save
 
+    sep = "#{sep.blank? ? ';' : sep}"
     #for each row save in data base
-    CSV.open(file.path, 'r', :encoding => 'ISO-8859-1:utf-8', :quote_char => "\"", :row_sep => :auto, :col_sep => ";" ) do |csv|
+    CSV.open(file.path, 'r', :encoding => 'ISO-8859-1:utf-8', :quote_char => "\"", :row_sep => :auto, :col_sep => sep ) do |csv|
       @inserts = []
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0

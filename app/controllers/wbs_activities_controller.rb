@@ -6,7 +6,8 @@ class WbsActivitiesController < ApplicationController
 
   def import
     begin
-      WbsActivityElement.import(params[:file])
+
+      WbsActivityElement.import(params[:file], params[:separator])
       flash[:notice] = "Import successful."
     rescue
       flash[:error] = "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."

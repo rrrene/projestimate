@@ -50,7 +50,11 @@
           <h3 id="myModalLabel">Import WBS Activity</h3>
         </div>
         <div class="modal-body">
+            <label>File (csv only) </label>
             <%= file_field_tag :file %>
+
+            <label>Separator (default semi-colon) </label>
+            <%= text_field_tag :separator %>
         </div>
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
