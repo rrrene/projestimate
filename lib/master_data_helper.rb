@@ -35,24 +35,6 @@ module MasterDataHelper
         })
       end
 
-      #amoeba do
-      #  enable
-      #  #include_field [:wbs_activity_elements]
-      #
-      #  customize(lambda { |original_wbs_activity, new_wbs_activity|
-      #    #new_wbs_activity.uuid = "1234"
-      #    new_wbs_activity.reference_uuid = original_wbs_activity.uuid
-      #    new_wbs_activity.reference_id = original_wbs_activity.id
-      #
-      #    #new_wbs_activity.name = "Copy_#{ original_wbs_activity.copy_number.to_i+1} of #{original_wbs_activity.name}"
-      #
-      #    #new_wbs_activity.copy_number = 0
-      #    #original_wbs_activity.copy_number = original_wbs_activity.copy_number.to_i+1
-      #  })
-      #
-      #  propagate
-      #end
-
       #Local method for local instance record
       define_method(:is_local_record?) do
         begin
@@ -142,6 +124,16 @@ module MasterDataHelper
           false
         end
       end
+
+      #To know if record is fine/OK for validation
+      define_method(:is_ok_for_validation?) do
+        begin
+          (self.record_status.name != "Defined" && self.record_status.name != "Retired" && self.record_status.name != "Local") ? true : false
+        rescue
+          false
+        end
+      end
+
 
       #isLocal record status
       define_method(:is_local?) do

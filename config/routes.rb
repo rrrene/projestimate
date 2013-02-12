@@ -1,12 +1,8 @@
 ProjestimateMaquette::Application.routes.draw do
 
-  resources :wbs_activity_ratios
-
-  resources :wbs_activity_ratio_elements
-  post "save_value" => "wbs_activity_ratio_elements#save_value", :as => "save_value"
+  resources :wbs_project_elements
 
   resources :wbs_activities
-
   resources :wbs_activity_elements
   match 'wbs_activities/:wbs_activity_id/duplicate_me' => 'wbs_activities#duplicate_me', :as => :duplicate_me
 

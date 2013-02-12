@@ -20,4 +20,30 @@
 
 #encoding: utf-8
 class PeWbsProjectsController < ApplicationController
+
+  #def new
+  #  set_page_title "New PE-WBS-Project"
+  #end
+  #
+  #def create
+  #  @pe_wbs_project = PeWbsProject.new(params[:pe_wbs_project])
+  #
+  #  #New root Pbs-Project-Element
+  #  pbs_project_element = @pe_wbs_project.pbs_project_elements.build(:name => "WBS-Product - Product Breakdown Structure", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+  #
+  #  wbs_activity = @pe_wbs_project.wbs_project_elements.build(:name => "WBS-Activity - Activity breakdown Structure", :description => "WBS-Activity Root Element")
+  #
+  #  @pe_wbs_project.transaction do
+  #    if @pe_wbs_project.save
+  #      pbs_project_element.save
+  #
+  #      redirect_to redirect(@pe_wbs_project.projects_path), notice: 'Project and Elements were successfully created.'
+  #    else
+  #      render action: "new"
+  #    end
+  #
+  #  end
+  #
+  #end
+
 end

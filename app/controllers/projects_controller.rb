@@ -65,25 +65,45 @@ class ProjectsController < ApplicationController
     set_page_title "Create project"
 
     @project = Project.new(params[:project])
+    begin
+      #New default Pe-Wbs-Project
+      pe_wbs_project = @project.build_pe_wbs_project(:name => "PE-WBS-#{@project.title}")
 
-    if @project.save
-      if current_user.groups.map(&:code_group).include? ("super_admin")
-        current_user.project_ids = current_user.project_ids.push(@project.id)
-        current_user.save
+      @project.transaction do
+
+        if @project.save
+          pe_wbs_project.save
+
+          #New root Pbs-Project-Element
+          pbs_project_element = pe_wbs_project.pbs_project_elements.build(:name => "WBS-Product - Product Breakdown Structure", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+
+          wbs_project_element = pe_wbs_project.wbs_project_elements.build(:name => "WBS-Activity - Activity breakdown Structure", :description => "WBS-Activity Root Element", :author_id => current_user.id)
+
+          pe_wbs_project.transaction do
+            if pe_wbs_project.save
+              pbs_project_element.save
+              wbs_project_element.save
+            else
+              render(:new)
+            end
+          end
+
+          if current_user.groups.map(&:code_group).include? ("super_admin")
+            current_user.project_ids = current_user.project_ids.push(@project.id)
+            current_user.save
+          end
+
+          redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
+        else
+          render(:new)
+        end
       end
 
-    #New default pe_wbs_project
-    pe_wbs_project = PeWbsProject.new(:project => @project, :name => "PE-WBS-#{@project.title}")
-    pe_wbs_project.save
-
-    #New root pbs_project_element
-    pbs_project_element = PbsProjectElement.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
-    pbs_project_element.save
-
-      redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
-    else
-      render(:new)
+    rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
+      flash[:error] = "Error: Project creation failed, #{error.message}"
+      redirect_to :back
     end
+
   end
 
   #Edit a selected project

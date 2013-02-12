@@ -10,6 +10,8 @@
   belongs_to :wbs_activity
   has_many :wbs_activity_ratio_elements, :dependent => :destroy
 
+  has_many :wbs_project_elements
+
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 

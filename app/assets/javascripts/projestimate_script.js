@@ -138,7 +138,6 @@ $(document).ready(function() {
 
 
     //Disable all elements in DIV
-
     $.fn.disable = function() {
         return this.each(function() {
             if (typeof this.disabled != "undefined") {
@@ -161,12 +160,11 @@ $(document).ready(function() {
     if(test == false){
         $('#tabs-1-group *').disable();
     }
-
-
     //END disabled all elements in DIV
 
+});    //END Document.ready
 
-});
+
 
 function show_popup(elem) {
   jQuery('#'+elem).slideDown("fast");
@@ -181,7 +179,4 @@ function hide_popup(elem) {
 function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
 }
-
-
-
 
