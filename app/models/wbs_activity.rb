@@ -15,6 +15,7 @@
   belongs_to :organization
 
   has_many :wbs_activity_elements, :dependent => :destroy
+  has_many :wbs_activity_ratios, :dependent => :destroy
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
@@ -22,15 +23,6 @@
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
-
-  #accepts_nested_attributes_for :wbs_activity_elements, :allow_destroy => true
-  #validate :must_have_children
-  #def must_have_children
-  #  #if wbs_activity_elements.empty? or wbs_activity_elements.all? {|child| child.marked_for_destruction? }
-  #    errors.add(:base, 'Must have at least one wbs-activity-element')  if wbs_activity_elements.all?(&:marked_for_destruction?)
-  #  #end
-  #end
-
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do

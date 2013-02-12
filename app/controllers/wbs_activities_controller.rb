@@ -21,6 +21,17 @@ class WbsActivitiesController < ApplicationController
   def edit
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
+    @wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
+    if params[:current_ratio_id]
+      @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:current_ratio_id]).all
+    else
+      if @wbs_activity.wbs_activity_ratios.empty?
+        @wbs_activity_ratio_elements = []
+      else
+        @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+      end
+    end
 
     if @wbs_activity.defined?
       flash[:notice] = "It's impossible to edit a defined activity"
@@ -33,9 +44,7 @@ class WbsActivitiesController < ApplicationController
         redirect_to wbs_activities_path and return
       end
     end
-
   end
-
 
   def update
     @wbs_activity = nil
