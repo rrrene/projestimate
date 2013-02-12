@@ -1,0 +1,37 @@
+<h1>Listing wbs_project_elements</h1>
+
+<table>
+  <tr>
+    <th>Wbs activity element</th>
+    <th>Wbs activity</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Additional description</th>
+    <th>Exclude</th>
+    <th>Ancestry</th>
+    <th>Owner</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @wbs_project_elements.each do |wbs_project_element| %>
+  <tr>
+    <td><%= wbs_project_element.wbs_activity_element_id %></td>
+    <td><%= wbs_project_element.wbs_activity_id %></td>
+    <td><%= wbs_project_element.name %></td>
+    <td><%= wbs_project_element.description %></td>
+    <td><%= wbs_project_element.additional_description %></td>
+    <td><%= wbs_project_element.exclude %></td>
+    <td><%= wbs_project_element.ancestry %></td>
+    <td><%= wbs_project_element.owner_id %></td>
+    <td><%= link_to 'Show', wbs_project_element %></td>
+    <td><%= link_to 'Edit', edit_wbs_project_element_path(wbs_project_element) %></td>
+    <td><%= link_to 'Destroy', wbs_project_element, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Wbs project element', new_wbs_project_element_path %>

@@ -43,17 +43,6 @@ class PbsProjectElement < ActiveRecord::Base
       new_pbs_project_elt.copy_id = original_pbs_project_elt.id
 
     })
-
-    #customize(lambda { |original_component, new_component|
-    #  ancestry_list = original_component.ancestry
-    #  unless ancestry_list.nil?
-    #    ancestry_list = ancestry_list.split('/')
-    #    ancestry_list.each do |ancestry|
-    #      regex original_component.ancestry => {:replace => /#{ancestry}/, :with => new_component.id}
-    #    end
-    #  end
-    #})
-
   end
 
   #Metaprogrammation

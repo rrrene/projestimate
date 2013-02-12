@@ -24,7 +24,7 @@ module DataValidationHelper
         if @record.save
           flash[:notice] = 'Changes on record was successfully validated.'
         else
-          flash[:error] =  'Changes validation failed with no parent.'
+          flash[:error] = "Changes validation failed: #{@record.errors.full_messages.to_sentence}."
         end
       else
         temp_parent_uuid = parent_record.uuid
@@ -47,7 +47,7 @@ module DataValidationHelper
           if @record.save
             flash[:notice] = 'Changes on record was successfully validated.'
           else
-           flash[:error] =  'Changes validation failed.'
+           flash[:error] = "Changes validation failed: #{@record.errors.full_messages.to_sentence}."
           end
         end
       end

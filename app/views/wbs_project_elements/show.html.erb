@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Wbs activity element:</b>
+  <%= @wbs_project_element.wbs_activity_element_id %>
+</p>
+
+<p>
+  <b>Wbs activity:</b>
+  <%= @wbs_project_element.wbs_activity_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @wbs_project_element.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @wbs_project_element.description %>
+</p>
+
+<p>
+  <b>Additional description:</b>
+  <%= @wbs_project_element.additional_description %>
+</p>
+
+<p>
+  <b>Exclude:</b>
+  <%= @wbs_project_element.exclude %>
+</p>
+
+<p>
+  <b>Ancestry:</b>
+  <%= @wbs_project_element.ancestry %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= @wbs_project_element.owner_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_wbs_project_element_path(@wbs_project_element) %> |
+<%= link_to 'Back', wbs_project_elements_path %>

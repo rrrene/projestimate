@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205142031) do
+ActiveRecord::Schema.define(:version => 20130208082550) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -744,6 +744,21 @@ ActiveRecord::Schema.define(:version => 20130205142031) do
   add_index "wbs_activity_elements", ["reference_id"], :name => "index_wbs_activity_elements_on_reference_id"
   add_index "wbs_activity_elements", ["uuid"], :name => "index_wbs_activity_elements_on_uuid", :unique => true
   add_index "wbs_activity_elements", ["wbs_activity_id"], :name => "index_wbs_activity_elements_on_wbs_activity_id"
+
+  create_table "wbs_project_elements", :force => true do |t|
+    t.integer  "pe_wbs_project_id"
+    t.integer  "wbs_activity_element_id"
+    t.integer  "wbs_activity_id"
+    t.string   "name"
+    t.text     "description"
+    t.text     "additional_description"
+    t.boolean  "exclude",                 :default => false
+    t.string   "ancestry"
+    t.integer  "author_id"
+    t.integer  "copy_number",             :default => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"

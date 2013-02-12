@@ -72,7 +72,7 @@ class PermissionsController < ApplicationController
     @groups = Group.all
 
     if @permission.save
-      redirect_to redirect(permissions_path), notice: 'Function was successfully created.'
+      redirect_to redirect(permissions_path), notice: 'Permission was successfully created.'
     else
       render action: "new"
     end

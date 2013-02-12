@@ -10,6 +10,8 @@ class WbsActivityElement < ActiveRecord::Base
 
   belongs_to :wbs_activity
 
+  has_many :wbs_project_elements
+
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   #validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}, :unless => :check_reference
 

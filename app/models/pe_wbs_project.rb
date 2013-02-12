@@ -20,7 +20,9 @@
 
 #PE-WBS6Project has many pbs_project_element and belongs to project
 class PeWbsProject < ActiveRecord::Base
+
   has_many :pbs_project_elements, :dependent => :destroy
+  has_many :wbs_project_elements, :dependent => :destroy
 
   belongs_to :project
 
@@ -30,7 +32,7 @@ class PeWbsProject < ActiveRecord::Base
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    include_field :pbs_project_elements
+    include_field [:pbs_project_elements, :wbs_project_elements]
 
     customize(lambda { |original_pe_wbs, new_pe_wbs|
       new_pe_wbs.name = "PE-WBS Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{new_pe_wbs.project.title }"          #"Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"

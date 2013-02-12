@@ -12,7 +12,8 @@
   <ul>
     <li><a href="#tabs-1">Global properties </a></li>
     <% if action_name == "edit" %>
-      <li><a href="#tabs-2">PE-WBS Project </a></li>
+      <li><a href="#tabs-2">WBS-Product </a></li>
+      <li><a href="#tabs-8">WBS-Activity </a></li>
       <li><a href="#tabs-3">Estimation plan </a></li>
       <li><a href="#tabs-4">Securities </a></li>
       <li><a href="#tabs-5">Calendrier </a></li>
@@ -93,12 +94,21 @@
     <div id="tabs-2">
        <div class="component_tree">
          <% unless @project.nil? || @project.pe_wbs_project.nil? %>
-           <%=raw generate_wbs(@project.pe_wbs_project.pbs_project_elements.last.root, @project, "", 5) %>
+           <%=raw generate_wbs(@project.pe_wbs_project.pbs_project_elements.last.root, @project, "", 5) unless @project.pe_wbs_project.pbs_project_elements.last.nil? %>
          <% end %>
        </div>
     </div>
 
-    <div id="tabs-3">
+    <div id="tabs-8">
+        <div class="component_tree">
+          <% unless @project.nil? || @project.pe_wbs_project.nil? %>
+
+          <% end %>
+        </div>
+    </div>
+
+
+      <div id="tabs-3">
       <div class="module_box">
         <%= render :partial => "module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
       </div>
