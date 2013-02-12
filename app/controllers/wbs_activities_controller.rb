@@ -14,6 +14,10 @@ class WbsActivitiesController < ApplicationController
     redirect_to wbs_activities_path
   end
 
+  def refresh_ratio_elements
+    @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
+  end
+
   def index
     set_page_title "WBS activities"
     @wbs_activities = WbsActivity.all

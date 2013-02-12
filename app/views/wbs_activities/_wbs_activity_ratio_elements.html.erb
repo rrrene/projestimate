@@ -1,0 +1,16 @@
+<table class="table table-striped" >
+   <tr>
+     <th>Hierarchy</th>
+     <th>Name</th>
+     <th>Description</th>
+     <th>Ratio value</th>
+   </tr>
+  <% wbs_activity_ratio_elements.each do |wbs_activity_ratio_element| %>
+    <tr>
+      <td><%= wbs_activity_ratio_element.wbs_activity_element.dotted_id %></td>
+      <td><%= wbs_activity_ratio_element.wbs_activity_element.name %></td>
+      <td><%= wbs_activity_ratio_element.wbs_activity_element.description %></td>
+      <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-small" %></td>
+    </tr>
+  <% end %>
+</table>

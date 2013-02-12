@@ -61,6 +61,7 @@
           <th>Name</th>
           <th>Description</th>
           <th>Wbs Activity</th>
+          <th>Status</th>
           <th colspan=3>Actions</th>
         </tr>
         <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
@@ -69,8 +70,10 @@
             <td><%= wbs_activity_ratio.description %></td>
             <td><%= wbs_activity_ratio.wbs_activity.name %></td>
             <td><%= wbs_activity_ratio.record_status %></td>
-            <td><%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icn_edit", :title => "Edit" %></td>
-            <td><%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+            <td>
+              <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icn_edit", :title => "Edit" %>
+              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %>
+            </td>
           </tr>
         <% end %>
       </table>
@@ -79,23 +82,16 @@
 
     <div id="tabs-4">
 
-      <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ) %>
+      <p>
+        <label>Please select a table of ratio to display</label>
+        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :class => "select_ratio" %>
+      </p>
 
-      <%= form_tag '/save_value' do %>
-        <table class="table table-striped" >
-           <tr>
-             <th>Hierarchy</th>
-             <th>Name</th>
-             <th>Description</th>
-             <th>Ratio value</th>
-             <th>Status</th>
-             <th colspan=3>Actions</th>
-           </tr>
-           <% @wbs_activity_ratio_elements.each do |wbs_activity_ratio_element| %>
-             <%= render :partial => "wbs_activity_ratio_element", :object => wbs_activity_ratio_element %>
-           <% end %>
-         </table>
-        <%= link_to "New wbs activity element", new_wbs_activity_element_path(:activity_id => @wbs_activity.id), :class => "btn" %>
+      <%= form_tag '/save_values' do %>
+        <div id="ratio_section">
+          <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
+        </div>
+
         <%= submit_tag "Save", :class => "btn" %>
         <%= submit_tag "Apply", :class => "btn" %>
       <% end %>
