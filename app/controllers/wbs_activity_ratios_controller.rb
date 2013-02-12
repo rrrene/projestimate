@@ -10,7 +10,6 @@ class WbsActivityRatiosController < ApplicationController
 
 
   def update
-
     @wbs_activity_ratio = nil
     current_wbs_activity_ratio = WbsActivityRatio.find(params[:id])
 

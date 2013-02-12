@@ -6,7 +6,6 @@ class WbsActivitiesController < ApplicationController
 
   def import
     begin
-
       WbsActivityElement.import(params[:file], params[:separator])
       flash[:notice] = "Import successful."
     rescue

@@ -704,14 +704,15 @@ ActiveRecord::Schema.define(:version => 20130212092609) do
     t.string   "state"
     t.text     "description"
     t.integer  "organization_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "record_status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.integer  "copy_number",      :default => 0
   end
 
   add_index "wbs_activities", ["owner_id"], :name => "index_wbs_activities_on_owner_id"
@@ -734,6 +735,7 @@ ActiveRecord::Schema.define(:version => 20130212092609) do
     t.integer  "reference_id"
     t.string   "reference_uuid"
     t.string   "dotted_id"
+    t.integer  "copy_id"
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"
@@ -783,6 +785,21 @@ ActiveRecord::Schema.define(:version => 20130212092609) do
   add_index "wbs_activity_ratios", ["record_status_id"], :name => "index_wbs_activity_ratios_on_record_status_id"
   add_index "wbs_activity_ratios", ["reference_id"], :name => "index_wbs_activity_ratios_on_reference_id"
   add_index "wbs_activity_ratios", ["uuid"], :name => "index_wbs_activity_ratios_on_uuid", :unique => true
+
+  create_table "wbs_project_elements", :force => true do |t|
+    t.integer  "pe_wbs_project_id"
+    t.integer  "wbs_activity_element_id"
+    t.integer  "wbs_activity_id"
+    t.string   "name"
+    t.text     "description"
+    t.text     "additional_description"
+    t.boolean  "exclude",                 :default => false
+    t.string   "ancestry"
+    t.integer  "author_id"
+    t.integer  "copy_number",             :default => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"

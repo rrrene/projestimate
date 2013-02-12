@@ -4,17 +4,22 @@
      <th>Name</th>
      <th>Description</th>
      <th>Ratio value</th>
+     <th>Reference Element</th>
    </tr>
-  <% wbs_activity_ratio_elements.each do |wbs_activity_ratio_element| %>
+  <% wbs_activity_ratio_elements.each_with_index do |wbs_activity_ratio_element, i| %>
     <tr>
       <td><%= wbs_activity_ratio_element.wbs_activity_element.dotted_id %></td>
       <td><%= wbs_activity_ratio_element.wbs_activity_element.name %></td>
       <td><%= wbs_activity_ratio_element.wbs_activity_element.description %></td>
       <% unless wbs_activity_ratio_element.wbs_activity_element.has_children? %>
-        <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-small" %></td>
+        <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-mini", :tabindex => i %></td>
+        <td><%= radio_button_tag "ratio_reference_element", wbs_activity_ratio_element.id, wbs_activity_ratio_element.ratio_reference_element %></td>
       <% else %>
         <td> - </td>
+        <td> - </td>
       <% end %>
+      <%= hidden_field_tag "wbs_activity_ratio_id", wbs_activity_ratio_element.wbs_activity_ratio_id %>
     </tr>
   <% end %>
 </table>
+

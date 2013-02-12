@@ -14,20 +14,27 @@ class WbsActivityRatioElementsController < ApplicationController
   end
 
   def save_values
+    #set ratio values
     ratio_values = params[:ratio_values]
     ratio_values.each do |i|
       WbsActivityRatioElement.find(i.first).update_attribute('ratio_value', i.last)
     end
 
-    @wbs_activity_ratio = WbsActivityRatioElement.first.wbs_activity_ratio
+    wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    total = wbs_activity_ratio.wbs_activity_ratio_elements.select{|i| i.wbs_activity_element.has_children? }.sum(&:ratio_value)
 
-    total = @wbs_activity_ratio.wbs_activity_ratio_elements.sum(&:ratio_value)
-    if total != 100
-      flash[:warning] = "Be careful, the total ratio value is not equal to 100."
-    else
-      flash[:notice] = "Ratio value has been successfully saved."
+    #set ratio reference (all to false then one to true)
+    wbs_activity_ratio.wbs_activity_ratio_elements.each do |wbs_activity_ratio_element|
+      wbs_activity_ratio_element.update_attribute("ratio_reference_element",  false)
     end
-    redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity))
+    WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id]).update_attribute("ratio_reference_element", true)
+
+    if total != 100
+      flash[:warning] = "Warning - Ratios successfully saved, but sum is different of 100%"
+    else
+      flash[:notice] = "Ratios successfully saved"
+    end
+    redirect_to redirect(edit_wbs_activity_path(wbs_activity_ratio.wbs_activity))
   end
 
 end
