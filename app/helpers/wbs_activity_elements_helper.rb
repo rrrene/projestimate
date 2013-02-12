@@ -5,12 +5,10 @@ module WbsActivityElementsHelper
     tree ||= String.new
     unless element.nil?
       if element.is_root?
-        tree << "<ul style='margin-left:1em;'>
+        tree << "<ul style='margin-left:1em;' id='tree'>
                    <li style='margin-left:-1em;'>
                     <div class='block_label'>
-                      <div>
-                        <span class='#{ element.record_status.to_s == 'Proposed' ? 'label label-important' : '' }' >Root element - #{element.name} </span>
-                      </div>
+                        <span class='#{ element.record_status.to_s }'>Root element - #{element.name} </span>
                     </div>
                     <div class='block_link'>
                       #{ link_activity_element(element) }
@@ -24,9 +22,7 @@ module WbsActivityElementsHelper
           tree << "<ul>
                      <li style='margin-left:#{element.depth}em;' >
                       <div class='block_label'>
-                        <div>
-                        <span class='#{ (e.record_status.to_s == "Proposed") ? 'label label-important' : '' }' > #{e.name} </span>
-                        </div>
+                        <span class='#{ e.record_status.to_s }'> #{e.name} </span>
                       </div>
                       <div class='block_link'>
                         #{ link_activity_element(e) }

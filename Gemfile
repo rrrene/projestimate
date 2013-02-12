@@ -16,6 +16,7 @@ end
 gem 'jquery-rails'
 
 group :test do
+
   gem 'factory_girl_rails', '~> 4.0'
   gem 'capybara'
   #To satisfy
@@ -106,7 +107,7 @@ gem 'paperclip', '~> 3.0'
 gem 'newrelic_rpm'
 
 #UUID generation tools
-gem "uuidtools"
+gem 'uuidtools'
 
 #For deep copy of ActiveRecord object
 gem 'amoeba'
@@ -116,6 +117,4 @@ gem 'rb-readline'
 
 # FxRuby GUI tool: instead of using the gemfile, install FxRuby from here: https://github.com/lylejohnson/fxruby/wiki/Setting-Up-a-Linux-Build-Environment
 #gem 'fxruby'
-
-
 

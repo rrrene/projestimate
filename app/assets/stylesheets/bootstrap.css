@@ -149,10 +149,6 @@ body {
   color: #333333;
 }
 
-.app{
-    background: url('/assets/bg.png');
-}
-
 a {
   color: #0088cc;
   text-decoration: none;
@@ -549,6 +545,7 @@ h1 {
 h2 {
   font-size: 24px;
   line-height: 40px;
+  font-weight: normal;
 }
 h3 {
   font-size: 18px;
@@ -759,7 +756,7 @@ pre code {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #999999;
 }
-.label {
+.label, .proposed {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -778,7 +775,8 @@ a.badge:hover {
   cursor: pointer;
 }
 .label-important,
-.badge-important {
+.badge-important,
+.proposed{
   background-color: #b94a48;
 }
 .label-important[href],

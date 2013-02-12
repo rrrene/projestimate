@@ -63,10 +63,12 @@ class Standards
 	end
 end
 
-def values_to_a(values)
-    if values.is_a? String
-      YAML::load(values)
-    else
-      values
+class CustomCSV < CSV
+  def gets(*args)
+    line = super
+    if line != nil
+      line.gsub!('\\"','""')  # fix the \" that would otherwise cause a parse error
     end
+    line
+  end
 end

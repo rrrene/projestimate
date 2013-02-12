@@ -48,11 +48,10 @@ class ProjectsController < ApplicationController
   def index
     set_page_title "Projects"
     @projects = Project.page(params[:page]).per_page(5)
-
     respond_to do |format|
       format.html
       format.js {
-        render "records_number.js"
+        render :partial => "project_record_number"
       }
     end
   end
@@ -411,6 +410,7 @@ class ProjectsController < ApplicationController
 
   def project_record_number
     @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
+    render :partial => "project_record_number"
   end
 
   def sort_column                                                                                                                    t
