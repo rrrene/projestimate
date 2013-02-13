@@ -15,7 +15,7 @@
         <%= link_to('Restore', "#{wbs_activity_element.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes") %>
       <% else %>
         <% unless wbs_activity_element.is_defined? %>
-          <%= link_to('Validate', "#{wbs_activity_element.id}/validate_change", :class => "validate_children",  confirm: 'Do you confirm changes validation on this record?', :title => "validate changes") %>
+          <%= link_to('Validate', "#{wbs_activity_element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes") %>
         <% end %>
       <% end %>
     <% end %>

@@ -4,12 +4,6 @@ class WbsActivityElementsController < ApplicationController
 
   before_filter :get_record_statuses
 
-  def show
-    set_page_title "WBS-Activity elements"
-    @wbs_activity = WbsActivity.find(params[:id])
-    @wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
-  end
-
   def new
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.new
@@ -59,6 +53,7 @@ class WbsActivityElementsController < ApplicationController
     @wbs_activity_element = WbsActivityElement.new(params[:wbs_activity_element])
 
     @selected = @wbs_activity_element.parent
+    @wbs_activity = @wbs_activity_element.wbs_activity
 
     #If we are on local instance, Status is set to "Local"
     if is_master_instance?   #so not on master
@@ -67,12 +62,15 @@ class WbsActivityElementsController < ApplicationController
       @wbs_activity_element.record_status = @local_status
     end
 
-    if @wbs_activity_element.valid?
-      @wbs_activity_element.save
-      redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity), notice: 'Wbs activity element was successfully created.'
+    if @wbs_activity_element.save
+      @wbs_activity.wbs_activity_ratios.each do |wbs_activity_ratio|
+        @wbs_activity_ratio_element = WbsActivityRatioElement.create(:ratio_value => nil,
+                                                                     :ratio_reference_element => false,
+                                                                     :wbs_activity_ratio_id => wbs_activity_ratio.id,
+                                                                     :wbs_activity_element_id => @wbs_activity_element.id)
+      end
+      redirect_to edit_wbs_activity_path(@wbs_activity), notice: 'Wbs activity element was successfully created.'
     else
-      @wbs_activity = @wbs_activity_element.wbs_activity
-      flash[:error] = "Please verify form"
       render action: "new"
     end
   end
@@ -103,7 +101,7 @@ class WbsActivityElementsController < ApplicationController
     end
 
     if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
-      redirect_to wbs_activity_element_path(@wbs_activity.id), notice: 'Wbs activity element was successfully updated.'
+      redirect_to edit_wbs_activity_path(@wbs_activity), notice: 'Wbs activity element was successfully updated.'
     else
       render action: "edit"
     end
@@ -125,11 +123,11 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)  and return
+        redirect_to edit_wbs_activity_path(@wbs_activity)  and return
       end
     end
 
-    redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
+    redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity)
   end
 
 end

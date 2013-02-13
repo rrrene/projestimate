@@ -87,6 +87,15 @@ $(document).ready(function() {
             })
     });
 
+    $(".select_ratio").change(
+        function(){
+            $.ajax({
+                    url:"/refresh_ratio_elements",
+                    method: 'GET',
+                    data: "wbs_activity_ratio_id=" + this.value
+            })
+    });
+
     $( ".tabs" ).tabs();
 
 
@@ -135,7 +144,6 @@ $(document).ready(function() {
             $(".custom_value").attr("disabled", true);
         }
     });
-
 
     //Disable all elements in DIV
     $.fn.disable = function() {

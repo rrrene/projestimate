@@ -1,31 +1,100 @@
-<div class="span12 well well-white">
-  <h2>WBS Activity</h2>
-  <%= simple_form_for(@wbs_activity) do |f| %>
-      <%= f.error_notification %>
+<% action_name = controller.action_name %>
+<% if ["new", "edit"].include?(action_name) %>
+  <h2 xmlns="http://www.w3.org/1999/html"><%= ("#{action_name}" == "new")? "New Wbs Activity" : "Configure Wbs Activity"%></h2>
+<% else %>
+  <h1><%= action_name.humanize %> <%= current_project.title %></h1>
+<% end %>
 
-    <% if controller.action_name == "edit" and @wbs_activity.retired?  %>
-      <%= f.input :state, :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => { :class => 'input-xxlarge' } %>
-    <% else %>
-      <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
-      <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 } %>
-      <%= f.input :organization_id, :as => :select, :collection => current_user.organizations, :input_html => { :class => 'input-xxlarge' } %>
-
-      <%= f.input :state, :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => { :class => 'input-xxlarge' } %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1">General </a></li>
+    <% if action_name == "edit" %>
+      <li><a href="#tabs-2">Wbs Element (Tree View) </a></li>
+      <li><a href="#tabs-3">Ratios </a></li>
+      <li><a href="#tabs-4">Ratio elements </a></li>
     <% end %>
+  </ul>
 
-    <% if is_master_instance? %>
+  <div id="tabs-1">
+    <h2>WBS Activity</h2>
+    <%= simple_form_for(@wbs_activity) do |f| %>
+        <%= f.error_notification %>
 
-      <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+      <% if controller.action_name == "edit" and @wbs_activity.retired?  %>
+        <%= f.input :state, :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => { :class => 'input-xxlarge' } %>
+      <% else %>
+        <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
+        <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 } %>
+        <%= f.input :organization_id, :as => :select, :collection => current_user.organizations, :input_html => { :class => 'input-xxlarge' } %>
 
-      <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
-                        :collection => wbs_record_statuses_collection,
-                        :input_html => {:class => "record_status"},
-                        :selected =>  @wbs_activity.record_status_id,
-                        :disabled => (true if @wbs_activity.is_retired?) %><br />
+        <%= f.input :state, :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => { :class => 'input-xxlarge' } %>
+      <% end %>
 
-      <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity.is_custom?) %><br />
+      <% if is_master_instance? %>
+
+        <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+
+        <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
+                              :collection => @wbs_activity.record_status_collection,
+                              :input_html => {:class => "record_status"},
+                              :selected => (@wbs_activity.is_defined_or_nil? ? @proposed_status.id : @wbs_activity.record_status_id),
+                              :disabled => (true if @wbs_activity.is_retired?) %><br />
+
+        <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity.is_custom?) %><br />
+      <% end %>
+
+      <%= f.submit "Save", :class => "btn"%>
+      <%= f.submit "Apply", :class => "btn"%>
     <% end %>
+  </div>
 
-    <%= f.submit %>
+  <% unless action_name == "new" %>
+    <div id="tabs-2">
+      <div class="well component_tree">
+        <%=raw generate_activity_element_tree(@wbs_activity_elements.first, "") %>
+      </div>
+    </div>
+
+    <div id="tabs-3">
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Wbs Activity</th>
+          <th>Status</th>
+          <th colspan=3>Actions</th>
+        </tr>
+        <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
+          <tr>
+            <td><%= wbs_activity_ratio.name %></td>
+            <td><%= wbs_activity_ratio.description %></td>
+            <td><%= wbs_activity_ratio.wbs_activity.name %></td>
+            <td><%= wbs_activity_ratio.record_status %></td>
+            <td>
+              <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icn_edit", :title => "Edit" %>
+              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+      <%= link_to "New wbs ratios", new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => "btn" %>
+    </div>
+
+    <div id="tabs-4">
+
+      <p>
+        <label>Ratio table</label>
+        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :class => "select_ratio" %>
+      </p>
+
+      <%= form_tag '/save_values' do %>
+        <div id="ratio_section">
+          <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
+        </div>
+
+        <%= submit_tag "Save", :class => "btn" %>
+        <%= submit_tag "Apply", :class => "btn" %>
+      <% end %>
+    </div>
   <% end %>
 </div>

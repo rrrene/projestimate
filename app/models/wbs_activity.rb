@@ -15,7 +15,8 @@
   belongs_to :organization
 
   has_many :wbs_activity_elements, :dependent => :destroy
-  has_many :wbs_project_elements, :through => :wbs_activity_elements  ##TODO Review this relation
+  has_many :wbs_activity_ratios, :dependent => :destroy
+  has_many :wbs_project_elements, :through => :wbs_activity_elements
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

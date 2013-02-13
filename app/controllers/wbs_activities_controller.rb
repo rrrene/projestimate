@@ -6,12 +6,16 @@ class WbsActivitiesController < ApplicationController
 
   def import
     begin
-      WbsActivityElement.import(params[:file])
+      WbsActivityElement.import(params[:file], params[:separator])
       flash[:notice] = "Import successful."
     rescue
       flash[:error] = "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."
     end
     redirect_to wbs_activities_path
+  end
+
+  def refresh_ratio_elements
+    @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
   end
 
   def index
@@ -22,6 +26,17 @@ class WbsActivitiesController < ApplicationController
   def edit
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
+    @wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
+    if params[:current_ratio_id]
+      @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:current_ratio_id]).all
+    else
+      if @wbs_activity.wbs_activity_ratios.empty?
+        @wbs_activity_ratio_elements = []
+      else
+        @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+      end
+    end
 
     unless is_master_instance?
       if @wbs_activity.is_defined?
