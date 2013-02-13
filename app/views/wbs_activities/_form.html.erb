@@ -35,7 +35,7 @@
         <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
 
         <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
-                              :collection => @wbs_activity.record_status_collection,
+                              :collection => wbs_record_statuses_collection,
                               :input_html => {:class => "record_status"},
                               :selected => (@wbs_activity.is_defined_or_nil? ? @proposed_status.id : @wbs_activity.record_status_id),
                               :disabled => (true if @wbs_activity.is_retired?) %><br />

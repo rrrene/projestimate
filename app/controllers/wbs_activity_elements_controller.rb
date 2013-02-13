@@ -2,6 +2,8 @@ class WbsActivityElementsController < ApplicationController
   include PeWbsHelper
   include DataValidationHelper #Module for master data changes validation
 
+  helper_method :wbs_record_statuses_collection
+
   before_filter :get_record_statuses
 
   def new
@@ -130,16 +132,21 @@ class WbsActivityElementsController < ApplicationController
     redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity, :anchor => "tabs-2")
   end
 
-
-  def validate_all_children
-    @wbs_activity_element = WbsActivityElement.find(params[:id])
-    subtree = @wbs_activity_element.subtree #all descendants (direct and indirect children) and itself
-    subtree.each do |descendant|
-      if descendant.is_ok_for_validation?
-        descendant.validate_change
+  def wbs_record_statuses_collection
+    if @wbs_activity.new_record?
+      if is_master_instance?
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
+      else
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
+      end
+    else
+      @wbs_record_status_collection = []
+      if @wbs_activity.is_defined?
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
+      else
+        @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
       end
     end
-    redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity), notice: 'Wbs-Activity-Element and all its children were successfully validated.'
   end
 
 end

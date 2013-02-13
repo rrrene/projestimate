@@ -125,14 +125,14 @@ module MasterDataHelper
         end
       end
 
-      #To know if record is fine/OK for validation
-      define_method(:is_ok_for_validation?) do
-        begin
-          (self.record_status.name != "Defined" && self.record_status.name != "Retired" && self.record_status.name != "Local") ? true : false
-        rescue
-          false
-        end
-      end
+      ##To know if record is fine/OK for validation
+      #define_method(:is_ok_for_validation?) do
+      #  begin
+      #    (self.record_status.name != "Defined" && self.record_status.name != "Retired" && self.record_status.name != "Local") ? true : false
+      #  rescue
+      #    false
+      #  end
+      #end
 
 
       #isLocal record status
