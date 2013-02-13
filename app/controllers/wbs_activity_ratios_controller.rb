@@ -27,7 +27,7 @@ class WbsActivityRatiosController < ApplicationController
     end
 
     if @wbs_activity_ratio.update_attributes(params[:wbs_activity_ratio])
-      redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity)
+      redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
     else
       render :edit
     end
@@ -54,7 +54,7 @@ class WbsActivityRatiosController < ApplicationController
                                        :wbs_activity_ratio_id => @wbs_activity_ratio.id,
                                        :wbs_activity_element_id => wbs_activity_element.id)
       end
-      redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity)
+      redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
     else
       render :new
     end
@@ -76,11 +76,11 @@ class WbsActivityRatiosController < ApplicationController
         @wbs_activity_ratio.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-       redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity) and return
+       redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3")) and return
       end
     end
 
     flash[:success] = "WBS-Activity was successfully deleted."
-    redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity)
+    redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
   end
 end

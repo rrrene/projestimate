@@ -1,7 +1,7 @@
 <div class="span12">
   <% action_name = controller.action_name %>
   <% if %w(new edit).include?(action_name) %>
-      <h2><%= ("#{action_name}" == "new")? "New WBS-Activity Element" : "Update WBS-Activity Element"%></h2>
+      <h2><%= ("#{action_name}" == "new")? "New WBS-Activity Element" : "Edit WBS-Activity Element"%></h2>
   <% end %>
 
 
@@ -13,6 +13,8 @@
         <%= f.input :wbs_activity_id, :as => :hidden, :label => "WBS-Activity", :input_html => { :value => @wbs_activity.id, :class => 'input-xxlarge' } %>
 
         <%= f.input :parent_id, :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
+
+        <%= f.input :dotted_id, :label => "Outline", :input_html => { :class => 'input-xxlarge' }  %>
 
         <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
 
