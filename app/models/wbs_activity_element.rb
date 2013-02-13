@@ -13,6 +13,8 @@
 
   has_many :wbs_project_elements
 
+  scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
+
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 

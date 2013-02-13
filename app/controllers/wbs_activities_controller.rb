@@ -170,4 +170,42 @@ class WbsActivitiesController < ApplicationController
     end
   end
 
+  #This function will validate teh WBS-Activity and all its elements
+  def validate_change_with_children(node_id=params[:root_node_id])
+    begin
+      #Get the record to validate from its ID
+      @wbs_activity_element = WbsActivityElement.find(node_id)
+
+      if @wbs_activity_element.is_root?  #children will be validated with parent node
+        @wbs_activity_element.transaction do
+          subtree = @wbs_activity_element.subtree #all descendants (direct and indirect children) and itself
+          subtree_for_validation = subtree.is_ok_for_validation(@defined_status.id, @retired_status.id, @local_status.id)
+          subtree_for_validation.update_all(:record_status_id => @defined_status.id)
+          #flash[:notice] =  "Wbs-Activity-Element and all its children were successfully validated."
+        end
+
+        if @wbs_activity_element.save
+          flash[:notice] = 'Changes on record was successfully validated.'
+        else
+          flash[:error] = "Changes validation failed: #{@wbs_activity_element.errors.full_messages.to_sentence}."
+        end
+
+        redirect_to :back
+      end
+
+        #respond_to do |format|
+        #  format.js  { redirect_to :back }
+        #end
+
+    rescue ActiveRecord::StatementInvalid => error
+      put "#{error.message}"
+      flash[:error] = "#{error.message}"
+      redirect_to :back and return
+    rescue ActiveRecord::RecordInvalid => err
+      flash[:error] = "#{err.message}"
+      redirect_to :back
+    end
+  end
+
+
 end

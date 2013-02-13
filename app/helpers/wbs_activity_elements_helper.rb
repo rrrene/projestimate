@@ -48,10 +48,10 @@ module WbsActivityElementsHelper
         res << link_to('', "/wbs_activity_elements/#{element.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => 'restore changes', :class => 'icn_jump_back')
       else
         unless element.record_status.to_s == 'Defined'
-          #res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
-
-          res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
-          res << link_to('Test', "/wbs_activity_elements/#{element.id}/validate_change", :title => 'validate changes', :class => 'dialog-confirm-test', :onclick => 'validate_all_children')
+          if element.is_root?
+            #res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
+            res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title => 'validate changes', :class => 'icn_check_in')
+          end
         end
       end
     end

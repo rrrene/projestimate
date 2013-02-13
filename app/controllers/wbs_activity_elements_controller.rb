@@ -132,16 +132,4 @@ class WbsActivityElementsController < ApplicationController
     redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity)
   end
 
-
-  def validate_all_children
-    @wbs_activity_element = WbsActivityElement.find(params[:id])
-    subtree = @wbs_activity_element.subtree #all descendants (direct and indirect children) and itself
-    subtree.each do |descendant|
-      if descendant.is_ok_for_validation?
-        descendant.validate_change
-      end
-    end
-    redirect_to wbs_activity_element_path(@wbs_activity_element.wbs_activity), notice: 'Wbs-Activity-Element and all its children were successfully validated.'
-  end
-
 end
