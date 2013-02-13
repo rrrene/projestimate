@@ -43,19 +43,6 @@ module WbsActivityElementsHelper
     res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icn_edit", :title => "Edit")
     res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
 
-    if is_master_instance? && !(element.record_status.to_s == 'Local')
-      if element.record_status.to_s == 'Retired'
-        res << link_to('', "/wbs_activity_elements/#{element.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => 'restore changes', :class => 'icn_jump_back')
-      else
-        unless element.record_status.to_s == 'Defined'
-          if element.is_root?
-            #res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => 'validate changes', :class => 'icn_check_in')
-            res << link_to('', "/wbs_activity_elements/#{element.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title => 'validate changes', :class => 'icn_check_in')
-          end
-        end
-      end
-    end
-
     res
 
   end

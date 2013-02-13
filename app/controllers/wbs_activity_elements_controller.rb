@@ -2,6 +2,8 @@ class WbsActivityElementsController < ApplicationController
   include PeWbsHelper
   include DataValidationHelper #Module for master data changes validation
 
+  helper_method :wbs_record_statuses_collection
+
   before_filter :get_record_statuses
 
   def new
@@ -128,6 +130,23 @@ class WbsActivityElementsController < ApplicationController
     end
 
     redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity)
+  end
+
+  def wbs_record_statuses_collection
+    if @wbs_activity.new_record?
+      if is_master_instance?
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
+      else
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
+      end
+    else
+      @wbs_record_status_collection = []
+      if @wbs_activity.is_defined?
+        @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
+      else
+        @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
+      end
+    end
   end
 
 end

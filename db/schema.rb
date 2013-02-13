@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205142031) do
+ActiveRecord::Schema.define(:version => 20130213103941) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -736,6 +736,8 @@ ActiveRecord::Schema.define(:version => 20130205142031) do
     t.integer  "reference_id"
     t.string   "reference_uuid"
     t.integer  "copy_id"
+    t.string   "dotted_id"
+    t.boolean  "is_root"
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"
@@ -744,6 +746,62 @@ ActiveRecord::Schema.define(:version => 20130205142031) do
   add_index "wbs_activity_elements", ["reference_id"], :name => "index_wbs_activity_elements_on_reference_id"
   add_index "wbs_activity_elements", ["uuid"], :name => "index_wbs_activity_elements_on_uuid", :unique => true
   add_index "wbs_activity_elements", ["wbs_activity_id"], :name => "index_wbs_activity_elements_on_wbs_activity_id"
+
+  create_table "wbs_activity_ratio_elements", :force => true do |t|
+    t.string   "uuid"
+    t.integer  "wbs_activity_ratio_id"
+    t.integer  "wbs_activity_element_id"
+    t.float    "ratio_value"
+    t.boolean  "ratio_reference_element"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "reference_id"
+    t.string   "reference_uuid"
+  end
+
+  add_index "wbs_activity_ratio_elements", ["owner_id"], :name => "index_wbs_activity_ratio_elements_on_owner_id"
+  add_index "wbs_activity_ratio_elements", ["record_status_id"], :name => "index_wbs_activity_ratio_elements_on_record_status_id"
+  add_index "wbs_activity_ratio_elements", ["reference_id"], :name => "index_wbs_activity_ratio_elements_on_reference_id"
+  add_index "wbs_activity_ratio_elements", ["uuid"], :name => "index_wbs_activity_ratio_elements_on_uuid", :unique => true
+
+  create_table "wbs_activity_ratios", :force => true do |t|
+    t.string   "uuid"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "wbs_activity_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "reference_id"
+    t.string   "reference_uuid"
+  end
+
+  add_index "wbs_activity_ratios", ["owner_id"], :name => "index_wbs_activity_ratios_on_owner_id"
+  add_index "wbs_activity_ratios", ["record_status_id"], :name => "index_wbs_activity_ratios_on_record_status_id"
+  add_index "wbs_activity_ratios", ["reference_id"], :name => "index_wbs_activity_ratios_on_reference_id"
+  add_index "wbs_activity_ratios", ["uuid"], :name => "index_wbs_activity_ratios_on_uuid", :unique => true
+
+  create_table "wbs_project_elements", :force => true do |t|
+    t.integer  "pe_wbs_project_id"
+    t.integer  "wbs_activity_element_id"
+    t.integer  "wbs_activity_id"
+    t.string   "name"
+    t.text     "description"
+    t.text     "additional_description"
+    t.boolean  "exclude",                 :default => false
+    t.string   "ancestry"
+    t.integer  "author_id"
+    t.integer  "copy_number",             :default => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"

@@ -146,7 +146,7 @@ ProjestimateMaquette::Application.routes.draw do
   match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'
   match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
 
-  match 'wbs_activities/:root_node_id/validate_change_with_children' => 'wbs_activities#validate_change_with_children', :as => 'validate_change_with_children'
+  match 'wbs_activities/:id/validate_change_with_children' => 'wbs_activities#validate_change_with_children', :as => 'validate_change_with_children'
 
   resources :translations
   get "load_translations" => "translations#load_translations", :as => "load_translations"
