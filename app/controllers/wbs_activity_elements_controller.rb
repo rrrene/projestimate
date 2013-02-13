@@ -81,9 +81,9 @@ class WbsActivityElementsController < ApplicationController
     @wbs_activity_element = nil
     current_wbs_activity_element = WbsActivityElement.find(params[:id])
 
-    @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
+    @wbs_activity ||= WbsActivity.find_by_id(params[:wbs_activity_element][:wbs_activity_id])
     @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
-    @selected_parent = current_wbs_activity_element
+    @selected_parent = current_wbs_activity_element.parent
 
     if current_wbs_activity_element.is_defined?
       @wbs_activity_element = current_wbs_activity_element.amoeba_dup
