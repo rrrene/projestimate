@@ -63,7 +63,8 @@ class WbsActivityRatiosController < ApplicationController
         WbsActivityRatioElement.create(:ratio_value => nil,
                                        :ratio_reference_element => false,
                                        :wbs_activity_ratio_id => @wbs_activity_ratio.id,
-                                       :wbs_activity_element_id => wbs_activity_element.id)
+                                       :wbs_activity_element_id => wbs_activity_element.id,
+                                       :record_status_id => @wbs_activity_ratio.record_status_id)
       end
       redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
     else

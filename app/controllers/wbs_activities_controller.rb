@@ -203,6 +203,18 @@ class WbsActivitiesController < ApplicationController
             #flash[:notice] =  "Wbs-Activity-Element and all its children were successfully validated."
           end
 
+          #TODO : Validate also Ratio and Ratio_Element of each wbs_activity_element
+          wbs_activity_ratios = wbs_activity.wbs_activity_ratios
+          wbs_activity_ratios.each do |ratio|
+            ratio.transaction do
+              ratio.record_status = @defined_status
+              if ratio.save
+                wbs_activity_ratio_elements = ratio.wbs_activity_ratio_elements
+                wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
+              end
+            end
+          end
+
           flash[:notice] = 'Changes on record was successfully validated.'
         else
           flash[:error] = "Changes validation failed: #{wbs_activity_root_element.errors.full_messages.to_sentence}."

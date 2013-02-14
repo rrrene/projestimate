@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212092609) do
+ActiveRecord::Schema.define(:version => 20130213103941) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -736,6 +736,7 @@ ActiveRecord::Schema.define(:version => 20130212092609) do
     t.string   "reference_uuid"
     t.string   "dotted_id"
     t.integer  "copy_id"
+    t.boolean  "is_root"
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"

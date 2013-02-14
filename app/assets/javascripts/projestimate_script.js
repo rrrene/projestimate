@@ -145,6 +145,16 @@ $(document).ready(function() {
         }
     });
 
+
+    $("#wbs_activity_element_parent_id").change(function(){
+        $.ajax({
+            url:"/update_status_collection",
+            method: 'GET',
+            data: "selected_parent_id=" + $('#wbs_activity_element_parent_id').val()
+        })
+    });
+
+
     //Disable all elements in DIV
     $.fn.disable = function() {
         return this.each(function() {

@@ -25,7 +25,7 @@
           <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
                             :collection => wbs_record_statuses_collection,
                             :input_html => {:class => "record_status"},
-                            :selected => (@wbs_activity_element.is_defined_or_nil? ? @proposed_status.id : @wbs_activity_element.record_status_id),
+                            :selected => selected_record_status,
                             :disabled => (true if @wbs_activity_element.is_retired?) %><br />
 
           <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />

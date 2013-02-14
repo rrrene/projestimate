@@ -40,7 +40,7 @@ module WbsActivityElementsHelper
   def link_activity_element(element)
     res = String.new
     res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id,:activity_id => element.wbs_activity), :class => "icon-plus icon-large")
-    res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icon-edit icon-large", :title => "Edit")
+    res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icon-edit icon-large", :title => "Edit", :confirm => ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if element.is_defined?) )
     res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
 
     res
