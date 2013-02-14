@@ -3,12 +3,14 @@ class WbsActivityElementsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   helper_method :wbs_record_statuses_collection
+  helper_method :selected_record_status
 
   before_filter :get_record_statuses
 
   def new
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.new
+    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
@@ -22,6 +24,7 @@ class WbsActivityElementsController < ApplicationController
   def edit
     set_page_title "WBS-Activity elements"
     @wbs_activity_element = WbsActivityElement.find(params[:id])
+    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
@@ -53,15 +56,20 @@ class WbsActivityElementsController < ApplicationController
 
   def create
     @wbs_activity_element = WbsActivityElement.new(params[:wbs_activity_element])
+    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     @selected = @wbs_activity_element.parent
     @wbs_activity = @wbs_activity_element.wbs_activity
 
     #If we are on local instance, Status is set to "Local"
-    if is_master_instance?   #so not on master
-      @wbs_activity_element.record_status = @proposed_status
+    if @wbs_activity_element.is_root
+      if is_master_instance?   #so not on master
+        @wbs_activity_element.record_status = @proposed_status
+      else
+        @wbs_activity_element.record_status = @local_status
+      end
     else
-      @wbs_activity_element.record_status = @local_status
+      @wbs_activity_element.record_status = @wbs_activity_element.parent.record_status
     end
 
     if @wbs_activity_element.save
@@ -78,8 +86,8 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def update
-    @wbs_activity_element = nil
-    current_wbs_activity_element = WbsActivityElement.find(params[:id])
+    @wbs_activity_element = WbsActivityElement.find(params[:id])
+    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
     @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
@@ -132,21 +140,74 @@ class WbsActivityElementsController < ApplicationController
     redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity)
   end
 
+  #def wbs_record_statuses_collection
+  #  @wbs_record_status_collection = []
+  #
+  #  if @wbs_activity_element.new_record?
+  #    if @wbs_activity_element.is_root
+  #      if is_master_instance?
+  #        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
+  #      else
+  #        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
+  #      end
+  #    else
+  #      element_parent = WbsActivityElement.find(params[:selected_parent_id])
+  #      @wbs_record_status_collection = RecordStatus.where("id =? ", element_parent.record_status_id)
+  #    end
+  #  else
+  #    if @wbs_activity_element.is_defined?
+  #      @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
+  #    else
+  #      @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
+  #    end
+  #  end
+  #  @wbs_record_status_collection
+  #end
+
+
   def wbs_record_statuses_collection
-    if @wbs_activity.new_record?
-      if is_master_instance?
-        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
-      else
-        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
+    @wbs_record_status_collection = []
+    #if self.action_name == "new"
+    if @wbs_activity_element.new_record?
+      unless params[:selected_parent_id].blank?
+        element_parent = WbsActivityElement.find(params[:selected_parent_id])
+        @wbs_record_status_collection = RecordStatus.where("id =? ", element_parent.record_status_id)
       end
     else
-      @wbs_record_status_collection = []
-      if @wbs_activity.is_defined?
+      if @wbs_activity_element.is_defined?
         @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
       else
         @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
       end
     end
+    @wbs_record_status_collection
+  end
+
+  def update_status_collection
+    @wbs_record_status_collection = []
+    unless params[:selected_parent_id].blank?
+      element_parent = WbsActivityElement.find(params[:selected_parent_id])
+      parent_record_status = RecordStatus.find(element_parent.record_status_id)
+      if parent_record_status == @defined_status
+        @wbs_record_status_collection = RecordStatus.where("id =? ", element_parent.record_status_id)
+      else
+        @wbs_record_status_collection = RecordStatus.where("name <> ? ", "Defined")
+      end
+    end
+
+  end
+
+
+  #get the right selected record_status
+  def selected_record_status
+    @selected_record_status = nil
+    if @wbs_activity_element.new_record?
+      element_parent = WbsActivityElement.find(params[:selected_parent_id])
+      @selected_record_status = RecordStatus.where("id =? ", element_parent.record_status_id).first
+    else
+      @selected_record_status = RecordStatus.where("id =? ", @wbs_activity_element.record_status_id).first
+    end
+    @selected_record_status
   end
 
 end
