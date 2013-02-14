@@ -75,7 +75,7 @@ class ProjectAreasController < ApplicationController
       flash[:notice] = "Project area was successfully updated."
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
     else
-       render action: "edit"
+      render action: "edit"
     end
   end
 

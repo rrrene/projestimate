@@ -14,6 +14,7 @@
 
   scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
 
+  validates :name, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
@@ -21,7 +22,7 @@
   def name_must_be_uniq_on_node
     if self.wbs_activity and self.parent
       #if self.siblings.map(&:name).include?(self.name)
-        errors.add(:base, "Name must be unique in the same Node") if (has_unique_field? && self.siblings.map(&:name).include?(self.name)  )
+        errors.add(:base, "Name must be unique in the same Node") if (has_unique_field? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
       #end
     end
   end

@@ -79,7 +79,7 @@ class WbsActivityElementsController < ApplicationController
                                                                      :wbs_activity_ratio_id => wbs_activity_ratio.id,
                                                                      :wbs_activity_element_id => @wbs_activity_element.id)
       end
-      redirect_to edit_wbs_activity_path(@wbs_activity), notice: 'Wbs activity element was successfully created.'
+      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), notice: 'Wbs activity element was successfully created.'
     else
       render action: "new"
     end
@@ -89,9 +89,9 @@ class WbsActivityElementsController < ApplicationController
     @wbs_activity_element = WbsActivityElement.find(params[:id])
     #@wbs_record_status_collection = wbs_record_statuses_collection
 
-    @wbs_activity ||= WbsActivity.find_by_id(params[:activity_id])
+    @wbs_activity ||= WbsActivity.find_by_id(params[:wbs_activity_element][:wbs_activity_id])
     @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
-    @selected_parent = current_wbs_activity_element
+    @selected_parent = current_wbs_activity_element.parent
 
     if current_wbs_activity_element.is_defined?
       @wbs_activity_element = current_wbs_activity_element.amoeba_dup
@@ -111,7 +111,7 @@ class WbsActivityElementsController < ApplicationController
     end
 
     if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
-      redirect_to edit_wbs_activity_path(@wbs_activity), notice: 'Wbs activity element was successfully updated.'
+      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), :notice => 'Wbs activity element was successfully updated.'
     else
       render action: "edit"
     end
@@ -133,11 +133,11 @@ class WbsActivityElementsController < ApplicationController
         @wbs_activity_element.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-        redirect_to edit_wbs_activity_path(@wbs_activity)  and return
+        redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2") and return
       end
     end
 
-    redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity)
+    redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity, :anchor => "tabs-2")
   end
 
   #def wbs_record_statuses_collection

@@ -65,7 +65,7 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.update_attributes(params[:wbs_activity])
-      redirect_to wbs_activities_path
+      redirect_to redirect(wbs_activities_path)
     else
       render :edit
     end
@@ -95,7 +95,7 @@ class WbsActivitiesController < ApplicationController
 
       @wbs_activity_element.save
 
-      redirect_to wbs_activities_path
+      redirect_to redirect(wbs_activities_path)
     else
       render :new
     end

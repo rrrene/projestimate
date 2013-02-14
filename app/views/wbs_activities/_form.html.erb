@@ -77,7 +77,7 @@
           </tr>
         <% end %>
       </table>
-      <%= link_to "New wbs ratios", new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => "btn" %>
+      <%= link_to "Create a new ratio table", new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => "btn" %>
     </div>
 
     <div id="tabs-4">
@@ -93,7 +93,6 @@
         </div>
 
         <%= submit_tag "Save", :class => "btn" %>
-        <%= submit_tag "Apply", :class => "btn" %>
       <% end %>
     </div>
   <% end %>
