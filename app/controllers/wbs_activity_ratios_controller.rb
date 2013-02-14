@@ -3,6 +3,17 @@ class WbsActivityRatiosController < ApplicationController
 
   before_filter :get_record_statuses
 
+  def export
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    WbsActivityRatio::export(@wbs_activity_ratio.id)
+    redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3")
+  end
+
+  def import
+    WbsActivityRatio::import(params[:file], params[:separator])
+    redirect_to wbs_activities_path
+  end
+
   def edit
     set_page_title "Edit wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])

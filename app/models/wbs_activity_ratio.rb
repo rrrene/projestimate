@@ -28,4 +28,31 @@ class WbsActivityRatio < ActiveRecord::Base
     propagate
   end
 
+  def self.export(activity_ratio_id)
+    activity_ratio = WbsActivityRatio.find(activity_ratio_id)
+    CSV.open("#{activity_ratio.name}.csv", "w") do |csv|
+      csv << ["id", "Name", "Description" "Ratio Value"]
+      activity_ratio.wbs_activity_ratio_elements.each do |element|
+        csv << [activity_ratio_id, "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value]
+      end
+    end
+  end
+
+  def self.import(file, sep)
+    sep = "#{sep.blank? ? ';' : sep}"
+    CSV.open(file.path, "r", :quote_char => "\"", :row_sep => :auto, :col_sep => sep) do |csv|
+      csv.each_with_index do |row, i|
+        unless row.empty? or i == 0
+          begin
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET ratio_value = #{row[3]} WHERE id = #{row[0]}")
+          rescue
+            puts "#{i} problem(s)"
+          end
+        end
+      end
+    end
+
+
+  end
+
 end

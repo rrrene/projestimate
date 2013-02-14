@@ -1,7 +1,7 @@
 <% if controller.controller_name == "projects" %>
   <p>
     Select a module from the list :
-    <%= select_tag "select_module", options_for_select(@pemodules.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
+    <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
   </p>
 <% end %>
 

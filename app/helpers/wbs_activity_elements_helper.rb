@@ -39,9 +39,9 @@ module WbsActivityElementsHelper
 
   def link_activity_element(element)
     res = String.new
-    res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id,:activity_id => element.wbs_activity), :class => "icn_duplicate")
-    res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icn_edit", :title => "Edit")
-    res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
+    res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id,:activity_id => element.wbs_activity), :class => "icon-plus icon-large")
+    res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icon-edit icon-large", :title => "Edit")
+    res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
 
     res
 

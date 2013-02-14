@@ -73,10 +73,10 @@ class PemodulesController < ApplicationController
       @pemodule.description = params[:pemodule][:description]
       @pemodule.alias = params[:pemodule][:alias]
       @pemodule.compliant_component_type = params[:compliant_wet]
-      @pemodule.save
+      @pemodule.save(:validate => false)
     else
       @pemodule = Pemodule.new(parameters)
-      @pemodule.save
+      @pemodule.save(:validate => false)
     end
 
     redirect_to redirect(edit_pemodule_path(@pemodule)), :notice => "The changes have been saved correctly"
