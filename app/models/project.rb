@@ -34,7 +34,8 @@ class Project < ActiveRecord::Base
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
 
-  has_one :pe_wbs_project, :dependent => :destroy
+  #has_one :pe_wbs_project, :dependent => :destroy
+  has_many :pe_wbs_projects, :dependent => :destroy
 
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
@@ -91,7 +92,7 @@ class Project < ActiveRecord::Base
 
   #Return the root pbs_project_element of the pe-wbs-project and consequetly of the project.
   def root_component
-    self.pe_wbs_project.pbs_project_elements.select{ |i| i.is_root = true}.first
+    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{ |i| i.is_root = true}.first  unless self.pe_wbs_projects.wbs_product.first.nil?
     #PbsProjectElement.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
   end
 

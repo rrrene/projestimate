@@ -138,6 +138,7 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.record_status = @proposed_status
         new_wbs_activity.state = "defined"
       else
+        new_wbs_activity.record_status = @local_status
         new_wbs_activity.state = "draft"
       end
 

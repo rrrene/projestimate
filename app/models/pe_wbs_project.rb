@@ -26,6 +26,9 @@ class PeWbsProject < ActiveRecord::Base
 
   belongs_to :project
 
+  scope :wbs_product, where(:wbs_type => "Product")
+  scope :wbs_activity, where(:wbs_type => "Activity")
+
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :project_id, :presence => true
 
