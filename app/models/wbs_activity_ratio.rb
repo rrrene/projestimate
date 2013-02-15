@@ -30,29 +30,30 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def self.export(activity_ratio_id)
     activity_ratio = WbsActivityRatio.find(activity_ratio_id)
-    CSV.open("#{activity_ratio.name}.csv", "w") do |csv|
-      csv << ["id", "Name", "Description" "Ratio Value"]
+    csv_string = CSV.generate do |csv|
+      csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
       activity_ratio.wbs_activity_ratio_elements.each do |element|
-        csv << [activity_ratio_id, "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value]
+        csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
       end
     end
+    csv_string
   end
 
   def self.import(file, sep)
     sep = "#{sep.blank? ? ';' : sep}"
+    error_count = 0
     CSV.open(file.path, "r", :quote_char => "\"", :row_sep => :auto, :col_sep => sep) do |csv|
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
           begin
-            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET ratio_value = #{row[3]} WHERE id = #{row[0]}")
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET ratio_value = #{row[5]}, ratio_reference_element = #{row[6]} WHERE id = #{row[0]}")
           rescue
-            puts "#{i} problem(s)"
+            error_count = error_count + 1
           end
         end
       end
     end
-
-
+    error_count
   end
 
 end

@@ -203,9 +203,9 @@ class WbsActivityElementsController < ApplicationController
     @selected_record_status = nil
     if @wbs_activity_element.new_record?
       element_parent = WbsActivityElement.find(params[:selected_parent_id])
-      @selected_record_status = RecordStatus.where("id =? ", element_parent.record_status_id).first
+      @selected_record_status = RecordStatus.where("id = ? ", element_parent.record_status_id).first
     else
-      @selected_record_status = RecordStatus.where("id =? ", @wbs_activity_element.record_status_id).first
+      @selected_record_status = RecordStatus.where("id = ? ", @wbs_activity_element.record_status_id).first
     end
     @selected_record_status
   end
