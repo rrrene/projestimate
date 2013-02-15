@@ -16,6 +16,8 @@ class WbsActivityRatio < ActiveRecord::Base
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
+    include_field [:wbs_activity_ratio_elements]
+    #exclude_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_ratio, new_wbs_activity_ratio|
 
@@ -25,7 +27,7 @@ class WbsActivityRatio < ActiveRecord::Base
       original_wbs_activity_ratio.copy_number = original_wbs_activity_ratio.copy_number.to_i+1
     })
 
-    propagate
+    #propagate
   end
 
 end

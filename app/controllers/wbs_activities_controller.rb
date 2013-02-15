@@ -139,10 +139,15 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.state = "defined"
       else
         new_wbs_activity.state = "draft"
-
       end
+
       if new_wbs_activity.save
         old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
+
+        #we also have to save to wbs_activity_ratio
+        old_wbs_activity.wbs_activity_ratios.each do |ratio|
+          ratio.save
+        end
 
         #Managing the compoment tree
         new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
@@ -159,6 +164,15 @@ class WbsActivitiesController < ApplicationController
           end
         end
         #raise "#{RuntimeError}"
+
+        new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
+        new_wbs_activity_ratios.each do |act_ratio|
+          act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
+            wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
+            act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
+            act_ratio_elt.save
+          end
+        end
       end
 
       #flash[:notice] = "WBS-Activity was successfully duplicated"

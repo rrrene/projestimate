@@ -37,7 +37,7 @@
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    include_field [:wbs_activity_elements]
+    include_field [:wbs_activity_elements, :wbs_activity_ratios]
 
     customize(lambda { |original_wbs_activity, new_wbs_activity|
 
