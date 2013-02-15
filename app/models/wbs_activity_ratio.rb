@@ -10,8 +10,13 @@ class WbsActivityRatio < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
+  validates :name, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
+  validate :name_must_be_uniq_on_activity, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
+
+  def name_must_be_uniq_on_activity
+    errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
+  end
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
