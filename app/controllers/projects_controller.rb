@@ -85,28 +85,6 @@ class ProjectsController < ApplicationController
             wbs_project_element.save
           end
 
-
-          ##New root Pbs-Project-Element
-          #pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} WBS-Product - Root Element", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
-          #
-          ##New Root Wbs-Project-Element
-          #wbs_project_element = pe_wbs_project_product.wbs_project_elements.build(:name => "#{@project.title} WBS-Activity - Root Element", :description => "WBS-Activity Root Element", :author_id => current_user.id)
-          #
-          #pe_wbs_project_product.transaction do
-          #  if pe_wbs_project_product.save
-          #    pbs_project_element.save
-          #  else
-          #    flash[:error] = "Error : Project creation failed, #{pe_wbs_project_product.errors.full_messages.to_sentence}."
-          #    render(:new)
-          #  end
-          #
-          #end
-          #
-          #pe_wbs_project_activity.transaction do
-          #  pe_wbs_project_activity.save
-          #  wbs_project_element.save
-          #end
-
           if current_user.groups.map(&:code_group).include? ("super_admin")
             current_user.project_ids = current_user.project_ids.push(@project.id)
             current_user.save
