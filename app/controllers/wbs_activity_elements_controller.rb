@@ -86,7 +86,7 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def update
-    @wbs_activity_element = WbsActivityElement.find(params[:id])
+    current_wbs_activity_element = WbsActivityElement.find(params[:id])
     #@wbs_record_status_collection = wbs_record_statuses_collection
 
     @wbs_activity ||= WbsActivity.find_by_id(params[:wbs_activity_element][:wbs_activity_id])
