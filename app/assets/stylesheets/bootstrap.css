@@ -2976,6 +2976,14 @@ input[type="submit"].btn.btn-mini {
 .nav-list > li > a {
   padding: 3px 15px;
 }
+.nav-list > li > a > i {
+    color: black;
+}
+
+.nav-list > li > a:hover {
+  text-decoration: none;
+  background-color: white;
+}
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   color: #ffffff;

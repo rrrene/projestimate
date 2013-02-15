@@ -2,19 +2,14 @@
     *= require bootstrap-datepicker
     *= require_self
     *= require_tree .
+    *= require font-awesome
 */
 
 .logoEstimate{
     background: url('/assets/spriteBaseEstimate.png') no-repeat;
     background-position:  -157px -0px; height: 75px; width: 200px;
 }
-/* ==================================== NavBar ====================================*/
-/*.nav-list > li > a {
-    padding: 3px 15px 0;
-    padding: 0px 15px 0 40px;
-    line-height: 17px;
-    width: 168px;
-}*/
+
 /* ==================================== LOGIN ====================================*/
 .new_password{
     width: 539px;
@@ -531,3 +526,7 @@ div.field textarea:focus {
 }
 
 .action_title { color: #0088cc; }
+
+table a:hover, .block_link a:hover{
+    text-decoration: none;
+}

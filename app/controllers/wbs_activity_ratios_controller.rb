@@ -3,6 +3,34 @@ class WbsActivityRatiosController < ApplicationController
 
   before_filter :get_record_statuses
 
+  def export
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    csv_string = WbsActivityRatio::export(@wbs_activity_ratio.id)
+    send_data(csv_string, :type => 'text/csv; charset=iso-8859-1; header=present', :disposition => "attachment; filename=#{@wbs_activity_ratio.name}.csv")
+  end
+
+  def import
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    begin
+      error_count = WbsActivityRatio::import(params[:file], params[:separator])
+    rescue
+      redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3") and return
+    end
+
+    ratio_elements = @wbs_activity_ratio.wbs_activity_ratio_elements
+    total = ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+
+    if error_count != 0
+      flash[:error] = "Failed to import some element that looks out of the WBS-activity."
+    elsif total != 100
+      flash[:warning] = "Warning - Ratios successfully imported, but sum is different of 100%."
+    elsif error_count == 0 and total == 100
+      flash[:notice] = "Ratios successfully imported."
+    end
+
+    redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3")
+  end
+
   def edit
     set_page_title "Edit wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
