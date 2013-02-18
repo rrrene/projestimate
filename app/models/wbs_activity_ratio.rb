@@ -29,9 +29,6 @@ class WbsActivityRatio < ActiveRecord::Base
     include_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_ratio, new_wbs_activity_ratio|
-
-      new_wbs_activity_ratio.name = "Copy_#{ original_wbs_activity_ratio.copy_number.to_i+1} of #{original_wbs_activity_ratio.name}"
-
       new_wbs_activity_ratio.copy_number = 0
       original_wbs_activity_ratio.copy_number = original_wbs_activity_ratio.copy_number.to_i+1
     })
