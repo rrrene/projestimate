@@ -17,6 +17,7 @@ class WbsActivitiesController < ApplicationController
 
   def refresh_ratio_elements
     @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
+    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
   end
 
   def index
@@ -35,11 +36,12 @@ class WbsActivitiesController < ApplicationController
     else
       if @wbs_activity.wbs_activity_ratios.empty?
         @wbs_activity_ratio_elements = []
+        @total = 0
       else
         @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+        @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     end
-
     unless is_master_instance?
       if @wbs_activity.is_defined?
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"

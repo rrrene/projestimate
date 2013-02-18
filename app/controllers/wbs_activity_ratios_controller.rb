@@ -12,8 +12,9 @@ class WbsActivityRatiosController < ApplicationController
   def import
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     begin
-      error_count = WbsActivityRatio::import(params[:file], params[:separator])
+      error_count = WbsActivityRatio::import(params[:file], params[:separator], params[:encoding])
     rescue
+      flash[:error] = "Failed to import some element that looks out of the WBS-activity."
       redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3") and return
     end
 

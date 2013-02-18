@@ -1,4 +1,10 @@
-<table class="table table-striped" >
+<div class="pull-right">
+  Sum of ratio values :
+  <%= @total %> %
+</div>
+<br>
+
+<table class="table table-striped" style="margin-top:20px;">
    <tr>
      <th>Outline</th>
      <th>Name</th>
@@ -22,4 +28,6 @@
     </tr>
   <% end %>
 </table>
+
+<%= submit_tag "Save", :class => "btn" %>
 

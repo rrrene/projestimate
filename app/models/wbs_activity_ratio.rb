@@ -46,10 +46,10 @@ class WbsActivityRatio < ActiveRecord::Base
     csv_string
   end
 
-  def self.import(file, sep)
+  def self.import(file, sep, encoding)
     sep = "#{sep.blank? ? ';' : sep}"
     error_count = 0
-    CSV.open(file.path, "r", :quote_char => "\"", :row_sep => :auto, :col_sep => sep) do |csv|
+    CSV.open(file.path, "r", :quote_char => "\"", :row_sep => :auto, :col_sep => sep, :encoding => "#{encoding}:utf-8") do |csv|
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
           begin
