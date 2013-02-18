@@ -101,6 +101,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_wbs_project_element
+    if current_project
+      session[:wbs_project_element_id].nil? ? current_project.wbs_project_element_root : WbsProjectElement.find(session[:wbs_project_element_id])
+    end
+  end
+
   def load_master_setting(args)
     ms = MasterSetting.find_by_key(args)
     unless ms.nil?
