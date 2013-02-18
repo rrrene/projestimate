@@ -100,9 +100,12 @@
     </div>
 
     <div id="tabs-8">
+        <div class="well component_tree">
+          <h4>Add WBS-Activity to current project</h4>
+        </div>
         <div class="component_tree">
           <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-
+             <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") unless @pe_wbs_project_activity.wbs_project_elements.last.nil? %>
           <% end %>
         </div>
     </div>

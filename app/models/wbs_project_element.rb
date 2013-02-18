@@ -1,5 +1,7 @@
 class WbsProjectElement < ActiveRecord::Base
-  attr_accessible :additional_description, :ancestry, :description, :exclude, :name, :author_id, :wbs_activity_element_id, :wbs_activity_id
+
+  #attr_accessible :additional_description, :ancestry, :description, :exclude, :name, :author_id, :wbs_activity_element_id, :wbs_activity_id
+
   has_ancestry
 
   belongs_to :pe_wbs_project

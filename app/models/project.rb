@@ -96,6 +96,10 @@ class Project < ActiveRecord::Base
     #PbsProjectElement.find_by_pe_wbs_project_id_and_is_root(self.pe_wbs_project.id, true)
   end
 
+  def wbs_project_element_root
+    self.pe_wbs_projects.wbs_activity.first.wbs_project_elements.select{ |i| i.is_root = true}.first  unless self.pe_wbs_projects.wbs_activity.first.nil?
+  end
+
   #Override
   def to_s
     self.title + ' - ' + self.description.truncate(20)

@@ -74,14 +74,14 @@ class ProjectsController < ApplicationController
 
           if pe_wbs_project_product.save
             ##New root Pbs-Project-Element
-            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} WBS-Product - Root Element", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
             pbs_project_element.save
             pe_wbs_project_product.save
           end
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
-            wbs_project_element = pe_wbs_project_product.wbs_project_elements.build(:name => "#{@project.title} WBS-Activity - Root Element", :description => "WBS-Activity Root Element", :author_id => current_user.id)
+            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :description => "WBS-Activity Root Element", :author_id => current_user.id)
             wbs_project_element.save
           end
 
@@ -111,7 +111,6 @@ class ProjectsController < ApplicationController
 
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-
   end
 
   def update

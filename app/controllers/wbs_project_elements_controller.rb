@@ -26,11 +26,17 @@ class WbsProjectElementsController < ApplicationController
   def new
     @wbs_project_element = WbsProjectElement.new
 
+    @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
+    @project = Project.find(params[:project_id])
+    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
+    @potential_parents = @pe_wbs_project.wbs_project_elements
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @wbs_project_element }
     end
   end
+
 
   # GET /wbs_project_elements/1/edit
   def edit
@@ -41,15 +47,13 @@ class WbsProjectElementsController < ApplicationController
   # POST /wbs_project_elements.json
   def create
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
+    @wbs_project_element.author_id = current_user.id
 
-    respond_to do |format|
-      if @wbs_project_element.save
-        format.html { redirect_to @wbs_project_element, notice: 'Wbs project element was successfully created.' }
-        format.json { render json: @wbs_project_element, status: :created, location: @wbs_project_element }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @wbs_project_element.errors, status: :unprocessable_entity }
-      end
+    if @wbs_project_element.save
+     redirect_to @wbs_project_element, notice: 'Wbs project element was successfully created.'
+
+    else
+      render action: "new"
     end
   end
 
@@ -80,4 +84,17 @@ class WbsProjectElementsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  #Select the current pbs_project_element and refresh the partial
+  def selected_wbs_project_element
+    session[:wbs_project_element_id] = params[:id]
+
+    @user = current_user
+    @project = current_project
+    @wbs_project_element = current_wbs_project_element
+    @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+
+    render :partial => "wbs_project_elements/refresh"
+  end
+
 end
