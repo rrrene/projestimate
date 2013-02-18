@@ -1,6 +1,6 @@
 class CreateWbsProjectElements < ActiveRecord::Migration
   def change
-    create_table :wbs_project_elements do |t|
+    create_table :wbs_project_elements, :force => true do |t|
       t.integer :pe_wbs_project_id
       t.integer :wbs_activity_element_id
       t.integer :wbs_activity_id

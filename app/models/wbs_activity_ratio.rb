@@ -15,19 +15,20 @@ class WbsActivityRatio < ActiveRecord::Base
   validate :name_must_be_uniq_on_activity, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
 
   def name_must_be_uniq_on_activity
-    errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
+    #errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
+    errors.add(:base, "Name must be unique in the same wbs-activities") if has_unique_field?
+  end
+
+  def has_unique_field?
+    WbsActivityRatio.exists?(['name = ? and wbs_activity_id = ?', self.name, self.wbs_activity_id])
   end
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
     include_field [:wbs_activity_ratio_elements]
-    #exclude_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_ratio, new_wbs_activity_ratio|
-
-      new_wbs_activity_ratio.name = "Copy_#{ original_wbs_activity_ratio.copy_number.to_i+1} of #{original_wbs_activity_ratio.name}"
-
       new_wbs_activity_ratio.copy_number = 0
       original_wbs_activity_ratio.copy_number = original_wbs_activity_ratio.copy_number.to_i+1
     })

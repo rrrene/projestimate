@@ -109,7 +109,7 @@ describe Project do
     pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
 
     #pe_wbs_project.project.should eql(project1)
-    project.pe_wbs_project.project_id.should eql(project.id)
+    project.pe_wbs_projects.wbs_product.first.project_id.should eql(project.id)
   end
 
   it "should be the project root pbs_project_element" do
@@ -133,7 +133,7 @@ describe Project do
      #
   end
 
-  it "should be a folder componenet" do
+  it "should be a folder component" do
     project = FactoryGirl.create(:project)
     pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
     #peicon_folder = FactoryGirl.create(:peicon_folder)
@@ -143,7 +143,7 @@ describe Project do
     #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_folder)
     #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_link)
 
-    project.pe_wbs_project.pbs_project_elements.each do |pc|
+    project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |pc|
       pc.work_element_type.name.should eql("Folder")
     end
   end
@@ -151,14 +151,13 @@ describe Project do
   it "should return an array of folder" do
     project = FactoryGirl.create(:project)
     pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
-    project.folders.should eql(project.pe_wbs_project.pbs_project_elements.select{|i| i.folder? })
+    project.folders.should eql(project.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.folder? })
   end
 
   it "should return table search" do
     Project::table_search("").should be_kind_of(ActiveRecord::Relation)
     Project::table_search("").should be_an_instance_of(ActiveRecord::Relation)
   end
-
 
   after :each do
     #clean up

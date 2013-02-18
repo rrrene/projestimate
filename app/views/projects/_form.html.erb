@@ -93,15 +93,15 @@
 
     <div id="tabs-2">
        <div class="component_tree">
-         <% unless @project.nil? || @project.pe_wbs_project.nil? %>
-           <%=raw generate_wbs(@project.pe_wbs_project.pbs_project_elements.last.root, @project, "", 5) unless @project.pe_wbs_project.pbs_project_elements.last.nil? %>
+         <% unless @project.nil? || @pe_wbs_project_product.nil? %>
+           <%=raw generate_wbs(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
          <% end %>
        </div>
     </div>
 
     <div id="tabs-8">
         <div class="component_tree">
-          <% unless @project.nil? || @project.pe_wbs_project.nil? %>
+          <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
 
           <% end %>
         </div>

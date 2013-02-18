@@ -42,7 +42,6 @@
       #new_wbs_activity_elt.reference_id = original_wbs_activity_elt.id
 
       new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
-      new_wbs_activity_elt.name = "Copy_#{ original_wbs_activity_elt.wbs_activity.copy_number.to_i+1} of #{original_wbs_activity_elt.name}"
     })
     propagate
   end
