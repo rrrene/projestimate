@@ -1,6 +1,6 @@
 class CreateHomes < ActiveRecord::Migration
   def change
-    create_table :homes do |t|
+    create_table :homes, :force => true do |t|
 
       t.timestamps
     end

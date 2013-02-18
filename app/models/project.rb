@@ -139,7 +139,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_project.pbs_project_elements.select{|i| i.folder? }
+    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.folder? }
   end
 
   def self.table_search(search)
