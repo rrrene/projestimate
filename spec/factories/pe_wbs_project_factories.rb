@@ -7,6 +7,7 @@ FactoryGirl.define do
 
   factory :wbs_1, class: PeWbsProject do
     sequence(:name)   {|n| "Pe-WBS-Project_#{n}"}
+    wbs_type "Product"
   end
 
 end
