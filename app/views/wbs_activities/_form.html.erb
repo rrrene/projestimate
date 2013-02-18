@@ -35,7 +35,7 @@
         <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
 
         <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
-                              :collection => @wbs_activity.record_status_collection,
+                              :collection => wbs_record_statuses_collection,
                               :input_html => {:class => "record_status"},
                               :selected => (@wbs_activity.is_defined_or_nil? ? @proposed_status.id : @wbs_activity.record_status_id),
                               :disabled => (true if @wbs_activity.is_retired?) %><br />
@@ -71,13 +71,42 @@
             <td><%= wbs_activity_ratio.wbs_activity.name %></td>
             <td><%= wbs_activity_ratio.record_status %></td>
             <td>
-              <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icn_edit", :title => "Edit" %>
-              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %>
+              <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icon-edit icon-large", :title => "Edit" %>
+              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icon-cog icon-large", :title => "Delete" %>
+              <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => "icon-download icon-large", :title => "Export"  %>
+              <a href="#myModal" role="button" class="icon-upload icon-large" data-toggle="modal" title="Import a CSV file"></a>
             </td>
           </tr>
+
+
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <%= form_tag import_wbs_activity_ratios_path, :multipart => true do %>
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Import Wbs Activity Ratio</h3>
+              </div>
+              <div class="modal-body">
+                  <label>File (csv only)</label>
+                  <%= file_field_tag :file %>
+
+                  <label>Separator (default semi-colon) </label>
+                  <%= text_field_tag :separator %>
+
+                  <%= hidden_field_tag :wbs_activity_ratio_id,  wbs_activity_ratio.id  %>
+              </div>
+              <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <%= submit_tag "Import", :class => "btn btn-primary", :onclick => "$('.loading').show();"  %>
+              </div>
+              <div class="loading span11 hide">
+                <h4>Please wait during import... <%= image_tag "ajax-loader.gif" %> </h4>
+              </div>
+            <% end %>
+          </div>
+
         <% end %>
       </table>
-      <%= link_to "New wbs ratios", new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => "btn" %>
+      <%= link_to "Create a new ratio table", new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => "btn" %>
     </div>
 
     <div id="tabs-4">
@@ -93,7 +122,6 @@
         </div>
 
         <%= submit_tag "Save", :class => "btn" %>
-        <%= submit_tag "Apply", :class => "btn" %>
       <% end %>
     </div>
   <% end %>

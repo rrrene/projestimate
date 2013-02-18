@@ -63,29 +63,26 @@ class ProjectsController < ApplicationController
   #Create a new project
   def create
     set_page_title "Create project"
-
     @project = Project.new(params[:project])
+
     begin
-      #New default Pe-Wbs-Project
-      pe_wbs_project = @project.build_pe_wbs_project(:name => "PE-WBS-#{@project.title}")
-
       @project.transaction do
-
         if @project.save
-          pe_wbs_project.save
+          #New default Pe-Wbs-Project
+          pe_wbs_project_product  = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product - Product Breakdown Structure", :wbs_type => "Product")
+          pe_wbs_project_activity = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => "Activity")
 
-          #New root Pbs-Project-Element
-          pbs_project_element = pe_wbs_project.pbs_project_elements.build(:name => "WBS-Product - Product Breakdown Structure", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+          if pe_wbs_project_product.save
+            ##New root Pbs-Project-Element
+            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} WBS-Product - Root Element", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+            pbs_project_element.save
+            pe_wbs_project_product.save
+          end
 
-          wbs_project_element = pe_wbs_project.wbs_project_elements.build(:name => "WBS-Activity - Activity breakdown Structure", :description => "WBS-Activity Root Element", :author_id => current_user.id)
-
-          pe_wbs_project.transaction do
-            if pe_wbs_project.save
-              pbs_project_element.save
-              wbs_project_element.save
-            else
-              render(:new)
-            end
+          if pe_wbs_project_activity.save
+            ##New Root Wbs-Project-Element
+            wbs_project_element = pe_wbs_project_product.wbs_project_elements.build(:name => "#{@project.title} WBS-Activity - Root Element", :description => "WBS-Activity Root Element", :author_id => current_user.id)
+            wbs_project_element.save
           end
 
           if current_user.groups.map(&:code_group).include? ("super_admin")
@@ -95,12 +92,13 @@ class ProjectsController < ApplicationController
 
           redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
         else
+          flash[:error] = "Error : Project creation failed, #{@project.errors.full_messages.to_sentence}."
           render(:new)
         end
       end
 
     rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-      flash[:error] = "Error: Project creation failed, #{error.message}"
+      flash[:error] = "Error: Project creation failed, #{@project.errors.full_messages.to_sentence}."
       redirect_to :back
     end
 
@@ -110,10 +108,17 @@ class ProjectsController < ApplicationController
   def edit
     authorize! :modify_a_project, Project
     set_page_title "Edit project"
+
+    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+
   end
 
   def update
     set_page_title "Edit project"
+
+    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
     @project.users.each do |u|
       ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)

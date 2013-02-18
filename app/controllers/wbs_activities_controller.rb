@@ -1,8 +1,9 @@
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
-  before_filter :get_record_statuses
   helper_method :wbs_record_statuses_collection
+
+  before_filter :get_record_statuses
 
   def import
     begin
@@ -26,6 +27,7 @@ class WbsActivitiesController < ApplicationController
   def edit
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
+
     @wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
     if params[:current_ratio_id]
@@ -50,7 +52,6 @@ class WbsActivitiesController < ApplicationController
   end
 
   def update
-    @wbs_activity = nil
     @wbs_activity = WbsActivity.find(params[:id])
 
     if @wbs_activity.is_defined? && is_master_instance?
@@ -64,7 +65,7 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.update_attributes(params[:wbs_activity])
-      redirect_to wbs_activities_path
+      redirect_to redirect(wbs_activities_path)
     else
       render :edit
     end
@@ -87,14 +88,14 @@ class WbsActivitiesController < ApplicationController
 
     if @wbs_activity.save
       if @wbs_activity.is_local_record?
-        @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @local_status)
+        @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @local_status, :is_root => true)
       else
-        @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @proposed_status)
+        @wbs_activity_element = WbsActivityElement.new(:name => @wbs_activity.name, :wbs_activity => @wbs_activity, :description => 'Root Element', :record_status => @proposed_status, :is_root => true)
       end
 
       @wbs_activity_element.save
 
-      redirect_to wbs_activities_path
+      redirect_to redirect(wbs_activities_path)
     else
       render :new
     end
@@ -129,7 +130,7 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_me
-    #begin
+    begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
 
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -137,11 +138,17 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.record_status = @proposed_status
         new_wbs_activity.state = "defined"
       else
+        new_wbs_activity.record_status = @local_status
         new_wbs_activity.state = "draft"
-
       end
+
       if new_wbs_activity.save
         old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
+
+        #we also have to save to wbs_activity_ratio
+        old_wbs_activity.wbs_activity_ratios.each do |ratio|
+          ratio.save
+        end
 
         #Managing the compoment tree
         new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
@@ -158,14 +165,23 @@ class WbsActivitiesController < ApplicationController
           end
         end
         #raise "#{RuntimeError}"
+
+        new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
+        new_wbs_activity_ratios.each do |act_ratio|
+          act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
+            wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
+            act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
+            act_ratio_elt.save
+          end
+        end
       end
 
-      #flash[:notice] = "WBS-Activity was successfully duplicated"
+      flash[:notice] = "WBS-Activity was successfully duplicated"
       redirect_to "/wbs_activities" and return
-    #rescue
-    #  flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
-    #  redirect_to "/wbs_activities"
-    #end
+    rescue
+      flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
+      redirect_to "/wbs_activities"
+    end
   end
 
   def wbs_record_statuses_collection
@@ -186,31 +202,41 @@ class WbsActivitiesController < ApplicationController
   end
 
   #This function will validate teh WBS-Activity and all its elements
-  def validate_change_with_children(node_id=params[:root_node_id])
+  def validate_change_with_children
     begin
-      #Get the record to validate from its ID
-      @wbs_activity_element = WbsActivityElement.find(node_id)
+      wbs_activity = WbsActivity.find(params[:id])
+      wbs_activity.record_status = @defined_status
+      wbs_activity_root_element = WbsActivityElement.where("wbs_activity_id = ? and is_root = ?", wbs_activity.id, true).first
 
-      if @wbs_activity_element.is_root?  #children will be validated with parent node
-        @wbs_activity_element.transaction do
-          subtree = @wbs_activity_element.subtree #all descendants (direct and indirect children) and itself
-          subtree_for_validation = subtree.is_ok_for_validation(@defined_status.id, @retired_status.id, @local_status.id)
-          subtree_for_validation.update_all(:record_status_id => @defined_status.id)
-          #flash[:notice] =  "Wbs-Activity-Element and all its children were successfully validated."
-        end
+      wbs_activity.transaction do
+        if wbs_activity.save
 
-        if @wbs_activity_element.save
+          wbs_activity_root_element.transaction do
+            subtree = wbs_activity_root_element.subtree #all descendants (direct and indirect children) and itself
+            subtree_for_validation = subtree.is_ok_for_validation(@defined_status.id, @retired_status.id, @local_status.id)
+            subtree_for_validation.update_all(:record_status_id => @defined_status.id)
+            #flash[:notice] =  "Wbs-Activity-Element and all its children were successfully validated."
+          end
+
+          #TODO : Validate also Ratio and Ratio_Element of each wbs_activity_element
+          wbs_activity_ratios = wbs_activity.wbs_activity_ratios
+          wbs_activity_ratios.each do |ratio|
+            ratio.transaction do
+              ratio.record_status = @defined_status
+              if ratio.save
+                wbs_activity_ratio_elements = ratio.wbs_activity_ratio_elements
+                wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
+              end
+            end
+          end
+
           flash[:notice] = 'Changes on record was successfully validated.'
         else
-          flash[:error] = "Changes validation failed: #{@wbs_activity_element.errors.full_messages.to_sentence}."
+          flash[:error] = "Changes validation failed: #{wbs_activity_root_element.errors.full_messages.to_sentence}."
         end
-
-        redirect_to :back
       end
 
-        #respond_to do |format|
-        #  format.js  { redirect_to :back }
-        #end
+      redirect_to :back
 
     rescue ActiveRecord::StatementInvalid => error
       put "#{error.message}"

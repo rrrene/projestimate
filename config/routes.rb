@@ -2,7 +2,10 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_project_elements
 
-  resources :wbs_activity_ratios
+  resources :wbs_activity_ratios do
+    collection { match 'wbs_activity_ratios/:wbs_activity_ratio_id/export' => 'wbs_activity_ratios#export', :as => 'export' }
+    collection { match 'wbs_activity_ratios/import' => 'wbs_activity_ratios#import', :as => 'import' }
+  end
   get 'refresh_ratio_elements' => 'wbs_activities#refresh_ratio_elements', :as => 'refresh_ratio_elements'
 
   resources :wbs_activity_ratio_elements
@@ -10,6 +13,9 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_activity_elements
   match 'wbs_activities/:wbs_activity_id/duplicate_me' => 'wbs_activities#duplicate_me', :as => :duplicate_me
+  #match 'wbs_activity_elements/wbs_record_statuses_collection', :as => 'wbs_record_statuses_collection'
+  #match 'wbs_activity_elements/update_status_collection/:selected_parent_id', :controller=>'wbs_activity_elements', :action => 'update_status_collection'
+  get 'update_status_collection' => 'wbs_activity_elements#update_status_collection', :as => 'update_status_collection'
 
   resources :wbs_activities do
     collection { post :import }
@@ -146,7 +152,7 @@ ProjestimateMaquette::Application.routes.draw do
   match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'
   match ':controller/:id/restore_change' => ':controller#restore_change', :as => 'restore_change'
 
-  match 'wbs_activities/:root_node_id/validate_change_with_children' => 'wbs_activities#validate_change_with_children', :as => 'validate_change_with_children'
+  match 'wbs_activities/:id/validate_change_with_children' => 'wbs_activities#validate_change_with_children', :as => 'validate_change_with_children'
 
   resources :translations
   get "load_translations" => "translations#load_translations", :as => "load_translations"

@@ -14,6 +14,7 @@
 
   scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
 
+  validates :name, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
@@ -21,7 +22,7 @@
   def name_must_be_uniq_on_node
     if self.wbs_activity and self.parent
       #if self.siblings.map(&:name).include?(self.name)
-        errors.add(:base, "Name must be unique in the same Node") if (has_unique_field? && self.siblings.map(&:name).include?(self.name)  )
+        errors.add(:base, "Name must be unique in the same Node") if (has_unique_field? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
       #end
     end
   end
@@ -33,14 +34,17 @@
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
+    #include_field [:wbs_activity_ratio_elements]
+    exclude_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
-      new_wbs_activity_elt.reference_uuid = original_wbs_activity_elt.uuid
-      new_wbs_activity_elt.reference_id = original_wbs_activity_elt.id
+      #new_wbs_activity_elt.reference_uuid = original_wbs_activity_elt.uuid
+      #new_wbs_activity_elt.reference_id = original_wbs_activity_elt.id
 
       new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
-      new_wbs_activity_elt.name = "Copy_#{ original_wbs_activity_elt.wbs_activity.copy_number.to_i+1} of #{original_wbs_activity_elt.name}"
+      #new_wbs_activity_elt.name = "Copy_#{ original_wbs_activity_elt.wbs_activity.copy_number.to_i+1} of #{original_wbs_activity_elt.name}"
     })
+    propagate
   end
 
 

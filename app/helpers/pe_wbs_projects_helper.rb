@@ -73,9 +73,9 @@ module PeWbsProjectsHelper
           </div>
         </div>
         <div class='block_link'>
-          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => c.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder ') if can? :add_a_pbs_project_element, PbsProjectElement}
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => c.id, :type_component => "undefined" },:remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => c.id, :type_component => "link" }, :remote => true, :class => 'bl new_link ' if can? :add_a_pbs_project_element, PbsProjectElement}
+          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder ') if can? :add_a_pbs_project_element, PbsProjectElement}
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "undefined" },:remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "link" }, :remote => true, :class => 'bl new_link ' if can? :add_a_pbs_project_element, PbsProjectElement}
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl delete' if can? :delete_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_pbs_project_element, PbsProjectElement }
@@ -89,13 +89,13 @@ module PeWbsProjectsHelper
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }
-            #{ link_to(project.title, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => "libelle ") }
+            #{ link_to(project.pe_wbs_projects.wbs_product.first.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => "libelle ") }
           </div>
         </div>
         <div class='block_link'>
-          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => pbs_project_element.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder') if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => pbs_project_element.id, :type_component => "" }, :remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_project.id, :comp_parent_id => pbs_project_element.id, :type_component => "link" }, :remote => true, :class => 'bl new_link '  if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder') if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "" }, :remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "link" }, :remote => true, :class => 'bl new_link '  if can? :add_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", edit_pbs_project_element_path(pbs_project_element, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_pbs_project_element, PbsProjectElement }
         </div>
       </li>"

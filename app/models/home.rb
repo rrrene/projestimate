@@ -13,7 +13,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalWbsActivity, MasterSetting, ["name", "description", "uuid"])
 
       puts "   - WBS Activity Elements"
-      self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, MasterSetting, ["name", "description", "dotted_id", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, MasterSetting, ["name", "description", "dotted_id", "uuid", "is_root"])
 
       puts "   - Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -228,6 +228,12 @@ class Home < ActiveRecord::Base
         rs.update_attribute(:record_status_id, local_defined_rs_id)
       end
 
+      puts "   - Wbs Activity Ratio"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["ratio_value", "ratio_reference_element", "uuid"])
+
+      puts "   - Wbs Activity Ratio Elements"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["name", "description", "uuid"])
+
       puts "   - Wbs Activity"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
 
@@ -245,7 +251,7 @@ class Home < ActiveRecord::Base
           if ext_act.id == ext_elt.wbs_activity_id
             if ext_act.record_status_id == ext_defined_rs_id
               act = WbsActivity.find_by_uuid(ext_act.uuid)
-              ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements wea SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
+              ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
             end
           end
         end

@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title><%= @page_title ? @page_title : controller.action_name %></title>
+
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application", "projestimate_script" %>
   <%= csrf_meta_tag %>
 
 </head>
 <body class="app">
-
     <% if current_project %>
       <%= render 'layouts/component_popup' %>
     <% end %>
