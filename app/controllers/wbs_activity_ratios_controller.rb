@@ -34,6 +34,7 @@ class WbsActivityRatiosController < ApplicationController
   def edit
     set_page_title "Edit wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
 
 
