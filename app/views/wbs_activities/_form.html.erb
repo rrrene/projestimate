@@ -123,7 +123,7 @@
         <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] }, :selected => @wbs_activity_ratio ), :class => "select_ratio" %>
       </div>
 
-      <%= form_tag '/save_values', :remote => true do %>
+      <%= form_tag '/save_values', :remote => true  do %>
         <div id="ratio_section">
           <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
         </div>
