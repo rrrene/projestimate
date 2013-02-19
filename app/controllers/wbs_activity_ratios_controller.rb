@@ -41,7 +41,7 @@ class WbsActivityRatiosController < ApplicationController
   def update
     @wbs_activity_ratio = nil
     current_wbs_activity_ratio = WbsActivityRatio.find(params[:id])
-
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     if current_wbs_activity_ratio.is_defined?
       @wbs_activity_ratio = current_wbs_activity_ratio.amoeba_dup
       @wbs_activity_ratio.owner_id = current_user.id
@@ -65,11 +65,12 @@ class WbsActivityRatiosController < ApplicationController
   def new
     set_page_title "New wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.new
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
 
   def create
     @wbs_activity_ratio = WbsActivityRatio.new(params[:wbs_activity_ratio])
-
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     #If we are on local instance, Status is set to "Local"
     unless is_master_instance?   #so not on master
       @wbs_activity_ratio.record_status = @local_status

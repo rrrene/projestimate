@@ -71,7 +71,7 @@
             <td><%= wbs_activity_ratio.description %></td>
             <td><%= wbs_activity_ratio.wbs_activity.name %></td>
             <td><%= wbs_activity_ratio.record_status %></td>
-            <td><%= wbs_activity_ratio.reference_value.value %></td>
+            <td><%= wbs_activity_ratio.reference_value %></td>
             <td>
               <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icon-edit icon-large", :title => "Edit" %>
               <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icon-cog icon-large", :title => "Delete" %>
