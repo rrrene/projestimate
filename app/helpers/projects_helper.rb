@@ -32,4 +32,8 @@ module ProjectsHelper
       ul
     end
   end
+
+  def display_results(result)
+    result
+  end
 end

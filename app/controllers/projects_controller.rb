@@ -339,12 +339,12 @@ class ProjectsController < ApplicationController
     #  end
     #  end
     #end
-
-    result = Project::run_estimation_plan
-
-    respond_to do |format|
-      format.js { render :partial => "pbs_project_elements/refresh", :object => result }
-    end
+    #
+    #results = Project::run_estimation_plan
+    #
+    #respond_to do |format|
+    #  format.js { render :partial => "pbs_project_elements/refresh", :object => results }
+    #end
   end
 
 
