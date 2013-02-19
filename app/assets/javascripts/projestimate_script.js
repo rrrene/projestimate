@@ -64,7 +64,7 @@ $(document).ready(function() {
             $.ajax({
                     url:"user_record_number",
                     method: 'GET',
-                    data: "nb=" + this.value,
+                    data: "nb=" + this.value
             })
     });
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
             $.ajax({
                     url:"project_record_number",
                     method: 'GET',
-                    data: "nb=" + this.value,
+                    data: "nb=" + this.value
             })
     });
 
@@ -151,6 +151,15 @@ $(document).ready(function() {
             url:"/update_status_collection",
             method: 'GET',
             data: "selected_parent_id=" + $('#wbs_activity_element_parent_id').val()
+        })
+    });
+
+    //ADD selected WBS-Activity to Project
+    $("#add_selected_wbs_activity_to_project").click(function(){
+        $.ajax({
+            url:"/add_wbs_activity_to_project",
+            method: 'POST',
+            data: "selected_wbs_activity_elt_id=" + $('#select_wbs_activity_for_project').val()
         })
     });
 

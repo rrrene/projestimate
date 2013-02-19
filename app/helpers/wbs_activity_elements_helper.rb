@@ -42,7 +42,7 @@ module WbsActivityElementsHelper
       if element.is_root?
         "<span class='#{ element.record_status.to_s }'>Root element - #{element.name} </span>"
       else
-        "<span class='#{ e.record_status.to_s }'> #{e.name} </span>"
+        "<span class='#{ element.record_status.to_s }'> #{element.name} </span>"
       end
     else
       if element.is_root?
