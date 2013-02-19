@@ -94,12 +94,7 @@
                   <label>Separator (default semi-colon) </label>
                   <%= text_field_tag :separator %>
 
-                  <label>Encoding</label>
-                  <%= select_tag :encoding, options_for_select(["ANSI", "utf-8", "ISO-8859-1"])  %>
-
-
                   <%= hidden_field_tag :wbs_activity_ratio_id,  wbs_activity_ratio.id  %>
-
               </div>
               <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -118,15 +113,17 @@
 
     <div id="tabs-4">
 
-      <div class="pull-left">
-        Please select a ratio table
-        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] }, :selected => @wbs_activity_ratio ), :class => "select_ratio" %>
-      </div>
+      <p>
+        <label>Ratio table</label>
+        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :class => "select_ratio" %>
+      </p>
 
-      <%= form_tag '/save_values', :remote => true do %>
+      <%= form_tag '/save_values' do %>
         <div id="ratio_section">
           <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
         </div>
+
+        <%= submit_tag "Save", :class => "btn" %>
       <% end %>
     </div>
   <% end %>
