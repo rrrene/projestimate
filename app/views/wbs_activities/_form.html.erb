@@ -71,7 +71,7 @@
             <td><%= wbs_activity_ratio.description %></td>
             <td><%= wbs_activity_ratio.wbs_activity.name %></td>
             <td><%= wbs_activity_ratio.record_status %></td>
-            <td><%= wbs_activity_ratio.reference_value %></td>
+            <td><%= wbs_activity_ratio.reference_value.value %></td>
             <td>
               <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icon-edit icon-large", :title => "Edit" %>
               <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete" %>
@@ -94,7 +94,12 @@
                   <label>Separator (default semi-colon) </label>
                   <%= text_field_tag :separator %>
 
+                  <label>Encoding</label>
+                  <%= select_tag :encoding, options_for_select(["ANSI", "utf-8", "ISO-8859-1"])  %>
+
+
                   <%= hidden_field_tag :wbs_activity_ratio_id,  wbs_activity_ratio.id  %>
+
               </div>
               <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -113,17 +118,15 @@
 
     <div id="tabs-4">
 
-      <p>
-        <label>Ratio table</label>
-        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :class => "select_ratio" %>
-      </p>
+      <div class="pull-left">
+        Please select a ratio table
+        <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] }, :selected => @wbs_activity_ratio ), :class => "select_ratio" %>
+      </div>
 
-      <%= form_tag '/save_values' do %>
+      <%= form_tag '/save_values', :remote => true  do %>
         <div id="ratio_section">
           <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
         </div>
-
-        <%= submit_tag "Save", :class => "btn" %>
       <% end %>
     </div>
   <% end %>

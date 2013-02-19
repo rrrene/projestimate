@@ -10,7 +10,7 @@ class WbsActivityRatioElement < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-
+  validates :ratio_value, :numericality => { :only_float =>true, :greater_than => 0, :less_than => 100 }
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
@@ -20,6 +20,29 @@ class WbsActivityRatioElement < ActiveRecord::Base
       #new_wbs_activity_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
     })
 
+  end
+  def is_One_Activity_Element?
+    if self.wbs_activity_ratio.reference_value.value=="One Activity-element"
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_All_Activity_Elements?
+    if self.wbs_activity_ratio.reference_value.value=="All Activity-elements"
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_A_Set_Of_Activity_Elements?
+    if self.wbs_activity_ratio.reference_value.value=="A set of activity-elements"
+      return true
+    else
+      return false
+    end
   end
 
 end
