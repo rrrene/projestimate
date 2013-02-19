@@ -74,7 +74,7 @@
             <td><%= wbs_activity_ratio.reference_value %></td>
             <td>
               <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity), :class => "icon-edit icon-large", :title => "Edit" %>
-              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icon-cog icon-large", :title => "Delete" %>
+              <%= link_to '', wbs_activity_ratio, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete" %>
               <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => "icon-download icon-large", :title => "Export"  %>
               <a href="#myModal" role="button" class="icon-upload icon-large" data-toggle="modal" title="Import a CSV file"></a>
             </td>

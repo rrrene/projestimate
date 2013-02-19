@@ -38,8 +38,7 @@ class WbsActivityRatioElementsController < ApplicationController
 
     #if there are not reference
     if params[:ratio_reference_element].nil?
-      flash[:error] = "Please select a reference element"
-      redirect_to redirect(edit_wbs_activity_path(wbs_activity_ratio.wbs_activity, :anchor => "tabs-4")) and return
+      flash[:error] = "Please select a reference element !" and return
     else
       new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
       new_ref.update_attribute("ratio_reference_element", true)
