@@ -1,5 +1,7 @@
 ProjestimateMaquette::Application.routes.draw do
 
+
+  resources :reference_values
   resources :wbs_project_elements
 
   resources :wbs_activity_ratios do

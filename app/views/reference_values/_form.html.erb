@@ -1,0 +1,11 @@
+<div class="span12">
+  <h2>Reference value</h2>
+  <%= simple_form_for(@reference_value) do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :value, :input_html => { :class => 'input-xxlarge' } %>
+
+    <%= f.submit "Save", :class => "btn"%>
+    <%= f.submit "Apply", :class => "btn"%>
+  <% end %>
+</div>
