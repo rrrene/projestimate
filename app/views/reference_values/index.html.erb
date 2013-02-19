@@ -1,0 +1,16 @@
+<h1>ReferenceValue</h1>
+<table class="table table-striped" >
+  <tr>
+    <th>Reference Value</th>
+    <th colspan=3></th>
+  </tr>
+  <% @reference_values.each do |r| %>
+      <tr>
+        <td><%= r.value %></td>
+        <td><%= link_to "edit", edit_reference_value_path(r) %></td>
+        <td><%= link_to "delete", r, :method => "delete", :confirm => "Are you sure?" %></td>
+      </tr>
+  <% end %>
+
+</table>
+<%= link_to "Create a new reference value", new_reference_value_path, :class=>"btn" %>
