@@ -126,6 +126,8 @@ ProjestimateMaquette::Application.routes.draw do
   get "check_out" => "projects#check_out" , :as => "check_out"
   get "project_record_number" => "projects#project_record_number", :as => "project_record_number"
 
+  post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project', :as => 'add_wbs_activity_to_project'
+
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
 
   resources :users

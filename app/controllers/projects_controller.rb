@@ -74,14 +74,14 @@ class ProjectsController < ApplicationController
 
           if pe_wbs_project_product.save
             ##New root Pbs-Project-Element
-            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} WBS-Product - Root Element", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
             pbs_project_element.save
             pe_wbs_project_product.save
           end
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
-            wbs_project_element = pe_wbs_project_product.wbs_project_elements.build(:name => "#{@project.title} WBS-Activity - Root Element", :description => "WBS-Activity Root Element", :author_id => current_user.id)
+            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :description => "WBS-Activity Root Element", :author_id => current_user.id)
             wbs_project_element.save
           end
 
@@ -112,6 +112,12 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
+    @wbs_activities = WbsActivity.all
+
+    @wbs_activity_elements = []
+    @wbs_activities.each do |wbs_activity|
+      @wbs_activity_elements << wbs_activity.wbs_activity_elements.last.root
+    end
   end
 
   def update
@@ -431,6 +437,27 @@ class ProjectsController < ApplicationController
   def default_work_element_type
     wet = WorkElementType.find_by_alias("folder")
     return wet
+  end
+
+  def add_wbs_activity_to_project
+    @project = Project.find(params[:project_id])
+    pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+
+    selected_wbs_activity_elt = WbsActivityElement.find(params[:selected_wbs_activity_elt_id])
+    wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_project_activity.id, :wbs_activity_element_id => selected_wbs_activity_elt.id,
+                                                :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
+                                                :description => selected_wbs_activity_elt.description, :ancestry => pe_wbs_project_activity.wbs_project_elements.last.root,
+                                                :author_id => current_user.id, :copy_number => 0)
+
+    #@pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    #@wbs_activities = WbsActivity.all
+    #
+    #@wbs_activity_elements = []
+    #@wbs_activities.each do |wbs_activity|
+    #  @wbs_activity_elements << wbs_activity.wbs_activity_elements.last.root
+    #end
+
+    #render :partial => "add_wbs_project_element"
   end
 
 end

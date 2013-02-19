@@ -8,7 +8,7 @@ module WbsActivityElementsHelper
         tree << "<ul style='margin-left:1em;' id='tree'>
                    <li style='margin-left:-1em;'>
                     <div class='block_label'>
-                        <span class='#{ element.record_status.to_s }'>Root element - #{element.name} </span>
+                        #{show_element_name(element)}
                     </div>
                     <div class='block_link'>
                       #{ link_activity_element(element) }
@@ -22,7 +22,7 @@ module WbsActivityElementsHelper
           tree << "<ul>
                      <li style='margin-left:#{element.depth}em;' >
                       <div class='block_label'>
-                        <span class='#{ e.record_status.to_s }'> #{e.name} </span>
+                        #{show_element_name(e)}
                       </div>
                       <div class='block_link'>
                         #{ link_activity_element(e) }
@@ -37,14 +37,37 @@ module WbsActivityElementsHelper
     tree
   end
 
+  def show_element_name(element)
+    if element.attributes.has_key? "record_status_id"
+      if element.is_root?
+        "<span class='#{ element.record_status.to_s }'>Root element - #{element.name} </span>"
+      else
+        "<span class='#{ element.record_status.to_s }'> #{element.name} </span>"
+      end
+    else
+      if element.is_root?
+        "<span class=''>#{element.pe_wbs_project.name}</span>"
+      else
+        "<span class=''> #{element.name} </span>"
+      end
+    end
+  end
+
+
   def link_activity_element(element)
     res = String.new
-    res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id,:activity_id => element.wbs_activity), :class => "icon-plus icon-large")
-    res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icon-edit icon-large", :title => "Edit", :confirm => ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if element.is_defined?) )
-    res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
+    if element.attributes.has_key? "record_status_id"
+      res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id,:activity_id => element.wbs_activity), :class => "icon-plus icon-large")
+      res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity), :class => "icon-edit icon-large", :title => "Edit", :confirm => ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if element.is_defined?) )
+      res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
 
+    else
+      res << link_to( '', new_wbs_project_element_path(:selected_parent_id => element.id,:project_id => @project.id), :remote => true, :class => "icon-plus icon-large", :title => "New")
+      res << link_to( '', edit_wbs_project_element_path(element, :activity_id => element.wbs_activity), :class => 'bl edit', :title => "Edit")
+      res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
+
+    end
     res
-
   end
 
 end
