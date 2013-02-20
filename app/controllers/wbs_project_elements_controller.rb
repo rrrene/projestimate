@@ -77,10 +77,11 @@ class WbsProjectElementsController < ApplicationController
   # DELETE /wbs_project_elements/1.json
   def destroy
     @wbs_project_element = WbsProjectElement.find(params[:id])
+    @project = Project.find(params[:project_id])
     @wbs_project_element.destroy
 
     respond_to do |format|
-      format.html { redirect_to wbs_project_elements_url }
+      format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
       format.json { head :no_content }
     end
   end

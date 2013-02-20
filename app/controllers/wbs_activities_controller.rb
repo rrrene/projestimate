@@ -130,7 +130,7 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_me
-    begin
+    #begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
 
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -178,10 +178,10 @@ class WbsActivitiesController < ApplicationController
 
       flash[:notice] = "WBS-Activity was successfully duplicated"
       redirect_to "/wbs_activities" and return
-    rescue
-      flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
-      redirect_to "/wbs_activities"
-    end
+    #rescue
+    #  flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
+    #  redirect_to "/wbs_activities"
+    #end
   end
 
   def wbs_record_statuses_collection
