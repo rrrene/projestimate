@@ -47,6 +47,12 @@
 
     <%= f.input :project_category_id, :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
+    <div class="actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= f.submit "Apply", :class => "btn btn-success" %>
+    </div>
+    <% end %>
+
   </div>
 
   <% unless action_name == "new" %>
@@ -100,24 +106,21 @@
     </div>
 
     <div id="tabs-8">
-        <div class="well component_tree">
-          <%= form_tag '/add_wbs_activity_to_project' do %>
-              <p style="margin: 10px; ">
-                <label>WBS-Activities table:</label>
-                <%= select_tag "select_wbs_activity_for_project", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :class => "test", :prompt => 'Select a WBS-Activity...' %>
-                <%= hidden_field_tag :project_id,  @project.id  %>
-                <%= submit_tag "Add selected WBS-Activity to current project", :class => "btn", :id => "add_selected_wbs_activity_to_project" %>
-              </p>
-          <% end %>
-        </div>
+      <div class="well component_tree">
+        <p style="margin: 10px; ">
+          <label>WBS-Activities table:</label>
+          <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+          <%= hidden_field_tag :project_id,  @project.id  %>
+          <%= link_to "Add to project", { :controller => 'projects', :action => 'add_wbs_activity_to_project', :project_id => @project.id, :elt_id => params[:select_wbs_activity_for_project_id]}, :remote => true, :class => 'add_selected_wbs_activity_to_project btn' %>
+        </p>
 
-        <div class="component_tree">
-          <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-             <h5 style="margin-top: 30px;">Project WBS-Activities list</h5>
-             <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") unless @pe_wbs_project_activity.wbs_project_elements.last.nil? %>
-          <% end %>
-        </div>
-    </div>
+      </div>
+
+      <div class="component_tree" id="wbs_project_elements_section">
+        <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
+         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") unless @pe_wbs_project_activity.wbs_project_elements.last.nil? %>
+        <% end %>
+      </div>
 
 
       <div id="tabs-3">
@@ -140,11 +143,11 @@
         <div style="clear: both"></div>
     </div>
 
-    <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
-    </div>
-    <% end %>
+    <!--<div class="actions">-->
+      <!--<%#= f.submit "Save", :class => "btn btn-success" %>-->
+      <!--<%#= f.submit "Apply", :class => "btn btn-success" %>-->
+    <!--</div>-->
+    <!--<%# end %>-->
 
   </div>
 

@@ -154,13 +154,17 @@ $(document).ready(function() {
         })
     });
 
-    //ADD selected WBS-Activity to Project
-    $("#add_selected_wbs_activity_to_project").click(function(){
+//    //ADD selected WBS-Activity to Project
+    $(".add_selected_wbs_activity_to_project").click(function(){
+        var test = $('#wbs_activity_element').val();
         $.ajax({
             url:"/add_wbs_activity_to_project",
-            method: 'POST',
-            data: "selected_wbs_activity_elt_id=" + $('#select_wbs_activity_for_project').val()
-        })
+            method: 'GET',
+            data: {
+                elt_id: $('#wbs_activity_element').val(),
+                project_id: $('#project_id').val()
+            }
+        });
     });
 
 
@@ -206,4 +210,19 @@ function hide_popup(elem) {
 function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
 }
+
+//function add_wbs_activity(){
+//    //ADD selected WBS-Activity to Project
+//    $("#my_new_form").submit(function(){
+//        $.ajax({
+//            url: "/add_wbs_activity_to_project",
+//            data: {
+//                //project_id: $('#project_id').val(),
+//                elt_id: $('#wbs_activity_element').val()
+//            },
+//            dataType: "html"
+//        })
+//    });
+//    //return false;
+//}
 
