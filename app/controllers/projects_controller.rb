@@ -282,73 +282,75 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation
-    @resultat = Array.new
-
-    @project = current_project
-    @pbs_project_element = current_component
-    @folders = @project.folders.reverse
-    val = 0
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
-
-    #For each level...
-    ["low", "most_likely", "high"].each do |level|
-      #stock input value
-
-      input_value  = params["input_#{level}"]
-
-      #Execute estimation plan. and stock result
-      @resultat << @project.run_estimation_plan(1, input_value, {}, @pbs_project_element, current_project) #current_pos, arguments, last_result, others, pbs_project_element, project
-
-      @project.module_projects.each do |mp|
-        mp.module_project_attributes.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
-
-          if mpa.input?
-
-            unless input_value[mp.pemodule.alias.to_sym].nil?
-              val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-            end
-
-            in_result = {}
-            if mpa.attribute.data_type == "string"
-              in_result["string_data_#{level}"] = val
-            else
-              in_result["numeric_data_#{level}"] = val
-            end
-
-          else
-            out_result = {}
-            @resultat.each do |res|
-              if mpa.attribute.data_type == "date"
-                out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-              elsif mpa.attribute.data_type == "string"
-                out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-              else
-                out_result["numeric_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-              end
-            end
-
-          mpa.update_attributes(out_result)
-          mpa.update_attributes(in_result)
-
-          end
-          mpa.update_attribute("pbs_project_element_id", current_component.id)
-        end
-      end
-
-      #Pour chaque folder
-      folder_result = {}
-      @folders.map do |folder| folder.children.map{|j| j.module_project_attributes }.each do |mpa|
-        %w(low most_likely high).each do |level|
-          folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
-        end
-        mpa.first.update_attributes(folder_result)
-      end
-      end
-    end
-
-    respond_to do |format|
-      format.js { render :partial => "pbs_project_elements/refresh" }
-    end
+    #@resultat = Array.new
+    #
+    #@project = current_project
+    #@pbs_project_element = current_component
+    #@folders = @project.folders.reverse
+    #val = 0
+    #@array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    #
+    ##For each level...
+    #["low", "most_likely", "high"].each do |level|
+    #  #stock input value
+    #
+    #  input_value  = params["input_#{level}"]
+    #
+    #  #Execute estimation plan. and stock result
+    #  @resultat << @project.run_estimation_plan(1, input_value, {}, @pbs_project_element, current_project) #current_pos, arguments, last_result, others, pbs_project_element, project
+    #
+    #  @project.module_projects.each do |mp|
+    #    mp.module_project_attributes.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
+    #
+    #      if mpa.input?
+    #
+    #        unless input_value[mp.pemodule.alias.to_sym].nil?
+    #          val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
+    #        end
+    #
+    #        in_result = {}
+    #        if mpa.attribute.data_type == "string"
+    #          in_result["string_data_#{level}"] = val
+    #        else
+    #          in_result["numeric_data_#{level}"] = val
+    #        end
+    #
+    #      else
+    #        out_result = {}
+    #        @resultat.each do |res|
+    #          if mpa.attribute.data_type == "date"
+    #            out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
+    #          elsif mpa.attribute.data_type == "string"
+    #            out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
+    #          else
+    #            out_result["numeric_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
+    #          end
+    #        end
+    #
+    #      mpa.update_attributes(out_result)
+    #      mpa.update_attributes(in_result)
+    #
+    #      end
+    #      mpa.update_attribute("pbs_project_element_id", current_component.id)
+    #    end
+    #  end
+    #
+    #  #Pour chaque folder
+    #  folder_result = {}
+    #  @folders.map do |folder| folder.children.map{|j| j.module_project_attributes }.each do |mpa|
+    #    %w(low most_likely high).each do |level|
+    #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
+    #    end
+    #    mpa.first.update_attributes(folder_result)
+    #  end
+    #  end
+    #end
+    #
+    #results = Project::run_estimation_plan
+    #
+    #respond_to do |format|
+    #  format.js { render :partial => "pbs_project_elements/refresh", :object => results }
+    #end
   end
 
 

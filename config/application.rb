@@ -14,6 +14,11 @@ module ProjestimateMaquette
   class Application < Rails::Application
 
     config.reload_plugins = true
+
+    #config.autoload_paths += %W(#{config.root}/vendor/gems/my_gem/lib)
+    config.autoload_paths += Dir["#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib"]
+    config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib)
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

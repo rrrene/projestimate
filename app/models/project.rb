@@ -106,7 +106,6 @@ class Project < ActiveRecord::Base
   end
 
   #Return project value
-  #TODO: ??!!
   def project_value(attr)
     self.send(attr.project_value.gsub("_id", ''))
   end
@@ -115,30 +114,42 @@ class Project < ActiveRecord::Base
   #TODO : move to Pemodule class
   def run_estimation_plan(current_pos, arguments, last_result, c, project)
 
-    current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos, self.id)
-    operations = current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
-
-    next_current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos+1, self.id)
-    next_operations = next_current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
-
-    new_arguments = HashWithIndifferentAccess.new
-
-    operations.map{|j| j.alias}.each_with_index do |my_op, index|
-
-      my_object =  "#{my_op.camelcase}::#{my_op.camelcase}".constantize.send(:new, arguments[my_op], project.id, current_pos, c.id, index)
-      last_result[my_op.to_sym] = my_object.send(my_op)
-
-      next_operations.map{|j| j.alias}.each do |no|
-        new_arguments[no] = last_result
-      end
-
-    end
-
-    unless current_pos >= self.module_projects.map(&:position_y).max
-      self.run_estimation_plan(current_pos+1, new_arguments, last_result, c, project)
-    else
-      return last_result
-    end
+    #current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos, self.id)
+    #operations = current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
+    #
+    #next_current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos+1, self.id)
+    #next_operations = next_current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
+    #
+    #new_arguments = HashWithIndifferentAccess.new
+    #
+    #operations.map{|j| j.alias}.each_with_index do |my_op, index|
+    #
+    #  my_object =  "#{my_op.camelcase}::#{my_op.camelcase}".constantize.send(:new, arguments[my_op], project.id, current_pos, c.id, index)
+    #  last_result[my_op.to_sym] = my_object.send(my_op)
+    #
+    #  next_operations.map{|j| j.alias}.each do |no|
+    #    new_arguments[no] = last_result
+    #  end
+    #
+    #end
+    #
+    #unless current_pos >= self.module_projects.map(&:position_y).max
+    #  self.run_estimation_plan(current_pos+1, new_arguments, last_result, c, project)
+    #else
+    #  return last_result
+    #end
+    #
+    #result = Hash.new
+    #
+    #cb_low = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1000 })
+    #cb_ml = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1500 })
+    #cb_high = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 2000 })
+    #
+    #result[:low] = {:effort => cb.get_effort, :delay => cb.get_delay, :end_date => cb.get_end_date }
+    #result[:ml] = {:effort => cb_ml.get_effort, :delay => cb_ml.get_delay, :end_date => cb_ml.get_end_date }
+    #result[:high] = {:effort => cb_high.get_effort, :delay => cb_high.get_delay, :end_date => cb_high.get_end_date }
+    #
+    #result
   end
 
   #Return folders list of a projects

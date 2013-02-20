@@ -12,8 +12,9 @@ class WbsActivityRatiosController < ApplicationController
   def import
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     begin
-      error_count = WbsActivityRatio::import(params[:file], params[:separator])
+      error_count = WbsActivityRatio::import(params[:file], params[:separator], params[:encoding])
     rescue
+      flash[:error] = "Failed to import some element that looks out of the WBS-activity."
       redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3") and return
     end
 
@@ -34,13 +35,14 @@ class WbsActivityRatiosController < ApplicationController
   def edit
     set_page_title "Edit wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
 
 
   def update
     @wbs_activity_ratio = nil
     current_wbs_activity_ratio = WbsActivityRatio.find(params[:id])
-
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     if current_wbs_activity_ratio.is_defined?
       @wbs_activity_ratio = current_wbs_activity_ratio.amoeba_dup
       @wbs_activity_ratio.owner_id = current_user.id
@@ -64,11 +66,12 @@ class WbsActivityRatiosController < ApplicationController
   def new
     set_page_title "New wbs-activity ratio"
     @wbs_activity_ratio = WbsActivityRatio.new
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
 
   def create
     @wbs_activity_ratio = WbsActivityRatio.new(params[:wbs_activity_ratio])
-
+    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     #If we are on local instance, Status is set to "Local"
     unless is_master_instance?   #so not on master
       @wbs_activity_ratio.record_status = @local_status
@@ -91,21 +94,20 @@ class WbsActivityRatiosController < ApplicationController
 
   def destroy
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
+
     if is_master_instance?
-      if @wbs_activity_ratio.draft? || @wbs_activity_ratio.is_retired?
-        @wbs_activity_ratio.destroy
-      elsif @wbs_activity_ratio.defined?
-        @wbs_activity_ratio.state = "retired"
-        @wbs_activity_ratio.save
+      if @wbs_activity_ratio.is_defined? || @wbs_activity_ratio.is_custom?
+        #logical deletion: delete don't have to suppress records anymore on defined record
+        @wbs_activity_ratio.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
       else
-        flash[:notice] = "It's impossible to delete a retired activity"
+        @wbs_activity_ratio.destroy
       end
     else
       if @wbs_activity_ratio.is_local_record? || @wbs_activity_ratio.is_retired?
         @wbs_activity_ratio.destroy
       else
         flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
-       redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3")) and return
+        redirect_to redirect(groups_path)  and return
       end
     end
 

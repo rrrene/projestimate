@@ -1,5 +1,7 @@
 ProjestimateMaquette::Application.routes.draw do
 
+
+  resources :reference_values
   resources :wbs_project_elements
 
   resources :wbs_activity_ratios do
@@ -27,7 +29,7 @@ ProjestimateMaquette::Application.routes.draw do
   resources :record_statuses
 
   resources :peicons
-  match 'peicons/:id/choose_icon' => 'peicons#choose_icon', :as => "choose_icon"
+  match 'peicons/:id/choose_icon' => 'peicons#choose_icon', :as => 'choose_icon'
 
   resources :auth_methods
 
