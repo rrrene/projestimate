@@ -81,7 +81,9 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element.destroy
 
     respond_to do |format|
-      format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
+      #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
+      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Project-Element was successfully deleted.' }
+
       format.json { head :no_content }
     end
   end

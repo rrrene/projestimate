@@ -165,8 +165,6 @@ $(document).ready(function() {
                 project_id: $('#project_id').val()
             }
         });
-        $("#tabs-8").load();
-        return false;
     });
 
 

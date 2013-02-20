@@ -64,7 +64,7 @@ module WbsActivityElementsHelper
     else
       res << link_to( '', new_wbs_project_element_path(:selected_parent_id => element.id,:project_id => @project.id), :remote => true, :class => "icon-plus icon-large", :title => "New")
       res << link_to( '', edit_wbs_project_element_path(element, :activity_id => element.wbs_activity), :class => 'bl edit', :title => "Edit")
-      res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
+      res << link_to( '', wbs_project_element_path(element, :project_id => @project.id), confirm: 'Are you sure?', method: :delete, :project_id => @project.id, :class => "icon-trash icon-large", :title => "Delete")
 
     end
     res

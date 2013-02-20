@@ -22,25 +22,37 @@ class WbsActivityRatioElement < ActiveRecord::Base
 
   end
   def is_One_Activity_Element?
-    if self.wbs_activity_ratio.reference_value.value=="One Activity-element"
-      return true
-    else
+    begin
+      if self.wbs_activity_ratio.reference_value.value=="One Activity-element"
+        return true
+      else
+        return false
+      end
+    rescue
       return false
     end
   end
 
   def is_All_Activity_Elements?
-    if self.wbs_activity_ratio.reference_value.value=="All Activity-elements"
-      return true
-    else
+    begin
+      if self.wbs_activity_ratio.reference_value.value=="All Activity-elements"
+        return true
+      else
+        return false
+      end
+    rescue
       return false
     end
   end
 
   def is_A_Set_Of_Activity_Elements?
-    if self.wbs_activity_ratio.reference_value.value=="A set of activity-elements"
-      return true
-    else
+    begin
+      if self.wbs_activity_ratio.reference_value.value=="A set of activity-elements"
+        return true
+      else
+        return false
+      end
+    rescue
       return false
     end
   end
