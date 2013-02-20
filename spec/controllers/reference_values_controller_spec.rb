@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ReferenceValueController do
+describe ReferenceValuesController do
 
   describe "GET 'index'" do
     it "returns http success" do
