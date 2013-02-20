@@ -41,7 +41,7 @@
   <% end %>
   </table>
 
-  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %> <a href="#myModal" role="button" class="btn" data-toggle="modal">Import from a CSV file</a>
+  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %> <a href="#myModal" role="button" class="btn" data-toggle="modal">Import a CSV file</a>
 
   <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <%= form_tag import_wbs_activities_path, :multipart => true do %>
