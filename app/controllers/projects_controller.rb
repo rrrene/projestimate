@@ -259,7 +259,7 @@ class ProjectsController < ApplicationController
 
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
     my_module_project.pemodule.attribute_modules.each do |am|
-      @project.pe_wbs_project.pbs_project_elements.each do |c|
+      @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
         mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
                                               :module_project_id => my_module_project.id,
                                               :in_out => am.in_out,
@@ -346,11 +346,15 @@ class ProjectsController < ApplicationController
     #  end
     #end
     #
-    #results = Project::run_estimation_plan
-    #
-    #respond_to do |format|
-    #  format.js { render :partial => "pbs_project_elements/refresh", :object => results }
-    #end
+
+    results = Hash.new
+    ["low", "most_likely", "high"].each do |level|
+      results[level.to_sym] = current_project.run_estimation_plan(params[level], level).first
+    end
+
+    respond_to do |format|
+      format.js { render :partial => "pbs_project_elements/refresh", :locals => {:results => results, :module_project_id => current_project.module_projects.first.id }}
+    end
   end
 
 

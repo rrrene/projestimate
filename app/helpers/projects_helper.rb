@@ -33,7 +33,69 @@ module ProjectsHelper
     end
   end
 
-  def display_results(result)
-    result
+  def display_results(results, module_project_id)
+
+    module_project = ModuleProject.find(module_project_id)
+    pemodule = Pemodule.find(module_project.pemodule.id)
+
+    res = String.new
+    res << "<div class='widget'>"
+      res << "<div class='widget-header'>
+                <h3>#{module_project.pemodule.title.humanize}</h3>
+              </div>"
+      res << "<div class='widget-content'>"
+        res << "<table class='table table-bordered'>
+                 <tr>
+                   <th></th>"
+                   module_project.module_project_attributes.each do |mpa|
+                     if mpa.output?
+                       res << "<th>#{mpa.attribute.name}</th>"
+                     end
+                   end
+                res << "</tr>"
+                res << "<tr>"
+                 ["low", "most_likely", "high"].each do |level|
+                    res << "<td>#{level.humanize}</td>"
+                    module_project.module_project_attributes.each do |mpa|
+                      if mpa.output?
+                        res << "<td>#{results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
+                      end
+                    end
+                res << "</tr>"
+                    end
+        res << "</table>"
+      res << "</div>"
+    res << "</div>"
+    res
   end
+
+  def display_input(module_project_id)
+    module_project = ModuleProject.find(module_project_id)
+    pemodule = Pemodule.find(module_project.pemodule.id)
+
+    res = String.new
+
+      res << "<table class='table table-bordered'>
+                <tr>
+                  <th></th>"
+                  module_project.module_project_attributes.each do |mpa|
+                    if mpa.input?
+                      res << "<th>#{mpa.attribute.name}</th>"
+                    end
+                  end
+                res << "</tr>"
+            ["low", "most_likely", "high"].each do |level|
+              res << "<tr>"
+              res << "<td>#{level.humanize}</td>"
+              module_project.module_project_attributes.each do |mpa|
+                if mpa.input?
+                  res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project_id}]"}</td>"
+                end
+              end
+              res << "</tr>"
+            end
+
+    res << "</table>"
+  end
+
 end

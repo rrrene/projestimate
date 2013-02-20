@@ -95,7 +95,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "pemodules_up" => "pemodules#pemodules_up"
   get "list_attributes" => "pemodules#list_attributes"
   get "update_selected_attributes" => "pemodules#update_selected_attributes"
-  get "set_attributes_module" => "pemodules#set_attributes_module"
+  post "set_attributes_module" => "pemodules#set_attributes_module"
   get "estimations_params" => "pemodules#estimations_params", :as => "estimations_params"
   get "export_to_pdf" => "pemodules#export_to_pdf"
 

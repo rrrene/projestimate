@@ -65,7 +65,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   amoeba do
     enable
     include_field [:pe_wbs_project, :pemodules, :groups, :users]
@@ -79,6 +78,10 @@ class Project < ActiveRecord::Base
 
     #prepend :title => "Copy of "
     propagate
+  end
+
+  def self.encoding
+    ["Big5", "CP874", "CP932", "CP949", "gb18030", "ISO-8859-1", "ISO-8859-13", "ISO-8859-15", "ISO-8859-2", "ISO-8859-8", "ISO-8859-9", "UTF-8", "Windows-874"]
   end
 
   #Return possible states of project
@@ -112,7 +115,8 @@ class Project < ActiveRecord::Base
 
   #Execute a set of module (commun or typed) in the order (user order). Recursive method.
   #TODO : move to Pemodule class
-  def run_estimation_plan(current_pos, arguments, last_result, c, project)
+  def run_estimation_plan(input_data, level)
+  #def run_estimation_plan(current_pos, arguments, last_result, c, project)
 
     #current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos, self.id)
     #operations = current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
@@ -138,18 +142,35 @@ class Project < ActiveRecord::Base
     #else
     #  return last_result
     #end
-    #
-    #result = Hash.new
-    #
+
+    @result = Array.new
+    inputs = Hash.new
+
+    self.module_projects.each do |module_project|
+
+      module_project.module_project_attributes.each do |mpa|
+        if mpa.input?
+          inputs[mpa.attribute.alias.to_sym] = input_data[mpa.attribute.alias][module_project.id.to_s]
+        end
+      end
+
+      current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
+      cb = current_module.send(:new, inputs )
+      @result << {:effort => cb.get_effort, :delay => cb.get_delay, :end_date => cb.get_end_date }
+
+    end
+
+
+
     #cb_low = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1000 })
     #cb_ml = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1500 })
     #cb_high = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 2000 })
-    #
-    #result[:low] = {:effort => cb.get_effort, :delay => cb.get_delay, :end_date => cb.get_end_date }
+
+    #@result[:low] = {:effort => cb_low.get_effort, :delay => cb_low.get_delay, :end_date => cb_low.get_end_date }
     #result[:ml] = {:effort => cb_ml.get_effort, :delay => cb_ml.get_delay, :end_date => cb_ml.get_end_date }
     #result[:high] = {:effort => cb_high.get_effort, :delay => cb_high.get_delay, :end_date => cb_high.get_end_date }
-    #
-    #result
+
+    @result
   end
 
   #Return folders list of a projects

@@ -83,10 +83,10 @@ class PemodulesController < ApplicationController
   end
 
   def create
-    @pemodule = Pemodule.new
-    @pemodule.title = params[:pemodule][:title]
-    @pemodule.description = params[:pemodule][:description]
-    @pemodule.alias = params[:pemodule][:alias]
+    @pemodule = Pemodule.new(params[:pemodule])
+    #@pemodule.title = params[:pemodule][:title]
+    #@pemodule.description = params[:pemodule][:description]
+    #@pemodule.alias = params[:pemodule][:alias]
     @pemodule.compliant_component_type = params[:compliant_wet]
     @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @attributes = Attribute.all
@@ -102,10 +102,16 @@ class PemodulesController < ApplicationController
   #TODO:needs some improvements
   def update_selected_attributes
     authorize! :manage_modules, Pemodule
+
     attribute_ids = AttributeModule.all.map(&:attribute_id)
+
     params[:attributes].each do |attr|
       conditions = {:attribute_id => attr, :pemodule_id => params[:module_id]}
-      AttributeModule.first(:conditions => conditions) || AttributeModule.create(conditions)
+      fam = AttributeModule.first(:conditions => conditions)
+      unless fam
+        am = AttributeModule.new(conditions)
+        am.save(:validate => false)
+      end
     end
 
     (attribute_ids - params[:attributes].map{|i| i.to_i}).each do |attr|

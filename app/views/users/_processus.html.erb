@@ -40,12 +40,7 @@
               <div class="widget-content">
                 <div class="">
                   <div class="portlet_<%= mp.id %>" >
-                    <%# begin %>
-                      <%# yield mp.pemodule.alias.to_sym %>
-                      <%= render "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
-                    <%# rescue %>
-                      <!--<strong>Please verify module installation</strong>-->
-                    <%# end %>
+                    <%=raw display_input(mp.id) %>
                   </div>
                 </div>
               </div>

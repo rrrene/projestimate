@@ -38,7 +38,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def self.export(activity_ratio_id)
     activity_ratio = WbsActivityRatio.find(activity_ratio_id)
-    csv_string = CSV.generate do |csv|
+    csv_string = CSV.generate(:col_sep => I18n.t(:general_csv_separator)) do |csv|
       csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
       activity_ratio.wbs_activity_ratio_elements.each do |element|
         csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
@@ -48,7 +48,7 @@ class WbsActivityRatio < ActiveRecord::Base
   end
 
   def self.import(file, sep, encoding)
-    sep = "#{sep.blank? ? ';' : sep}"
+    sep = "#{sep.blank? ? I18n.t(:general_csv_separator) : sep}"
     error_count = 0
     CSV.open(file.path, "r", :quote_char => "\"", :row_sep => :auto, :col_sep => sep, :encoding => "#{encoding}:utf-8") do |csv|
       csv.each_with_index do |row, i|

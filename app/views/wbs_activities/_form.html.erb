@@ -91,11 +91,11 @@
                   <label>File (csv only)</label>
                   <%= file_field_tag :file %>
 
-                  <label>Separator (default semi-colon) </label>
+                  <label>Separator (default : '<%= I18n.t(:general_csv_separator) %>') </label>
                   <%= text_field_tag :separator %>
 
                   <label>Encoding</label>
-                  <%= select_tag :encoding, options_for_select(["ANSI", "utf-8", "ISO-8859-1"])  %>
+                  <%= select_tag :encoding, options_for_select(Project::encoding)  %>
 
 
                   <%= hidden_field_tag :wbs_activity_ratio_id,  wbs_activity_ratio.id  %>
