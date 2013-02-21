@@ -66,20 +66,22 @@
     </div>
 
     <div id="tabs-3">
-      <div class="well component_tree">
-        <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
-            <p style="margin: 10px; ">
-              <label>WBS-Activities table:</label>
-              <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
-              <%= hidden_field_tag :project_id,  @project.id  %>
-              <%= submit_tag "ADD", :class => "btn" %>
-            </p>
-        <% end %>
-      </div>
+      <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
+          <div class="well component_tree">
+            <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
+                <p style="margin: 10px; ">
+                  <label>WBS-Activities table:</label>
+                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+                  <%= hidden_field_tag :project_id,  @project.id  %>
+                  <%= submit_tag "ADD", :class => "btn" %>
+                </p>
+            <% end %>
+          </div>
+      <% end %>
 
       <div class="component_tree" id="wbs_project_elements_section">
         <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") %>
+         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.elements_root.first, "") %>
         <% end %>
       </div>
     </div>

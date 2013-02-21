@@ -48,9 +48,10 @@ class WbsProjectElementsController < ApplicationController
   def create
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
     @wbs_project_element.author_id = current_user.id
+    @project = Project.find(params[:project_id])
 
     if @wbs_project_element.save
-     redirect_to @wbs_project_element, notice: 'Wbs project element was successfully created.'
+     redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: 'Wbs project element was successfully created.'
 
     else
       render action: "new"
@@ -61,10 +62,11 @@ class WbsProjectElementsController < ApplicationController
   # PUT /wbs_project_elements/1.json
   def update
     @wbs_project_element = WbsProjectElement.find(params[:id])
+    @project = Project.find(params[:project_id])
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
-        format.html { redirect_to @wbs_project_element, notice: 'Wbs project element was successfully updated.' }
+        format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: 'Wbs project element was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -86,7 +88,7 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
-      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Project-Element was successfully deleted.' }
+      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => 'Wbs-Project-Element was successfully deleted.' }
 
       format.json { head :no_content }
     end

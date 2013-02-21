@@ -109,6 +109,7 @@ class ProjectsController < ApplicationController
     authorize! :modify_a_project, Project
     set_page_title "Edit project"
 
+    @project = Project.find(params[:id])
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
@@ -464,32 +465,33 @@ class ProjectsController < ApplicationController
     selected_wbs_activity_children = selected_wbs_activity_elt.children
 
     respond_to do |format|
-      wbs_project_element.transaction do
+      #wbs_project_element.transaction do
         if wbs_project_element.save
           selected_wbs_activity_children.each do |child|
-            create_wbs_activity_from_child(child, @pe_wbs_project_activity)
+            create_wbs_activity_from_child(child, @pe_wbs_project_activity, @wbs_project_elements_root)
           end
 
           @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
           @project.save
 
-          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
-          #format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
-          format.js { render :partial => "add_wbs_activity_to_project", :object => @pe_wbs_project_activity }
+          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => 'Wbs-Activity was successfully added to Project.' }
+          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => 'Wbs-Activity was successfully added to Project Test.' }
+          #format.js { render :partial => "add_wbs_activity_to_project", :object => @pe_wbs_project_activity }
 
         else
           flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
-          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
-          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
+          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
+          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
         end
-      end
+      #end
     end
   end
 
 
-  def get_new_ancestors(node, pe_wbs_activity)
+  def get_new_ancestors(node, pe_wbs_activity, wbs_elt_root)
     node_ancestors = node.ancestry.split('/')
     new_ancestors = []
+    new_ancestors << wbs_elt_root.id
     node_ancestors.each do |ancestor|
       corresponding_wbs_project = WbsProjectElement.where("wbs_activity_element_id = ? and pe_wbs_project_id = ?", ancestor, pe_wbs_activity.id).first
       new_ancestors << corresponding_wbs_project.id
@@ -498,9 +500,9 @@ class ProjectsController < ApplicationController
   end
 
 
-  def create_wbs_activity_from_child(node, pe_wbs_activity)
+  def create_wbs_activity_from_child(node, pe_wbs_activity, wbs_elt_root)
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
-                                                 :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity), :author_id => current_user.id, :copy_number => 0)
+                                                 :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity, wbs_elt_root), :author_id => current_user.id, :copy_number => 0)
     wbs_project_element.transaction do
       wbs_project_element.save
 
@@ -508,7 +510,7 @@ class ProjectsController < ApplicationController
         node_children = node.children
         node_children.each do |node_child|
           ActiveRecord::Base.transaction do
-            create_wbs_activity_from_child(node_child, pe_wbs_activity)
+            create_wbs_activity_from_child(node_child, pe_wbs_activity, wbs_elt_root)
           end
         end
       end

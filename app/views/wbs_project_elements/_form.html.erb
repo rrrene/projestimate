@@ -5,6 +5,9 @@
     <%= f.input :name, :input_html => { :class => 'input-xxlarge' }  %>
     <%= f.input :parent_id, :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
     <%= f.input :pe_wbs_project_id, :as => :hidden, :label => "PE-WBS-Project", :input_html => { :value => @pe_wbs_project.id, :class => 'input-xxlarge' } %>
+
+    <%= hidden_field_tag 'project_id', @project.id %>
+
     <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 }  %>
     <%= f.input :additional_description, :input_html => { :class => 'input-xxlarge', :rows => 5 }  %>
     <%= f.input :exclude %>
