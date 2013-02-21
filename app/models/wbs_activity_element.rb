@@ -48,20 +48,9 @@
     propagate
   end
 
-
   def wbs_activity_name
     name
   end
-
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      csv << column_names
-      all.each do |element|
-        csv << element.attributes.values_at(*column_names)
-      end
-    end
-  end
-
 
   def self.import(file, sep)
     #find localstatus
@@ -82,7 +71,8 @@
                                            :parent => nil)
     @root_element.save
 
-    sep = "#{sep.blank? ? ';' : sep}"
+    sep = "#{sep.blank? ? I18n.t(:general_csv_separator) : sep}"
+
     #for each row save in data base
     CSV.open(file.path, 'r', :encoding => 'ISO-8859-1:utf-8', :quote_char => "\"", :row_sep => :auto, :col_sep => sep ) do |csv|
       @inserts = []

@@ -10,7 +10,7 @@ class WbsActivityRatioElement < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :ratio_value, :numericality => { :only_float =>true, :greater_than => 0, :less_than => 100 }
+  validates :ratio_value, :numericality => { :greater_than => 0, :less_than => 100 }
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable

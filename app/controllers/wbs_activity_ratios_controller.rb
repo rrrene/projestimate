@@ -80,11 +80,12 @@ class WbsActivityRatiosController < ApplicationController
     if @wbs_activity_ratio.save
 
       @wbs_activity_ratio.wbs_activity.wbs_activity_elements.each do |wbs_activity_element|
-        WbsActivityRatioElement.create(:ratio_value => nil,
-                                       :ratio_reference_element => false,
-                                       :wbs_activity_ratio_id => @wbs_activity_ratio.id,
-                                       :wbs_activity_element_id => wbs_activity_element.id,
-                                       :record_status_id => @wbs_activity_ratio.record_status_id)
+        ware = WbsActivityRatioElement.new(:ratio_value => nil,
+                                           :ratio_reference_element => false,
+                                           :wbs_activity_ratio_id => @wbs_activity_ratio.id,
+                                           :wbs_activity_element_id => wbs_activity_element.id,
+                                           :record_status_id => @wbs_activity_ratio.record_status_id)
+        ware.save(:validate => false)
       end
       redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
     else

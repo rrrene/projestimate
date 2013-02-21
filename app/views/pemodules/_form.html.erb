@@ -79,7 +79,7 @@
 
 
       <div id="tabs-3">
-        <%= form_tag("/set_attributes_module", :method => "get") do -%>
+        <%= form_tag("/set_attributes_module", :method => "POST") do -%>
             <%= hidden_field_tag "module_id", @pemodule.id %>
             <div class="list_attr">
               <%= render :partial => "attribute_settings", :object => @attribute_settings %>

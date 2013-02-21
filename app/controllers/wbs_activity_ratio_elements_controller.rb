@@ -19,7 +19,7 @@ class WbsActivityRatioElementsController < ApplicationController
     ratio_values.each do |i|
       w = WbsActivityRatioElement.find(i.first)
       w.ratio_value = i.last
-      unless w.save
+      unless w.save(:validate => false)
         flash[:error] = "Please, enter value between 0 and 100"
       end
     end
@@ -40,8 +40,12 @@ class WbsActivityRatioElementsController < ApplicationController
       wbs_activity_ratio_element.update_attribute("ratio_reference_element",  false)
     end
 
-    new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
-    new_ref.update_attribute("ratio_reference_element", true)
+    if params[:ratio_reference_element]
+      new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
+      new_ref.update_attribute("ratio_reference_element", true)
+    else
+      flash[:error] = "Please, select a reference element."
+    end
 
     #we test total
     if @total != 100

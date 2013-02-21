@@ -41,7 +41,7 @@
   <% end %>
   </table>
 
-  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %> <a href="#myModal" role="button" class="btn" data-toggle="modal">Import from a CSV file</a>
+  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %> <a href="#myModal" role="button" class="btn" data-toggle="modal">Import a CSV file</a>
 
   <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <%= form_tag import_wbs_activities_path, :multipart => true do %>
@@ -53,8 +53,11 @@
             <label>File (csv only) </label>
             <%= file_field_tag :file %>
 
-            <label>Separator (default semi-colon) </label>
+            <label>Separator (default <%= I18n.t(:general_csv_separator) %>) </label>
             <%= text_field_tag :separator %>
+
+            <label>Encoding</label>
+            <%= select_tag :encoding, options_for_select(Project::encoding)  %>
         </div>
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

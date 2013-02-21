@@ -1,16 +1,18 @@
-$(".component_tree").html("<%=raw j generate_wbs(@project.root_component, @project, '', 5) %>");
+//$(".component_tree").html("<%#raw j generate_wbs(@project.root_component, @project, '', 5) %>");
+//
+//$("#main").html("<%# j render(:partial => "users/processus", :locals => { :resultat => @resultat } ) %>");
+//
+//$( ".tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
+//
+//$('.component_tree > ul li').hover(
+//
+//    function () {
+//      $(this.children).css('display', 'inline');
+//    },
+//
+//    function () {
+//     $('.block_link').hide();
+//    }
+//);
 
-$("#main").html("<%= j render(:partial => "users/processus", :locals => { :resultat => @resultat } ) %>");
-
-$( ".tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
-
-$('.component_tree > ul li').hover(
-
-    function () {
-      $(this.children).css('display', 'inline');
-    },
-
-    function () {
-     $('.block_link').hide();
-    }
-);
+$(".submit_link").html("<%=raw j(display_results(local_assigns[:results], local_assigns[:module_project_id])) %>")
