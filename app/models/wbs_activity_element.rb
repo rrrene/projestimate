@@ -13,6 +13,7 @@
   has_many :wbs_project_elements
 
   scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
+  scope :elements_root, where(:is_root => true)
 
   validates :name, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
@@ -22,12 +23,13 @@
   def name_must_be_uniq_on_node
     if self.wbs_activity and self.parent
       #if self.siblings.map(&:name).include?(self.name)
-        errors.add(:base, "Name must be unique in the same Node") if (has_unique_field? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
+        #errors.add(:base, "Name must be unique in the same Node") if (has_unique_name? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
+        errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
       #end
     end
   end
 
-  def has_unique_field?
+  def has_unique_name?
     WbsActivityElement.exists?(['name = ? and record_status_id = ? and ancestry = ?', self.name, self.record_status_id, self.ancestry])
   end
 

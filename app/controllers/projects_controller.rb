@@ -81,7 +81,7 @@ class ProjectsController < ApplicationController
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
-            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :description => "WBS-Activity Root Element", :author_id => current_user.id)
+            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :is_root => true, :description => "WBS-Activity Root Element", :author_id => current_user.id)
             wbs_project_element.save
           end
 
@@ -112,11 +112,14 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
-    @wbs_activities = WbsActivity.all
+    @wbs_activities = WbsActivity.all.reject {|i| @project.included_wbs_activities.include?(i.id) }
 
     @wbs_activity_elements = []
     @wbs_activities.each do |wbs_activity|
-      @wbs_activity_elements << wbs_activity.wbs_activity_elements.last.root
+      elements_root = wbs_activity.wbs_activity_elements.elements_root.first
+      unless elements_root.nil?
+        @wbs_activity_elements << elements_root  #wbs_activity.wbs_activity_elements.last.root
+      end
     end
   end
 
@@ -442,28 +445,59 @@ class ProjectsController < ApplicationController
   def add_wbs_activity_to_project
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-
-    #@wbs_activities = WbsActivity.all
-    #
-    #@wbs_activity_elements = []
-    #@wbs_activities.each do |wbs_activity|
-    #  @wbs_activity_elements << wbs_activity.wbs_activity_elements.last.root
-    #end
+    @wbs_project_elements_root = @project.wbs_project_element_root
 
     #selected_wbs_activity_elt = WbsActivityElement.find(params[:selected_wbs_activity_elt_id])
-    selected_wbs_activity_elt = WbsActivityElement.find(params[:elt_id])
+    selected_wbs_activity_elt = WbsActivityElement.find(params[:wbs_activity_element])
+
+    selected_wbs_activity_elt_children = selected_wbs_activity_elt.descendant_ids
 
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => @pe_wbs_project_activity.id, :wbs_activity_element_id => selected_wbs_activity_elt.id,
                                                 :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
-                                                :description => selected_wbs_activity_elt.description, :ancestry => @pe_wbs_project_activity.wbs_project_elements.last.root,
+                                                :description => selected_wbs_activity_elt.description, :ancestry => @wbs_project_elements_root.id,
                                                 :author_id => current_user.id, :copy_number => 0)
+    #respond_to do |format|
+      wbs_project_element.transaction do
+        if wbs_project_element.save
+          selected_wbs_activity_elt_children.each do |child|
+            child.transaction do
+              child_id = child.id
+              if child.is_root
 
-    #wbs_project_element.save(:validate => false)
-    if wbs_project_element.save(:validate => false)
-      flash[:notice] = 'Wbs-Activity was successfully added to Project.'
-    else
-      flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
+              else
+
+              end
+            end
+          end
+
+          @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
+          @project.save
+
+          #format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
+          #format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
+        else
+          flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
+          #format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
+          #format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
+        end
+      end
+    #end
+  end
+
+
+  def refresh_wbs_project_elements
+    @project = Project.find(params[:project_id])
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+
+    @wbs_activities = WbsActivity.all.reject{|i| @project.included_wbs_activities.include?(i) }
+    @wbs_activity_elements = []
+    @wbs_activities.each do |wbs_activity|
+      elements_root = wbs_activity.wbs_activity_elements.elements_root.first
+      unless elements_root.nil?
+        @wbs_activity_elements << elements_root
+      end
     end
+
   end
 
 end

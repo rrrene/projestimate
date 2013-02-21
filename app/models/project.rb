@@ -40,6 +40,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
 
+  serialize :included_wbs_activities, Array
+
   #serialize :ten_latest_projects
   validates_presence_of :state
   validates  :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}

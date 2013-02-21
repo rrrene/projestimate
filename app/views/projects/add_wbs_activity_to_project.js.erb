@@ -1,3 +1,0 @@
-$("#notifications").html("");
-$("#wbs_project_elements_section").html("<%=raw j generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") unless @pe_wbs_project_activity.wbs_project_elements.last.nil? %>");
-$("#notifications").html("<%= j(render "layouts/notifications") %>");

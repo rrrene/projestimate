@@ -156,6 +156,15 @@ class ApplicationController < ActionController::Base
     @local_status = RecordStatus.find_by_name("Local")
   end
 
+  #To make redirect_to work with Ajax request as well as normal request
+  def redirect_to(options = {}, response_status = {})
+    if request.xhr?
+      render(:update) {|page| page.redirect_to(options)}
+    else
+      super(options, response_status)
+    end
+  end
+
 
   #Rescue method
   rescue_from CanCan::AccessDenied do |exception|
@@ -174,4 +183,6 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
-  end
+
+
+end
