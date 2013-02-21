@@ -78,7 +78,11 @@ class WbsProjectElementsController < ApplicationController
   def destroy
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
-    @wbs_project_element.destroy
+
+    if @wbs_project_element.destroy
+      @project.included_wbs_activities.delete(@wbs_project_element.wbs_activity_id)
+      @project.save
+    end
 
     respond_to do |format|
       #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }

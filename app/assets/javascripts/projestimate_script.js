@@ -154,7 +154,6 @@ $(document).ready(function() {
         })
     });
 
-
     //ADD selected WBS-Activity to Project
     $("#form_select_and_add_wbs_activity").live("ajax:complete", function(event,xhr,status){
         $('#wbs_activity_element').val('');

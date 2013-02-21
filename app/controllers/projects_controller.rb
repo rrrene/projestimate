@@ -113,7 +113,6 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
     @wbs_activities = WbsActivity.all.reject {|i| @project.included_wbs_activities.include?(i.id) }
-
     @wbs_activity_elements = []
     @wbs_activities.each do |wbs_activity|
       elements_root = wbs_activity.wbs_activity_elements.elements_root.first
@@ -454,38 +453,63 @@ class ProjectsController < ApplicationController
     #selected_wbs_activity_elt = WbsActivityElement.find(params[:selected_wbs_activity_elt_id])
     selected_wbs_activity_elt = WbsActivityElement.find(params[:wbs_activity_element])
 
-    selected_wbs_activity_elt_children = selected_wbs_activity_elt.descendant_ids
-
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => @pe_wbs_project_activity.id, :wbs_activity_element_id => selected_wbs_activity_elt.id,
                                                 :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
                                                 :description => selected_wbs_activity_elt.description, :ancestry => @wbs_project_elements_root.id,
                                                 :author_id => current_user.id, :copy_number => 0)
-    #respond_to do |format|
+
+    selected_wbs_activity_children = selected_wbs_activity_elt.children
+
+    respond_to do |format|
       wbs_project_element.transaction do
         if wbs_project_element.save
-          selected_wbs_activity_elt_children.each do |child|
-            child.transaction do
-              child_id = child.id
-              if child.is_root
-
-              else
-
-              end
-            end
+          selected_wbs_activity_children.each do |child|
+            create_wbs_activity_from_child(child, @pe_wbs_project_activity)
           end
 
           @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
           @project.save
 
-          #format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
+          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
           #format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8"), :notice => 'Wbs-Activity was successfully added to Project.' }
+          format.js { render :partial => "add_wbs_activity_to_project", :object => @pe_wbs_project_activity }
+
         else
           flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
-          #format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
-          #format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
+          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
+          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-8")}
         end
       end
-    #end
+    end
+  end
+
+
+  def get_new_ancestors(node, pe_wbs_activity)
+    node_ancestors = node.ancestry.split('/')
+    new_ancestors = []
+    node_ancestors.each do |ancestor|
+      corresponding_wbs_project = WbsProjectElement.where("wbs_activity_element_id = ? and pe_wbs_project_id = ?", ancestor, pe_wbs_activity.id).first
+      new_ancestors << corresponding_wbs_project.id
+    end
+    new_ancestors.join('/')
+  end
+
+
+  def create_wbs_activity_from_child(node, pe_wbs_activity)
+    wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
+                                                 :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity), :author_id => current_user.id, :copy_number => 0)
+    wbs_project_element.transaction do
+      wbs_project_element.save
+
+      if node.has_children?
+        node_children = node.children
+        node_children.each do |node_child|
+          ActiveRecord::Base.transaction do
+            create_wbs_activity_from_child(node_child, pe_wbs_activity)
+          end
+        end
+      end
+    end
   end
 
 
