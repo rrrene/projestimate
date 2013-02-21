@@ -145,7 +145,8 @@ class Project < ActiveRecord::Base
     #  return last_result
     #end
 
-    @result = Array.new
+    @result_array = Array.new
+    @result_hash = Hash.new
     inputs = Hash.new
 
     self.module_projects.each do |module_project|
@@ -157,9 +158,13 @@ class Project < ActiveRecord::Base
       end
 
       current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
-      cb = current_module.send(:new, inputs )
-      @result << {:effort => cb.get_effort, :delay => cb.get_delay, :end_date => cb.get_end_date }
+      cm = current_module.send(:new, inputs)
 
+      module_project.module_project_attributes.each do |mpa|
+        if mpa.output?
+          @result_array << @result_hash[mpa.attribute.alias.to_sym] = cm.send("get_#{mpa.attribute.alias}")
+        end
+      end
     end
 
 
@@ -172,7 +177,7 @@ class Project < ActiveRecord::Base
     #result[:ml] = {:effort => cb_ml.get_effort, :delay => cb_ml.get_delay, :end_date => cb_ml.get_end_date }
     #result[:high] = {:effort => cb_high.get_effort, :delay => cb_high.get_delay, :end_date => cb_high.get_end_date }
 
-    @result
+    @result_array
   end
 
   #Return folders list of a projects
