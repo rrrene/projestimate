@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130220152123) do
+ActiveRecord::Schema.define(:version => 20130221103937) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -371,6 +371,11 @@ ActiveRecord::Schema.define(:version => 20130220152123) do
     t.integer  "nb_input_attr"
     t.integer  "nb_output_attr"
     t.integer  "position_x"
+  end
+
+  create_table "module_projects_pbs_project_elements", :id => false, :force => true do |t|
+    t.integer "module_project_id"
+    t.integer "pbs_project_element_id"
   end
 
   create_table "organization_labor_categories", :force => true do |t|
@@ -742,8 +747,8 @@ ActiveRecord::Schema.define(:version => 20130220152123) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
   end
 

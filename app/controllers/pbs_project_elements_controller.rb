@@ -51,6 +51,7 @@ class PbsProjectElementsController < ApplicationController
     pbs_project_element = PbsProjectElement.find(params[:id])
     @project = pbs_project_element.pe_wbs_project.project
     @pbs_project_element = @project.root_component
+    @module_projects = @project.module_projects
 
     pbs_project_element.module_project_attributes.each do |mpa|
       mpa.destroy
@@ -60,7 +61,7 @@ class PbsProjectElementsController < ApplicationController
     pbs_project_element.destroy
 
     #Reload position
-    @project.pe_wbs_project.pbs_project_elements.each_with_index do |c,i|
+    @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each_with_index do |c,i|
       c.position = i
       c.save
     end
@@ -74,6 +75,7 @@ class PbsProjectElementsController < ApplicationController
 
     @user = current_user
     @project = current_project
+    @module_projects = current_project.module_projects
     @pbs_project_element = current_component
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
 
@@ -114,6 +116,8 @@ class PbsProjectElementsController < ApplicationController
         mpa.update_attribute("pbs_project_element_id", @pbs_project_element.id)
       end
     end
+
+    @module_projects = current_project.module_projects
 
     render :partial => "pbs_project_elements/refresh"
   end

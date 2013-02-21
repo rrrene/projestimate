@@ -19,7 +19,7 @@
         </h3>
       </div>
       <div class="widget-content">
-        <%= render :partial => "projects/module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+        <%= render :partial => "projects/estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
       </div>
     </div>
   </div>
@@ -28,31 +28,20 @@
       <% unless current_component.nil? %>
         <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :method => "get", :remote => true) %>
           <% @project.module_projects.each do |mp| %>
-            <div class="widget">
-              <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
-
-              <div class="widget-header">
-                <h3>
-                  <%= mp.pemodule.title %> - <%= current_component.name %>
-                </h3>
+            <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
+              <div class="input_data">
+                <%=raw display_input(mp.id) %>
               </div>
-
-              <div class="widget-content">
-                <div class="">
-                  <div class="portlet_<%= mp.id %>" >
-                    <%=raw display_input(mp.id) %>
-                  </div>
-                </div>
-              </div>
-
-              <% end %>
-            </div>
+            <% end %>
           <% end %>
 
         <div class="submit_link">
-          <%= submit_tag "Execute estimation process", :class => "btn btn-danger", :onclick => "loading();" %>
+          <%= submit_tag "Execute estimation process", :class => "btn btn-danger" %>
         </div>
 
       <% end %>
     </div>
+  </div>
+
+  <div class="output_data">
   </div>

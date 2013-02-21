@@ -354,8 +354,11 @@ class ProjectsController < ApplicationController
       results[level.to_sym] = current_project.run_estimation_plan(params[level], level).first
     end
 
+    @module_projects = current_project.module_projects
+    @results = results
+
     respond_to do |format|
-      format.js { render :partial => "pbs_project_elements/refresh", :locals => {:results => results, :module_project_id => current_project.module_projects.first.id }}
+      format.js { render :partial => "pbs_project_elements/refresh" }
     end
   end
 

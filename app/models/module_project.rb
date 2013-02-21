@@ -23,6 +23,8 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :project
   has_many :module_project_attributes
 
+  has_and_belongs_to_many :pbs_project_elements
+
   #Return in a array next modules project of self.
   def next
     pos = self.position_y.to_i
