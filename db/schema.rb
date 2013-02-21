@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219093729) do
+ActiveRecord::Schema.define(:version => 20130220152123) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -632,6 +632,7 @@ ActiveRecord::Schema.define(:version => 20130219093729) do
     t.text     "level_of_detail"
     t.text     "scope"
     t.integer  "copy_number"
+    t.text     "included_wbs_activities"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
@@ -809,6 +810,7 @@ ActiveRecord::Schema.define(:version => 20130219093729) do
     t.integer  "copy_number",             :default => 0
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+    t.boolean  "is_root"
   end
 
   create_table "work_element_types", :force => true do |t|

@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update Project"%></h2>
+  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update #{@project.title} Project"%></h2>
 <% else %>
   <h1><%= action_name.humanize %> <%= current_project.title %></h1>
 <% end %>
@@ -107,18 +107,19 @@
 
     <div id="tabs-8">
       <div class="well component_tree">
-        <p style="margin: 10px; ">
-          <label>WBS-Activities table:</label>
-          <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
-          <%= hidden_field_tag :project_id,  @project.id  %>
-          <%= link_to "Add to project", { :controller => 'projects', :action => 'add_wbs_activity_to_project', :project_id => @project.id, :elt_id => params[:select_wbs_activity_for_project_id]}, :remote => true, :class => 'add_selected_wbs_activity_to_project btn' %>
-        </p>
-
+        <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
+            <p style="margin: 10px; ">
+              <label>WBS-Activities table:</label>
+              <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+              <%= hidden_field_tag :project_id,  @project.id  %>
+              <%= submit_tag "ADD", :class => "btn" %>
+            </p>
+        <% end %>
       </div>
 
       <div class="component_tree" id="wbs_project_elements_section">
         <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") unless @pe_wbs_project_activity.wbs_project_elements.last.nil? %>
+         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") %>
         <% end %>
       </div>
 
