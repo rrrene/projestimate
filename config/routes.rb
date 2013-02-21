@@ -49,6 +49,8 @@ ProjestimateMaquette::Application.routes.draw do
   resources :attribute_modules
 
   resources :module_projects
+  match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
+  post 'module_projects/associate'
 
   resources :languages
 

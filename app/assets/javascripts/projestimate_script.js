@@ -96,6 +96,31 @@ $(document).ready(function() {
             })
     });
 
+
+    $("#user_id").change(
+            function () {
+              $.ajax({ url:'/load_security_for_selected_user',
+                data:'user_id=' + this.value + '&project_id=' + $('#project_id').val()
+              })
+            }
+    );
+
+    $("#group_id").change(
+            function () {
+              $.ajax({ url:'/load_security_for_selected_group',
+                data:'group_id=' + this.value + '&project_id=' + $('#project_id').val()
+              })
+            }
+    );
+
+      $('#select_module').change(function(){
+        $.ajax({url: '/add_module',
+                method: 'get',
+                data: 'module_selected=' + this.value + '&project_id=' + $('#project_id').val()
+        })
+      });
+
+
     $( ".tabs" ).tabs();
 
 

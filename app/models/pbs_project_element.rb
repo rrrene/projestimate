@@ -28,6 +28,8 @@ class PbsProjectElement < ActiveRecord::Base
 
   has_many :module_project_attributes
 
+  has_and_belongs_to_many :module_projects
+
   validates_presence_of :name
 
   #Sunspot needs

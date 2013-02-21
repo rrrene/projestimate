@@ -20,6 +20,25 @@
 
 class ModuleProjectsController < ApplicationController
 
+
+  def pbs_element_matrix
+    set_page_title "Associate PBS-element"
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+  end
+
+  def associate
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+
+    @module_projects.each do |mp|
+      mp.update_attribute("pbs_project_element_ids", params[:pbs_project_elements][mp.id.to_s])
+    end
+
+    redirect_to redirect(pbs_element_matrix_path(@project.id))
+
+  end
+
   def index
     @module_projects = ModuleProject.all
   end
@@ -55,20 +74,6 @@ class ModuleProjectsController < ApplicationController
         end
       end
     end
-
-    #ModuleProjectAttribute.where(:module_project_id => @module_project.id, :undefined_attribute => true).destroy_all
-    #if @module_project.pemodule.is_typed?
-    #  @module_project.nb_input_attr.to_i.times do
-    #    ModuleProjectAttribute.create(:attribute_id => nil,
-    #                                  :in_out => "input",
-    #                                  :module_project_id => @module_project.id,
-    #                                  :custom_attribute => "user",
-    #                                  :is_mandatory => true,
-    #                                  :description => "Undefined",
-    #                                  :undefined_attribute => true,
-    #                                    :dimensions => 3)
-    #  end
-    #end
 
     @project.pe_wbs_project.pbs_project_elements.each do |c|
       @module_project.module_project_attributes.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|

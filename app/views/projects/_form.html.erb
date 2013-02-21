@@ -13,12 +13,12 @@
     <li><a href="#tabs-1">Global properties </a></li>
     <% if action_name == "edit" %>
       <li><a href="#tabs-2">WBS-Product </a></li>
-      <li><a href="#tabs-8">WBS-Activity </a></li>
-      <li><a href="#tabs-3">Estimation plan </a></li>
-      <li><a href="#tabs-4">Securities </a></li>
-      <li><a href="#tabs-5">Calendrier </a></li>
-      <li><a href="#tabs-6">Ressource </a></li>
-      <li><a href="#tabs-7">Analyse </a></li>
+      <li><a href="#tabs-3">WBS-Activity </a></li>
+      <li><a href="#tabs-4">Estimation plan </a></li>
+      <li><a href="#tabs-5">Securities </a></li>
+      <li><a href="#tabs-6">Calendrier </a></li>
+      <li><a href="#tabs-7">Ressource </a></li>
+      <li><a href="#tabs-8">Analyse </a></li>
     <% end %>
   </ul>
 
@@ -51,12 +51,45 @@
       <%= f.submit "Save", :class => "btn btn-success" %>
       <%= f.submit "Apply", :class => "btn btn-success" %>
     </div>
-    <% end %>
 
+    <% end %>
   </div>
 
   <% unless action_name == "new" %>
+
+    <div id="tabs-2">
+       <div class="component_tree">
+         <% unless @project.nil? || @pe_wbs_project_product.nil? %>
+           <%=raw generate_wbs(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
+         <% end %>
+       </div>
+    </div>
+
+    <div id="tabs-3">
+      <div class="well component_tree">
+        <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
+            <p style="margin: 10px; ">
+              <label>WBS-Activities table:</label>
+              <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+              <%= hidden_field_tag :project_id,  @project.id  %>
+              <%= submit_tag "ADD", :class => "btn" %>
+            </p>
+        <% end %>
+      </div>
+
+      <div class="component_tree" id="wbs_project_elements_section">
+        <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
+         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") %>
+        <% end %>
+      </div>
+    </div>
+
     <div id="tabs-4">
+      <%= render :partial => "estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project), :class => "btn" %>
+    </div>
+
+    <div id="tabs-5">
       <h3>User securities resume</h3>
       <table class="table table-striped">
         <tr>
@@ -96,45 +129,7 @@
         <% end %>
       </table>
     </div>
-
-    <div id="tabs-2">
-       <div class="component_tree">
-         <% unless @project.nil? || @pe_wbs_project_product.nil? %>
-           <%=raw generate_wbs(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
-         <% end %>
-       </div>
-    </div>
-
-    <div id="tabs-8">
-      <div class="well component_tree">
-        <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
-            <p style="margin: 10px; ">
-              <label>WBS-Activities table:</label>
-              <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
-              <%= hidden_field_tag :project_id,  @project.id  %>
-              <%= submit_tag "ADD", :class => "btn" %>
-            </p>
-        <% end %>
-      </div>
-
-      <div class="component_tree" id="wbs_project_elements_section">
-        <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.last.root, "") %>
-        <% end %>
-      </div>
-
-
-      <div id="tabs-3">
-      <div class="module_box">
-        <%= render :partial => "module_box", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
-      </div>
-      <div style="clear: both"></div>
-    </div>
   <% end %>
-
-    <div id="tabs-5">
-        <div style="clear: both"></div>
-    </div>
 
     <div id="tabs-6">
         <div style="clear: both"></div>
@@ -144,44 +139,15 @@
         <div style="clear: both"></div>
     </div>
 
-    <!--<div class="actions">-->
-      <!--<%#= f.submit "Save", :class => "btn btn-success" %>-->
-      <!--<%#= f.submit "Apply", :class => "btn btn-success" %>-->
-    <!--</div>-->
-    <!--<%# end %>-->
-
   </div>
-
-</div>
 
 
 
 <script>
   $(document).ready(function() {
 
-    $("#user_id").change(
-            function () {
-              $.ajax({ url:'/load_security_for_selected_user',
-                data:'user_id=' + this.value + '&project_id=' + <%= @project.id %>
-              })
-            }
-    );
-
-    $("#group_id").change(
-            function () {
-              $.ajax({ url:'/load_security_for_selected_group',
-                data:'group_id=' + this.value + '&project_id=' + <%= @project.id %>
-              })
-            }
-    );
-
-      $('#select_module').change(function(){
-        $.ajax({url: '/add_module',
-                method: 'get',
-                data: 'module_selected=' + this.value + '&project_id=' + <%= @project.id %>
-        })
-      });
 
     });
 </script>
 
+</div>
