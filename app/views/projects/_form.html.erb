@@ -2,12 +2,13 @@
 <% if ["new", "edit"].include?(action_name) %>
   <h2><%= ("#{action_name}" == "new")? "New Project" : "Update #{@project.title} Project"%></h2>
 <% else %>
-  <h1><%= action_name.humanize %> <%= current_project.title %></h1>
+  <h1>New project</h1>
 <% end %>
 
 
 <%= simple_form_for(@project) do |f| %>
     <%= f.error_notification %>
+
 <div class="tabs">
   <ul>
     <li><a href="#tabs-1">Global properties </a></li>
@@ -55,7 +56,7 @@
     <% end %>
   </div>
 
-  <% unless action_name == "new" %>
+  <% unless action_name == "new" or action_name == "create" %>
 
     <div id="tabs-2">
        <div class="component_tree">
@@ -86,7 +87,7 @@
 
     <div id="tabs-4">
       <%= render :partial => "estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
-      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project), :class => "btn" %>
+      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
     </div>
 
     <div id="tabs-5">

@@ -2,7 +2,7 @@
 <% if ["new", "edit"].include?(action_name) %>
   <h2 xmlns="http://www.w3.org/1999/html"><%= ("#{action_name}" == "new")? "New Wbs Activity" : "Configure Wbs Activity"%></h2>
 <% else %>
-  <h1><%= action_name.humanize %> <%= current_project.title %></h1>
+  <h1>New activities</h1>
 <% end %>
 
 <div class="tabs">
@@ -48,7 +48,7 @@
     <% end %>
   </div>
 
-  <% unless action_name == "new" %>
+  <% unless action_name == "new" or action_name == "create" %>
     <div id="tabs-2">
       <div class="well component_tree">
         <%=raw generate_activity_element_tree(@wbs_activity_elements.first, "") %>
