@@ -64,6 +64,7 @@ class ProjectsController < ApplicationController
   def create
     set_page_title "Create project"
     @project = Project.new(params[:project])
+    @wbs_activity_elements = []
 
     begin
       @project.transaction do
@@ -93,7 +94,7 @@ class ProjectsController < ApplicationController
           redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
         else
           flash[:error] = "Error : Project creation failed, #{@project.errors.full_messages.to_sentence}."
-          render(:new)
+          render :new
         end
       end
 
@@ -128,6 +129,7 @@ class ProjectsController < ApplicationController
 
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @wbs_activity_elements = []
 
     @project.users.each do |u|
       ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
