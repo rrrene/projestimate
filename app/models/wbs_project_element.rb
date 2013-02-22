@@ -11,13 +11,14 @@ class WbsProjectElement < ActiveRecord::Base
 
   scope :elements_root, where(:is_root => true)
 
-  #validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
-  validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :case_sensitive => false }
-  def name_must_be_uniq_on_node
-    if self.wbs_activity and self.parent
-      errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
-    end
-  end
+  validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
+
+  #validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :case_sensitive => false }
+  #def name_must_be_uniq_on_node
+  #  if self.wbs_activity and self.parent
+  #    errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
+  #  end
+  #end
 
   def has_unique_name?
     WbsProjectElement.exists?(['name = ? and ancestry = ?', self.name, self.ancestry])

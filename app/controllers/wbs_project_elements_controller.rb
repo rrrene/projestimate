@@ -1,4 +1,19 @@
 class WbsProjectElementsController < ApplicationController
+  helper_method :disabled_if_from_library
+
+  def disabled_if_from_library
+    if params[:action] == "new"
+      false
+    else
+      if @wbs_project_element.wbs_activity.nil?
+        false
+      else
+        true
+      end
+    end
+  end
+
+
   # GET /wbs_project_elements
   # GET /wbs_project_elements.json
   def index
@@ -53,7 +68,13 @@ class WbsProjectElementsController < ApplicationController
   def create
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
     @wbs_project_element.author_id = current_user.id
+
     @project = Project.find(params[:project_id])
+    #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
+    @selected_parent ||= params[:parent_id]
+
+    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
+    @potential_parents = @pe_wbs_project.wbs_project_elements
 
     if @wbs_project_element.save
      redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: 'Wbs project element was successfully created.'
@@ -69,11 +90,17 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
 
+    #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
+    @selected_parent ||= params[:parent_id]
+    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
+    @potential_parents = @pe_wbs_project.wbs_project_elements
+
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
         format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: 'Wbs project element was successfully updated.' }
         format.json { head :no_content }
       else
+        flash[:error] = @wbs_project_element.errors.full_messages.to_sentence
         format.html { render action: "edit" }
         format.json { render json: @wbs_project_element.errors, status: :unprocessable_entity }
       end
