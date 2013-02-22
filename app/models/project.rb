@@ -155,29 +155,18 @@ class Project < ActiveRecord::Base
         if mpa.input?
           inputs[mpa.attribute.alias.to_sym] = input_data[mpa.attribute.alias][module_project.id.to_s]
         end
-      end
 
-      current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
-      cm = current_module.send(:new, inputs)
+        current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
+        cm = current_module.send(:new, inputs)
 
-      module_project.module_project_attributes.each do |mpa|
         if mpa.output?
-          @result_array << @result_hash[mpa.attribute.alias.to_sym] = cm.send("get_#{mpa.attribute.alias}")
+          @result_hash[mpa.attribute.alias.to_sym] = cm.send("get_#{mpa.attribute.alias}")
         end
       end
+
     end
 
-
-
-    #cb_low = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1000 })
-    #cb_ml = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 1500 })
-    #cb_high = CocomoBasic::CocomoBasic.new({ :complexity => "organic", :ksloc => 2000 })
-
-    #@result[:low] = {:effort => cb_low.get_effort, :delay => cb_low.get_delay, :end_date => cb_low.get_end_date }
-    #result[:ml] = {:effort => cb_ml.get_effort, :delay => cb_ml.get_delay, :end_date => cb_ml.get_end_date }
-    #result[:high] = {:effort => cb_high.get_effort, :delay => cb_high.get_delay, :end_date => cb_high.get_end_date }
-
-    @result_array
+    @result_hash
   end
 
   #Return folders list of a projects

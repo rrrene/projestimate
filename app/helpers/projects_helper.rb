@@ -40,13 +40,13 @@ module ProjectsHelper
 
       res << "<div class='widget'>"
         res << "<div class='widget-header'>
-                  <h3>#{module_project.pemodule.title.humanize}</h3>
+                  <h3>#{module_project.pemodule.title.humanize} - #{@pbs_project_element}</h3>
                 </div>"
         res << "<div class='widget-content'>"
           res << "<table class='table table-bordered'>
                    <tr>
                      <th></th>"
-                     current_component.module_project_attributes.each do |mpa|
+                    @pbs_project_element.module_project_attributes.each do |mpa|
                        if mpa.output?
                          res << "<th>#{mpa.attribute.name}</th>"
                        end
@@ -55,9 +55,9 @@ module ProjectsHelper
                   res << "<tr>"
                    ["low", "most_likely", "high"].each do |level|
                       res << "<td>#{level.humanize}</td>"
-                      current_component.module_project_attributes.each do |mpa|
-                        if mpa.output?
-                          res << "<td>#{@results}</td>"
+                      @pbs_project_element.module_project_attributes.each do |mpa|
+                        if mpa.in_out == "output"
+                          res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
                         end
                       end
                   res << "</tr>"
@@ -69,40 +69,43 @@ module ProjectsHelper
     res
   end
 
-  def display_input(module_project_id)
-    module_project = ModuleProject.find(module_project_id)
-    pemodule = Pemodule.find(module_project.pemodule.id)
-
+  def display_input
     res = String.new
+    @module_projects.each do |module_project|
+      if module_project.compatible_with(current_component.work_element_type.alias) || current_component
+        pemodule = Pemodule.find(module_project.pemodule.id)
+          res << "<div class='input_data'>"
+            res << "<div class='widget'>"
+              res << "<div class='widget-header'>
+                        <h3>#{module_project.pemodule.title.humanize} - #{current_component.name}</h3>
+                      </div>"
+              res << "<div class='widget-content'>"
 
-    res << "<div class='widget'>"
-      res << "<div class='widget-header'>
-                <h3>#{module_project.pemodule.title.humanize} - #{current_component.name}</h3>
-              </div>"
-      res << "<div class='widget-content'>"
-
-        res << "<table class='table table-bordered'>
-                  <tr>
-                    <th></th>"
-                    current_component.module_project_attributes.each do |mpa|
-                      if mpa.input?
-                        res << "<th>#{mpa.attribute.name}</th>"
+                res << "<table class='table table-bordered'>
+                          <tr>
+                            <th></th>"
+                            current_component.module_project_attributes.each do |mpa|
+                              if mpa.in_out == "input"
+                                res << "<th>#{mpa.attribute.name}</th>"
+                              end
+                            end
+                          res << "</tr>"
+                      ["low", "most_likely", "high"].each do |level|
+                        res << "<tr>"
+                        res << "<td>#{level.humanize}</td>"
+                        current_component.module_project_attributes.each do |mpa|
+                          if mpa.in_out == "input"
+                            res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]"}</td>"
+                          end
+                        end
+                        res << "</tr>"
                       end
-                    end
-                  res << "</tr>"
-              ["low", "most_likely", "high"].each do |level|
-                res << "<tr>"
-                res << "<td>#{level.humanize}</td>"
-                current_component.module_project_attributes.each do |mpa|
-                  if mpa.input?
-                    res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project_id}]"}</td>"
-                  end
-                end
-                res << "</tr>"
-              end
-        res << "</table>"
-      res << "</div>"
-    res << "</div>"
+                res << "</table>"
+              res << "</div>"
+            res << "</div>"
+        end
+      end
+    res
   end
 
 end

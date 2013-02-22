@@ -15,8 +15,8 @@
 //    }
 //);
 
-<% @module_projects.each do |module_project| %>
-  $(".input_data").html("<%=raw j(display_input(module_project.id)) %>")
-<% end %>
+$(".input_data").html("<%=raw j(display_input) %>")
 
-$(".output_data").html("<%=raw j(display_results) %>")
+<% if @results %>
+  $(".output_data").html("<%=raw j(display_results) %>")
+<% end %>
