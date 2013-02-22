@@ -40,14 +40,14 @@ module ProjectsHelper
 
       res << "<div class='widget'>"
         res << "<div class='widget-header'>
-                  <h3>#{module_project.pemodule.title.humanize} - #{@pbs_project_element}</h3>
+                  <h3>#{module_project.pemodule.title.humanize} - #{@pbs_project_element.name}</h3>
                 </div>"
         res << "<div class='widget-content'>"
           res << "<table class='table table-bordered'>
                    <tr>
                      <th></th>"
                     @pbs_project_element.module_project_attributes.each do |mpa|
-                       if mpa.output?
+                       if mpa.in_out == "output"  and mpa.module_project.id != module_project.id
                          res << "<th>#{mpa.attribute.name}</th>"
                        end
                      end
@@ -56,7 +56,7 @@ module ProjectsHelper
                    ["low", "most_likely", "high"].each do |level|
                       res << "<td>#{level.humanize}</td>"
                       @pbs_project_element.module_project_attributes.each do |mpa|
-                        if mpa.in_out == "output"
+                        if mpa.in_out == "output" and mpa.module_project.id != module_project.id
                           res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
                         end
                       end
@@ -85,7 +85,7 @@ module ProjectsHelper
                           <tr>
                             <th></th>"
                             current_component.module_project_attributes.each do |mpa|
-                              if mpa.in_out == "input"
+                              if mpa.in_out == "input" and mpa.module_project.id != module_project.id
                                 res << "<th>#{mpa.attribute.name}</th>"
                               end
                             end
@@ -94,7 +94,7 @@ module ProjectsHelper
                         res << "<tr>"
                         res << "<td>#{level.humanize}</td>"
                         current_component.module_project_attributes.each do |mpa|
-                          if mpa.in_out == "input"
+                          if mpa.in_out == "input" and mpa.module_project.id != module_project.id
                             res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]"}</td>"
                           end
                         end

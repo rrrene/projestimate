@@ -152,14 +152,14 @@ class Project < ActiveRecord::Base
     self.module_projects.each do |module_project|
 
       module_project.module_project_attributes.each do |mpa|
-        if mpa.input?
+        if mpa.in_out == "input"
           inputs[mpa.attribute.alias.to_sym] = input_data[mpa.attribute.alias][module_project.id.to_s]
         end
 
         current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
         cm = current_module.send(:new, inputs)
 
-        if mpa.output?
+        if mpa.in_out == "output"
           @result_hash[mpa.attribute.alias.to_sym] = cm.send("get_#{mpa.attribute.alias}")
         end
       end

@@ -263,8 +263,9 @@ class ProjectsController < ApplicationController
     my_module_project.save
 
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
-    my_module_project.pemodule.attribute_modules.each do |am|
-      @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
+    @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
+
+      my_module_project.pemodule.attribute_modules.each do |am|
         mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
                                               :module_project_id => my_module_project.id,
                                               :in_out => am.in_out,
