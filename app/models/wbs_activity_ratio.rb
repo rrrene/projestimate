@@ -44,7 +44,8 @@ class WbsActivityRatio < ActiveRecord::Base
         csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
       end
     end
-    csv_string.encode(I18n.t(:general_csv_encoding))
+    csv_string = csv_string.encode("utf-8")
+    csv_string = "\xEF\xBB\xBF" + csv_string
   end
 
   def self.import(file, sep, encoding)

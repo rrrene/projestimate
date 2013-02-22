@@ -6,7 +6,7 @@ class WbsActivityRatiosController < ApplicationController
   def export
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     csv_string = WbsActivityRatio::export(@wbs_activity_ratio.id)
-    send_data(csv_string, :type => "text/csv; charset=#{I18n.t(:general_csv_encoding)}; header=present", :disposition => "attachment; filename=#{@wbs_activity_ratio.name}.csv")
+    send_data(csv_string, :type => "text/csv; header=present", :disposition => "attachment; filename=#{@wbs_activity_ratio.name}.csv")
   end
 
   def import

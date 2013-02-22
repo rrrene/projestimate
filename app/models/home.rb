@@ -248,11 +248,9 @@ class Home < ActiveRecord::Base
 
       ext_activities.each do |ext_act|
         ext_elements.each do |ext_elt|
-          if ext_act.id == ext_elt.wbs_activity_id
-            if ext_act.record_status_id == ext_defined_rs_id
-              act = WbsActivity.find_by_uuid(ext_act.uuid)
-              ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
-            end
+          if ext_act.id == ext_elt.wbs_activity_id and ext_act.record_status_id == ext_defined_rs_id
+            act = WbsActivity.find_by_uuid(ext_act.uuid)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
           end
         end
       end
@@ -289,7 +287,6 @@ class Home < ActiveRecord::Base
           icon.update_attribute(:uuid, ext_icon.uuid)
         end
       end
-
 
       puts "   - WBS structure"
       self.create_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ["name", "alias", "peicon_id", "uuid"])
