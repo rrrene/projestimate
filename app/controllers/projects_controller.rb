@@ -353,11 +353,13 @@ class ProjectsController < ApplicationController
 
     results = Hash.new
     ["low", "most_likely", "high"].each do |level|
-      results[level.to_sym] = current_project.run_estimation_plan(params[level], level).first
+      results[level.to_sym] = current_project.run_estimation_plan(params[level], level)
     end
 
     @module_projects = current_project.module_projects
     @results = results
+    @project = current_project
+    @pbs_project_element = current_component
 
     respond_to do |format|
       format.js { render :partial => "pbs_project_elements/refresh" }

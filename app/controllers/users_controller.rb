@@ -131,6 +131,9 @@ class UsersController < ApplicationController
       @user = current_user
       @project = current_project
       @pemodules ||= Pemodule.all
+      if @project
+        @module_projects ||= @project.module_projects
+      end
 
       if @project
         @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1

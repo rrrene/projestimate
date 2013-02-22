@@ -75,9 +75,10 @@ class PbsProjectElementsController < ApplicationController
 
     @user = current_user
     @project = current_project
-    @module_projects = current_project.module_projects
+    @module_projects = @project.module_projects
     @pbs_project_element = current_component
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    @results = nil
 
     render :partial => "pbs_project_elements/refresh"
   end
