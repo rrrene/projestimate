@@ -194,6 +194,25 @@ $(document).ready(function() {
     });
 
 
+//    //checkbox.attr("value")
+//    //$("#show_excluded_elt").click(function(){
+//    $("#show_excluded_elt").live('click', (function(){
+//    //$('#show_excluded_elt').bind('click', function() {
+//
+//        show_exclude = $("#show_excluded_elt").value();
+//        alert("Test");
+//        return false;
+////        $.ajax({
+////            url:"/refresh_wbs_project_elements",
+////            method: 'GET',
+////            data: {
+////                project_id: $("#project_id").val(),
+////                show_hidden: show_exclude
+////            }
+////        });
+//    }));
+
+
     //Disable all elements in DIV
     $.fn.disable = function() {
         return this.each(function() {
@@ -236,6 +255,28 @@ function hide_popup(elem) {
 
 function toggle_folder(elem){
     $(elem).parent().parent().next().toggle();
+}
+
+//var val = $('#show_excluded_elt:checked').attr('checked');
+//$('input:checkbox').change(function(){
+function refresh_me(){
+    show_exclude = false;
+    if($('input:checkbox').is(":checked")) {
+        show_exclude = true;
+        //$("#wbs_project_elements_section").hide();
+    }
+    else{
+        show_exclude = false;
+    }
+
+    $.ajax({
+        url:"/refresh_wbs_project_elements",
+        method: 'GET',
+        data: {
+            project_id: $("#project_id").val(),
+            show_hidden: show_exclude
+        }
+    });
 }
 
 

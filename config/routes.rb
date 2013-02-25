@@ -132,6 +132,7 @@ ProjestimateMaquette::Application.routes.draw do
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project', :as => 'add_wbs_activity_to_project'
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'
+  get 'generate_wbs_project_elt_tree' => 'projects#generate_wbs_project_elt_tree', :as => 'generate_wbs_project_elt_tree'
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
 

@@ -19,6 +19,8 @@
 #
 ########################################################################
 class ProjectsController < ApplicationController
+  include WbsActivityElementsHelper
+
   helper_method :sort_column
   helper_method :sort_direction
 
@@ -527,15 +529,11 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
-    @wbs_activities = WbsActivity.all.reject{|i| @project.included_wbs_activities.include?(i) }
-    @wbs_activity_elements = []
-    @wbs_activities.each do |wbs_activity|
-      elements_root = wbs_activity.wbs_activity_elements.elements_root.first
-      unless elements_root.nil?
-        @wbs_activity_elements << elements_root
-      end
-    end
+    @show_hidden = params[:show_hidden]
+    #render view_context.generate_wbs_project_elt_tree(@pe_wbs_project_activity.wbs_project_elements.elements_root.first, "", true)
 
+    respond_to :js
   end
+
 
 end

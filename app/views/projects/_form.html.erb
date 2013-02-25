@@ -80,10 +80,11 @@
           </div>
       <% end %>
 
-      <div class="component_tree" id="wbs_project_elements_section">
-        <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-         <%=raw generate_activity_element_tree(@pe_wbs_project_activity.wbs_project_elements.elements_root.first, "") %>
-        <% end %>
+      <div class="show_list">
+        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();" %></span>
+        <div class="component_tree" id="wbs_project_elements_section">
+            <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+        </div>
       </div>
     </div>
 
