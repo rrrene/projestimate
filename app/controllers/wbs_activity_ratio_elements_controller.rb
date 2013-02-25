@@ -52,7 +52,16 @@ class WbsActivityRatioElementsController < ApplicationController
       wbs_activity_ratio_element.update_attribute("ratio_reference_element",  false)
     end
 
-    unless wbs_activity_ratio.is_All_Activity_Elements?
+    if wbs_activity_ratio.is_A_Set_Of_Activity_Elements?
+      if params[:ratio_reference_elements]
+        params[:ratio_reference_elements].each do |p|
+          new_ref = WbsActivityRatioElement.find_by_id(p)
+          new_ref.update_attribute("ratio_reference_element", true)
+        end
+      else
+        flash[:error] = "Please, select a reference element."
+      end
+    else
       if params[:ratio_reference_element]
         new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
         new_ref.update_attribute("ratio_reference_element", true)
