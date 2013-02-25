@@ -74,10 +74,12 @@ class WbsActivityElementsController < ApplicationController
 
     if @wbs_activity_element.save
       @wbs_activity.wbs_activity_ratios.each do |wbs_activity_ratio|
-        @wbs_activity_ratio_element = WbsActivityRatioElement.create(:ratio_value => nil,
-                                                                     :ratio_reference_element => false,
-                                                                     :wbs_activity_ratio_id => wbs_activity_ratio.id,
-                                                                     :wbs_activity_element_id => @wbs_activity_element.id)
+        @wbs_activity_ratio_element = WbsActivityRatioElement.new(:ratio_value => nil,
+                                                                  :ratio_reference_element => false,
+                                                                  :wbs_activity_ratio_id => wbs_activity_ratio.id,
+                                                                  :wbs_activity_element_id => @wbs_activity_element.id)
+
+        @wbs_activity_ratio_element.save(:validate => false)
       end
       redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), notice: 'Wbs activity element was successfully created.'
     else
