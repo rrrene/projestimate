@@ -18,10 +18,20 @@ class WbsActivityRatioElementsController < ApplicationController
     ratio_values = params[:ratio_values]
     ratio_values.each do |i|
       w = WbsActivityRatioElement.find(i.first)
-      w.ratio_value = i.last
-      unless w.save(:validate => false)
-        flash[:error] = "Please, enter value between 0 and 100"
+      if w.is_All_Activity_Elements?
+        if i.last.nil?
+           flash[:warning] = "Please insert ratio value"
+        elsif i.last<=0 or i.last>100
+           flash[:warning] = "Please, enter value between 0 and 100"
+        end
+      else
+        if i.last<=0 or i.last>100
+          flash[:warning] = "Please, enter value between 0 and 100"
+        end
       end
+      w.ratio_value = i.last
+
+      w.save
     end
 
     #Select ratio and elements
