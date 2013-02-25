@@ -18,20 +18,22 @@ class WbsActivityRatioElementsController < ApplicationController
     ratio_values = params[:ratio_values]
     ratio_values.each do |i|
       w = WbsActivityRatioElement.find(i.first)
-      if w.is_All_Activity_Elements?
-        if i.last.nil?
-           flash[:warning] = "Please insert ratio value"
-        elsif i.last<=0 or i.last>100
-           flash[:warning] = "Please, enter value between 0 and 100"
+      if w.wbs_activity_ratio.is_All_Activity_Elements?
+        if i.last.blank?
+           flash[:custom] = "Please insert ratio value"
+        elsif i.last.to_i <=0 or i.last.to_i>100
+           flash[:custom] = "Please, enter value between 0 and 100"
+        else
+          #
         end
       else
-        if i.last<=0 or i.last>100
-          flash[:warning] = "Please, enter value between 0 and 100"
+        if i.last.to_i <= 0 or i.last.to_i>100
+          flash[:custom] = "Please, enter value between 0 and 100"
         end
       end
       w.ratio_value = i.last
 
-      w.save
+      w.save(:validate => false)
     end
 
     #Select ratio and elements
@@ -50,13 +52,14 @@ class WbsActivityRatioElementsController < ApplicationController
       wbs_activity_ratio_element.update_attribute("ratio_reference_element",  false)
     end
 
-    if params[:ratio_reference_element]
-      new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
-      new_ref.update_attribute("ratio_reference_element", true)
-    else
-      flash[:error] = "Please, select a reference element."
+    unless wbs_activity_ratio.is_All_Activity_Elements?
+      if params[:ratio_reference_element]
+        new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
+        new_ref.update_attribute("ratio_reference_element", true)
+      else
+        flash[:error] = "Please, select a reference element."
+      end
     end
-
     #we test total
     if @total != 100
       flash[:warning] = "Warning - Ratios successfully saved, but sum is different of 100%"

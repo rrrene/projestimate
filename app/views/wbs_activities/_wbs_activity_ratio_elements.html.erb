@@ -19,9 +19,9 @@
       <td><%= wbs_activity_ratio_element.wbs_activity_element.description %></td>
       <% unless wbs_activity_ratio_element.wbs_activity_element.has_children? %>
           <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-mini", :tabindex => i %></td>
-          <% if wbs_activity_ratio_element.is_One_Activity_Element? %>
+          <% if wbs_activity_ratio_element.wbs_activity_ratio.is_One_Activity_Element? %>
               <td><%= radio_button_tag "ratio_reference_element", wbs_activity_ratio_element.id, wbs_activity_ratio_element.ratio_reference_element %></td>
-          <% elsif wbs_activity_ratio_element.is_All_Activity_Elements?  %>
+          <% elsif wbs_activity_ratio_element.wbs_activity_ratio.is_All_Activity_Elements?  %>
               <td> - </td>
           <% else %>
             <td><%= check_box_tag "ratio_reference_element", wbs_activity_ratio_element.id, wbs_activity_ratio_element.ratio_reference_element %></td>

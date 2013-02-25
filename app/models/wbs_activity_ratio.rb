@@ -71,4 +71,39 @@ class WbsActivityRatio < ActiveRecord::Base
     error_count
   end
 
+  def is_One_Activity_Element?
+    begin
+      if self.reference_value.value=="One Activity-element"
+        return true
+      else
+        return false
+      end
+    rescue
+      return false
+    end
+  end
+
+  def is_All_Activity_Elements?
+    begin
+      if self.reference_value.value=="All Activity-elements"
+        return true
+      else
+        return false
+      end
+    rescue
+      return false
+    end
+  end
+
+  def is_A_Set_Of_Activity_Elements?
+    begin
+      if self.reference_value.value=="A set of activity-elements"
+        return true
+      else
+        return false
+      end
+    rescue
+      return false
+    end
+  end
 end
