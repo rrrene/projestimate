@@ -14,6 +14,8 @@
 
         <%= f.input :parent_id, :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
 
+        <%= hidden_field_tag :selected_parent_id, params[:selected_parent_id] %>
+
         <%= f.input :dotted_id, :label => "Outline", :input_html => { :class => 'input-xxlarge' }  %>
 
         <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
@@ -25,7 +27,7 @@
           <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
                             :collection => wbs_record_statuses_collection,
                             :input_html => {:class => "record_status"},
-                            :selected => selected_record_status,
+                            :selected => @selected_record_status,
                             :disabled => (true if @wbs_activity_element.is_retired?) %><br />
 
           <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />

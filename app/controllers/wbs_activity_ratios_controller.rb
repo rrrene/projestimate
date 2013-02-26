@@ -40,15 +40,8 @@ class WbsActivityRatiosController < ApplicationController
 
 
   def update
-    @wbs_activity_ratio = nil
-    current_wbs_activity_ratio = WbsActivityRatio.find(params[:id])
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
     @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
-    if current_wbs_activity_ratio.is_defined?
-      @wbs_activity_ratio = current_wbs_activity_ratio.amoeba_dup
-      @wbs_activity_ratio.owner_id = current_user.id
-    else
-      @wbs_activity_ratio = current_wbs_activity_ratio
-    end
 
     unless is_master_instance?
       if @wbs_activity_ratio.is_local_record?

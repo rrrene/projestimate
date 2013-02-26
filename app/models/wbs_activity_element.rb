@@ -15,23 +15,23 @@
   scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
   scope :elements_root, where(:is_root => true)
 
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => { :scope => [:wbs_activity_id, :ancestry, :record_status_id], :case_sensitive => false}
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
-  validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
-  def name_must_be_uniq_on_node
-    if self.wbs_activity and self.parent
-      #if self.siblings.map(&:name).include?(self.name)
-        #errors.add(:base, "Name must be unique in the same Node") if (has_unique_name? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
-        errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
-      #end
-    end
-  end
-
-  def has_unique_name?
-    WbsActivityElement.exists?(['name = ? and record_status_id = ? and ancestry = ?', self.name, self.record_status_id, self.ancestry])
-  end
+  #validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
+  #def name_must_be_uniq_on_node
+  #  if self.wbs_activity and self.parent
+  #    #if self.siblings.map(&:name).include?(self.name)
+  #      #errors.add(:base, "Name must be unique in the same Node") if (has_unique_name? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
+  #      errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
+  #    #end
+  #  end
+  #end
+  #
+  #def has_unique_name?
+  #  WbsActivityElement.exists?(['name = ? and record_status_id = ? and ancestry = ?', self.name, self.record_status_id, self.ancestry])
+  #end
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
@@ -40,12 +40,15 @@
     exclude_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
-      #new_wbs_activity_elt.reference_uuid = original_wbs_activity_elt.uuid
-      #new_wbs_activity_elt.reference_id = original_wbs_activity_elt.id
-
       new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
+
+      if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+        new_wbs_activity_elt.record_status_id = RecordStatus.find_by_name("Proposed").id
+      else
+        new_wbs_activity_elt.record_status_id = RecordStatus.find_by_name("Local").id
+      end
     })
-    propagate
+    #propagate
   end
 
   def wbs_activity_name
