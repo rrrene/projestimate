@@ -9,6 +9,9 @@ class Home < ActiveRecord::Base
     puts "Updating from Master Data..."
     #begin
 
+      puts "   - Reference Value"
+      self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["name", "uuid"])
+
       puts "   - WBS Activity"
       self.update_records(ExternalMasterDatabase::ExternalWbsActivity, MasterSetting, ["name", "description", "uuid"])
 
@@ -227,6 +230,9 @@ class Home < ActiveRecord::Base
       record_statuses.each do |rs|
         rs.update_attribute(:record_status_id, local_defined_rs_id)
       end
+
+      puts "   - Wbs ReferenceValue"
+      self.create_records(ExternalMasterDatabase::ExternalWbsReferenceValue, ReferenceValue, ["ratio_value", "uuid"])
 
       puts "   - Wbs Activity Ratio"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["ratio_value", "ratio_reference_element", "uuid"])
