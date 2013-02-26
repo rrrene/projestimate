@@ -33,6 +33,12 @@ module ExternalMasterDatabase
       :encoding => "utf8"
   }
 
+  class ExternalReferenceValue < ActiveRecord::Base
+    establish_connection HOST
+    self.table_name = "reference_values"
+    include ExternalInclude
+  end
+
   class ExternalWbsActivityRatioElement < ActiveRecord::Base
     establish_connection HOST
     self.table_name = "wbs_activity_ratio_elements"
