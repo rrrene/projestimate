@@ -2,13 +2,25 @@
 <table class="table table-striped" >
   <tr>
     <th>Reference Value</th>
-    <th colspan=3></th>
+    <th colspan=4></th>
   </tr>
   <% @reference_values.each do |r| %>
       <tr>
         <td><%= r.value %></td>
-        <td><%= link_to "edit", edit_reference_value_path(r) %></td>
-        <td><%= link_to "delete", r, :method => "delete", :confirm => "Are you sure?" %></td>
+        <td><%= r.record_status.name unless r.record_status.nil? %> <%= r.show_custom_value %></td>
+        <td><%= link_to "Edit", edit_reference_value_path(r) %></td>
+        <td><%= link_to "Delete", r, :method => "delete", :confirm => "Are you sure?" %></td>
+        <td>
+          <% if is_master_instance? && !r.is_local_record? %>
+            <% if r.is_retired? %>
+              <%= link_to('Restore', "reference_values/#{r.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+            <% else %>
+              <% unless r.is_defined? %>
+                <%= link_to('Validate', "reference_values/#{r.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+              <% end %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
   <% end %>
 
