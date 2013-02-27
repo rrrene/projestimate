@@ -58,14 +58,10 @@ class WbsActivityRatio < ActiveRecord::Base
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
           begin
-            ware = WbsActivityRatioElement.find(row[0])
-            unless ware.wbs_activity_element.has_children?
-              ware = WbsActivityRatioElement.find(row[0])
-              ware.update_attribute("ratio_value", row[5])
-              ware.update_attribute("ratio_reference_element", row[6])
-            else
-              error_count = error_count + 1
-            end
+            @ware = WbsActivityRatioElement.find(row[0])
+            @ware.wbs_activity_element.has_children?
+            @ware.update_attribute("ratio_value", row[5])
+            @ware.update_attribute("ratio_reference_element", row[6])
           rescue
             error_count = error_count + 1
           end
