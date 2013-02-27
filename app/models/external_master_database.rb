@@ -35,31 +35,26 @@ module ExternalMasterDatabase
 
   class ExternalReferenceValue < ActiveRecord::Base
     establish_connection HOST
-    self.table_name = "reference_values"
     include ExternalInclude
   end
 
   class ExternalWbsActivityRatioElement < ActiveRecord::Base
     establish_connection HOST
-    self.table_name = "wbs_activity_ratio_elements"
     include ExternalInclude
   end
 
   class ExternalWbsActivityRatio < ActiveRecord::Base
     establish_connection HOST
-    self.table_name = "wbs_activity_ratios"
     include ExternalInclude
   end
 
   class ExternalWbsActivity < ActiveRecord::Base
     establish_connection HOST
-    self.table_name = "wbs_activities"
     include ExternalInclude
   end
 
   class ExternalWbsActivityElement < ActiveRecord::Base
     establish_connection HOST
-    self.table_name = "wbs_activity_elements"
     include ExternalInclude
   end
 
