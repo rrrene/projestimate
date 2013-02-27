@@ -17,10 +17,6 @@
         <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @reference_value.is_custom?) %><br />
     <% end %>
 
-    <%= f.input :for_global_permission, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
-
-    <%= f.input :for_project_security, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
-
     <%= f.submit "Save", :class => "btn"%>
     <%= f.submit "Apply", :class => "btn"%>
   <% end %>
