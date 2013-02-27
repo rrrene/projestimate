@@ -81,7 +81,7 @@
       <% end %>
 
       <div class="show_list">
-        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();" %></span>
+        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
         <div class="component_tree" id="wbs_project_elements_section">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>

@@ -58,7 +58,7 @@ module WbsActivityElementsHelper
         if element.has_children?
           tree << "<ul class='sortable'>"
           element.children.each do |e|
-            if show_hidden
+            if show_hidden == "true"
               tree << "<ul>
                          <li style='margin-left:#{element.depth}em;' >
                           <div class='block_label'>

@@ -530,9 +530,6 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
 
     @show_hidden = params[:show_hidden]
-    #render view_context.generate_wbs_project_elt_tree(@pe_wbs_project_activity.wbs_project_elements.elements_root.first, "", true)
-
-    respond_to :js
   end
 
 
