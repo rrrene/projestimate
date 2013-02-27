@@ -10,7 +10,7 @@ class Home < ActiveRecord::Base
     #begin
 
       puts "   - Reference Value"
-      self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["name", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - WBS Activity"
       self.update_records(ExternalMasterDatabase::ExternalWbsActivity, MasterSetting, ["name", "description", "uuid"])
@@ -231,8 +231,8 @@ class Home < ActiveRecord::Base
         rs.update_attribute(:record_status_id, local_defined_rs_id)
       end
 
-      puts "   - Wbs ReferenceValue"
-      self.create_records(ExternalMasterDatabase::ExternalWbsReferenceValue, ReferenceValue, ["ratio_value", "uuid"])
+      puts "   - ReferenceValue"
+      self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - Wbs Activity Ratio"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["ratio_value", "ratio_reference_element", "uuid"])
