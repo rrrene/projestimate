@@ -44,7 +44,7 @@ class WbsActivitiesController < ApplicationController
     end
     unless is_master_instance?
       if @wbs_activity.is_defined?
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
         redirect_to wbs_activities_path  and return
       elsif @wbs_activity.defined?
         flash[:error] = "It's impossible to edit a defined activity"
@@ -181,7 +181,7 @@ class WbsActivitiesController < ApplicationController
         end
       end
 
-      flash[:notice] = "WBS-Activity was successfully duplicated"
+      #flash[:notice] = "WBS-Activity was successfully duplicated"
       redirect_to "/wbs_activities" and return
     #rescue
     #  flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"

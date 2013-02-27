@@ -10,18 +10,17 @@ class WbsActivityRatio < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
+  validates :name, :presence => true, :uniqueness => { :scope => [:wbs_activity_id, :record_status_id], :case_sensitive => false}
 
-  validate :name_must_be_uniq_on_activity, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
-  def name_must_be_uniq_on_activity
-    errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
-    #errors.add(:base, "Name must be unique in the same wbs-activities") if has_unique_field?
-  end
-
-  def has_unique_field?
-    WbsActivityRatio.exists?(['name = ? and wbs_activity_id = ?', self.name, self.wbs_activity_id])
-  end
+  #def name_must_be_uniq_on_activity
+  #  errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
+  #  #errors.add(:base, "Name must be unique in the same wbs-activities") if has_unique_field?
+  #end
+  #
+  #def has_unique_field?
+  #  WbsActivityRatio.exists?(['name = ? and wbs_activity_id = ?', self.name, self.wbs_activity_id])
+  #end
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
@@ -29,6 +28,11 @@ class WbsActivityRatio < ActiveRecord::Base
     include_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_ratio, new_wbs_activity_ratio|
+      if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+        new_wbs_activity_ratio.record_status_id = RecordStatus.find_by_name("Proposed").id
+      else
+        new_wbs_activity_ratio.record_status_id = RecordStatus.find_by_name("Local").id
+      end
       new_wbs_activity_ratio.copy_number = 0
       original_wbs_activity_ratio.copy_number = original_wbs_activity_ratio.copy_number.to_i+1
     })
