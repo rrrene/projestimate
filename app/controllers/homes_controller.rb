@@ -22,7 +22,7 @@ class HomesController < ApplicationController
           #Get my current branch name
           current_branch_name = `git name-rev --name-only HEAD`
           puts "CURRENT_BRANCH_NAME = #{current_branch_name}"
-          differences = `git diff dev...origin/dev`   #differences = `git diff dev...origin/dev`
+          differences = `git diff $current_branch_name...origin/master`   #differences = `git diff dev...origin/dev`
           puts "DIFF = #{differences}"
           need_to_pull = "test"
 
