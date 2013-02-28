@@ -57,7 +57,9 @@ class WbsActivitiesController < ApplicationController
     @wbs_activity = WbsActivity.find(params[:id])
     @wbs_activity_elements = @wbs_activity.wbs_activity_elements
     @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
-    @wbs_activity_ratio_elements = @wbs_activity.wbs_activity_ratios.first.wbs_activity_ratio_elements
+    unless @wbs_activity.wbs_activity_ratios.empty?
+      @wbs_activity_ratio_elements = @wbs_activity.wbs_activity_ratios.first.wbs_activity_ratio_elements
+    end
 
     if @wbs_activity.is_defined? && is_master_instance?
       @wbs_activity.owner_id = current_user.id

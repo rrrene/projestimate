@@ -140,15 +140,6 @@ $(document).ready(function() {
     };
     setTimeout(hideFlashes, 5000);
 
-    $('.component_tree ul li').hover(
-        function () {
-          $(this.children).css('display', 'block');
-        },
-        function () {
-         $('.block_link').hide();
-        }
-      );
-
     $(".pemodule").hover(
         function(){
             $(this.children).css('display', 'block');
