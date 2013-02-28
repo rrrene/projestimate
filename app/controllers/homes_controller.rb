@@ -1,6 +1,6 @@
 class HomesController < ApplicationController
   def update_install
-    begin
+    #begin
       if is_master_instance?
         flash[:error] = "You can't update yourself, as you already are on Master Instance"
         redirect_to "/about" and return
@@ -12,11 +12,22 @@ class HomesController < ApplicationController
 
         if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
           puts "Same schema version"
-          #Check if pull is needed
+
+          #Need to check if pull/update is needed
           #need_to_pull = `git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
+          #needed_to_pull = 'git diff HEAD...origin/dev'   ou 'git diff HEAD...origin/master'     #the best command line To find out the differences between local master and origin's master:
+          ##current=`git rev-parse HEAD`
+          ##git diff $current...origin/dev
+
+          #Get my current branch name
+          current_branch_name = `git name-rev --name-only HEAD`
+          puts "CURRENT_BRANCH_NAME = #{current_branch_name}"
+          differences = `git diff dev...origin/dev`   #differences = `git diff dev...origin/dev`
+          puts "DIFF = #{differences}"
           need_to_pull = "test"
 
-          if need_to_pull.nil? || need_to_pull.blank?
+          #if need_to_pull.nil? || need_to_pull.blank?
+          if differences.blank?
             puts "Your repository is up to date"
             flash[:notice] =  "you already have the latest MasterData"
           else
@@ -24,6 +35,7 @@ class HomesController < ApplicationController
             $latest_update = Time.now
             flash[:notice] = "Projestimate data have been updated successfully."
           end
+
         else
           flash[:error] = "Your local DB schema differ to the MasterData one, please check for modifications or run 'rake db:migrate' command "
         end
@@ -31,12 +43,12 @@ class HomesController < ApplicationController
 
       redirect_to("/about") and return
 
-    rescue Errno::ECONNREFUSED
-      flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-      redirect_to "/about" and return
-    rescue Exception
-      flash[:error] = "!!! WARNING - Exception: Default data was not loaded, please investigate... Maybe run db:create and db:migrate tasks."
-      redirect_to "/about"
-    end
+    #rescue Errno::ECONNREFUSED
+    #  flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
+    #  redirect_to "/about" and return
+    #rescue Exception
+    #  flash[:error] = "!!! WARNING - Exception: Default data was not loaded, please investigate... Maybe run db:create and db:migrate tasks."
+    #  redirect_to "/about"
+    #end
   end
 end

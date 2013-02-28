@@ -239,11 +239,13 @@ function refresh_me(data){
         method: 'GET',
         data: {
             project_id: $("#project_id").val(),
-            show_hidden: show_exclude
-            //dataType: "html"
+            show_hidden: show_exclude,
+            dataType: "html"
         }
+        ,
+        //success: function(data) { $('#wbs_project_elements_section').html(data.html); },
+        error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
-    return false;
 }
 
 

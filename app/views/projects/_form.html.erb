@@ -72,7 +72,7 @@
             <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
                 <p style="margin: 10px; ">
                   <label>WBS-Activities table:</label>
-                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
                   <%= hidden_field_tag :project_id,  @project.id  %>
                   <%= submit_tag "ADD", :class => "btn" %>
                 </p>
@@ -82,7 +82,7 @@
 
       <div class="show_list">
         <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
-        <div class="component_tree" id="wbs_project_elements_section">
+        <div  id="wbs_project_elements_section" class="component_tree">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>
       </div>
