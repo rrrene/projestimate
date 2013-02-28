@@ -528,7 +528,6 @@ class ProjectsController < ApplicationController
   def refresh_wbs_project_elements
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-
     @show_hidden = params[:show_hidden]
   end
 
