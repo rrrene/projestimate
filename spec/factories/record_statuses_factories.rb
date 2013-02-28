@@ -48,6 +48,12 @@ FactoryGirl.define do
       uuid
     end
 
+    trait :local do
+      name "Local"
+      description "TBD"
+      uuid
+    end
+
     #factory :proposed_status, :traits => [:proposed]
     #factory :defined_status, :traits => [:defined]
 
@@ -77,6 +83,10 @@ FactoryGirl.define do
 
     factory :custom_status do
       custom
+    end
+
+    factory :local_status do
+      local
     end
 
   end

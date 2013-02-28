@@ -243,7 +243,17 @@ function refresh_me(data){
             dataType: "html"
         }
         ,
-        //success: function(data) { $('#wbs_project_elements_section').html(data.html); },
+        success: function(data) {
+            $('#wbs_project_elements_section').html(data.html);
+            $('.component_tree ul li').hover(
+                function () {
+                    $(this.children).css('display', 'block');
+                },
+                function () {
+                    $('.block_link').hide();
+                }
+            );
+        },
         error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
 }

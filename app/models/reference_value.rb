@@ -5,6 +5,7 @@ class ReferenceValue  < ActiveRecord::Base
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+
   validates :record_status, :presence => true##, :if => :on_master_instance?   #defined in MasterDataHelper
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :value, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
