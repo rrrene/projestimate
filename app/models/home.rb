@@ -235,10 +235,10 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - Wbs Activity Ratio"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["ratio_value", "ratio_reference_element", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])
 
       puts "   - Wbs Activity Ratio Elements"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["name", "description", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "ratio_reference_element", "uuid"])
 
       puts "   - Wbs Activity"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])

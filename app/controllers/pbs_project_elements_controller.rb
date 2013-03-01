@@ -35,6 +35,7 @@ class PbsProjectElementsController < ApplicationController
 
   def update
     @pbs_project_element = PbsProjectElement.find(params[:id])
+    @project = @pbs_project_element.pe_wbs_project.project
 
     if @pbs_project_element.update_attributes(params[:pbs_project_element])
       # Another update attributes...
@@ -47,7 +48,7 @@ class PbsProjectElementsController < ApplicationController
       flash[:error] = "Please verify pbs_project_elements value"
     end
 
-    redirect_to :back
+    render :partial => "pbs_project_elements/refresh_tree"
 
   end
 

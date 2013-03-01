@@ -82,7 +82,10 @@
       @inserts = []
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
-          @inserts.push("(\"#{Time.now}\", \"#{row[2].gsub("\"", "\"\"")}\", \"#{row[0].gsub("\"", "\"\"")}\", \"#{row[1].gsub("\"", "\"\"")}\", #{@localstatus.id}, #{@wbs_activity.id})")
+          @inserts.push("(\"#{Time.now}\",
+                          \"#{ !row[2].nil? ? row[2].gsub("\"", "\"\"") : row[2] }\",
+                          \"#{ !row[0].nil? ? row[0].gsub("\"", "\"\"") : row[0] }\",
+                          \"#{ !row[1].nil? ? row[1].gsub("\"", "\"\"") : row[1] }\", #{@localstatus.id}, #{@wbs_activity.id})")
         end
       end
     end
