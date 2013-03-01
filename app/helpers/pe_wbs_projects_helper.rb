@@ -92,7 +92,7 @@ module PeWbsProjectsHelper
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }
-            #{ link_to(project.pe_wbs_projects.wbs_product.first.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => "libelle ") }
+            #{ link_to(project.pe_wbs_projects.wbs_product.first.name + ' - ' + pbs_project_element.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => "libelle ") }
           </div>
         </div>
         <div class='block_link'>
