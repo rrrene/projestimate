@@ -1,5 +1,5 @@
 <div class="span4">
-  <%= simple_form_for(@pbs_project_element) do |f| %>
+  <%= simple_form_for(@pbs_project_element, :remote => true) do |f| %>
     <%= f.error_notification %>
 
     <% unless @pbs_project_element.is_root? %>
