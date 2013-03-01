@@ -57,10 +57,17 @@ class WbsProjectElementsController < ApplicationController
   def edit
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
-    @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @project = Project.find(params[:project_id])
     @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
-    @potential_parents = @pe_wbs_project.wbs_project_elements
+
+
+    if @wbs_project_element.is_root
+      @selected_parent = nil
+      @potential_parents = nil
+    else
+      @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
+      @potential_parents = @pe_wbs_project.wbs_project_elements
+    end
   end
 
   # POST /wbs_project_elements
