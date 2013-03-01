@@ -42,52 +42,50 @@ module WbsActivityElementsHelper
     #Root is always display
     tree ||= String.new
     unless element.nil?
-      #unless element.exclude
-        if element.is_root?
-          tree << "<ul style='margin-left:1em;' id='tree'>
-                     <li style='margin-left:-1em;'>
-                      <div class='block_label'>
-                          #{show_element_name(element)}
-                      </div>
-                      <div class='block_link'>
-                        #{ link_activity_element(element) }
-                      </div>
-                    </li>"
-        end
+      if element.is_root?
+        tree << "<ul style='margin-left:1em;' id='tree'>
+                   <li style='margin-left:-1em;'>
+                    <div class='block_label'>
+                        #{show_element_name(element)}
+                    </div>
+                    <div class='block_link'>
+                      #{ link_activity_element(element) }
+                    </div>
+                  </li>"
+      end
 
-        if element.has_children?
-          tree << "<ul class='sortable'>"
-          element.children.each do |e|
-            if show_hidden == "true"
-              tree << "<ul>
-                         <li style='margin-left:#{element.depth}em;' >
-                          <div class='block_label'>
-                            #{show_element_name(e)}
-                          </div>
-                          <div class='block_link'>
-                            #{ link_activity_element(e) }
-                          </div>
-                        </li>"
+      if element.has_children?
+        tree << "<ul class='sortable'>"
+        element.children.each do |e|
+          if show_hidden == "true"
+            tree << "<ul>
+                       <li style='margin-left:#{element.depth}em;' >
+                        <div class='block_label'>
+                          #{show_element_name(e)}
+                        </div>
+                        <div class='block_link'>
+                          #{ link_activity_element(e) }
+                        </div>
+                      </li>"
 
-              generate_wbs_project_elt_tree(e, tree)
-            else
+            generate_wbs_project_elt_tree(e, tree, show_hidden)
+          else
               unless e.exclude
                 tree << "<ul>
-                           <li style='margin-left:#{element.depth}em;' >
-                            <div class='block_label'>
-                              #{show_element_name(e)}
-                            </div>
-                            <div class='block_link'>
-                              #{ link_activity_element(e) }
-                            </div>
-                          </li>"
+                       <li style='margin-left:#{element.depth}em;' >
+                        <div class='block_label'>
+                          #{show_element_name(e)}
+                        </div>
+                        <div class='block_link'>
+                          #{ link_activity_element(e) }
+                        </div>
+                      </li>"
 
-                generate_wbs_project_elt_tree(e, tree)
+                generate_wbs_project_elt_tree(e, tree, show_hidden)
               end
-            end
           end
-          tree << "</ul>"
-        #end
+        end
+        tree << "</ul>"
       end
     end
     tree
@@ -104,7 +102,8 @@ module WbsActivityElementsHelper
 
     else
       if element.is_root?
-        "<span class=''>#{element.pe_wbs_project.name}</span>"
+        #"<span class=''>#{element.pe_wbs_project.name} WBS-Activity</span>"
+        "<span class=''>#{@project.title} WBS-Activity : Activity breakdown Structure </span>"
       else
         "<span class=''> #{element.name} </span>"
       end

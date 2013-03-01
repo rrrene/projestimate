@@ -26,6 +26,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
+  rescue_from Errno::ECONNREFUSED do |error|
+    flash[:error] = "Connection refused - Try to restart SOLR"
+  end
+
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance
 
   helper_method :current_user
@@ -160,22 +164,8 @@ class ApplicationController < ActionController::Base
     @local_status = RecordStatus.find_by_name("Local")
   end
 
-  #To make redirect_to work with Ajax request as well as normal request
-  def redirect_to(options = {}, response_status = {})
-    if request.xhr?
-      render(:update) {|page| page.redirect_to(options)}
-    else
-      super(options, response_status)
-    end
-  end
-
 
   #Rescue method
-  rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = "Access denied!"
-    redirect_to root_url
-  end
-
   #rescue_from ActionController::RoutingError do |exception|
   #  flash[:error] = "Error 404 Not Found"
   #  redirect_to root_url
