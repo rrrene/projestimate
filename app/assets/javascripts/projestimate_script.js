@@ -185,36 +185,28 @@ $(document).ready(function() {
     });
 
 
-//    $("#save_ratio_elt_reference").live("ajax:complete", function(event,xhr,status){
+//    $('input#reference_value_submit_save').click( function() {
+//        event.preventDefault();
 //        $.ajax({
-//            url:"/",
-//            method: 'GET',
+//            type: "POST",
+//            //url: $(this).attr('action'),
+//            url: '/save_values',
+//            data: $(this).serialize(),
+//            dataType: "html",
 //            success: function(data) {
-//                $('#ratio_section').reload();
-//            },
-//            error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
+//                alert('Success !');
+//            }
 //        });
+//        return false;
 //    });
 //
+////    $("#save_ratio_elt_reference").submit(function() {
+////        $.post({
+////            url: $(this).attr('action'),
+////            data: $(this).serialize()
+////        });
+////    });
 
-
-    $('#save_ratio_elt_reference').submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: "get",
-            //url: $(this).attr('action'),
-            url: '/save_values',
-            data: $(this).serialize(),
-            dataType: "html"
-        });
-    });
-
-//    $("#save_ratio_elt_reference").submit(function() {
-//        $.post({
-//            url: $(this).attr('action'),
-//            data: $(this).serialize()
-//        });
-//    });
 
     //Disable all elements in DIV
     $.fn.disable = function() {
@@ -290,4 +282,12 @@ function refresh_me(data){
     });
 }
 
+jQuery.fn.submitWithAjax = function () {
+    this.submit(function () {
+        $.post($(this).attr('action'), $(this).serialize(), null, "script");
+        return false;
+    });
+};
+
+//$('#save_ratio_elt_reference').submitWithAjax();
 
