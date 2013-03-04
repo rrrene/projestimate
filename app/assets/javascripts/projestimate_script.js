@@ -184,6 +184,38 @@ $(document).ready(function() {
         return false;
     });
 
+
+//    $("#save_ratio_elt_reference").live("ajax:complete", function(event,xhr,status){
+//        $.ajax({
+//            url:"/",
+//            method: 'GET',
+//            success: function(data) {
+//                $('#ratio_section').reload();
+//            },
+//            error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
+//        });
+//    });
+//
+
+
+    $('#save_ratio_elt_reference').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: "get",
+            //url: $(this).attr('action'),
+            url: '/save_values',
+            data: $(this).serialize(),
+            dataType: "html"
+        });
+    });
+
+//    $("#save_ratio_elt_reference").submit(function() {
+//        $.post({
+//            url: $(this).attr('action'),
+//            data: $(this).serialize()
+//        });
+//    });
+
     //Disable all elements in DIV
     $.fn.disable = function() {
         return this.each(function() {

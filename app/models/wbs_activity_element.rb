@@ -71,7 +71,8 @@
                                            :dotted_id => "0",
                                            :wbs_activity => @wbs_activity,
                                            :record_status => @localstatus,
-                                           :parent => nil)
+                                           :parent => nil,
+                                           :is_root => true)
     @root_element.save
 
     sep = "#{sep.blank? ? I18n.t(:general_csv_separator) : sep}"
