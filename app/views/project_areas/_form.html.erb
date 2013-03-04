@@ -3,55 +3,56 @@
     <%= f.error_notification %>
 
     <div >
-      <%= f.input :name %><br />
+      <%= f.input :name, :label => "#{I18n.t "name"}"%><br />
     </div>
     <div >
-      <%= f.input :description, :input_html => { :rows => 3 } %><br />
+      <%= f.input :description, :input_html => { :rows => 3 }, :label => "#{I18n.t "description"}" %><br />
     </div>
 
     <div>
-      <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+      <%= f.input :change_comment, :input_html => { :rows => 3 } , :label => "#{I18n.t "change_comment"}"%><br />
 
-      <%= f.association :record_status, :label => "Status",
+      <%= f.association :record_status, :label => "#{I18n.t "record_status"}",
                         :collection => @project_area.record_status_collection,
                         :input_html => {:class => "record_status"},
                         :selected => (@project_area.is_defined_or_nil? ? @proposed_status.id : @project_area.record_status_id),
-                        :disabled => (true if @project_area.is_retired?) %><br />
+                        :disabled => (true if @project_area.is_retired?)
+      %><br />
 
-      <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @project_area.is_custom?) %><br />
+      <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @project_area.is_custom?), :label => "#{I18n.t "custom_value"}" %><br />
     </div>
 
 
       <div >
-      <h3> Activity Category : </h3>
+      <h3> <%= I18n.t(:activity_categories) %> : </h3>
       <% @activity_categories.each do |ac| %>
         <%= check_box_tag "project_area[activity_category_ids][]", ac.id, @project_area.activity_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
     <div >
-      <h3> Acquisition Category : </h3>
+      <h3> <%= I18n.t(:acquisition_categories) %> : </h3>
       <% @acquisition_categories.each do |ac| %>
         <%= check_box_tag "project_area[acquisition_category_ids][]", ac.id, @project_area.acquisition_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
     <div >
-      <h3> Labor Category : </h3>
+      <h3> <%= I18n.t(:labor_categories) %> : </h3>
       <% @labor_categories.each do |ac| %>
         <%= check_box_tag "project_area[labor_category_ids][]", ac.id, @project_area.labor_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
     <div >
-      <h3> Platform Category : </h3>
+      <h3> <%= I18n.t(:platform_categories) %> : </h3>
       <% @platform_categories.each do |ac| %>
         <%= check_box_tag "project_area[platform_category_ids][]", ac.id, @project_area.platform_categories.include?(ac) %>
         <%= ac.name %>
       <% end %>
     </div>
     <div >
-      <h3> Project Category : </h3>
+      <h3> <%= I18n.t(:project_categories) %> :</h3>
       <% @project_categories.each do |ac| %>
         <%= check_box_tag "project_area[project_category_ids][]", ac.id, @project_area.project_categories.include?(ac) %>
         <%= ac.name %>
@@ -60,8 +61,8 @@
 
     <div class="actions">
       <% if can? :update, @project_area %>
-          <%= f.submit "Save", :class => "btn btn-success" %>
-          <%= f.submit "Apply", :class => "btn btn-success" %>
+          <%= f.submit "#{I18n.t "save"}", :class => "btn btn-success" %>
+          <%= f.submit "#{I18n.t "apply"}", :class => "btn btn-success"%>
       <% end %>
     </div>
 
