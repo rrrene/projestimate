@@ -53,6 +53,13 @@ de:
   empty: "None"
   are_you_sur?: "Are you sure?"
   status_custom: "Is needed only when Status = Custom"
+
+  server_name: "Server name"
+  port: "Port"
+  certificate: "Certificate"
+  base_dn: "Base DNS"
+  user_name_attribute: "Username Attribute"
+
   date:
     abbr_day_names:
     - So

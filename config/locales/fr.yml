@@ -66,6 +66,11 @@ fr:
   attributes_type: "Type d'attribut"
   empty: "Aucun"
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
+  server_name: "Nom du serveur"
+  port: "Numéro de port"
+  certificate: "Certificat"
+  base_dn: "Base DNS"
+  user_name_attribute: "Nom d'utilisateur"
   date:
     formats:
       default: "%d/%m/%Y"
