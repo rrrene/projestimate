@@ -13,7 +13,6 @@
 
   <% @groups.each do |group| %>
     <tr class="">
-      <td><%= group.is_defined_or_nil? %></td>
       <td><%= group.name %></td>
       <td><%= group.description %></td>
       <td><%= group.record_status.name unless group.record_status.nil? %> <%= group.show_custom_value %></td>
