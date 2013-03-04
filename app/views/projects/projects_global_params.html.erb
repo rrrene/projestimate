@@ -17,7 +17,7 @@
         <tr>
           <td><h2><%="#{I18n.t "project_area"}" %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"}" "#{I18n.t "project_area"}", new_project_area_path, :class => "btn" %>
+            <%= link_to "#{I18n.t "new_f"} #{I18n.t "project_area"}", new_project_area_path, :class => "btn" %>
           </td>
         </tr>
       </table>
@@ -42,10 +42,10 @@
                <td>
                  <% if is_master_instance? && !i.is_local_record? %>
                      <% if i.is_retired? %>
-                         <%= link_to('Restore', "project_areas/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                         <%= link_to("#{I18n.t "restore"}", "project_areas/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
                      <% else %>
                          <% unless i.is_defined? %>
-                             <%= link_to('Validate', "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                             <%= link_to("#{I18n.t "validate"}", "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                          <% end %>
                      <% end %>
                   <% end %>
@@ -61,7 +61,7 @@
         <tr>
           <td><h2><%="#{I18n.t "project_categories"}" %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"}" "#{I18n.t "project_categories"}" , new_project_category_path, :class => "btn" %>
+            <%= link_to "#{I18n.t "new_f"} #{I18n.t "project_categories"}" , new_project_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
@@ -86,10 +86,10 @@
                <td>
                  <% if is_master_instance? && !i.is_local_record? %>
                      <% if i.is_retired? %>
-                         <%= link_to('Restore', "project_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                         <%= link_to("#{I18n.t "restore"}", "project_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
                      <% else %>
                          <% unless i.is_defined? %>
-                             <%= link_to('Validate', "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                             <%= link_to("#{I18n.t "validate"}", "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                          <% end %>
                      <% end %>
                  <% end %>
@@ -105,7 +105,7 @@
         <tr>
           <td><h2><%="#{I18n.t "platform_categories"}" %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"}" "#{I18n.t "platform_categories"}", new_platform_category_path, :class => "btn" %>
+            <%= link_to "#{I18n.t "new_f"} #{I18n.t "platform_categories"}", new_platform_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
@@ -130,10 +130,10 @@
              <td>
                <% if is_master_instance? && !i.is_local_record? %>
                    <% if i.is_retired? %>
-                       <%= link_to('Restore', "platform_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                       <%= link_to("#{I18n.t "restore"}", "platform_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
                    <% else %>
                        <% unless i.is_defined? %>
-                           <%= link_to('Validate', "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                           <%= link_to("#{I18n.t "validate"}", "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                        <% end %>
                    <% end %>
                <% end %>
@@ -149,7 +149,7 @@
         <tr>
           <td><h2><%="#{I18n.t "acquisition_categories"}" %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"}" "#{I18n.t "acquisition_categories"}", new_acquisition_category_path, :class => "btn" %>
+            <%= link_to "#{I18n.t "new_f"} #{I18n.t "acquisition_categories"}", new_acquisition_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
@@ -174,10 +174,10 @@
              <td>
                <% if is_master_instance? && !i.is_local_record? %>
                    <% if i.is_retired? %>
-                       <%= link_to('Restore', "acquisition_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                       <%= link_to("#{I18n.t "restore"}", "acquisition_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
                    <% else %>
                        <% unless i.is_defined? %>
-                           <%= link_to('Validate', "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                           <%= link_to("#{I18n.t "validate"}", "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                        <% end %>
                    <% end %>
                <% end %>
