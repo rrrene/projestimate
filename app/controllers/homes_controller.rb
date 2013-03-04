@@ -12,18 +12,24 @@ class HomesController < ApplicationController
 
         if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
           puts "Same schema version"
-          #Check if pull is needed
-          #need_to_pull = `git pull --dry-run` ## "git pull --dry-run | grep -q -v 'Already up-to-date.' && changed=1"
+
+          #Get my current branch name
+          current_branch_name = `git name-rev --name-only HEAD`
+          puts "CURRENT_BRANCH_NAME = #{current_branch_name}"
+          differences = `git diff $current_branch_name...origin/master`   #differences = `git diff dev...origin/dev`
+          puts "DIFF = #{differences}"
           need_to_pull = "test"
 
-          if need_to_pull.nil? || need_to_pull.blank?
+          #if need_to_pull.nil? || need_to_pull.blank?
+          if differences.blank?
             puts "Your repository is up to date"
-            flash[:notice] =  "you already have the latest MasterData"
+            flash[:notice] =  "You already have the latest MasterData"
           else
             Home::update_master_data!
             $latest_update = Time.now
             flash[:notice] = "Projestimate data have been updated successfully."
           end
+
         else
           flash[:error] = "Your local DB schema differ to the MasterData one, please check for modifications or run 'rake db:migrate' command "
         end

@@ -10,7 +10,7 @@ class WbsActivityRatiosController < ApplicationController
   end
 
   def import
-    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+      @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     begin
       error_count = WbsActivityRatio::import(params[:file], params[:separator], params[:encoding])
     rescue

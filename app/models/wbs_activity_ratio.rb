@@ -13,15 +13,6 @@ class WbsActivityRatio < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
   validates :name, :presence => true, :uniqueness => { :scope => [:wbs_activity_id, :record_status_id], :case_sensitive => false}
 
-  #def name_must_be_uniq_on_activity
-  #  errors.add(:base, "Name must be unique in the same wbs-activities") if (self.wbs_activity.wbs_activity_ratios.map(&:name).include?(self.name)  )
-  #  #errors.add(:base, "Name must be unique in the same wbs-activities") if has_unique_field?
-  #end
-  #
-  #def has_unique_field?
-  #  WbsActivityRatio.exists?(['name = ? and wbs_activity_id = ?', self.name, self.wbs_activity_id])
-  #end
-
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
@@ -58,14 +49,10 @@ class WbsActivityRatio < ActiveRecord::Base
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
           begin
-            ware = WbsActivityRatioElement.find(row[0])
-            unless ware.wbs_activity_element.has_children?
-              ware = WbsActivityRatioElement.find(row[0])
-              ware.update_attribute("ratio_value", row[5])
-              ware.update_attribute("ratio_reference_element", row[6])
-            else
-              error_count = error_count + 1
-            end
+            @ware = WbsActivityRatioElement.find(row[0])
+            @ware.wbs_activity_element.has_children?
+            @ware.update_attribute("ratio_value", row[5])
+            @ware.update_attribute("ratio_reference_element", row[6])
           rescue
             error_count = error_count + 1
           end

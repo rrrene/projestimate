@@ -71,7 +71,8 @@
                                            :dotted_id => "0",
                                            :wbs_activity => @wbs_activity,
                                            :record_status => @localstatus,
-                                           :parent => nil)
+                                           :parent => nil,
+                                           :is_root => true)
     @root_element.save
 
     sep = "#{sep.blank? ? I18n.t(:general_csv_separator) : sep}"
@@ -81,12 +82,16 @@
       @inserts = []
       csv.each_with_index do |row, i|
         unless row.empty? or i == 0
-          @inserts.push("(\"#{Time.now}\", \"#{row[2]}\", \"#{row[0]}\", \"#{row[1].gsub("\"", "\"\"")}\", #{@localstatus.id}, #{@wbs_activity.id})")
+          @inserts.push("(\"#{Time.now}\",
+                          \"#{ !row[2].nil? ? row[2].gsub("\"", "\"\"") : row[2] }\",
+                          \"#{ !row[0].nil? ? row[0].gsub("\"", "\"\"") : row[0] }\",
+                          \"#{ !row[1].nil? ? row[1].gsub("\"", "\"\"") : row[1] }\", #{@localstatus.id}, #{@wbs_activity.id}, \"#{UUIDTools::UUID.timestamp_create.to_s}\")")
+
         end
       end
     end
 
-    ActiveRecord::Base.connection.execute("INSERT INTO wbs_activity_elements(created_at,description,dotted_id,name,record_status_id,wbs_activity_id) VALUES #{@inserts.join(",")}")
+    ActiveRecord::Base.connection.execute("INSERT INTO wbs_activity_elements(created_at,description,dotted_id,name,record_status_id,wbs_activity_id,uuid) VALUES  #{@inserts.join(",")}")
 
     elements = @wbs_activity.wbs_activity_elements
     build_ancestry(elements, @wbs_activity.id)

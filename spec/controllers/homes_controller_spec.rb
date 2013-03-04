@@ -14,7 +14,7 @@ describe HomesController do
       it "returns http success" do
         get 'update_install'
         unless defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
-          flash[:notice].should eq("Projestimate data have been updated successfully.")
+          ["Projestimate data have been updated successfully.", "You already have the latest MasterData"].should include(flash[:notice])
           flash[:error].should be_nil
         end
       end

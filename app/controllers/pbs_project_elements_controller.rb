@@ -35,15 +35,21 @@ class PbsProjectElementsController < ApplicationController
 
   def update
     @pbs_project_element = PbsProjectElement.find(params[:id])
+    @project = @pbs_project_element.pe_wbs_project.project
 
     if @pbs_project_element.update_attributes(params[:pbs_project_element])
       # Another update attributes...
-      @pbs_project_element.update_attribute :parent, PbsProjectElement.find(params[:pbs_project_element][:ancestry])
-      redirect_to redirect("/dashboard")
+      if params[:pbs_project_element][:ancestry]
+        @pbs_project_element.update_attribute :parent, PbsProjectElement.find(params[:pbs_project_element][:ancestry])
+      else
+        @pbs_project_element.update_attribute :parent, nil
+      end
     else
       flash[:error] = "Please verify pbs_project_elements value"
-      redirect_to redirect("/dashboard")
     end
+
+    render :partial => "pbs_project_elements/refresh_tree"
+
   end
 
   def destroy
@@ -66,7 +72,7 @@ class PbsProjectElementsController < ApplicationController
       c.save
     end
 
-    render :partial => "pbs_project_elements/refresh"
+    render :partial => "pbs_project_elements/refresh_tree"
   end
 
   #Select the current pbs_project_element and refresh the partial
@@ -80,7 +86,7 @@ class PbsProjectElementsController < ApplicationController
     @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @results = nil
 
-    render :partial => "pbs_project_elements/refresh"
+    render :partial => "pbs_project_elements/refresh_tree"
   end
 
   #Create a new pbs_project_element and refresh the partials
@@ -120,7 +126,7 @@ class PbsProjectElementsController < ApplicationController
 
     @module_projects = current_project.module_projects
 
-    render :partial => "pbs_project_elements/refresh"
+    render :partial => "pbs_project_elements/refresh_tree"
   end
 
   #Pushed up the pbs_project_element
@@ -136,7 +142,7 @@ class PbsProjectElementsController < ApplicationController
 
     @user = current_user
 
-    render :partial => "pbs_project_elements/refresh", :object => @project
+    render :partial => "pbs_project_elements/refresh_tree"
   end
 
   #Pushed down the pbs_project_element
@@ -152,6 +158,6 @@ class PbsProjectElementsController < ApplicationController
 
     @user = current_user
 
-    render :partial => "pbs_project_elements/refresh", :object => @project
+    render :partial => "pbs_project_elements/refresh_tree"
   end
 end

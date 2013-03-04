@@ -140,15 +140,6 @@ $(document).ready(function() {
     };
     setTimeout(hideFlashes, 5000);
 
-    $('.component_tree ul li').hover(
-        function () {
-          $(this.children).css('display', 'block');
-        },
-        function () {
-         $('.block_link').hide();
-        }
-      );
-
     $(".pemodule").hover(
         function(){
             $(this.children).css('display', 'block');
@@ -192,6 +183,30 @@ $(document).ready(function() {
         });
         return false;
     });
+
+
+//    $('input#reference_value_submit_save').click( function() {
+//        event.preventDefault();
+//        $.ajax({
+//            type: "POST",
+//            //url: $(this).attr('action'),
+//            url: '/save_values',
+//            data: $(this).serialize(),
+//            dataType: "html",
+//            success: function(data) {
+//                alert('Success !');
+//            }
+//        });
+//        return false;
+//    });
+//
+////    $("#save_ratio_elt_reference").submit(function() {
+////        $.post({
+////            url: $(this).attr('action'),
+////            data: $(this).serialize()
+////        });
+////    });
+
 
     //Disable all elements in DIV
     $.fn.disable = function() {
@@ -248,11 +263,31 @@ function refresh_me(data){
         method: 'GET',
         data: {
             project_id: $("#project_id").val(),
-            show_hidden: show_exclude
-            //dataType: "html"
+            show_hidden: show_exclude,
+            dataType: "html"
         }
+        ,
+        success: function(data) {
+            $('#wbs_project_elements_section').html(data.html);
+            $('.component_tree ul li').hover(
+                function () {
+                    $(this.children).css('display', 'block');
+                },
+                function () {
+                    $('.block_link').hide();
+                }
+            );
+        },
+        error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
-    return false;
 }
 
+jQuery.fn.submitWithAjax = function () {
+    this.submit(function () {
+        $.post($(this).attr('action'), $(this).serialize(), null, "script");
+        return false;
+    });
+};
+
+//$('#save_ratio_elt_reference').submitWithAjax();
 
