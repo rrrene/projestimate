@@ -123,6 +123,11 @@ $(document).ready(function() {
 
     $( ".tabs" ).tabs();
 
+    //$("#tabs_test :input").attr("disabled", true);
+    if(($('.div_tabs_to_disable').data('enable_update')) ==  false){
+        $(".div_tabs_to_disable :input").attr("disabled", true);
+        //$('.div_tabs_to_disable').find('input, textarea, button, select').attr('disabled','disabled');
+    }
 
     $(function() {
         $("#users th a, #users .pagination a").live("click", function() {
@@ -134,6 +139,7 @@ $(document).ready(function() {
           return false;
         });
     });
+
 
     var hideFlashes = function () {
         $("#notice, #error, #warning, .on_success_global, .on_success_attr, .on_success_attr_set").fadeOut(2000);
@@ -185,61 +191,31 @@ $(document).ready(function() {
     });
 
 
-//    $("#save_ratio_elt_reference").live("ajax:complete", function(event,xhr,status){
-//        $.ajax({
-//            url:"/",
-//            method: 'GET',
-//            success: function(data) {
-//                $('#ratio_section').reload();
-//            },
-//            error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
-//        });
-//    });
+//    //Disable all elements in DIV
+//    $.fn.disable = function() {
+//        return this.each(function() {
+//            if (typeof this.disabled != "undefined") {
+//                $(this).data('jquery.disabled', this.disabled);
 //
-
-
-    $('#save_ratio_elt_reference').submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: "get",
-            //url: $(this).attr('action'),
-            url: '/save_values',
-            data: $(this).serialize(),
-            dataType: "html"
-        });
-    });
-
-//    $("#save_ratio_elt_reference").submit(function() {
-//        $.post({
-//            url: $(this).attr('action'),
-//            data: $(this).serialize()
+//                this.disabled = true;
+//            }
 //        });
-//    });
-
-    //Disable all elements in DIV
-    $.fn.disable = function() {
-        return this.each(function() {
-            if (typeof this.disabled != "undefined") {
-                $(this).data('jquery.disabled', this.disabled);
-
-                this.disabled = true;
-            }
-        });
-    };
-
-    $.fn.enable = function() {
-        return this.each(function() {
-            if (typeof this.disabled != "undefined") {
-                this.disabled = $(this).data('jquery.disabled');
-            }
-        });
-    };
-
-    test = $('#tabs-1-group').data('enable_update');
-    if(test == false){
-        $('#tabs-1-group *').disable();
-    }
-    //END disabled all elements in DIV
+//    };
+//
+//    $.fn.enable = function() {
+//        return this.each(function() {
+//            if (typeof this.disabled != "undefined") {
+//                this.disabled = $(this).data('jquery.disabled');
+//            }
+//        });
+//    };
+//
+//    test = $('#tabs_test').data('enable_update');
+//    //if(test == false){
+//        $('#tabs_test *').disable();
+//      //  return false;
+//    //}
+//    //END disabled all elements in DIV
 
 
 }); //END Document.ready
@@ -289,5 +265,14 @@ function refresh_me(data){
         error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
 }
+
+jQuery.fn.submitWithAjax = function () {
+    this.submit(function () {
+        $.post($(this).attr('action'), $(this).serialize(), null, "script");
+        return false;
+    });
+};
+
+//$('#save_ratio_elt_reference').submitWithAjax();
 
 

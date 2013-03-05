@@ -2,6 +2,7 @@ class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   helper_method :wbs_record_statuses_collection
+  helper_method :enable_update_in_local?
 
   before_filter :get_record_statuses
 
@@ -47,9 +48,9 @@ class WbsActivitiesController < ApplicationController
       if @wbs_activity.is_defined?
         flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
         redirect_to wbs_activities_path  and return
-      elsif @wbs_activity.defined?
-        flash[:error] = "It's impossible to edit a defined activity"
-        redirect_to wbs_activities_path
+      #elsif @wbs_activity.defined?
+      #  flash[:error] = "It's impossible to edit a defined activity"
+      #  redirect_to wbs_activities_path
       end
     end
   end
@@ -253,6 +254,28 @@ class WbsActivitiesController < ApplicationController
     rescue ActiveRecord::RecordInvalid => err
       flash[:error] = "#{err.message}"
       redirect_to :back
+    end
+  end
+
+  #Function that enable/disable to update
+  def enable_update_in_local?
+    if is_master_instance?
+      true
+    else
+      if params[:action] == "new"
+        true
+      elsif params[:action] == "edit"
+        @wbs_activity = WbsActivity.find(params[:id])
+        if @wbs_activity.is_local_record?
+          if @wbs_activity.state == "defined"
+            false
+          else
+            true
+          end
+        else
+          false
+        end
+      end
     end
   end
 

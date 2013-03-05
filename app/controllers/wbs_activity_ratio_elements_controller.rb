@@ -77,6 +77,9 @@ class WbsActivityRatioElementsController < ApplicationController
       flash.now[:notice] = "Ratios successfully saved"
     end
 
+    respond_to do |format|
+      format.js
+    end
   end
 
 

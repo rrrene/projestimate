@@ -1,10 +1,10 @@
 <div class="span12">
-  <h2>Authentication Methods</h2>
+  <h2><%= I18n.t(:auth_methods) %> </h2>
 
   <table class="table table-striped" >
     <tr>
-      <th>Name</th>
-      <th>Status</th>
+      <th><%= I18n.t(:name) %></th>
+      <th><%= I18n.t(:record_status) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,15 +14,15 @@
     <tr>
       <td><%= auth_method.name %></td>
       <td><%= auth_method.record_status.name unless auth_method.record_status.nil? %> <%= auth_method.show_custom_value %></td>
-      <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => "Edit" %></td>
-      <td><%= link_to '', auth_method, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+      <td><%= link_to '', auth_method, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
       <td>
         <% if is_master_instance? && !auth_method.is_local_record? %>
             <% if auth_method.is_retired? %>
-                <%= link_to('Restore', "auth_methods/#{auth_method.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                <%= link_to("#{I18n.t "restore"}", "auth_methods/#{auth_method.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
             <% else %>
                 <% unless auth_method.is_defined? %>
-                    <%= link_to('Validate', "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                    <%= link_to("#{I18n.t "validate"}", "auth_methods/#{auth_method.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
                 <% end %>
             <% end %>
         <% end %>
@@ -33,6 +33,6 @@
 
   <br />
 
-  <%= link_to 'New Authentication method', new_auth_method_path, :class => "btn" %>
+  <%= link_to "#{I18n.t "new_f"}" "#{I18n.t "auth_methods"}", new_auth_method_path, :class => "btn" %>
 </div>
 

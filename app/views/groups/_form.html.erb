@@ -11,8 +11,6 @@
         </div>
     <% end %>
 
-    is_defined_or_nil? = <%= @group.is_defined_or_nil? %>
-
     <div class="tabs">
       <ul>
         <li><a href="#tabs-1">Global </a></li>
@@ -21,8 +19,7 @@
       </ul>
 
       <div id="tabs-1">
-
-        <div id="tabs-1-group" data-enable_update="<%= enable_update_in_local? %>" >
+        <div class="div_tabs_to_disable" data-enable_update="<%= enable_update_in_local? %>" >
           <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
 
           <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 } %>

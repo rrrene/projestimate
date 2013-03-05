@@ -40,6 +40,7 @@ class GroupsController < ApplicationController
     @group = Group.new
     @users = User.all
     @projects = Project.all
+    @enable_update_in_local = true
   end
 
   def edit
@@ -50,6 +51,7 @@ class GroupsController < ApplicationController
     @projects = Project.all
 
     if is_master_instance?
+      @enable_update_in_local = true
       unless @group.child_reference.nil?
         if @group.child_reference.is_proposed_or_custom?
           flash[:notice] = "This Group can't be edited, because the previous changes have not yet been validated."
@@ -59,8 +61,10 @@ class GroupsController < ApplicationController
     else
       if @group.is_local_record?
         @group.record_status = @local_status
+        @enable_update_in_local = true
         ##flash[:notice] = "testons"
-      #else
+      else
+        @enable_update_in_local = false
       #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
       #  redirect_to redirect(groups_path)
       end
@@ -72,6 +76,7 @@ class GroupsController < ApplicationController
     @users = User.all
     @projects = Project.all
     @group = Group.new(params[:group])
+    @enable_update_in_local = true
 
     #If we are on local instance, Status is set to "Local"
     if is_master_instance?
@@ -94,6 +99,7 @@ class GroupsController < ApplicationController
     current_group = Group.find(params[:id])
 
     if current_group.is_defined? && is_master_instance?
+      @enable_update_in_local = true
       @group = current_group.amoeba_dup
       @group.owner_id = current_user.id
     else
@@ -102,7 +108,10 @@ class GroupsController < ApplicationController
 
     unless is_master_instance?
       if @group.is_local_record?
+        @enable_update_in_local = true
         @group.custom_value = "Locally edited"
+      else
+        @enable_update_in_local = false
       end
     end
 

@@ -15,6 +15,8 @@
     <% end %>
   </ul>
 
+  <div class="div_tabs_to_disable" data-enable_update="<%= enable_update_in_local? %>" >
+
   <div id="tabs-1">
     <h2>WBS Activity</h2>
     <%= simple_form_for(@wbs_activity) do |f| %>
@@ -117,7 +119,6 @@
     </div>
 
     <div id="tabs-4">
-
       <div class="pull-left">
         Please select a ratio table
         <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] }, :selected => @wbs_activity_ratio ), :class => "select_ratio" %>
@@ -128,6 +129,9 @@
           <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
         </div>
       <% end %>
+
     </div>
   <% end %>
+</div>
+
 </div>
