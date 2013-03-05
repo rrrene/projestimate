@@ -261,6 +261,10 @@ class Home < ActiveRecord::Base
         end
       end
 
+      activities.each do |a|
+        WbsActivityElement::build_ancestry(elements, a.id)
+      end
+
       puts "   - Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
 
