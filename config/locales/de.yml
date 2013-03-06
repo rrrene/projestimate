@@ -135,8 +135,48 @@ de:
   end_date: "Date end"
   event_type_id: "Event id"
   project_id: "Project id"
-  edit_event: "Edit an event"
-  new_event: "New event"
+  edit_group: "Edit a group"
+  new_group: "New group"
+
+  #groups
+  global: "Global"
+  associated_users: "Associated users"
+  associated_projects: "Associated projects"
+  edit_group: "Editer un groupe"
+  new_group: "Créer un nouveau groupe"
+
+  #Labor categories
+  edit_labor_category: "Edit a labor category"
+  new_labor_category: "New labor category"
+
+  #languages
+  edit_language: "Edit a language"
+  new_language: "New language"
+  local: "Local"
+
+  #master_settings
+  edit_master_setting: "Edit a master setting"
+  new_master_setting: "New master setting"
+
+  #module_project_attributes
+  in_out: "In/Out"
+  edit_module_project_attribute: "Edit a module project attribute"
+  new_module_project_attribute: "New module project attribute"
+
+  #module_project
+  edit_module_project: "Edit a module projet"
+  new_module_project: "New module project"
+  related_attributes: "Related attributes"
+  mandatory: "Mandatory"
+  links_to: "Links to"
+  current_link: "Current link"
+  edit_link: "Edit a link"
+  module_name: "Module name"
+  associable_attributes: "Associable attributes"
+  pe_module: "Pe-Module"
+  position: "Position"
+  associate_Product_element_module_project: "Associate Product-Element with current module project"
+
 
   date:
     abbr_day_names:

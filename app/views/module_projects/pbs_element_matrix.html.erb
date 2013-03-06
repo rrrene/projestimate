@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Associate Product-Element with current module project</h1>
+  <h1><%= I18n.t(:associate_Product_element_module_project) %></h1>
 
   <%= form_tag({:action=>"associate", :controller=>"module_projects", :project_id => @project.id}, :method => "POST") do %>
     <table class="table table-striped">
@@ -27,8 +27,8 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag "Save", :class => "btn" %>
-    <%= submit_tag "Apply", :class => "btn" %>
+    <%= submit_tag "#{I18n.t "save"}", :class => "btn" %>
+    <%= submit_tag "#{I18n.t "apply"}", :class => "btn" %>
     <% end %>
 </div>
 

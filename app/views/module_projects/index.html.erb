@@ -1,10 +1,10 @@
-<h1>Listing module_projects</h1>
+<h1><%= I18n.t(:projestimate_module) %></h1>
 
 <table class="table table-striped">
   <tr>
-    <th>Pemodule</th>
-    <th>Project</th>
-    <th>Position</th>
+    <th><%= I18n.t(:pe_module) %></th>
+    <th><%= I18n.t(:project) %></th>
+    <th><%= I18n.t(:position) %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,13 +15,12 @@
     <td><%= module_project.pemodule_id %></td>
     <td><%module_project.project_id %></td>
     <!--<td><%# module_project.position %></td>-->
-    <td><%= link_to 'Show', module_project %></td>
-    <td><%= link_to 'Edit', edit_module_project_path(module_project) %></td>
-    <td><%= link_to 'Destroy', module_project, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to '', edit_module_project_path(module_project), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+    <td><%= link_to '', module_project, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>"#{I18n.t "delete"}" %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Module project', new_module_project_path, :class => "btn" %>
+<%= link_to "#{I18n.t "new_module_project"}", new_module_project_path, :class => "btn" %>

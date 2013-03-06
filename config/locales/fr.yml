@@ -115,6 +115,8 @@ fr:
 
   #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
+  restoring?: "Do you confirm restoring this record as defined ?"
+  validation?: "Do you confirm changes validation on this record?"
 
   #auth_method
   server_name: "Nom du serveur"
@@ -142,6 +144,45 @@ fr:
   project: "Projet"
   edit_event: "Editer un évènement"
   new_event: "Créer un nouvel évènement"
+
+  #groups
+  global: "Global"
+  associated_users: "Utilisateurs associés"
+  associated_projects: "Projets associés"
+  edit_group: "Editer un groupe"
+  new_group: "Créer un nouveau groupe"
+
+  #Labor categories
+  edit_labor_category: "Editer une catégorie de travail"
+  new_labor_category: "Créer une catégorie de travail"
+
+  #languages
+  edit_language: "Editer un langage"
+  new_language: "Créer un nouveau langage"
+  local: "Local"
+
+  #master_settings
+  edit_master_setting: "Editer les paramètres maître"
+  new_master_setting: "Créer un nouveau paramètre maître"
+
+  #module_project_attributes
+  in_out: "Entrée/Sortie"
+  edit_module_project_attribute: "Editer un attribut du module de projet"
+  new_module_project_attribute: "Créer un nouvel attribut de module de projet"
+
+  #module_project
+  edit_module_project: "Editer un module de projet"
+  new_module_project: "Créer un nouveau module de projet"
+  related_attributes: "Attributs associés"
+  mandatory: "Obligatoire"
+  links_to: "Liens vers"
+  current_link: "Liens courant"
+  edit_link: "Editer le liens"
+  module_name: "Nom du module"
+  associable_attributes: "Attributs asociables"
+  pe_module: "Pe-Module"
+  position: "Position"
+  associate_Product_element_module_project: "Associer un Product element avec un module du projet"
 
 
   date:

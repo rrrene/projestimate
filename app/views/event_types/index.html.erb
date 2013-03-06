@@ -22,10 +22,10 @@
     <td>
       <% if is_master_instance? && !event_type.is_local_record? %>
           <% if event_type.is_retired? %>
-              <%= link_to("#{I18n.t "restore"}", "event_types/#{event_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+              <%= link_to("#{I18n.t "restore"}", "event_types/#{event_type.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
           <% else %>
               <% unless event_type.is_defined? %>
-                  <%= link_to("#{I18n.t "validate"}", "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                  <%= link_to("#{I18n.t "validate"}", "event_types/#{event_type.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
               <% end %>
           <% end %>
       <% end %>

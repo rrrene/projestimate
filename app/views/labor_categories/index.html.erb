@@ -1,11 +1,11 @@
 <div class="span12">
-  <h2>Labor Categories</h2>
+  <h2><%= I18n.t(:labor_categories) %></h2>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Status</th>
+      <th><%= I18n.t(:name) %></th>
+      <th><%= I18n.t(:description) %></th>
+      <th><%= I18n.t(:record_status) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,15 +16,15 @@
         <td><%= labor_category.name %></td>
         <td><%= labor_category.description %></td>
         <td><%= labor_category.record_status.name unless labor_category.record_status.nil? %> <%= labor_category.show_custom_value %></td>
-        <td><%= link_to '', edit_labor_category_path(labor_category), :class => "icn_edit", :title => "Edit" %></td>
-        <td><%= link_to '', labor_category, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+        <td><%= link_to '', edit_labor_category_path(labor_category), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+        <td><%= link_to '', labor_category, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}"%></td>
         <td>
           <% if is_master_instance? && !labor_category.is_local_record? %>
               <% if labor_category.is_retired? %>
-                  <%= link_to('Restore', "labor_categories/#{labor_category.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                  <%= link_to("#{I18n.t "restore"}", "labor_categories/#{labor_category.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
               <% else %>
                   <% unless labor_category.is_defined? %>
-                      <%= link_to('Validate', "labor_categories/#{labor_category.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                      <%= link_to("#{I18n.t "validate"}", "labor_categories/#{labor_category.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
                   <% end %>
               <% end %>
           <% end %>
@@ -32,6 +32,6 @@
       </tr>
     <% end %>
   </table>
-  <%= link_to 'New Labor category', new_labor_category_path, :class => "btn" %> <br />
+  <%= link_to "#{I18n.t "new_labor_category"}", new_labor_category_path, :class => "btn" %> <br />
 
 </div>

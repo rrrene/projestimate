@@ -1,11 +1,11 @@
 <div class="span12">
-  <h2>Languages</h2>
+  <h2><%= I18n.t(:languages) %></h2>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>Locale</th>
-      <th>Status</th>
+      <th><%= I18n.t(:name) %></th>
+      <th><%= I18n.t(:local) %></th>
+      <th><%= I18n.t(:record_status) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,15 +16,15 @@
       <td><%= language.name %></td>
       <td><%= language.locale %></td>
       <td><%= language.record_status.name unless language.record_status.nil? %> <%= language.show_custom_value %></td>
-      <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "Edit" %></td>
-      <td><%= link_to '', language, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+      <td><%= link_to '', edit_language_path(language), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+      <td><%= link_to '', language, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
       <td>
         <% if is_master_instance? && !language.is_local_record? %>
             <% if language.is_retired? %>
-                <%= link_to('Restore', "languages/#{language.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                <%= link_to("#{I18n.t "restore"}", "languages/#{language.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
             <% else %>
                 <% unless language.is_defined? %>
-                    <%= link_to('Validate', "languages/#{language.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                    <%= link_to("#{I18n.t "validate"}", "languages/#{language.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
                 <% end %>
             <% end %>
         <% end %>
@@ -35,5 +35,5 @@
 
   <br />
 
-  <%= link_to 'New Language', new_language_path, :class => "btn" %>
+  <%= link_to "#{I18n.t "new_language"}", new_language_path, :class => "btn" %>
 </div>
