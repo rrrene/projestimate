@@ -478,6 +478,17 @@ class ProjectsController < ApplicationController
             create_wbs_activity_from_child(child, @pe_wbs_project_activity, @wbs_project_elements_root)
           end
 
+          #add some additional information for leaf element customization
+          added_wbs_project_elements =  WbsProjectElement.find_all_by_wbs_activity_id_and_pe_wbs_project_id(wbs_project_element.wbs_activity_id, @pe_wbs_project_activity.id)
+          added_wbs_project_elements.each do |project_elt|
+            if project_elt.has_children?
+              project_elt.can_get_new_child = false
+            else
+              project_elt.can_get_new_child = true
+            end
+            project_elt.save
+          end
+
           @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
           @project.save
 
@@ -506,7 +517,6 @@ class ProjectsController < ApplicationController
     new_ancestors.join('/')
   end
 
-
   def create_wbs_activity_from_child(node, pe_wbs_activity, wbs_elt_root)
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
                                                  :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity, wbs_elt_root), :author_id => current_user.id, :copy_number => 0)
@@ -523,7 +533,6 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
 
   def refresh_wbs_project_elements
     @project = Project.find(params[:project_id])

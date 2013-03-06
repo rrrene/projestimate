@@ -38,14 +38,21 @@ class WbsProjectElement < ActiveRecord::Base
   end
 
   def is_from_library_and_is_leaf?
-    if self.wbs_activity.nil? && self.wbs_activity_element.nil?
-      false
-    else
-      if self.has_children?
-        true
-      else
+    unless self.is_root
+      if self.wbs_activity.nil? && self.wbs_activity_element.nil? && self.parent.can_get_new_child.nil?
         false
+      else
+        if self.has_children?
+          true
+        else
+          if self.parent.can_get_new_child?
+            true
+          else
+            false
+          end
+        end
       end
     end
   end
+
 end
