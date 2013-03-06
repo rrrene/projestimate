@@ -23,10 +23,10 @@
     <td>
       <% if is_master_instance? && !currency.is_local_record? %>
           <% if currency.is_retired? %>
-              <%= link_to("#{I18n.t "restore"}", "currencies/#{currency.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
+              <%= link_to("#{I18n.t "restore"}", "currencies/#{currency.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
           <% else %>
               <% unless currency.is_defined? %>
-                  <%= link_to("#{I18n.t "validate"}", "currencies/#{currency.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
+                  <%= link_to("#{I18n.t "validate"}", "currencies/#{currency.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
               <% end %>
           <% end %>
       <% end %>

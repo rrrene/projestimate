@@ -71,6 +71,8 @@ fr:
   empty: "Aucun"
   are_you_sur?: "Etes-vous sûr?"
   back: "Retour"
+  restore_title: "Restaurer les changements"
+  validate_title: "Valider les changements"
 
   #Project settings
   activity_categories: "Catégorie d'activités"
@@ -183,6 +185,38 @@ fr:
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
+
+  #organization_labor_categories
+
+  labor_category: "Categorie de travail"
+  level: "Niveau"
+  cost_per_hour: "Coût par heure"
+  base_year: "Année de référence"
+  currency: "Devise"
+  hour_per_day: "Heures par jour"
+  days_per_year: "Jours par année"
+  edit_organisation_labor_category: "Editer l'organisation de la catégorie de travail"
+  new_organisation_labor_category: "Créer une organisation de catégorie de travail"
+
+  #Organization
+  organization: "Organisation"
+  edit_organisation: "Editer l'organisation"
+  new_organisation: "Créer une organisation"
+  inflation: "Inflation"
+  organizationals_labors_categories: "Catégories de travail des organisations"
+
+  #Pbs_project_elements
+  ancestry: "Ancêtre"
+  work_element_type: "Type de l'élément de travail"
+  project_link: "Liens vers le projet"
+
+  #peicons
+  icon: "Icône"
+  icon-message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
+  edit_icon: "Editer l'icône"
+  new_icon: "Ajouter un icône"
+  icons: "Icônes"
+  actions: "Actions"
 
 
   date:

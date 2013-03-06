@@ -21,10 +21,10 @@
       <td>
         <% if is_master_instance? && !language.is_local_record? %>
             <% if language.is_retired? %>
-                <%= link_to("#{I18n.t "restore"}", "languages/#{language.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
+                <%= link_to("#{I18n.t "restore"}", "languages/#{language.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
             <% else %>
                 <% unless language.is_defined? %>
-                    <%= link_to("#{I18n.t "validate"}", "languages/#{language.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
+                    <%= link_to("#{I18n.t "validate"}", "languages/#{language.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
                 <% end %>
             <% end %>
         <% end %>

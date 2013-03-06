@@ -23,10 +23,10 @@
     <td>
       <% if is_master_instance? && !activity_category.is_local_record?%>
           <% if activity_category.is_retired? %>
-              <%= link_to("#{I18n.t "restore"}", "activity_categories/#{activity_category.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
+              <%= link_to("#{I18n.t "restore"}", "activity_categories/#{activity_category.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
           <% else %>
               <% unless activity_category.is_defined? %>
-                  <%= link_to("#{I18n.t "validate"}", "activity_categories/#{activity_category.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
+                  <%= link_to("#{I18n.t "validate"}", "activity_categories/#{activity_category.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
               <% end %>
           <% end %>
       <% end %>

@@ -33,10 +33,10 @@
           <td>
             <% if is_master_instance? && !attribute.is_local_record? %>
                 <% if attribute.is_retired? %>
-                    <%= link_to("#{I18n.t "restore"}", "attributes/#{attribute.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
+                    <%= link_to("#{I18n.t "restore"}", "attributes/#{attribute.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
                 <% else %>
                     <% unless attribute.is_defined? %>
-                        <%= link_to("#{I18n.t "validate"}", "attributes/#{attribute.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
+                        <%= link_to("#{I18n.t "validate"}", "attributes/#{attribute.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title =>"#{I18n.t "validate_title"}")%>
                     <% end %>
                 <% end %>
             <% end %>

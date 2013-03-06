@@ -1,18 +1,18 @@
-<h1>Organizationals Parameters</h1>
+<h1><%= I18n.t(:organization_setting) %></h1>
 
 <div class="tabs">
 
     <ul>
-        <li><a href="#tabs-1">Organizations</a></li>
-        <li><a href="#tabs-2">Inflation</a></li>
-        <li><a href="#tabs-3">Organizationals labors categories</a></li>
+        <li><a href="#tabs-1"><%= I18n.t(:organization) %></a></li>
+        <li><a href="#tabs-2"><%= I18n.t(:inflation) %></a></li>
+        <li><a href="#tabs-3"><%= I18n.t(:organizationals_labors_categories) %></a></li>
     </ul>
 
         <div id="tabs-1">
           <table class="table table-striped">
               <tr>
-                <th>Name</th>
-                <th>Description</th>
+                <th><%= I18n.t(:name) %></th>
+                <th><%= I18n.t(:description) %></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -22,13 +22,12 @@
                  <tr>
                    <td><%= i.name %></td>
                    <td><%= i.description %></td>
-                   <td><%= link_to 'Show', i %></td>
-                   <td><%= link_to 'Edit', edit_organization_path(i) %></td>
-                   <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   <td><%= link_to '', edit_organization_path(i), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+                   <td><%= link_to '', i, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>"#{I18n.t "delete"}" %></td>
                  </tr>
               <% end %>
             </table>
-            <%= link_to 'New Organization', new_organization_path %>
+            <%= link_to "#{I18n.t "new_organisation"}", new_organization_path, :class => "btn" %>
         </div>
 
         <div id="tabs-2">
@@ -38,8 +37,8 @@
         <div id="tabs-3">
           <table class="table table-striped">
               <tr>
-                <th>Name</th>
-                <th>Description</th>
+                <th><%= I18n.t(:name) %></th>
+                <th><%= I18n.t(:description) %></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -49,13 +48,12 @@
                  <tr>
                    <td><%= i.name %></td>
                    <td><%= i.description %></td>
-                   <td><%= link_to 'Show', i %></td>
-                   <td><%= link_to 'Edit', edit_organization_labor_category_path(i) %></td>
-                   <td><%= link_to 'Destroy', i, confirm: 'Are you sure?', method: :delete %></td>
+                   <td><%= link_to '', edit_organization_labor_category_path(i), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+                   <td><%= link_to '', i, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>"#{I18n.t "delete"}" %></td>
                  </tr>
               <% end %>
             </table>
-          <%= link_to 'New OrganizationLaborCategory', new_organization_labor_category_path, :class => "btn" %>
+          <%= link_to "#{I18n.t "new_organisation_labor_category"}", new_organization_labor_category_path, :class => "btn" %>
         </div>
     </ul>
 

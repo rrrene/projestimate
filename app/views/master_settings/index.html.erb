@@ -21,10 +21,10 @@
       <td>
         <% if is_master_instance? && !master_setting.is_local_record? %>
             <% if master_setting.is_retired? %>
-                <%= link_to("#{I18n.t "restore"}", "master_settings/#{master_setting.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "restore changes")%>
+                <%= link_to("#{I18n.t "restore"}", "master_settings/#{master_setting.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
             <% else %>
                 <% unless master_setting.is_defined? %>
-                    <%= link_to("#{I18n.t "validate"}", "master_settings/#{master_setting.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "validate changes")%>
+                    <%= link_to("#{I18n.t "validate"}", "master_settings/#{master_setting.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
                 <% end %>
             <% end %>
         <% end %>

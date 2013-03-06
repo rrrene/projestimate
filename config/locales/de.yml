@@ -71,6 +71,9 @@ de:
   empty: "None"
   are_you_sur?: "Are you sure?"
   back: "Back"
+  restore_title: "Restore changes"
+  validate_title: "Validates changes"
+
   #Project settings
   activity_categories: "Activity categories"
   acquisition_categories: "Acquisition categories"
@@ -177,6 +180,38 @@ de:
   position: "Position"
   associate_Product_element_module_project: "Associate Product-Element with current module project"
 
+  #organization_labor_categories
+  organization: "Organization"
+  labor_category: "Labor category"
+  level: "Level"
+  cost_per_hour: "Cost per hour"
+  base_year: "Base year"
+  currency: "Currency"
+  hour_per_day: "Hour per day"
+  days_per_year: "Days per year"
+  edit_organisation_labor_category: "Edit an organization labor category"
+  new_organisation_labor_category: "New organization labor category"
+
+
+  #Organization
+  organization: "Organization"
+  edit_organisation: "Edit an organization"
+  new_organisation: "New organisation"
+  inflation: "Inflation"
+  organizationals_labors_categories: "Organizationals labors categories"
+
+  #Pbs_project_elements
+  ancestry: "Ancestry"
+  work_element_type: "Work element type"
+  project_link: "Project link"
+
+  #peicons
+  icon: "Icon"
+  icon-message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
+  edit_icon: "Edit icon"
+  new_icon: "Add an icon"
+  icons: "Icons"
+  actions: "Actions"
 
   date:
     abbr_day_names:
