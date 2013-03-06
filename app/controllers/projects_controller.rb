@@ -494,7 +494,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def get_new_ancestors(node, pe_wbs_activity, wbs_elt_root)
     node_ancestors = node.ancestry.split('/')
     new_ancestors = []
@@ -505,7 +504,6 @@ class ProjectsController < ApplicationController
     end
     new_ancestors.join('/')
   end
-
 
   def create_wbs_activity_from_child(node, pe_wbs_activity, wbs_elt_root)
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
@@ -524,12 +522,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def refresh_wbs_project_elements
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @show_hidden = params[:show_hidden]
   end
-
 
 end

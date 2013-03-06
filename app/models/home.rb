@@ -234,31 +234,55 @@ class Home < ActiveRecord::Base
       puts "   - ReferenceValue"
       self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
-      puts "   - Wbs Activity Ratio"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])
-
-      puts "   - Wbs Activity Ratio Elements"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "ratio_reference_element", "uuid"])
-
       puts "   - Wbs Activity"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
 
       puts "   - Wbs Activity Element"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ["name", "description", "dotted_id", "uuid"])
 
+      puts "   - Wbs Activity Ratio"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])
+
+      puts "   - Wbs Activity Ratio Elements"
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "ratio_reference_element", "uuid"])
+
       puts "       - Rebuilding tree in progress..."
       activities = WbsActivity.all
       elements = WbsActivityElement.all
       ext_activities = ExternalMasterDatabase::ExternalWbsActivity.all
       ext_elements = ExternalMasterDatabase::ExternalWbsActivityElement.all
+      ext_ratios = ExternalMasterDatabase::ExternalWbsActivityRatio.all
+      ext_ratio_elements = ExternalMasterDatabase::ExternalWbsActivityRatioElement.all
 
       ext_activities.each do |ext_act|
+        #Associate activity element to activity
         ext_elements.each do |ext_elt|
           if ext_act.id == ext_elt.wbs_activity_id and ext_act.record_status_id == ext_defined_rs_id
             act = WbsActivity.find_by_uuid(ext_act.uuid)
             ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
           end
         end
+
+        #Associate activity ratio to activity
+        ext_ratios.each do |ext_ratio|
+          if ext_act.id == ext_ratio.wbs_activity_id and ext_act.record_status_id == ext_defined_rs_id
+            act = WbsActivity.find_by_uuid(ext_act.uuid)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratios SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_ratio.uuid}'")
+          end
+        end
+
+        #Associate activity ratio elements to activity
+        ext_ratio_elements.each do |ext_ratio_element|
+          if ext_ratio.id == ext_ratio_element.wbs_activity_ratio_id and ext_ratio.record_status_id == ext_defined_rs_id
+            activity_ratio = WbsActivityRatio.find_by_uuid(ext_ratio_element.wbs_activity_ratio.uuid)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_ratio_id = #{activity_ratio.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
+          end
+        end
+
+      end
+
+      activities.each do |a|
+        WbsActivityElement::build_ancestry(elements, a.id)
       end
 
       puts "   - Master Settings"
@@ -342,17 +366,28 @@ class Home < ActiveRecord::Base
       Project.create(:title => "Sample project", :description => "This is a sample project for demonstration purpose", :alias => "sample project", :state => "preliminary", :start_date => Time.now.strftime("%Y/%m/%d"), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id =>  AcquisitionCategory.first.id)
       project = Project.first
 
+      #New default Pe-Wbs-Project
+      pe_wbs_project_product  = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => "Product")
+      pe_wbs_project_activity = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => "Activity")
+
+      folder = WorkElementType.find_by_alias("folder")
+
+      if pe_wbs_project_product.save
+        ##New root Pbs-Project-Element
+        pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{project.title} WBS-Product", :is_root => true, :work_element_type_id => folder.id, :position => 0)
+        pbs_project_element.save
+        pe_wbs_project_product.save
+      end
+
+      if pe_wbs_project_activity.save
+        ##New Root Wbs-Project-Element
+        wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{project.title} WBS-Activity", :is_root => true, :description => "WBS-Activity Root Element", :author_id => user.id)
+        wbs_project_element.save
+      end
+
       #Associated default user with sample project
       user.project_ids = [Project.first.id]
       user.save
-
-      #Create default wbs associated with previous project
-      PeWbsProject.create(:name => "PE-WBS-Sample", :project_id => project.id)
-      pe_wbs_project = PeWbsProject.first
-
-      #Create root pbs_project_element
-      pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => "Root folder")
-      pbs_project_element = PbsProjectElement.first
 
       puts "   - Create project security level..."
       self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ["name", "uuid"])
