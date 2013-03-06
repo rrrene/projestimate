@@ -110,10 +110,6 @@ de:
   edit_attribute: "Edit an attribut"
   new_attribute: "New attribut"
 
-
-  #messages
-  status_custom: "Is needed only when Status = Custom"
-
   #auth_method
   server_name: "Server name"
   port: "Port"
@@ -212,6 +208,29 @@ de:
   new_icon: "Add an icon"
   icons: "Icons"
   actions: "Actions"
+
+  #pemodules
+  low: "Default value (Low)"
+  likely: "Default value (La plus probable)"
+  high: "Default value (Haute)"
+  custom_attribute: "Custom attribute"
+  attributes_settings: "Attributes settings"
+  compatibility: "Compatibility"
+  attribute_name: "Attribute name"
+  selected: "Selected"
+  edit_pemodule: "Edit module"
+  new_pemodule: "New module"
+
+  #messages
+  status_custom: "Is needed only when Status = Custom"
+  restoring?: "Do you confirm restoring this record as defined ?"
+  validation?: "Do you confirm changes validation on this record?"
+  global_settings_updated: "Global settings have been updated."
+  attributes_settings_updated: "Attributes settings have been updated."
+  refers_to: "No projestimate modules has been installed. Please refer to"
+  official_documentation: "Official documentation"
+  to_install_module: "to install projestimate modules."
+
 
   date:
     abbr_day_names:

@@ -114,12 +114,6 @@ fr:
   edit_attribute: "Editer un attribut"
   new_attribute: "Créer un nouvel attribut"
 
-
-  #messages
-  status_custom: "N'est obligatoire que lorque le statut est à Custom"
-  restoring?: "Do you confirm restoring this record as defined ?"
-  validation?: "Do you confirm changes validation on this record?"
-
   #auth_method
   server_name: "Nom du serveur"
   port: "Numéro de port"
@@ -218,7 +212,27 @@ fr:
   icons: "Icônes"
   actions: "Actions"
 
+  #pemodules
+  low: "Valeur par defaut (Basse)"
+  likely: "Valeur par defaut (La plus probable)"
+  high: "Valeur par defaut (Haute)"
+  custom_attribute: "Attribut personnalisé"
+  attributes_settings: "Paramètres des attributs"
+  compatibility: "Compatibilité"
+  attribute_name: "Nom de l'attribut"
+  selected: "Sélectionné"
+  edit_pemodule: "Editer le module"
+  new_pemodule: "Créer un module"
 
+  #messages
+  status_custom: "N'est obligatoire que lorque le statut est à Custom"
+  restoring?: "Confirmez-vous la restauration de ce dossier en mode défini?"
+  validation?: "Confirmez-vous la validation des changements sur cet enregistrement?"
+  global_settings_updated: "Les paramètres globaux ont été mis à jour."
+  attributes_settings_updated: "Les paramètres des attributs ont été mis à jour."
+  refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
+  official_documentation: "Documentation officielle"
+  to_install_module: "pour installer un module sur Projestimate"
   date:
     formats:
       default: "%d/%m/%Y"
