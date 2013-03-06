@@ -12,7 +12,7 @@
 
   has_many :wbs_project_elements
 
-  scope :is_ok_for_validation, lambda {|de, re, loc| where("record_status_id <> ? and record_status_id <> ? and record_status_id <> ?", de, re, loc) }
+  scope :is_ok_for_validation, lambda {|de, re| where("record_status_id <> ? and record_status_id <> ?", de, re) }
   scope :elements_root, where(:is_root => true)
 
   validates :name, :presence => true, :uniqueness => { :scope => [:wbs_activity_id, :ancestry, :record_status_id], :case_sensitive => false}

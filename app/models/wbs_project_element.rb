@@ -36,4 +36,16 @@ class WbsProjectElement < ActiveRecord::Base
 
     propagate
   end
+
+  def is_from_library_and_is_leaf?
+    if self.wbs_activity.nil? && self.wbs_activity_element.nil?
+      false
+    else
+      if self.has_children?
+        true
+      else
+        false
+      end
+    end
+  end
 end

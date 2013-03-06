@@ -9,6 +9,7 @@ describe WbsActivityElement do
   end
 
   it 'should return wbs_activity name' do
+    @wbs_activity_element.wbs_activity = @wbs_activity
     @wbs_activity_element.wbs_activity_name.should eql(@wbs_activity.name)
   end
 
