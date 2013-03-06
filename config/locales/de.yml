@@ -221,6 +221,26 @@ de:
   edit_pemodule: "Edit module"
   new_pemodule: "New module"
 
+  #permissions
+  is_permission_project: "Permission project"
+  object_associated: "Object associated"
+  edit_permission: "Edita permission"
+  new_permission: "New permission"
+  permissions: "Permissions"
+
+  #project_securities
+  edit_project_security: "Edit project securities"
+  new_project_security: "New project securties"
+  full_control: "Full control"
+  define: "Define"
+  modify: "Modify"
+  comment: "Comment"
+  read_only: "Read only"
+
+  #project_security_levels
+  edit_project_security_level: "Edit a project security level"
+  new_project_security_level: "New project security level"
+
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"

@@ -1,10 +1,10 @@
 <div class="span12">
-  <h1>Globals Permissions</h1>
+  <h1><%= I18n.t(:global_permission) %></h1>
 
   <%= form_tag({:action=>"set_rights", :controller=>"permissions"}, :method => "post") do %>
     <table class="table table-striped permissions">
       <tr>
-        <th style="text-align:left;">Permissions</th>
+        <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
         <% @groups.each do |group| %>
           <th style="text-align:center;">
             <%= group.name %>
@@ -24,6 +24,6 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag "Save" %>
+    <%= submit_tag "#{I18n.t "save"}", :class => "btn" %>
     <% end %>
 </div>

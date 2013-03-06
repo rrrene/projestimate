@@ -224,6 +224,27 @@ fr:
   edit_pemodule: "Editer le module"
   new_pemodule: "Créer un module"
 
+  #permissions
+  is_permission_project: "Permission du projet"
+  object_associated: "Objet associé"
+  edit_permission: "Editer une permission"
+  new_permission: "Créer une nouvelle permission"
+  permissions: "Permissions"
+
+  #project_securities
+  edit_project_security: "Editer les sécurités sur ce projet"
+  new_project_security: "Créer de nouvelle sécurité sur le projet"
+  full_control: "Contrôle total"
+  define: "Définir"
+  modify: "Modifier"
+  comment: "Commenter"
+  read_only: "Lecture seule"
+
+  #project_security_levels
+  edit_project_security_level: "Editer le niveau des sécurités sur ce projet"
+  new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
+
+
   #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
   restoring?: "Confirmez-vous la restauration de ce dossier en mode défini?"

@@ -1,9 +1,9 @@
 <div class="span12">
-  <h1>Projects Permissions</h1>
+  <h1><%= I18n.t(:project_securities)%></h1>
   <%= form_tag({:action=>"set_rights_project_security", :controller=>"permissions"}, :method => "post") do %>
     <table class="table table-striped permissions">
       <tr>
-        <th style="text-align:left;">Permissions</th>
+        <th style="text-align:left;"><%= I18n.t(:permissions)%></th>
         <% @project_securitiy_levels.each do |ps| %>
           <th style="text-align:center;">
             <%= ps.name %>
@@ -22,8 +22,8 @@
             <% end %>
           </tr>
         <% end %>
-          <tr><td><%= link_to "New permission", new_permission_path(:is_project_permission => true) %></td></tr>
+          <tr><td><%= link_to "#{I18n.t "new_permission"}", new_permission_path(:is_project_permission => true) %></td></tr>
       </table>
-    <%= submit_tag "Save" %>
+    <%= submit_tag "#{I18n.t "save"}", :class => "btn" %>
     <% end %>
 </div>
