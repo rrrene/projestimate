@@ -2,7 +2,7 @@
     <tr>
       <td><h2><%= "#{I18n.t "attributes"}" %></h2></td>
       <td style="text-align:right;">
-          <%= link_to "#{I18n.t "new_f"} #{I18n.t "attributes"}", new_attribute_path, :class => "btn" %>
+          <%= link_to "#{I18n.t "new_attribute"}", new_attribute_path, :class => "btn" %>
       </td>
     </tr>
 </table>
@@ -45,11 +45,3 @@
       <% end %>
     <% end %>
   </table>
-
-<table border="0" width="100%">
-  <tr>
-   <td style="text-align:right;">
-        <%= link_to "#{I18n.t "new_f"} #{I18n.t "attributes"}", new_attribute_path, :class => "btn" %>
-   </td>
-  </tr>
-</table>

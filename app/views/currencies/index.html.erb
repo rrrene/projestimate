@@ -1,11 +1,11 @@
-<h2>Currencies</h2>
+<h2><%= I18n.t(:currencies) %> </h2>
 
 <table class="table table-striped">
   <tr>
-    <th>Name</th>
+    <th><%= I18n.t(:name) %></th>
     <th>Alias</th>
-    <th>Description</th>
-    <th>Status</th>
+    <th><%= I18n.t(:description) %></th>
+    <th><%= I18n.t(:record_status) %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -18,16 +18,15 @@
     <td><%= currency.alias %></td>
     <td><%= currency.description %></td>
     <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
-    <td><%= link_to 'Show', currency %></td>
-    <td><%= link_to '', edit_currency_path(currency), :class => "icn_edit", :title => "Edit" %></td>
-    <td><%= link_to '', currency, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+    <td><%= link_to '', edit_currency_path(currency), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+    <td><%= link_to '', currency, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
     <td>
       <% if is_master_instance? && !currency.is_local_record? %>
           <% if currency.is_retired? %>
-              <%= link_to('Restore', "currencies/#{currency.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+              <%= link_to("#{I18n.t "restore"}", "currencies/#{currency.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
           <% else %>
               <% unless currency.is_defined? %>
-                  <%= link_to('Validate', "currencies/#{currency.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                  <%= link_to("#{I18n.t "validate"}", "currencies/#{currency.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
               <% end %>
           <% end %>
       <% end %>
@@ -38,4 +37,4 @@
 
 <br />
 
-<%= link_to 'New Currency', new_currency_path, :class => "btn" %>
+<%= link_to "#{I18n.t "new_currency"}", new_currency_path, :class => "btn" %>

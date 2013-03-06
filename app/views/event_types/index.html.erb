@@ -1,11 +1,11 @@
-<h2>Event types</h2>
+<h2><%= I18n.t(:event_types) %></h2>
 
 <table class="table table-striped">
   <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Icon url</th>
-    <th>Status</th>
+    <th><%= I18n.t(:name) %></th>
+    <th><%= I18n.t(:description) %></th>
+    <th><%= I18n.t(:icon_url) %></th>
+    <th><%= I18n.t(:record_status) %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -17,16 +17,15 @@
     <td><%= event_type.description %></td>
     <td><%= event_type.icon_url %></td>
     <td><%= event_type.record_status.name unless event_type.record_status.nil? %>  <%= event_type.show_custom_value %></td>
-    <td><%= link_to 'Show', event_type %></td>
-    <td><%= link_to 'Edit', edit_event_type_path(event_type) %></td>
-    <td><%= link_to 'Destroy', event_type, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to '', edit_event_type_path(event_type), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+    <td><%= link_to '', event_type, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
     <td>
       <% if is_master_instance? && !event_type.is_local_record? %>
           <% if event_type.is_retired? %>
-              <%= link_to('Restore', "event_types/#{event_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+              <%= link_to("#{I18n.t "restore"}", "event_types/#{event_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
           <% else %>
               <% unless event_type.is_defined? %>
-                  <%= link_to('Validate', "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                  <%= link_to("#{I18n.t "validate"}", "event_types/#{event_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
               <% end %>
           <% end %>
       <% end %>
@@ -37,4 +36,4 @@
 
 <br />
 
-<%= link_to 'New Event type', new_event_type_path, :class => "btn" %>
+<%= link_to "#{I18n.t "new_event_type"}", new_event_type_path, :class => "btn" %>

@@ -1,64 +1,142 @@
 de:
+ #  Menu
+  projects: "Projects"
+  recent_project: "Recent project"
   accueil: "Home"
-  administration: "Administration"
-  project_global_setting: "Global setting"
-  estimation_setting: "Estimation"
+  all_projects: "All projects"
+  create_new_project: "Create a new project"
+
+  library: "Library"
+  project_global_setting: "Project global settings"
+  estimation_setting: "Estimation settings"
   organization_setting: "Organizational setting"
+  wbs_activities: "WBS-Activities"
+  template: "Template"
+
+  admin: "Admin"
   administration: "Administration"
   users: "Users"
   groups: "Groups"
-  global_permissions: "Globals Permissions"
-  project_securities: "Project Securities"
+  global_permission: "Global permissions"
+  project_securities: "Project securities"
+  auth_methods: "Authentication methods"
   events: "Events"
-  labor_categories: "Labor categories"
+
   master: "Master parameters"
-  project_global_parameters: "Global parameters"
+  project_global_parameters: "Project global parameters"
   attributes: "Attributes"
-  projestimate_module: "Module"
-  work_element: "Work Element"
-  security_level: "Security level"
-  global_permission: "Global permission parameters"
+  labor_categories: "Labor categories"
+  projestimate_module: "Modules"
+  work_element: "Work elements"
+  security_level: "Securities levels"
   languages: "Languages"
   translations: "Translations"
   community: "Community"
+  reference_values : "Reference values"
+
+  connected_as: "Connected as"
+  logout: "Logout"
+  help: "Help"
+  services: "Services"
+  about: "About"
+
+  #user
+  identity: "Identity"
+  first_name: "First name"
+  last_name: "Last name"
+  login_name: "Login name"
+  email: "Email"
+  initials: "Initials"
+
+  #attributes
   name: "Name"
   description: "Description"
-  change_comment: "Comment"
+  change_comment: "COmment"
   record_status: "Record status"
-  custom_value: "Custum value"
-  save: "Save "
-  apply: "Apply "
-  edit: "Edit "
-  recent_project: "Recent project"
-  all_projects: "All projects"
-  create_new_project: "Create a new project"
-  reference_values: "Références values"
+  custom_value: "Custom value"
+
+
+  wbs_activity_elements: "WBS-Activity Elements"
+
+
+  #CRUD
+  save: "Save"
+  apply: "Apply"
+  edit: "Edit"
+  delete: "Delete "
+  show: "Show"
+  restore: "Restore"
+  validate: "Validate"
+  update: "Update"
+  empty: "None"
+  are_you_sur?: "Are you sure?"
+  back: "Back"
+  #Project settings
   activity_categories: "Activity categories"
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
   project_area: "Project Area"
-  new: "New "
-  new_f: "New "
-  update: "Update "
-  delete: "delete "
-  show: "Show"
+
+  #Project areas
+  edit_project_area: "Editer une zone de projet"
+  new_project_area: "Nouvelle zone de projet"
+
+  #Project categories
+  edit_project_category: "Editer une categorie de projet"
+  new_project_category: "Nouvelle categorie de projet"
+
+  #Platform categories
+  edit_platform_category: "Editer une plateforme de categorie"
+  new_platform_category: "Nouvelle plateforme de categorie"
+
+  #Acquisition categories
+  edit_acquisition_category: "Edit an acquisition category"
+  new_acquisition_category: "New acquisition category"
+
+  #Admin_settings
+  edit_admin_settings: "Edit admin settings"
+  new_admin_settings: "New admin setting"
   key: "Key"
   value: "Value"
-  restore: "Restore"
-  validate: "Validate"
+
+  #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribute type"
-  empty: "None"
-  are_you_sur?: "Are you sure?"
+  attributes_type: "Attribut type"
+  edit_attribute: "Edit an attribut"
+  new_attribute: "New attribut"
+
+
+  #messages
   status_custom: "Is needed only when Status = Custom"
 
+  #auth_method
   server_name: "Server name"
   port: "Port"
   certificate: "Certificate"
   base_dn: "Base DNS"
   user_name_attribute: "Username Attribute"
+  edit_auth_method: "Edit an authentication method"
+  new_auth_method: "New authentication method"
+
+  #currencies
+  edit_currency: "Edit currency"
+  new_currency: "New currency"
+
+  #event_types
+  icon_url: "Url icon"
+  edit_event_type: "Edit an event type"
+  new_event_type: "New event type"
+  event_types: "Event types"
+
+  #events
+  start_date: "Start date"
+  end_date: "Date end"
+  event_type_id: "Event id"
+  project_id: "Project id"
+  edit_event: "Edit an event"
+  new_event: "New event"
 
   date:
     abbr_day_names:

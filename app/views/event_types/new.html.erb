@@ -1,6 +1,4 @@
-<h2>New <%= controller.controller_name.humanize.singularize %> </h2>
+<h2><%= I18n.t(:new_event_type) %></h2>
 <div class="module width_full">
   <%= render 'form' %>
 </div>
-
-<%= link_to 'Back', event_types_path %>

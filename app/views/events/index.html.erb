@@ -1,14 +1,14 @@
 <div class="span12">
-  <h2>Events</h2>
+  <h2><%= I18n.t(:events) %></h2>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Event type</th>
-      <th>Project</th>
+      <th><%= I18n.t(:name) %></th>
+      <th><%= I18n.t(:description) %></th>
+      <th><%= I18n.t(:start_date) %></th>
+      <th><%= I18n.t(:end_date) %></th>
+      <th><%= I18n.t(:event_type) %></th>
+      <th><%= I18n.t(:project) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,12 +22,11 @@
       <td><%= event.end_date %></td>
       <td><%= event.event_type_id %></td>
       <td><%= event.project_id %></td>
-      <td><%= link_to 'Show', event %></td>
-      <td><%= link_to 'Edit', edit_event_path(event) %></td>
-      <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= link_to '',  edit_event_path(event), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
+      <td><%= link_to '', event, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
     </tr>
   <% end %>
   </table>
-  <%= link_to 'New Event', new_event_path, :class => "btn" %>
+  <%= link_to "#{I18n.t "new_event"}", new_event_path, :class => "btn" %>
 
 </div>
