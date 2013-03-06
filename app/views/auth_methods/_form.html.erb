@@ -24,8 +24,8 @@
 
     <div class="actions">
       <% if can? :update, @auth_method %>
-          <%= f.submit "#{I18n.t "save"}", :class => "btn btn-success" %>
-          <%= f.submit "#{I18n.t "apply"}", :class => "btn btn-success" %>
+          <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
+          <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
       <% end %>
     </div>
   <% end %>

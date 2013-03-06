@@ -1,78 +1,259 @@
 en:
+
+ #  Menu
+  projects: "Projects"
+  recent_project: "Recent project"
   accueil: "Home"
-  administration: "Administration"
-  project_global_setting: "Project Global setting"
-  estimation_setting: "Estimation"
+  all_projects: "All projects"
+  create_new_project: "Create a new project"
+
+  library: "Library"
+  project_global_setting: "Project global settings"
+  estimation_setting: "Estimation settings"
   organization_setting: "Organizational setting"
+  wbs_activities: "WBS-Activities"
+  template: "Template"
+
+  admin: "Admin"
   administration: "Administration"
   users: "Users"
   groups: "Groups"
-  global_permissions: "Globals Permissions"
-  project_securities: "Project Securities"
+  global_permission: "Global permissions"
+  project_securities: "Project securities"
   auth_methods: "Authentication methods"
   events: "Events"
-  labor_categories: "Labor categories"
+
   master: "Master parameters"
-  project_global_parameters: "Project Global parameters"
+  project_global_parameters: "Project global parameters"
   attributes: "Attributes"
-  projestimate_module: "Module"
-  work_element: "Work Element"
-  security_level: "Security level"
-  global_permission: "Globals Permissions"
+  labor_categories: "Labor categories"
+  projestimate_module: "Modules"
+  work_element: "Work elements"
+  security_level: "Securities levels"
   languages: "Languages"
   translations: "Translations"
   community: "Community"
-  record_status: "Record status"
-  wbs_activities: "WBS-Activities"
-  wbs_activity_elements: "WBS-Activity Elements"
+  reference_values : "Reference values"
+
   connected_as: "Connected as"
   logout: "Logout"
   help: "Help"
   services: "Services"
   about: "About"
+
+  #user
   identity: "Identity"
   first_name: "First name"
   last_name: "Last name"
   login_name: "Login name"
   email: "Email"
   initials: "Initials"
+
+  #attributes
   name: "Name"
   description: "Description"
   change_comment: "Comment"
   record_status: "Record status"
-  custom_value: "Custum value"
-  save: "Save "
-  apply: "Apply "
-  edit: "Edit "
-  recent_project: "Recent project"
-  all_projects: "All projects"
-  create_new_project: "Create a new project"
-  reference_values : "Références values"
+  custom_value: "Custom value"
+
+
+  wbs_activity_elements: "WBS-Activity Elements"
+
+
+  #CRUD
+  save: "Save"
+  apply: "Apply"
+  edit: "Edit"
+  delete: "Delete "
+  show: "Show"
+  restore: "Restore"
+  validate: "Validate"
+  update: "Update"
+  empty: "None"
+  are_you_sur?: "Are you sure?"
+  back: "Back"
+  restore_title: "Restore changes"
+  validate_title: "Validates changes"
+  #Project settings
   activity_categories: "Activity categories"
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
   project_area: "Project Area"
-  new: "New "
-  new_f: "New "
-  delete: "Delete "
-  update: "Update "
-  show: "Show"
+
+  #Project areas
+  edit_project_area: "Editer une zone de projet"
+  new_project_area: "Nouvelle zone de projet"
+
+  #Project categories
+  edit_project_category: "Editer une categorie de projet"
+  new_project_category: "Nouvelle categorie de projet"
+
+  #Platform categories
+  edit_platform_category: "Editer une plateforme de categorie"
+  new_platform_category: "Nouvelle plateforme de categorie"
+
+  #Acquisition categories
+  edit_acquisition_category: "Edit an acquisition category"
+  new_acquisition_category: "New acquisition category"
+
+  #Admin_settings
+  edit_admin_settings: "Edit admin settings"
+  new_admin_settings: "New admin setting"
   key: "Key"
   value: "Value"
-  restore: "Restore"
-  validate: "Validate"
+  edit_attribute: "Edit attribut"
+  new_attribute: "New attribut"
+
+  #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribute type"
-  empty: "None"
-  are_you_sur?: "Are you sure?"
-  status_custom: "Is needed only when Status = Custom"
+  attributes_type: "Attribut type"
+  edit_attribute: "Edit an attribut"
+  new_attribute: "New attribut"
+
+
+  #auth_method
   server_name: "Server name"
   port: "Port"
   certificate: "Certificate"
   base_dn: "Base DNS"
   user_name_attribute: "Username Attribute"
+  edit_auth_method: "Edit an authentication method"
+  new_auth_method: "New authentication method"
+
+  #currencies
+  edit_currency: "Edit currency"
+  new_currency: "New currency"
+
+  #event_types
+  icon_url: "Url icon"
+  edit_event_type: "Edit an event type"
+  new_event_type: "New event type"
+  event_types: "Event types"
+
+  #events
+  start_date: "Start date"
+  end_date: "Date end"
+  event_type_id: "Event id"
+  project_id: "Project id"
+  edit_event: "Edit an event"
+  new_event: "New event"
+
+  #groups
+  global: "Global"
+  associated_users: "Associated users"
+  associated_projects: "Associated projects"
+  edit_group: "Edit a group"
+  new_group: "New group"
+
+  #Labor categories
+  edit_labor_category: "Edit a labor category"
+  new_labor_category: "New labor category"
+
+  #languages
+  edit_language: "Edit a language"
+  new_language: "New language"
+  local: "Local"
+
+  #master_settings
+  edit_master_setting: "Edit a master setting"
+  new_master_setting: "New master setting"
+
+  #module_project_attributes
+  in_out: "In/Out"
+  edit_module_project_attribute: "Edit a module project attribute"
+  new_module_project_attribute: "New module project attribute"
+
+  #module_project
+  edit_module_project: "Edit a module projet"
+  new_module_project: "New module project"
+  related_attributes: "Related attributes"
+  mandatory: "Mandatory"
+  links_to: "Links to"
+  current_link: "Current link"
+  edit_link: "Edit a link"
+  module_name: "Module name"
+  associable_attributes: "Associable attributes"
+  pe_module: "Pe-Module"
+  position: "Position"
+  associate_Product_element_module_project: "Associate Product-Element with current module project"
+
+  #organization_labor_categories
+  organization: "Organization"
+  labor_category: "Labor category"
+  level: "Level"
+  cost_per_hour: "Cost per hour"
+  base_year: "Base year"
+  currency: "Currency"
+  hour_per_day: "Hour per day"
+  days_per_year: "Days per year"
+  edit_organisation_labor_category: "Edit an organization labor category"
+  new_organisation_labor_category: "New organization labor category"
+
+  #Organization
+  organization: "Organization"
+  edit_organisation: "Edit an organization"
+  new_organisation: "New organisation"
+  inflation: "Inflation"
+  organizationals_labors_categories: "Organizationals labors categories"
+
+  #Pbs_project_elements
+  ancestry: "Ancestry"
+  work_element_type: "Work element type"
+  project_link: "Project link"
+
+  #peicons
+  icon: "Icon"
+  icon-message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
+  edit_icon: "Edit icon"
+  new_icon: "Add an icon"
+  icons: "Icons"
+  actions: "Actions"
+
+  #pemodules
+  low: "Default value (Low)"
+  likely: "Default value (La plus probable)"
+  high: "Default value (Haute)"
+  custom_attribute: "Custom attribute"
+  attributes_settings: "Attributes settings"
+  compatibility: "Compatibility"
+  attribute_name: "Attribute name"
+  selected: "Selected"
+  edit_pemodule: "Edit module"
+  new_pemodule: "New module"
+
+  #permissions
+  is_permission_project: "Permission project"
+  object_associated: "Object associated"
+  edit_permission: "Edita permission"
+  new_permission: "New permission"
+  permissions: "Permissions"
+
+  #project_securities
+  edit_project_security: "Edit project securities"
+  new_project_security: "New project securties"
+  full_control: "Full control"
+  define: "Define"
+  modify: "Modify"
+  comment: "Comment"
+  read_only: "Read only"
+
+  #project_security_levels
+  edit_project_security_level: "Edit a project security level"
+  new_project_security_level: "New project security level"
+
+  #messages
+  status_custom: "Is needed only when Status = Custom"
+  restoring?: "Do you confirm restoring this record as defined ?"
+  validation?: "Do you confirm changes validation on this record?"
+  global_settings_updated: "Global settings have been updated."
+  attributes_settings_updated: "Attributes settings have been updated."
+  refers_to: "No projestimate modules has been installed. Please refer to"
+  official_documentation: "Official documentation"
+  to_install_module: "to install projestimate modules."
+
+
   date:
     abbr_day_names:
     - Sun

@@ -13,38 +13,38 @@
 
   <div >
 
-    <%= f.label :organization_id %><br />
+    <%= f.label "#{I18n.t "organization"}" %><br />
     <%= f.number_field :organization_id %>
 
-    <%= f.label :labor_category_id %><br />
+    <%= f.label "#{I18n.t "labor_category"}" %><br />
     <%= f.number_field :labor_category_id %>
 
-    <%= f.label :level %><br />
+    <%= f.label "#{I18n.t "level"}" %><br />
     <%= f.text_field :level %>
 
-    <%= f.label :name %><br />
+    <%= f.label "#{I18n.t "name"}" %><br />
     <%= f.text_field :name %>
 
-    <%= f.label :description %><br />
+    <%= f.label "#{I18n.t "description"}"%><br />
     <%= f.text_area :description %>
 
-    <%= f.label :cost_per_hour %><br />
+    <%= f.label "#{I18n.t "cost_per_hour"}" %><br />
     <%= f.text_field :cost_per_hour %>
 
-    <%= f.label :base_year %><br />
+    <%= f.label "#{I18n.t "base_year"}" %><br />
     <%= f.number_field :base_year %>
 
-    <%= f.label :currency_id %><br />
+    <%= f.label "#{I18n.t "currency"}" %><br />
     <%= f.number_field :currency_id %>
 
-    <%= f.label :hour_per_day %><br />
+    <%= f.label "#{I18n.t "hour_per_day"}" %><br />
     <%= f.text_field :hour_per_day %>
 
-    <%= f.label :days_per_year %><br />
+    <%= f.label "#{I18n.t "days_per_year"}" %><br />
     <%= f.number_field :days_per_year %>
   </div>
   <div class="actions">
-    <%= f.submit "Save", :class => "btn btn-success" %>
-    <%= f.submit "Apply", :class => "btn btn-success" %>
+    <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
+    <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
   </div>
 <% end %>

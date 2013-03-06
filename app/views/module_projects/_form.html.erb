@@ -14,7 +14,7 @@
   <div class="tabs">
 
     <ul>
-      <li><a href="#tabs-1">Related attributes </a></li>
+      <li><a href="#tabs-1"><%= I18n.t(:related_attributes) %></a></li>
       <!--<li><a href="#tabs-2">ModulesProjects setting</a></li>-->
     </ul>
 
@@ -22,11 +22,11 @@
 
       <table class="table table-striped">
         <tr>
-          <th>Name</th>
-          <th>I/O</th>
-          <th>Mandatory</th>
-          <th>Description</th>
-          <th>Links to</th>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:in_out) %></th>
+          <th><%= I18n.t(:mandatory) %></th>
+          <th><%= I18n.t(:description) %></th>
+          <th><%= I18n.t(:links_to) %></th>
         </tr>
         <% @module_project.module_project_attributes.each_with_index do |attr, i| %>
 
@@ -39,10 +39,10 @@
               <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => attr.is_mandatory), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %></td>
               <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
               <td>
-                <strong>Current links</strong>
+                <strong><%= I18n.t(:current_link) %></strong>
                 <% unless attr.links.first.nil? %>
                   <p>
-                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "Edit links", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
+                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
                   </p>
                 <% end %>
               </td>
@@ -51,8 +51,8 @@
                 <%= pop_up("attribute_links_#{i}", "Attribute Links #{attr.id}") do %>
                   <table class="table table-striped">
                     <tr>
-                      <th>Module name</th>
-                      <th>Associable attributes</th>
+                      <th><%= I18n.t(:module_name) %></th>
+                      <th><%= I18n.t(:associable_attributes) %></th>
                     </tr>
 
                       <% if attr.input? %>
@@ -96,8 +96,8 @@
 
 
   <div class="actions">
-    <%= f.submit "Save", :class => "btn btn-success" %>
-    <%= f.submit "Apply", :class => "btn btn-success" %>
+    <%= f.submit "#{I18n.t "save"}", :class => "btn " %>
+    <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
   </div>
 
 </div>

@@ -3,19 +3,19 @@
     <%= f.error_notification %>
 
     <% unless @pbs_project_element.is_root? %>
-      <%= f.input :ancestry, :as => :select, :collection => @folder_components, :label => "Parent", :selected => @pbs_project_element.parent.id %>
+      <%= f.input :ancestry, :label => "#{I18n.t "ancestry"}" , :as => :select, :collection => @folder_components, :label => "Parent", :selected => @pbs_project_element.parent.id %>
 
-      <%= f.input :work_element_type_id, :as => :select, :collection => WorkElementType.all, :include_blank => false %>
+      <%= f.input :work_element_type_id, :label => "#{I18n.t "work_element_type"}" , :as => :select, :collection => WorkElementType.all, :include_blank => false %>
     <% end %>
 
     <% if @pbs_project_element.link? %>
-      <%= f.input :project_link, :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
+      <%= f.input :project_link, :label => "#{I18n.t "project_link"}", :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
     <% else %>
-      <%= f.input :name %>
+      <%= f.input :name, :label => "#{I18n.t "name"}"  %>
     <% end %>
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-primary" %>
+      <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
     </div>
 
   <% end %>

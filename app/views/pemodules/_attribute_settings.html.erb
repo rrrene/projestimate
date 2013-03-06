@@ -1,14 +1,14 @@
 <table class="table table-striped">
   <tr>
-    <th style="text-align:left">Name</th>
-    <th style="text-align:left">Description</th>
-    <th style="text-align:left">Default value (low)</th>
-    <th style="text-align:left">Default value (most likely)</th>
-    <th style="text-align:left">Default value (high)</th>
-    <th style="text-align:left">In/Out</th>
-    <th style="text-align:left">Mandatory</th>
-    <th style="text-align:left">Custom Attribute</th>
-    <th style="text-align:left">Project Field</th>
+    <th style="text-align:left"><%= I18n.t(:name) %></th>
+    <th style="text-align:left"><%= I18n.t(:description) %></th>
+    <th style="text-align:left"><%= I18n.t(:low) %></th>
+    <th style="text-align:left"><%= I18n.t(:likely) %></th>
+    <th style="text-align:left"><%= I18n.t(:high) %></th>
+    <th style="text-align:left"><%= I18n.t(:in_out) %></th>
+    <th style="text-align:left"><%= I18n.t(:mandatory) %></th>
+    <th style="text-align:left"><%= I18n.t(:custom_attribute) %></th>
+    <th style="text-align:left"><%= I18n.t(:projects) %></th>
   </tr>
 
   <% @attribute_settings.each_with_index do |ma, i| %>

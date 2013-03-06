@@ -505,7 +505,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def get_new_ancestors(node, pe_wbs_activity, wbs_elt_root)
     node_ancestors = node.ancestry.split('/')
     new_ancestors = []
@@ -539,6 +538,5 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @show_hidden = params[:show_hidden]
   end
-
 
 end
