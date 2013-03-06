@@ -119,7 +119,7 @@ module WbsActivityElementsHelper
       res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
 
     else
-      res << link_to( '', new_wbs_project_element_path(:selected_parent_id => element.id, :project_id => @project.id), :class => "icon-plus icon-large", :title => "New")
+      res << link_to_unless(element.is_from_library_and_is_leaf?, '', new_wbs_project_element_path(:selected_parent_id => element.id, :project_id => @project.id), :class => "icon-plus icon-large", :title => "New")
       res << link_to_unless( element.is_root?, '', edit_wbs_project_element_path(element, :project_id => @project.id), :class => 'bl edit', :title => "Edit")
       res << link_to_unless(element.is_root?,  '', wbs_project_element_path(element, :project_id => @project.id), confirm: 'Are you sure?', method: :delete, :project_id => @project.id, :class => "icon-trash icon-large", :title => "Delete")
     end

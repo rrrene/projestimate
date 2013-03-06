@@ -222,7 +222,7 @@ class WbsActivitiesController < ApplicationController
 
           wbs_activity_root_element.transaction do
             subtree = wbs_activity_root_element.subtree #all descendants (direct and indirect children) and itself
-            subtree_for_validation = subtree.is_ok_for_validation(@defined_status.id, @retired_status.id, @local_status.id)
+            subtree_for_validation = subtree.is_ok_for_validation(@defined_status.id, @retired_status.id)
             subtree_for_validation.update_all(:record_status_id => @defined_status.id)
             #flash[:notice] =  "Wbs-Activity-Element and all its children were successfully validated."
           end

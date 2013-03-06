@@ -456,12 +456,12 @@ class ProjectsController < ApplicationController
     return wet
   end
 
+  #Add/Import a WBS-Activity template from Library to Project
   def add_wbs_activity_to_project
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @wbs_project_elements_root = @project.wbs_project_element_root
 
-    #selected_wbs_activity_elt = WbsActivityElement.find(params[:selected_wbs_activity_elt_id])
     selected_wbs_activity_elt = WbsActivityElement.find(params[:wbs_activity_element])
 
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => @pe_wbs_project_activity.id, :wbs_activity_element_id => selected_wbs_activity_elt.id,
