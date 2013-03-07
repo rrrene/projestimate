@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @wbs_activity_element.name %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @wbs_activity_element.record_status.name unless @wbs_activity_element.record_status.nil? %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @wbs_activity_element.description %>
+</p>
+
+
+<p>
+  <b>Change comment:</b>
+  <%= @wbs_activity_element.change_comment %>
+</p>

@@ -266,18 +266,13 @@ class WbsActivitiesController < ApplicationController
         true
       elsif params[:action] == "edit"
         @wbs_activity = WbsActivity.find(params[:id])
-        if @wbs_activity.is_local_record?
-          if @wbs_activity.state == "defined"
-            false
-          else
-            true
-          end
-        else
+        if @wbs_activity.is_local_record? && @wbs_activity.defined?
           false
+        else
+          true
         end
       end
     end
   end
-
 
 end
