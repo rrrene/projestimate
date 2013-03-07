@@ -1,7 +1,7 @@
 <div class="span12">
-  <h3>Searches results</h3>
+  <h3><%= I18n.t(:search_results ) %></h3>
   <% if @results.empty? %>
-      <p>No result found for <strong><%= params[:search] %></strong></p>
+      <p><%= I18n.t(:no_results ) %> <strong><%= params[:search] %></strong></p>
   <% else %>
       <ul>
           <% classes = @results.map{ |i| i.class }.uniq %>

@@ -263,6 +263,42 @@ de:
   group_name: "Group name"
   global_properties: "Global properties"
 
+  #Record_statuses
+  edit_record_status: "Edit record status"
+  new_record_status: "New record status"
+
+  #Reference_value
+  edit_reference_value: "Edit reference value"
+  new_reference_value: "New reference_value"
+
+  #searches
+  search_results: "Searches results"
+  no_results: "No result found for"
+
+  #sessions
+  ask_account: "Ask a new account"
+  send_request: "Send a request"
+  login_name_or_email: "Login name or email"
+  forgotten_password?: "Forgotten password?"
+  password: "Password"
+  open_url_id: "Open Url Id"
+  no_account: "No account"
+  ldap_account_or_application_account: "LDAP account user name or application user name."
+  not_yet_supported: "Not yet supported"
+  ldap_account_password_or_application_account_password: "LDAP account password or application password."
+  ask_new_account: "You can also ask a new account to connect on our platform !"
+  forgotten_password: "Click to 'Forgotten password' then follow instructions."
+  additional_guidance: "You can find additional guidance"
+  here: "here"
+  or: "or"
+  contact: "contact"
+  administrators: "the administrators."
+  need_help: "Need help"
+  connect: "Connect"
+  remember_me: "Remember me"
+  password_confirmation: "Password Confirmation"
+  edit_password: "Update your password"
+
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"
