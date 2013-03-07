@@ -40,14 +40,6 @@ fr:
   services: "Services"
   about: "A propos"
 
-  #user
-  identity: "Identité"
-  first_name: "Prénom"
-  last_name: "Nom"
-  login_name: "Pseudonyme"
-  email: "Email"
-  initials: "Initiales"
-
   #attributes
   name: "Nom"
   description: "Description"
@@ -73,6 +65,12 @@ fr:
   back: "Retour"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
+  previous: "< Précédent "
+  next: " Suivant >"
+  of: "Sur"
+  display: "Afficher"
+  record_per_page: "enregistrements par page"
+  quick_search: "Recherche rapide"
 
   #Project settings
   activity_categories: "Catégorie d'activités"
@@ -244,6 +242,103 @@ fr:
   edit_project_security_level: "Editer le niveau des sécurités sur ce projet"
   new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
 
+  #projects
+  edit_project: "Editer le projet"
+  new_project: "Créer un nouveau projet"
+  estimation_plan: "Estimation plan"
+  securities: "Securities"
+  calendar: "Calendar"
+  resources: "Resources"
+  analyse: "ANalyse"
+  state: "Statut"
+  hidden_element: "Afficher l'élément caché"
+  associate_pbs_element: "PBS-element associé"
+  user_securities_resume: "Résumé des sécurités de l'utilisateur"
+  group_securities_resume: "Résumé des sécurités du groupe"
+  group_name: "Nom du groupe"
+  global_properties: "Propriétés globales"
+
+  #Record_statuses
+  edit_record_status: "Editer le statut d'enregistrement"
+  new_record_status: "Créer un nouveau statut d'enregistrement"
+
+  #Reference_value
+  edit_reference_value: "Editer la valeur de référence"
+  new_reference_value: "Créer une valeur de référence"
+
+  #searches
+  search_results: "Résultat de la recherche"
+  no_results: "Aucun résultat trouvé pour"
+
+  #sessions
+  ask_account: "Demander un nouveau compte"
+  send_request: "Envoyer une demande"
+  login_name_or_email: "Login ou email"
+  forgotten_password?: "Mot de passe oublié?"
+  open_url_id: "Identifiant OpenId"
+  no_account: "Pas de comptes"
+  ldap_account_or_application_account: "Compte LDAP ou Login de l'application"
+  not_yet_supported: "Pas encore supporté"
+  ldap_account_password_or_application_account_password: "Mot de passe LDAP ou mot de passe de l'application"
+  ask_new_account: "Vous pouvez également demander un nouveau compte pour vous connecter sur notre plateforme!"
+  forgotten_password: "Cliquez sur 'Mot de passe oublié' puis suivre les instructions"
+  additional_guidance: "Vous pouvez trouver des conseils supplémentaires"
+  here: "ici"
+  or: "ou"
+  contact: "contacter"
+  administrators: "les administrateurs."
+  need_help: "Besoin d'aide? "
+  connect: "Se connecter"
+  remember_me: "Se souvenir de moi"
+  edit_password: "Mettre à jour votre mot de passe"
+
+  #translations
+  choose_locale : "Choisir une langue"
+  save_translations: "Sauvegarder les traductions"
+
+  #user mailer
+  considered_message:  "Votre demande de création de compte a été bien prise en compte."
+  your_identifiants_message: "Vos identitifiants sont "
+  not_active_message: "Votre compte n'est pas encore actif."
+  cordialy_message: "Bien cordialement, "
+  projestimate_equipe_message: "L'équipe Projestimate"
+  hello: "Bonjour"
+
+  #users
+  identity: "Identité"
+  first_name: "Prénom"
+  last_name: "Nom"
+  login_name: "Pseudonyme"
+  email: "Email"
+  initials: "Initiales"
+  associated_groups: "Goupe associé"
+  associated_organizations: "Organisation associée"
+  associated_projects: "Projets associés"
+  settings: "Paramètres"
+  authentication: "Autentifaication"
+  password: "Mot de passe"
+  password_confirmation: "Confirmation du mot de passe"
+  auth_type: "Authentification de l'utilisateur"
+  informations: "Informations"
+  user_status: "Statut de l'utilisateur"
+  created_at: "Créer le"
+  updated_at: "Mis à jour le"
+  last_login: "Dernière connextion"
+  previous_login: "Précédente connexion"
+  time_zone: "Fuseau horaire"
+  assistance: "Aide"
+  notifications: "Notifications"
+  display_format: "Format d'affichage"
+  decimal: "Décimales"
+  thousands: "Millièmes"
+  first_day: "Premier jour de la semaine"
+  first_week: "Première semaine de l'année"
+  export_preferences: "Préférence d'exportation"
+  execute_estimation: "Executer le processus d'éstimation"
+  edit_user: "Editer un utilisateur"
+  new_user: "Créer un nouvel utilisateur"
+  users: "Utilisateurs"
+  filters: "filtres"
 
   #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
@@ -254,6 +349,10 @@ fr:
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
   official_documentation: "Documentation officielle"
   to_install_module: "pour installer un module sur Projestimate"
+  no_estimation_plan: "Aucun plan d'estimation n'a été défini."
+  select_module: "Selectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
+  etape: "Etape"
+
   date:
     formats:
       default: "%d/%m/%Y"

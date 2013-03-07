@@ -3,11 +3,11 @@
 
   <div class="tabs">
     <ul>
-      <li><a href="#tabs-1">Global settings </a></li>
-      <li><a href="#tabs-2">Associated groups </a></li>
-      <li><a href="#tabs-3">Associated organizations </a></li>
-      <li><a href="#tabs-4">Associated projects </a></li>
-      <li><a href="#tabs-5">Settings</a></li>
+      <li><a href="#tabs-1"><%= I18n.t(:global ) %></a></li>
+      <li><a href="#tabs-2"><%= I18n.t(:associated_groups ) %></a></li>
+      <li><a href="#tabs-3"><%= I18n.t(:associated_organizations ) %></a></li>
+      <li><a href="#tabs-4"><%= I18n.t(:associated_projects ) %></a></li>
+      <li><a href="#tabs-5"><%= I18n.t(:settings ) %></a></li>
     </ul>
 
     <div id="tabs-1">
@@ -25,33 +25,33 @@
       </fieldset>
 
       <fieldset>
-        <legend>Authentication</legend>
-        <%= f.input :password %>
+        <legend><%= I18n.t(:authentication) %></legend>
+        <%= f.input :password, :label => "#{I18n.t "password"}" %>
 
-        <%= f.input :password_confirmation %>
+        <%= f.input :password_confirmation, :label => "#{I18n.t "password_confirmation"}" %>
 
-        <%= f.input :auth_type, :as => :select, :collection => AuthMethod.all, :label => "User Authentication", :selected => "Application" %>
+        <%= f.input :auth_type, :label => "#{I18n.t "auth_type"}", :as => :select, :collection => AuthMethod.all, :selected => "Application" %>
 
       </fieldset>
 
       <fieldset>
-        <legend>Informations</legend>
+        <legend><%= I18n.t(:informations) %></legend>
 
-        <%= f.input :user_status, :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
+        <%= f.input :user_status, :label => "#{I18n.t "user_status"}" , :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
 
-        <%= f.input :created_at do %>
+        <%= f.input :created_at, :label => "#{I18n.t "created_at"}" do %>
           <%= f.text_field :created_at, :disabled => true %>
         <% end %>
 
-        <%= f.input :updated_at do %>
+        <%= f.input :updated_at, :label => "#{I18n.t "updated_at"}" do %>
           <%= f.text_field :updated_at, :disabled => true %>
         <% end %>
 
-        <%= f.input :last_login do %>
+        <%= f.input :last_login, :label => "#{I18n.t "last_login"}" do %>
           <%= f.text_field :last_login, :disabled => true %>
         <% end %>
 
-        <%= f.input :previous_login do %>
+        <%= f.input :previous_login, :label => "#{I18n.t "previous_login"}" do %>
           <%= f.text_field :previous_login, :disabled => true %>
         <% end %>
 
@@ -102,25 +102,25 @@
 
     <div id="tabs-5">
 
-      <%= f.input :language_id, :as => :select, :collection => Language.all, :selected => @user.language_id %>
+      <%= f.input :language_id, :label => "#{I18n.t "languages"}", :as => :select, :collection => Language.all, :selected => @user.language_id %>
 
-      <%= f.input :time_zone, :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name), :include_blank => false, :selected => @user.time_zone || "GMT" %>
+      <%= f.input :time_zone, :label => "#{I18n.t "time_zone"}", :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name), :include_blank => false, :selected => @user.time_zone || "GMT" %>
 
-      <p>Assistance</p>
-      <p>Notifications</p>
-      <p>Format d'affichage</p>
-      <p>Décimal</p>
-      <p>Milliers</p>
-      <p>Premier jour de la semaine</p>
-      <p>Première semaine de l'année</p>
-      <p>Pref d'export</p>
+      <p><%= I18n.t(:assistance) %></p>
+      <p><%= I18n.t(:notifications) %></p>
+      <p><%= I18n.t(:display_format) %></p>
+      <p><%= I18n.t(:decimal) %></p>
+      <p><%= I18n.t(:thousands) %></p>
+      <p><%= I18n.t(:first_day) %></p>
+      <p><%= I18n.t(:first_week) %></p>
+      <p><%= I18n.t(:export_preferences) %></p>
 
     </div>
 
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
+      <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
     </div>
   </div>
 
