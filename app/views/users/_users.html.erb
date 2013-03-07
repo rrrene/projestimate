@@ -1,14 +1,14 @@
 <table class="table table-striped table-bordered">
 <thead>
 <tr>
-  <th>First Name</th>
-  <th>Last name</th>
-  <th>Login Name</th>
-  <th>Email</th>
-  <th>Last login</th>
-  <th>User Authentication</th>
-  <th>Status</th>
-  <th>Actions</th>
+  <th><%= I18n.t(:first_name ) %></th>
+  <th><%= I18n.t(:last_name ) %></th>
+  <th><%= I18n.t(:login_name ) %></th>
+  <th><%= I18n.t(:email ) %></th>
+  <th><%= I18n.t(:last_login ) %></th>
+  <th><%= I18n.t(:authentication ) %></th>
+  <th><%= I18n.t(:record_status ) %></th>
+  <th><%= I18n.t(:actions ) %></th>
 </tr>
 </thead>
   <% @users.each do |user| %>
@@ -24,7 +24,7 @@
         <%= link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
             link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
             link_to('', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true, :class => "icn_find_use", :title => "Find Use") +
-            link_to('', user, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
+            link_to('', user, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>"#{I18n.t "delete"}")
         %>
 
       </td>
@@ -36,11 +36,11 @@
   <tr>
     <td style="text-align:right;">
       <% if @users.previous_page %>
-        <%= link_to "< Previous", params.merge(page: @users.previous_page), :remote => true %>
+        <%= link_to "#{I18n.t "previous"}", params.merge(page: @users.previous_page), :remote => true %>
       <% end %>
-      Page <%= @users.current_page %> of <%= @users.total_pages %>
+      Page <%= @users.current_page %> <%= I18n.t(:of ) %> <%= @users.total_pages %>
       <% if @users.next_page %>
-        <%= link_to "Next >", params.merge(page: @users.next_page), :remote => true %>
+        <%= link_to "#{I18n.t "next"}", params.merge(page: @users.next_page), :remote => true %>
       <% end %>
     </td>
     <td>
