@@ -1,4 +1,4 @@
-$(".securities_user").html("<label>Security</label><br />");
+$(".securities_user").html("<label><%= I18n.t(:securities)%></label><br />");
 $(".securities_user").append("<%= j(
                                 select_tag("project_security_level",
                                   options_for_select(
@@ -7,7 +7,7 @@ $(".securities_user").append("<%= j(
                                     :prompt => "Choose..."))
                               %>");
 
-$(".securities_group").html("<label>Security</label><br />");
+$(".securities_group").html("<label><%= I18n.t(:securities)%></label><br />");
 $(".securities_group").append("<%= j(
                                 select_tag("project_security_level_group",
                                   options_for_select(

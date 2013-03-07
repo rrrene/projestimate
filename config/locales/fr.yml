@@ -73,6 +73,12 @@ fr:
   back: "Retour"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
+  previous: "< Précédent "
+  next: " Suivant >"
+  of: "Sur"
+  display: "Afficher"
+  record_per_page: "enregistrements par page"
+  quick_search: "Recherche rapide"
 
   #Project settings
   activity_categories: "Catégorie d'activités"
@@ -244,6 +250,22 @@ fr:
   edit_project_security_level: "Editer le niveau des sécurités sur ce projet"
   new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
 
+  #projects
+  edit_project: "Editer le projet"
+  new_project: "Créer un nouveau projet"
+  estimation_plan: "Estimation plan"
+  securities: "Securities"
+  calendar: "Calendar"
+  resources: "Resources"
+  analyse: "ANalyse"
+  state: "Statut"
+  hidden_element: "Afficher l'élément caché"
+  associate_pbs_element: "PBS-element associé"
+  user_securities_resume: "Résumé des sécurités de l'utilisateur"
+  group_securities_resume: "Résumé des sécurités du groupe"
+  group_name: "Nom du groupe"
+  global_properties: "Propriétés globales"
+
 
   #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
@@ -254,6 +276,10 @@ fr:
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
   official_documentation: "Documentation officielle"
   to_install_module: "pour installer un module sur Projestimate"
+  no_estimation_plan: "Aucun plan d'estimation n'a été défini."
+  select_module: "Selectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
+  etape: "Etape"
+
   date:
     formats:
       default: "%d/%m/%Y"

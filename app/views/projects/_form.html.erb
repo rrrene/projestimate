@@ -1,8 +1,8 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update #{@project.title} Project"%></h2>
+  <h2><%= ("#{action_name}" == "new")? "#{I18n.t "new_project"}" : "#{I18n.t "edit_project?"}: #{@project.title}"%></h2>
 <% else %>
-  <h1>New project</h1>
+  <h1><%= I18n.t(:new_project)%></h1>
 <% end %>
 
 
@@ -11,46 +11,46 @@
 
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1">Global properties </a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:global_properties)%></a></li>
     <% if action_name == "edit" %>
       <li><a href="#tabs-2">WBS-Product </a></li>
       <li><a href="#tabs-3">WBS-Activity </a></li>
-      <li><a href="#tabs-4">Estimation plan </a></li>
-      <li><a href="#tabs-5">Securities </a></li>
-      <li><a href="#tabs-6">Calendrier </a></li>
-      <li><a href="#tabs-7">Ressource </a></li>
-      <li><a href="#tabs-8">Analyse </a></li>
+      <li><a href="#tabs-4"><%= I18n.t(:estimation_plan)%></a></li>
+      <li><a href="#tabs-5"><%= I18n.t(:securities)%></a></li>
+      <li><a href="#tabs-6"><%= I18n.t(:calendar)%> </a></li>
+      <li><a href="#tabs-7"><%= I18n.t(:resources)%> </a></li>
+      <li><a href="#tabs-8"><%= I18n.t(:analyse)%> </a></li>
     <% end %>
   </ul>
 
 
   <div id="tabs-1">
 
-    <%= f.input :title, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :title, :label => "#{I18n.t "name"}", :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :state, :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :state, :label => "#{I18n.t "state"}", :label => "#{I18n.t "state"}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :start_date, :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
+    <%= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
       <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :onclick => "$(this).datepicker();", :value => Time.now.strftime("%d/%m/%y") %>
     <% end %>
 
-    <%= f.input :organization_id, :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :organization_id, :label => "#{I18n.t "organization"}", :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_area_id, :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_area_id, :label => "#{I18n.t "project_area"}", :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :acquisition_category_id, :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :acquisition_category_id, :label => "#{I18n.t "acquisition_categories"}", :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :platform_category_id, :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :platform_category_id, :label => "#{I18n.t "platform_categories"}", :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_category_id, :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_category_id, :label => "#{I18n.t "project_categories"}", :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
+      <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
     </div>
 
     <% end %>
@@ -71,7 +71,7 @@
           <div class="well component_tree">
             <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
                 <p style="margin: 10px; ">
-                  <label>WBS-Activities table:</label>
+                  <label>WBS-Activities:</label>
                   <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
                   <%= hidden_field_tag :project_id,  @project.id  %>
                   <%= submit_tag "ADD", :class => "btn" %>
@@ -81,7 +81,7 @@
       <% end %>
 
       <div class="show_list">
-        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
+        <span style="float: right;"><%= I18n.t(:hidden_element)%> <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
         <div  id="wbs_project_elements_section" class="component_tree">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>
@@ -90,14 +90,14 @@
 
     <div id="tabs-4">
       <%= render :partial => "estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
-      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
+      <%=  link_to  "#{I18n.t "associate_pbs_element"}", pbs_element_matrix_path(@project.id), :class => "btn" %>
     </div>
 
     <div id="tabs-5">
-      <h3>User securities resume</h3>
+      <h3><%= I18n.t(:user_securities_resume)%></h3>
       <table class="table table-striped">
         <tr>
-          <th>User name</th>
+          <th><%= I18n.t(:login_name)%></th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>
             <th><%= prj_level.name %></th>
          <% end %>
@@ -114,10 +114,10 @@
       </table>
 
 
-      <h3>Group securities resume</h3>
+      <h3><%= I18n.t(:group_securities_resume)%></h3>
       <table class="table table-striped">
         <tr>
-          <th>Group name</th>
+          <th><%= I18n.t(:group_name)%></th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>
             <th><%= prj_level.name %></th>
          <% end %>

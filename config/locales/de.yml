@@ -73,6 +73,12 @@ de:
   back: "Back"
   restore_title: "Restore changes"
   validate_title: "Validates changes"
+  previous: "< Previous "
+  next: " Next >"
+  of: "Of"
+  display: "Display"
+  record_per_page: "records per page"
+  quick_search: "Quick Search"
 
   #Project settings
   activity_categories: "Activity categories"
@@ -241,6 +247,22 @@ de:
   edit_project_security_level: "Edit a project security level"
   new_project_security_level: "New project security level"
 
+  #projects
+  edit_project: "Edit project"
+  new_project: "New project"
+  estimation_plan: "Estimation plan"
+  securities: "Securities"
+  calendar: "Calendar"
+  resources: "Resources"
+  analyse: "Analyse"
+  state: "State"
+  hidden_element: "Show hidden element"
+  associate_pbs_element: "Associate PBS-element"
+  user_securities_resume: "User securities resume"
+  group_securities_resume: "Group securities resume"
+  group_name: "Group name"
+  global_properties: "Global properties"
+
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"
@@ -249,9 +271,8 @@ de:
   attributes_settings_updated: "Attributes settings have been updated."
   refers_to: "No projestimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
-  to_install_module: "to install projestimate modules."
-
-
+  select_module: "Select a module from the list. Changes are saved automatically."
+  etape: "Step"
   date:
     abbr_day_names:
     - So
