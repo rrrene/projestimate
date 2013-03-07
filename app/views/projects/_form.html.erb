@@ -42,15 +42,15 @@
 
     <%= f.input :project_area_id, :label => "#{I18n.t "project_area"}", :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :acquisition_category_id, :label => "#{I18n.t "acquisition_categories"}", :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :acquisition_category_id, :label => "#{I18n.t "acqui"}", :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <%= f.input :platform_category_id, :label => "#{I18n.t "platform_categories"}", :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <%= f.input :project_category_id, :label => "#{I18n.t "project_categories"}", :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <div class="actions">
-      <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
-      <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= f.submit "Apply", :class => "btn btn-success" %>
     </div>
 
     <% end %>
@@ -71,7 +71,7 @@
           <div class="well component_tree">
             <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
                 <p style="margin: 10px; ">
-                  <label>WBS-Activities:</label>
+                  <label>WBS-Activities table:</label>
                   <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
                   <%= hidden_field_tag :project_id,  @project.id  %>
                   <%= submit_tag "ADD", :class => "btn" %>
@@ -81,7 +81,7 @@
       <% end %>
 
       <div class="show_list">
-        <span style="float: right;"><%= I18n.t(:hidden_element)%> <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
+        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
         <div  id="wbs_project_elements_section" class="component_tree">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>
@@ -90,14 +90,14 @@
 
     <div id="tabs-4">
       <%= render :partial => "estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
-      <%=  link_to  "#{I18n.t "associate_pbs_element"}", pbs_element_matrix_path(@project.id), :class => "btn" %>
+      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
     </div>
 
     <div id="tabs-5">
-      <h3><%= I18n.t(:user_securities_resume)%></h3>
+      <h3>User securities resume</h3>
       <table class="table table-striped">
         <tr>
-          <th><%= I18n.t(:login_name)%></th>
+          <th>User name</th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>
             <th><%= prj_level.name %></th>
          <% end %>
@@ -114,10 +114,10 @@
       </table>
 
 
-      <h3><%= I18n.t(:group_securities_resume)%></h3>
+      <h3>Group securities resume</h3>
       <table class="table table-striped">
         <tr>
-          <th><%= I18n.t(:group_name)%></th>
+          <th>Group name</th>
           <% ProjectSecurityLevel.all.each do |prj_level| %>
             <th><%= prj_level.name %></th>
          <% end %>

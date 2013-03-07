@@ -1,36 +1,36 @@
 <div class="span12">
   <% action_name = controller.action_name %>
   <% if %w(new edit).include?(action_name) %>
-      <h2><%= ("#{action_name}" == "new")? "New WBS-Activity Element" : "Edit WBS-Activity Element"%></h2>
+      <h2><%= ("#{action_name}" == "new")? I18n.t(:new_wbs_activity_element ) : I18n.t(:new_wbs_activity_element )%></h2>
   <% end %>
 
 
   <%= simple_form_for(@wbs_activity_element) do |f| %>
       <%= f.error_notification %>
 
-        <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
+        <%= f.input :name, :label => "#{I18n.t "name"}", :input_html => { :class => 'input-xxlarge' } %>
 
         <%= f.input :wbs_activity_id, :as => :hidden, :label => "WBS-Activity", :input_html => { :value => @wbs_activity.id, :class => 'input-xxlarge' } %>
 
-        <%= f.input :parent_id, :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
+        <%= f.input :parent_id, :label => "#{I18n.t "parent"}", :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
 
         <%= hidden_field_tag :selected_parent_id, params[:selected_parent_id] %>
 
         <%= f.input :dotted_id, :label => "Outline", :input_html => { :class => 'input-xxlarge' }  %>
 
-        <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
+        <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
 
         <% if is_master_instance? %>
 
-          <%= f.input :change_comment, :input_html => { :rows => 3 } %><br />
+          <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}", :input_html => { :rows => 3 } %><br />
 
-          <%= f.association :record_status, :label => "Status", :required => (is_master_instance? ? true : false),
+          <%= f.association :record_status, :label => "#{I18n.t "record_status"}", :required => (is_master_instance? ? true : false),
                             :collection => wbs_record_statuses_collection,
                             :input_html => {:class => "record_status"},
                             :selected => @selected_record_status,
                             :disabled => (true if @wbs_activity_element.is_retired?) %><br />
 
-          <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />
+          <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}", :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />
         <% end %>
 
         <%= f.button :submit %>

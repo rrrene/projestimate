@@ -32,7 +32,7 @@ de:
   languages: "Languages"
   translations: "Translations"
   community: "Community"
-  reference_values : "Reference values"
+  reference_value: "Reference value"
 
   connected_as: "Connected as"
   logout: "Logout"
@@ -71,6 +71,8 @@ de:
   display: "Display"
   record_per_page: "records per page"
   quick_search: "Quick Search"
+  import: "Import"
+  export: "Export"
 
   #Project settings
   activity_categories: "Activity categories"
@@ -328,6 +330,45 @@ de:
   new_user: "New user"
   users: "Users"
   filters: "Filters"
+
+  #wbs activities
+  edit_wbs_activity: "Edit a wbs activity"
+  new_wbs_activity: "New wbs activity"
+  sum_of_ratio_values: "Sum of ratio values :"
+  new_activities: "New activities"
+  general: "General"
+  file_csv: "File (csv only)"
+  separator: "Separator (default:"
+  encoding: "Encoding"
+  please_wait_import: "Please wait during import..."
+  close: "Close"
+  select_ratio_table: "Please select a ratio table"
+
+  #wbs activity elements
+  edit_wbs_activity_element: "Edit a wbs activity element"
+  new_wbs_activity_element: "New wbs activity element"
+  parent: "Parent"
+  #wbs activity ratio element
+  edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
+  new_wbs_activity_ratio_element: "New wbs activity ratio element"
+
+  # wbs activity ratios
+  edit_wbs_activity_ratio: "Edit a wbs activity ratio"
+  new_wbs_activity_ratio: "New wbs activity ratio"
+
+  #wbs project elements
+  edit_wbs_project_element: "Edit a project element"
+  new_wbs_project_element: "New wbs project element"
+  additionnal_description: "Additionnal description"
+  exlude: "Eclude"
+  author: "Author"
+
+  #work element type
+  edit_work_element_type: "Edit a work element type"
+  new_work_element_type: "New work element type"
+
+
+
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"
@@ -338,6 +379,9 @@ de:
   official_documentation: "Official documentation"
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
+
+
+
   date:
     abbr_day_names:
     - So
