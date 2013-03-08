@@ -4,12 +4,12 @@
   <tr>
     <th>Wbs activity element</th>
     <th>Wbs activity</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Additional description</th>
-    <th>Exclude</th>
-    <th>Ancestry</th>
-    <th>Author</th>
+    <th><%= I18n.t(:name) %></th>
+    <th><%= I18n.t(:description) %></th>
+    <th><%= I18n.t(:additionnal_description) %></th>
+    <th><%= I18n.t(:exlude) %></th>
+    <th><%= I18n.t(:parent) %></th>
+    <th><%= I18n.t(:author) %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -27,11 +27,11 @@
     <td><%= wbs_project_element.author_id %></td>
     <td><%= link_to 'Show', wbs_project_element %></td>
     <td><%= link_to 'Edit', edit_wbs_project_element_path(wbs_project_element) %></td>
-    <td><%= link_to 'Destroy', wbs_project_element, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', wbs_project_element, method: :delete, data: { confirm: I18n.t(:are_you_sur?)} %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Wbs project element', new_wbs_project_element_path %>
+<%= link_to I18n.t(:new_wbs_project_element), new_wbs_project_element_path %>

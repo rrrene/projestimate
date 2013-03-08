@@ -3,11 +3,11 @@
 
   <table class="table table-striped">
     <tr>
-      <th style="text-align:left;">Name</th>
+      <th style="text-align:left;"><%= I18n.t(:name) %></th>
       <th style="text-align:left;">Alias</th>
-      <th style="text-align:left;">Description</th>
-      <th style="text-align:left;">Icon</th>
-      <th>Status</th>
+      <th style="text-align:left;"><%= I18n.t(:description) %></th>
+      <th style="text-align:left;"><%= I18n.t(:icon) %></th>
+      <th><%= I18n.t(:record_status) %></th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,14 +20,14 @@
       <td><%= work_element_type.description %></td>
       <td><%= work_element_type.peicon.nil? ? 'None' : image_tag(work_element_type.peicon.icon.url) %></td>
       <td><%= work_element_type.record_status.name unless work_element_type.record_status.nil? %> <%= work_element_type.show_custom_value %> </td>
-      <td><%= link_to 'Edit', edit_work_element_type_path(work_element_type) %></td>
-      <td><%= link_to 'Destroy', work_element_type, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= link_to I18n.t(:edit) , edit_work_element_type_path(work_element_type) %></td>
+      <td><%= link_to I18n.t(:delete), work_element_type, confirm: I18n.t(:are_you_sur?), method: :delete %></td>
       <td>
          <% if work_element_type.is_retired? %>
-              <%= link_to('Restore', "work_element_types/#{work_element_type.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+              <%= link_to(I18n.t(:restore), "work_element_types/#{work_element_type.id}/restore_change", confirm: I18n.t(:restoring?), :title => I18n.t(:restore_title))%>
          <% else %>
               <% unless work_element_type.is_defined? %>
-                  <%= link_to('Validate', "work_element_types/#{work_element_type.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                  <%= link_to(I18n.t(:validate), "work_element_types/#{work_element_type.id}/validate_change", confirm: I18n.t(:validation?), :title => I18n.t(:validate_title))%>
               <% end %>
          <% end %>
       </td>
@@ -37,5 +37,5 @@
 
   <br />
 
-  <%= link_to 'New Work element type', new_work_element_type_path, :class => "btn" %>
+  <%= link_to I18n.t(:new_work_element_type), new_work_element_type_path, :class => "btn" %>
 </div>

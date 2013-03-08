@@ -32,7 +32,7 @@ fr:
   languages: "Langues"
   translations: "Traductions"
   community: "Communauté"
-  reference_values : "Valeur de référence"
+  reference_value: "Valeur de référence"
 
   connected_as: "Connecté en tant que"
   logout: "Se déconnecter"
@@ -71,6 +71,8 @@ fr:
   display: "Afficher"
   record_per_page: "enregistrements par page"
   quick_search: "Recherche rapide"
+  import: "Importer"
+  export: "Exporter"
 
   #Project settings
   activity_categories: "Catégorie d'activités"
@@ -245,11 +247,11 @@ fr:
   #projects
   edit_project: "Editer le projet"
   new_project: "Créer un nouveau projet"
-  estimation_plan: "Estimation plan"
-  securities: "Securities"
-  calendar: "Calendar"
-  resources: "Resources"
-  analyse: "ANalyse"
+  estimation_plan: "Plan  d'estimation"
+  securities: "Sécurités"
+  calendar: "Calendrier"
+  resources: "Ressources"
+  analyse: "Analyse"
   state: "Statut"
   hidden_element: "Afficher l'élément caché"
   associate_pbs_element: "PBS-element associé"
@@ -339,6 +341,44 @@ fr:
   new_user: "Créer un nouvel utilisateur"
   users: "Utilisateurs"
   filters: "filtres"
+
+  #wbs activities
+  edit_wbs_activity: "Editer un wbs activity"
+  new_wbs_activity: "Créer un nouveau wbs activity"
+  sum_of_ratio_values: "Somme des valeurs des ratios :"
+  new_activities: "Nouvelles activités"
+  general: "General"
+  file_csv: "Fichier (csv seulement)"
+  separator: "Séparateur (defaut:"
+  encoding: "Encodage"
+  please_wait_import: "Merci de bien vouloir patienter durant l'import..."
+  close: "Fermer"
+  select_ratio_table: "Merci de bien vouloir selectionner une table de ratio"
+
+  #wbs activity elements
+  edit_wbs_activity_element: "Editer un élément du wbs activity"
+  new_wbs_activity_element: "Créer un nouvel élément du wbs activity "
+  parent: "Parent"
+
+  #wbs activity ratio element
+  edit_wbs_activity_ratio_element: "Editer un élément du WBS activity ratio "
+  new_wbs_activity_ratio_element: "Créer un nouvel élément du WBS activity ratio "
+
+  # wbs activity ratios
+  edit_wbs_activity_ratio: "Editer un wbs activity ratio"
+  new_wbs_activity_ratio: "Créer un nouveau WBS activity ratio  "
+
+  #wbs project elements
+  edit_wbs_project_element: "Editer un élément du projet"
+  new_wbs_project_element: "Créer un nouvel élément du projet"
+  additionnal_description: "Additionnal description"
+  exlude: "Exclure"
+  author: "Auteur"
+
+  #work element type
+  edit_work_element_type: "Edit un type d'élément de travail"
+  new_work_element_type: "Créer un nouveau type d'élément de travail "
+
 
   #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
