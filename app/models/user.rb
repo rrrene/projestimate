@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :permissions
   has_and_belongs_to_many :organizations
 
-  belongs_to :language, :foreign_key => "language_id"
-  belongs_to :auth_method, :foreign_key => "auth_type"
+  belongs_to :language, :foreign_key => "language_id", :touch => true
+  belongs_to :auth_method, :foreign_key => "auth_type", :touch => true
 
   has_many :project_securities
   has_many :authors, :foreign_key => "author_id", :class_name => "WbsProjectElement"

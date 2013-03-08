@@ -12,23 +12,25 @@
 </tr>
 </thead>
   <% @users.each do |user| %>
-    <tr>
-      <td><%= user.first_name %>
-      <td><%= user.last_name %>
-      <td><%= user.login_name %>
-      <td><%= user.email %>
-      <td><%= user.last_login %>
-      <td><%= user.auth_method %>
-      <td><%= user.user_status %>
-      <td>
-        <%= link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
-            link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
-            link_to('', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true, :class => "icn_find_use", :title => "Find Use") +
-            link_to('', user, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
-        %>
+    <% cache user do %>
+      <tr>
+        <td><%= user.first_name %>
+        <td><%= user.last_name %>
+        <td><%= user.login_name %>
+        <td><%= user.email %>
+        <td><%= user.last_login %>
+        <td><%= user.auth_method %>
+        <td><%= user.user_status %>
+        <td>
+          <%= link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
+              link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
+              link_to('', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true, :class => "icn_find_use", :title => "Find Use") +
+              link_to('', user, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete")
+          %>
 
-      </td>
-    </tr>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
 </table>
 
