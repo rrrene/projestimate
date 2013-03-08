@@ -52,7 +52,7 @@
   end
 
   def wbs_activity_name
-    name
+    self.wbs_activity.name
   end
 
   def self.import(file, sep)

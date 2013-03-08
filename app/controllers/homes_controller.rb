@@ -23,7 +23,7 @@ class HomesController < ApplicationController
           #if need_to_pull.nil? || need_to_pull.blank?
           if differences.blank?
             puts "Your repository is up to date"
-            flash[:notice] =  "You already have the latest MasterData"
+            flash[:notice] =  "You already have the latest MasterData."
           else
             Home::update_master_data!
             $latest_update = Time.now
