@@ -1,9 +1,9 @@
-<h2>Permissions</h2>
+<h2><%= I18n.t(:global_permission) %></h2>
 <div class="span12">
   <table class="table table-strpied">
       <tr>
-        <th>Permissions</th>
-        <th>Status</th>
+        <th><%= I18n.t(:permissions) %></th>
+        <th><%= I18n.t(:record_status) %></th>
         <th></th>
         <th></th>
         <th></th>
@@ -13,15 +13,15 @@
       <tr>
         <td><%= perm.name %></td>
         <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
-        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => "Edit" %></td>
-        <td><%= link_to "", perm, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %></td>
+        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => I18n.t("edit") %></td>
+        <td><%= link_to "", perm, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete")%></td>
         <td>
           <% if is_master_instance? && !perm.is_local_record? %>
               <% if perm.is_retired? %>
-                  <%= link_to('Restore', "permissions/#{perm.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                  <%= link_to(I18n.t("restore"), "permissions/#{perm.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
               <% else %>
                   <% unless perm.is_defined? %>
-                      <%= link_to('Validate', "permissions/#{perm.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                      <%= link_to(I18n.t("validate"), "permissions/#{perm.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validation?"))%>
                   <% end %>
               <% end %>
           <% end %>
@@ -32,6 +32,6 @@
 
   <br />
 
-  <%= link_to 'New Permission', new_permission_path, :class => "btn" %>
+  <%= link_to I18n.t("new_permission"), new_permission_path, :class => "btn" %>
 </div>
 

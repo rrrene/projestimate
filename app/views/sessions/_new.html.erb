@@ -14,19 +14,19 @@
 
       <label class="checkbox">
         <%= check_box_tag :remember_me, 1, params[:remember_me] %>
-        Remember me
+        <%= I18n.t(:remember_me ) %>
       </label>
     </div>
 
     <div class="pull_right">
 
       <div class="login_connexion">
-        <%= submit_tag "Connect", :class => "btn btn-danger" %>
+        <%= submit_tag I18n.t("connect"), :class => "btn btn-danger" %>
       </div>
 
-      <%= link_to "Need help ?",  "/help_login", :remote => true %> <br/>
-      <%= link_to "Forgotten password ?", "/forgotten_password", :remote => true %> <br/>
-      <%= link_to "Ask a new account", "/ask_new_account", :remote => true %>
+      <%= link_to I18n.t("need_help"),  "/help_login", :remote => true %> <br/>
+      <%= link_to I18n.t("forgotten_password"), "/forgotten_password", :remote => true %> <br/>
+      <%= link_to I18n.t("ask_account"), "/ask_new_account", :remote => true %>
     </div>
 
 

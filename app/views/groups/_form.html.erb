@@ -13,32 +13,32 @@
 
     <div class="tabs">
       <ul>
-        <li><a href="#tabs-1">Global </a></li>
-        <li><a href="#tabs-2">Associated users </a></li>
-        <li><a href="#tabs-3">Associated projects </a></li>
+        <li><a href="#tabs-1"><%=I18n.t("global")%></a></li>
+        <li><a href="#tabs-2"><%=I18n.t("associated_users")%></a></li>
+        <li><a href="#tabs-3"><%=I18n.t("associated_projects")%></a></li>
       </ul>
 
       <div id="tabs-1">
         <div class="div_tabs_to_disable" data-enable_update="<%= enable_update_in_local? %>" >
-          <%= f.input :name, :input_html => { :class => 'input-xxlarge' } %>
+          <%= f.input :name, :label => I18n.t("name") , :input_html => { :class => 'input-xxlarge' } %>
 
-          <%= f.input :description, :input_html => { :class => 'input-xxlarge', :rows => 5 } %>
+          <%= f.input :description, :label => I18n.t("description") , :input_html => { :class => 'input-xxlarge', :rows => 5 } %>
 
           <% if is_master_instance? %>
-              <%= f.input :change_comment, :input_html => { :rows => 3 } %>
+              <%= f.input :change_comment, :label => I18n.t("change_comment") , :input_html => { :rows => 3 } %>
 
-              <%= f.input :record_status_id, :as => :select, :label => "Status", :required => (is_master_instance? ? true : false),
+              <%= f.input :record_status_id, :as => :select, :label => I18n.t("record_status") , :required => (is_master_instance? ? true : false),
                           :collection => @group.record_status_collection,
                           :input_html => {:class => "record_status"},
                           :selected => (@group.is_defined_or_nil? ? @proposed_status.id : @group.record_status_id),
                           :disabled => (true if @group.is_retired?) %><br />
 
-              <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @group.is_custom?) %><br />
+              <%= f.input :custom_value, :label => I18n.t("custom_value") , :input_html => {:class => "custom_value"}, :disabled => (true unless @group.is_custom?) %><br />
           <% end %>
 
-          <%= f.input :for_global_permission, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
+          <%= f.input :for_global_permission, :label => I18n.t("global_permission") , :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
 
-          <%= f.input :for_project_security, :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
+          <%= f.input :for_project_security, :label => I18n.t("project_securities") , :as => :boolean, :input_html => { :class => 'input-xxlarge' } %>
         </div>
 
       </div>
@@ -48,13 +48,13 @@
 
           <table class="table table-striped">
             <tr>
-              <th>Name</th>
+              <th><%= I18n.t(:name) %></th>
               <th></th>
             </tr>
             <% @users.each do |group_user| %>
                 <tr>
                   <td><%= group_user.name %></td>
-                  <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id}")%></td>
+                  <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id))%></td>
                 </tr>
             <% end %>
           </table>
@@ -65,13 +65,13 @@
         <div >
           <table class="table table-striped">
             <tr>
-              <th>Name</th>
+              <th><%= I18n.t(:name) %></th>
               <th></th>
             </tr>
             <% @projects.each do |group_project| %>
                 <tr>
                   <td><%= group_project.title %></td>
-                  <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}")%></td>
+                  <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id))%></td>
                 </tr>
             <% end %>
           </table>
@@ -81,8 +81,8 @@
 
     <div class="actions">
       <% if can? :update, @group %>
-          <%= f.submit "Save", :class => "btn btn-success" %>
-          <%= f.submit "Apply", :class => "btn btn-success" %>
+          <%= f.submit I18n.t("save"), :class => "btn" %>
+          <%= f.submit I18n.t("apply"), :class => "btn" %>
       <% end %>
     </div>
 

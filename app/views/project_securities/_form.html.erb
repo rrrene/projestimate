@@ -17,16 +17,16 @@
     <%= f.input :user_id, :as => :select , :collection => @users %>
 
     <div >
-      <label for="theme">Project Security</label>
-      <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> Full control
-      <br/><%= f.radio_button 'project_security_level', "3", :name => "project_security_level" %> Define
-      <br/><%= f.radio_button 'project_security_level', "2", :name => "project_security_level" %> Modify
-      <br/><%= f.radio_button 'project_security_level', "1", :name => "project_security_level" %> Comment
-      <br/><%= f.radio_button 'project_security_level', "0", :name => "project_security_level" %> Read only
+      <label for="theme"><%= I18n.t(:project_securities)%></label>
+      <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> <%= I18n.t(:full_control)%>
+      <br/><%= f.radio_button 'project_security_level', "3", :name => "project_security_level" %> <%= I18n.t(:define)%>
+      <br/><%= f.radio_button 'project_security_level', "2", :name => "project_security_level" %> <%= I18n.t(:modify)%>
+      <br/><%= f.radio_button 'project_security_level', "1", :name => "project_security_level" %> <%= I18n.t(:comment)%>
+      <br/><%= f.radio_button 'project_security_level', "0", :name => "project_security_level" %> <%= I18n.t(:read_only)%>
     </div>
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <%= f.submit I18n.t("save"), :class => "btn" %>
+      <%= f.submit I18n.t("apply"), :class => "btn" %>
     </div>
   <% end %>
 </div>

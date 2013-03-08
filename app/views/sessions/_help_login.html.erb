@@ -1,23 +1,23 @@
-<h2>ProjEstimate - Help</h2>
+<h2>ProjEstimate - <%= I18n.t(:help ) %></h2>
 <div>
-  <strong>User name</strong> : LDAP account user name or application user name.
+  <strong><%= I18n.t(:login_name ) %></strong> :   <%= I18n.t(:ldap_account_or_application_account ) %>
 </div>
 <div>
-  <strong>Open ID url</strong> : Not yet supported
+  <strong><%= I18n.t(:open_url_id ) %></strong> : <%= I18n.t(:not_yet_supported ) %>
 </div>
 <div>
-  <strong>Password</strong> : LDAP account password or application password.
+  <strong><%= I18n.t(:password ) %></strong> : <%= I18n.t(:ldap_account_password_or_application_account_password ) %>
 </div>
 <div>
-   <strong>No account</strong> ? You can also ask a new account to connect on our platform !
+   <strong><%= I18n.t(:no_account ) %></strong> ? <%= I18n.t(:ask_new_account ) %>
 </div>
 <div>
-   <strong>Forgotten password ?</strong> Click to "Forgotten password" then follow instructions.
+   <strong><%= I18n.t(:forgotten_password? ) %></strong> <%= I18n.t(:forgotten_password ) %>
 </div>
 <div>
-   You can find additional guidance <a href="<%= load_master_setting('url_wiki') %>">here</a> or <a href="mailto:<%= load_admin_setting('notifications_email') %>">contact</a> the administrators.
+  <%= I18n.t(:additional_guidance ) %> <a href="<%= load_master_setting('url_wiki') %>"><%= I18n.t(:here ) %></a> <%= I18n.t(:or ) %> <a href="mailto:<%= load_admin_setting('notifications_email') %>"><%= I18n.t(:contact ) %></a> <%= I18n.t(:administrators ) %>
 </div>
 
 <div>
-  <%= link_to "Back", "" %>
+  <%= link_to I18n.t("back"), "" %>
 </div>

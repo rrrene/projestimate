@@ -2,7 +2,7 @@
 
   <div class="tabs">
     <ul>
-      <li><a href="#tabs-1">Users </a></li>
+      <li><a href="#tabs-1"><%= I18n.t(:users ) %> </a></li>
     </ul>
 
     <div id="tabs-1">
@@ -10,10 +10,10 @@
       <table border="0" width="100%">
         <tr>
           <td>
-            <h2>Users</h2>
+            <h2><%= I18n.t(:users ) %></h2>
           </td>
           <td style="text-align:right;">
-            <%= link_to 'Create a new user', new_user_path, :class => "btn" %>
+            <%= link_to I18n.t("new_user"), new_user_path, :class => "btn" %>
           </td>
         </tr>
       </table>
@@ -22,13 +22,13 @@
         <table border="0" width="100%">
           <tr>
             <td>
-              <h5>Display <%= select_tag "user_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> records per page</h5>
+              <h5><%= I18n.t(:display ) %> <%= select_tag "user_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> <%= I18n.t(:record_per_page ) %></h5>
             </td>
             <td>
-              <h5>Filter: <%= select_tag "states", options_for_select(User.aasm_states_for_select, :selected => "active"), :prompt => "All", :class => "pull-left span4"%> Status </h5>
+              <h5><%= I18n.t(:filters ) %>: <%= select_tag "states", options_for_select(User.aasm_states_for_select, :selected => "active"), :prompt => "All", :class => "pull-left span4"%> <%= I18n.t(:state ) %> </h5>
             </td>
             <td>
-              <h5 class="pull-right"> Search: <%= text_field_tag "user_searches", "", :placeholder => "", :class => "search-input" %> </h5>
+              <h5 class="pull-right"> <%= I18n.t(:quick_search ) %>: <%= text_field_tag "user_searches", "", :placeholder => "", :class => "search-input" %> </h5>
             </td>
           </tr>
         </table>

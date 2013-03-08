@@ -132,6 +132,17 @@ class WbsActivityElementsController < ApplicationController
     redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity, :anchor => "tabs-2")
   end
 
+
+  def show
+    @wbs_activity_element = WbsActivityElement.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @wbs_activity_element }
+      format.js
+    end
+  end
+
   #def wbs_record_statuses_collection
   #  @wbs_record_status_collection = []
   #

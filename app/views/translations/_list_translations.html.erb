@@ -1,6 +1,6 @@
 <table>
-  <th>Keys</th>
-  <th>Values</th>
+  <th><%= I18n.t(:key ) %></th>
+  <th><%= I18n.t(:value ) %></th>
   <% @translations.keys.sort.each do |key| %>
       <tr>
         <td> <%= text_field_tag "", key %> </td>

@@ -1,5 +1,5 @@
 <div class="pull-right">
-  Sum of ratio values :
+  <%= I18n.t(:sum_of_ratio_values ) %>
   <%= @total %> %
 </div>
 <br>
@@ -7,10 +7,10 @@
 <table class="table table-striped" style="margin-top:20px;">
    <tr>
      <th>Outline</th>
-     <th>Name</th>
-     <th>Description</th>
+     <th><%= I18n.t(:name ) %></th>
+     <th><%= I18n.t(:description ) %></th>
      <th>Ratio value</th>
-     <th>Reference Element</th>
+     <th><%= I18n.t(:reference_value) %></th>
    </tr>
 
   <% wbs_activity_ratio_elements.each_with_index do |wbs_activity_ratio_element, i| %>
@@ -36,5 +36,5 @@
   <% end %>
 </table>
 
-<%= submit_tag "Save", :id => "reference_value_submit_save", :class => "btn" %>
+<%= submit_tag I18n.t(:save ), :id => "reference_value_submit_save", :class => "btn" %>
 

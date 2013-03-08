@@ -5,7 +5,7 @@
 
   <% if controller.controller_name == "projects" %>
     <p>
-      Select a module from the list. Changes are saved automatically.
+      <%= I18n.t(:select_module)%>
       <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
       <%= hidden_field_tag "project_id", project.id %>
     </p>
@@ -15,19 +15,19 @@
     <% unless module_projects.empty? %>
       <% for i in 1..array_module_positions %>
         <tr>
-          <td>Step <%= i %></td>
+          <td><%= I18n.t(:etape)%> <%= i %></td>
           <% ModuleProject.where(:project_id => project.id, :position_y => i).each do |pmod| %>
             <td>
               <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
               <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_up', :project_module_id => pmod.id }, :class => 'icon-arrow-up', :remote => true %>
-              <%= link_to "", pmod, confirm: 'Are you sure?', method: :delete, :class => 'icon-trash', :remote => true %>
+              <%= link_to "", pmod, confirm: I18n.t("are_you_sur?"), method: :delete, :class => 'icon-trash', :remote => true %>
               <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_down', :project_module_id => pmod.id }, :class => 'icon-arrow-down', :remote => true %>
             </td>
           <% end %>
         </tr>
       <% end %>
     <% else %>
-      <p>No estimating plan has been defined.</p>
+      <p><%= I18n.t(:no_estimation_plan)%></p>
     <% end %>
   </table>
 </div>

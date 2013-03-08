@@ -1,9 +1,19 @@
 fr:
+  #  Menu
+  projects: "Projets"
+  recent_project: "Projet récent"
   accueil: "Accueil"
-  administration: "Administration"
+  all_projects: "Tous les projets"
+  create_new_project: "Créer un nouveau projet"
+
+  library: "Bibliothèque"
   project_global_setting: "Paramètres globaux du projet"
   estimation_setting: "Estimation"
   organization_setting: "Paramètres organisationnels"
+  wbs_activities: "WBS-Activities"
+  template: "Modèle"
+
+  admin: "Administrateur"
   administration: "Administration"
   users: "Utilisateurs"
   groups: "Groupes"
@@ -11,66 +21,378 @@ fr:
   project_securities: "Sécurités du projet"
   auth_methods: "Méthodes d'authentifications"
   events: "Evènements"
-  labor_categories: "Catégories de travail"
+
   master: "Paramètres master"
   project_global_parameters: "Paramètres globaux du projet"
   attributes: "Attributs"
+  labor_categories: "Catégories de travail"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
   security_level: "Niveaux de sécurité"
   languages: "Langues"
   translations: "Traductions"
   community: "Communauté"
-  wbs_activities: "WBS-Activities"
-  wbs_activity_elements: "WBS-Activity Elements"
+  reference_value: "Valeur de référence"
+
   connected_as: "Connecté en tant que"
   logout: "Se déconnecter"
   help: "Aide"
   services: "Services"
   about: "A propos"
+
+  #attributes
+  name: "Nom"
+  description: "Description"
+  change_comment: "Commentaire"
+  record_status: "Statut de l'enregistrement"
+  custom_value: "Valeur personnalisée"
+
+
+  wbs_activity_elements: "WBS-Activity Elements"
+
+
+  #CRUD
+  save: "Sauvegarder"
+  apply: "Appliquer"
+  edit: "Editer"
+  delete: "Supprimer "
+  show: "Voir"
+  restore: "Restaurer"
+  validate: "Valider"
+  update: "Mise à jour"
+  empty: "Aucun"
+  are_you_sur?: "Etes-vous sûr?"
+  back: "Retour"
+  restore_title: "Restaurer les changements"
+  validate_title: "Valider les changements"
+  previous: "< Précédent "
+  next: " Suivant >"
+  of: "Sur"
+  display: "Afficher"
+  record_per_page: "enregistrements par page"
+  quick_search: "Recherche rapide"
+  import: "Importer"
+  export: "Exporter"
+
+  #Project settings
+  activity_categories: "Catégorie d'activités"
+  acquisition_categories: "Categorie d'acquisitions"
+  platform_categories: "Categorie de plate-formes"
+  project_categories: "Categorie de projets"
+  project_area: "Zone de projet"
+
+  #Project areas
+  edit_project_area: "Editer une zone de projet"
+  new_project_area: "Créer une zone de projet"
+
+  #Project categories
+  edit_project_category: "Editer une categorie de projet"
+  new_project_category: "Créer une categorie de projet"
+
+  #Platform categories
+  edit_platform_category: "Editer une plateforme de categorie"
+  new_platform_category: "Créer une plateforme de categorie"
+
+  #Acquisition categories
+  edit_acquisition_category: "Editer une catégorie d'acquisition"
+  new_acquisition_category: "Créer une catégorie d'acquisition"
+
+  #Activity categories
+  edit_activity_category: "Editer une catégorie d'activité"
+  new_activity_category: "Créer une catégorie d'activité"
+
+  #Admin_settings
+  edit_admin_settings: "Editer les paramètres d'administrations"
+  new_admin_settings: "Créer un nouveau paramètre d'administration"
+  key: "Clé"
+  value: "Valeur"
+
+  #attributes
+  aggregation: "Agrégation"
+  validation_options: "Validations et options"
+  attributes_type: "Type d'attribut"
+  edit_attribute: "Editer un attribut"
+  new_attribute: "Créer un nouvel attribut"
+
+  #auth_method
+  server_name: "Nom du serveur"
+  port: "Numéro de port"
+  certificate: "Certificat"
+  base_dn: "Base DNS"
+  user_name_attribute: "Nom d'utilisateur"
+  edit_auth_method: "Editer une méthode d'autentification"
+  new_auth_method: "Créer une nouvelle méthode d'authentification"
+
+  #currencies
+  edit_currency: "Editer une devise"
+  new_currency: "Créer une nouvelle devise"
+
+  #event_types
+  icon_url: "Url de l'icône"
+  edit_event_type: "Editer un type d'évènement"
+  new_event_type: "Créer un nouveau type d'évènement"
+  event_types: "Types d'évènements"
+
+  #events
+  start_date: "Date de début"
+  end_date: "Date de fin"
+  event_type: "Type de l'évènement"
+  project: "Projet"
+  edit_event: "Editer un évènement"
+  new_event: "Créer un nouvel évènement"
+
+  #groups
+  global: "Global"
+  associated_users: "Utilisateurs associés"
+  associated_projects: "Projets associés"
+  edit_group: "Editer un groupe"
+  new_group: "Créer un nouveau groupe"
+
+  #Labor categories
+  edit_labor_category: "Editer une catégorie de travail"
+  new_labor_category: "Créer une catégorie de travail"
+
+  #languages
+  edit_language: "Editer un langage"
+  new_language: "Créer un nouveau langage"
+  local: "Local"
+
+  #master_settings
+  edit_master_setting: "Editer les paramètres maître"
+  new_master_setting: "Créer un nouveau paramètre maître"
+
+  #module_project_attributes
+  in_out: "Entrée/Sortie"
+  edit_module_project_attribute: "Editer un attribut du module de projet"
+  new_module_project_attribute: "Créer un nouvel attribut de module de projet"
+
+  #module_project
+  edit_module_project: "Editer un module de projet"
+  new_module_project: "Créer un nouveau module de projet"
+  related_attributes: "Attributs associés"
+  mandatory: "Obligatoire"
+  links_to: "Liens vers"
+  current_link: "Liens courant"
+  edit_link: "Editer le liens"
+  module_name: "Nom du module"
+  associable_attributes: "Attributs asociables"
+  pe_module: "Pe-Module"
+  position: "Position"
+  associate_Product_element_module_project: "Associer un Product element avec un module du projet"
+
+  #organization_labor_categories
+
+  labor_category: "Categorie de travail"
+  level: "Niveau"
+  cost_per_hour: "Coût par heure"
+  base_year: "Année de référence"
+  currency: "Devise"
+  hour_per_day: "Heures par jour"
+  days_per_year: "Jours par année"
+  edit_organisation_labor_category: "Editer l'organisation de la catégorie de travail"
+  new_organisation_labor_category: "Créer une organisation de catégorie de travail"
+
+  #Organization
+  organization: "Organisation"
+  edit_organisation: "Editer l'organisation"
+  new_organisation: "Créer une organisation"
+  inflation: "Inflation"
+  organizationals_labors_categories: "Catégories de travail des organisations"
+
+  #Pbs_project_elements
+  ancestry: "Ancêtre"
+  work_element_type: "Type de l'élément de travail"
+  project_link: "Liens vers le projet"
+
+  #peicons
+  icon: "Icône"
+  icon-message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
+  edit_icon: "Editer l'icône"
+  new_icon: "Ajouter un icône"
+  icons: "Icônes"
+  actions: "Actions"
+
+  #pemodules
+  low: "Valeur par defaut (Basse)"
+  likely: "Valeur par defaut (La plus probable)"
+  high: "Valeur par defaut (Haute)"
+  custom_attribute: "Attribut personnalisé"
+  attributes_settings: "Paramètres des attributs"
+  compatibility: "Compatibilité"
+  attribute_name: "Nom de l'attribut"
+  selected: "Sélectionné"
+  edit_pemodule: "Editer le module"
+  new_pemodule: "Créer un module"
+
+  #permissions
+  is_permission_project: "Permission du projet"
+  object_associated: "Objet associé"
+  edit_permission: "Editer une permission"
+  new_permission: "Créer une nouvelle permission"
+  permissions: "Permissions"
+
+  #project_securities
+  edit_project_security: "Editer les sécurités sur ce projet"
+  new_project_security: "Créer de nouvelle sécurité sur le projet"
+  full_control: "Contrôle total"
+  define: "Définir"
+  modify: "Modifier"
+  comment: "Commenter"
+  read_only: "Lecture seule"
+
+  #project_security_levels
+  edit_project_security_level: "Editer le niveau des sécurités sur ce projet"
+  new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
+
+  #projects
+  edit_project: "Editer le projet"
+  new_project: "Créer un nouveau projet"
+  estimation_plan: "Plan  d'estimation"
+  securities: "Sécurités"
+  calendar: "Calendrier"
+  resources: "Ressources"
+  analyse: "Analyse"
+  state: "Statut"
+  hidden_element: "Afficher l'élément caché"
+  associate_pbs_element: "PBS-element associé"
+  user_securities_resume: "Résumé des sécurités de l'utilisateur"
+  group_securities_resume: "Résumé des sécurités du groupe"
+  group_name: "Nom du groupe"
+  global_properties: "Propriétés globales"
+
+  #Record_statuses
+  edit_record_status: "Editer le statut d'enregistrement"
+  new_record_status: "Créer un nouveau statut d'enregistrement"
+
+  #Reference_value
+  edit_reference_value: "Editer la valeur de référence"
+  new_reference_value: "Créer une valeur de référence"
+
+  #searches
+  search_results: "Résultat de la recherche"
+  no_results: "Aucun résultat trouvé pour"
+
+  #sessions
+  ask_account: "Demander un nouveau compte"
+  send_request: "Envoyer une demande"
+  login_name_or_email: "Login ou email"
+  forgotten_password?: "Mot de passe oublié?"
+  open_url_id: "Identifiant OpenId"
+  no_account: "Pas de comptes"
+  ldap_account_or_application_account: "Compte LDAP ou Login de l'application"
+  not_yet_supported: "Pas encore supporté"
+  ldap_account_password_or_application_account_password: "Mot de passe LDAP ou mot de passe de l'application"
+  ask_new_account: "Vous pouvez également demander un nouveau compte pour vous connecter sur notre plateforme!"
+  forgotten_password: "Cliquez sur 'Mot de passe oublié' puis suivre les instructions"
+  additional_guidance: "Vous pouvez trouver des conseils supplémentaires"
+  here: "ici"
+  or: "ou"
+  contact: "contacter"
+  administrators: "les administrateurs."
+  need_help: "Besoin d'aide? "
+  connect: "Se connecter"
+  remember_me: "Se souvenir de moi"
+  edit_password: "Mettre à jour votre mot de passe"
+
+  #translations
+  choose_locale : "Choisir une langue"
+  save_translations: "Sauvegarder les traductions"
+
+  #user mailer
+  considered_message:  "Votre demande de création de compte a été bien prise en compte."
+  your_identifiants_message: "Vos identitifiants sont "
+  not_active_message: "Votre compte n'est pas encore actif."
+  cordialy_message: "Bien cordialement, "
+  projestimate_equipe_message: "L'équipe Projestimate"
+  hello: "Bonjour"
+
+  #users
   identity: "Identité"
   first_name: "Prénom"
   last_name: "Nom"
   login_name: "Pseudonyme"
   email: "Email"
   initials: "Initiales"
-  name: "Nom"
-  description: "Description"
-  change_comment: "Commentaire"
-  record_status: "Statut de l'enregistrement"
-  custom_value: "Valeur personnalisée"
-  save: "Sauvegarder"
-  apply: "Appliquer"
-  edit: "Editer"
-  recent_project: "Projet récent"
-  all_projects: "Tous les projets"
-  create_new_project: "Créer un nouveau projet"
-  reference_values : "Valeur de référence"
-  activity_categories: "Catégorie d'activités"
-  acquisition_categories: "Categorie d'acquisitions"
-  platform_categories: "Categorie de plate-formes"
-  project_categories: "Categorie de projets"
-  project_area: "Zone de projet"
-  new_f: "Nouvelle "
-  new: "Nouveau "
-  delete: "Supprimer "
-  show: "Voir"
-  key: "Clé"
-  value: "Valeur"
-  restore: "Restaurer"
-  validate: "Valider"
-  are_you_sur?: "Etes-vous sûr?"
-  update: "Mise à jour "
-  aggregation: "Agrégation"
-  validation_options: "Validations et options"
-  attributes_type: "Type d'attribut"
-  empty: "Aucun"
+  associated_groups: "Goupe associé"
+  associated_organizations: "Organisation associée"
+  associated_projects: "Projets associés"
+  settings: "Paramètres"
+  authentication: "Autentifaication"
+  password: "Mot de passe"
+  password_confirmation: "Confirmation du mot de passe"
+  auth_type: "Authentification de l'utilisateur"
+  informations: "Informations"
+  user_status: "Statut de l'utilisateur"
+  created_at: "Créer le"
+  updated_at: "Mis à jour le"
+  last_login: "Dernière connextion"
+  previous_login: "Précédente connexion"
+  time_zone: "Fuseau horaire"
+  assistance: "Aide"
+  notifications: "Notifications"
+  display_format: "Format d'affichage"
+  decimal: "Décimales"
+  thousands: "Millièmes"
+  first_day: "Premier jour de la semaine"
+  first_week: "Première semaine de l'année"
+  export_preferences: "Préférence d'exportation"
+  execute_estimation: "Executer le processus d'éstimation"
+  edit_user: "Editer un utilisateur"
+  new_user: "Créer un nouvel utilisateur"
+  users: "Utilisateurs"
+  filters: "filtres"
+
+  #wbs activities
+  edit_wbs_activity: "Editer un wbs activity"
+  new_wbs_activity: "Créer un nouveau wbs activity"
+  sum_of_ratio_values: "Somme des valeurs des ratios :"
+  new_activities: "Nouvelles activités"
+  general: "General"
+  file_csv: "Fichier (csv seulement)"
+  separator: "Séparateur (defaut:"
+  encoding: "Encodage"
+  please_wait_import: "Merci de bien vouloir patienter durant l'import..."
+  close: "Fermer"
+  select_ratio_table: "Merci de bien vouloir selectionner une table de ratio"
+
+  #wbs activity elements
+  edit_wbs_activity_element: "Editer un élément du wbs activity"
+  new_wbs_activity_element: "Créer un nouvel élément du wbs activity "
+  parent: "Parent"
+
+  #wbs activity ratio element
+  edit_wbs_activity_ratio_element: "Editer un élément du WBS activity ratio "
+  new_wbs_activity_ratio_element: "Créer un nouvel élément du WBS activity ratio "
+
+  # wbs activity ratios
+  edit_wbs_activity_ratio: "Editer un wbs activity ratio"
+  new_wbs_activity_ratio: "Créer un nouveau WBS activity ratio  "
+
+  #wbs project elements
+  edit_wbs_project_element: "Editer un élément du projet"
+  new_wbs_project_element: "Créer un nouvel élément du projet"
+  additionnal_description: "Additionnal description"
+  exlude: "Exclure"
+  author: "Auteur"
+
+  #work element type
+  edit_work_element_type: "Edit un type d'élément de travail"
+  new_work_element_type: "Créer un nouveau type d'élément de travail "
+
+
+  #messages
   status_custom: "N'est obligatoire que lorque le statut est à Custom"
-  server_name: "Nom du serveur"
-  port: "Numéro de port"
-  certificate: "Certificat"
-  base_dn: "Base DNS"
-  user_name_attribute: "Nom d'utilisateur"
+  restoring?: "Confirmez-vous la restauration de ce dossier en mode défini?"
+  validation?: "Confirmez-vous la validation des changements sur cet enregistrement?"
+  global_settings_updated: "Les paramètres globaux ont été mis à jour."
+  attributes_settings_updated: "Les paramètres des attributs ont été mis à jour."
+  refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
+  official_documentation: "Documentation officielle"
+  to_install_module: "pour installer un module sur Projestimate"
+  no_estimation_plan: "Aucun plan d'estimation n'a été défini."
+  select_module: "Selectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
+  etape: "Etape"
+
   date:
     formats:
       default: "%d/%m/%Y"

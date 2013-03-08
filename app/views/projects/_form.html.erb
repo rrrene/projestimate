@@ -1,8 +1,8 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h2><%= ("#{action_name}" == "new")? "New Project" : "Update #{@project.title} Project"%></h2>
+  <h2><%= ("#{action_name) == "new")? I18n.t("new_project") : I18n.t("edit_project?"}: #{@project.title)%></h2>
 <% else %>
-  <h1>New project</h1>
+  <h1><%= I18n.t(:new_project)%></h1>
 <% end %>
 
 
@@ -11,42 +11,42 @@
 
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1">Global properties </a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:global_properties)%></a></li>
     <% if action_name == "edit" %>
       <li><a href="#tabs-2">WBS-Product </a></li>
       <li><a href="#tabs-3">WBS-Activity </a></li>
-      <li><a href="#tabs-4">Estimation plan </a></li>
-      <li><a href="#tabs-5">Securities </a></li>
-      <li><a href="#tabs-6">Calendrier </a></li>
-      <li><a href="#tabs-7">Ressource </a></li>
-      <li><a href="#tabs-8">Analyse </a></li>
+      <li><a href="#tabs-4"><%= I18n.t(:estimation_plan)%></a></li>
+      <li><a href="#tabs-5"><%= I18n.t(:securities)%></a></li>
+      <li><a href="#tabs-6"><%= I18n.t(:calendar)%> </a></li>
+      <li><a href="#tabs-7"><%= I18n.t(:resources)%> </a></li>
+      <li><a href="#tabs-8"><%= I18n.t(:analyse)%> </a></li>
     <% end %>
   </ul>
 
 
   <div id="tabs-1">
 
-    <%= f.input :title, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :title, :label => I18n.t("name"), :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :description, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :description, :label => I18n.t("description"), :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :state, :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :state, :label => I18n.t("state"), :label => I18n.t("state"), :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :start_date, :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
+    <%= f.input :start_date, :label => I18n.t("start_date"), :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
       <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :onclick => "$(this).datepicker();", :value => Time.now.strftime("%d/%m/%y") %>
     <% end %>
 
-    <%= f.input :organization_id, :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :organization_id, :label => I18n.t("organization"), :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_area_id, :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_area_id, :label => I18n.t("project_area"), :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :acquisition_category_id, :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :acquisition_category_id, :label => I18n.t("acqui"), :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :platform_category_id, :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :platform_category_id, :label => I18n.t("platform_categories"), :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_category_id, :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_category_id, :label => I18n.t("project_categories"), :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <div class="actions">
       <%= f.submit "Save", :class => "btn btn-success" %>
@@ -107,7 +107,7 @@
           <tr>
              <td><%= user.name %>
              <% ProjectSecurityLevel.all.each do |prj_level| %>
-               <td><%= radio_button_tag("user_securities_#{user.id}", prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+               <td><%= radio_button_tag("user_securities_#{user.id), prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
               <% end %>
           </tr>
         <% end %>
@@ -127,7 +127,7 @@
           <tr>
              <td><%= group.name %>
              <% ProjectSecurityLevel.all.each do |prj_level| %>
-               <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+               <td><%= radio_button_tag("group_securities_#{group.id), prj_level.id, (securities.nil? ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
             <% end %>
           </tr>
         <% end %>

@@ -1,32 +1,32 @@
 <div class="span12">
   <div id="parameter_title">
-    <h2><%="#{I18n.t "project_global_setting"}" %></h2>
+    <h2><%=I18n.t("project_global_setting") %></h2>
   </div>
 
   <div class="tabs">
     <ul>
-        <li><a href="#tabs-1"><%="#{I18n.t "project_area"}" %></a></li>
-        <li><a href="#tabs-2"><%="#{I18n.t "project_categories"}" %></a></li>
-        <li><a href="#tabs-3"><%="#{I18n.t "platform_categories"}" %></a></li>
-        <li><a href="#tabs-4"><%="#{I18n.t "acquisition_categories"}" %></a></li>
+        <li><a href="#tabs-1"><%=I18n.t("project_area") %></a></li>
+        <li><a href="#tabs-2"><%=I18n.t("project_categories") %></a></li>
+        <li><a href="#tabs-3"><%=I18n.t("platform_categories") %></a></li>
+        <li><a href="#tabs-4"><%=I18n.t("acquisition_categories") %></a></li>
     </ul>
 
     <div id="tabs-1">
 
       <table border="0" width="100%">
         <tr>
-          <td><h2><%="#{I18n.t "project_area"}" %></h2></td>
+          <td><h2><%=I18n.t("project_area") %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"} #{I18n.t "project_area"}", new_project_area_path, :class => "btn" %>
+            <%= link_to I18n.t("new_project_area"), new_project_area_path, :class => "btn" %>
           </td>
         </tr>
       </table>
 
       <table class="table table-striped">
           <tr>
-            <th><%="#{I18n.t "name"}" %></th>
-            <th><%="#{I18n.t "description"}" %></th>
-            <th><%="#{I18n.t "record_status"}" %></th>
+            <th><%=I18n.t("name") %></th>
+            <th><%=I18n.t("description") %></th>
+            <th><%=I18n.t("record_status") %></th>
             <th></th>
             <th></th>
             <th></th>
@@ -37,15 +37,15 @@
                <td><%= i.name %></td>
                <td><%= i.description %></td>
                <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-               <td><%= link_to '', edit_project_area_path(i), :class => "icn_edit", :title =>  "#{I18n.t "edit"}"   %></td>
-               <td><%= link_to '', i, confirm:  "#{I18n.t "are_you_sur?"}" , method: :delete, :class => "icn_trash", :title =>  "#{I18n.t "delete"}"   %></td>
+               <td><%= link_to '', edit_project_area_path(i), :class => "icn_edit", :title =>  I18n.t("edit")   %></td>
+               <td><%= link_to '', i, confirm:  I18n.t("are_you_sur?") , method: :delete, :class => "icn_trash", :title =>  I18n.t("delete")   %></td>
                <td>
                  <% if is_master_instance? && !i.is_local_record? %>
                      <% if i.is_retired? %>
-                         <%= link_to("#{I18n.t "restore"}", "project_areas/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                         <%= link_to(I18n.t("restore"), "project_areas/#{i.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                      <% else %>
                          <% unless i.is_defined? %>
-                             <%= link_to("#{I18n.t "validate"}", "project_areas/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                             <%= link_to(I18n.t("validate"), "project_areas/#{i.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                          <% end %>
                      <% end %>
                   <% end %>
@@ -59,18 +59,18 @@
 
       <table border="0" width="100%">
         <tr>
-          <td><h2><%="#{I18n.t "project_categories"}" %></h2></td>
+          <td><h2><%=I18n.t("project_categories") %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"} #{I18n.t "project_categories"}" , new_project_category_path, :class => "btn" %>
+            <%= link_to I18n.t("new_project_category") , new_project_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
 
         <table class="table table-striped">
           <tr>
-            <th><%="#{I18n.t "name"}" %></th>
-            <th><%="#{I18n.t "description"}" %></th>
-            <th><%="#{I18n.t "record_status"}" %></th>
+            <th><%=I18n.t("name") %></th>
+            <th><%=I18n.t("description") %></th>
+            <th><%=I18n.t("record_status") %></th>
             <th></th>
             <th></th>
             <th></th>
@@ -81,15 +81,15 @@
                <td><%= i.name %></td>
                <td><%= i.description %></td>
                <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-               <td><%= link_to '', edit_project_category_path(i), :class => "icn_edit", :title =>  "#{I18n.t "edit"}"   %></td>
-               <td><%= link_to '', i, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>  "#{I18n.t "delete"}"   %></td>
+               <td><%= link_to '', edit_project_category_path(i), :class => "icn_edit", :title =>  I18n.t("edit")   %></td>
+               <td><%= link_to '', i, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title =>  I18n.t("delete")   %></td>
                <td>
                  <% if is_master_instance? && !i.is_local_record? %>
                      <% if i.is_retired? %>
-                         <%= link_to("#{I18n.t "restore"}", "project_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                         <%= link_to(I18n.t("restore"), "project_categories/#{i.id}/restore_change", confirm: I18n.t("restoring?"), :title =>I18n.t("restore_title"))%>
                      <% else %>
                          <% unless i.is_defined? %>
-                             <%= link_to("#{I18n.t "validate"}", "project_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                             <%= link_to(I18n.t("validate"), "project_categories/#{i.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                          <% end %>
                      <% end %>
                  <% end %>
@@ -103,18 +103,18 @@
 
       <table border="0" width="100%">
         <tr>
-          <td><h2><%="#{I18n.t "platform_categories"}" %></h2></td>
+          <td><h2><%=I18n.t("platform_categories") %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"} #{I18n.t "platform_categories"}", new_platform_category_path, :class => "btn" %>
+            <%= link_to I18n.t("new_platform_category"), new_platform_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
 
       <table class="table table-striped">
         <tr>
-          <th><%="#{I18n.t "name"}" %></th>
-          <th><%="#{I18n.t "description"}" %></th>
-          <th><%="#{I18n.t "record_status"}" %></th>
+          <th><%=I18n.t("name") %></th>
+          <th><%=I18n.t("description") %></th>
+          <th><%=I18n.t("record_status") %></th>
           <th></th>
           <th></th>
           <th></th>
@@ -125,15 +125,15 @@
              <td><%= i.name %></td>
              <td><%= i.description %></td>
              <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-             <td><%= link_to '', edit_platform_category_path(i), :class => "icn_edit", :title =>  "#{I18n.t "edit"}"   %></td>
-             <td><%= link_to '', i, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>  "#{I18n.t "delete"}"   %></td>
+             <td><%= link_to '', edit_platform_category_path(i), :class => "icn_edit", :title =>  I18n.t("edit")   %></td>
+             <td><%= link_to '', i, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title =>  I18n.t("delete")   %></td>
              <td>
                <% if is_master_instance? && !i.is_local_record? %>
                    <% if i.is_retired? %>
-                       <%= link_to("#{I18n.t "restore"}", "platform_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                       <%= link_to(I18n.t("restore"), "platform_categories/#{i.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                    <% else %>
                        <% unless i.is_defined? %>
-                           <%= link_to("#{I18n.t "validate"}", "platform_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                           <%= link_to(I18n.t("validate"), "platform_categories/#{i.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                        <% end %>
                    <% end %>
                <% end %>
@@ -147,18 +147,18 @@
 
       <table border="0" width="100%">
         <tr>
-          <td><h2><%="#{I18n.t "acquisition_categories"}" %></h2></td>
+          <td><h2><%=I18n.t("acquisition_categories") %></h2></td>
           <td style="text-align:right;">
-            <%= link_to "#{I18n.t "new_f"} #{I18n.t "acquisition_categories"}", new_acquisition_category_path, :class => "btn" %>
+            <%= link_to I18n.t("new_acquisition_category"), new_acquisition_category_path, :class => "btn" %>
           </td>
         </tr>
       </table>
 
       <table class="table table-striped">
         <tr>
-          <th><%="#{I18n.t "name"}" %></th>
-          <th><%="#{I18n.t "description"}" %></th>
-          <th><%="#{I18n.t "record_status"}" %></th>
+          <th><%=I18n.t("name") %></th>
+          <th><%=I18n.t("description") %></th>
+          <th><%=I18n.t("record_status") %></th>
           <th></th>
           <th></th>
           <th></th>
@@ -169,15 +169,15 @@
              <td><%= i.name %></td>
              <td><%= i.description %></td>
              <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-             <td><%= link_to '', edit_acquisition_category_path(i), :class => "icn_edit", :title => "#{I18n.t "edit"}"  %></td>
-             <td><%= link_to '', i, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}"  %></td>
+             <td><%= link_to '', edit_acquisition_category_path(i), :class => "icn_edit", :title => I18n.t("edit")  %></td>
+             <td><%= link_to '', i, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete")  %></td>
              <td>
                <% if is_master_instance? && !i.is_local_record? %>
                    <% if i.is_retired? %>
-                       <%= link_to("#{I18n.t "restore"}", "acquisition_categories/#{i.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "restore changes")%>
+                       <%= link_to(I18n.t("restore"), "acquisition_categories/#{i.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                    <% else %>
                        <% unless i.is_defined? %>
-                           <%= link_to("#{I18n.t "validate"}", "acquisition_categories/#{i.id}/validate_change", confirm: 'Do you confirm changes validation on this record?', :title => "validate changes")%>
+                           <%= link_to(I18n.t("validate"), "acquisition_categories/#{i.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                        <% end %>
                    <% end %>
                <% end %>

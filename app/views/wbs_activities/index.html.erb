@@ -3,12 +3,12 @@
 
   <table class="table table-striped" >
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Organization</th>
-      <th>State</th>
-      <th>Status</th>
-      <th colspan=4>Actions</th>
+      <th><%= I18n.t(:name ) %></th>
+      <th><%= I18n.t(:description ) %></th>
+      <th><%= I18n.t(:organization ) %></th>
+      <th><%= I18n.t(:state ) %></th>
+      <th><%= I18n.t(:record_status ) %></th>
+      <th colspan=4><%= I18n.t(:actions ) %></th>
     </tr>
 
   <% @wbs_activities.each do |wbs_activity| %>
@@ -18,20 +18,20 @@
       <td><%= wbs_activity.organization unless wbs_activity.organization.nil? %></td>
       <td><%= wbs_activity.state %></td>
       <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
-      <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => "Edit", confirm: ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if wbs_activity.is_defined?) %></td>
+      <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => I18n.t(:edit ), confirm: ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if wbs_activity.is_defined?) %></td>
       <td><%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_me",  :class => "icn_duplicate", :title => "Duplicate") %></td>
       <td>
           <% unless wbs_activity.retired? %>
-            <%= link_to '', wbs_activity, confirm: 'Are you sure?', method: :delete, :class => "icn_trash", :title => "Delete" %>
+            <%= link_to '', wbs_activity, confirm:  I18n.t(:are_you_sur? ), method: :delete, :class => "icn_trash", :title =>  I18n.t(:delete ) %>
           <% end %>
       </td>
       <td>
         <% if is_master_instance? && !wbs_activity.is_local_record? %>
             <% if wbs_activity.is_retired? %>
-                <%= link_to('', "wbs_activities/#{wbs_activity.id}/restore_change", confirm: 'Do you confirm restoring this record as defined ?', :title => "Restore changes", :class => 'icn_jump_back')%>
+                <%= link_to('', "wbs_activities/#{wbs_activity.id}/restore_change", confirm:  I18n.t(:actions ), :title =>  I18n.t(:restore_title ), :class => 'icn_jump_back')%>
             <% else %>
                 <% unless wbs_activity.is_defined? %>
-                    <%= link_to('', "/wbs_activities/#{wbs_activity.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title => 'validate changes', :class => 'icn_check_in') %>
+                    <%= link_to('', "/wbs_activities/#{wbs_activity.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title =>  I18n.t(:validate_title ), :class => 'icn_check_in') %>
                 <% end %>
             <% end %>
         <% end %>
@@ -41,31 +41,31 @@
   <% end %>
   </table>
 
-  <%= link_to 'Create a WBS Activity', new_wbs_activity_path, :class => "btn" %>
+  <%= link_to  I18n.t(:new_wbs_activity ), new_wbs_activity_path, :class => "btn" %>
   <a href="#myModal" role="button" class="btn" data-toggle="modal">Import a CSV file</a>
 
   <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <%= form_tag import_wbs_activities_path, :multipart => true do %>
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">Import WBS Activity</h3>
+          <h3 id="myModalLabel"><%= I18n.t(:import ) %> WBS Activity</h3>
         </div>
         <div class="modal-body">
-            <label>File (csv only) </label>
+            <label><%= I18n.t(:file_csv ) %></label>
             <%= file_field_tag :file %>
 
-            <label>Separator (default '<%= I18n.t(:general_csv_separator) %>') </label>
+            <label><%= I18n.t(:separator ) %>'<%= I18n.t(:general_csv_separator) %>') </label>
             <%= text_field_tag :separator %>
 
-            <label>Encoding</label>
+            <label><%= I18n.t(:encoding ) %></label>
             <%= select_tag :encoding, options_for_select(Project::encoding, :selected => I18n.t(:general_csv_encoding))  %>
         </div>
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-          <%= submit_tag "Import", :class => "btn btn-primary", :onclick => "$('.loading').show();"  %>
+          <%= submit_tag I18n.t(:import ), :class => "btn btn-primary", :onclick => "$('.loading').show();"  %>
         </div>
         <div class="loading span11 hide">
-          <h4>Please wait during import... <%= image_tag "ajax-loader.gif" %> </h4>
+          <h4><%= I18n.t(:please_wait_import ) %><%= image_tag "ajax-loader.gif" %> </h4>
         </div>
       </div>
     <% end %>

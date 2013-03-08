@@ -125,8 +125,13 @@ $(document).ready(function() {
 
     //$("#tabs_test :input").attr("disabled", true);
     if(($('.div_tabs_to_disable').data('enable_update')) ==  false){
-        $(".div_tabs_to_disable :input").attr("disabled", true);
-        //$('.div_tabs_to_disable').find('input, textarea, button, select').attr('disabled','disabled');
+        //$(".div_tabs_to_disable :input").attr("disabled", true);
+        $('.div_tabs_to_disable').find('input, textarea, button, select, a').attr('disabled','disabled');
+//        $('.component_tree ul li').hover(
+//            function () {
+//                $('.block_link').hide();
+//            }
+//        );
     }
 
     $(function() {
