@@ -26,10 +26,13 @@ module ControllerMacros
       first_auth_method.save
     end
 
-    user = User.new(:first_name => "Projestimate", :last_name => "Administrator", :login_name => "Admin", :email => "admin@example.com", :password => "secret", :password_confirmation => "secret", :language_id => first_language.id, :auth_type => first_auth_method.id, :user_status=>"active")
+    #user = User.new(:first_name => "Projestimate", :last_name => "Administrator", :login_name => "Admin", :email => "admin@example.com", :password => "secret", :password_confirmation => "secret", :language_id => first_language.id, :auth_type => first_auth_method.id, :user_status=>"active")
+    user = User.find_or_create_by_login_name(:first_name => "Projestimate", :last_name => "Administrator", :login_name => "Admin", :email => "admin@example.com", :password => "secret1234", :password_confirmation => "secret1234", :language_id => first_language.id, :auth_type => first_auth_method.id, :user_status=>"active")
     user.save
     session[:current_user_id] = user.id
     current_user = user
+    #view.stub(:current_user) { user}
+    #ApplicationController.stub(:current_user) { user }
   end
 
 
