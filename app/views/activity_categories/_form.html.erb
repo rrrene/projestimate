@@ -4,26 +4,26 @@
     <%= f.error_notification %>
 
      <div>
-      <%= f.input :name, :label => "#{I18n.t "name"}" %><br />
+      <%= f.input :name, :label => I18n.t("name") %><br />
 
-      <%= f.input :description, :input_html => { :rows => 3 }, :label => "#{I18n.t "description"}" %><br />
+      <%= f.input :description, :input_html => { :rows => 3 }, :label => I18n.t("description") %><br />
 
       <%= f.input :alias %><br />
 
-      <%= f.input :change_comment, :input_html => { :rows => 3 }, :label => "#{I18n.t "change_comment"}" %><br />
+      <%= f.input :change_comment, :input_html => { :rows => 3 }, :label => I18n.t("change_comment") %><br />
 
-      <%= f.association :record_status, :label => "#{I18n.t "record_status"}",  :collection => @activity_category.record_status_collection,
+      <%= f.association :record_status, :label => I18n.t("record_status"),  :collection => @activity_category.record_status_collection,
                         :input_html => { :class => "record_status"},
                         :selected => (@activity_category.is_defined_or_nil? ? @proposed_status.id : @activity_category.record_status_id),
                         :disabled => (true if @activity_category.is_retired?)  %><br />
 
-      <%= f.input :custom_value, :input_html => { :class => "custom_value"}, :disabled => (true unless @activity_category.is_custom?), :label => "#{I18n.t "custom_value"}" %>
+      <%= f.input :custom_value, :input_html => { :class => "custom_value"}, :disabled => (true unless @activity_category.is_custom?), :label => I18n.t("custom_value") %>
    </div>
 
     <div class="actions">
       <% if can? :update, @activity_category %>
-          <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
-          <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+          <%= f.submit I18n.t("save"), :class => "btn" %>
+          <%= f.submit I18n.t("apply"), :class => "btn" %>
        <% end %>
     </div>
   <% end %>

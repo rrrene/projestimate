@@ -14,15 +14,15 @@
     <tr>
       <td><%= auth_method.name %></td>
       <td><%= auth_method.record_status.name unless auth_method.record_status.nil? %> <%= auth_method.show_custom_value %></td>
-      <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-      <td><%= link_to '', auth_method, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
+      <td><%= link_to '', edit_auth_method_path(auth_method), :class => "icn_edit", :title => I18n.t("edit") %></td>
+      <td><%= link_to '', auth_method, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete") %></td>
       <td>
         <% if is_master_instance? && !auth_method.is_local_record? %>
             <% if auth_method.is_retired? %>
-                <%= link_to("#{I18n.t "restore"}", "auth_methods/#{auth_method.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title =>"#{I18n.t "restore_title"}")%>
+                <%= link_to(I18n.t("restore"), "auth_methods/#{auth_method.id}/restore_change", confirm: I18n.t("restoring?"), :title =>I18n.t("restore_title"))%>
             <% else %>
                 <% unless auth_method.is_defined? %>
-                    <%= link_to("#{I18n.t "validate"}", "auth_methods/#{auth_method.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title =>"#{I18n.t "validate_title"}")%>
+                    <%= link_to(I18n.t("validate"), "auth_methods/#{auth_method.id}/validate_change", confirm: I18n.t("validation?"), :title =>I18n.t("validate_title"))%>
                 <% end %>
             <% end %>
         <% end %>
@@ -33,6 +33,6 @@
 
   <br />
 
-  <%= link_to "#{I18n.t "new_auth_method"}", new_auth_method_path, :class => "btn" %>
+  <%= link_to I18n.t("new_auth_method"), new_auth_method_path, :class => "btn" %>
 </div>
 

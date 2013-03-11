@@ -17,13 +17,13 @@
             <td><%= link_to perm.description, edit_permission_path(perm) %></td>
             <% @project_securitiy_levels.each do |ps| %>
               <td style="text-align: center;">
-                <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}")%>
+                <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id))%>
               </td>
             <% end %>
           </tr>
         <% end %>
-          <tr><td><%= link_to "#{I18n.t "new_permission"}", new_permission_path(:is_project_permission => true) %></td></tr>
+          <tr><td><%= link_to I18n.t("new_permission"), new_permission_path(:is_project_permission => true) %></td></tr>
       </table>
-    <%= submit_tag "#{I18n.t "save"}", :class => "btn" %>
+    <%= submit_tag I18n.t("save"), :class => "btn" %>
     <% end %>
 </div>

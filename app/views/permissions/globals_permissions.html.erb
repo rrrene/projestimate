@@ -18,12 +18,12 @@
             <td><%= link_to perm.description, edit_permission_path(perm) %></td>
             <% @groups.each do |group| %>
               <td style="text-align: center;">
-                <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}")%>
+                <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id))%>
               </td>
             <% end %>
           </tr>
         <% end %>
       </table>
-    <%= submit_tag "#{I18n.t "save"}", :class => "btn" %>
+    <%= submit_tag I18n.t("save"), :class => "btn" %>
     <% end %>
 </div>

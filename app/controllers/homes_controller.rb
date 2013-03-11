@@ -1,6 +1,8 @@
 class HomesController < ApplicationController
   def update_install
     begin
+      expire_fragment('about_page')
+
       if is_master_instance?
         flash[:error] = "You can't update yourself, as you already are on Master Instance"
         redirect_to "/about" and return

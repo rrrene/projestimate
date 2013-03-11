@@ -14,23 +14,23 @@
 
       <%= hidden_field_tag "id", (@pemodule.id || nil) %>
        <div>
-          <%= f.input :title, :label => "#{I18n.t "name"}" %>
+          <%= f.input :title, :label => I18n.t("name") %>
 
           <%= f.input :alias %>
 
-          <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :rows => 3 } %>
+          <%= f.input :description, :label => I18n.t("description"), :input_html => { :rows => 3 } %>
 
-          <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}", :input_html => { :rows => 3 } %>
+          <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %>
 
-          <%= f.association :record_status, :label => "#{I18n.t "record_status"}", :label => "Status",
+          <%= f.association :record_status, :label => I18n.t("record_status"), :label => "Status",
                             :collection => @pemodule.record_status_collection,
                             :input_html => {:class => "record_status"},
                             :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
                             :disabled => (true if @pemodule.is_retired?) %><br />
 
-          <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}", :input_html => {:class => "custom_value"}, :disabled => (true unless @pemodule.is_custom?) %><br />
+          <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @pemodule.is_custom?) %><br />
 
-          <%= f.label "#{I18n.t "compatibility"}" %>
+          <%= f.label I18n.t("compatibility") %>
 
          <table>
           <% @wets.each do |wet| %>
@@ -47,7 +47,7 @@
 
       </div><br />
 
-      <%= submit_tag "#{I18n.t "update"}", :class => "btn"  %>
+      <%= submit_tag I18n.t("update"), :class => "btn"  %>
       <span class="on_success_global"></span>
 
     <% end -%>
@@ -67,12 +67,12 @@
               <% @attributes.each do |attr| %>
                 <tr class="<%= cycle("even", "odd")%>">
                   <td><%= link_to attr.name, edit_attribute_path(attr) unless attr.nil? %></td>
-                  <td><%= check_box_tag "attributes[]", "#{attr.id}", @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
+                  <td><%= check_box_tag "attributes[]", "#{attr.id), @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
                   <td><%= attr.description %></td>
                 </tr>
               <% end %>
           </table>
-          <%= submit_tag "#{I18n.t "update"}", :class => "btn" %>
+          <%= submit_tag I18n.t("update"), :class => "btn" %>
           <span class="on_success_attr"></span>
       <% end -%>
     </div>
@@ -84,7 +84,7 @@
             <div class="list_attr">
               <%= render :partial => "attribute_settings", :object => @attribute_settings %>
             </div>
-          <%= submit_tag "#{I18n.t "update"}", :class => "btn"  %>
+          <%= submit_tag I18n.t("update"), :class => "btn"  %>
           <span class="on_success_attr_set"></span>
         <% end -%>
     </div>

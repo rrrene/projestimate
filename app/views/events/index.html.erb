@@ -22,11 +22,11 @@
       <td><%= event.end_date %></td>
       <td><%= event.event_type_id %></td>
       <td><%= event.project_id %></td>
-      <td><%= link_to '',  edit_event_path(event), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-      <td><%= link_to '', event, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
+      <td><%= link_to '',  edit_event_path(event), :class => "icn_edit", :title => I18n.t("edit") %></td>
+      <td><%= link_to '', event, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete") %></td>
     </tr>
   <% end %>
   </table>
-  <%= link_to "#{I18n.t "new_event"}", new_event_path, :class => "btn" %>
+  <%= link_to I18n.t("new_event"), new_event_path, :class => "btn" %>
 
 </div>

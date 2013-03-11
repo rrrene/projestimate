@@ -16,15 +16,15 @@
       <td><%= group.name %></td>
       <td><%= group.description %></td>
       <td><%= group.record_status.name unless group.record_status.nil? %> <%= group.show_custom_value %></td>
-      <td><%= link_to '', edit_group_path(group, :anchor => "tabs-1"), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-      <td><%= link_to '', group, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
+      <td><%= link_to '', edit_group_path(group, :anchor => "tabs-1"), :class => "icn_edit", :title => I18n.t("edit") %></td>
+      <td><%= link_to '', group, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete") %></td>
       <td>
         <% if is_master_instance? && !group.is_local_record? %>
             <% if group.is_retired? %>
-                <%= link_to("#{I18n.t "restore"}", "groups/#{group.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
+                <%= link_to(I18n.t("restore"), "groups/#{group.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
             <% else %>
                 <% unless group.is_defined? %>
-                    <%= link_to("#{I18n.t "validate"}", "groups/#{group.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
+                    <%= link_to(I18n.t("validate"), "groups/#{group.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                 <% end %>
             <% end %>
         <% end %>
@@ -35,5 +35,5 @@
 
   <br />
 
-  <%= link_to "#{I18n.t "new_group"}", new_group_path, :class => "btn" %>
+  <%= link_to I18n.t("new_group"), new_group_path, :class => "btn" %>
  </div>
