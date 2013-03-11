@@ -96,6 +96,10 @@ de:
   #Acquisition categories
   edit_acquisition_category: "Edit an acquisition category"
   new_acquisition_category: "New acquisition category"
+  new_acquisition_category_message: "Acquisition category was successfully created."
+  destroy_acquisition_category_message: "Acquisition category was successfully deleted."
+  not_update_acquisition_category_message: "This Acquisition category can not be edited, previous changes have not yet been validated"
+  edit_acquisition_category_message: "Acquisition category was successfully updated."
 
   #Admin_settings
   edit_admin_settings: "Edit admin settings"
