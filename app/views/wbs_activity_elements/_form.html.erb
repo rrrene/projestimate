@@ -1,7 +1,7 @@
 <div class="span12">
   <% action_name = controller.action_name %>
   <% if %w(new edit).include?(action_name) %>
-      <h2><%= ("#{action_name) == "new")? I18n.t(:new_wbs_activity_element ) : I18n.t(:new_wbs_activity_element )%></h2>
+      <h2><%= (action_name == "new")? I18n.t(:new_wbs_activity_element ) : I18n.t(:new_wbs_activity_element )%></h2>
   <% end %>
 
 

@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h2 xmlns="http://www.w3.org/1999/html"><%= ("#{action_name) == "new")? I18n.t(:new_wbs_activity ) : I18n.t(:edit_wbs_activity )%></h2>
+  <h2 xmlns="http://www.w3.org/1999/html"><%= (action_name == "new") ? I18n.t(:new_wbs_activity ) : I18n.t(:edit_wbs_activity )%></h2>
 <% else %>
   <h1><%= I18n.t(:new_activities ) %></h1>
 <% end %>
