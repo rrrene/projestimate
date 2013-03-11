@@ -16,15 +16,15 @@
           <td><%= record_status.name %></td>
           <td><%= record_status.description %></td>
           <td><%= record_status.record_status.name unless record_status.record_status.nil? %><%= record_status.show_custom_value %></td>
-          <td><%= link_to '', edit_record_status_path(record_status), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-          <td><%= link_to '', record_status, method: :delete, data: { confirm: "#{I18n.t "are_you_sur?"}" }, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
+          <td><%= link_to '', edit_record_status_path(record_status), :class => "icn_edit", :title => I18n.t("edit") %></td>
+          <td><%= link_to '', record_status, method: :delete, data: { confirm: I18n.t("are_you_sur?") }, :class => "icn_trash", :title => I18n.t("delete") %></td>
           <td>
             <% if is_master_instance? && !record_status.is_local_record? %>
                 <% if record_status.is_retired? %>
-                    <%= link_to("#{I18n.t "restore"}", "record_statuses/#{record_status.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
+                    <%= link_to(I18n.t("restore"), "record_statuses/#{record_status.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                 <% else %>
                     <% unless record_status.is_defined? %>
-                        <%= link_to("#{I18n.t "validate"}", "record_statuses/#{record_status.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validate_title"}")%>
+                        <%= link_to(I18n.t("validate"), "record_statuses/#{record_status.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                     <% end %>
                 <% end %>
             <% end %>
@@ -35,5 +35,5 @@
 
   <br />
 
-  <%= link_to "#{I18n.t "new_record_status"}", new_record_status_path, :class => "btn" %>
+  <%= link_to I18n.t("new_record_status"), new_record_status_path, :class => "btn" %>
 </div>

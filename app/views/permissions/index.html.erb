@@ -13,15 +13,15 @@
       <tr>
         <td><%= perm.name %></td>
         <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
-        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-        <td><%= link_to "", perm, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}"%></td>
+        <td><%= link_to "", edit_permission_path(perm), :class => "icn_edit", :title => I18n.t("edit") %></td>
+        <td><%= link_to "", perm, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete")%></td>
         <td>
           <% if is_master_instance? && !perm.is_local_record? %>
               <% if perm.is_retired? %>
-                  <%= link_to("#{I18n.t "restore"}", "permissions/#{perm.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
+                  <%= link_to(I18n.t("restore"), "permissions/#{perm.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
               <% else %>
                   <% unless perm.is_defined? %>
-                      <%= link_to("#{I18n.t "validate"}", "permissions/#{perm.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title => "#{I18n.t "validation?"}")%>
+                      <%= link_to(I18n.t("validate"), "permissions/#{perm.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validation?"))%>
                   <% end %>
               <% end %>
           <% end %>
@@ -32,6 +32,6 @@
 
   <br />
 
-  <%= link_to "#{I18n.t "new_permission"}", new_permission_path, :class => "btn" %>
+  <%= link_to I18n.t("new_permission"), new_permission_path, :class => "btn" %>
 </div>
 

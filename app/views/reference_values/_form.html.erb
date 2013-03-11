@@ -3,21 +3,21 @@
   <%= simple_form_for(@reference_value) do |f| %>
     <%= f.error_notification %>
 
-    <%= f.input :value, :label => "#{I18n.t "value"}", :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :value, :label => I18n.t("value"), :input_html => { :class => 'input-xxlarge' } %>
 
     <% if is_master_instance? %>
-        <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}", :input_html => { :rows => 3 } %>
+        <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %>
 
-        <%= f.input :record_status_id, :label => "#{I18n.t "record_status"}", :as => :select, :required => (is_master_instance? ? true : false),
+        <%= f.input :record_status_id, :label => I18n.t("record_status"), :as => :select, :required => (is_master_instance? ? true : false),
                     :collection => @reference_value.record_status_collection,
                     :input_html => {:class => "record_status"},
                     :selected => (@reference_value.is_defined_or_nil? ? @proposed_status.id : @reference_value.record_status_id),
                     :disabled => (true if @reference_value.is_retired?) %><br />
 
-        <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}", :input_html => {:class => "custom_value"}, :disabled => (true unless @reference_value.is_custom?) %><br />
+        <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @reference_value.is_custom?) %><br />
     <% end %>
 
-    <%= f.submit "#{I18n.t "save"}", :class => "btn"%>
-    <%= f.submit "#{I18n.t "apply"}", :class => "btn"%>
+    <%= f.submit I18n.t("save"), :class => "btn"%>
+    <%= f.submit I18n.t("apply"), :class => "btn"%>
   <% end %>
 </div>

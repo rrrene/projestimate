@@ -2,28 +2,28 @@
   <%= simple_form_for(@permission) do |f| %>
       <%= f.error_notification %>
 
-      <%= f.input :name, :label => "#{I18n.t "name"}" %>
+      <%= f.input :name, :label => I18n.t("name") %>
 
-      <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :rows => 3 } %>
+      <%= f.input :description, :label => I18n.t("description"), :input_html => { :rows => 3 } %>
 
-      <%= f.input :is_permission_project, :label => "#{I18n.t "is_permission_project"}", :as => :select, :collection => [true, false] %>
+      <%= f.input :is_permission_project, :label => I18n.t("is_permission_project"), :as => :select, :collection => [true, false] %>
 
-      <%= f.input :object_associated, :label => "#{I18n.t "object_associated"}", :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == "SchemaMigration" } %> <br />
+      <%= f.input :object_associated, :label => I18n.t("object_associated"), :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == "SchemaMigration" } %> <br />
 
-      <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}", :input_html => { :rows => 3 } %>
+      <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %>
 
-      <%= f.association :record_status, :label => "#{I18n.t "record_status"}",
+      <%= f.association :record_status, :label => I18n.t("record_status"),
                         :collection => @permission.record_status_collection,
                         :input_html => {:class => "record_status"},
                         :selected => (@permission.is_defined_or_nil? ? @proposed_status.id : @permission.record_status_id),
                         :disabled => (true if @permission.is_retired?) %><br />
 
-      <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}", :input_html => {:class => "custom_value"}, :disabled => (true unless @permission.is_custom?) %><br />
+      <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @permission.is_custom?) %><br />
 
       <div class="actions">
         <% if can? :update, @permission %>
-            <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
-            <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+            <%= f.submit I18n.t("save"), :class => "btn" %>
+            <%= f.submit I18n.t("apply"), :class => "btn" %>
         <% end %>
     </div>
   <% end %>

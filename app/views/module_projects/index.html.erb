@@ -15,12 +15,12 @@
     <td><%= module_project.pemodule_id %></td>
     <td><%module_project.project_id %></td>
     <!--<td><%# module_project.position %></td>-->
-    <td><%= link_to '', edit_module_project_path(module_project), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-    <td><%= link_to '', module_project, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title =>"#{I18n.t "delete"}" %></td>
+    <td><%= link_to '', edit_module_project_path(module_project), :class => "icn_edit", :title => I18n.t("edit") %></td>
+    <td><%= link_to '', module_project, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title =>I18n.t("delete") %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to "#{I18n.t "new_module_project"}", new_module_project_path, :class => "btn" %>
+<%= link_to I18n.t("new_module_project"), new_module_project_path, :class => "btn" %>

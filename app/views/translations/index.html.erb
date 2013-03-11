@@ -19,6 +19,6 @@
       <div id="list_translations">
           <%= render :partial => 'list_translations', :object => @translations %>
       </div>
-      <%= submit_tag "#{I18n.t "save_translations"}", :class => "btn" %>
+      <%= submit_tag I18n.t("save_translations"), :class => "btn" %>
   <% end %>
 </div>

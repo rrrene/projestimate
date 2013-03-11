@@ -12,26 +12,26 @@
   <% end %>
 
   <div >
-    <%= f.input :name, :label => "#{I18n.t "name"}"  %><br />
+    <%= f.input :name, :label => I18n.t("name")  %><br />
 
-    <%= f.input :description, :label => "#{I18n.t "description"}" , :input_html => { :rows => 3 }  %><br />
+    <%= f.input :description, :label => I18n.t("description") , :input_html => { :rows => 3 }  %><br />
 
-    <%= f.input :icon_url, :label => "#{I18n.t "icon_url"}"  %><br />
+    <%= f.input :icon_url, :label => I18n.t("icon_url")  %><br />
 
-    <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}" , :input_html => { :rows => 3 } %><br />
+    <%= f.input :change_comment, :label => I18n.t("change_comment") , :input_html => { :rows => 3 } %><br />
 
-    <%= f.association :record_status, :label => "#{I18n.t "record_status"}" ,
+    <%= f.association :record_status, :label => I18n.t("record_status") ,
                       :collection => @event_type.record_status_collection,
                       :input_html => {:class => "record_status"},
                       :selected => (@event_type.is_defined_or_nil? ? @proposed_status.id : @event_type.record_status_id),
                       :disabled => (true if @event_type.is_retired?) %><br />
 
-    <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}" , :input_html => {:class => "custom_value"}, :disabled => (true unless @event_type.is_custom?)  %><br />
+    <%= f.input :custom_value, :label => I18n.t("custom_value") , :input_html => {:class => "custom_value"}, :disabled => (true unless @event_type.is_custom?)  %><br />
 
   </div>
   <div class="actions">
     <% if can? :update, @event_type %>
-        <%= f.submit "#{I18n.t "save"}", :class => "btn"%>
+        <%= f.submit I18n.t("save"), :class => "btn"%>
     <% end %>
   </div>
 <% end %>

@@ -3,25 +3,25 @@
     <%= f.error_notification %>
 
     <div>
-      <%= f.input :key, :label => "#{I18n.t "key"}", :input_html => {:disabled => (!is_master_instance? && ! @admin_setting.new_record?)} %>
+      <%= f.input :key, :label => I18n.t("key"), :input_html => {:disabled => (!is_master_instance? && ! @admin_setting.new_record?)} %>
 
-      <%= f.input :value, :label => "#{I18n.t "value"}", :input_html => {:rows => 5 } %>
+      <%= f.input :value, :label => I18n.t("value"), :input_html => {:rows => 5 } %>
 
-      <%= f.input :change_comment, :label => "#{I18n.t "change_comment"}", :input_html => { :rows => 3, :disabled => (!is_master_instance? && @admin_setting) } %><br />
+      <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3, :disabled => (!is_master_instance? && @admin_setting) } %><br />
 
-      <%= f.association :record_status, :label => "#{I18n.t "record_status"}",
+      <%= f.association :record_status, :label => I18n.t("record_status"),
                         :collection => (is_master_instance? ? @admin_setting.record_status_collection : RecordStatus.all),
                         :input_html => {:class => "record_status"},
                         :selected => (admin_setting_selected_status.nil? ? nil : admin_setting_selected_status.id),
                         :disabled => (@admin_setting.is_retired? || !is_master_instance?) %><br />
 
-      <%= f.input :custom_value, :label => "#{I18n.t "custom_value"}", :input_html => {:class => "custom_value"}, :disabled => (true unless @admin_setting.is_custom?) %>
+      <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @admin_setting.is_custom?) %>
     </div>
 
     <div class="actions">
       <% if can? :update, @admin_setting %>
-        <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
-        <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+        <%= f.submit I18n.t("save"), :class => "btn" %>
+        <%= f.submit I18n.t("apply"), :class => "btn" %>
       <% end %>
     </div>
   <% end %>

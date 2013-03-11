@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
 
   def redirect(url)
     begin
-      (params[:commit] == "save" or params[:commit] == "Save") ? url : session[:return_to]
+      (params[:commit] == "#{I18n.t "save"}"  or params[:commit] == "Save") ? url : session[:return_to]
     rescue
       url
     end
@@ -173,7 +173,7 @@ class ApplicationController < ActionController::Base
 
   #if Rails.env == "production"
   #  rescue_from Exception do |exception|
-  #    flash[:error] = "Something went wrong :  #{exception.message}"
+  #    flash[:error] = "Something went wrong :  #{exception.message)
   #  end
   #end
 

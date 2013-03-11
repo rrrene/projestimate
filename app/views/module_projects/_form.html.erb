@@ -55,14 +55,14 @@
                       <th><%= I18n.t(:associable_attributes) %></th>
                     </tr>
 
-                      <% if attr.input? %>
+                      <% if attr.in_out == "input" %>
                         <% previous_modules = @module_project.previous %>
                         <% previous_modules.each do |mp| %>
                           <tr>
                             <td><%= mp.pemodule.title %></td>
                             <td>
                               <% @project.root_component.module_project_attributes.select{|i| (i.output? && i.module_project_id == mp.id ) }.each do |mpa| %>
-                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
+                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias}" %>
                                 <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
                                 </br>
                               <% end %>
@@ -75,7 +75,7 @@
                           <tr>
                             <td><%= mp.pemodule.title %></td>
                             <td>
-                              <% @project.root_component.module_project_attributes.select{|i| (i.input? && i.module_project_id == mp.id ) }.each do |mpa| %>
+                              <% @project.root_component.module_project_attributes.select{|i| (i.in_out == "input" && i.module_project_id == mp.id ) }.each do |mpa| %>
                                 <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
                                 <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
                                 </br>
@@ -96,8 +96,8 @@
 
 
   <div class="actions">
-    <%= f.submit "#{I18n.t "save"}", :class => "btn " %>
-    <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+    <%= f.submit I18n.t("save"), :class => "btn " %>
+    <%= f.submit I18n.t("apply"), :class => "btn" %>
   </div>
 
 </div>

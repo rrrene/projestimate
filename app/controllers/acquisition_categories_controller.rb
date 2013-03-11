@@ -25,18 +25,18 @@ class AcquisitionCategoriesController < ApplicationController
 
   def new
     authorize! :manage_acquisition_categories, AcquisitionCategory
-    set_page_title "Acquisition Category"
+    set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.new
   end
 
   def edit
     authorize! :manage_acquisition_categories, AcquisitionCategory
-    set_page_title "Acquisition Category"
+    set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.find(params[:id])
 
     unless @acquisition_category.child_reference.nil?
       if @acquisition_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This Acquisition category can not be edited, previous changes have not yet been validated"
+        flash[:notice] = I18n.t (:not_update_acquisition_category_message)
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       end
     end
@@ -46,7 +46,7 @@ class AcquisitionCategoriesController < ApplicationController
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
-      flash[:notice] = "Acquisition category was successfully created."
+      flash[:notice] = I18n.t (:new_acquisition_category_message)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
     else
       render action: "edit"
@@ -65,7 +65,7 @@ class AcquisitionCategoriesController < ApplicationController
     end
 
     if @acquisition_category.update_attributes(params[:acquisition_category])
-      flash[:notice] = "Acquisition category was successfully updated."
+      flash[:notice] = I18n.t (:edit_acquisition_category_message)
       #redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       redirect_to redirect("/projects_global_params#tabs-4")
     else
@@ -84,7 +84,7 @@ class AcquisitionCategoriesController < ApplicationController
       @acquisition_category.destroy
     end
 
-    flash[:notice] = 'Acquisition category was successfully deleted.'
+    flash[:notice] = I18n.t (:destroy_acquisition_category_message)
     redirect_to projects_global_params_path(:anchor => "tabs-4")
   end
 end

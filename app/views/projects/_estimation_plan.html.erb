@@ -20,7 +20,7 @@
             <td>
               <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
               <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_up', :project_module_id => pmod.id }, :class => 'icon-arrow-up', :remote => true %>
-              <%= link_to "", pmod, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => 'icon-trash', :remote => true %>
+              <%= link_to "", pmod, confirm: I18n.t("are_you_sur?"), method: :delete, :class => 'icon-trash', :remote => true %>
               <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_down', :project_module_id => pmod.id }, :class => 'icon-arrow-down', :remote => true %>
             </td>
           <% end %>

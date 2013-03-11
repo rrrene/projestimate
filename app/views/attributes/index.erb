@@ -1,8 +1,8 @@
 <table border="0" width="100%">
     <tr>
-      <td><h2><%= "#{I18n.t "attributes"}" %></h2></td>
+      <td><h2><%= I18n.t("attributes") %></h2></td>
       <td style="text-align:right;">
-          <%= link_to "#{I18n.t "new_attribute"}", new_attribute_path, :class => "btn" %>
+          <%= link_to I18n.t("new_attribute"), new_attribute_path, :class => "btn" %>
       </td>
     </tr>
 </table>
@@ -19,7 +19,7 @@
       <th></th>
     </tr>
     <% if @attributes.empty? %>
-      <p style="text-align:center;"> <%= "#{I18n.t "empty"} #{I18n.t "attributes"}" %></p>
+      <p style="text-align:center;"> <%= I18n.t("empty") %></p>
      <% else %>
       <% @attributes.each do |attribute| %>
         <tr>
@@ -28,15 +28,15 @@
           <td><%= attribute.description %></td>
           <td><%= attribute.attr_type.humanize %></td>
           <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
-          <td><%= link_to '', edit_attribute_path(attribute), :class => "icn_edit", :title => "#{I18n.t "edit"}" %></td>
-          <td><%= link_to '', attribute, confirm: "#{I18n.t "are_you_sur?"}", method: :delete, :class => "icn_trash", :title => "#{I18n.t "delete"}" %></td>
+          <td><%= link_to '', edit_attribute_path(attribute), :class => "icn_edit", :title => I18n.t("edit") %></td>
+          <td><%= link_to '', attribute, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete") %></td>
           <td>
             <% if is_master_instance? && !attribute.is_local_record? %>
                 <% if attribute.is_retired? %>
-                    <%= link_to("#{I18n.t "restore"}", "attributes/#{attribute.id}/restore_change", confirm: "#{I18n.t "restoring?"}", :title => "#{I18n.t "restore_title"}")%>
+                    <%= link_to(I18n.t("restore"), "attributes/#{attribute.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                 <% else %>
                     <% unless attribute.is_defined? %>
-                        <%= link_to("#{I18n.t "validate"}", "attributes/#{attribute.id}/validate_change", confirm: "#{I18n.t "validation?"}", :title =>"#{I18n.t "validate_title"}")%>
+                        <%= link_to(I18n.t("validate"), "attributes/#{attribute.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                     <% end %>
                 <% end %>
             <% end %>

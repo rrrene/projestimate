@@ -25,8 +25,8 @@
       <br/><%= f.radio_button 'project_security_level', "0", :name => "project_security_level" %> <%= I18n.t(:read_only)%>
     </div>
     <div class="actions">
-      <%= f.submit "#{I18n.t "save"}", :class => "btn" %>
-      <%= f.submit "#{I18n.t "apply"}", :class => "btn" %>
+      <%= f.submit I18n.t("save"), :class => "btn" %>
+      <%= f.submit I18n.t("apply"), :class => "btn" %>
     </div>
   <% end %>
 </div>
