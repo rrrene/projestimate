@@ -12,6 +12,11 @@ class WbsActivityRatioElement < ActiveRecord::Base
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   #validates :ratio_value, :numericality => { :greater_than => 0, :less_than => 100 }
 
+  #scope :elements_root, where(:is_root => true)
+  #lambda{|activity_ratio| where("wbs_activity_ratio_id = ?", activity_ratio)},
+  #scope :sorted_by_wbs_activity_elt, :joins => :wbs_activity_elements, :order => "wbs_activity_elements.parent_id asc"
+  #default_scope joins(:wbs_activity_element).order("wbs_activity_elements.ancestry asc")
+
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable

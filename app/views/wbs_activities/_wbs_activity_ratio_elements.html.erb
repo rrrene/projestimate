@@ -18,6 +18,7 @@
       <td><%= wbs_activity_ratio_element.wbs_activity_element.dotted_id %></td>
       <td><%= wbs_activity_ratio_element.wbs_activity_element.name %></td>
       <td><%= wbs_activity_ratio_element.wbs_activity_element.description %></td>
+
       <% unless wbs_activity_ratio_element.wbs_activity_element.has_children? %>
           <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-mini", :tabindex => i %></td>
           <% if wbs_activity_ratio_element.wbs_activity_ratio.is_One_Activity_Element? %>

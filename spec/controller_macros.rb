@@ -31,8 +31,7 @@ module ControllerMacros
     user.save
     session[:current_user_id] = user.id
     current_user = user
-    #view.stub(:current_user) { user}
-    #ApplicationController.stub(:current_user) { user }
+    controller.stub(:current_user) { user }   #view.stub(:current_user) { user}
   end
 
 

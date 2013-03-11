@@ -74,7 +74,7 @@ class WbsProjectElementsController < ApplicationController
   # POST /wbs_project_elements.json
   def create
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
-    #@wbs_project_element.author_id = current_user.id
+    @wbs_project_element.author_id = current_user.id
 
     @project = Project.find(params[:project_id])
     #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
