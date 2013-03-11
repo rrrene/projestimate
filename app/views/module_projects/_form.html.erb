@@ -42,13 +42,13 @@
                 <strong><%= I18n.t(:current_link) %></strong>
                 <% unless attr.links.first.nil? %>
                   <p>
-                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "#{I18n.t(:edit_link)), "#", :onclick => "show_popup('attribute_links_#{i}')" %>
+                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
                   </p>
                 <% end %>
               </td>
               <td>
 
-                <%= pop_up("attribute_links_#{i), "Attribute Links #{attr.id)) do %>
+                <%= pop_up("attribute_links_#{i}", "Attribute Links #{attr.id}") do %>
                   <table class="table table-striped">
                     <tr>
                       <th><%= I18n.t(:module_name) %></th>
@@ -62,7 +62,7 @@
                             <td><%= mp.pemodule.title %></td>
                             <td>
                               <% @project.root_component.module_project_attributes.select{|i| (i.output? && i.module_project_id == mp.id ) }.each do |mpa| %>
-                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias ) %>
+                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias}" %>
                                 <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
                                 </br>
                               <% end %>
@@ -76,7 +76,7 @@
                             <td><%= mp.pemodule.title %></td>
                             <td>
                               <% @project.root_component.module_project_attributes.select{|i| (i.input? && i.module_project_id == mp.id ) }.each do |mpa| %>
-                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias ) %>
+                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
                                 <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
                                 </br>
                               <% end %>

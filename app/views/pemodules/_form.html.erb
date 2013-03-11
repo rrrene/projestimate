@@ -67,7 +67,7 @@
               <% @attributes.each do |attr| %>
                 <tr class="<%= cycle("even", "odd")%>">
                   <td><%= link_to attr.name, edit_attribute_path(attr) unless attr.nil? %></td>
-                  <td><%= check_box_tag "attributes[]", "#{attr.id), @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
+                  <td><%= check_box_tag "attributes[]", "#{attr.id}", @attribute_settings.map(&:attribute_id).include?(attr.id) ? true : false %></td>
                   <td><%= attr.description %></td>
                 </tr>
               <% end %>

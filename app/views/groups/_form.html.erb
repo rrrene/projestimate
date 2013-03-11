@@ -71,7 +71,7 @@
             <% @projects.each do |group_project| %>
                 <tr>
                   <td><%= group_project.title %></td>
-                  <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id))%></td>
+                  <td><%= check_box_tag("group[project_ids][]", group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}")%></td>
                 </tr>
             <% end %>
           </table>

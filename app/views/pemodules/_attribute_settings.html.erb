@@ -22,7 +22,7 @@
       <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"]], :selected => ma.in_out), :prompt => "Choose...", :class => "input-small" %> </td>
       <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => ma.is_mandatory), :prompt => "Choose...", :class => "input-small" %></td>
       <td><%= select_tag "custom_attribute[]", options_for_select([["By user", "user"], ["By module", "module"], ["By project", "project"]], :selected => ma.custom_attribute), :onchange => "toggleProject(this.value, #{i});", :class => "input-medium" %></td>
-      <td><%= select_tag "project_value[]", options_for_select(Project.attribute_names, :selected => ma.project_value), :style => ma.project_value.blank? ? "display:none;" : "", :class => "project_attribute_#{i), :include_blank => true %></td>
+      <td><%= select_tag "project_value[]", options_for_select(Project.attribute_names, :selected => ma.project_value), :style => ma.project_value.blank? ? "display:none;" : "", :class => "project_attribute_#{i}", :include_blank => true %></td>
     </tr>
   <% end  %>
 </table>
