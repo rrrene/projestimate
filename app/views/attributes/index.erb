@@ -19,7 +19,7 @@
       <th></th>
     </tr>
     <% if @attributes.empty? %>
-      <p style="text-align:center;"> <%= I18n.t("empty"} #{I18n.t "attributes") %></p>
+      <p style="text-align:center;"> <%= I18n.t("empty") %></p>
      <% else %>
       <% @attributes.each do |attribute| %>
         <tr>
@@ -36,7 +36,7 @@
                     <%= link_to(I18n.t("restore"), "attributes/#{attribute.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
                 <% else %>
                     <% unless attribute.is_defined? %>
-                        <%= link_to(I18n.t("validate"), "attributes/#{attribute.id}/validate_change", confirm: I18n.t("validation?"), :title =>I18n.t("validate_title"))%>
+                        <%= link_to(I18n.t("validate"), "attributes/#{attribute.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
                     <% end %>
                 <% end %>
             <% end %>
