@@ -269,10 +269,20 @@ class Home < ActiveRecord::Base
             act = WbsActivity.find_by_uuid(ext_act.uuid)
             ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratios SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_ratio.uuid}'")
           end
-
         end
-
       end
+
+      ext_ratios.each do |ext_ratio|
+        ext_ratio_elements.each do |ext_ratio_element|
+          if ext_ratio.id == ext_ratio_element.wbs_activity_ratio_id and ext_ratio.record_status_id == ext_defined_rs_id
+            ratio = WbsActivityRatio.find_by_uuid(ext_ratio.uuid)
+            element = WbsActivityElement.find_by_uuid(ext_ratio_element.uuid)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_ratio_id = #{ext_ratio.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_element_id = #{element.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
+          end
+        end
+      end
+
 
       activities.each do |a|
         WbsActivityElement::build_ancestry(elements, a.id)

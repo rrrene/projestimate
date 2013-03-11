@@ -24,6 +24,7 @@ describe HomesController do
           flash[:error].should be_nil
         end
       end
+    end
 
     context "On master instance" do
       #it "returns http success" do
