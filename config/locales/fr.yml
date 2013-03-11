@@ -96,6 +96,10 @@ fr:
   #Acquisition categories
   edit_acquisition_category: "Editer une catégorie d'acquisition"
   new_acquisition_category: "Créer une catégorie d'acquisition"
+  new_acquisition_category_message: "Une nouvelle catégorie d'activité a été créée avec succès."
+  destroy_acquisition_category_message: "Cette catégorie d'activité a été supprimée avec succès"
+  not_update_acquisition_category_message: "Cette catégorie d'activité ne peux pas être mise à jour, les changements précédents n'ont pas encore été validé."
+  edit_acquisition_category_message: "Cette catégorie d'activité a été mise à jour avec succès"
 
   #Activity categories
   edit_activity_category: "Editer une catégorie d'activité"
