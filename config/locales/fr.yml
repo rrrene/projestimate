@@ -77,7 +77,7 @@ fr:
   #Project settings
   activity_categories: "Catégorie d'activités"
   acquisition_categories: "Catégorie d'acquisitions"
-  platform_categories: "Catégorie de plate-formes"
+  platform_categories: "Catégorie de plates-formes"
   project_categories: "Catégorie de projets"
   project_area: "Secteur de projet"
 
@@ -179,7 +179,7 @@ fr:
   current_link: "Liens courant"
   edit_link: "Editer le liens"
   module_name: "Nom du module"
-  associable_attributes: "Attributs asociables"
+  associable_attributes: "Attributs associables"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
@@ -316,11 +316,11 @@ fr:
   login_name: "Identifiant de connexion"
   email: "Courriel"
   initials: "Initiales"
-  associated_groups: "Goupes associés"
+  associated_groups: "Groupes associés"
   associated_organizations: "Organisations associées"
   associated_projects: "Projets associés"
   settings: "Paramètres"
-  authentication: "Autentifaication"
+  authentication: "Authentification"
   password: "Mot de passe"
   password_confirmation: "Confirmation du mot de passe"
   auth_type: "Authentification de l'utilisateur"
@@ -328,7 +328,7 @@ fr:
   user_status: "Statut de l'utilisateur"
   created_at: "Créer le"
   updated_at: "Mis à jour le"
-  last_login: "Dernière connextion"
+  last_login: "Dernière connexion"
   previous_login: "Connexion précédente"
   time_zone: "Fuseau horaire"
   assistance: "Aide"
@@ -339,7 +339,7 @@ fr:
   first_day: "Premier jour de la semaine"
   first_week: "Première semaine de l'année"
   export_preferences: "Préférence d'exportation"
-  execute_estimation: "Exécuter le processus d'éstimation"
+  execute_estimation: "Exécuter le processus d'estimation"
   edit_user: "Editer un utilisateur"
   new_user: "Créer un nouvel utilisateur"
   users: "Utilisateurs"
@@ -356,7 +356,7 @@ fr:
   encoding: "Encodage"
   please_wait_import: "Merci de bien vouloir patienter durant l'import..."
   close: "Fermer"
-  select_ratio_table: "Merci de bien vouloir selectionner une table de ratio"
+  select_ratio_table: "Merci de bien vouloir sélectionner une table de ratio"
 
   #wbs activity elements
   edit_wbs_activity_element: "Editer un élément du wbs activity"
@@ -384,16 +384,16 @@ fr:
 
 
   #messages
-  status_custom: "N'est obligatoire que lorque le statut est à Custom"
+  status_custom: "N'est obligatoire que lorsque le statut est à Custom"
   restoring?: "Confirmez-vous la restauration de ce dossier en mode défini?"
   validation?: "Confirmez-vous la validation des changements sur cet enregistrement?"
   global_settings_updated: "Les paramètres globaux ont été mis à jour."
   attributes_settings_updated: "Les paramètres des attributs ont été mis à jour."
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
   official_documentation: "Documentation officielle"
-  to_install_module: "pour installer un module sur Projestimate"
+  to_install_module: "pour installer un module sur ProjEstimate"
   no_estimation_plan: "Aucun plan d'estimation n'a été défini."
-  select_module: "Selectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
+  select_module: "Sélectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
   etape: "Etape"
 
   date:
