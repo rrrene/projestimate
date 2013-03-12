@@ -145,7 +145,7 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_me
-    #begin
+    begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
 
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -157,46 +157,53 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.state = "draft"
       end
 
-      if new_wbs_activity.save
-        old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
+      new_wbs_activity.uuid =  UUIDTools::UUID.timestamp_create.to_s
+      new_wbs_activity.transaction do
+        if new_wbs_activity.save(:validate => false)
+          old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
 
-        #we also have to save to wbs_activity_ratio
-        old_wbs_activity.wbs_activity_ratios.each do |ratio|
-          ratio.save
-        end
+          #we also have to save to wbs_activity_ratio
+          old_wbs_activity.wbs_activity_ratios.each do |ratio|
+            ratio.save
+          end
 
-        #Managing the compoment tree
-        new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
+          #Managing the compoment tree
+          new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
 
-        new_wbs_activity_elements.each do |new_elt|
-          unless new_elt.is_root?
-            new_ancestor_ids_list = []
-            new_elt.ancestor_ids.each do |ancestor_id|
-              ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
-              new_ancestor_ids_list.push(ancestor_id)
+          new_wbs_activity_elements.each do |new_elt|
+            unless new_elt.is_root?
+              new_ancestor_ids_list = []
+              new_elt.ancestor_ids.each do |ancestor_id|
+                ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
+                new_ancestor_ids_list.push(ancestor_id)
+              end
+              new_elt.ancestry = new_ancestor_ids_list.join('/')
+              new_elt.save
             end
-            new_elt.ancestry = new_ancestor_ids_list.join('/')
-            new_elt.save
           end
-        end
-        #raise "#{RuntimeError}"
 
-        new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
-        new_wbs_activity_ratios.each do |act_ratio|
-          act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
-            wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
-            act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
-            act_ratio_elt.save
+          new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
+          new_wbs_activity_ratios.each do |act_ratio|
+            act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
+              wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
+              act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
+              act_ratio_elt.save
+            end
           end
+        else
+          flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
         end
       end
 
-      #flash[:notice] = "WBS-Activity was successfully duplicated"
-      redirect_to "/wbs_activities" and return
-    #rescue
-    #  flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
-    #  redirect_to "/wbs_activities"
-    #end
+      redirect_to("/wbs_activities", :notice  =>  "WBS-Activity was successfully duplicated") and return
+
+    rescue ActiveRecord::RecordNotSaved => e
+      flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
+
+    rescue
+      flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication, #{new_wbs_activity.errors.full_messages.to_sentence}"
+      redirect_to "/wbs_activities"
+    end
   end
 
   def wbs_record_statuses_collection

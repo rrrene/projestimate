@@ -13,10 +13,10 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - WBS Activity"
-      self.update_records(ExternalMasterDatabase::ExternalWbsActivity, MasterSetting, ["name", "description", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
 
       puts "   - WBS Activity Elements"
-      self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, MasterSetting, ["name", "description", "dotted_id", "uuid", "is_root"])
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ["name", "description", "dotted_id", "uuid", "is_root"])
 
       puts "   - Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -235,10 +235,10 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - Wbs Activity"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid", "state"])
 
       puts "   - Wbs Activity Element"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ["name", "description", "dotted_id", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ["name", "description", "dotted_id", "uuid", "is_root"])
 
       puts "   - Wbs Activity Ratio"
       self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])

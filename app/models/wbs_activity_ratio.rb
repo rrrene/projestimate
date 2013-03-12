@@ -2,6 +2,7 @@
 class WbsActivityRatio < ActiveRecord::Base
 
   include MasterDataHelper
+
   belongs_to :reference_value
   belongs_to :wbs_activity
   has_many :wbs_activity_ratio_elements, :dependent => :destroy
