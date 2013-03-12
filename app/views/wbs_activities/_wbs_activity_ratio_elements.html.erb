@@ -1,4 +1,4 @@
-<div class="pull-right">
+<div class="pull-right total-ratios">
   <%= I18n.t(:sum_of_ratio_values ) %>
   <%= @total %> %
 </div>
@@ -33,6 +33,7 @@
           <td> - </td>
       <% end %>
       <%= hidden_field_tag "wbs_activity_ratio_id", wbs_activity_ratio_element.wbs_activity_ratio_id %>
+      <%= hidden_field_tag "wbs_activity_id", wbs_activity_ratio_element.wbs_activity_ratio.wbs_activity_id %>
     </tr>
   <% end %>
 </table>

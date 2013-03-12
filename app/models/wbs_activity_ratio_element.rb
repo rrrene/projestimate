@@ -15,7 +15,7 @@ class WbsActivityRatioElement < ActiveRecord::Base
   #scope :elements_root, where(:is_root => true)
   #lambda{|activity_ratio| where("wbs_activity_ratio_id = ?", activity_ratio)},
   #scope :sorted_by_wbs_activity_elt, :joins => :wbs_activity_elements, :order => "wbs_activity_elements.parent_id asc"
-  #default_scope joins(:wbs_activity_element).order("wbs_activity_elements.ancestry asc")
+  #default_scope joins(:wbs_activity_element).order("wbs_activity_elements.id asc")
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do

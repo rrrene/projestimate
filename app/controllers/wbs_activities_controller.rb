@@ -18,15 +18,16 @@ class WbsActivitiesController < ApplicationController
   end
 
   def refresh_ratio_elements
-    @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
-    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+    @wbs_activity_ratio_elements = []
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
 
-    #@wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
-    #@wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements)
-    #@wbs_activity_elements.each do |wbs|
-    #  @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
-    #end
-    #@total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+    @wbs_activity_elements.each do |wbs|
+      @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
+    end
+
+    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
   end
 
   def index
@@ -42,26 +43,38 @@ class WbsActivitiesController < ApplicationController
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
 
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
-    if params[:current_ratio_id]
-      @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:current_ratio_id]).all
-    else
-      if @wbs_activity.wbs_activity_ratios.empty?
-        @wbs_activity_ratio_elements = []
-        @total = 0
-      else
-        @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
-        @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
-      end
-    end
+
+    #if params[:current_ratio_id]
+    #  @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:current_ratio_id]).all
+    #else
+    #  if @wbs_activity.wbs_activity_ratios.empty?
+    #    @wbs_activity_ratio_elements = []
+    #    @total = 0
+    #  else
+    #    @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+    #    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+    #  end
+    #end
+    #
     #@wbs_activity_ratio_elements = @wbs_activity_ratio_elements.sort_by(&:parent_id)
     #@wbs_activity_elements = @wbs_activity_elements.sort_by(&:parent_id)
 
-    #@wbs_activity_ratio_elements = []
-    #@wbs_activity_elements.each do |wbs|
-    #  @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
-    #end
-    #@total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
-
+    @wbs_activity_ratio_elements = []
+    if params[:Ratio]
+      @wbs_activity_elements.each do |wbs|
+        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio]).all
+        @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+      end
+    else
+      if @wbs_activity.wbs_activity_ratios.empty?
+        @total = 0
+      else
+        @wbs_activity_elements.each do |wbs|
+            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+        end
+        @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+      end
+    end
     #unless is_master_instance?
     #  if @wbs_activity.is_defined?
     #    flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"

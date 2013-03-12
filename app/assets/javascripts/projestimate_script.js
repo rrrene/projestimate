@@ -90,10 +90,15 @@ $(document).ready(function() {
     $(".select_ratio").change(
         function(){
             $.ajax({
-                    url:"/refresh_ratio_elements",
-                    method: 'GET',
-                    data: "wbs_activity_ratio_id=" + this.value
-            })
+                url:"/refresh_ratio_elements",
+                method: 'GET',
+                data: "wbs_activity_ratio_id=" + this.value,
+                success: function(data) {
+                    $('.total-ratio').html(data);
+                },
+                error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
+            });
+
     });
 
 
