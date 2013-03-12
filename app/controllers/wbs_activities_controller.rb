@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
@@ -20,7 +22,7 @@ class WbsActivitiesController < ApplicationController
   def refresh_ratio_elements
     @wbs_activity_ratio_elements = []
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all #paginate(:page => params[:page], :per_page => 30)
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
 
     @wbs_activity_elements.each do |wbs|
@@ -39,7 +41,7 @@ class WbsActivitiesController < ApplicationController
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
 
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all#.paginate(:page => params[:page], :per_page => 30)
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
 
@@ -54,11 +56,13 @@ class WbsActivitiesController < ApplicationController
         @total = 0
       else
         @wbs_activity_elements.each do |wbs|
-            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).paginate(:page => params[:page], :per_page => 30)#all
         end
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     end
+
+    #@wbs_activity_ratio_elements = @wbs_activity_ratio_elements.paginate(:page => params[:page], :per_page => 30)#.order('dotted_id asc')
   end
 
   def update
