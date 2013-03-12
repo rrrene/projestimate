@@ -18,14 +18,14 @@ fr:
   users: "Utilisateurs"
   groups: "Groupes"
   global_permission: "Permissions globales"
-  project_securities: "Sécurités du projet"
+  project_securities: "Sécurités des projets"
   auth_methods: "Méthodes d'authentifications"
   events: "Evènements"
 
   master: "Paramètres master"
-  project_global_parameters: "Paramètres globaux du projet"
+  project_global_parameters: "Paramètres globaux des projets"
   attributes: "Attributs"
-  labor_categories: "Catégories de travail"
+  labor_categories: "Catégories de travailleur"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
   security_level: "Niveaux de sécurité"
@@ -59,9 +59,9 @@ fr:
   show: "Voir"
   restore: "Restaurer"
   validate: "Valider"
-  update: "Mise à jour"
+  update: "Mettre à jour"
   empty: "Aucun"
-  are_you_sur?: "Etes-vous sûr?"
+  are_you_sur?: "Etes-vous sûr ?"
   back: "Retour"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
@@ -76,22 +76,22 @@ fr:
 
   #Project settings
   activity_categories: "Catégorie d'activités"
-  acquisition_categories: "Categorie d'acquisitions"
-  platform_categories: "Categorie de plate-formes"
-  project_categories: "Categorie de projets"
-  project_area: "Zone de projet"
+  acquisition_categories: "Catégorie d'acquisitions"
+  platform_categories: "Catégorie de plate-formes"
+  project_categories: "Catégorie de projets"
+  project_area: "Secteur de projet"
 
   #Project areas
-  edit_project_area: "Editer une zone de projet"
-  new_project_area: "Créer une zone de projet"
+  edit_project_area: "Editer un secteur de projet"
+  new_project_area: "Créer un secteur de projet"
 
   #Project categories
-  edit_project_category: "Editer une categorie de projet"
-  new_project_category: "Créer une categorie de projet"
+  edit_project_category: "Editer une catégorie de projet"
+  new_project_category: "Créer une catégorie de projet"
 
   #Platform categories
-  edit_platform_category: "Editer une plateforme de categorie"
-  new_platform_category: "Créer une plateforme de categorie"
+  edit_platform_category: "Editer une catégorie de plateforme"
+  new_platform_category: "Créer une catégorie de plateforme"
 
   #Acquisition categories
   edit_acquisition_category: "Editer une catégorie d'acquisition"
@@ -185,23 +185,22 @@ fr:
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
 
   #organization_labor_categories
-
-  labor_category: "Categorie de travail"
+  labor_category: "Catégorie de travail"
   level: "Niveau"
   cost_per_hour: "Coût par heure"
   base_year: "Année de référence"
   currency: "Devise"
   hour_per_day: "Heures par jour"
   days_per_year: "Jours par année"
-  edit_organisation_labor_category: "Editer l'organisation de la catégorie de travail"
-  new_organisation_labor_category: "Créer une organisation de catégorie de travail"
+  edit_organisation_labor_category: "Editer la catégorie de travailleur de l'organisation"
+  new_organisation_labor_category: "Créer une catégorie de travailleur de l'organisation"
 
   #Organization
   organization: "Organisation"
   edit_organisation: "Editer l'organisation"
   new_organisation: "Créer une organisation"
   inflation: "Inflation"
-  organizationals_labors_categories: "Catégories de travail des organisations"
+  organizationals_labors_categories: "Catégories de travailleur des organisations"
 
   #Pbs_project_elements
   ancestry: "Ancêtre"
@@ -304,7 +303,7 @@ fr:
 
   #user mailer
   considered_message:  "Votre demande de création de compte a été bien prise en compte."
-  your_identifiants_message: "Vos identitifiants sont "
+  your_identifiants_message: "Vos identifiants sont "
   not_active_message: "Votre compte n'est pas encore actif."
   cordialy_message: "Bien cordialement, "
   projestimate_equipe_message: "L'équipe Projestimate"
@@ -314,11 +313,11 @@ fr:
   identity: "Identité"
   first_name: "Prénom"
   last_name: "Nom"
-  login_name: "Pseudonyme"
-  email: "Email"
+  login_name: "Identifiant de connexion"
+  email: "Courriel"
   initials: "Initiales"
-  associated_groups: "Goupe associé"
-  associated_organizations: "Organisation associée"
+  associated_groups: "Goupes associés"
+  associated_organizations: "Organisations associées"
   associated_projects: "Projets associés"
   settings: "Paramètres"
   authentication: "Autentifaication"
@@ -330,7 +329,7 @@ fr:
   created_at: "Créer le"
   updated_at: "Mis à jour le"
   last_login: "Dernière connextion"
-  previous_login: "Précédente connexion"
+  previous_login: "Connexion précédente"
   time_zone: "Fuseau horaire"
   assistance: "Aide"
   notifications: "Notifications"
@@ -340,17 +339,17 @@ fr:
   first_day: "Premier jour de la semaine"
   first_week: "Première semaine de l'année"
   export_preferences: "Préférence d'exportation"
-  execute_estimation: "Executer le processus d'éstimation"
+  execute_estimation: "Exécuter le processus d'éstimation"
   edit_user: "Editer un utilisateur"
   new_user: "Créer un nouvel utilisateur"
   users: "Utilisateurs"
-  filters: "filtres"
+  filters: "Filtres"
 
   #wbs activities
-  edit_wbs_activity: "Editer un wbs activity"
-  new_wbs_activity: "Créer un nouveau wbs activity"
+  edit_wbs_activity: "Editer un wbs activité"
+  new_wbs_activity: "Créer un nouveau wbs activité"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
-  new_activities: "Nouvelles activités"
+  new_activities: "Nouvelle activité"
   general: "General"
   file_csv: "Fichier (csv seulement)"
   separator: "Séparateur (defaut:"
@@ -375,13 +374,13 @@ fr:
   #wbs project elements
   edit_wbs_project_element: "Editer un élément du projet"
   new_wbs_project_element: "Créer un nouvel élément du projet"
-  additionnal_description: "Additionnal description"
+  additionnal_description: "Description supplémentaire"
   exlude: "Exclure"
   author: "Auteur"
 
   #work element type
   edit_work_element_type: "Edit un type d'élément de travail"
-  new_work_element_type: "Créer un nouveau type d'élément de travail "
+  new_work_element_type: "Créer un nouveau type d'élément de travail"
 
 
   #messages
@@ -398,18 +397,6 @@ fr:
   etape: "Etape"
 
   date:
-    formats:
-      default: "%d/%m/%Y"
-      short: "%e %b"
-      long: "%e %B %Y"
-    day_names:
-      - dimanche
-      - lundi
-      - mardi
-      - mercredi
-      - jeudi
-      - vendredi
-      - samedi
     abbr_day_names:
       - dim
       - lun
@@ -418,20 +405,6 @@ fr:
       - jeu
       - ven
       - sam
-    month_names:
-      - ~
-      - janvier
-      - février
-      - mars
-      - avril
-      - mai
-      - juin
-      - juillet
-      - août
-      - septembre
-      - octobre
-      - novembre
-      - décembre
     abbr_month_names:
       - ~
       - jan.
@@ -446,57 +419,75 @@ fr:
       - oct.
       - nov.
       - déc.
+    day_names:
+      - dimanche
+      - lundi
+      - mardi
+      - mercredi
+      - jeudi
+      - vendredi
+      - samedi
+    formats:
+      default: "%d/%m/%Y"
+      long: "%e %B %Y"
+      short: "%e %b"
+    month_names:
+      - ~
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
     order:
       - :day
       - :month
       - :year
 
-  time:
-    formats:
-      default: "%d %B %Y %H:%M:%S"
-      short: "%d %b %H:%M"
-      long: "%A %d %B %Y %H:%M"
-    am: 'am'
-    pm: 'pm'
-
   datetime:
     distance_in_words:
+      about_x_hours:
+        one:   "environ une heure"
+        other: "environ %{count} heures"
+      about_x_months:
+        one:   "environ un mois"
+        other: "environ %{count} mois"
+      about_x_years:
+        one:   "environ un an"
+        other: "environ %{count} ans"
+      almost_x_years:
+        one:   "presqu'un an"
+        other: "presque %{count} ans"
       half_a_minute: "une demi-minute"
-      less_than_x_seconds:
-        zero:  "moins d'une seconde"
-        one:   "moins d'une seconde"
-        other: "moins de %{count} secondes"
-      x_seconds:
-        one:   "1 seconde"
-        other: "%{count} secondes"
       less_than_x_minutes:
         zero:  "moins d'une minute"
         one:   "moins d'une minute"
         other: "moins de %{count} minutes"
-      x_minutes:
-        one:   "1 minute"
-        other: "%{count} minutes"
-      about_x_hours:
-        one:   "environ une heure"
-        other: "environ %{count} heures"
+      less_than_x_seconds:
+        zero:  "moins d'une seconde"
+        one:   "moins d'une seconde"
+        other: "moins de %{count} secondes"
+      over_x_years:
+        one:   "plus d'un an"
+        other: "plus de %{count} ans"        
       x_days:
         one:   "1 jour"
         other: "%{count} jours"
-      about_x_months:
-        one:   "environ un mois"
-        other: "environ %{count} mois"
+      x_minutes:
+        one:   "1 minute"
+        other: "%{count} minutes"                
       x_months:
         one:   "1 mois"
         other: "%{count} mois"
-      about_x_years:
-        one:   "environ un an"
-        other: "environ %{count} ans"
-      over_x_years:
-        one:   "plus d'un an"
-        other: "plus de %{count} ans"
-      almost_x_years:
-        one:   "presqu'un an"
-        other: "presque %{count} ans"
+      x_seconds:
+        one:   "1 seconde"
+        other: "%{count} secondes"
     prompts:
       year:   "Année"
       month:  "Mois"
@@ -504,6 +495,14 @@ fr:
       hour:   "Heure"
       minute: "Minute"
       second: "Seconde"
+
+    time:
+    formats:
+      default: "%d %B %Y %H:%M:%S"
+      short: "%d %b %H:%M"
+      long: "%A %d %B %Y %H:%M"
+    am: 'am'
+    pm: 'pm'
 
   number:
     format:
@@ -528,6 +527,15 @@ fr:
       format:
         delimiter: ""
     human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          unit: ""
+          thousand: "millier"
+          million: "million"
+          billion: "milliard"
+          trillion: "billion"
+          quadrillion: "million de milliards"
       format:
         delimiter: ""
         precision: 2
@@ -543,30 +551,13 @@ fr:
           mb: "Mo"
           gb: "Go"
           tb: "To"
-      decimal_units:
-        format: "%n %u"
-        units:
-          unit: ""
-          thousand: "millier"
-          million: "million"
-          billion: "milliard"
-          trillion: "billion"
-          quadrillion: "million de milliards"
 
   support:
     array:
       words_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "
-
-  helpers:
-    select:
-      prompt: "Veuillez sélectionner"
-    submit:
-      create: "Créer un(e) %{model}"
-      update: "Modifier ce(tte) %{model}"
-      submit: "Enregistrer ce(tte) %{model}"
-
+  
   errors: &errors
     format: "%{attribute} %{message}"
     messages: &errors_messages
@@ -577,15 +568,6 @@ fr:
       accepted: "doit être accepté(e)"
       empty: "doit être rempli(e)"
       blank: "doit être rempli(e)"
-      too_long:
-        one: "est trop long (pas plus d'un caractère)"
-        other: "est trop long (pas plus de %{count} caractères)"
-      too_short:
-        one: "est trop court (au moins un caractère)"
-        other: "est trop court (au moins %{count} caractères)"
-      wrong_length:
-        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
-        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
       not_a_number: "n'est pas un nombre"
       not_an_integer: "doit être un nombre entier"
       greater_than: "doit être supérieur à %{count}"
@@ -597,12 +579,29 @@ fr:
       even: "doit être pair"
       taken: "n'est pas disponible"
       record_invalid: "La validation a échoué : %{errors}"
-
+      too_long:
+        one: "est trop long (pas plus d'un caractère)"
+        other: "est trop long (pas plus de %{count} caractères)"
+      too_short:
+        one: "est trop court (au moins un caractère)"
+        other: "est trop court (au moins %{count} caractères)"
+      wrong_length:
+        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
+        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
     template: &errors_template
+      body: "Veuillez vérifier les champs suivants : "
       header:
         one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
         other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
-      body: "Veuillez vérifier les champs suivants : "
+            
+  helpers:
+    select:
+      prompt: "Veuillez sélectionner"
+    submit:
+      create: "Créer un(e) %{model}"
+      update: "Modifier ce(tte) %{model}"
+      submit: "Enregistrer ce(tte) %{model}"
+
 
   activemodel:
     errors:
