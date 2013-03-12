@@ -2,7 +2,7 @@ require 'uuidtools'
 
 require 'simplecov'
 SimpleCov.start 'rails' do
-  add_group 'Tasks', 'lib/tasks'
+  SimpleCov.merge_timeout 3600
 end
 #require 'factory_girl'
 #load "spec/factories/factories"
