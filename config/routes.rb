@@ -50,6 +50,9 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :module_projects
   match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
+  match 'module_projects/:project_id/module_projects_matrix' => 'module_projects#module_projects_matrix', :as => 'module_projects_matrix'
+  match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
+
   post 'module_projects/associate'
 
   resources :languages
@@ -93,8 +96,12 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :pemodules
   get "processus" => "pemodules#processus"
-  get "pemodules_down" => "pemodules#pemodules_down"
-  get "pemodules_up" => "pemodules#pemodules_up"
+
+  match 'pemodules/:module_id/pemodules_down' => 'pemodules#pemodules_down', :as => 'pemodules_down'
+  match 'pemodules/:module_id/pemodules_up' => 'pemodules#pemodules_up', :as => 'pemodules_up'
+  match 'pemodules/:module_id/pemodules_left' => 'pemodules#pemodules_left', :as => 'pemodules_left'
+  match 'pemodules/:module_id/pemodules_right' => 'pemodules#pemodules_right', :as => 'pemodules_right'
+
   get "list_attributes" => "pemodules#list_attributes"
   get "update_selected_attributes" => "pemodules#update_selected_attributes"
   post "set_attributes_module" => "pemodules#set_attributes_module"

@@ -1,24 +1,24 @@
-<%= form_for(@module_project) do |f| %>
-  <% if @module_project.errors.any? %>
-    <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-      <h2><%= pluralize(@module_project.errors.count, "error") %> prohibited this module_project from being saved:</h2>
+<div class="tabs">
 
-      <ul>
-      <% @module_project.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:related_attributes) %></a></li>
+    <li><a href="#tabs-2">Summary of project modules </a></li>
+  </ul>
+
+  <div id="tabs-1">
+
+    <%= form_for(@module_project) do |f| %>
+      <% if @module_project.errors.any? %>
+        <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+          <h2><%= pluralize(@module_project.errors.count, "error") %> prohibited this module_project from being saved:</h2>
+
+          <ul>
+          <% @module_project.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="tabs">
-
-    <ul>
-      <li><a href="#tabs-1"><%= I18n.t(:related_attributes) %></a></li>
-      <!--<li><a href="#tabs-2">ModulesProjects setting</a></li>-->
-    </ul>
-
-    <div id="tabs-1">
 
       <table class="table table-striped">
         <tr>
@@ -92,14 +92,12 @@
           <% end %>
         <% end %>
       </table>
-    </div>
-
-
-  <div class="actions">
-    <%= f.submit I18n.t("save"), :class => "btn " %>
-    <%= f.submit I18n.t("apply"), :class => "btn" %>
+      <%= f.submit I18n.t("save"), :class => "btn " %>
+      <%= f.submit I18n.t("apply"), :class => "btn" %>
+    <% end %>
   </div>
 
+  <div id="tabs-2">
+    <%= render :partial => 'summary_module_projects_association' %>
+  </div>
 </div>
-
-<% end %>

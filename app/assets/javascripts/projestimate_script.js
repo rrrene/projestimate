@@ -193,37 +193,9 @@ $(document).ready(function() {
             }
         });
         return false;
-    });
+    })
 
-
-//    //Disable all elements in DIV
-//    $.fn.disable = function() {
-//        return this.each(function() {
-//            if (typeof this.disabled != "undefined") {
-//                $(this).data('jquery.disabled', this.disabled);
-//
-//                this.disabled = true;
-//            }
-//        });
-//    };
-//
-//    $.fn.enable = function() {
-//        return this.each(function() {
-//            if (typeof this.disabled != "undefined") {
-//                this.disabled = $(this).data('jquery.disabled');
-//            }
-//        });
-//    };
-//
-//    test = $('#tabs_test').data('enable_update');
-//    //if(test == false){
-//        $('#tabs_test *').disable();
-//      //  return false;
-//    //}
-//    //END disabled all elements in DIV
-
-
-}); //END Document.ready
+});
 
 
 
@@ -277,7 +249,4 @@ jQuery.fn.submitWithAjax = function () {
         return false;
     });
 };
-
-//$('#save_ratio_elt_reference').submitWithAjax();
-
 

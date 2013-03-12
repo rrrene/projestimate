@@ -83,7 +83,7 @@ class PbsProjectElementsController < ApplicationController
     @project = current_project
     @module_projects = @project.module_projects
     @pbs_project_element = current_component
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @results = nil
 
     render :partial => "pbs_project_elements/refresh_tree"
@@ -93,7 +93,7 @@ class PbsProjectElementsController < ApplicationController
   def new
     @pe_wbs_project = PeWbsProject.find(params[:pe_wbs_project_id])
     @project = @pe_wbs_project.project
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @pbs_project_element = PbsProjectElement.new
     @pbs_project_element.pe_wbs_project_id = params[:pe_wbs_project_id]
     @pbs_project_element.parent_id = params[:comp_parent_id]

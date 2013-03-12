@@ -46,6 +46,7 @@ class ModuleProjectsController < ApplicationController
   def edit
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
+    @module_projects = @project.module_projects
 
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
@@ -62,7 +63,7 @@ class ModuleProjectsController < ApplicationController
 
   def update
     @module_project = ModuleProject.find(params[:id])
-    @project = current_project
+    @project = @module_project.project
     maps = params["module_project_attributes"]
 
     unless maps.nil?
@@ -75,7 +76,7 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
-    @project.pe_wbs_project.pbs_project_elements.each do |c|
+    @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
       @module_project.module_project_attributes.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
         if mpa.custom_attribute == "user"
           mpa.update_attribute("is_mandatory", params[:is_mandatory][j])
@@ -85,7 +86,25 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
+    @module_projects.each do |mp|
+      mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
+    end
+
     redirect_to redirect(edit_module_project_path(@module_project)), notice: 'Module project was successfully updated.'
+  end
+
+  def module_projects_matrix
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+  end
+
+  def associate_modules_projects
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+    @module_projects.each do |mp|
+      mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
+    end
+    redirect_to redirect(edit_project_path(@project.id)), notice: 'Module project was successfully updated.'
   end
 
   def destroy
@@ -93,7 +112,7 @@ class ModuleProjectsController < ApplicationController
     @project = @module_project.project
 
     #re-set positions
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
 
     #...finally, destroy object module_project
     @module_project.destroy

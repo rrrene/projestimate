@@ -167,29 +167,47 @@ class PemodulesController < ApplicationController
   end
 
 
-  #Move functions
-  #Move the module down or to the right one step
+  #################### Move functions ####################
   def pemodules_up
-    @project_module = ModuleProject.find(params[:project_module_id])
+    @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
-    my_module = ModuleProject.find_by_project_id_and_id(@project.id, @project_module.id)
-    if my_module.position_y > 1
-      my_module.update_attribute("position_y", my_module.position_y-1)
+    if @project_module.position_y > 1
+      @project_module.update_attribute("position_y", @project_module.position_y - 1)
     end
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
+
+    @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
 
     redirect_to edit_project_path(@project)
   end
 
-  #Move the module up or to the left one step
   def pemodules_down
-    @project_module = ModuleProject.find(params[:project_module_id])
+    @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
-    my_module = ModuleProject.find_by_project_id_and_id(@project.id, @project_module.id)
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    my_module.update_attribute("position_y", my_module.position_y+1)
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @project_module.update_attribute("position_y", @project_module.position_y + 1 )
+
+    redirect_to edit_project_path(@project)
+  end
+
+  def pemodules_left
+    @project_module = ModuleProject.find(params[:module_id])
+    @project = @project_module.project
+
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    if @project_module.position_x > 1
+      @project_module.update_attribute("position_x", @project_module.position_x - 1 )
+    end
+    redirect_to edit_project_path(@project)
+  end
+
+  def pemodules_right
+    @project_module = ModuleProject.find(params[:module_id])
+    @project = @project_module.project
+
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @project_module.update_attribute("position_x", @project_module.position_x + 1 )
 
     redirect_to edit_project_path(@project)
   end

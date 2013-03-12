@@ -40,7 +40,7 @@ class ProjectsController < ApplicationController
     @project_categories = ProjectCategory.all
     @pemodules ||= Pemodule.all
     @project_modules = @project.pemodules
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @organizations = Organization.all
     @project_modules = @project.pemodules
     @project_security_levels = ProjectSecurityLevel.all
@@ -258,10 +258,10 @@ class ProjectsController < ApplicationController
     @pemodules ||= Pemodule.all
 
     #Max pos or 1
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
 
     #When adding a module in the "timeline", it creates an entry in the table ModuleProject for the current project, at position 2 (the one being reserved for the input module).
-    my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1)
+    my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => 1)
     my_module_project.save
 
     #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.

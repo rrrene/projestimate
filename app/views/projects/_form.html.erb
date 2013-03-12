@@ -89,8 +89,9 @@
     </div>
 
     <div id="tabs-4">
-      <%= render :partial => "estimation_plan", :locals => { :array_module_positions => @array_module_positions, :project => @project } %>
+      <%= render :partial => "estimation_plan" %>
       <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
+      <%=  link_to "Associate Projestimate Module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
     </div>
 
     <div id="tabs-5">
@@ -144,14 +145,5 @@
     </div>
 
   </div>
-
-
-
-<script>
-  $(document).ready(function() {
-
-
-    });
-</script>
 
 </div>
