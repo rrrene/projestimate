@@ -58,7 +58,9 @@ class WbsActivityRatioElementsController < ApplicationController
         new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
         new_ref.update_attribute("ratio_reference_element", true)
       else
-        flash.now[:error] = "Please, select a reference element."
+        unless wbs_activity_ratio.is_All_Activity_Elements?
+          flash.now[:error] = "Please, select a reference element."
+        end
       end
     end
 

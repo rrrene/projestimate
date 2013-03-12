@@ -19,20 +19,6 @@
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
-  #validate :name_must_be_uniq_on_node, :presence => true, :uniqueness => { :scope => :record_status_id, :case_sensitive => false}
-  #def name_must_be_uniq_on_node
-  #  if self.wbs_activity and self.parent
-  #    #if self.siblings.map(&:name).include?(self.name)
-  #      #errors.add(:base, "Name must be unique in the same Node") if (has_unique_name? && self.siblings.reject{|i| i.id == self.id}.map(&:name).include?(self.name)  )
-  #      errors.add(:base, "Name must be unique in the same Node") if has_unique_name?
-  #    #end
-  #  end
-  #end
-  #
-  #def has_unique_name?
-  #  WbsActivityElement.exists?(['name = ? and record_status_id = ? and ancestry = ?', self.name, self.record_status_id, self.ancestry])
-  #end
-
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
@@ -50,6 +36,7 @@
     })
     #propagate
   end
+
 
   def wbs_activity_name
     self.wbs_activity.name

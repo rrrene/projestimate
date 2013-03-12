@@ -276,8 +276,9 @@ class Home < ActiveRecord::Base
         ext_ratio_elements.each do |ext_ratio_element|
           if ext_ratio.id == ext_ratio_element.wbs_activity_ratio_id and ext_ratio.record_status_id == ext_defined_rs_id
             ratio = WbsActivityRatio.find_by_uuid(ext_ratio.uuid)
-            element = WbsActivityElement.find_by_uuid(ext_ratio_element.uuid)
-            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_ratio_id = #{ext_ratio.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
+            ext_element = ExternalMasterDatabase::ExternalWbsActivityElement.find_by_id(ext_ratio_element.wbs_activity_element_id)
+            element = WbsActivityElement.find_by_uuid(ext_element.uuid)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_ratio_id = #{ratio.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
             ActiveRecord::Base.connection.execute("UPDATE wbs_activity_ratio_elements SET wbs_activity_element_id = #{element.id} WHERE uuid = '#{ext_ratio_element.uuid}'")
           end
         end

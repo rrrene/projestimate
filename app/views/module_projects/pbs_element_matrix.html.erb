@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1><%= I18n.t(:associate_Product_element_module_project) %></h1>
+  <h1>Associate Product-Element with current module project</h1>
 
   <%= form_tag({:action=>"associate", :controller=>"module_projects", :project_id => @project.id}, :method => "POST") do %>
     <table class="table table-striped">
@@ -14,11 +14,11 @@
 
         <% for element in @project.pe_wbs_projects.wbs_product.first.pbs_project_elements %>
           <tr>
-            <td style="padding-left: <%= element.depth + 1 %>em;"><%= element.name %></td>
+            <td style="padding-left: <%= element.depth + 2 %>em;"><%= element.name %></td>
             <% @module_projects.each do |mp| %>
               <td style="text-align: center;">
                 <% if mp.compatible_with(element.work_element_type.alias) %>
-                  <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id))%>
+                  <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id}")%>
                 <% else %>
                   -
                 <% end %>
@@ -27,8 +27,8 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag I18n.t("save"), :class => "btn" %>
-    <%= submit_tag I18n.t("apply"), :class => "btn" %>
+    <%= submit_tag "Save", :class => "btn" %>
+    <%= submit_tag "Apply", :class => "btn" %>
     <% end %>
 </div>
 
