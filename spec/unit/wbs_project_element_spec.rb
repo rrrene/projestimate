@@ -19,4 +19,8 @@ describe WbsProjectElement do
   it "should not be from Library" do
     @wbs_project_element.is_from_library_and_is_leaf?.should be_false
   end
+
+  it "Duplicate project element" do
+    @wbs_project_element2=@wbs_project_element.amoeba_dup
+  end
 end
