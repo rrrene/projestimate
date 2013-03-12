@@ -10,12 +10,8 @@ class WbsActivityRatioElement < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  #validates :ratio_value, :numericality => { :greater_than => 0, :less_than => 100 }
 
-  #scope :elements_root, where(:is_root => true)
-  #lambda{|activity_ratio| where("wbs_activity_ratio_id = ?", activity_ratio)},
-  #scope :sorted_by_wbs_activity_elt, :joins => :wbs_activity_elements, :order => "wbs_activity_elements.parent_id asc"
-  #default_scope joins(:wbs_activity_element).order("wbs_activity_elements.ancestry asc")
+  #validates :ratio_value, :numericality => { :greater_than => 0, :less_than => 100 }
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
@@ -29,8 +25,6 @@ class WbsActivityRatioElement < ActiveRecord::Base
         new_wbs_activity_ratio_elt.record_status_id = RecordStatus.find_by_name("Local").id
       end
 
-      #wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", original_wbs_activity_ratio_elt.wbs_activity_element_id, new_wbs_activity_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
-      #new_wbs_activity_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
     })
 
   end

@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
@@ -18,15 +20,16 @@ class WbsActivitiesController < ApplicationController
   end
 
   def refresh_ratio_elements
-    @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
-    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+    @wbs_activity_ratio_elements = []
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all #paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
 
-    #@wbs_activity_elements = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
-    #@wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements)
-    #@wbs_activity_elements.each do |wbs|
-    #  @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
-    #end
-    #@total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+    @wbs_activity_elements.each do |wbs|
+      @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
+    end
+
+    @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
   end
 
   def index
@@ -38,39 +41,28 @@ class WbsActivitiesController < ApplicationController
     set_page_title "WBS activities"
     @wbs_activity = WbsActivity.find(params[:id])
 
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all#.paginate(:page => params[:page], :per_page => 30)
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
-
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
-    if params[:current_ratio_id]
-      @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => params[:current_ratio_id]).all
+
+    @wbs_activity_ratio_elements = []
+    if params[:Ratio]
+      @wbs_activity_elements.each do |wbs|
+        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio]).all
+        @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
+      end
     else
       if @wbs_activity.wbs_activity_ratios.empty?
-        @wbs_activity_ratio_elements = []
         @total = 0
       else
-        @wbs_activity_ratio_elements = WbsActivityRatioElement.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
+        @wbs_activity_elements.each do |wbs|
+            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).paginate(:page => params[:page], :per_page => 30)#all
+        end
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     end
-    #@wbs_activity_ratio_elements = @wbs_activity_ratio_elements.sort_by(&:parent_id)
-    #@wbs_activity_elements = @wbs_activity_elements.sort_by(&:parent_id)
 
-    #@wbs_activity_ratio_elements = []
-    #@wbs_activity_elements.each do |wbs|
-    #  @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).all
-    #end
-    #@total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
-
-    #unless is_master_instance?
-    #  if @wbs_activity.is_defined?
-    #    flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
-    #    redirect_to wbs_activities_path  and return
-    #  #elsif @wbs_activity.defined?
-    #  #  flash[:error] = "It's impossible to edit a defined activity"
-    #  #  redirect_to wbs_activities_path
-    #  end
-    #end
+    #@wbs_activity_ratio_elements = @wbs_activity_ratio_elements.paginate(:page => params[:page], :per_page => 30)#.order('dotted_id asc')
   end
 
   def update
@@ -157,7 +149,7 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_me
-    #begin
+    begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
 
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -169,46 +161,53 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.state = "draft"
       end
 
-      if new_wbs_activity.save
-        old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
+      new_wbs_activity.uuid =  UUIDTools::UUID.timestamp_create.to_s
+      new_wbs_activity.transaction do
+        if new_wbs_activity.save(:validate => false)
+          old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
 
-        #we also have to save to wbs_activity_ratio
-        old_wbs_activity.wbs_activity_ratios.each do |ratio|
-          ratio.save
-        end
+          #we also have to save to wbs_activity_ratio
+          old_wbs_activity.wbs_activity_ratios.each do |ratio|
+            ratio.save
+          end
 
-        #Managing the compoment tree
-        new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
+          #Managing the compoment tree
+          new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
 
-        new_wbs_activity_elements.each do |new_elt|
-          unless new_elt.is_root?
-            new_ancestor_ids_list = []
-            new_elt.ancestor_ids.each do |ancestor_id|
-              ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
-              new_ancestor_ids_list.push(ancestor_id)
+          new_wbs_activity_elements.each do |new_elt|
+            unless new_elt.is_root?
+              new_ancestor_ids_list = []
+              new_elt.ancestor_ids.each do |ancestor_id|
+                ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
+                new_ancestor_ids_list.push(ancestor_id)
+              end
+              new_elt.ancestry = new_ancestor_ids_list.join('/')
+              new_elt.save
             end
-            new_elt.ancestry = new_ancestor_ids_list.join('/')
-            new_elt.save
           end
-        end
-        #raise "#{RuntimeError}"
 
-        new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
-        new_wbs_activity_ratios.each do |act_ratio|
-          act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
-            wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
-            act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
-            act_ratio_elt.save
+          new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
+          new_wbs_activity_ratios.each do |act_ratio|
+            act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
+              wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
+              act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
+              act_ratio_elt.save
+            end
           end
+        else
+          flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
         end
       end
 
-      #flash[:notice] = "WBS-Activity was successfully duplicated"
-      redirect_to "/wbs_activities" and return
-    #rescue
-    #  flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication"
-    #  redirect_to "/wbs_activities"
-    #end
+      redirect_to("/wbs_activities", :notice  =>  "WBS-Activity was successfully duplicated") and return
+
+    rescue ActiveRecord::RecordNotSaved => e
+      flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
+
+    rescue
+      flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication, #{new_wbs_activity.errors.full_messages.to_sentence}"
+      redirect_to "/wbs_activities"
+    end
   end
 
   def wbs_record_statuses_collection
