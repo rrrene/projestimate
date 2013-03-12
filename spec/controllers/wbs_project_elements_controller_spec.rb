@@ -45,7 +45,8 @@ describe WbsProjectElementsController do
   describe "GET index" do
     it "assigns all wbs_project_elements as @wbs_project_elements" do
       get :index
-      assigns(:wbs_project_elements).should eq([@wbs_project_element])
+      #assigns(:wbs_project_elements).should eq([@wbs_project_element])
+      assigns(:wbs_project_elements).should include(@wbs_project_element)
     end
   end
 

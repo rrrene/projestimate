@@ -92,4 +92,58 @@ describe WbsActivityRatio do
     @wbs_activity_ratio.is_One_Activity_Element?.should be_false
   end
 
+  describe "On master" do
+    it " After Duplicate wbs activity ratio: record status should be proposed" do
+      MASTER_DATA=true
+      @wbs_activity_ratio2=@wbs_activity_ratio.amoeba_dup
+      if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+        @wbs_activity_ratio2.record_status.name.should eql("Proposed")
+      else
+        @wbs_activity_ratio2.record_status.name.should eql("Local")
+      end
+    end
+  end
+
+  describe "On local" do
+    it "After Duplicate wbs activity ratio: record status should be local" do
+      MASTER_DATA=false
+      @wbs_activity_ratio2=@wbs_activity_ratio.amoeba_dup
+      if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
+        @wbs_activity_ratio2.record_status.name.should eql("Proposed")
+      else
+        @wbs_activity_ratio2.record_status.name.should eql("Local")
+      end
+    end
+  end
+
+  describe "export wbs activity ratio" do
+    before :each do
+      @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity)
+      @wbs_activity_element = FactoryGirl.create(:wbs_activity_element, :wbs_activity => @wbs_activity)
+      @wbs_activity_ratio_element = FactoryGirl.create(:wbs_activity_ratio_element, :wbs_activity_ratio=> @wbs_activity_ratio, :wbs_activity_element => @wbs_activity_element)
+    end
+
+    it "should generate a report  csv file" do
+      csv_string = CSV.generate(:col_sep => I18n.t(:general_csv_separator)) do |csv|
+        csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
+        @wbs_activity_ratio=WbsActivityRatio.find(@wbs_activity_ratio.id)
+        @wbs_activity_ratio.wbs_activity_ratio_elements.each do |element|
+          csv << [element.id, "#{@wbs_activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
+        end
+      end
+      csv_string.encode(I18n.t(:general_csv_encoding))
+      WbsActivityRatio.export(@wbs_activity_ratio.id).should be_eql(csv_string)
+    end
+  end
+  #
+  #describe "import wbs activity ratio" do
+  #  before :each do
+  #    @wbs_activity_ratio_element = FactoryGirl.create(:wbs_activity_ratio_element)
+  #    @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :wbs_activity_ratio_element => [@wbs_activity_ratio_element])
+  #  end
+  #  it "should import a report  csv file on wbs activity ratio" do
+  #    @wbs_activity_ratio.import("","","utf-8")
+  #  end
+  #end
+
 end

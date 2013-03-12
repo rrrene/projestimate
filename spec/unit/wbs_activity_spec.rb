@@ -27,4 +27,23 @@ describe WbsActivity do
     @wbs_activity.should_not be_valid
   end
 
+  describe "Duplicate wbs activity" do
+    before do
+      @wbs_activity_2 = @wbs_activity.amoeba_dup
+      @wbs_activity_2.save
+      @wbs_activity.save
+    end
+
+    it "should return copy name" do
+      @wbs_activity_2.name.should eql("Copy_#{@wbs_activity.copy_number.to_i} of #{@wbs_activity.name}")
+    end
+
+    it "Should return copy number = 0" do
+      @wbs_activity_2.copy_number.should eql(0)
+    end
+
+    it "Should update the copy number" do
+      @wbs_activity.copy_number.should eql(@wbs_activity.copy_number.to_i)
+    end
+  end
 end
