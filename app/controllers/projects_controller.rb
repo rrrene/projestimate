@@ -283,9 +283,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      format.js { render :partial => "pemodules/refresh" }
-    end
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 
   #Run estimation process

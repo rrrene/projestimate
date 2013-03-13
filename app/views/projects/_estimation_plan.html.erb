@@ -6,6 +6,9 @@
       <%= I18n.t(:select_module)%>
       <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
       <%= hidden_field_tag "project_id", @project.id %>
+
+      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
+      <%=  link_to "Associate Projestimate Module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
     </p>
   <% end %>
 
@@ -17,7 +20,7 @@
             <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
             <br>
             <%= link_to "", pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
-            <%= link_to "", pemodules_up_path(pmod.id), :class => 'icon-arrow-up', :remote => true %>
+            <%= link_to "", pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
             <%= link_to "", pmod, confirm: I18n.t("are_you_sur?"), method: :delete, :class => 'icon-trash' %>
             <%= link_to "", pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
             <%= link_to "", pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
@@ -27,8 +30,8 @@
           <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
           <script>
             jsPlumb.bind("ready", function() {
-              $(".module_box").css("height", "<%= pmod.position_y * 500 %>");
               jsPlumb.draggable($(".window"));
+              $('div.module_box').css({'height':(($(document).height()))+'px'});
 
               jsPlumb.setRenderMode(jsPlumb.CANVAS);
               jsPlumb.connect({
