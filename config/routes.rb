@@ -55,7 +55,6 @@ ProjestimateMaquette::Application.routes.draw do
   match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
   match 'module_projects/:project_id/module_projects_matrix' => 'module_projects#module_projects_matrix', :as => 'module_projects_matrix'
   match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
-
   post 'module_projects/associate'
 
   resources :languages
@@ -139,6 +138,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "check_in" => "projects#check_in" , :as => "check_in"
   get "check_out" => "projects#check_out" , :as => "check_out"
   get "project_record_number" => "projects#project_record_number", :as => "project_record_number"
+  get "select_pbs_project_elements" => "projects#select_pbs_project_elements", :as => "select_pbs_project_elements"
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project', :as => 'add_wbs_activity_to_project'
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'

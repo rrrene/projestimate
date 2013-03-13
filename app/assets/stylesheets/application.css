@@ -533,19 +533,6 @@ table a:hover, .block_link a:hover{
 
 
 .window{
-    /*border: 0.1em dotted #d4e06b;*/
-    /*width: 14em;*/
-    /*height: 4em;*/
-
-
-    /*float: left;*/
-    /*color: black;*/
-    /*font-family: helvetica, sans;*/
-    /*padding-top: 0.9em;*/
-    /*font-size: 0.9em;*/
-    /*text-align: center;*/
-    /*background-color: white;*/
-
     border: 1px solid #ddd;
     padding: 10px;
     background-color: #fafafa;
@@ -571,17 +558,16 @@ table a:hover, .block_link a:hover{
     z-index: 20;
 }
 
-.clearfix:after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    overflow: hidden;
+.highlight{
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #fafafa, #4fe4ef);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#4fe4ef));
+    background-image: -webkit-linear-gradient(top, #fafafa, #4fe4ef);
+    background-image: -o-linear-gradient(top, #fafafa, #4fe4ef);
+    background-image: linear-gradient(to bottom, #fafafa, #4fe4ef);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa', endColorstr='#4fe4ef', GradientType=0);
 }
-.clearfix { display: inline-table; }
 
-/* Hides from IE-mac \*/
-.clearfix { height: 1%; }
-.clearfix { display: block; }
-/* End hide from IE-mac */
+.inner-well{
+    margin: 10px;
+}
