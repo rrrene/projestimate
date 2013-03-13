@@ -567,3 +567,7 @@ table a:hover, .block_link a:hover{
     background-image: linear-gradient(to bottom, #fafafa, #4fe4ef);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa', endColorstr='#4fe4ef', GradientType=0);
 }
+
+.inner-well{
+    margin: 10px;
+}

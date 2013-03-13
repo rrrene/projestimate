@@ -2,20 +2,24 @@
   <% module_projects = @project.module_projects %>
 
   <% if controller.controller_name == "projects" %>
-    <p>
-      <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
-      <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }, :prompt => 'Add a Projestimate Module...' ) %>
+
+      Add a Projestimate Module
+      <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
+
+      Select PBS-element
+      <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>
+
       <%= hidden_field_tag "project_id", @project.id %>
 
       <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
       <%=  link_to "Associate PE-module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
-    </p>
+
   <% end %>
 
   <% unless module_projects.empty? %>
     <% for i in 1..@module_positions %>
 
-      <div style="position:absolute;left:200px;top:<%= i * 155 %>px" >
+      <div style="position:absolute;left:200px;top:<%= i * 250 %>px" >
           <%= I18n.t(:etape) %> <%= i %>
       </div>
 
@@ -28,7 +32,7 @@
         <% end %>
 
         <div class="<%= pbs_class %> window <%= pmod.pemodule.alias %>"
-             style="left:<%= pmod.position_x.to_i * 300 %>px;top:<%= pmod.position_y.to_i * 150 %>px;"
+             style="left:<%= pmod.position_x.to_i * 300 %>px;top:<%= pmod.position_y.to_i * 265 %>px;"
             <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
             <br>
             <%= link_to "", pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
