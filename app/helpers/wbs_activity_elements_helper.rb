@@ -117,6 +117,7 @@ module WbsActivityElementsHelper
       res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id, :activity_id => element.wbs_activity_id), :class => "icon-plus icon-large")
       res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), :class => "icon-edit icon-large", :title => "Edit", :confirm => ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if element.is_defined?) )
       res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
+      res << link_to_if(element.is_childless?, '', new_ej_estimation_value_path(:wbs_activity_element_id => element.id), :class => "icon-bar-chart icon-large", :title => "Estimation Attributes")
 
       unless enable_update_in_local?
         res = link_to('', wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), method: :get, :class => "icon-eye-open icon-large", :title => "Show", :remote => true)

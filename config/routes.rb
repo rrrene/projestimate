@@ -1,6 +1,9 @@
 ProjestimateMaquette::Application.routes.draw do
 
 
+  resources :ej_estimation_values
+
+
   resources :reference_values
   resources :wbs_project_elements
 
