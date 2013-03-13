@@ -172,6 +172,9 @@ en:
 
   #module_project_attributes
   in_out: "In/Out"
+  input: "Input"
+  output: "Output"
+  both: "Input and Output"
   edit_module_project_attribute: "Edit a module project attribute"
   new_module_project_attribute: "New module project attribute"
 

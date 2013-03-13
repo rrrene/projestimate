@@ -47,7 +47,8 @@
 
       </div><br />
 
-      <%= submit_tag I18n.t("update"), :class => "btn"  %>
+      <%= submit_tag I18n.t("save"), :class => "btn"  %>
+      <%= submit_tag I18n.t("apply"), :class => "btn"  %>
       <span class="on_success_global"></span>
 
     <% end -%>
@@ -72,8 +73,9 @@
                 </tr>
               <% end %>
           </table>
-          <%= submit_tag I18n.t("update"), :class => "btn" %>
-          <span class="on_success_attr"></span>
+        <%= submit_tag I18n.t("save"), :class => "btn"  %>
+        <%= submit_tag I18n.t("apply"), :class => "btn"  %>
+        <span class="on_success_attr"></span>
       <% end -%>
     </div>
 
@@ -84,7 +86,8 @@
             <div class="list_attr">
               <%= render :partial => "attribute_settings", :object => @attribute_settings %>
             </div>
-          <%= submit_tag I18n.t("update"), :class => "btn"  %>
+          <%= submit_tag I18n.t("save"), :class => "btn"  %>
+          <%= submit_tag I18n.t("apply"), :class => "btn"  %>
           <span class="on_success_attr_set"></span>
         <% end -%>
     </div>

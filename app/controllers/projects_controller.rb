@@ -282,10 +282,16 @@ class ProjectsController < ApplicationController
                                               :project_value => am.project_value )
       end
     end
+  end
 
-    respond_to do |format|
-      format.js { render :partial => "pemodules/refresh" }
+  def select_pbs_project_elements
+    @project = Project.find(params[:project_id])
+    if params[:pbs_project_element_id]
+      @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
+    else
+      @pbs_project_element = @project.root_component
     end
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
   end
 
   #Run estimation process

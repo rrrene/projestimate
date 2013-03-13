@@ -49,8 +49,8 @@
     <%= f.input :project_category_id, :label => "#{I18n.t "project_category"}", :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn btn-success" %>
-      <%= f.submit "Apply", :class => "btn btn-success" %>
+      <%= f.submit "Save", :class => "btn" %>
+      <%= f.submit "Apply", :class => "btn" %>
     </div>
 
     <% end %>
@@ -81,7 +81,7 @@
       <% end %>
 
       <div class="show_list">
-        <span style="float: right;">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
+        <span class="pull-right">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
         <div  id="wbs_project_elements_section" class="component_tree">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>
@@ -90,8 +90,6 @@
 
     <div id="tabs-4">
       <%= render :partial => "estimation_plan" %>
-      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
-      <%=  link_to "Associate Projestimate Module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
     </div>
 
     <div id="tabs-5">

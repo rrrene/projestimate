@@ -116,8 +116,7 @@ class ModuleProjectsController < ApplicationController
 
     #...finally, destroy object module_project
     @module_project.destroy
-    respond_to do |format|
-      format.js { render :partial => "pemodules/refresh" }
-    end
+
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 end

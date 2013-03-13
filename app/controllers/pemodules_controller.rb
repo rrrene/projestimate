@@ -178,7 +178,7 @@ class PemodulesController < ApplicationController
 
     @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
 
-    redirect_to edit_project_path(@project)
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 
   def pemodules_down
@@ -188,7 +188,7 @@ class PemodulesController < ApplicationController
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @project_module.update_attribute("position_y", @project_module.position_y + 1 )
 
-    redirect_to edit_project_path(@project)
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 
   def pemodules_left
@@ -199,7 +199,7 @@ class PemodulesController < ApplicationController
     if @project_module.position_x > 1
       @project_module.update_attribute("position_x", @project_module.position_x - 1 )
     end
-    redirect_to edit_project_path(@project)
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 
   def pemodules_right
@@ -209,7 +209,7 @@ class PemodulesController < ApplicationController
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @project_module.update_attribute("position_x", @project_module.position_x + 1 )
 
-    redirect_to edit_project_path(@project)
+    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
 
   def estimations_params
