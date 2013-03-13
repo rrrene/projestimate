@@ -24,7 +24,7 @@
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    #include_field [:wbs_activity_ratio_elements]
+
     exclude_field [:wbs_activity_ratio_elements]
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
@@ -36,7 +36,7 @@
         new_wbs_activity_elt.record_status_id = RecordStatus.find_by_name("Local").id
       end
     })
-    #propagate
+
   end
 
 
