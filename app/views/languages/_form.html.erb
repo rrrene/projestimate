@@ -4,7 +4,7 @@
 
     <div >
       <%= f.input :name, :label => I18n.t("name") %>
-      <%= f.input :locale, :label => I18n.t("description") %>
+      <%= f.input :locale, :label => I18n.t("local") %>
       <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %>
       <%= f.association :record_status, :label => I18n.t("record_status"),
                         :collection => @language.record_status_collection,

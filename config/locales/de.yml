@@ -1,7 +1,7 @@
 de:
  #  Menu
   projects: "Projects"
-  recent_project: "Recent project"
+  recent_project: "Recent projects"
   accueil: "Home"
   all_projects: "All projects"
   create_new_project: "Create a new project"
@@ -32,7 +32,7 @@ de:
   languages: "Languages"
   translations: "Translations"
   community: "Community"
-  reference_value: "Reference value"
+  reference_values: "Reference values"
 
   connected_as: "Connected as"
   logout: "Logout"
@@ -43,7 +43,7 @@ de:
   #attributes
   name: "Name"
   description: "Description"
-  change_comment: "COmment"
+  change_comment: "Comment"
   record_status: "Record status"
   custom_value: "Custom value"
 
@@ -65,8 +65,8 @@ de:
   back: "Back"
   restore_title: "Restore changes"
   validate_title: "Validates changes"
-  previous: "< Previous "
-  next: " Next >"
+  previous: "< Previous"
+  next: "Next >"
   of: "Of"
   display: "Display"
   record_per_page: "records per page"
@@ -79,19 +79,24 @@ de:
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
+  project_areas: "Project Areas"
+  activity_category: "Activity category"
+  acquisition_category: "Acquisition category"
+  platform_category: "Platform category"
+  project_category: "Project category"
   project_area: "Project Area"
 
   #Project areas
-  edit_project_area: "Editer une zone de projet"
-  new_project_area: "Nouvelle zone de projet"
+  edit_project_area: "Edit a project area"
+  new_project_area: "New project area"
 
   #Project categories
-  edit_project_category: "Editer une categorie de projet"
-  new_project_category: "Nouvelle categorie de projet"
+  edit_project_category: "Edit a project category"
+  new_project_category: "New project category"
 
   #Platform categories
-  edit_platform_category: "Editer une plateforme de categorie"
-  new_platform_category: "Nouvelle plateforme de categorie"
+  edit_platform_category: "Edit a platform category"
+  new_platform_category: "New platform category"
 
   #Acquisition categories
   edit_acquisition_category: "Edit an acquisition category"
@@ -101,6 +106,10 @@ de:
   not_update_acquisition_category_message: "This Acquisition category can not be edited, previous changes have not yet been validated"
   edit_acquisition_category_message: "Acquisition category was successfully updated."
 
+  #Activity categories
+  edit_activity_category: "Edit an activity category"
+  new_activity_category: "New activity category"
+  
   #Admin_settings
   edit_admin_settings: "Edit admin settings"
   new_admin_settings: "New admin setting"
@@ -138,15 +147,15 @@ de:
   end_date: "Date end"
   event_type_id: "Event id"
   project_id: "Project id"
-  edit_group: "Edit a group"
-  new_group: "New group"
+  edit_event: "Edit an event"
+  new_event: "New event"
 
   #groups
   global: "Global"
   associated_users: "Associated users"
   associated_projects: "Associated projects"
-  edit_group: "Editer un groupe"
-  new_group: "CrÃ©er un nouveau groupe"
+  edit_group: "Edit a group"
+  new_group: "New group"
 
   #Labor categories
   edit_labor_category: "Edit a labor category"
@@ -181,7 +190,6 @@ de:
   associate_Product_element_module_project: "Associate Product-Element with current module project"
 
   #organization_labor_categories
-  organization: "Organization"
   labor_category: "Labor category"
   level: "Level"
   cost_per_hour: "Cost per hour"
@@ -191,7 +199,6 @@ de:
   days_per_year: "Days per year"
   edit_organisation_labor_category: "Edit an organization labor category"
   new_organisation_labor_category: "New organization labor category"
-
 
   #Organization
   organization: "Organization"
@@ -299,6 +306,14 @@ de:
   choose_locale : "Choose a local"
   save_translations: "Save Translations"
 
+  #user_mailer
+  considered_message: "Your account creation request has been fully taken into account."
+  your_identifiants_message: "Your credentials are "
+  not_active_message: "Your account is not yet active."
+  cordialy_message: "Sincerely, "
+  projestimate_equipe_message: "The Projestimate team"
+  hello: "Hello"
+
   #users
   identity: "Identity"
   first_name: "First name"
@@ -352,6 +367,7 @@ de:
   edit_wbs_activity_element: "Edit a wbs activity element"
   new_wbs_activity_element: "New wbs activity element"
   parent: "Parent"
+  
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
   new_wbs_activity_ratio_element: "New wbs activity ratio element"
@@ -372,7 +388,6 @@ de:
   new_work_element_type: "New work element type"
 
 
-
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"
@@ -381,11 +396,14 @@ de:
   attributes_settings_updated: "Attributes settings have been updated."
   refers_to: "No projestimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
+  to_install_module: "to install projestimate modules."
+  no_estimation_plan: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
 
-
-
+  #standard local format
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
   date:
     abbr_day_names:
     - So
@@ -395,11 +413,12 @@ de:
     - Do
     - Fr
     - Sa
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
-    - MÃ¤r
+    - Mär
     - Apr
     - Mai
     - Jun
@@ -418,14 +437,18 @@ de:
     - Freitag
     - Samstag
     formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
       default: ! '%d.%m.%Y'
       long: ! '%e. %B %Y'
       short: ! '%e. %b'
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
-    -
+    - 
     - Januar
     - Februar
-    - MÃ¤rz
+    - März
     - April
     - Mai
     - Juni
@@ -435,10 +458,12 @@ de:
     - Oktober
     - November
     - Dezember
+    # Used in date_select and datime_select.
     order:
     - :day
     - :month
     - :year
+    
   datetime:
     distance_in_words:
       about_x_hours:
@@ -455,9 +480,11 @@ de:
         other: fast %{count} Jahre
       half_a_minute: eine halbe Minute
       less_than_x_minutes:
+        zero: weniger als eine Minute
         one: weniger als eine Minute
         other: weniger als %{count} Minuten
       less_than_x_seconds:
+        zero: weniger als eine Sekunde
         one: weniger als eine Sekunde
         other: weniger als %{count} Sekunden
       over_x_years:
@@ -482,58 +509,37 @@ de:
       month: Monat
       second: Sekunden
       year: Jahr
-  errors: &errors
-    format: ! '%{attribute} %{message}'
-    messages:
-      accepted: muss akzeptiert werden
-      blank: muss ausgefÃ¼llt werden
-      confirmation: stimmt nicht mit der BestÃ¤tigung Ã¼berein
-      empty: muss ausgefÃ¼llt werden
-      equal_to: muss genau %{count} sein
-      even: muss gerade sein
-      exclusion: ist nicht verfÃ¼gbar
-      greater_than: muss grÃ¶ÃŸer als %{count} sein
-      greater_than_or_equal_to: muss grÃ¶ÃŸer oder gleich %{count} sein
-      inclusion: ist kein gÃ¼ltiger Wert
-      invalid: ist nicht gÃ¼ltig
-      less_than: muss kleiner als %{count} sein
-      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      not_a_number: ist keine Zahl
-      not_an_integer: muss ganzzahlig sein
-      odd: muss ungerade sein
-      record_invalid: ! 'GÃ¼ltigkeitsprÃ¼fung ist fehlgeschlagen: %{errors}'
-      taken: ist bereits vergeben
-      too_long: ist zu lang (nicht mehr als %{count} Zeichen)
-      too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
-      wrong_length: hat die falsche LÃ¤nge (muss genau %{count} Zeichen haben)
-    template:
-      body: ! 'Bitte Ã¼berprÃ¼fen Sie die folgenden Felder:'
-      header:
-        one: ! 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: ! 'Konnte %{model} nicht speichern: %{count} Fehler.'
-  helpers:
-    select:
-      prompt: Bitte wÃ¤hlen
-    submit:
-      create: ! '%{model} erstellen'
-      submit: ! '%{model} speichern'
-      update: ! '%{model} aktualisieren'
+      
+  time:
+    formats:
+      default: ! '%A, %d. %B %Y, %H:%M Uhr'
+      long: ! '%A, %d. %B %Y, %H:%M Uhr'
+      short: ! '%d. %B, %H:%M Uhr'
+    am: vormittags
+    pm: nachmittags
+    
   number:
-    currency:
-      format:
-        delimiter: .
-        format: ! '%n %u'
-        precision: 2
-        separator: ! ','
-        significant: false
-        strip_insignificant_zeros: false
-        unit: â‚¬
     format:
+      separator: ! ','
       delimiter: .
       precision: 2
-      separator: ! ','
       significant: false
-      strip_insignificant_zeros: false
+      strip_insignificant_zeros: false  
+    currency:
+      format:
+        format: ! '%n %u''
+        unit: €
+        separator: ! ','
+        delimiter: .
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
     human:
       decimal_units:
         format: ! '%n %u'
@@ -563,24 +569,51 @@ de:
           kb: KB
           mb: MB
           tb: TB
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
+
   support:
     array:
-      last_word_connector: ! ' und '
+      last_word_connector: ! ', und '
       two_words_connector: ! ' und '
       words_connector: ! ', '
-  time:
-    am: vormittags
-    formats:
-      default: ! '%A, %d. %B %Y, %H:%M Uhr'
-      long: ! '%A, %d. %B %Y, %H:%M Uhr'
-      short: ! '%d. %B, %H:%M Uhr'
-    pm: nachmittags
+                
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      confirmation: stimmt nicht mit der Bestätigung überein
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
+      odd: muss ungerade sein
+      record_invalid: ! 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      taken: ist bereits vergeben
+      too_long: ist zu lang (nicht mehr als %{count} Zeichen)
+      too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
+      wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben)
+    template:
+      body: ! 'Bitte überprüfen Sie die folgenden Felder:'
+      header:
+        one: ! 'Konnte %{model} nicht speichern: ein Fehler.'
+        other: ! 'Konnte %{model} nicht speichern: %{count} Fehler.'
+        
+  helpers:
+    select:
+      prompt: Bitte wählen
+    submit:
+      create: ! '%{model} erstellen'
+      submit: ! '%{model} speichern'
+      update: ! '%{model} aktualisieren'
+    
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activemodel:
     errors:
@@ -588,3 +621,7 @@ de:
   activerecord:
     errors:
       <<: *errors
+
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1

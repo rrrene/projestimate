@@ -1,7 +1,7 @@
 en:
  #  Menu
   projects: "Projects"
-  recent_project: "Recent project"
+  recent_project: "Recent projects"
   accueil: "Home"
   all_projects: "All projects"
   create_new_project: "Create a new project"
@@ -32,7 +32,7 @@ en:
   languages: "Languages"
   translations: "Translations"
   community: "Community"
-  reference_value: "Reference value"
+  reference_values: "Reference values"
 
   connected_as: "Connected as"
   logout: "Logout"
@@ -79,6 +79,11 @@ en:
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
+  project_areas: "Project Areas"
+  activity_category: "Activity category"
+  acquisition_category: "Acquisition category"
+  platform_category: "Platform category"
+  project_category: "Project category"
   project_area: "Project Area"
 
   #Project areas
@@ -396,6 +401,9 @@ en:
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
 
+  #standard local format
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
   date:
     abbr_day_names:
     - Sun
@@ -405,6 +413,7 @@ en:
     - Thu
     - Fri
     - Sat
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     abbr_month_names:
     - ~
     - Jan
@@ -428,9 +437,13 @@ en:
     - Friday
     - Saturday
     formats:
-      default: ! '%Y-%m-%d'
-      long: ! '%B %d, %Y'
-      short: ! '%b %d'
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      long: '%B %d, %Y'
+      short: '%b %d'
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
     - ~
     - January
@@ -445,6 +458,7 @@ en:
     - October
     - November
     - December
+    # Used in date_select and datime_select.
     order:
     - :year
     - :month
@@ -498,11 +512,11 @@ en:
       
   time:
     formats:
-      default: ! '%a, %d %b %Y %H:%M:%S %z'
-      short: ! '%d %b %H:%M'
-      long: ! '%B %d, %Y %H:%M'
-    am: am
-    pm: pm
+      default: "%m/%d/%Y %I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
     
   number:
     format:
