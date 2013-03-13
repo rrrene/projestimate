@@ -167,6 +167,9 @@ fr:
 
   #module_project_attributes
   in_out: "Entrée/Sortie"
+  input: "Entrée"
+  output: "Sortie"
+  both: "Entrée et Sortie"
   edit_module_project_attribute: "Editer un attribut du module de projet"
   new_module_project_attribute: "Créer un nouvel attribut de module de projet"
 

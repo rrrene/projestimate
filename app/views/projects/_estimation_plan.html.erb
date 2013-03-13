@@ -16,7 +16,7 @@
     <% for i in 1..@module_positions %>
       <% ModuleProject.where(:project_id => @project.id, :position_y => i).each_with_index do |pmod, i| %>
 
-        <div class="window <%= pmod.pemodule.alias %>" style="left:<%= pmod.position_x * 300 %>px;top:<%= pmod.position_y * 150 %>px;">
+        <div class="window <%= pmod.pemodule.alias %>" style="left:<%= pmod.position_x.to_i * 300 %>px;top:<%= pmod.position_y.to_i * 150 %>px;">
             <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
             <br>
             <%= link_to "", pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
@@ -39,7 +39,7 @@
                 target:$(".<%= pmod.pemodule.alias %>"),
                 endpoint:"Dot",
                 anchor:"Continuous",
-                connector:[ "Straight" ],
+                connector:[ "Straight" ]
               });
             });
           </script>

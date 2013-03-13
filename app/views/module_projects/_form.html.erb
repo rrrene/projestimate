@@ -35,7 +35,7 @@
           <% else %>
             <tr class="">
               <td><%= attr.attribute.nil? ? "-" : attr.attribute.name %></td>
-              <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"]], :selected => attr.in_out), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %> </td>
+              <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"], ["both"]], :selected => attr.in_out), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %> </td>
               <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => attr.is_mandatory), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %></td>
               <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
               <td>
@@ -55,7 +55,7 @@
                       <th><%= I18n.t(:associable_attributes) %></th>
                     </tr>
 
-                      <% if attr.in_out == "input" %>
+                      <% if attr.in_out=="input" or attr.in_out=="both"%>
                         <% previous_modules = @module_project.previous %>
                         <% previous_modules.each do |mp| %>
                           <tr>
@@ -75,7 +75,7 @@
                           <tr>
                             <td><%= mp.pemodule.title %></td>
                             <td>
-                              <% @project.root_component.module_project_attributes.select{|i| (i.in_out == "input" && i.module_project_id == mp.id ) }.each do |mpa| %>
+                              <% @project.root_component.module_project_attributes.select{|i| ((i.in_out == "input" or i.in_out=="both") && i.module_project_id == mp.id ) }.each do |mpa| %>
                                 <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
                                 <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
                                 </br>
