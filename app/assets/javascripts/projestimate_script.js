@@ -118,12 +118,6 @@ $(document).ready(function() {
             }
     );
 
-      $('#select_module').change(function(){
-        $.ajax({url: '/add_module',
-                method: 'get',
-                data: 'module_selected=' + this.value + '&project_id=' + $('#project_id').val()
-        })
-      });
 
 
     $( ".tabs" ).tabs();

@@ -5,6 +5,7 @@
     <p>
       <%= I18n.t(:select_module)%>
       <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
+      <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => 'Select a WBS Product' %>
       <%= hidden_field_tag "project_id", @project.id %>
 
       <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
@@ -12,8 +13,15 @@
     </p>
   <% end %>
 
+  <p> <%= @pbs_project_element.name if @pbs_project_element %></p>
+
   <% unless module_projects.empty? %>
     <% for i in 1..@module_positions %>
+
+      <div style="position:absolute;left:200px;top:<%= i * 155 %>px" >
+          <%= I18n.t(:etape) %> <%= i %>
+      </div>
+
       <% ModuleProject.where(:project_id => @project.id, :position_y => i).each_with_index do |pmod, i| %>
 
         <div class="window <%= pmod.pemodule.alias %>" style="left:<%= pmod.position_x * 300 %>px;top:<%= pmod.position_y * 150 %>px;">
