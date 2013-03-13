@@ -119,9 +119,9 @@ en:
   #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribut type"
-  edit_attribute: "Edit an attribut"
-  new_attribute: "New attribut"
+  attributes_type: "Attribute type"
+  edit_attribute: "Edit an attribute"
+  new_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"
@@ -172,11 +172,14 @@ en:
 
   #module_project_attributes
   in_out: "In/Out"
+  input: "Input"
+  output: "Output"
+  both: "Input and Output"
   edit_module_project_attribute: "Edit a module project attribute"
   new_module_project_attribute: "New module project attribute"
 
   #module_project
-  edit_module_project: "Edit a module projet"
+  edit_module_project: "Edit a module project"
   new_module_project: "New module project"
   related_attributes: "Related attributes"
   mandatory: "Mandatory"
@@ -205,7 +208,7 @@ en:
   edit_organisation: "Edit an organization"
   new_organisation: "New organisation"
   inflation: "Inflation"
-  organizationals_labors_categories: "Organizationals labors categories"
+  organizationals_labors_categories: "Organizational labors categories"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -222,8 +225,8 @@ en:
 
   #pemodules
   low: "Default value (Low)"
-  likely: "Default value (La plus probable)"
-  high: "Default value (Haute)"
+  likely: "Default value (Most Likely)"
+  high: "Default value (High)"
   custom_attribute: "Custom attribute"
   attributes_settings: "Attributes settings"
   compatibility: "Compatibility"
@@ -241,7 +244,7 @@ en:
 
   #project_securities
   edit_project_security: "Edit project securities"
-  new_project_security: "New project securties"
+  new_project_security: "New project securities"
   full_control: "Full control"
   define: "Define"
   modify: "Modify"
@@ -311,7 +314,7 @@ en:
   your_identifiants_message: "Your credentials are "
   not_active_message: "Your account is not yet active."
   cordialy_message: "Sincerely, "
-  projestimate_equipe_message: "The Projestimate team"
+  projestimate_equipe_message: "The ProjEstimate team"
   hello: "Hello"
 
   #users
@@ -329,7 +332,7 @@ en:
   password: "Password"
   password_confirmation: "Password Confirmation"
   auth_type: "User Authentication"
-  informations: "Informations"
+  informations: "Information"
   user_status: "User status"
   created_at: "Created at"
   updated_at: "Updated at"
@@ -379,8 +382,8 @@ en:
   #wbs project elements
   edit_wbs_project_element: "Edit a project element"
   new_wbs_project_element: "New wbs project element"
-  additionnal_description: "Additionnal description"
-  exlude: "Eclude"
+  additionnal_description: "Additional description"
+  exlude: "Exclude"
   author: "Author"
 
   #work element type
@@ -394,9 +397,9 @@ en:
   validation?: "Do you confirm changes validation on this record?"
   global_settings_updated: "Global settings have been updated."
   attributes_settings_updated: "Attributes settings have been updated."
-  refers_to: "No projestimate modules has been installed. Please refer to"
+  refers_to: "No ProjEstimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
-  to_install_module: "to install projestimate modules."
+  to_install_module: "to install ProjEstimate modules."
   no_estimation_plan: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
@@ -528,7 +531,7 @@ en:
     currency:
       format:
         format: ! '%u%n'
-        unit: £
+        unit: ï¿½
         separator: .
         delimiter: ! ','
         precision: 2
