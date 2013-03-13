@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
 <% if ["new", "edit"].include?(action_name) %>
-  <h2><%= ("#{action_name}" == "new")? "#{I18n.t "new_project"}" : "#{I18n.t "edit_project?"}: #{@project.title}"%></h2>
+  <h2><%= ("#{action_name}" == "new")? "#{I18n.t "new_project"}" : "#{I18n.t "edit_project"}: #{@project.title}"%></h2>
 <% else %>
   <h1><%= I18n.t(:new_project)%></h1>
 <% end %>
