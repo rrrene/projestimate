@@ -1,35 +1,55 @@
 <div class="module_box">
-  <% array_module_positions = local_assigns[:array_module_positions] %>
-  <% project = local_assigns[:project] %>
-  <% module_projects = ModuleProject.where(:project_id => project.id) %>
+  <% module_projects = @project.module_projects %>
 
   <% if controller.controller_name == "projects" %>
     <p>
       <%= I18n.t(:select_module)%>
       <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => 'Add a Projestimate Module...' %>
-      <%= hidden_field_tag "project_id", project.id %>
+      <%= hidden_field_tag "project_id", @project.id %>
+
+      <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
+      <%=  link_to "Associate Projestimate Module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
     </p>
   <% end %>
 
-  <table class="table table-bordered">
-    <% unless module_projects.empty? %>
-      <% for i in 1..array_module_positions %>
-        <tr>
-          <td><%= I18n.t(:etape)%> <%= i %></td>
-          <% ModuleProject.where(:project_id => project.id, :position_y => i).each do |pmod| %>
-            <td>
-              <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
-              <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_up', :project_module_id => pmod.id }, :class => 'icon-arrow-up', :remote => true %>
-              <%= link_to "", pmod, confirm: I18n.t("are_you_sur?"), method: :delete, :class => 'icon-trash', :remote => true %>
-              <%= link_to "", { :controller => 'pemodules', :action => 'pemodules_down', :project_module_id => pmod.id }, :class => 'icon-arrow-down', :remote => true %>
-            </td>
+  <% unless module_projects.empty? %>
+    <% for i in 1..@module_positions %>
+      <% ModuleProject.where(:project_id => @project.id, :position_y => i).each_with_index do |pmod, i| %>
+
+        <div class="window <%= pmod.pemodule.alias %>" style="left:<%= pmod.position_x * 300 %>px;top:<%= pmod.position_y * 150 %>px;">
+            <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
+            <br>
+            <%= link_to "", pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
+            <%= link_to "", pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
+            <%= link_to "", pmod, confirm: I18n.t("are_you_sur?"), method: :delete, :class => 'icon-trash' %>
+            <%= link_to "", pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
+            <%= link_to "", pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+        </div>
+
+        <% pmod.associated_module_projects.each do |amp| %>
+          <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
+          <script>
+            jsPlumb.bind("ready", function() {
+              jsPlumb.draggable($(".window"));
+              $('div.module_box').css({'height':(($(document).height()))+'px'});
+
+              jsPlumb.setRenderMode(jsPlumb.CANVAS);
+              jsPlumb.connect({
+                source:$(".<%= amp.pemodule.alias %>"),
+                target:$(".<%= pmod.pemodule.alias %>"),
+                endpoint:"Dot",
+                anchor:"Continuous",
+                connector:[ "Straight" ],
+              });
+            });
+          </script>
           <% end %>
-        </tr>
+        <% end %>
       <% end %>
-    <% else %>
-      <p><%= I18n.t(:no_estimation_plan)%></p>
     <% end %>
-  </table>
+  <% else %>
+    <p><%= I18n.t(:no_estimation_plan)%></p>
+  <% end %>
 </div>
 
 

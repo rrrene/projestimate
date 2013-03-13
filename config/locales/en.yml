@@ -1,5 +1,4 @@
 en:
-
  #  Menu
   projects: "Projects"
   recent_project: "Recent project"
@@ -72,28 +71,27 @@ en:
   display: "Display"
   record_per_page: "records per page"
   quick_search: "Quick Search"
-  project_area: "Project Area"
   import: "Import"
   export: "Export"
-
 
   #Project settings
   activity_categories: "Activity categories"
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
+  project_area: "Project Area"
 
   #Project areas
-  edit_project_area: "Editer une zone de projet"
-  new_project_area: "Nouvelle zone de projet"
+  edit_project_area: "Edit a project area"
+  new_project_area: "New project area"
 
   #Project categories
-  edit_project_category: "Editer une categorie de projet"
-  new_project_category: "Nouvelle categorie de projet"
+  edit_project_category: "Edit a project category"
+  new_project_category: "New project category"
 
   #Platform categories
-  edit_platform_category: "Editer une plateforme de categorie"
-  new_platform_category: "Nouvelle plateforme de categorie"
+  edit_platform_category: "Edit a platform category"
+  new_platform_category: "New platform category"
 
   #Acquisition categories
   edit_acquisition_category: "Edit an acquisition category"
@@ -103,13 +101,15 @@ en:
   not_update_acquisition_category_message: "This Acquisition category can not be edited, previous changes have not yet been validated"
   edit_acquisition_category_message: "Acquisition category was successfully updated."
 
+  #Activity categories
+  edit_activity_category: "Edit an activity category"
+  new_activity_category: "New activity category"
+  
   #Admin_settings
   edit_admin_settings: "Edit admin settings"
   new_admin_settings: "New admin setting"
   key: "Key"
   value: "Value"
-  edit_attribute: "Edit attribut"
-  new_attribute: "New attribut"
 
   #attributes
   aggregation: "Aggregation"
@@ -117,7 +117,6 @@ en:
   attributes_type: "Attribut type"
   edit_attribute: "Edit an attribut"
   new_attribute: "New attribut"
-
 
   #auth_method
   server_name: "Server name"
@@ -186,7 +185,6 @@ en:
   associate_Product_element_module_project: "Associate Product-Element with current module project"
 
   #organization_labor_categories
-  organization: "Organization"
   labor_category: "Labor category"
   level: "Level"
   cost_per_hour: "Cost per hour"
@@ -282,7 +280,6 @@ en:
   send_request: "Send a request"
   login_name_or_email: "Login name or email"
   forgotten_password?: "Forgotten password?"
-
   open_url_id: "Open Url Id"
   no_account: "No account"
   ldap_account_or_application_account: "LDAP account user name or application user name."
@@ -305,6 +302,12 @@ en:
   save_translations: "Save Translations"
 
   #user_mailer
+  considered_message: "Your account creation request has been fully taken into account."
+  your_identifiants_message: "Your credentials are "
+  not_active_message: "Your account is not yet active."
+  cordialy_message: "Sincerely, "
+  projestimate_equipe_message: "The Projestimate team"
+  hello: "Hello"
 
   #users
   identity: "Identity"
@@ -359,6 +362,7 @@ en:
   edit_wbs_activity_element: "Edit a wbs activity element"
   new_wbs_activity_element: "New wbs activity element"
   parent: "Parent"
+  
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
   new_wbs_activity_ratio_element: "New wbs activity ratio element"
@@ -379,7 +383,6 @@ en:
   new_work_element_type: "New work element type"
 
 
-
   #messages
   status_custom: "Is needed only when Status = Custom"
   restoring?: "Do you confirm restoring this record as defined ?"
@@ -393,7 +396,6 @@ en:
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
 
-
   date:
     abbr_day_names:
     - Sun
@@ -404,7 +406,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    -
+    - ~
     - Jan
     - Feb
     - Mar
@@ -430,7 +432,7 @@ en:
       long: ! '%B %d, %Y'
       short: ! '%b %d'
     month_names:
-    -
+    - ~
     - January
     - February
     - March
@@ -447,6 +449,7 @@ en:
     - :year
     - :month
     - :day
+    
   datetime:
     distance_in_words:
       about_x_hours:
@@ -463,9 +466,11 @@ en:
         other: almost %{count} years
       half_a_minute: half a minute
       less_than_x_minutes:
+        zero: "less than a minute"
         one: less than a minute
         other: less than %{count} minutes
       less_than_x_seconds:
+        zero: less than 1 second
         one: less than 1 second
         other: less than %{count} seconds
       over_x_years:
@@ -490,6 +495,69 @@ en:
       month: Month
       second: Seconds
       year: Year
+      
+  time:
+    formats:
+      default: ! '%a, %d %b %Y %H:%M:%S %z'
+      short: ! '%d %b %H:%M'
+      long: ! '%B %d, %Y %H:%M'
+    am: am
+    pm: pm
+    
+  number:
+    format:
+      separator: .
+      delimiter: ! ','
+      precision: 3
+      significant: false
+      strip_insignificant_zeros: false  
+    currency:
+      format:
+        format: ! '%u%n'
+        unit: $
+        separator: .
+        delimiter: ! ','
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: Billion
+          million: Million
+          quadrillion: Quadrillion
+          thousand: Thousand
+          trillion: Trillion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+
+  support:
+    array:
+      last_word_connector: ! ', and '
+      two_words_connector: ! ' and '
+      words_connector: ! ', '
+                
   errors: &errors
     format: ! '%{attribute} %{message}'
     messages:
@@ -525,6 +593,7 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: ! '%{count} errors prohibited this %{model} from being saved'
+        
   helpers:
     select:
       prompt: Please select
@@ -532,65 +601,7 @@ en:
       create: Create %{model}
       submit: Save %{model}
       update: Update %{model}
-  number:
-    currency:
-      format:
-        delimiter: ! ','
-        format: ! '%u%n'
-        precision: 2
-        separator: .
-        significant: false
-        strip_insignificant_zeros: false
-        unit: $
-    format:
-      delimiter: ! ','
-      precision: 3
-      separator: .
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: ! '%n %u'
-        units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: ! '%n %u'
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
-  support:
-    array:
-      last_word_connector: ! ', and '
-      two_words_connector: ! ' and '
-      words_connector: ! ', '
-  time:
-    am: am
-    formats:
-      default: ! '%a, %d %b %Y %H:%M:%S %z'
-      long: ! '%B %d, %Y %H:%M'
-      short: ! '%d %b %H:%M'
-    pm: pm
+    
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activemodel:
     errors:

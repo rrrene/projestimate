@@ -116,14 +116,14 @@ describe WbsActivityRatio do
     end
   end
 
-  describe "export wbs activity ratio" do
+  describe "export/import" do
     before :each do
       @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity)
       @wbs_activity_element = FactoryGirl.create(:wbs_activity_element, :wbs_activity => @wbs_activity)
       @wbs_activity_ratio_element = FactoryGirl.create(:wbs_activity_ratio_element, :wbs_activity_ratio=> @wbs_activity_ratio, :wbs_activity_element => @wbs_activity_element)
     end
 
-    it "should generate a report  csv file" do
+    it "should export wbs activity ratio" do
       csv_string = CSV.generate(:col_sep => I18n.t(:general_csv_separator)) do |csv|
         csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
         @wbs_activity_ratio=WbsActivityRatio.find(@wbs_activity_ratio.id)
@@ -134,16 +134,29 @@ describe WbsActivityRatio do
       csv_string.encode(I18n.t(:general_csv_encoding))
       WbsActivityRatio.export(@wbs_activity_ratio.id).should be_eql(csv_string)
     end
+
+    it "should import wbs activity ratio with error" do
+      expected_csv = File.read("LKLK.csv")
+      file=ActionDispatch::Http::UploadedFile.new({
+                                                      :filename => 'Hello.csv',
+                                                      :content_type => 'text/csv',
+                                                      :tempfile => File.new('/home/sabrina/projestimate/Hello.csv')
+                                                  })
+      WbsActivityRatio::import(file,'',"UTF-8")
+      # sometimes it is better to parse generated_csv (ie. when you testing other formats like json or xml
+
+    end
+    it "should import wbs activity ratio without error" do
+      expected_csv = File.read("LKLK.csv")
+      file=ActionDispatch::Http::UploadedFile.new({
+                                                      :filename => 'LKLK.csv',
+                                                      :content_type => 'text/csv',
+                                                      :tempfile => File.new('/home/sabrina/projestimate/LKLK.csv')
+                                                  })
+      WbsActivityRatio::import(file,'',"UTF-8")
+      # sometimes it is better to parse generated_csv (ie. when you testing other formats like json or xml
+
+    end
   end
-  #
-  #describe "import wbs activity ratio" do
-  #  before :each do
-  #    @wbs_activity_ratio_element = FactoryGirl.create(:wbs_activity_ratio_element)
-  #    @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :wbs_activity_ratio_element => [@wbs_activity_ratio_element])
-  #  end
-  #  it "should import a report  csv file on wbs activity ratio" do
-  #    @wbs_activity_ratio.import("","","utf-8")
-  #  end
-  #end
 
 end

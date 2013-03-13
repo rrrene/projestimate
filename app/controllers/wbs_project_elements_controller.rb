@@ -140,7 +140,7 @@ class WbsProjectElementsController < ApplicationController
     @user = current_user
     @project = current_project
     @wbs_project_element = current_wbs_project_element
-    @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
 
     render :partial => "wbs_project_elements/refresh"
   end

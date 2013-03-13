@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306152345) do
+ActiveRecord::Schema.define(:version => 20130312133743) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -81,6 +81,11 @@ ActiveRecord::Schema.define(:version => 20130306152345) do
   add_index "admin_settings", ["record_status_id"], :name => "index_admin_settings_on_record_status_id"
   add_index "admin_settings", ["reference_id"], :name => "index_admin_settings_on_parent_id"
   add_index "admin_settings", ["uuid"], :name => "index_admin_settings_on_uuid", :unique => true
+
+  create_table "associated_module_projects", :id => false, :force => true do |t|
+    t.integer "associated_module_project_id"
+    t.integer "module_project_id"
+  end
 
   create_table "attribute_modules", :force => true do |t|
     t.integer  "attribute_id"
@@ -759,8 +764,8 @@ ActiveRecord::Schema.define(:version => 20130306152345) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
   end
 

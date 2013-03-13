@@ -136,7 +136,7 @@ class UsersController < ApplicationController
       end
 
       if @project
-        @array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+        @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
       end
     else
       render :layout => "login"

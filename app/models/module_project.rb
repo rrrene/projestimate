@@ -23,6 +23,11 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :project
   has_many :module_project_attributes
 
+  has_and_belongs_to_many :associated_module_projects,
+                          :class_name => "ModuleProject",
+                          :association_foreign_key => "associated_module_project_id",
+                          :join_table => "associated_module_projects"
+
   has_and_belongs_to_many :pbs_project_elements
 
   #Return in a array next modules project of self.
