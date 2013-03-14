@@ -22,8 +22,8 @@ class WbsActivitiesController < ApplicationController
   def refresh_ratio_elements
     @wbs_activity_ratio_elements = []
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all #paginate(:page => params[:page], :per_page => 30)
-    @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
+    wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all #paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(wbs_activity_elements_list)
 
     @wbs_activity_elements.each do |wbs|
       @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:wbs_activity_ratio_id]).all
@@ -46,15 +46,14 @@ class WbsActivitiesController < ApplicationController
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
 
     @wbs_activity_ratio_elements = []
+    @total = 0
     if params[:Ratio]
       @wbs_activity_elements.each do |wbs|
         @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio]).all
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     else
-      if @wbs_activity.wbs_activity_ratios.empty?
-        @total = 0
-      else
+      unless @wbs_activity.wbs_activity_ratios.empty?
         @wbs_activity_elements.each do |wbs|
             @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).paginate(:page => params[:page], :per_page => 30)#all
         end
@@ -73,11 +72,11 @@ class WbsActivitiesController < ApplicationController
       @wbs_activity_ratio_elements = @wbs_activity.wbs_activity_ratios.first.wbs_activity_ratio_elements
     end
 
-    if @wbs_activity.is_defined? && is_master_instance?
-      @wbs_activity.owner_id = current_user.id
-    end
-
-    unless is_master_instance?
+    if is_master_instance?
+      if @wbs_activity.is_defined?
+        @wbs_activity.owner_id = current_user.id
+      end
+    else
       if @wbs_activity.is_local_record?
         @wbs_activity.custom_value = "Locally edited"
       end
@@ -148,11 +147,11 @@ class WbsActivitiesController < ApplicationController
 
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
-  def duplicate_me
+  def duplicate_wbs_activity
     begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
-
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
+
       if is_master_instance?
         new_wbs_activity.record_status = @proposed_status
         new_wbs_activity.state = "defined"

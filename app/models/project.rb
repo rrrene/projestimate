@@ -35,7 +35,7 @@ class Project < ActiveRecord::Base
   has_many :pemodules, :through => :module_projects
 
   #for Estimation purpose
-  has_many :ej_estimation_values
+  ##has_many :ej_estimation_values
 
   #has_one :pe_wbs_project, :dependent => :destroy
   has_many :pe_wbs_projects, :dependent => :destroy

@@ -31,7 +31,7 @@ class PbsProjectElement < ActiveRecord::Base
   has_and_belongs_to_many :module_projects
 
   #for Estimation purpose
-  has_many :ej_estimation_values
+  ##has_many :ej_estimation_values
 
   validates_presence_of :name
 

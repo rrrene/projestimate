@@ -17,7 +17,7 @@ ProjestimateMaquette::Application.routes.draw do
   post 'save_values' => 'wbs_activity_ratio_elements#save_values', :as => 'save_values'
 
   resources :wbs_activity_elements
-  match 'wbs_activities/:wbs_activity_id/duplicate_me' => 'wbs_activities#duplicate_me', :as => :duplicate_me
+  match 'wbs_activities/:wbs_activity_id/duplicate_wbs_activity' => 'wbs_activities#duplicate_wbs_activity', :as => :duplicate_wbs_activity
   #match 'wbs_activity_elements/wbs_record_statuses_collection', :as => 'wbs_record_statuses_collection'
   #match 'wbs_activity_elements/update_status_collection/:selected_parent_id', :controller=>'wbs_activity_elements', :action => 'update_status_collection'
   get 'update_status_collection' => 'wbs_activity_elements#update_status_collection', :as => 'update_status_collection'

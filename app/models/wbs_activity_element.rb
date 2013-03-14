@@ -13,7 +13,7 @@
   has_many :wbs_project_elements
 
   #for Estimation purpose
-  has_many :ej_estimation_values
+  ##has_many :ej_estimation_values
 
   #default_scope order("id asc")
   #default_scope order("dotted_id asc")
