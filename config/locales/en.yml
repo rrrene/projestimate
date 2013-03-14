@@ -1,7 +1,7 @@
 en:
  #  Menu
   projects: "Projects"
-  recent_project: "Recent project"
+  recent_project: "Recent projects"
   accueil: "Home"
   all_projects: "All projects"
   create_new_project: "Create a new project"
@@ -32,7 +32,7 @@ en:
   languages: "Languages"
   translations: "Translations"
   community: "Community"
-  reference_value: "Reference value"
+  reference_values: "Reference values"
 
   connected_as: "Connected as"
   logout: "Logout"
@@ -79,6 +79,11 @@ en:
   acquisition_categories: "Acquisition categories"
   platform_categories: "Platform categories"
   project_categories: "Project categories"
+  project_areas: "Project Areas"
+  activity_category: "Activity category"
+  acquisition_category: "Acquisition category"
+  platform_category: "Platform category"
+  project_category: "Project category"
   project_area: "Project Area"
 
   #Project areas
@@ -114,9 +119,9 @@ en:
   #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribut type"
-  edit_attribute: "Edit an attribut"
-  new_attribute: "New attribut"
+  attributes_type: "Attribute type"
+  edit_attribute: "Edit an attribute"
+  new_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"
@@ -174,7 +179,7 @@ en:
   new_module_project_attribute: "New module project attribute"
 
   #module_project
-  edit_module_project: "Edit a module projet"
+  edit_module_project: "Edit a module project"
   new_module_project: "New module project"
   related_attributes: "Related attributes"
   mandatory: "Mandatory"
@@ -203,7 +208,7 @@ en:
   edit_organisation: "Edit an organization"
   new_organisation: "New organisation"
   inflation: "Inflation"
-  organizationals_labors_categories: "Organizationals labors categories"
+  organizationals_labors_categories: "Organizational labors categories"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -220,8 +225,8 @@ en:
 
   #pemodules
   low: "Default value (Low)"
-  likely: "Default value (La plus probable)"
-  high: "Default value (Haute)"
+  likely: "Default value (Most Likely)"
+  high: "Default value (High)"
   custom_attribute: "Custom attribute"
   attributes_settings: "Attributes settings"
   compatibility: "Compatibility"
@@ -239,7 +244,7 @@ en:
 
   #project_securities
   edit_project_security: "Edit project securities"
-  new_project_security: "New project securties"
+  new_project_security: "New project securities"
   full_control: "Full control"
   define: "Define"
   modify: "Modify"
@@ -309,7 +314,7 @@ en:
   your_identifiants_message: "Your credentials are "
   not_active_message: "Your account is not yet active."
   cordialy_message: "Sincerely, "
-  projestimate_equipe_message: "The Projestimate team"
+  projestimate_equipe_message: "The ProjEstimate team"
   hello: "Hello"
 
   #users
@@ -327,7 +332,7 @@ en:
   password: "Password"
   password_confirmation: "Password Confirmation"
   auth_type: "User Authentication"
-  informations: "Informations"
+  informations: "Information"
   user_status: "User status"
   created_at: "Created at"
   updated_at: "Updated at"
@@ -377,8 +382,8 @@ en:
   #wbs project elements
   edit_wbs_project_element: "Edit a project element"
   new_wbs_project_element: "New wbs project element"
-  additionnal_description: "Additionnal description"
-  exlude: "Eclude"
+  additionnal_description: "Additional description"
+  exlude: "Exclude"
   author: "Author"
 
   #work element type
@@ -392,13 +397,16 @@ en:
   validation?: "Do you confirm changes validation on this record?"
   global_settings_updated: "Global settings have been updated."
   attributes_settings_updated: "Attributes settings have been updated."
-  refers_to: "No projestimate modules has been installed. Please refer to"
+  refers_to: "No ProjEstimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
-  to_install_module: "to install projestimate modules."
+  to_install_module: "to install ProjEstimate modules."
   no_estimation_plan: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
 
+  #standard local format
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
   date:
     abbr_day_names:
     - Sun
@@ -408,6 +416,7 @@ en:
     - Thu
     - Fri
     - Sat
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     abbr_month_names:
     - ~
     - Jan
@@ -431,9 +440,13 @@ en:
     - Friday
     - Saturday
     formats:
-      default: ! '%Y-%m-%d'
-      long: ! '%B %d, %Y'
-      short: ! '%b %d'
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      long: '%B %d, %Y'
+      short: '%b %d'
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
     - ~
     - January
@@ -448,6 +461,7 @@ en:
     - October
     - November
     - December
+    # Used in date_select and datime_select.
     order:
     - :year
     - :month
@@ -501,11 +515,11 @@ en:
       
   time:
     formats:
-      default: ! '%a, %d %b %Y %H:%M:%S %z'
-      short: ! '%d %b %H:%M'
-      long: ! '%B %d, %Y %H:%M'
-    am: am
-    pm: pm
+      default: "%m/%d/%Y %I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
     
   number:
     format:
