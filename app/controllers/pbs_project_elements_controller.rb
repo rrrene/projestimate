@@ -83,10 +83,11 @@ class PbsProjectElementsController < ApplicationController
     @project = current_project
     @module_projects = @project.module_projects
     @pbs_project_element = current_component
+
     @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @results = nil
 
-    render :partial => "pbs_project_elements/refresh_tree"
+    render :partial => "pbs_project_elements/refresh"
   end
 
   #Create a new pbs_project_element and refresh the partials
