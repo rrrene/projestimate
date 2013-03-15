@@ -1,11 +1,10 @@
 require 'uuidtools'
+require 'csv'
 
 require 'simplecov'
 SimpleCov.start 'rails' do
   SimpleCov.merge_timeout 3600
 end
-#require 'factory_girl'
-#load "spec/factories/factories"
 
 require 'spork'
 
@@ -22,7 +21,6 @@ Spork.prefork do
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
   require Rails.root.join("spec/controller_macros.rb")
-
 end
 
 Spork.each_run do
