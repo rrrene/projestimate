@@ -42,7 +42,7 @@ class LanguagesController < ApplicationController
 
     unless @language.child_reference.nil?
       if @language.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This language can not be edited, previous changes have not yet been validated"
+        flash[:warning] = "This language can not be edited, previous changes have not yet been validated"
         redirect_to languages_path
       end
     end
@@ -70,10 +70,11 @@ class LanguagesController < ApplicationController
       @language = current_language
     end
 
+    #new_record.uuid = uuid = UUIDTools::UUID.timestamp_create.to_s
     if @language.update_attributes(params[:language])
       redirect_to redirect(languages_path), notice: 'Language was successfully updated.'
     else
-      flash[:error] = "Error : update failed"
+      flash[:error] = "Error : update failed, #{@language.errors.full_messages.to_sentence}"
       render action: "edit"
     end
   end
