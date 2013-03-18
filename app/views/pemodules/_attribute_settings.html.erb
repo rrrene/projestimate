@@ -16,9 +16,9 @@
     <tr class="">
       <td><%= ma.attribute.nil? ? "-" : ma.attribute.name %></td>
       <td><%= text_field_tag "description[]", ma.description.blank? ? (ma.attribute.nil? ? "-" :  ma.attribute.description) : ma.description  %></td>
-      <td><%= text_field_tag "numeric_data_low[]", ma.numeric_data_low, :class => "input-mini" %></td>
-      <td><%= text_field_tag "numeric_data_most_likely[]", ma.numeric_data_most_likely, :class => "input-mini" %></td>
-      <td><%= text_field_tag "numeric_data_high[]", ma.numeric_data_high, :class => "input-mini"  %></td>
+      <td><%= text_field_tag "#{ma.attribute.attribute_type}_data_low[]", ma.send("#{ma.attribute.attribute_type}_data_low"), :class => "input-mini" %></td>
+      <td><%= text_field_tag "#{ma.attribute.attribute_type}_data_most_likely[]", ma.send("#{ma.attribute.attribute_type}_data_most_likely"), :class => "input-mini" %></td>
+      <td><%= text_field_tag "#{ma.attribute.attribute_type}_data_high[]", ma.send("#{ma.attribute.attribute_type}_data_high"), :class => "input-mini"  %></td>
       <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"], ["both"]], :selected => ma.in_out), :prompt => "Choose...", :class => "input-small" %> </td>
       <td><%= select_tag "is_mandatory[]", options_for_select([["yes", true], ["no", false]], :selected => ma.is_mandatory), :prompt => "Choose...", :class => "input-small" %></td>
       <td><%= select_tag "custom_attribute[]", options_for_select([["By user", "user"], ["By module", "module"], ["By project", "project"]], :selected => ma.custom_attribute), :onchange => "toggleProject(this.value, #{i});", :class => "input-medium" %></td>

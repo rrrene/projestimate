@@ -51,5 +51,4 @@ class ModuleProjectAttribute < ActiveRecord::Base
   def to_s
     self.attribute.name
   end
-
 end

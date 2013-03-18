@@ -95,11 +95,13 @@
       ActiveRecord::Base.transaction do
         hierarchy = elt.dotted_id
         ancestors = []
-        @root_element_id = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id("0", activity_id).id
-        unless hierarchy == "0"
+        @root_element = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id("0", activity_id)
+        unless hierarchy == "0" or hierarchy.nil?
           idse = hierarchy.split(/^(.*)\.[^\.]*.$/).last
           if idse == hierarchy
-            elt.ancestry = @root_element_id
+            if @root_element
+              elt.ancestry = @root_element.id
+            end
           else
             pere = WbsActivityElement.find_by_dotted_id_and_wbs_activity_id(idse, activity_id)
             unless pere.nil?

@@ -1,0 +1,51 @@
+<div class="tabs">
+
+  <ul>
+    <li><a href="#tabs-1">WBS - Product </a></li>
+    <li><a href="#tabs-2">Estimation Modules</a></li>
+    <li><a href="#tabs-3">Output data</a></li>
+    <li><a href="#tabs-4">Estimation Plan </a></li>
+    <li><a href="#tabs-5">Charts </a></li>
+  </ul>
+
+  <div id="tabs-1">
+    <h3>
+      WBS-Product
+    </h3>
+      <%= render :partial => "users/pe_wbs" %>
+  </div>
+
+  <div id="tabs-3">
+    <h3>
+      Output data
+    </h3>
+    <div class="output_data"></div>
+  </div>
+
+  <div id="tabs-4">
+    <h3>
+      Estimation plan
+    </h3>
+    <%= render "projects/estimation_plan" %>
+  </div>
+
+  <div id="tabs-5">
+    <h3>
+      Charts
+    </h3>
+  </div>
+
+  <div id="tabs-2">
+    <h3>
+      Estimation Module
+    </h3>
+    <% unless current_component.nil? %>
+      <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :remote => true) do -%>
+        <%=raw display_input %>
+        <%= submit_tag I18n.t("execute_estimation"), :class => "btn btn-danger" %>
+      <% end -%>
+    <% end %>
+  </div>
+
+</div>
+
