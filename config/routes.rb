@@ -27,7 +27,6 @@ ProjestimateMaquette::Application.routes.draw do
   end
 
   match 'homes/update_install' => 'homes#update_install', :as => 'update_install'
-  match 'homes/about' => 'homes#about', :as => 'about'
 
   resources :record_statuses
 

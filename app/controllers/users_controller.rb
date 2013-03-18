@@ -189,6 +189,7 @@ class UsersController < ApplicationController
 
   def about
     set_page_title "About"
+    @latest_repo_update = Home::latest_repo_update
   end
 
   def activate

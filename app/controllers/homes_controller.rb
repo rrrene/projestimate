@@ -15,21 +15,14 @@ class HomesController < ApplicationController
         if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
           puts "Same schema version"
 
-          #Get my current branch name
-          current_branch_name = `git name-rev --name-only HEAD`
-          puts "CURRENT_BRANCH_NAME = #{current_branch_name}"
-          differences = `git diff $current_branch_name...origin/master`   #differences = `git diff dev...origin/dev`
-          puts "DIFF = #{differences}"
-          need_to_pull = "test"
-
-          #if need_to_pull.nil? || need_to_pull.blank?
-          if differences.blank?
-            puts "Your repository is up to date"
-            flash[:notice] =  "You already have the latest MasterData."
-          else
+          #Test if local data are up to date
+          if $latest_update.nil? or params[:latest_repo_update].nil? or ($latest_update.to_date < params[:latest_repo_update].to_date)
             Home::update_master_data!
             $latest_update = Time.now
             flash[:notice] = "Projestimate data have been updated successfully."
+          else
+            puts "Your repository is up to date"
+            flash[:notice] =  "You already have the latest MasterData."
           end
 
         else
@@ -37,14 +30,14 @@ class HomesController < ApplicationController
         end
       end
 
-      redirect_to("/about") and return
+      redirect_to about_url and return
 
     rescue Errno::ECONNREFUSED
       flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
-      redirect_to "/about" and return
+      redirect_to about_url and return
     rescue Exception
       flash[:error] = "!!! WARNING - Exception: Default data was not loaded, please investigate... Maybe run db:create and db:migrate tasks."
-      redirect_to "/about"
+      redirect_to about_url
     end
   end
 end
