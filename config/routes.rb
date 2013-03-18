@@ -97,8 +97,6 @@ ProjestimateMaquette::Application.routes.draw do
   resources :groups
 
   resources :pemodules
-  get "processus" => "pemodules#processus"
-
   match 'pemodules/:module_id/pemodules_down' => 'pemodules#pemodules_down', :as => 'pemodules_down'
   match 'pemodules/:module_id/pemodules_up' => 'pemodules#pemodules_up', :as => 'pemodules_up'
   match 'pemodules/:module_id/pemodules_left' => 'pemodules#pemodules_left', :as => 'pemodules_left'
@@ -125,7 +123,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "add_module" => "projects#add_module"
   get "add_your_integrated_module" => "projects#add_your_integrated_module"
   get "select_categories" => "projects#select_categories", :as => "select_categories"
-  get "run_estimation" => "projects#run_estimation", :as => "run_estimation"
+  post "run_estimation" => "projects#run_estimation", :as => "run_estimation"
   get "load_security_for_selected_user" => "projects#load_security_for_selected_user", :as => "load_security_for_selected_user"
   get "load_security_for_selected_group" => "projects#load_security_for_selected_group", :as => "load_security_for_selected_group"
   get "update_project_security_level" => "projects#update_project_security_level", :as => "update_project_security_level"

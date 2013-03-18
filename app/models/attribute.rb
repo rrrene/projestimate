@@ -96,4 +96,23 @@ class Attribute < ActiveRecord::Base
     self.attr_type
   end
 
+  #return the data type
+  def attribute_type
+    case self.attr_type
+      when "integer"
+        "numeric"
+      when "float"
+        "numeric"
+      when "date"
+        "string"
+      when "text"
+        "string"
+      when "list"
+        "string"
+      when "array"
+        "string"
+    end
+  end
+
+
 end
