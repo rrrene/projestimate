@@ -44,12 +44,14 @@
 
         <% pmod.associated_module_projects.each do |amp| %>
           <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
-          <script>
+            <script>
             jsPlumb.bind("ready", function() {
-              jsPlumb.draggable($(".window"));
+              jsPlumb.importDefaults({
+                Anchors : [ "BottomCenter", "TopCenter", "RightCenter", "LeftCenter" ]
+               });
+
               $('div.module_box').css({'height':(($(document).height()))+'px'});
 
-              jsPlumb.setRenderMode(jsPlumb.CANVAS);
               jsPlumb.connect({
                 source:$(".<%= amp.pemodule.alias %>"),
                 target:$(".<%= pmod.pemodule.alias %>"),
@@ -58,7 +60,7 @@
                 connector:[ "Straight" ]
               });
             });
-          </script>
+            </script>
           <% end %>
         <% end %>
       <% end %>
@@ -67,5 +69,3 @@
     <p><%= I18n.t(:no_estimation_plan)%></p>
   <% end %>
 </div>
-
-

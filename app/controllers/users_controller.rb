@@ -189,6 +189,10 @@ class UsersController < ApplicationController
 
   def about
     set_page_title "About"
+    if $latest_update > Home::latest_repo_update
+      expire_fragment('about_page')
+    end
+    @latest_repo_update = Home::latest_repo_update
   end
 
   def activate

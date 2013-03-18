@@ -54,7 +54,7 @@
             <% @users.each do |group_user| %>
                 <tr>
                   <td><%= group_user.name %></td>
-                  <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id))%></td>
+                  <td><%= check_box_tag("group[user_ids][]", group_user.id, (@group.users.map(&:id).include? group_user.id), :id => nil, :class => "group_#{group_user.id}")%></td>
                 </tr>
             <% end %>
           </table>

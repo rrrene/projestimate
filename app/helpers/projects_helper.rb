@@ -95,7 +95,7 @@ module ProjectsHelper
                         res << "<td>#{level.humanize}</td>"
                         current_component.module_project_attributes.each do |mpa|
                           if (mpa.in_out == "input" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-                            res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]"}</td>"
+                            res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]", mpa.send("#{mpa.attribute.attribute_type}_data_#{level}")}</td>"
                           end
                         end
                         res << "</tr>"
@@ -106,6 +106,10 @@ module ProjectsHelper
         end
       end
     res
+  end
+
+  def display_charts_results
+    array = ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
   end
 
 end

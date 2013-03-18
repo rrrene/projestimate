@@ -70,7 +70,6 @@ class LanguagesController < ApplicationController
       @language = current_language
     end
 
-    #new_record.uuid = uuid = UUIDTools::UUID.timestamp_create.to_s
     if @language.update_attributes(params[:language])
       redirect_to redirect(languages_path), notice: 'Language was successfully updated.'
     else
