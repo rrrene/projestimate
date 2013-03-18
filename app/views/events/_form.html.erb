@@ -1,4 +1,4 @@
-<%= form_for(@event) do |f| %>
+<%= simple_form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
@@ -12,26 +12,27 @@
   <% end %>
 
   <div >
-    <%= f.label I18n.t("name")   %><br />
-    <%= f.text_field :name %>
 
-    <%= f.label I18n.t("description")   %><br />
-    <%= f.text_area :description %>
+    <%= f.input :name, :label => "#{I18n.t "name"}", :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.label I18n.t("start_date")   %><br />
-    <%= f.date_select :start_date, :order => [:day,:month,:year] %>
+    <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.label I18n.t("end_date")   %><br />
-    <%= f.date_select :end_date, :order => [:day,:month,:year] %>
+    <%= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
+        <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :onfocus => "$(this).datepicker();",  :value =>I18n.l(Time.now) %>
+    <% end %>
+    <%= f.input :end_date, :label => "#{I18n.t "end_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
+        <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :onfocus => "$(this).datepicker();",  :value =>I18n.l(Time.now) %>
+    <% end %>
 
-    <%= f.label I18n.t("event_type")   %><br />
-    <%= f.number_field :event_type_id %>
+    <%= f.input :event_type_id, :label => "#{I18n.t "event_types"}", :as => :select, :collection => @event_types, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.label I18n.t("project")   %><br />
-    <%= f.number_field :project_id %>
+    <%= f.input :project_id, :label => "#{I18n.t "projects"}", :as => :select, :collection => @projects, :input_html => { :class => 'input-xxlarge' }  %>
+
+
   </div>
   <div class="actions">
     <%= f.submit I18n.t("save"), :class => "btn" %>
     <%= f.submit I18n.t("apply"), :class => "btn" %>
   </div>
 <% end %>
+

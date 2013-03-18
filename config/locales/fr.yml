@@ -108,12 +108,12 @@ fr:
       minute: "Minute"
       second: "Seconde"
   time:
-  formats:
-    default: ! '%d %B %Y %H:%M:%S'
-    short: ! '%d %b %H:%M'
-    long: ! '%A %d %B %Y %H:%M'
-  am: am
-  pm: pm
+    formats:
+      default: ! '%d %B %Y %H:%M:%S'
+      short: ! '%d %b %H:%M'
+      long: ! '%A %d %B %Y %H:%M'
+    am: am
+    pm: pm
 
   number:
     format:

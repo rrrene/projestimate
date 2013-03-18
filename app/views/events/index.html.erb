@@ -18,8 +18,8 @@
     <tr>
       <td><%= event.name %></td>
       <td><%= event.description %></td>
-      <td><%= event.start_date %></td>
-      <td><%= event.end_date %></td>
+      <td><%= I18n.l (event.start_date) %></td>
+      <td><%= I18n.l (event.end_date) %></td>
       <td><%= event.event_type_id %></td>
       <td><%= event.project_id %></td>
       <td><%= link_to '',  edit_event_path(event), :class => "icn_edit", :title => I18n.t("edit") %></td>
