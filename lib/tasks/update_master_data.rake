@@ -44,6 +44,7 @@ namespace :projestimate do
         if response == '1'
           are_you_sure? do
             Home::update_master_data!
+            $latest_update = Time.now
           end
           i = false
         elsif response == '2'

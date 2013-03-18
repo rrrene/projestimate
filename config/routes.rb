@@ -120,7 +120,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :projects
   get "add_module" => "projects#add_module"
-  get "add_your_integrated_module" => "projects#add_your_integrated_module"
   get "select_categories" => "projects#select_categories", :as => "select_categories"
   post "run_estimation" => "projects#run_estimation", :as => "run_estimation"
   get "load_security_for_selected_user" => "projects#load_security_for_selected_user", :as => "load_security_for_selected_user"

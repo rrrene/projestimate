@@ -1,1 +1,25 @@
 $(".module_box").html("<%=raw j(render :partial => "estimation_plan") %>");
+
+
+jQuery(function() {
+  $("#select_module").on('click', function() {
+    return $.ajax({
+      url: "/add_module",
+      method: "get",
+      data: {
+        module_selected: $(this).val(),
+        project_id: $("#project_id").val()
+      }
+    });
+  });
+  return $("#select_pbs_project_elements").on('click', function() {
+    return $.ajax({
+      url: "/select_pbs_project_elements",
+      method: "get",
+      data: {
+        pbs_project_element_id: $(this).val(),
+        project_id: $("#project_id").val()
+      }
+    });
+  });
+});

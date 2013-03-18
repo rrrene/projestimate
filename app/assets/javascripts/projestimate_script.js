@@ -23,13 +23,6 @@ $(document).ready(function() {
         })
       });
 
-      $('#select_integrated_module').change(function(){
-        $.ajax({url: '/add_your_integrated_module',
-                method: 'get',
-               data: 'module_selected=' + this.value
-        })
-      });
-
      $('.component_tree > ul li').hover(
         function () {
           $(this.children).css('display', 'inline');
@@ -134,7 +127,7 @@ $(document).ready(function() {
     }
 
     $(function() {
-        $("#users th a, #users .pagination a").live("click", function() {
+        $("#users th a, #users .pagination a").on("click", function() {
           $.getScript(this.href);
           return false;
         });
