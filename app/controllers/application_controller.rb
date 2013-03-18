@@ -20,7 +20,6 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = "Access denied."
     redirect_to root_url
@@ -133,7 +132,7 @@ class ApplicationController < ActionController::Base
     unless current_user.nil?
       session[:current_locale] = current_user.language.locale.downcase
     else
-      session[:current_locale] = "en"
+      session[:current_locale] = set_locale_from_browser
     end
     @current_locale = session[:current_locale]
     I18n.locale = session[:current_locale]
@@ -177,6 +176,20 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
+  def set_locale_from_browser
+    if (session[:initialized].nil? || !session[:initialized])
+      logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
+      I18n.locale = extract_locale_from_accept_language_header
+      logger.debug "* Locale set to '#{I18n.locale}'"
+    else
+      logger.debug "* Locale already set to '#{I18n.locale}'"
+    end
+    session[:initialized] = true
+  end
+  private
+  def extract_locale_from_accept_language_header
+    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  end
 
 
 end

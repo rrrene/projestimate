@@ -1,4 +1,4 @@
-#desc 'Updates and checks locales against en.yml'
+desc 'Updates and checks locales against en.yml'
 task :locales do
   %w(locales:update locales:check_interpolation).collect do |task|
     Rake::Task[task].invoke
@@ -6,7 +6,7 @@ task :locales do
 end
 
 namespace :locales do
-  #desc 'Updates language files based on en.yml content (only works for new top level keys).'
+  desc 'Updates language files based on en.yml content (only works for new top level keys).'
   task :update do
     dir = ENV['DIR'] || './config/locales'
 
@@ -28,7 +28,7 @@ namespace :locales do
         {key => en_strings[key]}.to_yaml.each_line do |line|
           next if line =~ /^---/ || line.empty?
           puts "  #{line}"
-          lang << "#{line}"
+          lang << "  #{line}"
         end
       end
 
@@ -36,7 +36,7 @@ namespace :locales do
     end
   end
 
-  #desc 'Checks interpolation arguments in locals against en.yml'
+  desc 'Checks interpolation arguments in locals against en.yml'
   task :check_interpolation do
     dir = ENV['DIR'] || './config/locales'
     en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
@@ -65,6 +65,7 @@ namespace :locales do
     end
   end
 
+#  desc <<-END_DESC
 #Removes a translation string from all locale file (only works for top-level childless non-multiline keys, probably doesn\'t work on windows).
 #
 #This task does not work on Ruby 1.8.6.
@@ -73,7 +74,7 @@ namespace :locales do
 #Options:
 #  key=key_1,key_2    Comma-separated list of keys to delete
 #  skip=en,de         Comma-separated list of locale files to ignore (filename without extension)
-#
+#  END_DESC
 
   task :remove_key do
     dir = ENV['DIR'] || './config/locales'
@@ -92,6 +93,16 @@ namespace :locales do
     end
   end
 
+#  desc <<-END_DESC
+#Adds a new top-level translation string to all locale file (only works for childless keys, probably doesn\'t work on windows, doesn't check for duplicates).
+#
+#Options:
+#  key="some_key=foo"
+#  key1="another_key=bar"
+#  key_fb="foo=bar"         Keys to add in the form key=value, every option of the form key[,\\d,_*] will be recognised
+#  skip=en,de               Comma-separated list of locale files to ignore (filename without extension)
+#  END_DESC
+
   task :add_key do
     dir = ENV['DIR'] || './config/locales'
     files = Dir.glob(File.join(dir,'*.yml'))
@@ -103,7 +114,7 @@ namespace :locales do
     files.each do |path|
       # Skip certain locales
       (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
-      #TODO: Check for dupliate/existing keys
+      # TODO: Check for dupliate/existing keys
       puts "Adding #{key_list} to #{path}"
       File.open(path, 'a') do |file|
         adds.each do |kv|
@@ -115,7 +126,7 @@ namespace :locales do
     end
   end
 
-  #desc 'Duplicates a key. Exemple rake locales:dup key=foo new_key=bar'
+  desc 'Duplicates a key. Exemple rake locales:dup key=foo new_key=bar'
   task :dup do
     dir = ENV['DIR'] || './config/locales'
     files = Dir.glob(File.join(dir,'*.yml'))
@@ -143,7 +154,7 @@ namespace :locales do
     end
   end
 
-  #desc 'Check parsing yaml by psych library on Ruby 1.9.'
+  desc 'Check parsing yaml by psych library on Ruby 1.9.'
 
   # On Fedora 12 and 13, if libyaml-devel is available,
   # in case of installing by rvm,
