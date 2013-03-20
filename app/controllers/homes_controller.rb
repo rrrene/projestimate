@@ -12,13 +12,15 @@ class HomesController < ApplicationController
         #To get all version : ActiveRecord::Migrator.get_all_versions
         local_last_schema_version = ActiveRecord::Migrator.current_version  #current local migration version
 
-        if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
+        #if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
+        if local_last_schema_version.to_i >= external_last_schemas_version.version.to_i
           puts "Same schema version"
 
           #Test if local data are up to date
-          if $latest_update.nil? or params[:latest_repo_update].nil? or ($latest_update.to_date < params[:latest_repo_update].to_date)
+          latest_repo_update = Home::latest_repo_update
+          if params[:latest_local_update].nil? || latest_repo_update.nil? || (params[:latest_local_update].to_datetime < latest_repo_update.to_datetime)
             Home::update_master_data!
-            $latest_update = Time.now
+            $latest_update = Time.now #Rails.cache.write("$latest_update", Time.now)
             flash[:notice] = "Projestimate data have been updated successfully."
           else
             puts "Your repository is up to date"
@@ -30,7 +32,7 @@ class HomesController < ApplicationController
         end
       end
 
-      redirect_to about_url and return
+      redirect_to about_url
 
     rescue Errno::ECONNREFUSED
       flash[:error] = "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement"
