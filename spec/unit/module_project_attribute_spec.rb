@@ -26,6 +26,10 @@ describe ModuleProjectAttribute do
                                       :description => "Undefined",
                                       :undefined_attribute => true,
                                       :dimensions => 3)
+
+
+    @mpa2.save
+    @mpa.save
   end
 
   it "should return custom attribute or not " do
@@ -43,6 +47,12 @@ describe ModuleProjectAttribute do
   #end
   #
   #it "should return module project attribute name" do
-  #  @mpa.to_s.should eql(@mpa.attribute.name)
+  #  puts @ksloc_attribute.name
+  #  puts @mpa.to_s
+  #  @mpa.to_s.should eql(@ksloc_attribute.name)
   #end
+
+  it "in_out should be equals to type" do
+    @mpa.in_out.should eql(@mpa.in_out)
+  end
 end

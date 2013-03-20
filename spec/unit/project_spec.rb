@@ -159,6 +159,11 @@ describe Project do
     Project::table_search("").should be_an_instance_of(ActiveRecord::Relation)
   end
 
+  #it " should duplicate project" do
+  #  @project = FactoryGirl.create(:project)
+  #  @project4=@project.amoeba_dup
+  #end
+
   after :each do
     #clean up
   end

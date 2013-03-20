@@ -101,5 +101,29 @@ describe ModuleProject do
   #
   #end
   #
+  #it "should return false if two module of project aren't linked between them" do
+  #  @mp1.is_linked_to?(@mp5, 1).should be_false
+  #end
+  #
+  #it "should return true if two module of project are linked between them" do
+  #  @mp1.is_linked_to?(@mp3, 1).should be_false
+  #end
 
+  #describe "Liaison" do
+  #  before do
+  #    @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :project => @project)
+  #    @wet_link = FactoryGirl.create(:work_element_type, :wet_link)
+  #    @attribute = FactoryGirl.create(:ksloc_attribute)
+  #    @pbs_project_element = FactoryGirl.create(:pbs_project_element, :pe_wbs_project => @pe_wbs_project, :work_element_type => @wet_link)
+  #    @module_project_attribute = FactoryGirl.create(:module_project_attribute, :module_project=> @mp1, :pbs_project_element => @pbs_project_element, :attribute => @attribute )
+  #  end
+  #
+  #  it "should return the list of attributes that two modules of the project linked between them." do
+  #    @mp1.liaison(nil, nil).should_not be_empty
+  #  end
+  #
+  #  it "should return an empty array" do
+  #    @mp2.liaison(nil, nil).should be_empty
+  #  end
+  #end
 end
