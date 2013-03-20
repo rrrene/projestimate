@@ -61,7 +61,7 @@
     <div id="tabs-2">
        <div class="component_tree" id="project_wbs_product_section">
          <% unless @project.nil? || @pe_wbs_project_product.nil? %>
-           <%=raw generate_wbs(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
+           <%=raw generate_wbs_product(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
          <% end %>
        </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="tabs">
 
   <ul>
-    <li><a href="#tabs-1">WBS - Product </a></li>
+    <li><a href="#tabs-1">WBS Projects </a></li>
     <li><a href="#tabs-2">Estimation Modules</a></li>
     <li><a href="#tabs-3">Output data</a></li>
     <li><a href="#tabs-4">Estimation Plan </a></li>
@@ -9,10 +9,19 @@
   </ul>
 
   <div id="tabs-1">
-    <h3>
-      WBS-Product
-    </h3>
-      <%= render :partial => "users/pe_wbs" %>
+      <div class="span6">
+        <h3>
+          WBS-Product
+        </h3>
+        <%= render :partial => "users/pe_wbs" %>
+      </div>
+
+      <div class="span5">
+        <h3>
+          WBS-Activity
+        </h3>
+        <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+      </div>
   </div>
 
   <div id="tabs-3">

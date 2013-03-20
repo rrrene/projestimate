@@ -23,7 +23,7 @@ module PeWbsProjectsHelper
 
   ##========================================== FOR WBS PRODUCT ======================================================##
 
-    def generate_wbs(pbs_project_element, project, tree, gap)
+    def generate_wbs_product(pbs_project_element, project, tree, gap)
       #Root is always display
       if pbs_project_element.is_root?
         tree << "<ul >
@@ -39,7 +39,7 @@ module PeWbsProjectsHelper
           else
             tree << wbs_navigation_links(c)
           end
-          generate_wbs(c, project, tree, gap)
+          generate_wbs_product(c, project, tree, gap)
         end
         tree << "</ul>"
       else

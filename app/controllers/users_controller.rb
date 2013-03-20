@@ -134,6 +134,8 @@ class UsersController < ApplicationController
       if @project
         @module_projects ||= @project.module_projects
       end
+      @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+      @show_hidden = "true"
 
       if @project
         @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
@@ -189,8 +191,10 @@ class UsersController < ApplicationController
 
   def about
     set_page_title "About"
-    if $latest_update > Home::latest_repo_update
-      expire_fragment('about_page')
+    unless $latest_update.nil?
+      if $latest_update > Home::latest_repo_update
+        expire_fragment('about_page')
+      end
     end
     @latest_repo_update = Home::latest_repo_update
   end

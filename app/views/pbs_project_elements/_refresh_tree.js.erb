@@ -1,5 +1,5 @@
-//$(".component_tree").html("<%#=raw j generate_wbs(@project.root_component, @project, '', 5) %>");
-$("#project_wbs_product_section").html("<%=raw j generate_wbs(@project.root_component, @project, '', 5) %>");
+//$(".component_tree").html("<%#=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
+$("#project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 $('.component_tree ul li').hover(
         function () {
             $(this.children).css('display', 'block');
