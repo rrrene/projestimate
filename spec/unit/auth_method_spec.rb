@@ -36,5 +36,11 @@ describe AuthMethod do
   it 'should bind and return a boolean' do
     #NET::LDAP to do...
   end
+  it "should duplicate auth method" do
+    @default_auth_method2=@default_auth_method.amoeba_dup
+    @default_auth_method2.record_status.name.should eql("Proposed")
+    @default_auth_method2.reference_id = @default_auth_method.id
+    @default_auth_method2.reference_uuid = @default_auth_method.uuid
+  end
 
 end
