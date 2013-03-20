@@ -1,5 +1,5 @@
 jQuery ->
-  $("#select_module").bind 'change', ->
+  $("#select_module").on 'change', ->
     $.ajax
       url: "/add_module"
       method: "get"
@@ -7,7 +7,7 @@ jQuery ->
         module_selected: $(this).val()
         project_id: $("#project_id").val()
 
-  $("#select_pbs_project_elements").bind 'change', ->
+  $("#select_pbs_project_elements").on 'change', ->
     $.ajax
       url: "/select_pbs_project_elements",
       method: "get"

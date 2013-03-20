@@ -7,6 +7,43 @@ describe Attribute do
     @custom_status = FactoryGirl.build(:custom_status)
   end
 
+  it 'should return attribute_update_at date' do
+    Attribute::attribute_updated_at.should be_an_instance_of Array
+    Attribute::attribute_updated_at.last.to_date.should eq @attribute.updated_at.to_date
+    Attribute::attribute_updated_at.should include(@attribute.updated_at.to_s)
+  end
+
+
+  it 'should be return attribute type=integer' do
+    @attribute.attr_type = "integer"
+    @attribute.attribute_type.should eql("numeric")
+  end
+
+  it 'should be return attribute type=float' do
+    @attribute.attr_type = "float"
+    @attribute.attribute_type.should eql("numeric")
+  end
+
+  it 'should be return attribute type=date' do
+    @attribute.attr_type = "date"
+    @attribute.attribute_type.should eql("string")
+  end
+
+  it 'should be return attribute type=text' do
+    @attribute.attr_type = "text"
+    @attribute.attribute_type.should eql("string")
+  end
+
+  it 'should be return attribute type=list' do
+    @attribute.attr_type = "list"
+    @attribute.attribute_type.should eql("string")
+  end
+
+  it 'should be return attribute type=array' do
+    @attribute.attr_type = "array"
+    @attribute.attribute_type.should eql("string")
+  end
+
   it 'should validate 15 because 15 is greather than 10' do
     @attribute.is_validate("15").should be_true
   end

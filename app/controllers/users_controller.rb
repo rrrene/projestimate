@@ -189,10 +189,7 @@ class UsersController < ApplicationController
 
   def about
     set_page_title "About"
-    latest_record_version = Version.last
-    @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
-    @latest_local_update =  latest_record_version.local_latest_update
-    Rails.cache.write("latest_update", @latest_local_update)
+    @latest_repo_update = Home::latest_repo_update
   end
 
   def activate

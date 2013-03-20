@@ -33,5 +33,9 @@ describe PbsProjectElement do
   it "should have return only one value" do
     @folder.ksloc_low.should be_empty
   end
+  it "should duplicate pbs project element" do
+    @folder2=@folder.amoeba_dup
+    @folder2.copy_id = @folder.id
+  end
 
 end

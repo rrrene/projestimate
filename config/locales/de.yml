@@ -1,4 +1,224 @@
 de:
+  #standard local format
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
+  date:
+    abbr_day_names:
+    - So
+    - Mo
+    - Di
+    - Mi
+    - Do
+    - Fr
+    - Sa
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mär
+    - Apr
+    - Mai
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Dez
+    day_names:
+    - Sonntag
+    - Montag
+    - Dienstag
+    - Mittwoch
+    - Donnerstag
+    - Freitag
+    - Samstag
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: ! '%d.%m.%Y'
+      long: ! '%e. %B %Y'
+      short: ! '%e. %b'
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names:
+    -
+    - Januar
+    - Februar
+    - März
+    - April
+    - Mai
+    - Juni
+    - Juli
+    - August
+    - September
+    - Oktober
+    - November
+    - Dezember
+    # Used in date_select and datime_select.
+    order:
+    - :day
+    - :month
+    - :year
+
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
+      about_x_months:
+        one: etwa ein Monat
+        other: etwa %{count} Monate
+      about_x_years:
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
+      almost_x_years:
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
+      less_than_x_minutes:
+        zero: weniger als eine Minute
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
+      less_than_x_seconds:
+        zero: weniger als eine Sekunde
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
+      over_x_years:
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
+      x_days:
+        one: ein Tag
+        other: ! '%{count} Tage'
+      x_minutes:
+        one: eine Minute
+        other: ! '%{count} Minuten'
+      x_months:
+        one: ein Monat
+        other: ! '%{count} Monate'
+      x_seconds:
+        one: eine Sekunde
+        other: ! '%{count} Sekunden'
+    prompts:
+      day: Tag
+      hour: Stunden
+      minute: Minuten
+      month: Monat
+      second: Sekunden
+      year: Jahr
+
+  time:
+    formats:
+      default: ! '%A, %d. %B %Y, %H:%M Uhr'
+      long: ! '%A, %d. %B %Y, %H:%M Uhr'
+      short: ! '%d. %B, %H:%M Uhr'
+    am: vormittags
+    pm: nachmittags
+
+  number:
+    format:
+      separator: ! ','
+      delimiter: .
+      precision: 2
+      significant: false
+      strip_insignificant_zeros: false
+    currency:
+      format:
+        format: ! '%n %u'
+        unit: €
+        separator: ! ','
+        delimiter: .
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion: Billionen
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+
+  support:
+    array:
+      last_word_connector: ! ', und '
+      two_words_connector: ! ' und '
+      words_connector: ! ', '
+
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      confirmation: stimmt nicht mit der Bestätigung überein
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
+      odd: muss ungerade sein
+      record_invalid: ! 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      taken: ist bereits vergeben
+      too_long: ist zu lang (nicht mehr als %{count} Zeichen)
+      too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
+      wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben)
+    template:
+      body: ! 'Bitte überprüfen Sie die folgenden Felder:'
+      header:
+        one: ! 'Konnte %{model} nicht speichern: ein Fehler.'
+        other: ! 'Konnte %{model} nicht speichern: %{count} Fehler.'
+
+  helpers:
+    select:
+      prompt: Bitte wählen
+    submit:
+      create: ! '%{model} erstellen'
+      submit: ! '%{model} speichern'
+      update: ! '%{model} aktualisieren'
+
+  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
+  activemodel:
+    errors:
+      <<: *errors
+  activerecord:
+    errors:
+      <<: *errors
  #  Menu
   projects: "Projects"
   recent_project: "Recent projects"
@@ -109,7 +329,7 @@ de:
   #Activity categories
   edit_activity_category: "Edit an activity category"
   new_activity_category: "New activity category"
-  
+
   #Admin_settings
   edit_admin_settings: "Edit admin settings"
   new_admin_settings: "New admin setting"
@@ -370,7 +590,7 @@ de:
   edit_wbs_activity_element: "Edit a wbs activity element"
   new_wbs_activity_element: "New wbs activity element"
   parent: "Parent"
-  
+
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
   new_wbs_activity_ratio_element: "New wbs activity ratio element"
@@ -403,227 +623,6 @@ de:
   no_estimation_plan: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   etape: "Step"
-
-  #standard local format
-  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: ltr
-  date:
-    abbr_day_names:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    abbr_month_names:
-    - 
-    - Jan
-    - Feb
-    - Mär
-    - Apr
-    - Mai
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
-    - Nov
-    - Dez
-    day_names:
-    - Sonntag
-    - Montag
-    - Dienstag
-    - Mittwoch
-    - Donnerstag
-    - Freitag
-    - Samstag
-    formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
-      default: ! '%d.%m.%Y'
-      long: ! '%e. %B %Y'
-      short: ! '%e. %b'
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
-    - 
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
-    # Used in date_select and datime_select.
-    order:
-    - :day
-    - :month
-    - :year
-    
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: etwa eine Stunde
-        other: etwa %{count} Stunden
-      about_x_months:
-        one: etwa ein Monat
-        other: etwa %{count} Monate
-      about_x_years:
-        one: etwa ein Jahr
-        other: etwa %{count} Jahre
-      almost_x_years:
-        one: fast ein Jahr
-        other: fast %{count} Jahre
-      half_a_minute: eine halbe Minute
-      less_than_x_minutes:
-        zero: weniger als eine Minute
-        one: weniger als eine Minute
-        other: weniger als %{count} Minuten
-      less_than_x_seconds:
-        zero: weniger als eine Sekunde
-        one: weniger als eine Sekunde
-        other: weniger als %{count} Sekunden
-      over_x_years:
-        one: mehr als ein Jahr
-        other: mehr als %{count} Jahre
-      x_days:
-        one: ein Tag
-        other: ! '%{count} Tage'
-      x_minutes:
-        one: eine Minute
-        other: ! '%{count} Minuten'
-      x_months:
-        one: ein Monat
-        other: ! '%{count} Monate'
-      x_seconds:
-        one: eine Sekunde
-        other: ! '%{count} Sekunden'
-    prompts:
-      day: Tag
-      hour: Stunden
-      minute: Minuten
-      month: Monat
-      second: Sekunden
-      year: Jahr
-      
-  time:
-    formats:
-      default: ! '%A, %d. %B %Y, %H:%M Uhr'
-      long: ! '%A, %d. %B %Y, %H:%M Uhr'
-      short: ! '%d. %B, %H:%M Uhr'
-    am: vormittags
-    pm: nachmittags
-    
-  number:
-    format:
-      separator: ! ','
-      delimiter: .
-      precision: 2
-      significant: false
-      strip_insignificant_zeros: false  
-    currency:
-      format:
-        format: ! '%n %u'
-        unit: €
-        separator: ! ','
-        delimiter: .
-        precision: 2
-        significant: false
-        strip_insignificant_zeros: false
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
-    human:
-      decimal_units:
-        format: ! '%n %u'
-        units:
-          billion:
-            one: Milliarde
-            other: Milliarden
-          million: Millionen
-          quadrillion:
-            one: Billiarde
-            other: Billiarden
-          thousand: Tausend
-          trillion: Billionen
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 1
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: ! '%n %u'
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-
-  support:
-    array:
-      last_word_connector: ! ', und '
-      two_words_connector: ! ' und '
-      words_connector: ! ', '
-                
-  errors: &errors
-    format: ! '%{attribute} %{message}'
-    messages:
-      accepted: muss akzeptiert werden
-      blank: muss ausgefüllt werden
-      confirmation: stimmt nicht mit der Bestätigung überein
-      empty: muss ausgefüllt werden
-      equal_to: muss genau %{count} sein
-      even: muss gerade sein
-      exclusion: ist nicht verfügbar
-      greater_than: muss größer als %{count} sein
-      greater_than_or_equal_to: muss größer oder gleich %{count} sein
-      inclusion: ist kein gültiger Wert
-      invalid: ist nicht gültig
-      less_than: muss kleiner als %{count} sein
-      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      not_a_number: ist keine Zahl
-      not_an_integer: muss ganzzahlig sein
-      odd: muss ungerade sein
-      record_invalid: ! 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
-      taken: ist bereits vergeben
-      too_long: ist zu lang (nicht mehr als %{count} Zeichen)
-      too_short: ist zu kurz (nicht weniger als %{count} Zeichen)
-      wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben)
-    template:
-      body: ! 'Bitte überprüfen Sie die folgenden Felder:'
-      header:
-        one: ! 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: ! 'Konnte %{model} nicht speichern: %{count} Fehler.'
-        
-  helpers:
-    select:
-      prompt: Bitte wählen
-    submit:
-      create: ! '%{model} erstellen'
-      submit: ! '%{model} speichern'
-      update: ! '%{model} aktualisieren'
-    
-  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
-  activemodel:
-    errors:
-      <<: *errors
-  activerecord:
-    errors:
-      <<: *errors
 
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
