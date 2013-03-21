@@ -43,4 +43,26 @@ describe WbsActivityElement do
     end
   end
 
+  describe "import" do
+    before :each do
+      @wbs_activity = FactoryGirl.create(:wbs_activity)
+      @wbs_activity_element = FactoryGirl.create(:wbs_activity_element,:id=>261, :wbs_activity => @wbs_activity)
+      @wbs_activity_element2 = FactoryGirl.create(:wbs_activity_element,:id=>262, :wbs_activity => @wbs_activity)
+    end
+    it "should import wbs activity element without error" do
+      expected_csv =  File.dirname(__FILE__) + '/../fixtures/test.csv'
+      file=ActionDispatch::Http::UploadedFile.new({
+                                                      :filename => 'test.csv',
+                                                      :content_type => 'text/csv',
+                                                      :tempfile => File.new(File.dirname(__FILE__) + '/../fixtures/test.csv')
+                                                  })
+      WbsActivityElement::import(file,'').should be_true
+      # sometimes it is better to parse generated_csv (ie. when you testing other formats like json or xml
+    end
+
+    it "should rebuild wbs activity" do
+      WbsActivityElement::rebuild([@wbs_activity_element,@wbs_activity_element2], @wbs_activity.id).should be_true
+    end
+  end
+
 end

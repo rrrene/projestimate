@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312133743) do
+ActiveRecord::Schema.define(:version => 20130320092935) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -728,6 +728,14 @@ ActiveRecord::Schema.define(:version => 20130312133743) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
 
+  create_table "versions", :force => true do |t|
+    t.datetime "local_latest_update"
+    t.datetime "repository_latest_update"
+    t.text     "comment"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
   create_table "wbs_activities", :force => true do |t|
     t.string   "uuid"
     t.string   "name"
@@ -767,6 +775,7 @@ ActiveRecord::Schema.define(:version => 20130312133743) do
     t.string   "dotted_id"
     t.integer  "copy_id"
     t.boolean  "is_root"
+    t.string   "master_ancestry"
   end
 
   add_index "wbs_activity_elements", ["ancestry"], :name => "index_wbs_activity_elements_on_ancestry"

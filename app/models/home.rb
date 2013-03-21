@@ -55,7 +55,6 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalLanguage, Language, ["name", "locale", "uuid"])
 
       puts "   - Admin Settings"
-      #self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
       self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ["key", "value", "uuid"])
 
       puts "   - Auth Method"
@@ -75,6 +74,11 @@ class Home < ActiveRecord::Base
 
       puts "Create global permissions..."
       self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ["name", "description", "is_permission_project", "uuid"])
+
+      #Update the latest update date information
+      latest_saved_record = Version.last
+      latest_repo_update = Home::latest_repo_update
+      latest_saved_record.update_attributes(:local_latest_update => Time.now, :repository_latest_update => latest_repo_update, :comment => "Your Application latest update date")
 
     #  puts "\n\n"
     #  puts "Default data was successfully loaded. Enjoy !"
@@ -174,8 +178,30 @@ class Home < ActiveRecord::Base
           fields.each do |field|
             local_record.update_attribute(:"#{field}", ext.send(field.to_sym))
           end
-          local_record.update_attribute(:record_status_id, corresponding_local_rs_id)
-          local_record.update_attribute(:change_comment, ext.change_comment)
+
+          #For Wbs-Activity-Elements, we need to rebuild the ancestry if it has changed
+          if local.to_s == "WbsActivityElement"
+            #Test if the element ancestry changed
+            unless ext.ancestry.to_s.eql?(local_record.master_ancestry.to_s)
+              local_ancestry = ""
+              ext_ancestry = ext.ancestry
+              unless ext_ancestry.nil?
+                ext_ancestry_list = ext.ancestry.split('/')
+                ext_ancestry_list.each do |ancestor|
+                  ext_ancestor_uuid = ExternalMasterDatabase::ExternalWbsActivityElement.find_by_id(ancestor).uuid
+                  ancestors <<  WbsActivityElement.find_by_uuid(ext_ancestor_uuid).id
+                end
+                if ancestors.length == 1
+                  local_ancestry = ancestors.first.to_s
+                elsif ancestors.length > 1
+                  local_ancestry = ancestors.join('/')
+                end
+              end
+              local_record.update_attributes(:ancestry => local_ancestry, :master_ancestry => ext.ancestry)
+            end
+          end
+
+          local_record.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
         end
 
       else
@@ -185,8 +211,47 @@ class Home < ActiveRecord::Base
           #we update our local object with the external value
           obj.update_attribute(:"#{field}", ext.send(field.to_sym))
         end
-        obj.update_attribute(:record_status_id, corresponding_local_rs_id)
-        obj.update_attribute(:change_comment, ext.change_comment)
+
+        #Need to update link between Wbs-Activity and its elements
+        case local.to_s
+          when "WbsActivityElement"
+            ext_wbs_activity_uuid = ExternalMasterDatabase::ExternalWbsActivity.find_by_id(ext.wbs_activity_id).uuid
+            corresponding_wbs_activity_id = WbsActivity.find_by_uuid(ext_wbs_activity_uuid).id
+
+            #build ancestry
+            local_ancestry = ""
+            ActiveRecord::Base.transaction do
+              ancestors = []
+              ext_ancestry = ext.ancestry
+              unless ext_ancestry.nil?
+                ext_ancestry_list = ext.ancestry.split('/')
+                ext_ancestry_list.each do |ancestor|
+                  ext_ancestor_uuid = ExternalMasterDatabase::ExternalWbsActivityElement.find_by_id(ancestor).uuid
+                  ancestors <<  WbsActivityElement.find_by_uuid(ext_ancestor_uuid).id
+                end
+                if ancestors.length == 1
+                  local_ancestry = ancestors.first.to_s
+                elsif ancestors.length > 1
+                  local_ancestry = ancestors.join('/')
+                end
+              end
+            end
+            #obj.update_attributes(:wbs_activity_id => corresponding_wbs_activity_id, :ancestry => local_ancestry.to_s, :master_ancestry => ext.ancestry.to_s)
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{corresponding_wbs_activity_id}, ancestry = '#{local_ancestry}', master_ancestry = '#{ext.ancestry}' WHERE uuid = '#{ext.uuid}'")
+          when "WbsActivityRatio"
+            ext_wbs_activity_uuid = ExternalMasterDatabase::ExternalWbsActivity.find_by_id(ext.wbs_activity_id).uuid
+            corresponding_wbs_activity_id = WbsActivity.find_by_uuid(ext_wbs_activity_uuid).id
+            obj.update_attribute(:wbs_activity_id, corresponding_wbs_activity_id)
+
+          when "WbsActivityRatioElement"
+            ext_ratio_uuid = ExternalMasterDatabase::ExternalWbsActivityRatio.find_by_id(ext.wbs_activity_ratio_id).uuid
+            ext_wbs_activity_element_uuid = ExternalMasterDatabase::ExternalWbsActivityElement.find_by_id(ext.wbs_activity_element_id).uuid
+            local_wbs_activity_ratio_id = WbsActivityRatio.find_by_uuid(ext_ratio_uuid).id
+            local_wbs_activity_element_id = WbsActivityElement.find_by_uuid(ext_wbs_activity_element_uuid).id
+            obj.update_attributes(:wbs_activity_ratio_id => local_wbs_activity_ratio_id, :wbs_activity_element_id => local_wbs_activity_element_id)
+        end
+
+        obj.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
       end
 
     end
@@ -237,6 +302,9 @@ class Home < ActiveRecord::Base
         rs.update_attribute(:record_status_id, local_defined_rs_id)
       end
 
+      puts "   - Version"
+      Version.create :comment => "No update data has been save"
+
       puts "   - ReferenceValue"
       self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
@@ -265,7 +333,26 @@ class Home < ActiveRecord::Base
         ext_elements.each do |ext_elt|
           if ext_act.id == ext_elt.wbs_activity_id and ext_act.record_status_id == ext_defined_rs_id
             act = WbsActivity.find_by_uuid(ext_act.uuid)
-            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id} WHERE uuid = '#{ext_elt.uuid}'")
+
+            #build ancestry
+            local_ancestry = ""
+            ActiveRecord::Base.transaction do
+              ancestors = []
+              ext_ancestry = ext_elt.ancestry
+              unless ext_ancestry.nil?
+                ext_ancestry_list = ext_elt.ancestry.split('/')
+                ext_ancestry_list.each do |ancestor|
+                  ext_ancestor_uuid = ExternalMasterDatabase::ExternalWbsActivityElement.find_by_id(ancestor).uuid
+                  ancestors <<  WbsActivityElement.find_by_uuid(ext_ancestor_uuid).id
+                end
+                if ancestors.length == 1
+                  local_ancestry = ancestors.first.to_s
+                elsif ancestors.length > 1
+                  local_ancestry = ancestors.join('/')
+                end
+              end
+            end
+            ActiveRecord::Base.connection.execute("UPDATE wbs_activity_elements SET wbs_activity_id = #{act.id}, ancestry = '#{local_ancestry}', master_ancestry = '#{ext_elt.ancestry}' WHERE uuid = '#{ext_elt.uuid}'")
           end
         end
 
@@ -290,10 +377,9 @@ class Home < ActiveRecord::Base
         end
       end
 
-
-      activities.each do |a|
-        WbsActivityElement::build_ancestry(elements, a.id)
-      end
+      #activities.each do |a|
+      #  WbsActivityElement::build_ancestry(elements, a.id)
+      #end
 
       puts "   - Master Settings"
       self.create_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])

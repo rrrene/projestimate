@@ -45,24 +45,24 @@ class ModuleProject < ActiveRecord::Base
   end
 
   #Define if two module of project linked between them.
-  def is_linked_to?(mp, pbs_project_element_id)
-    self.module_project_attributes.each do |mpa|
-      while !(mpa.links.empty?) do
-        return true
-      end
-    end
-    return false
-  end
-
-  #Return the list of attributes that two modules of the project linked between them.
-  def liaison(mp, pbs_project_element_id)
-    self.module_project_attributes.each do |i|
-      while !(i.links.empty?) do
-        return i.links.first
-      end
-    end
-    return []
-  end
+  #def is_linked_to?(mp, pbs_project_element_id)
+  #  self.module_project_attributes.each do |mpa|
+  #    while !(mpa.links.empty?) do
+  #      return true
+  #    end
+  #  end
+  #  return false
+  #end
+  #
+  ##Return the list of attributes that two modules of the project linked between them.
+  #def liaison(mp, pbs_project_element_id)
+  #  self.module_project_attributes.each do |i|
+  #    while !(i.links.empty?) do
+  #      return i.links.first
+  #    end
+  #  end
+  #  return []
+  #end
 
   def compatible_with(wet_alias)
     if self.pemodule.compliant_component_type.nil?

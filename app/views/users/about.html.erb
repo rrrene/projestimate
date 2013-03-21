@@ -17,15 +17,16 @@
 <p>
 </p>
 
-<% cache('about_page') do %>
+
+<%# cache('about_page') do %>
   <span>
     <p>
-      Latest update : <%= $latest_update.nil? ? "None" : $latest_update.in_time_zone(current_user.tz) %>
+      Latest update : <%= @latest_local_update.nil? ? "None" : @latest_local_update.in_time_zone(current_user.tz) %>    <br />
     </p>
     <p>
       Latest MasterData Repository update : <%= @latest_repo_update.nil? ? "None" : @latest_repo_update.in_time_zone(current_user.tz) %>
     </p>
-    <%= link_to "Download and apply MasterData update", update_install_path(:latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => "Please wait. It could take a while", :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
+    <%= link_to "Download and apply MasterData update", update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => "Please wait. It could take a while", :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
     <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
   </span>
-<% end %>
+<%# end %>
