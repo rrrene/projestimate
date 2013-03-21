@@ -2,13 +2,6 @@ require 'spec_helper'
 
 describe HomesController do
 
-  describe "GET 'about'" do
-    it "returns http success" do
-      get 'about'
-      response.should be_success
-    end
-  end
-
   describe "GET 'update_install'" do
     context "On local instance"  do
       it "returns http success and the flash notice message" do
