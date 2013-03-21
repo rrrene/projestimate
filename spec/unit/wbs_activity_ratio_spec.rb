@@ -136,26 +136,14 @@ describe WbsActivityRatio do
       WbsActivityRatio.export(@wbs_activity_ratio.id).should be_eql(csv_string)
     end
 
-    it "should import wbs activity ratio with error" do
-      #expected_csv = File.read("LKLK.csv")
-      expected_csv =  File.dirname(__FILE__) + '/../fixtures/test.csv'
-      file=ActionDispatch::Http::UploadedFile.new({
-                                                      :filename => 'Hello.csv',
-                                                      :content_type => 'text/csv',
-                                                      :tempfile => File.new(File.dirname(__FILE__) + '/../fixtures/test.csv')
-                                                  })
-      WbsActivityRatio::import(file,'',"UTF-8")
-      # sometimes it is better to parse generated_csv (ie. when you testing other formats like json or xml
-
-    end
     it "should import wbs activity ratio without error" do
       expected_csv =  File.dirname(__FILE__) + '/../fixtures/test.csv'
       file=ActionDispatch::Http::UploadedFile.new({
-                                                      :filename => 'LKLK.csv',
+                                                      :filename => 'test.csv',
                                                       :content_type => 'text/csv',
                                                       :tempfile => File.new(File.dirname(__FILE__) + '/../fixtures/test.csv')
                                                   })
-      WbsActivityRatio::import(file,'',"UTF-8")
+      WbsActivityRatio::import(file,'',"UTF-8").should be_true
       # sometimes it is better to parse generated_csv (ie. when you testing other formats like json or xml
     end
   end

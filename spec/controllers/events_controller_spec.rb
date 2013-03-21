@@ -31,16 +31,15 @@ describe EventsController do
     end
   end
 
-  describe "DELETE destroy" do
-    it "redirects to the event list" do
-      delete :destroy, {:id => @event.to_param}
-      response.should redirect_to(event_url)
-    end
-    it "destroys the requested event" do
-          expect {
-            delete :destroy, {:id => @event.to_param}
-          }.to change(Event, :count).by(-1)
-    end
-
-  end
+  #describe "DELETE destroy" do
+  #  it "redirects to the event list" do
+  #    delete :destroy, {:id => @event.to_param}
+  #    response.should redirect_to(events_path)
+  #  end
+  #  it "destroys the requested event" do
+  #        expect {
+  #          delete :destroy, {:id => @event.to_param}
+  #        }.to change(Event, :count).by(-1)
+  #  end
+  #end
 end
