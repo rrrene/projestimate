@@ -40,19 +40,19 @@
         <%= f.input :user_status, :label => I18n.t("user_status") , :as => :select, :collection => [["Active","active"],["Pending", "pending"],["Suspended", "suspended"],["Blacklisted", "blacklisted"]] %>
 
         <%= f.input :created_at, :label => I18n.t("created_at") do %>
-          <%= f.text_field :created_at, :disabled => true %>
+          <%= f.text_field :created_at, :value => (I18n.l(@user.created_at) unless @user.created_at.nil?), :disabled => true %>
         <% end %>
 
         <%= f.input :updated_at, :label => I18n.t("updated_at") do %>
-          <%= f.text_field :updated_at, :disabled => true %>
+          <%= f.text_field :updated_at, :value => (I18n.l(@user.updated_at) unless @user.updated_at.nil?), :disabled => true %>
         <% end %>
 
         <%= f.input :last_login, :label => I18n.t("last_login") do %>
-          <%= f.text_field :last_login, :disabled => true %>
+          <%= f.text_field :last_login, :value => (I18n.l(@user.last_login) unless @user.last_login.nil?), :disabled => true %>
         <% end %>
 
         <%= f.input :previous_login, :label => I18n.t("previous_login") do %>
-          <%= f.text_field :previous_login, :disabled => true %>
+          <%= f.text_field :previous_login, :value => (I18n.l(@user.previous_login) unless @user.previous_login.nil?), :disabled => true %>
         <% end %>
 
       </fieldset>

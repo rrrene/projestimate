@@ -44,4 +44,11 @@ describe Language do
     @language.to_s.should eql(@language.name)
   end
 
+  it "should duplicate language" do
+    @language2=@language.amoeba_dup
+    @language2.record_status.name.should eql("Proposed")
+    @language2.reference_id = @language.id
+    @language2.reference_uuid = @language.uuid
+  end
+
 end

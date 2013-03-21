@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       if @project
         @module_projects ||= @project.module_projects
       end
-      @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+      @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first unless @project.nil?
       @show_hidden = "true"
 
       if @project

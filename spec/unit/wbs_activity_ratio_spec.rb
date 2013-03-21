@@ -120,7 +120,8 @@ describe WbsActivityRatio do
     before :each do
       @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity)
       @wbs_activity_element = FactoryGirl.create(:wbs_activity_element, :wbs_activity => @wbs_activity)
-      @wbs_activity_ratio_element = FactoryGirl.create(:wbs_activity_ratio_element, :wbs_activity_ratio=> @wbs_activity_ratio, :wbs_activity_element => @wbs_activity_element)
+      @wbs_activity_ratio_element = FactoryGirl.create( :wbs_activity_ratio_element,:id=>258, :wbs_activity_ratio=> @wbs_activity_ratio, :wbs_activity_element => @wbs_activity_element)
+      @wbs_activity_ratio_element = FactoryGirl.create( :wbs_activity_ratio_element,:id=>259, :wbs_activity_ratio=> @wbs_activity_ratio, :wbs_activity_element => @wbs_activity_element)
     end
 
     it "should export wbs activity ratio" do

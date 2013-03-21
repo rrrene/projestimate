@@ -36,18 +36,31 @@ class EventsController < ApplicationController
   end
 
   def create
-    #@event = Event.new(params[:event])
-    #redirect_to event_url
+    @event = Event.new(params[:event])
+    if @event.save
+      redirect_to redirect(events_path)
+    else
+      render action: "new"
+    end
   end
 
   def update
-    #@event = Event.find(params[:id])
-    #redirect_to event_url
+    @event = nil
+    @event = Event.find(params[:id])
+    if @event.update_attributes(params[:event])
+      redirect_to events_path, notice: 'Event was successfully updated.'
+    else
+      render action: "edit"
+    end
+
   end
 
   def destroy
+    #@event = Event.find(params[:id])
+    #@event.destroy
+    #redirect_to event_url
     @event = Event.find(params[:id])
     @event.destroy
-    redirect_to event_url
+    redirect_to events_path
   end
 end
