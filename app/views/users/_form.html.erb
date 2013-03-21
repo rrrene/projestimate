@@ -13,7 +13,7 @@
     <div id="tabs-1">
       <fieldset>
         <legend><%= I18n.t "identity" %></legend>
-        <%= f.input :first_name, :label => I18n.t("first_name")  %>
+        <%= f.input :first_name, :label => I18n.t("first_name"), :input_html => {:autofocus => (controller.action_name == "new")}  %>
 
         <%= f.input :last_name, :label => I18n.t("last_name") %>
 

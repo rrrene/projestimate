@@ -1,0 +1,35 @@
+<h1>Listing ej_estimation_values</h1>
+
+<table>
+  <tr>
+    <th>Project</th>
+    <th>Pbs project element</th>
+    <th>Wbs activity element</th>
+    <th>Minimum</th>
+    <th>Most likely</th>
+    <th>Maximum</th>
+    <th>Probable</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ej_estimation_values.each do |ej_estimation_value| %>
+  <tr>
+    <td><%= ej_estimation_value.project_id %></td>
+    <td><%= ej_estimation_value.pbs_project_element_id %></td>
+    <td><%= ej_estimation_value.wbs_activity_element_id %></td>
+    <td><%= ej_estimation_value.minimum %></td>
+    <td><%= ej_estimation_value.most_likely %></td>
+    <td><%= ej_estimation_value.maximum %></td>
+    <td><%= ej_estimation_value.probable %></td>
+    <td><%= link_to 'Show', ej_estimation_value %></td>
+    <td><%= link_to 'Edit', edit_ej_estimation_value_path(ej_estimation_value) %></td>
+    <td><%= link_to 'Destroy', ej_estimation_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ej estimation value', new_ej_estimation_value_path %>
