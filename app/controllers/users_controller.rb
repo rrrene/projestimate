@@ -93,6 +93,7 @@ class UsersController < ApplicationController
     set_page_title "Edit user"
 
     params[:user][:group_ids] ||= []
+    params[:user][:project_ids] ||= []
     @user = User.find(params[:id])
 
     #Checking password length
@@ -115,16 +116,15 @@ class UsersController < ApplicationController
   #Dashboard of the application
   def show
     set_page_title "Dashboard"
+    if current_user
+      if params[:project_id]
+        session[:current_project_id] = params[:project_id]
 
-      if current_user
-        if params[:project_id]
-          session[:current_project_id] = params[:project_id]
-
-          # tlp : ten latest projects
-          tlp = User.first.ten_latest_projects || Array.new
-          tlp = tlp.push(params[:project_id])
-          User.first.update_attribute(:ten_latest_projects, tlp.uniq)
-        end
+        # tlp : ten latest projects
+        tlp = User.first.ten_latest_projects || Array.new
+        tlp = tlp.push(params[:project_id])
+        User.first.update_attribute(:ten_latest_projects, tlp.uniq)
+      end
 
       session[:pbs_project_element_id] = nil
 
@@ -134,6 +134,8 @@ class UsersController < ApplicationController
       if @project
         @module_projects ||= @project.module_projects
       end
+      @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first unless @project.nil?
+      @show_hidden = "true"
 
       if @project
         @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1

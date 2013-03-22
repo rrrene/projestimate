@@ -1,29 +1,6 @@
 $(document).ready(function() {
 
-    $("#project_security_level").change(
-            function () {
-              $.ajax({ url:'/update_project_security_level',
-                data:'project_security_level=' + this.value + '&user_id=' + $("#user_id").val()
-              })
-            }
-    );
-
-    $("#project_security_level_group").change(
-            function () {
-              $.ajax({ url:'/update_project_security_level_group',
-                data:'project_security_level=' + this.value + '&group_id=' + $("#group_id").val()
-              })
-            }
-    );
-
-    $('#project_area').change(
-      function(){
-        $.ajax({url: '/select_categories',
-               data: 'project_area_selected=' + this.value
-        })
-      });
-
-     $('.component_tree > ul li').hover(
+     $('.tabs ul li').hover(
         function () {
           $(this.children).css('display', 'inline');
         },
@@ -31,17 +8,6 @@ $(document).ready(function() {
          $('.block_link').hide();
         }
       );
-
-    $("#jump_project_id").change(function(){
-        $.ajax({
-            url:"change_selected_project",
-            method: 'get',
-            data: "project_id=" + this.value,
-            success: function(data) {
-              document.location.href="dashboard"
-              }
-            });
-    });
 
     $("#component_work_element_type_id").change(function(){
       if(this.value == "2"){
@@ -61,15 +27,6 @@ $(document).ready(function() {
             })
     });
 
-    $('#project_record_number').change(
-        function(){
-            $.ajax({
-                    url:"project_record_number",
-                    method: 'GET',
-                    data: "nb=" + this.value
-            })
-    });
-
 
     $('#states').change(
         function(){
@@ -79,21 +36,6 @@ $(document).ready(function() {
                     data: "state=" + this.value
             })
     });
-
-    $(".select_ratio").change(
-        function(){
-            $.ajax({
-                url:"/refresh_ratio_elements",
-                method: 'GET',
-                data: "wbs_activity_ratio_id=" + this.value,
-                success: function(data) {
-                    $('.total-ratio').html(data);
-                },
-                error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
-            });
-
-    });
-
 
     $("#user_id").change(
             function () {
@@ -111,19 +53,10 @@ $(document).ready(function() {
             }
     );
 
-
-
     $( ".tabs" ).tabs();
 
-    //$("#tabs_test :input").attr("disabled", true);
     if(($('.div_tabs_to_disable').data('enable_update')) ==  false){
-        //$(".div_tabs_to_disable :input").attr("disabled", true);
         $('.div_tabs_to_disable').find('input, textarea, button, select, a').attr('disabled','disabled');
-//        $('.component_tree ul li').hover(
-//            function () {
-//                $('.block_link').hide();
-//            }
-//        );
     }
 
     $(function() {
@@ -189,7 +122,7 @@ $(document).ready(function() {
 
 });
 
-
+// ################################# Other methods #################################
 
 function show_popup(elem) {
   jQuery('#'+elem).slideDown("fast");
@@ -242,3 +175,7 @@ jQuery.fn.submitWithAjax = function () {
     });
 };
 
+
+function toggle_folder(elem){
+    $(elem).parent().parent().next().toggle();
+}

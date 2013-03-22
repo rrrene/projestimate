@@ -545,7 +545,6 @@ table a:hover, .block_link a:hover{
     display: block;
     color: #646464;
     text-shadow: 0px 1px 1px #fff;
-    position: absolute;
 
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -555,6 +554,7 @@ table a:hover, .block_link a:hover{
     border-radius: 2px;
 
     z-index: 20;
+    margin: 70px;
 }
 
 .highlight{

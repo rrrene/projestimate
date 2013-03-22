@@ -17,7 +17,7 @@
       <td><%= user.last_name %>
       <td><%= user.login_name %>
       <td><%= user.email %>
-      <td><%= I18n.l (user.last_login)%>
+      <td><%= I18n.l(user.last_login) unless user.last_login.nil? %>
       <td><%= user.auth_method %>
       <td><%= user.user_status %>
       <td>

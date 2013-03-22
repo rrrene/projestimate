@@ -1,6 +1,5 @@
 <div class="component_tree" id="project_wbs_product_section">
   <% unless @project.nil? || @project.pe_wbs_projects.wbs_product.first.nil? %>
-    <%=raw generate_wbs(@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.last.root, @project, "", 5) %>
-    <% render 'pe_wbs_project_tree', elements: current_project.root_component.subtree.arrange %>
+    <%=raw generate_wbs_product(@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.last.root, @project, "", 5) %>
   <% end %>
 </div>
