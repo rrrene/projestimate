@@ -14,7 +14,7 @@
       <td><%= project.title %>
       <td><%= project.alias %>
       <td><%= project.state %>
-      <td><%= project.start_date %>
+      <td><%= I18n.l(project.start_date) unless project.start_date.nil? %>
       <td><%= project.organization %>
       <td>
         <%=
