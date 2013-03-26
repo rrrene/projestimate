@@ -527,6 +527,8 @@ fr:
   connect: "Connexion"
   remember_me: "Se souvenir de moi"
   edit_password: "Mettre à jour votre mot de passe"
+  forgotten_password_help: "Vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
+  ask_new_account_help: "Vous devez attendre jusqu'à ce qu'un administrateur valide votre compte. Lorsque le compte est activé par l'administrateur, vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
 
   #translations
   choose_locale : "Choisir une langue"

@@ -37,6 +37,18 @@ class Attribute < ActiveRecord::Base
   validates :name, :alias, :presence => true,  :uniqueness => { :scope => :record_status_id, :case_sensitive => false }
   validates :custom_value, :presence => true, :if => :is_custom?
 
+  ##Enable the amoeba gem for deep copy/clone (dup with associations)
+  amoeba do
+    enable
+    exclude_field [:attribute_modules]
+
+    customize(lambda { |original_record, new_record|
+      new_record.reference_uuid = original_record.uuid
+      new_record.reference_id = original_record.id
+      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+    })
+  end
+
   searchable do
     text :name, :description, :alias
   end
