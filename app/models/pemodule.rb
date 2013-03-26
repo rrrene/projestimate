@@ -25,12 +25,12 @@ class Pemodule < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   #Project has many module, module has many project
-  has_many :module_projects
+  has_many :module_projects, :dependent => :destroy
   has_many :projects, :through => :module_projects
 
   #Pemodule has many attribute, attribute has many pemodule
-  has_many :attribute_modules
-  has_many :pe_attributes, :source => :attribute, :through => :attribute_modules
+  has_many :attribute_modules, :dependent => :destroy
+  has_many :pe_attributes,  :source => :attribute, :through => :attribute_modules   #:class_name => "Attribute",
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
@@ -39,8 +39,21 @@ class Pemodule < ActiveRecord::Base
 
   validates_presence_of :description, :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :title, :alias, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
+  validates :title, :alias, :presence => true, :uniqueness => {:scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
+
+  ##Enable the amoeba gem for deep copy/clone (dup with associations)
+  amoeba do
+    enable
+    include_field [:attribute_modules, :pe_attributes]      #TODO Review relations
+    exclude_field [:projects, :module_projects]             #TODO Review relations
+
+    customize(lambda { |original_record, new_record|
+      new_record.reference_uuid = original_record.uuid
+      new_record.reference_id = original_record.id
+      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+    })
+  end
 
   searchable do
     text :title, :description, :alias

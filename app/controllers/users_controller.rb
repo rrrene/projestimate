@@ -29,8 +29,7 @@ class UsersController < ApplicationController
     if params[:id]
       @user = User.find(params[:id])
     else
-      @user = User.new :auth_type => AuthMethod.first.id,
-                       :user_status => "active"
+      @user = User.new :auth_type => AuthMethod.first.id, :user_status => "active"
     end
     @projects = Project.all
     @organizations = Organization.all
