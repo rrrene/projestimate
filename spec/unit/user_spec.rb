@@ -115,28 +115,16 @@ describe User do
   #  @user.send_password_reset()
   #  ActionMailer::Base.deliveries.last.to.should == [@user.email]
   #end
-  describe "when password is too short" do
-    before do
-      #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")
-      #password_min_length.save
-      @user.password = @user.password_confirmation = "abc"
-    end
-    it "should not be valid when password is too short" do
-      @user.password_length.should_not be_valid
-    end
-  end
-
-  describe "error with password" do
-    before do
-      #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")
-      #password_min_length.save
-      @user.password = @user.password_confirmation = nil
-    end
-    it "should not be valid when password is too short" do
-      @user.password_length.should_not be_valid
-    end
-  end
-
+  #describe "when password is too short" do
+  #  before do
+  #    #password_min_length = AdminSetting.new(:key => "password_min_length", :value => "4")
+  #    #password_min_length.save
+  #    @user.password = @user.password_confirmation = "abc"
+  #  end
+  #  it "should not be valid when password is too short" do
+  #    @user.password_length.should_not be_valid
+  #  end
+  #end
 
   #AUTHENTICATION VALIDATION
 

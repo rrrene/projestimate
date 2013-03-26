@@ -599,6 +599,8 @@ en-gb:
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
   new_wbs_activity_ratio_element: "New wbs activity ratio element"
+  one_reference_value: "One reference value"
+  set_of_reference_value: "A set of reference value"
 
   # wbs activity ratios
   edit_wbs_activity_ratio: "Edit a wbs activity ratio"

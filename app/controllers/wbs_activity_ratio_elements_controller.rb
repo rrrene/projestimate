@@ -18,19 +18,13 @@ class WbsActivityRatioElementsController < ApplicationController
     ratio_values = params[:ratio_values]
     ratio_values.each do |i|
       w = WbsActivityRatioElement.find(i.first)
-      if w.wbs_activity_ratio.is_All_Activity_Elements?
-        if i.last.blank?
-           flash.now[:custom] = "Please insert ratio value"
-        elsif i.last.to_i <=0 or i.last.to_i>100
-           flash.now[:custom] = "Please, enter value between 0 and 100"
-        else
-          #
-        end
-      else
-        if i.last.to_i <= 0 or i.last.to_i>100
+      #if w.wbs_activity_ratio.is_All_Activity_Elements?
+      unless i.last.blank?
+        if i.last.to_f <=0 or i.last.to_f>100
           flash.now[:custom] = "Please, enter value between 0 and 100"
         end
       end
+
       w.ratio_value = i.last
 
       w.save(:validate => false)
@@ -41,27 +35,44 @@ class WbsActivityRatioElementsController < ApplicationController
 
     #set ratio reference (all to false then one to true)
     wbs_activity_ratio.wbs_activity_ratio_elements.each do |wbs_activity_ratio_element|
-      wbs_activity_ratio_element.update_attribute("ratio_reference_element",  false)
+      wbs_activity_ratio_element.update_attribute("simple_reference",  false)
+      wbs_activity_ratio_element.update_attribute("multiple_references",  false)
     end
 
-    if wbs_activity_ratio.is_A_Set_Of_Activity_Elements?
-      if params[:ratio_reference_elements]
-        params[:ratio_reference_elements].each do |p|
+    #if wbs_activity_ratio.is_A_Set_Of_Activity_Elements?
+    #  if params[:ratio_reference_elements]
+    #    params[:ratio_reference_elements].each do |p|
+    #      new_ref = WbsActivityRatioElement.find_by_id(p)
+    #      new_ref.update_attribute("multiple_references", true)
+    #    end
+    #  else
+    #    flash.now[:error] = "Please, select a reference element."
+    #  end
+    #else
+    #  if params[:ratio_reference_element]
+    #    new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
+    #    new_ref.update_attribute("ratio_reference_element", true)
+    #  else
+    #    unless wbs_activity_ratio.is_All_Activity_Elements?
+    #      flash.now[:error] = "Please, select a reference element."
+    #    end
+    #  end
+    #end
+
+
+    if params[:multiple_references]
+        params[:multiple_references].each do |p|
           new_ref = WbsActivityRatioElement.find_by_id(p)
-          new_ref.update_attribute("ratio_reference_element", true)
+          new_ref.update_attribute("multiple_references", true)
         end
-      else
-        flash.now[:error] = "Please, select a reference element."
-      end
-    else
-      if params[:ratio_reference_element]
-        new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:ratio_reference_element], params[:wbs_activity_ratio_id])
-        new_ref.update_attribute("ratio_reference_element", true)
-      else
-        unless wbs_activity_ratio.is_All_Activity_Elements?
-          flash.now[:error] = "Please, select a reference element."
-        end
-      end
+    #else
+    #  flash.now[:error] = "Please, select a reference element."
+    end
+    if params[:simple_reference]
+      new_ref = WbsActivityRatioElement.find_by_id_and_wbs_activity_ratio_id(params[:simple_reference], params[:wbs_activity_ratio_id])
+      new_ref.update_attribute("simple_reference", true)
+    #else
+    #    flash.now[:error] = "Please, select a reference element."
     end
 
     #keep current ratio
