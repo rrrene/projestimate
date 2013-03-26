@@ -527,6 +527,8 @@ en:
   connect: "Login"
   remember_me: "Remember me"
   edit_password: "Update your password"
+  forgotten_password_help: "You will receive an email with a link that allows you to change your password."
+  ask_new_account_help: "Then, you must wait until an administrator validate your account. When the user account is enabled by the administrator, you will receive an email with a link that allows you to change your password."
 
   #translations
   choose_locale : "Choose a local"
