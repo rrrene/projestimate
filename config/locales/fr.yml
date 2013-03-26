@@ -597,6 +597,8 @@ fr:
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Editer un élément du WBS activités ratio"
   new_wbs_activity_ratio_element: "Créer un nouvel élément du WBS activités ratio"
+  one_reference_value: "Valeur de référence"
+  set_of_reference_value: "Valeurs de références"
 
   # wbs activity ratios
   edit_wbs_activity_ratio: "Editer un wbs activités ratio"
