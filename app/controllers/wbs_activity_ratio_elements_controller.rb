@@ -21,13 +21,13 @@ class WbsActivityRatioElementsController < ApplicationController
       if w.wbs_activity_ratio.is_All_Activity_Elements?
         if i.last.blank?
            flash.now[:custom] = "Please insert ratio value"
-        elsif i.last.to_i <=0 or i.last.to_i>100
+        elsif i.last.to_f <= 0 or i.last.to_f > 100
            flash.now[:custom] = "Please, enter value between 0 and 100"
         else
           #
         end
       else
-        if i.last.to_i <= 0 or i.last.to_i>100
+        if i.last.to_f <= 0 or i.last.to_f > 100
           flash.now[:custom] = "Please, enter value between 0 and 100"
         end
       end

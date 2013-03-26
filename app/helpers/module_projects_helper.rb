@@ -19,4 +19,13 @@
 ########################################################################
 
 module ModuleProjectsHelper
+
+  def probable_value(results)
+    min = results[:low][:effort_per_hour]
+    ml = results[:most_likely][:effort_per_hour]
+    high = results[:high][:effort_per_hour]
+    res = (min+4*ml+high)/6
+    res
+  end
+
 end

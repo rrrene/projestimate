@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320092935) do
+ActiveRecord::Schema.define(:version => 20130321091842) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -381,6 +381,8 @@ ActiveRecord::Schema.define(:version => 20130320092935) do
   create_table "module_projects_pbs_project_elements", :id => false, :force => true do |t|
     t.integer "module_project_id"
     t.integer "pbs_project_element_id"
+    t.boolean "is_completed"
+    t.boolean "is_validated"
   end
 
   create_table "organization_labor_categories", :force => true do |t|
