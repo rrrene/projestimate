@@ -10,7 +10,8 @@
      <th><%= I18n.t(:name ) %></th>
      <th><%= I18n.t(:description ) %></th>
      <th>Ratio value</th>
-     <th><%= I18n.t(:reference_value) %></th>
+     <th><%= I18n.t(:one_reference_value) %></th>
+     <th><%= I18n.t(:set_of_reference_value) %></th>
    </tr>
 
   <% wbs_activity_ratio_elements.each_with_index do |wbs_activity_ratio_element, i| %>
@@ -21,14 +22,10 @@
 
       <% unless wbs_activity_ratio_element.wbs_activity_element.has_children? %>
           <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-mini", :tabindex => i %></td>
-          <% if wbs_activity_ratio_element.wbs_activity_ratio.is_One_Activity_Element? %>
-              <td><%= radio_button_tag "ratio_reference_element", wbs_activity_ratio_element.id, wbs_activity_ratio_element.ratio_reference_element %></td>
-          <% elsif wbs_activity_ratio_element.wbs_activity_ratio.is_All_Activity_Elements?  %>
-              <td> - </td>
-          <% else %>
-            <td><%= check_box_tag "ratio_reference_elements[]", wbs_activity_ratio_element.id, wbs_activity_ratio_element.ratio_reference_element %></td>
-          <% end %>
+          <td><%= radio_button_tag "simple_reference", wbs_activity_ratio_element.id, wbs_activity_ratio_element.simple_reference%></td>
+          <td><%= check_box_tag "multiple_references[]", wbs_activity_ratio_element.id, wbs_activity_ratio_element.multiple_references%></td>
       <% else %>
+          <td> - </td>
           <td> - </td>
           <td> - </td>
       <% end %>

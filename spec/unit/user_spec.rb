@@ -122,10 +122,9 @@ describe User do
   #    @user.password = @user.password_confirmation = "abc"
   #  end
   #  it "should not be valid when password is too short" do
-  #    @user.should_not be_valid
+  #    @user.password_length.should_not be_valid
   #  end
   #end
-
 
   #AUTHENTICATION VALIDATION
 

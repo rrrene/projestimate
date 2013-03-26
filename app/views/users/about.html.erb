@@ -4,7 +4,7 @@
 </p>
 
 <p>
-  Copyright © 2012 <%= link_to "Spirula", "http://Spirula.fr" %>
+  Copyright © 2012-2013 <%= link_to "Spirula", "http://Spirula.fr" %>
 </p>
 
 <p>
@@ -21,10 +21,10 @@
 <%# cache('about_page') do %>
   <span>
     <p>
-      Latest update : <%= @latest_local_update.nil? ? "None" : @latest_local_update.in_time_zone(current_user.tz) %>    <br />
+      Latest update : <%= @latest_local_update.nil? ? "None" : I18n.l(@latest_local_update) %>    <br />
     </p>
     <p>
-      Latest MasterData Repository update : <%= @latest_repo_update.nil? ? "None" : @latest_repo_update.in_time_zone(current_user.tz) %>
+      Latest MasterData Repository update : <%= @latest_repo_update.nil? ? "None" : I18n.l(@latest_repo_update) %>
     </p>
     <%= link_to "Download and apply MasterData update", update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => "Please wait. It could take a while", :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
     <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
