@@ -19,7 +19,7 @@
 ########################################################################
 
 #Master table
-#Specific attribute for a module (Fcuntionality)
+#Specific attribute for a module (Functionality)
 class AttributeModule < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
