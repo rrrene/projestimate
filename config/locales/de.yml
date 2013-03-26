@@ -219,6 +219,7 @@ de:
   activerecord:
     errors:
       <<: *errors
+      
  #  Menu
   projects: "Projects"
   recent_project: "Recent projects"
@@ -339,9 +340,9 @@ de:
   #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribut type"
-  edit_attribute: "Edit an attribut"
-  new_attribute: "New attribut"
+  attributes_type: "Attribute type"
+  edit_attribute: "Edit an attribute"
+  new_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"
@@ -399,7 +400,7 @@ de:
   new_module_project_attribute: "New module project attribute"
 
   #module_project
-  edit_module_project: "Edit a module projet"
+  edit_module_project: "Edit a module project"
   new_module_project: "New module project"
   related_attributes: "Related attributes"
   mandatory: "Mandatory"
@@ -426,9 +427,9 @@ de:
   #Organization
   organization: "Organization"
   edit_organisation: "Edit an organization"
-  new_organisation: "New organisation"
+  new_organisation: "New organization"
   inflation: "Inflation"
-  organizationals_labors_categories: "Organizationals labors categories"
+  organizationals_labors_categories: "Organizational labors categories"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -445,8 +446,8 @@ de:
 
   #pemodules
   low: "Default value (Low)"
-  likely: "Default value (La plus probable)"
-  high: "Default value (Haute)"
+  likely: "Default value (Most Likely)"
+  high: "Default value (High)"
   custom_attribute: "Custom attribute"
   attributes_settings: "Attributes settings"
   compatibility: "Compatibility"
@@ -464,7 +465,7 @@ de:
 
   #project_securities
   edit_project_security: "Edit project securities"
-  new_project_security: "New project securties"
+  new_project_security: "New project securities"
   full_control: "Full control"
   define: "Define"
   modify: "Modify"
@@ -504,24 +505,24 @@ de:
   no_results: "No result found for"
 
   #sessions
-  ask_account: "Ask a new account"
-  send_request: "Send a request"
+  ask_account: "Ask an account"
+  send_request: "Submit"
   login_name_or_email: "Login name or email"
-  forgotten_password?: "Forgotten password?"
+  forgotten_password: "Lost password?"
   open_url_id: "Open Url Id"
   no_account: "No account"
-  ldap_account_or_application_account: "LDAP account user name or application user name."
+  ldap_account_or_application_account: "Users's login id or email (or LDAP account id)."
   not_yet_supported: "Not yet supported"
-  ldap_account_password_or_application_account_password: "LDAP account password or application password."
-  ask_new_account: "You can also ask a new account to connect on our platform !"
-  forgotten_password: "Click to 'Forgotten password' then follow instructions."
+  ldap_account_password_or_application_account_password: "User's password (or LDAP account password)"
+  ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
+  forgotten_password?: "Click to 'Lost password' then follow instructions."
   additional_guidance: "You can find additional guidance"
   here: "here"
   or: "or"
   contact: "contact"
   administrators: "the administrators."
-  need_help: "Need help"
-  connect: "Connect"
+  need_help: "Need help?"
+  connect: "Login"
   remember_me: "Remember me"
   edit_password: "Update your password"
 
@@ -552,7 +553,7 @@ de:
   password: "Password"
   password_confirmation: "Password Confirmation"
   auth_type: "User Authentication"
-  informations: "Informations"
+  informations: "Information"
   user_status: "User status"
   created_at: "Created at"
   updated_at: "Updated at"
@@ -602,8 +603,8 @@ de:
   #wbs project elements
   edit_wbs_project_element: "Edit a project element"
   new_wbs_project_element: "New wbs project element"
-  additionnal_description: "Additionnal description"
-  exlude: "Eclude"
+  additionnal_description: "Additional description"
+  exlude: "Exclude"
   author: "Author"
 
   #work element type
@@ -627,3 +628,4 @@ de:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
+  

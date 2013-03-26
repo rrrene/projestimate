@@ -21,9 +21,11 @@
   <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info span5", :prompt => "Choose..." %>
   </div>
 </div>
-
-<div class="actions"><%= link_to I18n.t("back"), "" %></div>
+    <br/>
 <div class="actions"><%= submit_tag I18n.t("send_request") %></div>
+    <br/>
+<div class="actions"><%= link_to I18n.t("back"), "" %></div>
+
 
 <% end %>
 

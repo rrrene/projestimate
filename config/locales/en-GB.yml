@@ -1,5 +1,5 @@
 en-gb:
- #standard local format
+  #standard local format
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
@@ -126,7 +126,7 @@ en-gb:
     currency:
       format:
         format: ! '%u%n'
-        unit: �
+        unit: £
         separator: .
         delimiter: ! ','
         precision: 2
@@ -221,6 +221,7 @@ en-gb:
   activerecord:
     errors:
       <<: *errors
+      
  #  Menu
   projects: "Projects"
   recent_project: "Recent projects"
@@ -231,7 +232,7 @@ en-gb:
   library: "Library"
   project_global_setting: "Project global settings"
   estimation_setting: "Estimation settings"
-  organization_setting: "Organizational setting"
+  organization_setting: "Organisational setting"
   wbs_activities: "WBS-Activities"
   template: "Template"
 
@@ -247,7 +248,7 @@ en-gb:
   master: "Master parameters"
   project_global_parameters: "Project global parameters"
   attributes: "Attributes"
-  labor_categories: "Labor categories"
+  labor_categories: "Labour categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
   security_level: "Securities levels"
@@ -380,8 +381,8 @@ en-gb:
   new_group: "New group"
 
   #Labor categories
-  edit_labor_category: "Edit a labor category"
-  new_labor_category: "New labor category"
+  edit_labor_category: "Edit a labour category"
+  new_labor_category: "New labour category"
 
   #languages
   edit_language: "Edit a language"
@@ -415,22 +416,22 @@ en-gb:
   associate_Product_element_module_project: "Associate Product-Element with current module project"
 
   #organization_labor_categories
-  labor_category: "Labor category"
+  labor_category: "Labour category"
   level: "Level"
   cost_per_hour: "Cost per hour"
   base_year: "Base year"
   currency: "Currency"
   hour_per_day: "Hour per day"
   days_per_year: "Days per year"
-  edit_organisation_labor_category: "Edit an organization labor category"
-  new_organisation_labor_category: "New organization labor category"
+  edit_organisation_labor_category: "Edit an organisation labour category"
+  new_organisation_labor_category: "New organisation labour category"
 
   #Organization
-  organization: "Organization"
-  edit_organisation: "Edit an organization"
+  organization: "Organisation"
+  edit_organisation: "Edit an organisation"
   new_organisation: "New organisation"
   inflation: "Inflation"
-  organizationals_labors_categories: "Organizational labors categories"
+  organizationals_labors_categories: "Organisational labours categories"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -506,24 +507,24 @@ en-gb:
   no_results: "No result found for"
 
   #sessions
-  ask_account: "Ask a new account"
-  send_request: "Send a request"
+  ask_account: "Ask an account"
+  send_request: "Submit"
   login_name_or_email: "Login name or email"
-  forgotten_password?: "Forgotten password?"
+  forgotten_password: "Lost password?"
   open_url_id: "Open Url Id"
   no_account: "No account"
-  ldap_account_or_application_account: "LDAP account user name or application user name."
+  ldap_account_or_application_account: "Users's login id or email (or LDAP account id)."
   not_yet_supported: "Not yet supported"
-  ldap_account_password_or_application_account_password: "LDAP account password or application password."
-  ask_new_account: "You can also ask a new account to connect on our platform !"
-  forgotten_password: "Click to 'Forgotten password' then follow instructions."
+  ldap_account_password_or_application_account_password: "User's password (or LDAP account password)"
+  ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
+  forgotten_password?: "Click to 'Lost password' then follow instructions."
   additional_guidance: "You can find additional guidance"
   here: "here"
   or: "or"
   contact: "contact"
   administrators: "the administrators."
-  need_help: "Need help"
-  connect: "Connect"
+  need_help: "Need help?"
+  connect: "Login"
   remember_me: "Remember me"
   edit_password: "Update your password"
 
@@ -547,7 +548,7 @@ en-gb:
   email: "Email"
   initials: "Initials"
   associated_groups: "Associated groups"
-  associated_organizations: "Associated organizations"
+  associated_organizations: "Associated organisations"
   associated_projects: "Associated projects"
   settings: "Settings"
   authentication: "Authentication"

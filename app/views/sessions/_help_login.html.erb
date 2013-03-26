@@ -8,12 +8,14 @@
 <div>
   <strong><%= I18n.t(:password ) %></strong> : <%= I18n.t(:ldap_account_password_or_application_account_password ) %>
 </div>
+<br/>
 <div>
    <strong><%= I18n.t(:no_account ) %></strong> ? <%= I18n.t(:ask_new_account ) %>
 </div>
 <div>
    <strong><%= I18n.t(:forgotten_password? ) %></strong> <%= I18n.t(:forgotten_password ) %>
 </div>
+<br/>
 <div>
   <%= I18n.t(:additional_guidance ) %> <a href="<%= load_master_setting('url_wiki') %>"><%= I18n.t(:here ) %></a> <%= I18n.t(:or ) %> <a href="mailto:<%= load_admin_setting('notifications_email') %>"><%= I18n.t(:contact ) %></a> <%= I18n.t(:administrators ) %>
 </div>
