@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320092935) do
+ActiveRecord::Schema.define(:version => 20130326103007) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -381,6 +381,8 @@ ActiveRecord::Schema.define(:version => 20130320092935) do
   create_table "module_projects_pbs_project_elements", :id => false, :force => true do |t|
     t.integer "module_project_id"
     t.integer "pbs_project_element_id"
+    t.boolean "is_completed"
+    t.boolean "is_validated"
   end
 
   create_table "organization_labor_categories", :force => true do |t|
@@ -772,8 +774,8 @@ ActiveRecord::Schema.define(:version => 20130320092935) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
@@ -790,7 +792,7 @@ ActiveRecord::Schema.define(:version => 20130320092935) do
     t.integer  "wbs_activity_ratio_id"
     t.integer  "wbs_activity_element_id"
     t.float    "ratio_value"
-    t.boolean  "ratio_reference_element"
+    t.boolean  "simple_reference"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
     t.integer  "record_status_id"
@@ -799,6 +801,7 @@ ActiveRecord::Schema.define(:version => 20130320092935) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.boolean  "multiple_references"
   end
 
   add_index "wbs_activity_ratio_elements", ["owner_id"], :name => "index_wbs_activity_ratio_elements_on_owner_id"
