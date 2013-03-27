@@ -20,12 +20,17 @@
 
 module ModuleProjectsHelper
 
-  def probable_value(results)
-    min = results[:low][:effort_per_hour]
-    ml = results[:most_likely][:effort_per_hour]
-    high = results[:high][:effort_per_hour]
-    res = (min+4*ml+high)/6
-    res
+  def probable_value(results, mpa)
+    attribute_alias = mpa.attribute.alias.to_sym
+    if mpa.attribute.attribute_type == "numeric"
+      min = results[:low][attribute_alias]
+      ml = results[:most_likely][attribute_alias]
+      high = results[:high][attribute_alias]
+      res = (min+4*ml+high)/6
+      res
+    else
+      "-"
+    end
   end
 
 end
