@@ -21,7 +21,7 @@ class WbsActivityRatioElementsController < ApplicationController
       #if w.wbs_activity_ratio.is_All_Activity_Elements?
       unless i.last.blank?
         if i.last.to_f <=0 or i.last.to_f>100
-          flash.now[:custom] = "Please, enter value between 0 and 100"
+          flash.now[:custom] = I18n.t(:ratio_value_range)
         end
       end
 
