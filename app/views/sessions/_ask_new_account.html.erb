@@ -20,10 +20,15 @@
   <%= label_tag I18n.t("languages")%>
   <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info span5", :prompt => "Choose..." %>
   </div>
-</div>
 
+  <br/>
+  <div class="actions"><%= submit_tag I18n.t("send_request") %></div>
+  <div>
+      <br/>
+      <%= I18n.t(:ask_new_account_help ) %>
+      <br/>
+  </div>
+  <br/>
 <div class="actions"><%= link_to I18n.t("back"), "" %></div>
-<div class="actions"><%= submit_tag I18n.t("send_request") %></div>
-
 <% end %>
 

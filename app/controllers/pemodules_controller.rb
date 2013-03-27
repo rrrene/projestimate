@@ -56,37 +56,33 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    unless params[:id].blank?
-      @pemodule = nil
-      @wets = WorkElementType.all.reject{|i| i.alias == "link"}
-      @attributes = Attribute.all
+    @pemodule = nil
+    @wets = WorkElementType.all.reject{|i| i.alias == "link"}
+    @attributes = Attribute.all
 
-      current_pemodule = Pemodule.find(params[:id])
-      if current_pemodule.is_defined?
-        @pemodule = current_pemodule.amoeba_dup
-        @pemodule.owner_id = current_user.id
-      else
-        @pemodule = current_pemodule
-      end
-
-      @pemodule.title = params[:pemodule][:title]
-      @pemodule.description = params[:pemodule][:description]
-      @pemodule.alias = params[:pemodule][:alias]
-      @pemodule.compliant_component_type = params[:compliant_wet]
-      @pemodule.save(:validate => false)
+    current_pemodule = Pemodule.find(params[:id])
+    if current_pemodule.is_defined?
+      @pemodule = current_pemodule.amoeba_dup
+      @pemodule.owner_id = current_user.id
     else
-      @pemodule = Pemodule.new(parameters)
-      @pemodule.save(:validate => false)
+      @pemodule = current_pemodule
     end
 
-    redirect_to redirect(edit_pemodule_path(@pemodule)), :notice => "The changes have been saved correctly"
+    @pemodule.compliant_component_type = params[:compliant_wet]
+
+    #if @pemodule.save#(:validate => false)
+    if @pemodule.update_attributes(params[:pemodule])
+      flash[:notice] =  "The changes have been saved correctly"
+    else
+      flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
+    end
+    redirect_to redirect(edit_pemodule_path(@pemodule))
   end
+
 
   def create
     @pemodule = Pemodule.new(params[:pemodule])
-    #@pemodule.title = params[:pemodule][:title]
-    #@pemodule.description = params[:pemodule][:description]
-    #@pemodule.alias = params[:pemodule][:alias]
+
     @pemodule.compliant_component_type = params[:compliant_wet]
     @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @attributes = Attribute.all
@@ -98,32 +94,33 @@ class PemodulesController < ApplicationController
     end
   end
 
+
   #Update attribute of the pemodule selected (2nd tabs)
-  #TODO:needs some improvements
   def update_selected_attributes
     authorize! :manage_modules, Pemodule
+    @pemodule = Pemodule.find(params[:module_id])
 
-    attribute_ids = AttributeModule.all.map(&:attribute_id)
+    attributes_ids = params[:pemodule][:pe_attribute_ids]
 
-    params[:attributes].each do |attr|
-      conditions = {:attribute_id => attr, :pemodule_id => params[:module_id]}
-      fam = AttributeModule.first(:conditions => conditions)
-      unless fam
-        am = AttributeModule.new(conditions)
-        am.save(:validate => false)
-      end
+    @pemodule.attribute_modules.each do |m|
+      m.destroy unless attributes_ids.include?(m.attribute_id.to_s)
+      attributes_ids.delete(m.attribute_id.to_s)
     end
+    attributes_ids.each do |g|
+      @pemodule.attribute_modules.create(:attribute_id => g) unless g.blank?
+    end
+    @pemodule.pe_attributes(force_reload = true)
+    #@pemodule.pe_attribute_ids = nil
 
-    (attribute_ids - params[:attributes].map{|i| i.to_i}).each do |attr|
-      attrmdl = AttributeModule.find_by_attribute_id_and_pemodule_id(attr, params[:module_id])
-      if attrmdl
-        attrmdl.delete
-      end
+
+    if @pemodule.save
+      flash[:notice] = "The changes have been saved correctly."
+    else
+      flash[:notice] = "Error when updating Module."
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-
-    redirect_to edit_pemodule_path(params[:module_id]), :notice => "The changes have been saved correctly"
+    redirect_to edit_pemodule_path(params[:module_id])
   end
 
   #Update attribute settings (3th tabs)

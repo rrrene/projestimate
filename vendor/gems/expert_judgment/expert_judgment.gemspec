@@ -16,4 +16,8 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  #Gem  dependencies: after install, the gem will create migration and run them
+  gem.add_development_dependency 'rake'
+
 end
