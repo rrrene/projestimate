@@ -131,15 +131,14 @@ class ModuleProjectsController < ApplicationController
       mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])
     end
 
-    redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
+    #redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
 
-    #if params[:commit] == "Save"
-    #  redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
-    #elsif params[:commit] == "Apply"
-    #  flash[:notice] = 'Module project was successfully updated.'
-    #  redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
-    #end
-
+    if params[:commit] == I18n.t("apply")
+      flash[:notice] = 'Module project was successfully updated.'
+      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
+    else
+      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
+    end
   end
 
 end
