@@ -55,7 +55,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
   match 'module_projects/:project_id/module_projects_matrix' => 'module_projects#module_projects_matrix', :as => 'module_projects_matrix'
   match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
-  post 'module_projects/associate_module_project_to_ratios' => 'module_projects#associate_module_project_to_ratios', :as => 'associate_module_project_to_ratios'
+  match 'module_projects/associate_module_project_to_ratios' => 'module_projects#associate_module_project_to_ratios', :as => 'associate_module_project_to_ratios'
   post 'module_projects/associate'
 
   resources :languages
