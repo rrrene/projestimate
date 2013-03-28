@@ -394,13 +394,13 @@ fr:
   edit_master_setting: "Editer les paramètres maître"
   new_master_setting: "Créer un nouveau paramètre maître"
 
-  #module_project_attributes
+  #estimation_values
   in_out: "Entrée/Sortie"
   input: "Entrée"
   output: "Sortie"
   both: "Entrée et Sortie"
-  edit_module_project_attribute: "Editer un attribut du module de projet"
-  new_module_project_attribute: "Créer un nouvel attribut de module de projet"
+  edit_estimation_value: "Editer un attribut du module de projet"
+  new_estimation_value: "Créer un nouvel attribut de module de projet"
 
   #module_project
   edit_module_project: "Editer un module de projet"

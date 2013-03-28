@@ -23,7 +23,7 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :project
   belongs_to :reference_value
 
-  has_many :module_project_attributes
+  has_many :estimation_values
 
   has_and_belongs_to_many :associated_module_projects,
                           :class_name => "ModuleProject",
@@ -48,8 +48,8 @@ class ModuleProject < ActiveRecord::Base
 
   #Define if two module of project linked between them.
   #def is_linked_to?(mp, pbs_project_element_id)
-  #  self.module_project_attributes.each do |mpa|
-  #    while !(mpa.links.empty?) do
+  #  self.estimation_values.each do |est_val|
+  #    while !(est_val.links.empty?) do
   #      return true
   #    end
   #  end
@@ -58,7 +58,7 @@ class ModuleProject < ActiveRecord::Base
   #
   ##Return the list of attributes that two modules of the project linked between them.
   #def liaison(mp, pbs_project_element_id)
-  #  self.module_project_attributes.each do |i|
+  #  self.estimation_values.each do |i|
   #    while !(i.links.empty?) do
   #      return i.links.first
   #    end

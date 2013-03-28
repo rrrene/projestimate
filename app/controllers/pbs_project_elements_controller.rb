@@ -62,7 +62,7 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
-    pbs_project_element.module_project_attributes.each do |mpa|
+    pbs_project_element.estimation_values.each do |mpa|
       mpa.destroy
     end
 
@@ -121,7 +121,7 @@ class PbsProjectElementsController < ApplicationController
     @user = current_user
 
     @project.module_projects.each do |mp|
-      mp.module_project_attributes.reject{|i| i.pbs_project_element_id != @project.root_component.id }.each do |mpa|
+      mp.estimation_values.reject{|i| i.pbs_project_element_id != @project.root_component.id }.each do |mpa|
         new_mpa = mpa.dup
         new_mpa.save
         mpa.update_attribute("pbs_project_element_id", @pbs_project_element.id)

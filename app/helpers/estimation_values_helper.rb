@@ -18,5 +18,5 @@
 #
 ########################################################################
 
-module ModuleProjectAttributesHelper
+module EstimationValuesHelper
 end

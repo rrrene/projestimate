@@ -394,13 +394,13 @@ en:
   edit_master_setting: "Edit a master setting"
   new_master_setting: "New master setting"
 
-  #module_project_attributes
+  #estimation_values
   in_out: "In/Out"
   input: "Input"
   output: "Output"
   both: "Input and Output"
-  edit_module_project_attribute: "Edit a module project attribute"
-  new_module_project_attribute: "New module project attribute"
+  edit_estimation_value: "Edit a module project attribute"
+  new_estimation_value: "New module project attribute"
 
   #module_project
   edit_module_project: "Edit a module project"

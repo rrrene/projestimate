@@ -46,7 +46,7 @@ module ProjectsHelper
           res << "<table class='table table-bordered'>
                    <tr>
                      <th></th>"
-                    @pbs_project_element.module_project_attributes.each do |mpa|
+                    @pbs_project_element.estimation_values.each do |mpa|
                       if (mpa.in_out == "output" or mpa.in_out=="both")  and mpa.module_project.id == module_project.id
                          res << "<th>#{mpa.attribute.name}</th>"
                        end
@@ -55,7 +55,7 @@ module ProjectsHelper
                   res << "<tr>"
                    ["low", "most_likely", "high"].each do |level|
                       res << "<td>#{level.humanize}</td>"
-                      @pbs_project_element.module_project_attributes.each do |mpa|
+                      @pbs_project_element.estimation_values.each do |mpa|
                         if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
                           res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
                         end
@@ -64,7 +64,7 @@ module ProjectsHelper
                    end
                 res << "<tr>
                           <td><strong> Probable Value </strong> </td>"
-                            @pbs_project_element.module_project_attributes.each do |mpa|
+                            @pbs_project_element.estimation_values.each do |mpa|
                               if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
                                 res << "<td>#{ probable_value(@results, mpa) }</td>"
                               end
@@ -92,7 +92,7 @@ module ProjectsHelper
                 res << "<table class='table table-bordered'>
                           <tr>
                             <th></th>"
-                            current_component.module_project_attributes.each do |mpa|
+                            current_component.estimation_values.each do |mpa|
                               if (mpa.in_out == "input" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
                                 res << "<th>#{mpa.attribute.name}</th>"
                               end
@@ -101,7 +101,7 @@ module ProjectsHelper
                       ["low", "most_likely", "high"].each do |level|
                         res << "<tr>"
                         res << "<td>#{level.humanize}</td>"
-                        current_component.module_project_attributes.each do |mpa|
+                        current_component.estimation_values.each do |mpa|
                           if (mpa.in_out == "input" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
                             res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]", mpa.send("#{mpa.attribute.attribute_type}_data_#{level}")}</td>"
                           end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130327081920) do
+ActiveRecord::Schema.define(:version => 20130328131619) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -183,6 +183,35 @@ ActiveRecord::Schema.define(:version => 20130327081920) do
   add_index "currencies", ["reference_id"], :name => "index_currencies_on_parent_id"
   add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
 
+  create_table "estimation_values", :force => true do |t|
+    t.integer  "attribute_id"
+    t.string   "string_data_low"
+    t.string   "string_data_most_likely"
+    t.string   "string_data_high"
+    t.float    "numeric_data_low"
+    t.float    "numeric_data_most_likely"
+    t.float    "numeric_data_high"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "links"
+    t.boolean  "is_mandatory"
+    t.string   "in_out"
+    t.text     "description"
+    t.integer  "module_project_id"
+    t.date     "date_data_low"
+    t.date     "date_data_most_likely"
+    t.date     "date_data_high"
+    t.boolean  "undefined_attribute"
+    t.integer  "pbs_project_element_id"
+    t.integer  "dimensions"
+    t.string   "custom_attribute"
+    t.string   "project_value"
+    t.string   "ancestry"
+  end
+
+  add_index "estimation_values", ["ancestry"], :name => "index_module_project_attributes_on_ancestry"
+  add_index "estimation_values", ["links"], :name => "index_attribute_projects_on_links"
+
   create_table "event_types", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -337,35 +366,6 @@ ActiveRecord::Schema.define(:version => 20130327081920) do
   add_index "master_settings", ["record_status_id"], :name => "index_master_settings_on_record_status_id"
   add_index "master_settings", ["reference_id"], :name => "index_master_settings_on_parent_id"
   add_index "master_settings", ["uuid"], :name => "index_master_settings_on_uuid", :unique => true
-
-  create_table "module_project_attributes", :force => true do |t|
-    t.integer  "attribute_id"
-    t.string   "string_data_low"
-    t.string   "string_data_most_likely"
-    t.string   "string_data_high"
-    t.float    "numeric_data_low"
-    t.float    "numeric_data_most_likely"
-    t.float    "numeric_data_high"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "links"
-    t.boolean  "is_mandatory"
-    t.string   "in_out"
-    t.text     "description"
-    t.integer  "module_project_id"
-    t.date     "date_data_low"
-    t.date     "date_data_most_likely"
-    t.date     "date_data_high"
-    t.boolean  "undefined_attribute"
-    t.integer  "pbs_project_element_id"
-    t.integer  "dimensions"
-    t.string   "custom_attribute"
-    t.string   "project_value"
-    t.string   "ancestry"
-  end
-
-  add_index "module_project_attributes", ["ancestry"], :name => "index_module_project_attributes_on_ancestry"
-  add_index "module_project_attributes", ["links"], :name => "index_attribute_projects_on_links"
 
   create_table "module_projects", :force => true do |t|
     t.integer  "pemodule_id"
@@ -663,7 +663,6 @@ ActiveRecord::Schema.define(:version => 20130327081920) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -778,8 +777,8 @@ ActiveRecord::Schema.define(:version => 20130327081920) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
