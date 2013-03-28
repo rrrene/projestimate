@@ -1,6 +1,7 @@
 <div class="span4">
   <%= simple_form_for(@pbs_project_element, :remote => true) do |f| %>
     <%= f.error_notification %>
+    <%= hidden_field_tag :project_id,  @project.id  %>
 
     <% unless @pbs_project_element.is_root? %>
       <%= f.input :ancestry, :label => I18n.t("ancestry") , :as => :select, :collection => @folder_components, :label => "Parent", :selected => @pbs_project_element.parent.id %>
@@ -13,6 +14,14 @@
     <% else %>
       <%= f.input :name, :label => I18n.t("name")  %>
     <% end %>
+
+    <br />
+    <table>
+      <tr>
+        <td><%= f.input :wbs_activity_id, :label => "Wbs activity", :as => :select, :collection => @project_wbs_activities.map{|i| [i.name, i.id]}, :prompt => 'Select a WBS-Activity...' %></td>
+        <td><%= f.input :wbs_activity_ratio_id, :label => "Default wbs activity ratio", :as => :select, :collection => @pbs_wbs_activity_ratios.map{|i| [i.name, i.id]}, :prompt => 'Select Default WBS-Activity-Ratio' %></td>
+      </tr>
+    </table>
 
     <div class="actions">
       <%= f.submit I18n.t("save"), :class => "btn" %>

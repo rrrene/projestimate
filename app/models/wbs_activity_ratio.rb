@@ -3,9 +3,12 @@ class WbsActivityRatio < ActiveRecord::Base
 
   include MasterDataHelper
 
+  has_many :wbs_activity_ratio_elements, :dependent => :destroy
+  has_many :wbs_project_elements
+  has_many :pbs_project_elements
+
   belongs_to :reference_value
   belongs_to :wbs_activity
-  has_many :wbs_activity_ratio_elements, :dependent => :destroy
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

@@ -115,8 +115,10 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @wbs_activity_ratios = []
 
-    @wbs_activities = WbsActivity.all.reject {|i| @project.included_wbs_activities.include?(i.id) }
+    defined_wbs_activities = WbsActivity.where('record_status_id = ?', @defined_status.id).all
+    @wbs_activities = defined_wbs_activities.reject {|i| @project.included_wbs_activities.include?(i.id) }
     @wbs_activity_elements = []
     @wbs_activities.each do |wbs_activity|
       elements_root = wbs_activity.wbs_activity_elements.elements_root.first
@@ -169,7 +171,6 @@ class ProjectsController < ApplicationController
     @project.destroy
 
     current_user.delete_recent_project(@project.id)
-
     session[:current_project_id] = current_user.projects.first
 
     redirect_to session[:return_to]
@@ -252,7 +253,6 @@ class ProjectsController < ApplicationController
 
   #Allow o add a module to a estimation process
   def add_module
-
     @array_modules = Pemodule.all
     @project = Project.find(params[:project_id])
     @pemodules ||= Pemodule.all
@@ -473,7 +473,8 @@ class ProjectsController < ApplicationController
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => @pe_wbs_project_activity.id, :wbs_activity_element_id => selected_wbs_activity_elt.id,
                                                 :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
                                                 :description => selected_wbs_activity_elt.description, :ancestry => @wbs_project_elements_root.id,
-                                                :author_id => current_user.id, :copy_number => 0)
+                                                :author_id => current_user.id, :copy_number => 0,
+                                                :wbs_activity_ratio_id => params[:project_default_wbs_activity_ratio] )   # Update Project default Wbs-Activity-Ratio
 
     selected_wbs_activity_children = selected_wbs_activity_elt.children
 
@@ -496,18 +497,17 @@ class ProjectsController < ApplicationController
           end
 
           @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
-          @project.save
-
-          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => 'Wbs-Activity was successfully added to Project.' }
-          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => 'Wbs-Activity was successfully added to Project Test.' }
-          #format.js { render :partial => "add_wbs_activity_to_project", :object => @pe_wbs_project_activity }
-
+          if @project.save
+            flash[:notice] = "Wbs-Activity was successfully added to Project."
+          else
+            flash[:error] = "#{@project.errors.full_messages.to_sentence}"
+          end
         else
           flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
-          format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
-          format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
         end
       #end
+        format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
+        format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
     end
   end
 
@@ -544,5 +544,17 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @show_hidden = params[:show_hidden]
   end
+
+  #On edit page, select ratios according to the selected wbs_activity
+  def refresh_wbs_activity_ratios
+    if params[:wbs_activity_element_id].empty? || params[:wbs_activity_element_id].nil?
+      @wbs_activity_ratios = []
+    else
+      selected_wbs_activity_elt = WbsActivityElement.find(params[:wbs_activity_element_id])
+      @wbs_activity = selected_wbs_activity_elt.wbs_activity
+      @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
+    end
+  end
+
 
 end

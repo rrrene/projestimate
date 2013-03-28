@@ -17,6 +17,8 @@
   has_many :wbs_activity_elements, :dependent => :destroy
   #has_many :wbs_project_elements, :through => :wbs_activity_elements
   has_many :wbs_activity_ratios, :dependent => :destroy
+  has_many :pe_wbs_projects
+  has_many :pbs_project_elements
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

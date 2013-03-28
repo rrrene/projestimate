@@ -21,6 +21,8 @@
 class ModuleProject < ActiveRecord::Base
   belongs_to :pemodule
   belongs_to :project
+  belongs_to :reference_value
+
   has_many :module_project_attributes
 
   has_and_belongs_to_many :associated_module_projects,

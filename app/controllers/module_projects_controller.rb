@@ -47,6 +47,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
     @module_projects = @project.module_projects
+    @references_values = ReferenceValue.all
 
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
@@ -119,4 +120,22 @@ class ModuleProjectsController < ApplicationController
 
     redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
+
+  def associate_module_project_to_ratios
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+    @references_values = ReferenceValue.all
+
+    @module_projects.each do |mp|
+      mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])
+    end
+    if params[:commit] == "Save"
+      redirect_to redirect(edit_project_path(@project.id)), notice: 'Module project was successfully updated.'
+    elsif params[:commit] == "Apply"
+      flash[:notice] = 'Module project was successfully updated.'
+      redirect_to :back
+    end
+
+  end
+
 end

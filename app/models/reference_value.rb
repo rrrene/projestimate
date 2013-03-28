@@ -2,6 +2,7 @@ class ReferenceValue  < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   has_many :wbs_activity_ratios
+  has_many :module_projects
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

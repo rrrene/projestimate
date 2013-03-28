@@ -26,6 +26,9 @@ class PbsProjectElementsController < ApplicationController
     set_page_title("Editing #{@pbs_project_element.name}")
 
     @project = Project.find(params[:project_id])
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
+    @pbs_wbs_activity_ratios = []
 
     #Select folders which could be a parent of a pbs_project_element
     #a pbs_project_element cannot be its own parent
@@ -160,5 +163,15 @@ class PbsProjectElementsController < ApplicationController
     @user = current_user
 
     render :partial => "pbs_project_elements/refresh_tree"
+  end
+
+  def refresh_pbs_activity_ratios
+    puts "Params_activity = #{params[:wbs_activity_id]}"
+    if params[:wbs_activity_id].empty? || params[:wbs_activity_id].nil?
+      @pbs_activity_ratios = []
+    else
+      @wbs_activity = WbsActivity.find(params[:wbs_activity_id])
+      @pbs_activity_ratios = @wbs_activity.wbs_activity_ratios
+    end
   end
 end

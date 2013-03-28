@@ -54,6 +54,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
   match 'module_projects/:project_id/module_projects_matrix' => 'module_projects#module_projects_matrix', :as => 'module_projects_matrix'
   match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
+  match 'module_projects/associate_module_project_to_ratios' => 'module_projects#associate_module_project_to_ratios', :as => 'associate_module_project_to_ratios'
   post 'module_projects/associate'
 
   resources :languages
@@ -115,6 +116,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "up" => "pbs_project_elements#up"
   get "down" => "pbs_project_elements#down"
   get "selected_pbs_project_element" => "pbs_project_elements#selected_pbs_project_element"
+  get 'refresh_pbs_activity_ratios' => 'pbs_project_elements#refresh_pbs_activity_ratios', :as => 'refresh_pbs_activity_ratios'
 
   resources :pe_wbs_projects
 
@@ -136,8 +138,9 @@ ProjestimateMaquette::Application.routes.draw do
   get "project_record_number" => "projects#project_record_number", :as => "project_record_number"
   get "select_pbs_project_elements" => "projects#select_pbs_project_elements", :as => "select_pbs_project_elements"
 
-  post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project', :as => 'add_wbs_activity_to_project'
+  post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'
+  get 'refresh_wbs_activity_ratios' => 'projects#refresh_wbs_activity_ratios',   :as => 'refresh_wbs_activity_ratios'
   get 'generate_wbs_project_elt_tree' => 'projects#generate_wbs_project_elt_tree', :as => 'generate_wbs_project_elt_tree'
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate

@@ -25,12 +25,15 @@ class PbsProjectElement < ActiveRecord::Base
 
   belongs_to :pe_wbs_project
   belongs_to :work_element_type
+  belongs_to :wbs_activity
+  belongs_to :wbs_activity_ratio
 
   has_many :module_project_attributes
 
   has_and_belongs_to_many :module_projects
 
   validates_presence_of :name
+  #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation
 
   #Sunspot needs
   searchable do
