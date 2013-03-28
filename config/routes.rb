@@ -11,6 +11,7 @@ ProjestimateMaquette::Application.routes.draw do
     collection { match 'wbs_activity_ratios/:wbs_activity_ratio_id/export' => 'wbs_activity_ratios#export', :as => 'export' }
     collection { match 'wbs_activity_ratios/import' => 'wbs_activity_ratios#import', :as => 'import' }
   end
+  match 'wbs_activity_ratios/:ratio_id/validate_ratio' => 'wbs_activity_ratios#validate_ratio', :as => 'validate_ratio'
   get 'refresh_ratio_elements' => 'wbs_activities#refresh_ratio_elements', :as => 'refresh_ratio_elements'
 
   resources :wbs_activity_ratio_elements

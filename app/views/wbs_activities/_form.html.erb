@@ -75,6 +75,11 @@
               <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur? ), method: :delete, :class => "icon-trash icon-large", :title => I18n.t(:delete ) %>
               <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => "icon-download icon-large", :title =>I18n.t(:export )  %>
               <a href="#myModal" role="button" class="icon-upload icon-large" data-toggle="modal" title="Import a CSV file"></a>
+              <% if wbs_activity_ratio.wbs_activity.is_defined? && is_master_instance? && wbs_activity_ratio.record_status != @local_status %>
+                <% unless wbs_activity_ratio.is_defined?  %>
+                      <%= link_to('', "/wbs_activity_ratios/#{wbs_activity_ratio.id}/validate_ratio", confirm: 'Do you confirm ?', :title =>  I18n.t(:validate_title ), :class => 'icn_check_in') %>
+                <% end %>
+              <% end %>
             </td>
           </tr>
 
