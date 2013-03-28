@@ -40,11 +40,11 @@
               <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
               <td>
                 <strong><%= I18n.t(:current_link) %></strong>
-                <% unless attr.links.first.nil? %>
-                  <p>
-                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
-                  </p>
-                <% end %>
+                <!--<%# unless attr.links.first.nil? %>-->
+                  <!--<p>-->
+                    <!--<%# attr.links.first %> (<%# attr.links.first.module_project %>) <%#= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>-->
+                  <!--</p>-->
+                <!--<%# end %>-->
               </td>
               <td>
 
