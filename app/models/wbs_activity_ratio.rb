@@ -38,9 +38,9 @@ class WbsActivityRatio < ActiveRecord::Base
   def self.export(activity_ratio_id)
     activity_ratio = WbsActivityRatio.find(activity_ratio_id)
     csv_string = CSV.generate(:col_sep => I18n.t(:general_csv_separator)) do |csv|
-      csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
+      csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Simple Reference", "Multiple References"]
       activity_ratio.wbs_activity_ratio_elements.each do |element|
-        csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
+        csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.simple_reference, element.multiple_references]
       end
     end
     csv_string.encode(I18n.t(:general_csv_encoding))
@@ -56,7 +56,8 @@ class WbsActivityRatio < ActiveRecord::Base
             @ware = WbsActivityRatioElement.find(row[0])
             @ware.wbs_activity_element.has_children?
             @ware.update_attribute("ratio_value", row[5])
-            @ware.update_attribute("ratio_reference_element", row[6])
+            @ware.update_attribute("simple_reference", row[6])
+            @ware.update_attribute("multiple_references", row[7])
           rescue
             error_count = error_count + 1
           end

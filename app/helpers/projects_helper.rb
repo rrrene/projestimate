@@ -50,7 +50,7 @@ module ProjectsHelper
                       if (mpa.in_out == "output" or mpa.in_out=="both")  and mpa.module_project.id == module_project.id
                          res << "<th>#{mpa.attribute.name}</th>"
                        end
-                     end
+                    end
                   res << "</tr>"
                   res << "<tr>"
                    ["low", "most_likely", "high"].each do |level|
@@ -60,8 +60,16 @@ module ProjectsHelper
                           res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
                         end
                       end
-                  res << "</tr>"
-                      end
+                    res << "</tr>"
+                   end
+                res << "<tr>
+                          <td><strong> Probable Value </strong> </td>"
+                            @pbs_project_element.module_project_attributes.each do |mpa|
+                              if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
+                                res << "<td>#{ probable_value(@results, mpa) }</td>"
+                              end
+                            end
+                res << "</tr>"
           res << "</table>"
         res << "</div>"
       res << "</div>"

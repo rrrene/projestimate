@@ -129,7 +129,7 @@ describe WbsActivityRatio do
         csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
         @wbs_activity_ratio=WbsActivityRatio.find(@wbs_activity_ratio.id)
         @wbs_activity_ratio.wbs_activity_ratio_elements.each do |element|
-          csv << [element.id, "#{@wbs_activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
+          csv << [element.id, "#{@wbs_activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.simple_reference, element.multiple_reference]
         end
       end
       csv_string.encode(I18n.t(:general_csv_encoding))

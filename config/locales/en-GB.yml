@@ -634,3 +634,7 @@ en-gb:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
+  
+  #Error, warning, information messages
+  ratio_value_range: "Please, enter value between ]0 - 100]"
+  

@@ -22,7 +22,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])
 
       puts "   - Wbs Activity Ratio Elements"
-      self.update_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "ratio_reference_element", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "simple_reference", "multiple_references", "uuid"])
 
       puts "   - Master Settings"
       self.update_records(ExternalMasterDatabase::ExternalMasterSetting, MasterSetting, ["key", "value", "uuid"])
@@ -318,7 +318,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatio, WbsActivityRatio, ["name", "description", "uuid"])
 
       puts "   - Wbs Activity Ratio Elements"
-      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "ratio_reference_element", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalWbsActivityRatioElement, WbsActivityRatioElement, ["ratio_value", "simple_reference", "multiple_references", "uuid"])
 
       puts "       - Rebuilding tree in progress..."
       activities = WbsActivity.all

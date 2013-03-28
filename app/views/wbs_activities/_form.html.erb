@@ -62,18 +62,14 @@
         <tr>
           <th><%= I18n.t(:name ) %></th>
           <th><%= I18n.t(:description ) %></th>
-          <th>Wbs Activity</th>
           <th><%= I18n.t(:record_status ) %></th>
-          <th><%= I18n.t(:reference_value) %></th>
           <th colspan=3>Actions</th>
         </tr>
         <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
           <tr>
             <td><%= wbs_activity_ratio.name %></td>
             <td><%= wbs_activity_ratio.description %></td>
-            <td><%= wbs_activity_ratio.wbs_activity.name %></td>
             <td><%= wbs_activity_ratio.record_status %></td>
-            <td><%= wbs_activity_ratio.reference_value.value unless wbs_activity_ratio.reference_value.nil? %></td>
             <td>
               <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity_id), :class => "icon-edit icon-large", :title => I18n.t(:edit )  %>
               <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur? ), method: :delete, :class => "icon-trash icon-large", :title => I18n.t(:delete ) %>
