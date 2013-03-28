@@ -19,7 +19,7 @@
 ########################################################################
 
 #Module Attribute are duplicated on AttributeProject in order to use it.
-class ModuleProjectAttribute < ActiveRecord::Base
+class EstimationValue < ActiveRecord::Base
   has_ancestry
 
   belongs_to :attribute
@@ -27,14 +27,14 @@ class ModuleProjectAttribute < ActiveRecord::Base
   belongs_to :pbs_project_element
 
   has_and_belongs_to_many :links,
-                          :class_name => "ModuleProjectAttribute",
+                          :class_name => "EstimationValue",
                           :association_foreign_key => "link_id",
-                          :join_table => "links_module_project_attributes"
+                          :join_table => "links_estimation_values"
 
 
   #Metaprogrammation
   #input or output
-  ModuleProjectAttribute.all.map(&:in_out).each do |type|
+  EstimationValue.all.map(&:in_out).each do |type|
     define_method("#{type}?") do
       (self.in_out == type) ? true : false
     end

@@ -1,8 +1,5 @@
 ProjestimateMaquette::Application.routes.draw do
-
-
   resources :versions
-
 
   resources :reference_values
   resources :wbs_project_elements
@@ -47,7 +44,7 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :project_security_levels
 
-  resources :module_project_attributes
+  resources :estimation_values
 
   resources :attribute_modules
 

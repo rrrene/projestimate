@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
 
-  factory :module_project_attribute, :class => :module_project_attribute do
+  factory :estimation_value, :class => :estimation_value do
 
   end
 end

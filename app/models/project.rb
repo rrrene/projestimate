@@ -151,16 +151,16 @@ class Project < ActiveRecord::Base
 
     self.module_projects.each do |module_project|
 
-      module_project.module_project_attributes.each do |mpa|
-        if mpa.in_out == "input" or mpa.in_out == "both"
-          inputs[mpa.attribute.alias.to_sym] = input_data[mpa.attribute.alias][module_project.id.to_s]
+      module_project.estimation_values.each do |est_val|
+        if est_val.in_out == "input" or est_val.in_out == "both"
+          inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
         end
 
         current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
         cm = current_module.send(:new, inputs)
 
-        if mpa.in_out == "output" or mpa.in_out=="both"
-          @result_hash[mpa.attribute.alias.to_sym] = cm.send("get_#{mpa.attribute.alias}")
+        if est_val.in_out == "output" or est_val.in_out=="both"
+          @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}")
         end
       end
 

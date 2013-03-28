@@ -268,7 +268,7 @@ class ProjectsController < ApplicationController
     @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
 
       my_module_project.pemodule.attribute_modules.each do |am|
-        mpa = ModuleProjectAttribute.create(  :attribute_id => am.attribute.id,
+        mpa = EstimationValue.create(  :attribute_id => am.attribute.id,
                                               :module_project_id => my_module_project.id,
                                               :in_out => am.in_out,
                                               :is_mandatory => am.is_mandatory,
@@ -314,7 +314,7 @@ class ProjectsController < ApplicationController
     #  @resultat << @project.run_estimation_plan(1, input_value, {}, @pbs_project_element, current_project) #current_pos, arguments, last_result, others, pbs_project_element, project
     #
     #  @project.module_projects.each do |mp|
-    #    mp.module_project_attributes.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
+    #    mp.estimation_values.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
     #
     #      if mpa.input?
     #
@@ -351,7 +351,7 @@ class ProjectsController < ApplicationController
     #
     #  #Pour chaque folder
     #  folder_result = {}
-    #  @folders.map do |folder| folder.children.map{|j| j.module_project_attributes }.each do |mpa|
+    #  @folders.map do |folder| folder.children.map{|j| j.estimation_values }.each do |mpa|
     #    %w(low most_likely high).each do |level|
     #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
     #    end
