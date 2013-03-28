@@ -13,8 +13,8 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:global_properties)%></a></li>
     <% if action_name == "edit" %>
-      <li><a href="#tabs-2">WBS-Product </a></li>
-      <li><a href="#tabs-3">WBS-Activity </a></li>
+      <li><a href="#tabs-2"><%= I18n.t(:wbs_product)%></a></li>
+      <li><a href="#tabs-3"><%= I18n.t(:wbs_activity)%></a></li>
       <li><a href="#tabs-4"><%= I18n.t(:estimation_plan)%></a></li>
       <li><a href="#tabs-5"><%= I18n.t(:securities)%></a></li>
       <li><a href="#tabs-6"><%= I18n.t(:calendar)%> </a></li>
@@ -71,11 +71,11 @@
           <div class="well component_tree">
             <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
                 <p style="margin: 10px; ">
-                  <label>WBS-Activities table:</label>
+                  <label>I18n.t(:available_wbs_activity)</label>
                   <%= hidden_field_tag :project_id,  @project.id  %>
-                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id]}), :prompt => 'Select a WBS-Activity...' %>
-                  <%= select_tag "project_default_wbs_activity_ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :prompt => 'Select Default WBS-Activity-Ratio...' %>
-                  <%= submit_tag "ADD", :class => "btn", :id => "add_activity_and_ratio_to_project", :disabled => true %>
+                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id]}), :prompt => I18n.t(:select_wbs_activity) %>
+                  <%= select_tag "project_default_wbs_activity_ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
+                  <%= submit_tag I18n.t(:button_add), :class => "btn", :id => "add_activity_and_ratio_to_project", :disabled => true %>
                 </p>
             <% end %>
           </div>

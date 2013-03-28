@@ -18,8 +18,8 @@
     <br />
     <table>
       <tr>
-        <td><%= f.input :wbs_activity_id, :label => "Wbs activity", :as => :select, :collection => @project_wbs_activities.map{|i| [i.name, i.id]}, :prompt => 'Select a WBS-Activity...' %></td>
-        <td><%= f.input :wbs_activity_ratio_id, :label => "Default wbs activity ratio", :as => :select, :collection => @pbs_wbs_activity_ratios.map{|i| [i.name, i.id]}, :prompt => 'Select Default WBS-Activity-Ratio' %></td>
+        <td><%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map{|i| [i.name, i.id]}, :prompt => 'Select a WBS-Activity...' %></td>
+        <td><%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map{|i| [i.name, i.id]}, :prompt => 'Select Default WBS-Activity-Ratio' %></td>
       </tr>
     </table>
 

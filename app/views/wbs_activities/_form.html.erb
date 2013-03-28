@@ -9,9 +9,9 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:general ) %> </a></li>
     <% if action_name == "edit" %>
-      <li><a href="#tabs-2">Wbs Element (Tree View) </a></li>
-      <li><a href="#tabs-3">Ratios </a></li>
-      <li><a href="#tabs-4">Ratio elements </a></li>
+      <li><a href="#tabs-2"><%=I18n.t(wbs_elements)%></a></li>
+      <li><a href="#tabs-3"><%=I18n.t(ratios)%> </a></li>
+      <li><a href="#tabs-4"<%=I18n.t(ratios_elements)%></a></li>
     <% end %>
   </ul>
 

@@ -18,7 +18,7 @@
       <td><%= wbs_activity.organization unless wbs_activity.organization.nil? %></td>
       <td><%= wbs_activity.state %></td>
       <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
-      <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => I18n.t(:edit ), confirm: ("We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue" if wbs_activity.is_defined?) %></td>
+      <td><%= link_to '', edit_wbs_activity_path(wbs_activity), :class => "icn_edit", :title => I18n.t(:edit ), confirm: (I18n.t(:master_force_edit) if wbs_activity.is_defined?) %></td>
       <td><%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_wbs_activity",  :class => "icn_duplicate", :title => "Duplicate") %></td>
       <td>
           <% unless wbs_activity.retired? %>

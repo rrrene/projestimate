@@ -406,6 +406,8 @@ fr:
   edit_module_project: "Editer un module de projet"
   new_module_project: "Créer un nouveau module de projet"
   related_attributes: "Attributs associés"
+  module_ratio_settings: "Paramètrage Ratio"
+  module_links_settings: "Liens entre Modules"  
   mandatory: "Obligatoire"
   links_to: "Liens vers"
   current_link: "Liens courant"
@@ -482,6 +484,13 @@ fr:
   #projects
   edit_project: "Editer le projet"
   new_project: "Créer un nouveau projet"
+  wbs_product: "WBS Produit"
+  wbs_activity: "WBS Activité"
+  available_wbs_activity: "WBS Activité disponibles"
+  select_wbs_activity: "Sélectionnez un WBS Activité"
+  select_default_wbs_activity_ratio: "Sélectionnez la table de ratio par défaut"
+  button_add: "Ajouter"   
+  default_wbs_activity_ratio: "Ratio par défaut pour le WBS activité" 
   estimation_plan: "Plan  d'estimation"
   securities: "Sécurités"
   calendar: "Calendrier"
@@ -583,6 +592,9 @@ fr:
   edit_wbs_activity: "Editer un wbs activités"
   new_wbs_activity: "Créer un nouveau wbs activités"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
+  one_activity_element: "One Activity-element"
+  all_activity_elements: "All Activity-elements"
+  set_of_activity_elements: "A set of activity-elements"  
   new_activities: "Nouvelle activité"
   general: "General"
   file_csv: "Fichier (csv seulement)"
@@ -590,7 +602,10 @@ fr:
   encoding: "Encodage"
   please_wait_import: "Merci de bien vouloir patienter durant l'import..."
   close: "Fermer"
-  select_ratio_table: "Merci de bien vouloir sélectionner une table de ratio"
+  select_ratio_table: "Sélectionner la table de ratio à afficher "
+  wbs_elements: Élément du WBS (arbre)  
+  ratios: Ratios
+  ratios_elements: Élément des Ratios
 
   #wbs activity elements
   edit_wbs_activity_element: "Editer un élément du wbs activités"
@@ -638,3 +653,4 @@ fr:
   
   #Error, warning, information messages
   ratio_value_range: "Entrez des valeurs entre ]0 - 100]"
+  master_force_edit: "Nous ne fournissons pas de cycle de vie pour la modification de ce tableau, si vous continuez, vous allez éditer l'enregistrement 'défini' lui-même S'il vous plaît confirmer que vous acceptez de continuer"
