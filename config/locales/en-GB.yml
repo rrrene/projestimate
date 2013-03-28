@@ -110,7 +110,8 @@ en-gb:
 
   time:
     formats:
-      default: ! "%m/%d/%Y %I:%M %p"
+      default: "%d/%m/%Y %I:%M %p"
+      time: "%I:%M %p"
       short: ! "%d %b %H:%M"
       long: ! '%d %B, %Y %H:%M'
     am: "am"
