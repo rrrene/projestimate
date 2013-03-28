@@ -122,6 +122,7 @@ class ModuleProjectsController < ApplicationController
   end
 
   def associate_module_project_to_ratios
+    @module_project = ModuleProject.find(params[:module_project_id])
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
     @references_values = ReferenceValue.all
@@ -129,11 +130,14 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])
     end
+
+    #redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
+
     if params[:commit] == "Save"
-      redirect_to redirect(edit_project_path(@project.id)), notice: 'Module project was successfully updated.'
+      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
     elsif params[:commit] == "Apply"
       flash[:notice] = 'Module project was successfully updated.'
-      redirect_to :back
+      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
     end
 
   end
