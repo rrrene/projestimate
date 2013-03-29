@@ -100,8 +100,6 @@ group :assets do
 end
 
 group :development do
-  #Continious integration and monitoring
-  gem 'newrelic_rpm'
   #For UML classes diagram generator
   gem 'railroady', :group => [:development, :test]
   # To use debugger
@@ -109,6 +107,8 @@ group :development do
 end
 
 group :test do
+  #Continious integration and monitoring
+  gem 'newrelic_rpm'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'capybara'
   # rspec goodies

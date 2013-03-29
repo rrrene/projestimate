@@ -650,7 +650,16 @@ fr:
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
-  
+
+  simple_form:
+    "yes": 'Oui'
+    "no": 'Non'
+    required:
+      text: 'requis'
+      mark: '*'
+    error_notification:
+      default_message: "Des erreurs se sont glissées dans votre saisie:"
+
   #Error, warning, information messages
   ratio_value_range: "Entrez des valeurs entre ]0 - 100]"
   master_force_edit: "Nous ne fournissons pas de cycle de vie pour la modification de ce tableau, si vous continuez, vous allez éditer l'enregistrement 'défini' lui-même S'il vous plaît confirmer que vous acceptez de continuer"
