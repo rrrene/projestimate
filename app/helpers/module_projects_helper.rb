@@ -23,9 +23,9 @@ module ModuleProjectsHelper
   def probable_value(results, mpa)
     attribute_alias = mpa.attribute.alias.to_sym
     if mpa.attribute.attribute_type == "numeric"
-      min = results[:low][attribute_alias]
-      ml = results[:most_likely][attribute_alias]
-      high = results[:high][attribute_alias]
+      min = results[:low][attribute_alias].to_f
+      ml = results[:most_likely][attribute_alias].to_f
+      high = results[:high][attribute_alias].to_f
       res = (min+4*ml+high)/6
       res
     else
