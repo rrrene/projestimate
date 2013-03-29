@@ -3,6 +3,9 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :reference_values
   resources :wbs_project_elements
+  match 'projects/:project_id/wbs_project_elements/:wbs_project_id/change_wbs_project_ratio' => 'wbs_project_elements#change_wbs_project_ratio', :as => 'change_wbs_project_ratio'
+  match 'wbs_project_elements/update_wbs_project_ratio_value' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
+  #post 'wbs_project_elements' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
 
   resources :wbs_activity_ratios do
     collection { match 'wbs_activity_ratios/:wbs_activity_ratio_id/export' => 'wbs_activity_ratios#export', :as => 'export' }
@@ -17,8 +20,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_activity_elements
   match 'wbs_activities/:wbs_activity_id/duplicate_wbs_activity' => 'wbs_activities#duplicate_wbs_activity', :as => :duplicate_wbs_activity
-  #match 'wbs_activity_elements/wbs_record_statuses_collection', :as => 'wbs_record_statuses_collection'
-  #match 'wbs_activity_elements/update_status_collection/:selected_parent_id', :controller=>'wbs_activity_elements', :action => 'update_status_collection'
   get 'update_status_collection' => 'wbs_activity_elements#update_status_collection', :as => 'update_status_collection'
 
   resources :wbs_activities do

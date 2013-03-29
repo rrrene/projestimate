@@ -87,11 +87,11 @@ gem 'amoeba'
 # Required for rspec and rails command
 gem 'rb-readline'
 
-# FxRuby GUI tool: instead of using the gemfile, install FxRuby from here: https://github.com/lylejohnson/fxruby/wiki/Setting-Up-a-Linux-Build-Environment
-#gem 'fxruby'
-             
 #Cache management
 gem 'cache_digests'
+
+#Continious integration and monitoring
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -103,8 +103,6 @@ group :assets do
 end
 
 group :development do
-  #Continious integration and monitoring
-  gem 'newrelic_rpm'
   #For UML classes diagram generator
   gem 'railroady', :group => [:development, :test]
   # To use debugger
