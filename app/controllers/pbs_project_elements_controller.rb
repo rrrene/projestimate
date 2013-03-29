@@ -30,6 +30,11 @@ class PbsProjectElementsController < ApplicationController
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
     @pbs_wbs_activity_ratios = []
 
+    unless @pbs_project_element.wbs_activity.nil?
+      @pbs_wbs_activity_ratios = @pbs_project_element.wbs_activity.wbs_activity_ratios
+    end
+
+
     #Select folders which could be a parent of a pbs_project_element
     #a pbs_project_element cannot be its own parent
     @folder_components = @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{ |i| i.work_element_type.alias == "folder" }
