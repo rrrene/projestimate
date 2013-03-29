@@ -406,6 +406,8 @@ en-gb:
   edit_module_project: "Edit a module project"
   new_module_project: "New module project"
   related_attributes: "Related attributes"
+  module_ratio_settings: "Ratio settings"
+  module_links_settings: "Modules links"   
   mandatory: "Mandatory"
   links_to: "Links to"
   current_link: "Current link"
@@ -482,6 +484,13 @@ en-gb:
   #projects
   edit_project: "Edit project"
   new_project: "New project"
+  wbs_product: "WBS Product"
+  wbs_activity: "WBS Activity"
+  available_wbs_activity: "Available WBS Activity"
+  select_wbs_activity: "Select a WBS Activity"
+  select_default_wbs_activity_ratio: "Select Default WBS-Activity-Ratio"
+  button_add: "ADD"     
+  default_wbs_activity_ratio: "Default WBS activity ratio"      
   estimation_plan: "Estimation plan"
   securities: "Securities"
   calendar: "Calendar"
@@ -583,6 +592,9 @@ en-gb:
   edit_wbs_activity: "Edit a wbs activity"
   new_wbs_activity: "New wbs activity"
   sum_of_ratio_values: "Sum of ratio values :"
+  one_activity_element: "One Activity-element"
+  all_activity_elements: "All Activity-elements"
+  set_of_activity_elements: "A set of activity-elements"   
   new_activities: "New activities"
   general: "General"
   file_csv: "File (csv only)"
@@ -590,7 +602,10 @@ en-gb:
   encoding: "Encoding"
   please_wait_import: "Please wait during import..."
   close: "Close"
-  select_ratio_table: "Please select a ratio table"
+  select_ratio_table: "Select the ratio table to display "
+  wbs_elements: Wbs Elements (Tree View)  
+  ratios: Ratios
+  ratios_elements: Ratio elements
 
   #wbs activity elements
   edit_wbs_activity_element: "Edit a wbs activity element"
@@ -638,4 +653,5 @@ en-gb:
   
   #Error, warning, information messages
   ratio_value_range: "Please, enter value between ]0 - 100]"
+  master_force_edit: "We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue"
   

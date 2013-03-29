@@ -69,7 +69,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_One_Activity_Element?
     begin
-      if self.reference_value.value=="One Activity-element"
+      if self.reference_value.value==I18n.t(:one_activity_element)
         return true
       else
         return false
@@ -81,7 +81,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_All_Activity_Elements?
     begin
-      if self.reference_value.value=="All Activity-elements"
+      if self.reference_value.value==I18n.t(:all_activity_elements)
         return true
       else
         return false
@@ -93,7 +93,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_A_Set_Of_Activity_Elements?
     begin
-      if self.reference_value.value=="A set of activity-elements"
+      if self.reference_value.value==I18n.t(:all_activity_elements)
         return true
       else
         return false
