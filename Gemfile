@@ -2,59 +2,53 @@ source 'http://rubygems.org'
 source 'http://gems.rubyforge.org'
 source 'http://gemcutter.org'
 
-gem 'rails', '3.2.13'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'coffee-rails'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'jquery-datatables-rails'
-  gem 'jquery-ui-rails'
-end
-
-gem 'jquery-rails'
-
-group :test do
-
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'capybara'
-  #To satisfy
-
-  # rspec goodies
-  gem 'rspec-rails', :group => [:test, :development]
-
-  # DRb server for testing frameworks
-  gem 'spork'
-
- # command line tool to easily handle events on file system modifications
-  gem 'guard'
-  gem 'guard-bundler'
-  gem 'guard-rspec'
-  gem 'guard-spork'
-  gem 'guard-migrate'
-  gem 'guard-rake'
-
-  #Coverage tool
-  gem 'simplecov', :require => false, :group => :test
-
-  # run some required services using foreman start, more on this at the end of the article
-  gem 'foreman'
-end
-
-#using with RSpec in tests
-gem 'devise'
+gem "rails", "3.2.13"
+gem "jquery-rails", "~> 2.0.2"
+gem "i18n", "~> 0.6.0"
+gem "builder", "3.0.0"
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', :require => 'bcrypt'
+gem "bcrypt-ruby", :require => "bcrypt"
 
-#Databases
-gem 'mysql2'
-gem 'mysql'
-#gem 'pg'
+# Include database gems for the adapters found in the database
+# configuration file
+require 'erb'
+require 'yaml'
+database_file = File.join(File.dirname(__FILE__), "config/database.yml")
+if File.exist?(database_file)
+  database_config = YAML::load(ERB.new(IO.read(database_file)).result)
+  adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
+  if adapters.any?
+    adapters.each do |adapter|
+      case adapter
+      when 'mysql2'
+        gem "mysql2", "~> 0.3.11", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
+      when 'mysql'
+        gem "mysql", "~> 2.8.1", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
+      when /postgresql/
+        gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
+      when /sqlite3/
+        gem "sqlite3", :platforms => [:mri, :mingw]
+        gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
+      when /sqlserver/
+        gem "tiny_tds", "~> 0.5.1", :platforms => [:mri, :mingw]
+        gem "activerecord-sqlserver-adapter", :platforms => [:mri, :mingw]
+      else
+        warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
+      end
+    end
+  else
+    warn("No adapter found in config/database.yml, please configure it first")
+  end
+else
+  warn("Please configure your config/database.yml first")
+end
 
-#Translations
-gem 'globalize3'
+#Translations (not yet used)
+#gem 'globalize3'
 
 #Permissions
 gem 'cancan'
@@ -62,30 +56,14 @@ gem 'cancan'
 #Tree
 gem 'ancestry'
 
-#LDAP
-gem 'activedirectory'
-gem 'net-ldap'
-
-# Web server
-gem 'unicorn'
-#gem 'passenger'
-
-group :development do
-#  gem 'mongrel'
-
-  #For UML classes diagram generator
-  gem 'railroady', :group => [:development, :test]
+# Optional gem for LDAP authentication
+group :ldap do
+  gem "net-ldap", "~> 0.3.1"
 end
 
-# Deploy with Capistrano
-gem 'capistrano'
-
-#Others
+#Pagination library for Rails 3
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-
-# To use debugger
-#gem 'ruby-debug19', :require => 'ruby-debug'
 
 #Searching
 gem 'sunspot_rails'
@@ -97,14 +75,8 @@ gem 'aasm'
 #Advanced form
 gem 'simple_form'
 
-#Dataepicker bootsrap theme
-gem 'bootstrap-datepicker-rails'
-
 #Icon management
 gem 'paperclip', '~> 3.0'
-
-#Continious integration and monitoring
-gem 'newrelic_rpm'
 
 #UUID generation tools
 gem 'uuidtools'
@@ -118,3 +90,47 @@ gem 'rb-readline'
 #Cache management
 gem 'cache_digests'
 
+#Continious integration and monitoring
+gem 'newrelic_rpm'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'coffee-rails'
+  gem 'uglifier', '>= 1.0.3'
+  gem 'jquery-datatables-rails'
+  gem 'jquery-ui-rails'
+end
+
+group :development do
+  #For UML classes diagram generator
+  gem 'railroady', :group => [:development, :test]
+  # To use debugger
+  #gem 'ruby-debug19', :require => 'ruby-debug'  
+end
+
+group :test do
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'capybara'
+  # rspec goodies
+  gem 'rspec-rails', :group => [:test, :development]
+  # DRb server for testing frameworks
+  gem 'spork'
+  # command line tool to easily handle events on file system modifications
+  gem 'guard'
+  gem 'guard-bundler'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'guard-migrate'
+  gem 'guard-rake'
+  #Coverage tool
+  gem 'simplecov', :require => false, :group => :test
+  # run some required services using foreman start, more on this at the end of the article
+  gem 'foreman'
+end
+
+local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
+if File.exists?(local_gemfile)
+  puts "Loading Gemfile.local ..." if $DEBUG # `ruby -d` or `bundle -v`
+  instance_eval File.read(local_gemfile)
+end
