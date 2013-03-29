@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328131619) do
+ActiveRecord::Schema.define(:version => 20130329102239) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -850,6 +850,7 @@ ActiveRecord::Schema.define(:version => 20130328131619) do
     t.boolean  "is_root"
     t.boolean  "can_get_new_child"
     t.integer  "wbs_activity_ratio_id"
+    t.boolean  "is_added_wbs_root"
   end
 
   create_table "work_element_types", :force => true do |t|

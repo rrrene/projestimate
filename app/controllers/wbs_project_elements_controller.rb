@@ -145,4 +145,30 @@ class WbsProjectElementsController < ApplicationController
     render :partial => "wbs_project_elements/refresh"
   end
 
+  # Allow user to swith from on ratio table to another
+  def change_wbs_project_ratio
+    @project = Project.find(params[:project_id])
+    @wbs_project_element = WbsProjectElement.find(params[:wbs_project_id])
+    @possible_wbs_activity_ratios = @wbs_project_element.wbs_activity.wbs_activity_ratios
+  end
+
+  def update_wbs_project_ratio_value
+    @project = Project.find(params[:project_id])
+    @wbs_project_element = WbsProjectElement.find(params[:wbs_project_id])
+    @possible_wbs_activity_ratios = @wbs_project_element.wbs_activity.wbs_activity_ratios
+
+    @wbs_project_element.wbs_activity_ratio_id = params[:wbs_activity_ratio_id]
+    if @wbs_project_element.save
+      flash[:notice] = "#{@wbs_project_element.name} Ratio was successfully changed"
+    else
+      flash[:error] = "Error when changing Wbs activity ratio"
+    end
+
+    respond_to do |format|
+      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3") }
+
+      format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3") }
+    end
+  end
+
 end

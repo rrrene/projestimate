@@ -474,7 +474,8 @@ class ProjectsController < ApplicationController
                                                 :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
                                                 :description => selected_wbs_activity_elt.description, :ancestry => @wbs_project_elements_root.id,
                                                 :author_id => current_user.id, :copy_number => 0,
-                                                :wbs_activity_ratio_id => params[:project_default_wbs_activity_ratio] )   # Update Project default Wbs-Activity-Ratio
+                                                :wbs_activity_ratio_id => params[:project_default_wbs_activity_ratio],  # Update Project default Wbs-Activity-Ratio
+                                                :is_added_wbs_root => true)
 
     selected_wbs_activity_children = selected_wbs_activity_elt.children
 
