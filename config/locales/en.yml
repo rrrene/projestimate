@@ -653,3 +653,4 @@ en:
   #Error, warning, information messages
   ratio_value_range: "Please, enter value between ]0 - 100]"
   master_force_edit: "We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue"  
+  

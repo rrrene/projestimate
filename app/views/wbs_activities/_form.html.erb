@@ -11,14 +11,14 @@
     <% if action_name == "edit" %>
       <li><a href="#tabs-2"><%=I18n.t(:wbs_elements)%></a></li>
       <li><a href="#tabs-3"><%=I18n.t(:ratios)%> </a></li>
-      <li><a href="#tabs-4"<%=I18n.t(:ratios_elements)%></a></li>
+      <li><a href="#tabs-4"><%=I18n.t(:ratios_elements)%></a></li>
     <% end %>
   </ul>
 
   <div class="div_tabs_to_disable" data-enable_update="<%= enable_update_in_local? %>" >
 
   <div id="tabs-1">
-    <h2>WBS Activity</h2>
+    <h2><%= I18n.t(:wbs_activity)%></h2>
     <%= simple_form_for(@wbs_activity) do |f| %>
         <%= f.error_notification %>
 
