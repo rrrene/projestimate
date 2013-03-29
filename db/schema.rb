@@ -207,6 +207,10 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
     t.string   "custom_attribute"
     t.string   "project_value"
     t.string   "ancestry"
+    t.integer  "wbs_project_element_id"
+    t.string   "string_data_probable"
+    t.float    "numeric_data_probable"
+    t.date     "date_data_probable"
   end
 
   add_index "estimation_values", ["ancestry"], :name => "index_module_project_attributes_on_ancestry"
@@ -663,7 +667,6 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -778,8 +781,8 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
