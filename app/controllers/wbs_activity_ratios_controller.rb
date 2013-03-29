@@ -113,10 +113,13 @@ class WbsActivityRatiosController < ApplicationController
   def validate_ratio
     @ratio = WbsActivityRatio.find(params[:ratio_id])
     @ratio.record_status =  @defined_status
-    if @ratio.save
-      flash[:notice] = "Wbs-Activity-Ratio was successfully validated"
-    else
-      flash[:error] = @ratio.errors.full_messages.to_sentence
+    @ratio.transaction do
+      if @ratio.save
+        @ratio.wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
+        flash[:notice] = "Wbs-Activity-Ratio was successfully validated"
+      else
+        flash[:error] = @ratio.errors.full_messages.to_sentence
+      end
     end
     redirect_to edit_wbs_activity_path(@ratio.wbs_activity, :anchor => "tabs-3")
   end
