@@ -90,6 +90,9 @@ gem 'rb-readline'
 #Cache management
 gem 'cache_digests'
 
+#Continious integration and monitoring
+gem 'newrelic_rpm'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -107,8 +110,6 @@ group :development do
 end
 
 group :test do
-  #Continious integration and monitoring
-  gem 'newrelic_rpm'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'capybara'
   # rspec goodies
