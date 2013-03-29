@@ -296,22 +296,16 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation
-    #@resultat = Array.new
-    #
+    @resultat = Array.new
+
     #@project = current_project
     #@pbs_project_element = current_component
     #@folders = @project.folders.reverse
     #val = 0
     #@array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
-    #
+
     ##For each level...
     #["low", "most_likely", "high"].each do |level|
-    #  #stock input value
-    #
-    #  input_value  = params["input_#{level}"]
-    #
-    #  #Execute estimation plan. and stock result
-    #  @resultat << @project.run_estimation_plan(1, input_value, {}, @pbs_project_element, current_project) #current_pos, arguments, last_result, others, pbs_project_element, project
     #
     #  @project.module_projects.each do |mp|
     #    mp.estimation_values.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
@@ -330,15 +324,7 @@ class ProjectsController < ApplicationController
     #        end
     #
     #      else
-    #        out_result = {}
-    #        @resultat.each do |res|
-    #          if mpa.attribute.data_type == "date"
-    #            out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-    #          elsif mpa.attribute.data_type == "string"
-    #            out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-    #          else
-    #            out_result["numeric_data_#{level}"] = res[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-    #          end
+    #
     #        end
     #
     #      mpa.update_attributes(out_result)
@@ -359,7 +345,7 @@ class ProjectsController < ApplicationController
     #  end
     #  end
     #end
-    #
+
 
     results = Hash.new
     ["low", "most_likely", "high"].each do |level|
@@ -370,6 +356,26 @@ class ProjectsController < ApplicationController
     @results = results
     @project = current_project
     @pbs_project_element = current_component
+
+    #@project.module_projects.each do |mp|
+    #  mp.estimation_values.each do |est_val|
+    #    if est_val.in_out == "output"
+    #      out_result = {}
+    #      @results.each do |res|
+    #        ["low", "most_likely", "high"].each do |level|
+    #          if est_val.attribute.data_type == "date"
+    #            #out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][est_val.attribute.alias.to_s]
+    #          elsif est_val.attribute.data_type == "string"
+    #            #out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][est_val.attribute.alias.to_s]
+    #          else
+    #            out_result["numeric_data_#{level}"] = res.last[est_val.attribute.alias.to_s]
+    #          end
+    #        end
+    #      end
+    #    end
+    #    est_val.update_attributes(out_result)
+    #  end
+    #end
 
     respond_to do |format|
       format.js { render :partial => "pbs_project_elements/refresh" }
