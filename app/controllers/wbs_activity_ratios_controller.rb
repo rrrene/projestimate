@@ -118,6 +118,6 @@ class WbsActivityRatiosController < ApplicationController
     else
       flash[:error] = @ratio.errors.full_messages.to_sentence
     end
-    redirect_to :back
+    redirect_to edit_wbs_activity_path(@ratio.wbs_activity, :anchor => "tabs-3")
   end
 end
