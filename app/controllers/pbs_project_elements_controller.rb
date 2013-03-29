@@ -133,7 +133,7 @@ class PbsProjectElementsController < ApplicationController
       end
     end
 
-    @module_projects = current_project.module_projects
+    @module_projects = @project.module_projects
 
     render :partial => "pbs_project_elements/refresh_tree"
   end
