@@ -26,11 +26,6 @@ class EstimationValue < ActiveRecord::Base
   belongs_to :module_project
   belongs_to :pbs_project_element
 
-  has_and_belongs_to_many :links,
-                          :class_name => "EstimationValue",
-                          :association_foreign_key => "link_id",
-                          :join_table => "links_estimation_values"
-
 
   #Metaprogrammation
   #input or output
