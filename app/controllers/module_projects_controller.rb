@@ -35,7 +35,7 @@ class ModuleProjectsController < ApplicationController
       mp.update_attribute("pbs_project_element_ids", params[:pbs_project_elements][mp.id.to_s])
     end
 
-    redirect_to redirect(pbs_element_matrix_path(@project.id))
+    redirect_to redirect(edit_project_path(@project, :anchor => "tabs-4"))
 
   end
 
