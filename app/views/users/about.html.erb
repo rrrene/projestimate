@@ -1,6 +1,6 @@
 <h2><%= link_to "ProjEstimate", "http://projestimate.org/" %></h2>
 <p>
-  Version : 0.6.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to "checking for new release", "http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog" %>)
+  Version : 0.6.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to I18n.t("checking_new_release"), "http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog" %>)
 </p>
 
 <p>
@@ -8,10 +8,9 @@
 </p>
 
 <p>
-  ProjEstimate is open source and released under the terms of the <%= link_to "GNU AGPL-v3", "http://www.gnu.org/licenses/agpl-3.0.html" %>
+  <%=I18n.t("projestimate_open_source")%> <%= link_to "GNU AGPL-v3", "http://www.gnu.org/licenses/agpl-3.0.html" %>
   <br>
-  Some external component or contributions bundled with ProjEstimate may be published under other AGPLv3-compatible licenses.
-  For these, please refer to the relevant source files and/or license files, in the source code tree.
+  <%=I18n.t("projestimate_open_source_references")%>
 </p>
 
 <p>
@@ -21,12 +20,12 @@
 <%# cache('about_page') do %>
   <span>
     <p>
-      Latest update : <%= @latest_local_update.nil? ? "None" : I18n.l(@latest_local_update) %>    <br />
+      <%=I18n.t("latest_update")%> <%= @latest_local_update.nil? ? "None" : I18n.l(@latest_local_update) %>    <br />
     </p>
     <p>
-      Latest MasterData Repository update : <%= @latest_repo_update.nil? ? "None" : I18n.l(@latest_repo_update) %>
+      <%=I18n.t("latest_masterData_repository_update")%> <%= @latest_repo_update.nil? ? "None" : I18n.l(@latest_repo_update) %>
     </p>
-    <%= link_to "Download and apply MasterData update", update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => "Please wait. It could take a while", :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
+    <%= link_to I18n.t("download_master_data"), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => I18n.t("please_wait"), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
     <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
   </span>
 <%# end %>

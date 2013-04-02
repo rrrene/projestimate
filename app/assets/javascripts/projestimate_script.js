@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    $('.datepicker').datepicker();
-
      $('.tabs ul li').hover(
         function () {
           $(this.children).css('display', 'inline');
@@ -143,8 +141,6 @@ $(document).ready(function() {
         });
         return false;
     });
-
-
 });
 
 // ################################# Other methods #################################
