@@ -25,12 +25,15 @@ class PbsProjectElement < ActiveRecord::Base
 
   belongs_to :pe_wbs_project
   belongs_to :work_element_type
+  belongs_to :wbs_activity
+  belongs_to :wbs_activity_ratio
 
-  has_many :module_project_attributes
+  has_many :estimation_values
 
   has_and_belongs_to_many :module_projects
 
   validates_presence_of :name
+  #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation
 
   #Sunspot needs
   searchable do
@@ -66,14 +69,14 @@ class PbsProjectElement < ActiveRecord::Base
     define_method("#{attr}") do
       res = Array.new
       %w(low most_likely high).each do |level|
-        res << self.module_project_attributes.keep_if{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
+        res << self.estimation_values.keep_if{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
       end
       return res.flatten
     end
 
     %w(low most_likely high).each do |level|
       define_method("#{attr}_#{level}") do
-        self.module_project_attributes.select{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
+        self.estimation_values.select{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
       end
     end
   end

@@ -1,12 +1,11 @@
 class WbsProjectElement < ActiveRecord::Base
 
-  #attr_accessible :additional_description, :ancestry, :description, :exclude, :name, :author_id, :wbs_activity_element_id, :wbs_activity_id
-
   has_ancestry
 
   belongs_to :pe_wbs_project
   belongs_to :wbs_activity_element
   belongs_to :wbs_activity
+  belongs_to :wbs_activity_ratio  #Default Wbs-Activity-Ratio
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
   scope :elements_root, where(:is_root => true)

@@ -2,11 +2,11 @@
 
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:related_attributes) %></a></li>
-    <li><a href="#tabs-2">Summary of project modules </a></li>
+    <li><a href="#tabs-2"><%= I18n.t(:module_links_settings) %> </a></li>
+    <li><a href="#tabs-3"><%= I18n.t(:module_ratio_settings) %></a></li>
   </ul>
 
   <div id="tabs-1">
-
     <%= form_for(@module_project) do |f| %>
       <% if @module_project.errors.any? %>
         <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
@@ -28,7 +28,7 @@
           <th><%= I18n.t(:description) %></th>
           <th><%= I18n.t(:links_to) %></th>
         </tr>
-        <% @module_project.module_project_attributes.each_with_index do |attr, i| %>
+        <% @module_project.estimation_values.each_with_index do |attr, i| %>
 
           <% unless attr.pbs_project_element.is_root? %>
             <%= hidden_field_tag "hidden_ids[]", attr.id %>
@@ -40,11 +40,11 @@
               <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
               <td>
                 <strong><%= I18n.t(:current_link) %></strong>
-                <% unless attr.links.first.nil? %>
-                  <p>
-                    <%= attr.links.first %> (<%= attr.links.first.module_project %>) <%= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>
-                  </p>
-                <% end %>
+                <!--<%# unless attr.links.first.nil? %>-->
+                  <!--<p>-->
+                    <!--<%# attr.links.first %> (<%# attr.links.first.module_project %>) <%#= link_to "#{I18n.t(:edit_link)}", "#", :onclick => "show_popup('attribute_links_#{i}')" %>-->
+                  <!--</p>-->
+                <!--<%# end %>-->
               </td>
               <td>
 
@@ -61,9 +61,9 @@
                           <tr>
                             <td><%= mp.pemodule.title %></td>
                             <td>
-                              <% @project.root_component.module_project_attributes.select{|i| (i.output? && i.module_project_id == mp.id ) }.each do |mpa| %>
-                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias}" %>
-                                <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
+                              <% @project.root_component.estimation_values.select{|i| (i.output? && i.module_project_id == mp.id ) }.each do |est_val| %>
+                                <%= label_tag "#{est_val.attribute.nil? ? 'Attribute linkable' : est_val.attribute.alias}" %>
+                                <%= check_box_tag "estimation_values[#{attr.id}][#{est_val.nil? ? '0' : est_val.id }]", "", attr.links.map(&:id).include?(est_val.id) ? true : false %>
                                 </br>
                               <% end %>
                             </td>
@@ -75,9 +75,9 @@
                           <tr>
                             <td><%= mp.pemodule.title %></td>
                             <td>
-                              <% @project.root_component.module_project_attributes.select{|i| ((i.in_out == "input" or i.in_out=="both") && i.module_project_id == mp.id ) }.each do |mpa| %>
-                                <%= label_tag "#{mpa.attribute.nil? ? 'Attribute linkable' : mpa.attribute.alias }" %>
-                                <%= check_box_tag "module_project_attributes[#{attr.id}][#{mpa.nil? ? '0' : mpa.id }]", "", attr.links.map(&:id).include?(mpa.id) ? true : false %>
+                              <% @project.root_component.estimation_values.select{|i| ((i.in_out == "input" or i.in_out=="both") && i.module_project_id == mp.id ) }.each do |est_val| %>
+                                <%= label_tag "#{est_val.attribute.nil? ? 'Attribute linkable' : est_val.attribute.alias }" %>
+                                <%= check_box_tag "estimation_values[#{attr.id}][#{est_val.nil? ? '0' : est_val.id }]", "", attr.links.map(&:id).include?(est_val.id) ? true : false %>
                                 </br>
                               <% end %>
                             </td>
@@ -100,4 +100,9 @@
   <div id="tabs-2">
     <%= render :partial => 'summary_module_projects_association' %>
   </div>
+
+  <div id="tabs-3">
+    <%= render :partial => 'module_projects/module_settings' %>
+  </div>
+
 </div>

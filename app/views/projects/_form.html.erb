@@ -13,8 +13,8 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:global_properties)%></a></li>
     <% if action_name == "edit" %>
-      <li><a href="#tabs-2">WBS-Product </a></li>
-      <li><a href="#tabs-3">WBS-Activity </a></li>
+      <li><a href="#tabs-2"><%= I18n.t(:wbs_product)%></a></li>
+      <li><a href="#tabs-3"><%= I18n.t(:wbs_activity)%></a></li>
       <li><a href="#tabs-4"><%= I18n.t(:estimation_plan)%></a></li>
       <li><a href="#tabs-5"><%= I18n.t(:securities)%></a></li>
       <li><a href="#tabs-6"><%= I18n.t(:calendar)%> </a></li>
@@ -35,7 +35,7 @@
     <%= f.input :state, :label => "#{I18n.t "state"}", :label => "#{I18n.t "state"}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
-      <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :onclick => "$(this).datepicker();", :value => Time.now.strftime(I18n.t "date.formats.long") %>
+      <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => Time.now.strftime(I18n.t "date.formats.long") %>
     <% end %>
 
     <%= f.input :organization_id, :label => "#{I18n.t "organization"}", :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
@@ -71,10 +71,11 @@
           <div class="well component_tree">
             <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
                 <p style="margin: 10px; ">
-                  <label>WBS-Activities table:</label>
-                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id] } ), :prompt => 'Select a WBS-Activity...' %>
+                  <label><% I18n.t(:available_wbs_activity) %></label>
                   <%= hidden_field_tag :project_id,  @project.id  %>
-                  <%= submit_tag "ADD", :class => "btn" %>
+                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id]}), :prompt => I18n.t(:select_wbs_activity) %>
+                  <%= select_tag "project_default_wbs_activity_ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
+                  <%= submit_tag I18n.t(:button_add), :class => "btn", :id => "add_activity_and_ratio_to_project", :disabled => true %>
                 </p>
             <% end %>
           </div>

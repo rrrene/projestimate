@@ -47,6 +47,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
     @module_projects = @project.module_projects
+    @references_values = ReferenceValue.all
 
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
@@ -64,20 +65,20 @@ class ModuleProjectsController < ApplicationController
   def update
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
-    maps = params["module_project_attributes"]
+    maps = params["estimation_values"]
 
     unless maps.nil?
       maps.keys.each do |k|
-        a = ModuleProjectAttribute.find(k)
-        ModuleProjectAttribute.where(:attribute_id => a.attribute_id, :module_project_id => @module_project.id).each do |mpa|
-          mpa.links << ModuleProjectAttribute.find(maps[k].keys.first)
+        a = EstimationValue.find(k)
+        EstimationValue.where(:attribute_id => a.attribute_id, :module_project_id => @module_project.id).each do |mpa|
+          mpa.links << EstimationValue.find(maps[k].keys.first)
           mpa.save
         end
       end
     end
 
     @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
-      @module_project.module_project_attributes.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
+      @module_project.estimation_values.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
         if mpa.custom_attribute == "user"
           mpa.update_attribute("is_mandatory", params[:is_mandatory][j])
           mpa.update_attribute("in_out", params[:in_out][j])
@@ -119,4 +120,23 @@ class ModuleProjectsController < ApplicationController
 
     redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
   end
+
+  def associate_module_project_to_ratios
+    @module_project = ModuleProject.find(params[:module_project_id])
+    @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+    @references_values = ReferenceValue.all
+
+    @module_projects.each do |mp|
+      mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])
+    end
+
+    if params[:commit] == I18n.t("apply")
+      flash[:notice] = 'Module project was successfully updated.'
+      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
+    else
+      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
+    end
+  end
+
 end

@@ -1,16 +1,18 @@
 ProjestimateMaquette::Application.routes.draw do
-
-
   resources :versions
-
 
   resources :reference_values
   resources :wbs_project_elements
+  match 'projects/:project_id/wbs_project_elements/:wbs_project_id/change_wbs_project_ratio' => 'wbs_project_elements#change_wbs_project_ratio', :as => 'change_wbs_project_ratio'
+  match 'wbs_project_elements/update_wbs_project_ratio_value' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
+  #post 'wbs_project_elements' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
 
   resources :wbs_activity_ratios do
     collection { match 'wbs_activity_ratios/:wbs_activity_ratio_id/export' => 'wbs_activity_ratios#export', :as => 'export' }
     collection { match 'wbs_activity_ratios/import' => 'wbs_activity_ratios#import', :as => 'import' }
+    #collection { match 'wbs_activity_ratios/:ratio_id/validate_ratio' => 'wbs_activity_ratios#validate_ratio', :as => 'validate_ratio'}
   end
+  match 'wbs_activity_ratios/:ratio_id/validate_ratio' => 'wbs_activity_ratios#validate_ratio', :as => 'validate_ratio'
   get 'refresh_ratio_elements' => 'wbs_activities#refresh_ratio_elements', :as => 'refresh_ratio_elements'
 
   resources :wbs_activity_ratio_elements
@@ -18,8 +20,6 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :wbs_activity_elements
   match 'wbs_activities/:wbs_activity_id/duplicate_wbs_activity' => 'wbs_activities#duplicate_wbs_activity', :as => :duplicate_wbs_activity
-  #match 'wbs_activity_elements/wbs_record_statuses_collection', :as => 'wbs_record_statuses_collection'
-  #match 'wbs_activity_elements/update_status_collection/:selected_parent_id', :controller=>'wbs_activity_elements', :action => 'update_status_collection'
   get 'update_status_collection' => 'wbs_activity_elements#update_status_collection', :as => 'update_status_collection'
 
   resources :wbs_activities do
@@ -46,7 +46,7 @@ ProjestimateMaquette::Application.routes.draw do
 
   resources :project_security_levels
 
-  resources :module_project_attributes
+  resources :estimation_values
 
   resources :attribute_modules
 
@@ -54,6 +54,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'module_projects/:project_id/pbs_element_matrix' => 'module_projects#pbs_element_matrix', :as => 'pbs_element_matrix'
   match 'module_projects/:project_id/module_projects_matrix' => 'module_projects#module_projects_matrix', :as => 'module_projects_matrix'
   match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
+  match 'module_projects/associate_module_project_to_ratios' => 'module_projects#associate_module_project_to_ratios', :as => 'associate_module_project_to_ratios'
   post 'module_projects/associate'
 
   resources :languages
@@ -115,6 +116,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "up" => "pbs_project_elements#up"
   get "down" => "pbs_project_elements#down"
   get "selected_pbs_project_element" => "pbs_project_elements#selected_pbs_project_element"
+  get 'refresh_pbs_activity_ratios' => 'pbs_project_elements#refresh_pbs_activity_ratios', :as => 'refresh_pbs_activity_ratios'
 
   resources :pe_wbs_projects
 
@@ -136,8 +138,9 @@ ProjestimateMaquette::Application.routes.draw do
   get "project_record_number" => "projects#project_record_number", :as => "project_record_number"
   get "select_pbs_project_elements" => "projects#select_pbs_project_elements", :as => "select_pbs_project_elements"
 
-  post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project', :as => 'add_wbs_activity_to_project'
+  post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'
+  get 'refresh_wbs_activity_ratios' => 'projects#refresh_wbs_activity_ratios',   :as => 'refresh_wbs_activity_ratios'
   get 'generate_wbs_project_elt_tree' => 'projects#generate_wbs_project_elt_tree', :as => 'generate_wbs_project_elt_tree'
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate

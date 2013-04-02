@@ -18,19 +18,19 @@
 #
 ########################################################################
 
-class ModuleProjectAttributesController < ApplicationController
+class EstimationValuesController < ApplicationController
 
   def edit
     set_page_title "Edit Module Project Attribute"
-    @mpa = ModuleProjectAttribute.find(params[:id])
+    @est_value = EstimationValue.find(params[:id])
   end
 
   def update
-    @mpa = Language.find(params[:id])
+    @est_value = EstimationValue.find(params[:id])
 
     respond_to do |format|
-      if @mpa.update_attributes(params[:module_project_attribute])
-        format.html { redirect_to redirect(@mpa), notice: 'MPA was successfully updated.' }
+      if @est_value.update_attributes(params[:estimation_value])
+        format.html { redirect_to redirect(@est_value), notice: 'Estimation Value was successfully updated.' }
       else
         format.html { render action: "edit" }
       end

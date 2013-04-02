@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('.datepicker').datepicker();
+
      $('.tabs ul li').hover(
         function () {
           $(this.children).css('display', 'inline');
@@ -57,6 +59,7 @@ $(document).ready(function() {
 
     if(($('.div_tabs_to_disable').data('enable_update')) ==  false){
         $('.div_tabs_to_disable').find('input, textarea, button, select, a').attr('disabled','disabled');
+        $('.select_ratio').removeAttr("disabled");
     }
 
     $(function() {
@@ -106,6 +109,27 @@ $(document).ready(function() {
         })
     });
 
+    $("#wbs_activity_element").change(function(){
+        $("#add_activity_and_ratio_to_project").attr("disabled", true);
+        $.ajax({
+            url:"/refresh_wbs_activity_ratios",
+            method: 'GET',
+            data: "wbs_activity_element_id=" + $('#wbs_activity_element').val()
+        })
+    });
+
+    $("#project_default_wbs_activity_ratio").change(function(){
+       var selection = $('#project_default_wbs_activity_ratio').val();
+       if(selection == ""){
+           $("#add_activity_and_ratio_to_project").attr("disabled", true);
+           //$("#add_activity_and_ratio_to_project").css('color', 'red');
+       }
+       else{
+           $("#add_activity_and_ratio_to_project").removeAttr("disabled");
+           //$(".btn").css('background-color', 'blue');
+       }
+    });
+
     //ADD selected WBS-Activity to Project
     $("#form_select_and_add_wbs_activity").live("ajax:complete", function(event,xhr,status){
         $('#wbs_activity_element').val('');
@@ -118,7 +142,8 @@ $(document).ready(function() {
             }
         });
         return false;
-    })
+    });
+
 
 });
 

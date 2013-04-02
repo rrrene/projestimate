@@ -23,6 +23,7 @@ class PeWbsProject < ActiveRecord::Base
 
   has_many :pbs_project_elements, :dependent => :destroy
   has_many :wbs_project_elements, :dependent => :destroy
+  has_many :wbs_activities, :through => :wbs_project_elements
 
   belongs_to :project
 

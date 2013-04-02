@@ -17,8 +17,11 @@ module ExpertJudgment
       end
 
       def copy_migrations
+        # Generate migration
         migration_template "create_ej_estimation_values.rb", "db/migrate/create_ej_estimation_values.rb"
-        #migration_template "create_something_else.rb", "db/migrate/create_something_else.rb"
+
+        # Execute migration
+        rake("db:migrate")     #rake("db:migrate", env: "production")     #rake("gems:install", sudo: true)
       end
     end
   end

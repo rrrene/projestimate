@@ -70,7 +70,6 @@ class WbsActivityElementsController < ApplicationController
     if @wbs_activity_element.save
       @wbs_activity.wbs_activity_ratios.each do |wbs_activity_ratio|
         @wbs_activity_ratio_element = WbsActivityRatioElement.new(:ratio_value => nil,
-                                                                  :ratio_reference_element => false,
                                                                   :wbs_activity_ratio_id => wbs_activity_ratio.id,
                                                                   :wbs_activity_element_id => @wbs_activity_element.id)
 

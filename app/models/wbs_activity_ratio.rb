@@ -3,9 +3,12 @@ class WbsActivityRatio < ActiveRecord::Base
 
   include MasterDataHelper
 
+  has_many :wbs_activity_ratio_elements, :dependent => :destroy
+  has_many :wbs_project_elements
+  has_many :pbs_project_elements
+
   belongs_to :reference_value
   belongs_to :wbs_activity
-  has_many :wbs_activity_ratio_elements, :dependent => :destroy
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
@@ -35,9 +38,9 @@ class WbsActivityRatio < ActiveRecord::Base
   def self.export(activity_ratio_id)
     activity_ratio = WbsActivityRatio.find(activity_ratio_id)
     csv_string = CSV.generate(:col_sep => I18n.t(:general_csv_separator)) do |csv|
-      csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
+      csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Simple Reference", "Multiple References"]
       activity_ratio.wbs_activity_ratio_elements.each do |element|
-        csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.ratio_reference_element]
+        csv << [element.id, "#{activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.simple_reference, element.multiple_references]
       end
     end
     csv_string.encode(I18n.t(:general_csv_encoding))
@@ -53,7 +56,8 @@ class WbsActivityRatio < ActiveRecord::Base
             @ware = WbsActivityRatioElement.find(row[0])
             @ware.wbs_activity_element.has_children?
             @ware.update_attribute("ratio_value", row[5])
-            @ware.update_attribute("ratio_reference_element", row[6])
+            @ware.update_attribute("simple_reference", row[6])
+            @ware.update_attribute("multiple_references", row[7])
           rescue
             error_count = error_count + 1
           end
@@ -65,7 +69,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_One_Activity_Element?
     begin
-      if self.reference_value.value=="One Activity-element"
+      if self.reference_value.value==I18n.t(:one_activity_element)
         return true
       else
         return false
@@ -77,7 +81,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_All_Activity_Elements?
     begin
-      if self.reference_value.value=="All Activity-elements"
+      if self.reference_value.value==I18n.t(:all_activity_elements)
         return true
       else
         return false
@@ -89,7 +93,7 @@ class WbsActivityRatio < ActiveRecord::Base
 
   def is_A_Set_Of_Activity_Elements?
     begin
-      if self.reference_value.value=="A set of activity-elements"
+      if self.reference_value.value==I18n.t(:all_activity_elements)
         return true
       else
         return false

@@ -74,7 +74,7 @@ class WbsActivityRatiosController < ApplicationController
 
       @wbs_activity_ratio.wbs_activity.wbs_activity_elements.each do |wbs_activity_element|
         ware = WbsActivityRatioElement.new(:ratio_value => nil,
-                                           :ratio_reference_element => false,
+                                           #:ratio_reference_element => false,
                                            :wbs_activity_ratio_id => @wbs_activity_ratio.id,
                                            :wbs_activity_element_id => wbs_activity_element.id,
                                            :record_status_id => @wbs_activity_ratio.record_status_id,
@@ -108,5 +108,19 @@ class WbsActivityRatiosController < ApplicationController
 
     flash[:success] = "WBS-Activity was successfully deleted."
     redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
+  end
+
+  def validate_ratio
+    @ratio = WbsActivityRatio.find(params[:ratio_id])
+    @ratio.record_status =  @defined_status
+    @ratio.transaction do
+      if @ratio.save
+        @ratio.wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
+        flash[:notice] = "Wbs-Activity-Ratio was successfully validated"
+      else
+        flash[:error] = @ratio.errors.full_messages.to_sentence
+      end
+    end
+    redirect_to edit_wbs_activity_path(@ratio.wbs_activity, :anchor => "tabs-3")
   end
 end

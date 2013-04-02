@@ -1,0 +1,33 @@
+<%= form_tag url_for( {:action => "associate_module_project_to_ratios", :controller => "module_projects", :project_id => @project.id}), {:method => 'post'} do %>
+    <h4>Manage the way you will use each wbs-activity-ratio on <%= @project.title %> modules</h4>  <br />
+    <%= hidden_field_tag :project_id, @project.id %>
+    <%= hidden_field_tag :module_project_id, @module_project.id %>
+
+    <table class="table table-striped">
+      <tr>
+        <th> </th>
+        <% @references_values.each do |ref| %>
+            <th>
+              <%= ref.value %>
+            </th>
+        <% end %>
+      </tr>
+
+      <% @module_projects.each do |i| %>
+          <tr>
+            <td>
+              <strong><%= i.pemodule.title %></strong>
+            </td>
+            <% @references_values.each do |ref| %>
+                <td>
+                  <%= radio_button_tag "module_projects_#{i.id}", ref.id, i.reference_value.nil? ? false : (i.reference_value == ref) %>
+                </td>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
+
+    <%= submit_tag I18n.t("save"), :class => "btn " %>
+    <%= submit_tag I18n.t("apply"), :class => "btn" %>
+
+<% end %>

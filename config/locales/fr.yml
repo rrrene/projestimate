@@ -110,7 +110,8 @@ fr:
       
   time:
     formats:
-      default: ! '%d %B %Y %H:%M:%S'
+      default: ! "%d/%m/%Y %H:%M"
+      time: "%H:%M"
       short: ! '%d %b %H:%M'
       long: ! '%A %d %B %Y %H:%M'
     am: am
@@ -393,18 +394,20 @@ fr:
   edit_master_setting: "Editer les paramètres maître"
   new_master_setting: "Créer un nouveau paramètre maître"
 
-  #module_project_attributes
+  #estimation_values
   in_out: "Entrée/Sortie"
   input: "Entrée"
   output: "Sortie"
   both: "Entrée et Sortie"
-  edit_module_project_attribute: "Editer un attribut du module de projet"
-  new_module_project_attribute: "Créer un nouvel attribut de module de projet"
+  edit_estimation_value: "Editer un attribut du module de projet"
+  new_estimation_value: "Créer un nouvel attribut de module de projet"
 
   #module_project
   edit_module_project: "Editer un module de projet"
   new_module_project: "Créer un nouveau module de projet"
   related_attributes: "Attributs associés"
+  module_ratio_settings: "Paramètrage Ratio"
+  module_links_settings: "Liens entre Modules"  
   mandatory: "Obligatoire"
   links_to: "Liens vers"
   current_link: "Liens courant"
@@ -481,6 +484,13 @@ fr:
   #projects
   edit_project: "Editer le projet"
   new_project: "Créer un nouveau projet"
+  wbs_product: "WBS Produit"
+  wbs_activity: "WBS Activité"
+  available_wbs_activity: "WBS Activité disponibles"
+  select_wbs_activity: "Sélectionnez un WBS Activité"
+  select_default_wbs_activity_ratio: "Sélectionnez le ratio par défaut"
+  button_add: "Ajouter"   
+  default_wbs_activity_ratio: "Ratio par défaut " 
   estimation_plan: "Plan  d'estimation"
   securities: "Sécurités"
   calendar: "Calendrier"
@@ -582,14 +592,20 @@ fr:
   edit_wbs_activity: "Editer un wbs activités"
   new_wbs_activity: "Créer un nouveau wbs activités"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
+  one_activity_element: "Un activité-élément"
+  all_activity_elements: "Tous les activité-éléments"
+  set_of_activity_elements: "Un ensemble d'activité-éléments" 
   new_activities: "Nouvelle activité"
-  general: "General"
+  general: "Général"
   file_csv: "Fichier (csv seulement)"
   separator: "Séparateur (defaut:"
   encoding: "Encodage"
   please_wait_import: "Merci de bien vouloir patienter durant l'import..."
   close: "Fermer"
-  select_ratio_table: "Merci de bien vouloir sélectionner une table de ratio"
+  select_ratio_table: "Sélectionner la table de ratio à afficher "
+  wbs_elements: Élément du WBS (arbre)  
+  ratios: Ratios
+  ratios_elements: Élément des Ratios
 
   #wbs activity elements
   edit_wbs_activity_element: "Editer un élément du wbs activités"
@@ -634,3 +650,23 @@ fr:
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
+
+  simple_form:
+    "yes": 'Oui'
+    "no": 'Non'
+    required:
+      text: 'requis'
+      mark: '*'
+    error_notification:
+      default_message: "Des erreurs se sont glissées dans votre saisie:"
+
+  #Error, warning, information messages
+  ratio_value_range: "Entrez des valeurs entre ]0 - 100]"
+  master_force_edit: "Nous ne fournissons pas de cycle de vie pour la modification de ce tableau, si vous continuez, vous allez éditer l'enregistrement 'défini' lui-même S'il vous plaît confirmer que vous acceptez de continuer"
+  checking_new_release: "Vérification de la nouvelle version"
+  projestimate_open_source: "ProjEstimate est un logiciel open source et est distribué sous les termes de la licence"
+  projestimate_open_source_references: "Certains composants externes ou contributions livrés avec ProjEstimate peuvent être publiés en vertu d'autres licences compatibles avec la licence AGPLv3. Pour ces composants, merci de bien vouloir se se référer aux fichiers sources et / ou aux fichiers de licence, dans l'arborescence du code source."
+  latest_update : "Dernière mise à jour :"
+  latest_masterData_repository_update: "Dernière mise à jour de la base Master: "
+  download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
+  please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"

@@ -26,6 +26,14 @@ class PbsProjectElementsController < ApplicationController
     set_page_title("Editing #{@pbs_project_element.name}")
 
     @project = Project.find(params[:project_id])
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
+    @pbs_wbs_activity_ratios = []
+
+    unless @pbs_project_element.wbs_activity.nil?
+      @pbs_wbs_activity_ratios = @pbs_project_element.wbs_activity.wbs_activity_ratios
+    end
+
 
     #Select folders which could be a parent of a pbs_project_element
     #a pbs_project_element cannot be its own parent
@@ -59,7 +67,7 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
-    pbs_project_element.module_project_attributes.each do |mpa|
+    pbs_project_element.estimation_values.each do |mpa|
       mpa.destroy
     end
 
@@ -118,14 +126,14 @@ class PbsProjectElementsController < ApplicationController
     @user = current_user
 
     @project.module_projects.each do |mp|
-      mp.module_project_attributes.reject{|i| i.pbs_project_element_id != @project.root_component.id }.each do |mpa|
+      mp.estimation_values.reject{|i| i.pbs_project_element_id != @project.root_component.id }.each do |mpa|
         new_mpa = mpa.dup
         new_mpa.save
         mpa.update_attribute("pbs_project_element_id", @pbs_project_element.id)
       end
     end
 
-    @module_projects = current_project.module_projects
+    @module_projects = @project.module_projects
 
     render :partial => "pbs_project_elements/refresh_tree"
   end
@@ -160,5 +168,15 @@ class PbsProjectElementsController < ApplicationController
     @user = current_user
 
     render :partial => "pbs_project_elements/refresh_tree"
+  end
+
+  def refresh_pbs_activity_ratios
+    puts "Params_activity = #{params[:wbs_activity_id]}"
+    if params[:wbs_activity_id].empty? || params[:wbs_activity_id].nil?
+      @pbs_activity_ratios = []
+    else
+      @wbs_activity = WbsActivity.find(params[:wbs_activity_id])
+      @pbs_activity_ratios = @wbs_activity.wbs_activity_ratios
+    end
   end
 end

@@ -115,7 +115,7 @@ describe ModuleProject do
   #    @wet_link = FactoryGirl.create(:work_element_type, :wet_link)
   #    @attribute = FactoryGirl.create(:ksloc_attribute)
   #    @pbs_project_element = FactoryGirl.create(:pbs_project_element, :pe_wbs_project => @pe_wbs_project, :work_element_type => @wet_link)
-  #    @module_project_attribute = FactoryGirl.create(:module_project_attribute, :module_project=> @mp1, :pbs_project_element => @pbs_project_element, :attribute => @attribute )
+  #    @estimation_value = FactoryGirl.create(:estimation_value, :module_project=> @mp1, :pbs_project_element => @pbs_project_element, :attribute => @attribute )
   #  end
   #
   #  it "should return the list of attributes that two modules of the project linked between them." do

@@ -19,7 +19,7 @@
 ########################################################################
 
 #Master table
-#Specific attribute for a module (Fcuntionality)
+#Specific attribute for a module (Functionality)
 class AttributeModule < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
@@ -31,6 +31,7 @@ class AttributeModule < ActiveRecord::Base
 
   #TODO? validates :pemodule_id, :attribute_id, :presence => true
   validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates :attribute_id, :pemodule_id, :presence => true  #, :uniqueness => { :scope => :record_status_id }
+  validates :pemodule_id,  :presence => true
+  validates :attribute_id, :presence => true, :uniqueness => { :scope => :pemodule_id }
   validates :custom_value, :presence => true, :if => :is_custom?
 end

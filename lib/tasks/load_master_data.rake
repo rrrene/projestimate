@@ -52,7 +52,7 @@ namespace :projestimate do
             end
 
             #Deleting all association tables data
-            #association_tables = ["acquisition_categories_project_areas", "activity_categories_project_areas", "groups_permissions", "groups_projects", "groups_users", "labor_categories_project_areas", "links_module_project_attributes", "organizations_users", "permissions_project_security_levels", "permissions_users", "platform_categories_project_areas", "project_areas_project_categories", "project_areas_work_element_types" ]
+            #association_tables = ["acquisition_categories_project_areas", "activity_categories_project_areas", "groups_permissions", "groups_projects", "groups_users", "labor_categories_project_areas", "links_estimation_values", "organizations_users", "permissions_project_security_levels", "permissions_users", "platform_categories_project_areas", "project_areas_project_categories", "project_areas_work_element_types" ]
 
             puts "Loading Master Data"
             Home::load_master_data!
