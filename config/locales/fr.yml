@@ -670,3 +670,4 @@ fr:
   latest_masterData_repository_update: "Dernière mise à jour de la base Master: "
   download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
   please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"
+  edit_project_element: "Editer WBS-Project Element"
