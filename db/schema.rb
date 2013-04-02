@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326103007) do
+ActiveRecord::Schema.define(:version => 20130326153308) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -814,16 +814,15 @@ ActiveRecord::Schema.define(:version => 20130326103007) do
     t.string   "name"
     t.text     "description"
     t.integer  "wbs_activity_id"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "record_status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_number",        :default => 0
-    t.integer  "reference_value_id"
+    t.integer  "copy_number",      :default => 0
   end
 
   add_index "wbs_activity_ratios", ["owner_id"], :name => "index_wbs_activity_ratios_on_owner_id"
