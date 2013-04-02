@@ -1,4 +1,8 @@
-  <div class="module_box">
+
+<div id="stage">
+</div>
+
+<div class="module_box">
     <% module_projects = @project.module_projects %>
 
     <% unless module_projects.empty? %>
@@ -30,21 +34,33 @@
                 <%= link_to "", pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
             </div>
 
-            <% pmod.associated_module_projects.each do |amp| %>
-              <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
-                <script>
-                jsPlumb.bind("ready", function() {
-  //                jsPlumb.connect({
-  //                  source:$(".expert_judgment"),
-  //                  target:$(".cocomo_basic"),
-  //                  endpoint:"Dot",
-  //                  anchor:"Continuous",
-  //                  connector:[ "Straight" ]
-  //                });
-                });
-                </script>
-              <% end %>
-            <% end %>
+            <!--<script>-->
+<!--//              $(document).ready(function() {-->
+                <!--<%# pmod.associated_module_projects.each do |amp| %>-->
+<!--//                var nodes = [];-->
+<!--//                  for (var i = 0; i < <%#= @project.module_projects.size.to_i %>; ++i) {-->
+<!--//                    nodes[i] = new Node({-->
+<!--//                                        title: '<%#= amp.pemodule.alias %>',-->
+<!--//                                        stage: $('#stage'),-->
+<!--//                                        w: 50,-->
+<!--//                                        h: 50,-->
+<!--//                                        x: 100 * i,-->
+<!--//                                        y: 50-->
+<!--//                                    }).attach();-->
+<!--//                  }-->
+                  <!--<%# if pmod.associated_module_projects.map(&:id).include?(amp.id) %>-->
+                          <!---->
+<!--//                        new Segment({-->
+<!--//                            h: 5,-->
+<!--//                            stage: $('#stage'),-->
+<!--//                            origin: nodes[0],-->
+<!--//                            destination: nodes[1]-->
+<!--//                        }).attach();-->
+                  <!--<%# end %>-->
+                <!--<%# end %>-->
+<!--//              });-->
+            <!--</script>-->
+
           <% end %>
         </div>
       <% end %>
