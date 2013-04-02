@@ -90,6 +90,21 @@
     </div>
 
     <div id="tabs-4">
+
+      <% if controller.controller_name == "projects" %>
+
+        Add a Projestimate Module
+        <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
+
+        Select PBS-element
+        <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>
+
+        <%= hidden_field_tag "project_id", @project.id %>
+
+        <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
+        <%=  link_to "Associate PE-module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
+
+      <% end %>
       <%= render :partial => "estimation_plan" %>
     </div>
 
