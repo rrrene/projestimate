@@ -30,7 +30,7 @@ module DataValidationHelper
         temp_parent_uuid = parent_record.uuid
         #Create transaction to avoid uuid duplication error in DB
         parent_record.transaction do
-          @record.uuid = UUIDTools::UUID.timestamp_create.to_s
+          @record.uuid = UUIDTools::UUID.random_create.to_s
           parent_record.record_status = @retired_status
           parent_record.uuid = temp_current_uuid
           parent_record.reference_uuid = @record.reference_uuid
@@ -92,7 +92,7 @@ module DataValidationHelper
 
           #Create transaction to avoid uuid duplication error in DB
           child_record.transaction do
-            @record.uuid = UUIDTools::UUID.timestamp_create.to_s
+            @record.uuid = UUIDTools::UUID.random_create.to_s
             child_record.record_status = @retired_status
             child_record.uuid = temp_current_uuid
             child_record.reference_uuid = @record.reference_uuid

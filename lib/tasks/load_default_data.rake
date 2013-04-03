@@ -201,7 +201,7 @@ def load_data!
     AdminSetting.create(:key => "welcome_message", :value => "Welcome aboard !", :record_status_id => rsid)
     AdminSetting.create(:key => "notifications_email", :value => "AdminEmail@domaine.com", :record_status_id => rsid)
     AdminSetting.create(:key => "password_min_length", :value => "4", :record_status_id => rsid)
-    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil, :record_status_id => rsid, :uuid => UUIDTools::UUID.timestamp_create.to_s)
+    as = AdminSetting.new(:key => "custom_status_to_consider", :value => nil, :record_status_id => rsid, :uuid => UUIDTools::UUID.random_create.to_s)
     as.save(:validate => false)
 
     puts "   - Auth Method"
