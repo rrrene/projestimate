@@ -58,7 +58,7 @@ class PermissionsController < ApplicationController
 
     unless @permission.child_reference.nil?
       if @permission.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This permission can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:permission_cant_be_edited)
         redirect_to permissions_path
       end
     end
@@ -72,7 +72,7 @@ class PermissionsController < ApplicationController
     @groups = Group.all
 
     if @permission.save
-      redirect_to redirect(permissions_path), notice: 'Permission was successfully created.'
+      redirect_to redirect(permissions_path), notice: "#{I18n.t (:permission_succesfull_created)}"
     else
       render action: "new"
     end
@@ -91,7 +91,7 @@ class PermissionsController < ApplicationController
     end
 
     if @permission.update_attributes(params[:permission])
-      redirect_to redirect("/globals_permissions"), notice: 'Function was successfully updated.'
+      redirect_to redirect("/globals_permissions"), notice: "#{I18n.t (:function_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -108,7 +108,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to permissions_path, notice: "Permission was successfully deleted." }
+      format.html { redirect_to permissions_path, notice: "#{I18n.t (:permission_succesfull_deleted)}" }
       format.json { head :ok }
     end
   end
@@ -124,7 +124,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to "/globals_permissions", :notice => "Permissions saved succesfully" }
+      format.html { redirect_to "/globals_permissions", :notice => "#{I18n.t (:permission_succesfull_saved)}" }
     end
 
   end
@@ -140,7 +140,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to project_securities_path, :notice => "Permissions saved succesfully" }
+      format.html { redirect_to project_securities_path, :notice => "#{I18n.t (:permission_succesfull_saved)}" }
     end
 
   end

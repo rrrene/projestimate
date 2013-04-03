@@ -54,7 +54,7 @@ class GroupsController < ApplicationController
       @enable_update_in_local = true
       unless @group.child_reference.nil?
         if @group.child_reference.is_proposed_or_custom?
-          flash[:notice] = "This Group can't be edited, because the previous changes have not yet been validated."
+          flash[:notice] = I18n.t (:group_cant_be_edited)
           redirect_to groups_path and return
         end
       end
@@ -135,12 +135,12 @@ class GroupsController < ApplicationController
       if @group.is_local_record? || @group.is_retired?
         @group.destroy
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to redirect(groups_path)  and return
       end
     end
 
-    flash[:notice] = "Group was successfully deleted."
+    flash[:notice] = I18n.t (:group_succesfull_deleted)
     redirect_to groups_url
   end
 

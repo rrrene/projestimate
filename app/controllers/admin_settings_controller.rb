@@ -42,7 +42,7 @@ class AdminSettingsController < ApplicationController
     if is_master_instance?
       unless @admin_setting.child_reference.nil?
         if @admin_setting.child_reference.is_proposed_or_custom?
-          flash[:notice] = "This administration setting record can not be edited, previous changes have not yet been validated."
+          flash[:notice] = I18n.t (:administration_setting_cant_be_edited)
           redirect_to admin_settings_path
         end
       end
@@ -57,7 +57,7 @@ class AdminSettingsController < ApplicationController
     end
 
     if @admin_setting.save
-      flash[:notice] = 'Admin setting was successfully created.'
+      flash[:notice] = I18n.t (:administration_setting_succesfull_created)
       redirect_to redirect(admin_settings_path)
     else
       render action: "new"
@@ -80,10 +80,10 @@ class AdminSettingsController < ApplicationController
     end
 
     if @admin_setting.update_attributes(params[:admin_setting])
-      flash[:notice] = 'Admin setting was successfully updated.'
+      flash[:notice] = I18n.t (:administration_setting_succesfull_updated)
       redirect_to redirect(admin_settings_path)
     else
-      flash[:notice] = 'A error has occurred during the update.'
+      flash[:notice] = I18n.t (:error_update)
       render action: "edit"
     end
   end
@@ -95,18 +95,18 @@ class AdminSettingsController < ApplicationController
       if @admin_setting.is_defined? || @admin_setting.is_custom?
         #logical deletion: delete don't have to suppress records anymore on defined record
         @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
-        flash[:notice] = 'Admin setting was successfully deleted.'
+        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
       else
         @admin_setting.destroy
-        flash[:notice] = 'Admin setting was successfully deleted.'
+        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
       end
       #if in local instance
     else
       if @admin_setting.is_local_record?
         @admin_setting.destroy
-        flash[:notice] = 'Admin setting was successfully deleted.'
+        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
       else
-        flash[:notice] = "You can't delete master data record"
+        flash[:notice] = I18n.t (:cant_delete_masterdata_record)
       end
     end
 
@@ -142,7 +142,7 @@ class AdminSettingsController < ApplicationController
 
 
   def unselect_conditions
-    (@admin_setting.is_retired? || !is_master_instance?) ? "unselectable" : ""
+    (@admin_setting.is_retired? || !is_master_instance?) ? I18n.t (:unselectable) : ""
   end
 
 end

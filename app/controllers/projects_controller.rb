@@ -93,15 +93,15 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(edit_project_path(@project)), notice: 'Project was successfully created.'
+          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:project_succesfull_created)}"
         else
-          flash[:error] = "Error : Project creation failed, #{@project.errors.full_messages.to_sentence}."
+          flash[:error] = I18n.t (:project_creation_failled)+" "+ @project.errors.full_messages.to_sentence + "."
           render :new
         end
       end
 
     rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-      flash[:error] = "Error: Project creation failed, #{@project.errors.full_messages.to_sentence}."
+      flash[:error] = I18n.t (:project_creation_failled) + " " +@project.errors.full_messages.to_sentence + "."
       redirect_to :back
     end
 
@@ -160,7 +160,7 @@ class ProjectsController < ApplicationController
     end
 
     if @project.update_attributes(params[:project])
-      redirect_to redirect(projects_url), notice: 'La mise a jour a été effectué avec succès.'
+      redirect_to redirect(projects_url), notice: "#{I18n.t (:project_succesfull_updated)}"
     else
       render(:edit)
     end
@@ -416,10 +416,10 @@ class ProjectsController < ApplicationController
       #  new_mp.save
       #end
 
-      flash[:success] = "Project was successfully duplicated"
+      flash[:success] = I18n.t (:project_succesfull_duplicated)
       redirect_to "/projects" and return
     rescue
-      flash["Error"] = "Duplication failed: Error happened on Project duplication"
+      flash["Error"] = I18n.t (:project_duplication_failled)
       redirect_to "/projects"
     end
   end
@@ -505,7 +505,7 @@ class ProjectsController < ApplicationController
 
           @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
           if @project.save
-            flash[:notice] = "Wbs-Activity was successfully added to Project."
+            flash[:notice] = I18n.t (:wbs_activity_successful_add)
           else
             flash[:error] = "#{@project.errors.full_messages.to_sentence}"
           end

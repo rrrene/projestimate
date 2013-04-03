@@ -63,7 +63,7 @@ class RecordStatusesController < ApplicationController
 
     unless @record_status.child_reference.nil?
       if @record_status.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This status can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:record_status_cant_be_edited)
         redirect_to record_statuses_path
       end
     end
@@ -76,7 +76,7 @@ class RecordStatusesController < ApplicationController
 
     respond_to do |format|
       if @record_status.save
-        format.html { redirect_to record_statuses_path, notice: 'Record status was successfully created.' }
+        format.html { redirect_to record_statuses_path, notice: "#{I18n.t (:record_status_succesfull_created)}" }
         format.json { render json: @record_status, status: :created, location: @record_status }
       else
         format.html { render action: "new" }
@@ -99,7 +99,7 @@ class RecordStatusesController < ApplicationController
 
     respond_to do |format|
       if @record_status.update_attributes(params[:record_status])
-        format.html { redirect_to record_statuses_path, notice: 'Record status was successfully updated.' }
+        format.html { redirect_to record_statuses_path, notice: "#{I18n.t (:record_status_succesfull_updated)}" }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

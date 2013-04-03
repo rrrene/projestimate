@@ -42,7 +42,7 @@ class LanguagesController < ApplicationController
 
     unless @language.child_reference.nil?
       if @language.child_reference.is_proposed_or_custom?
-        flash[:warning] = "This language can not be edited, previous changes have not yet been validated"
+        flash[:warning] = I18n.t (:language_cant_be_edited)
         redirect_to languages_path
       end
     end
@@ -53,14 +53,14 @@ class LanguagesController < ApplicationController
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
-      redirect_to redirect(languages_path), notice: 'Language was successfully created.'
+      redirect_to redirect(languages_path), notice: "#{I18n.t (:language_succesfull_created)}"
     else
       render action: "new"
     end
   end
 
   def update
-    authorize! :edit_languages, Language, :message => "Unable to update 'Retired' language"
+    authorize! :edit_languages, Language, :message => I18n.t (:error_update_retired_language)
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
@@ -71,9 +71,9 @@ class LanguagesController < ApplicationController
     end
 
     if @language.update_attributes(params[:language])
-      redirect_to redirect(languages_path), notice: 'Language was successfully updated.'
+      redirect_to redirect(languages_path), notice: "#{I18n.t (:language_succesfull_updated)}"
     else
-      flash[:error] = "Error : update failed, #{@language.errors.full_messages.to_sentence}"
+      flash[:error] = I18n.t (:update_failed)+@language.errors.full_messages.to_sentence
       render action: "edit"
     end
   end
@@ -91,7 +91,7 @@ class LanguagesController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:notice] = "Language was successfully deleted."
+      flash[:notice] = I18n.t (:language_succesfull_deleted)
       format.html { redirect_to languages_url }
     end
   end

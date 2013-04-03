@@ -49,7 +49,7 @@ class PemodulesController < ApplicationController
 
     unless @pemodule.child_reference.nil?
       if @pemodule.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This projestimate module can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:pemodule_cant_be_edited)
         redirect_to pemodules_path
       end
     end
@@ -72,7 +72,7 @@ class PemodulesController < ApplicationController
 
     #if @pemodule.save#(:validate => false)
     if @pemodule.update_attributes(params[:pemodule])
-      flash[:notice] =  "The changes have been saved correctly"
+      flash[:notice] =  I18n.t (:succesfull_update)
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
     end
@@ -114,9 +114,9 @@ class PemodulesController < ApplicationController
 
 
     if @pemodule.save
-      flash[:notice] = "The changes have been saved correctly."
+      flash[:notice] = I18n.t (:succesfull_update)
     else
-      flash[:notice] = "Error when updating Module."
+      flash[:notice] = I18n.t (:error_update)
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
@@ -145,7 +145,7 @@ class PemodulesController < ApplicationController
       end
     end
 
-    redirect_to edit_pemodule_path(params[:module_id]), :notice => "The changes have been saved correctly"
+    redirect_to edit_pemodule_path(params[:module_id]), :notice => "#{I18n.t (:succesfull_update)}"
   end
 
   # DELETE //1
@@ -160,7 +160,7 @@ class PemodulesController < ApplicationController
       @pemodule.destroy
     end
 
-    redirect_to pemodules_url, :notice => "Module was successfully deleted."
+    redirect_to pemodules_url, :notice => "#{I18n.t (:pemodule_succesfull_deleted)}"
   end
 
 
