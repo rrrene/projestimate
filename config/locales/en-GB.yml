@@ -663,4 +663,11 @@ en-gb:
   #Error, warning, information messages
   ratio_value_range: "Please, enter value between ]0 - 100]"
   master_force_edit: "We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue"
-  
+  checking_new_release: "Checking for new release"
+  projestimate_open_source: "ProjEstimate is open source and released under the terms of the"
+  projestimate_open_source_references: "Some external component or contributions bundled with ProjEstimate may be published under other AGPLv3-compatible licenses. For these, please refer to the relevant source files and/or license files, in the source code tree."
+  latest_update : "Latest update :"
+  latest_masterData_repository_update: "Latest MasterData Repository update"
+  download_master_data: "Download and apply MasterData update"
+  please_wait: "Please wait. It could take a while"
+  edit_project_element: "Edit WBS-Project Element"

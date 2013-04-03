@@ -663,3 +663,11 @@ fr:
   #Error, warning, information messages
   ratio_value_range: "Entrez des valeurs entre ]0 - 100]"
   master_force_edit: "Nous ne fournissons pas de cycle de vie pour la modification de ce tableau, si vous continuez, vous allez éditer l'enregistrement 'défini' lui-même S'il vous plaît confirmer que vous acceptez de continuer"
+  checking_new_release: "Vérification de la nouvelle version"
+  projestimate_open_source: "ProjEstimate est un logiciel open source et est distribué sous les termes de la licence"
+  projestimate_open_source_references: "Certains composants externes ou contributions livrés avec ProjEstimate peuvent être publiés en vertu d'autres licences compatibles avec la licence AGPLv3. Pour ces composants, merci de bien vouloir se se référer aux fichiers sources et / ou aux fichiers de licence, dans l'arborescence du code source."
+  latest_update : "Dernière mise à jour :"
+  latest_masterData_repository_update: "Dernière mise à jour de la base Master: "
+  download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
+  please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"
+  edit_project_element: "Editer WBS-Project Element"

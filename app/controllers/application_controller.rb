@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
   helper_method :load_master_setting
   helper_method :load_admin_setting
   helper_method :get_record_statuses
+  helper_method :set_locale_from_browser
 
   before_filter :set_user_time_zone
   before_filter :set_user_language
@@ -129,8 +130,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_user_language
-    unless current_user.nil?
-      session[:current_locale] = current_user.language.locale.downcase
+    unless current_user.nil? || current_user.language.nil?
+        session[:current_locale] = current_user.language.locale.downcase
     else
       session[:current_locale] = set_locale_from_browser
     end
