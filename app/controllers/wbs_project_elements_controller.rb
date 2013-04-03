@@ -159,7 +159,7 @@ class WbsProjectElementsController < ApplicationController
 
     @wbs_project_element.wbs_activity_ratio_id = params[:wbs_activity_ratio_id]
     if @wbs_project_element.save
-      flash[:notice] = @wbs_project_element.name+" "+I18n.t (:ratio_succesfull_changed)
+      flash[:notice] = @wbs_project_element.name+" #{I18n.t (:ratio_succesfull_changed)}"
     else
       flash[:error] = I18n.t (:ratio_error_changed)
     end

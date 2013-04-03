@@ -48,10 +48,10 @@ class SessionsController < ApplicationController
         end
         redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "#{I18n.t (:welcome)} "+ user.name }
       else #user.suspended? || user.blacklisted?
-        redirect_to "/dashboard", :flash => { :error => I18n.t (:account_black_listed) }
+        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:account_black_listed)}" }
       end
     else
-        redirect_to "/dashboard", :flash => { :error => I18n.t (:invalid_username_password) }
+        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:invalid_username_password)}" }
     end
   end
 

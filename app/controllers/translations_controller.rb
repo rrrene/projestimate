@@ -39,7 +39,7 @@ class TranslationsController < ApplicationController
     end
     Translate::Storage.new(:fr).write_to_file
 
-    redirect_to translations_url, :notice => I18n.t (:added_translation)
+    redirect_to translations_url, :notice => "#{I18n.t (:added_translation)}"
   end
 
   #Load translations from config/locale/*.yml files

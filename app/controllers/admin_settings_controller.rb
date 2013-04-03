@@ -142,7 +142,7 @@ class AdminSettingsController < ApplicationController
 
 
   def unselect_conditions
-    (@admin_setting.is_retired? || !is_master_instance?) ? I18n.t (:unselectable) : ""
+    (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ""
   end
 
 end

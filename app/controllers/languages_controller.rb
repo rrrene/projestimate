@@ -60,7 +60,7 @@ class LanguagesController < ApplicationController
   end
 
   def update
-    authorize! :edit_languages, Language, :message => I18n.t (:error_update_retired_language)
+    authorize! :edit_languages, Language, :message => "#{I18n.t (:error_update_retired_language)}"
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
@@ -73,7 +73,7 @@ class LanguagesController < ApplicationController
     if @language.update_attributes(params[:language])
       redirect_to redirect(languages_path), notice: "#{I18n.t (:language_succesfull_updated)}"
     else
-      flash[:error] = I18n.t (:update_failed)+@language.errors.full_messages.to_sentence
+      flash[:error] = "#{I18n.t (:update_failed)}"+"#{@language.errors.full_messages.to_sentence}"
       render action: "edit"
     end
   end
