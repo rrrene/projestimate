@@ -21,12 +21,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = "Access denied."
+    flash[:error] = I18n.t (:access_denied)
     redirect_to root_url
   end
 
   rescue_from Errno::ECONNREFUSED do |error|
-    flash[:error] = "Connection refused - Try to restart SOLR"
+    flash[:error] = I18n.t (:connection_refused)
   end
 
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance
@@ -178,10 +178,16 @@ class ApplicationController < ActionController::Base
   #end
 
   def set_locale_from_browser
+
       if  request.env['HTTP_ACCEPT_LANGUAGE'].nil?
         I18n.locale= "en"
       else
-        I18n.locale = extract_locale_from_accept_language_header
+        local_langage=Language.find_by_locale(extract_locale_from_accept_language_header)
+        if local_langage.nil?
+          I18n.locale= "en"
+        else
+          I18n.locale = extract_locale_from_accept_language_header
+        end
       end
   end
   private

@@ -46,12 +46,12 @@ class SessionsController < ApplicationController
         else
           session[:current_project_id] = user.projects.first.id
         end
-        redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "Welcome #{user.name}" }
+        redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "#{I18n.t (:welcome)} "+ user.name }
       else #user.suspended? || user.blacklisted?
-        redirect_to "/dashboard", :flash => { :error => "Your account is black-listed" }
+        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:account_black_listed)}" }
       end
     else
-        redirect_to "/dashboard", :flash => { :error => "Invalid user name or password" }
+        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:invalid_username_password)}" }
     end
   end
 
@@ -86,16 +86,16 @@ class SessionsController < ApplicationController
       if user.auth_method.name == "Application" or user.auth_method.nil?
         if user.active?
           user.send_password_reset if user
-          redirect_to root_url, :error => "Password reset instructions have been sent."
+          redirect_to root_url, :error => "#{I18n.t (:password_reset_instruction)}"
         else
           user.send_password_reset if user
-          redirect_to root_url, :error => "Your account is not active"
+          redirect_to root_url, :error => "#{I18n.t (:account_not_active)}"
         end
       else
-        redirect_to root_url, :error => "Your account is associated with the corporate directory/LDAP. Please contact your system administrator to know your ids."
+        redirect_to root_url, :error => "#{I18n.t (:account_ldap_association)}"
       end
     else
-      redirect_to root_url, :error => "Bad user name"
+      redirect_to root_url, :error => "#{I18n.t (:bad_username)}"
     end
   end
 

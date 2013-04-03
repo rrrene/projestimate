@@ -26,7 +26,7 @@ describe Attribute do
 
   it 'should be return attribute type=date' do
     @attribute.attr_type = "date"
-    @attribute.attribute_type.should eql("string")
+    @attribute.attribute_type.should eql("date")
   end
 
   it 'should be return attribute type=text' do

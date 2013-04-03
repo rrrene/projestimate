@@ -14,7 +14,7 @@ class WbsActivityRatiosController < ApplicationController
     begin
       error_count = WbsActivityRatio::import(params[:file], params[:separator], params[:encoding])
     rescue
-      flash[:error] = "Failed to import some element that looks out of the WBS-activity."
+      flash[:error] = I18n.t (:wbs_activity_failed_import)
       redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3") and return
     end
 
@@ -22,11 +22,11 @@ class WbsActivityRatiosController < ApplicationController
     total = ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
 
     if error_count != 0
-      flash[:error] = "Failed to import some element that looks out of the WBS-activity."
+      flash[:error] = I18n.t (:wbs_activity_failed_impord)
     elsif total != 100
-      flash[:warning] = "Warning - Ratios successfully imported, but sum is different of 100%."
+      flash[:warning] =I18n.t (:warning_import_sum_ratio_different_100)
     elsif error_count == 0 and total == 100
-      flash[:notice] = "Ratios successfully imported."
+      flash[:notice] = I18n.t (:ratio_succesfull_imported)
     end
 
     redirect_to edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3")
@@ -101,12 +101,12 @@ class WbsActivityRatiosController < ApplicationController
       if @wbs_activity_ratio.is_local_record? || @wbs_activity_ratio.is_retired?
         @wbs_activity_ratio.destroy
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to redirect(groups_path)  and return
       end
     end
 
-    flash[:success] = "WBS-Activity was successfully deleted."
+    flash[:success] = I18n.t (:wbs_activity_succesfull_deleted)
     redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))
   end
 
@@ -116,7 +116,7 @@ class WbsActivityRatiosController < ApplicationController
     @ratio.transaction do
       if @ratio.save
         @ratio.wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
-        flash[:notice] = "Wbs-Activity-Ratio was successfully validated"
+        flash[:notice] = I18n.t (:wbs_activity_ratio_succesfull_validated)
       else
         flash[:error] = @ratio.errors.full_messages.to_sentence
       end

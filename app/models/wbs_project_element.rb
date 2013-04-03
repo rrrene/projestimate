@@ -8,6 +8,10 @@ class WbsProjectElement < ActiveRecord::Base
   belongs_to :wbs_activity_ratio  #Default Wbs-Activity-Ratio
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
+  #Product and Activities association
+  #has_many :product_activities
+  #has_many :pbs_project_elements, :through => :product_activities
+
   scope :elements_root, where(:is_root => true)
 
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}

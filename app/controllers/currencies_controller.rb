@@ -47,7 +47,7 @@ class CurrenciesController < ApplicationController
 
     unless @currency.child_reference.nil?
       if @currency.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This currency can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:currency_cant_be_edited)
         redirect_to currencies_path
       end
     end
@@ -76,7 +76,7 @@ class CurrenciesController < ApplicationController
     end
 
     if @currency.update_attributes(params[:currency])
-      redirect_to redirect(currencies_url), notice: 'Currency was successfully updated.'
+      redirect_to redirect(currencies_url), notice: "#{I18n.t (:currency_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -94,7 +94,7 @@ class CurrenciesController < ApplicationController
       @currency.destroy
     end
 
-    flash[:notice] = "Currency was successfully deleted."
+    flash[:notice] = I18n.t (:currency_succesfull_deleted)
     redirect_to currencies_url
   end
 end

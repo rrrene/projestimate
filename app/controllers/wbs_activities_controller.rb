@@ -11,9 +11,9 @@ class WbsActivitiesController < ApplicationController
   def import
     begin
       WbsActivityElement.import(params[:file], params[:separator])
-      flash[:notice] = "Import successful."
+      flash[:notice] = I18n.t (:import_succesfull)
     rescue Exception => e
-      flash[:error] = "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."
+      flash[:error] = I18n.t (:verify_file_integrity)
       flash[:warning] = "#{e}"
     end
     redirect_to wbs_activities_path
@@ -136,12 +136,12 @@ class WbsActivitiesController < ApplicationController
             @wbs_activity.destroy
         end
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to redirect(wbs_activities_path)  and return
       end
     end
 
-    flash[:success] = "WBS-Activity was successfully deleted."
+    flash[:success] = I18n.t (:wbs_activity_succesfull_deleted)
     redirect_to wbs_activities_path
   end
 
@@ -198,13 +198,13 @@ class WbsActivitiesController < ApplicationController
         end
       end
 
-      redirect_to("/wbs_activities", :notice  =>  "WBS-Activity was successfully duplicated") and return
+      redirect_to("/wbs_activities", :notice  =>  "#{I18n.t (:wbs_activity_succesfull_duplicated)}") and return
 
     rescue ActiveRecord::RecordNotSaved => e
       flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
 
     rescue
-      flash[:notice] = "Duplication failed: Error happened on Wbs-Activity duplication, #{new_wbs_activity.errors.full_messages.to_sentence}"
+      flash[:notice] = I18n.t (:wbs_activity_failed_duplication)+" "+new_wbs_activity.errors.full_messages.to_sentence
       redirect_to "/wbs_activities"
     end
   end
@@ -255,9 +255,9 @@ class WbsActivitiesController < ApplicationController
             end
           end
 
-          flash[:notice] = 'Changes on record was successfully validated.'
+          flash[:notice] =I18n.t (:wbs_activity_succesfull_updated)
         else
-          flash[:error] = "Changes validation failed: #{wbs_activity_root_element.errors.full_messages.to_sentence}."
+          flash[:error] = I18n.t (:change_validation_failed)+ " " +wbs_activity_root_element.errors.full_messages.to_sentence+"."
         end
       end
 

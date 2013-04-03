@@ -45,7 +45,7 @@ class WorkElementTypesController < ApplicationController
 
     unless @work_element_type.child_reference.nil?
       if @work_element_type.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This work element type can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:work_element_type_cant_be_edited)
         redirect_to work_element_types_path
       end
     end
@@ -80,7 +80,7 @@ class WorkElementTypesController < ApplicationController
     @peicons = Peicon.all
 
     if @work_element_type.update_attributes(params[:work_element_type])
-      flash[:notice] =  'Work element type was successfully updated.'
+      flash[:notice] =  I18n.t (:work_element_type_succesfull_updated)
       redirect_to redirect(work_element_types_path)
     else
       render action: "edit"

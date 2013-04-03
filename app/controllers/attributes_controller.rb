@@ -42,7 +42,7 @@ class AttributesController < ApplicationController
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This Attribute can't be edited, because the previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:attribute_cant_be_edited)
         redirect_to attributes_path
       end
     end

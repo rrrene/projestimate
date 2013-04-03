@@ -56,7 +56,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.new(params[:module_project])
 
     if @module_project.save
-      redirect_to redirect(@module_project), notice: 'Module project was successfully created.'
+      redirect_to redirect(@module_project), notice: "#{I18n.t (:module_project_succesfull_created)}"
     else
       render action: "new"
     end
@@ -65,17 +65,6 @@ class ModuleProjectsController < ApplicationController
   def update
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
-    maps = params["estimation_values"]
-
-    unless maps.nil?
-      maps.keys.each do |k|
-        a = EstimationValue.find(k)
-        EstimationValue.where(:attribute_id => a.attribute_id, :module_project_id => @module_project.id).each do |mpa|
-          mpa.links << EstimationValue.find(maps[k].keys.first)
-          mpa.save
-        end
-      end
-    end
 
     @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
       @module_project.estimation_values.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
@@ -87,11 +76,7 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
-    @module_projects.each do |mp|
-      mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
-    end
-
-    redirect_to redirect(edit_module_project_path(@module_project)), notice: 'Module project was successfully updated.'
+    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
   end
 
   def module_projects_matrix
@@ -105,7 +90,7 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
     end
-    redirect_to redirect(edit_project_path(@project.id)), notice: 'Module project was successfully updated.'
+    redirect_to redirect(edit_project_path(@project.id)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
   end
 
   def destroy
@@ -132,10 +117,10 @@ class ModuleProjectsController < ApplicationController
     end
 
     if params[:commit] == I18n.t("apply")
-      flash[:notice] = 'Module project was successfully updated.'
+      flash[:notice] = I18n.t (:module_project_succesfull_updated)
       redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
     else
-      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: 'Module project was successfully updated.'
+      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:module_project_succesfull_updated)}"
     end
   end
 
