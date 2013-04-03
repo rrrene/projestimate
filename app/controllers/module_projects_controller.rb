@@ -65,17 +65,6 @@ class ModuleProjectsController < ApplicationController
   def update
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
-    maps = params["estimation_values"]
-
-    unless maps.nil?
-      maps.keys.each do |k|
-        a = EstimationValue.find(k)
-        EstimationValue.where(:attribute_id => a.attribute_id, :module_project_id => @module_project.id).each do |mpa|
-          mpa.links << EstimationValue.find(maps[k].keys.first)
-          mpa.save
-        end
-      end
-    end
 
     @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
       @module_project.estimation_values.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
@@ -85,10 +74,6 @@ class ModuleProjectsController < ApplicationController
           mpa.update_attribute("description", params[:description][j])
         end
       end
-    end
-
-    @module_projects.each do |mp|
-      mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
     end
 
     redirect_to redirect(edit_module_project_path(@module_project)), notice: 'Module project was successfully updated.'
