@@ -49,12 +49,13 @@ describe WbsActivityRatio do
     @wbs_activity_ratio.is_All_Activity_Elements?.should be_true
   end
 
-  it "should be a Set Of Activity-elements" do
-    set_of_reference_value = FactoryGirl.create(:reference_value, :a_set_of_activity_elements)
-    set_of_reference_value.value = "A set of activity-elements"
-    @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => set_of_reference_value)
-    @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_true
-  end
+  #TODO : will be transfer in ModuleProject class
+  #it "should be a Set Of Activity-elements" do
+  #  set_of_reference_value = FactoryGirl.create(:reference_value, :a_set_of_activity_elements)
+  #  set_of_reference_value.value = "A set of activity-elements"
+  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => set_of_reference_value)
+  #  @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_true
+  #end
 
   #Should be false
   it "It's a set of activity-elements" do
@@ -71,12 +72,13 @@ describe WbsActivityRatio do
     @wbs_activity_ratio.is_All_Activity_Elements?.should be_false
   end
 
-  it "It's All of activity-elements" do
-    all_activity_elt_ref_value = FactoryGirl.create(:reference_value, :all_activity_elements)
-    all_activity_elt_ref_value.value = "All Activity-elements"
-    @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => all_activity_elt_ref_value)
-    @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_false
-  end
+  #TODO : will be transfer in ModuleProject class
+  #it "It's All of activity-elements" do
+  #  all_activity_elt_ref_value = FactoryGirl.create(:reference_value, :all_activity_elements)
+  #  all_activity_elt_ref_value.value = "All Activity-elements"
+  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => all_activity_elt_ref_value)
+  #  @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_false
+  #end
 
 
   #Rescue
@@ -129,7 +131,7 @@ describe WbsActivityRatio do
         csv << ["id", "Ratio Name", "Outline", "Element Name", "Element Description", "Ratio Value", "Reference"]
         @wbs_activity_ratio=WbsActivityRatio.find(@wbs_activity_ratio.id)
         @wbs_activity_ratio.wbs_activity_ratio_elements.each do |element|
-          csv << [element.id, "#{@wbs_activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.simple_reference, element.multiple_reference]
+          csv << [element.id, "#{@wbs_activity_ratio.name}", "#{element.wbs_activity_element.dotted_id}", "#{element.wbs_activity_element.name}", "#{element.wbs_activity_element.description}", element.ratio_value, element.simple_reference, element.multiple_references]
         end
       end
       csv_string.encode(I18n.t(:general_csv_encoding))
