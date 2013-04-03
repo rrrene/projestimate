@@ -160,7 +160,7 @@ class Project < ActiveRecord::Base
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == "output" or est_val.in_out=="both"
-          @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}")
+          @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}(#{}, #{module_project})")
         end
       end
 
