@@ -35,19 +35,19 @@ module ProjectsHelper
 
   def display_results
     res = String.new
+    pbs_project_element = @pbs_project_element || current_project.root_component
     @module_projects.each do |module_project|
       pemodule = Pemodule.find(module_project.pemodule.id)
-
       res << "<div class='widget'>"
         res << "<div class='widget-header'>
-                  <h3>#{module_project.pemodule.title.humanize} - #{@pbs_project_element.name}</h3>
+                  <h3>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h3>
                 </div>"
         res << "<div class='widget-content'>"
           res << "<table class='table table-bordered'>
                    <tr>
                      <th></th>"
-                    @pbs_project_element.estimation_values.each do |mpa|
-                      if (mpa.in_out == "output" or mpa.in_out=="both")  and mpa.module_project.id == module_project.id
+                      pbs_project_element.estimation_values.each do |mpa|
+                      if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
                          res << "<th>#{mpa.attribute.name}</th>"
                        end
                     end
@@ -55,18 +55,36 @@ module ProjectsHelper
                   res << "<tr>"
                    ["low", "most_likely", "high"].each do |level|
                       res << "<td>#{level.humanize}</td>"
-                      @pbs_project_element.estimation_values.each do |mpa|
+                      pbs_project_element.estimation_values.each do |mpa|
                         if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-                          res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
+                          if @results.nil?
+                            str = "#{mpa.attribute.attribute_type}_data_#{level}"
+                            res << "<td>#{ActiveRecord::Base.connection.execute(" SELECT #{str}
+                                                                                  FROM estimation_values
+                                                                                  WHERE pbs_project_element_id = #{pbs_project_element.id}
+                                                                                  AND module_project_id = #{module_project.id}
+                                                                                  AND attribute_id = #{mpa.attribute.id}").to_a.flatten.first}</td>"
+                          else
+                            res << "<td>#{@results[level.to_sym][mpa.attribute.alias.to_sym]}</td>"
+                          end
                         end
                       end
                     res << "</tr>"
                    end
                 res << "<tr>
                           <td><strong> Probable Value </strong> </td>"
-                            @pbs_project_element.estimation_values.each do |mpa|
+                            pbs_project_element.estimation_values.each do |mpa|
                               if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-                                res << "<td>#{ probable_value(@results, mpa) }</td>"
+                                if @results.nil?
+                                  str = "#{mpa.attribute.attribute_type}_data_probable"
+                                  res << "<td>#{ ActiveRecord::Base.connection.execute(" SELECT #{str}
+                                                                                        FROM estimation_values
+                                                                                        WHERE pbs_project_element_id = #{pbs_project_element.id}
+                                                                                        AND module_project_id = #{module_project.id}
+                                                                                        AND attribute_id = #{mpa.attribute.id}").to_a.flatten.first }</td>"
+                                else
+                                  res << "<td>#{ probable_value(@results, mpa) }</td>"
+                                end
                               end
                             end
                 res << "</tr>"
