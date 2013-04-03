@@ -56,10 +56,10 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    @pemodule = nil
     @wets = WorkElementType.all.reject{|i| i.alias == "link"}
     @attributes = Attribute.all
 
+    @pemodule = nil
     current_pemodule = Pemodule.find(params[:id])
     if current_pemodule.is_defined?
       @pemodule = current_pemodule.amoeba_dup
@@ -76,7 +76,7 @@ class PemodulesController < ApplicationController
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
     end
-    redirect_to redirect(edit_pemodule_path(@pemodule))
+    redirect_to redirect(edit_pemodule_path(@pemodule))  #redirect_to redirect(pemodules_url)
   end
 
 
@@ -106,12 +106,13 @@ class PemodulesController < ApplicationController
       m.destroy unless attributes_ids.include?(m.attribute_id.to_s)
       attributes_ids.delete(m.attribute_id.to_s)
     end
+
+    #Attribute module record_status is according to the Pemodule record_status
     attributes_ids.each do |g|
-      @pemodule.attribute_modules.create(:attribute_id => g) unless g.blank?
+      @pemodule.attribute_modules.create(:attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
     end
     @pemodule.pe_attributes(force_reload = true)
     #@pemodule.pe_attribute_ids = nil
-
 
     if @pemodule.save
       flash[:notice] = "The changes have been saved correctly."

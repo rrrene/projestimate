@@ -81,12 +81,16 @@ class ProjectsController < ApplicationController
             pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
             pbs_project_element.save
             pe_wbs_project_product.save
+          else
+            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_product.errors.full_messages.to_sentence}."
           end
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
             wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :is_root => true, :description => "WBS-Activity Root Element", :author_id => current_user.id)
             wbs_project_element.save
+          else
+            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
           if current_user.groups.map(&:code_group).include? ("super_admin")
