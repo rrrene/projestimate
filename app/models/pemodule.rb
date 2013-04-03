@@ -45,7 +45,10 @@ class Pemodule < ActiveRecord::Base
   ##Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    include_field [:attribute_modules, :pe_attributes]      #TODO Review relations
+    #include_field [:attribute_modules, :pe_attributes]      #TODO Review relations
+    #exclude_field [:projects, :module_projects]             #TODO Review relations
+
+    include_field [:attribute_modules]      #TODO Review relations
     exclude_field [:projects, :module_projects]             #TODO Review relations
 
     customize(lambda { |original_record, new_record|
