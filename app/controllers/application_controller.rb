@@ -178,7 +178,8 @@ class ApplicationController < ActionController::Base
   #end
 
   def set_locale_from_browser
-      if  request.env['HTTP_ACCEPT_LANGUAGE'].nil?
+      local_langage=Language.find_by_locale(extract_locale_from_accept_language_header)
+      if  request.env['HTTP_ACCEPT_LANGUAGE'].nil? || local_langage.nil?
         I18n.locale= "en"
       else
         I18n.locale = extract_locale_from_accept_language_header
