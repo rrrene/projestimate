@@ -20,6 +20,7 @@
 ########################################################################
 class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
+  include ModuleProjectsHelper
 
   helper_method :sort_column
   helper_method :sort_direction
@@ -80,12 +81,16 @@ class ProjectsController < ApplicationController
             pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
             pbs_project_element.save
             pe_wbs_project_product.save
+          else
+            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_product.errors.full_messages.to_sentence}."
           end
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
             wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :is_root => true, :description => "WBS-Activity Root Element", :author_id => current_user.id)
             wbs_project_element.save
+          else
+            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
           if current_user.groups.map(&:code_group).include? ("super_admin")
@@ -298,43 +303,6 @@ class ProjectsController < ApplicationController
   def run_estimation
     @resultat = Array.new
 
-    #@project = current_project
-    #@pbs_project_element = current_component
-    #@folders = @project.folders.reverse
-    #val = 0
-    #@array_module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
-
-    ##For each level...
-    #["low", "most_likely", "high"].each do |level|
-    #
-    #  @project.module_projects.each do |mp|
-    #    mp.estimation_values.reject{|i| i.pbs_project_element_id != current_component.id}.each do |mpa|
-    #
-    #      if mpa.input?
-    #
-    #        unless input_value[mp.pemodule.alias.to_sym].nil?
-    #          val = input_value[mp.pemodule.alias.to_sym][mpa.attribute.alias.to_s]
-    #        end
-    #
-    #        in_result = {}
-    #        if mpa.attribute.data_type == "string"
-    #          in_result["string_data_#{level}"] = val
-    #        else
-    #          in_result["numeric_data_#{level}"] = val
-    #        end
-    #
-    #      else
-    #
-    #        end
-    #
-    #      mpa.update_attributes(out_result)
-    #      mpa.update_attributes(in_result)
-    #
-    #      end
-    #      mpa.update_attribute("pbs_project_element_id", current_component.id)
-    #    end
-    #  end
-    #
     #  #Pour chaque folder
     #  folder_result = {}
     #  @folders.map do |folder| folder.children.map{|j| j.estimation_values }.each do |mpa|
@@ -342,7 +310,6 @@ class ProjectsController < ApplicationController
     #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
     #    end
     #    mpa.first.update_attributes(folder_result)
-    #  end
     #  end
     #end
 
@@ -357,25 +324,27 @@ class ProjectsController < ApplicationController
     @project = current_project
     @pbs_project_element = current_component
 
-    #@project.module_projects.each do |mp|
-    #  mp.estimation_values.each do |est_val|
-    #    if est_val.in_out == "output"
-    #      out_result = {}
-    #      @results.each do |res|
-    #        ["low", "most_likely", "high"].each do |level|
-    #          if est_val.attribute.data_type == "date"
-    #            #out_result["date_data_#{level}"] = res[mp.pemodule.alias.to_sym][est_val.attribute.alias.to_s]
-    #          elsif est_val.attribute.data_type == "string"
-    #            #out_result["string_data_#{level}"] = res[mp.pemodule.alias.to_sym][est_val.attribute.alias.to_s]
-    #          else
-    #            out_result["numeric_data_#{level}"] = res.last[est_val.attribute.alias.to_s]
-    #          end
-    #        end
-    #      end
-    #    end
-    #    est_val.update_attributes(out_result)
-    #  end
-    #end
+    #Save output values
+    @project.module_projects.each do |mp|
+      mp.estimation_values.each do |est_val|
+        if est_val.in_out == "output"
+          out_result = Hash.new
+          @results.each do |res|
+            ["low", "most_likely", "high"].each do |level|
+              out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
+            end
+          end
+          out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val)
+          est_val.update_attributes(out_result)
+        elsif est_val.in_out == "input"
+          in_result = Hash.new
+          ["low", "most_likely", "high"].each do |level|
+            in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
+          end
+          est_val.update_attributes(in_result)
+        end
+      end
+    end
 
     respond_to do |format|
       format.js { render :partial => "pbs_project_elements/refresh" }
