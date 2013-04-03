@@ -116,7 +116,25 @@ class Attribute < ActiveRecord::Base
       when "float"
         "numeric"
       when "date"
+        "date"
+      when "text"
         "string"
+      when "list"
+        "string"
+      when "array"
+        "string"
+    end
+  end
+
+    #return the data type
+  def explicit_data_type
+    case self.attr_type
+      when "integer"
+        "numeric"
+      when "float"
+        "numeric"
+      when "date"
+        "date"
       when "text"
         "string"
       when "list"

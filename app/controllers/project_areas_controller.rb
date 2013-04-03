@@ -43,7 +43,7 @@ class ProjectAreasController < ApplicationController
 
     unless @project_area.child_reference.nil?
       if @project_area.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This project area can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:project_area_cant_be_edited)
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
       end
     end
@@ -54,7 +54,7 @@ class ProjectAreasController < ApplicationController
     @project_area = ProjectArea.new(params[:project_area])
 
     if @project_area.save
-      flash[:notice] = "Project area was successfully created."
+      flash[:notice] = I18n.t (:project_area_succesfull_created)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
     else
        render action: "new"
@@ -72,7 +72,7 @@ class ProjectAreasController < ApplicationController
     end
 
     if @project_area.update_attributes(params[:project_area])
-      flash[:notice] = "Project area was successfully updated."
+      flash[:notice] = I18n.t (:project_area_succesfull_updated)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
     else
       render action: "edit"
@@ -88,7 +88,7 @@ class ProjectAreasController < ApplicationController
       @project_area.destroy
     end
 
-    flash[:notice] = "Project area was successfully deleted."
+    flash[:notice] = I18n.t (:project_area_succesfull_deleted)
     redirect_to projects_global_params_path(:anchor => "tabs-1")
   end
 end

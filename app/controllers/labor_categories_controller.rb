@@ -46,7 +46,7 @@ class LaborCategoriesController < ApplicationController
 
     unless @labor_category.child_reference.nil?
       if @labor_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This labor category can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:labor_category_cant_be_edited)
         redirect_to redirect(labor_categories_path)
       end
     end
@@ -56,7 +56,7 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
-      flash[:notice] = "Labor category was successfully created."
+      flash[:notice] = I18n.t (:labor_category_succesfull_created)
       redirect_to redirect(labor_categories_path)
     else
       render action: "new"
@@ -75,8 +75,8 @@ class LaborCategoriesController < ApplicationController
     end
 
     if @labor_category.update_attributes(params[:labor_category])
-      flash[:notice] = "Labor category was successfully updated."
-      redirect_to redirect(labor_categories_path), :notice => "Labor category was successfully updated."
+      flash[:notice] = I18n.t (:labor_category_succesfull_updated)
+      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:labor_category_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -92,7 +92,7 @@ class LaborCategoriesController < ApplicationController
       @labor_category.destroy
     end
 
-    flash[:notice] = "Labor category was successfully deleted."
+    flash[:notice] = I18n.t (:labor_category_succesfull_deleted)
     redirect_to labor_categories_path
   end
 

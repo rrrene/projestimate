@@ -15,7 +15,7 @@ class AuthMethodsController < ApplicationController
     if is_master_instance?
       unless @auth_method.child_reference.nil?
         if @auth_method.child_reference.is_proposed_or_custom?
-          flash[:notice] = "This Authentication method can't be edited, because the previous changes have not yet been validated."
+          flash[:notice] = I18n.t (:auth_method_cant_be_edited)
           redirect_to auth_methods_path and return
         end
       end
@@ -23,7 +23,7 @@ class AuthMethodsController < ApplicationController
       if @auth_method.is_local_record?
         @auth_method.record_status = @local_status
       else
-        flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_edited)
         redirect_to auth_methods_path
       end
     end
@@ -89,13 +89,13 @@ class AuthMethodsController < ApplicationController
       if @auth_method.is_local_record? || @auth_method.is_retired?
         @auth_method.destroy
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to redirect(auth_methods_path)  and return
       end
     end
 
     respond_to do |format|
-      format.html { redirect_to auth_methods_url, notice: "Authentication method was successfully deleted." }
+      format.html { redirect_to auth_methods_url, notice: "#{I18n.t (:auth_method_succesfull_deleted)}"}
     end
   end
 end

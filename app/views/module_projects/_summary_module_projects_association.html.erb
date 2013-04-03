@@ -13,7 +13,7 @@
     <% @module_projects.each_with_index do |i, l| %>
       <tr>
         <td>
-          <strong><%= i.pemodule.title %></strong>
+          <strong><%= i.pemodule.title %> (<%= i.position_x %>;<%= i.position_y %>)</strong>
         </td>
         <% @module_projects.each_with_index do |j, k| %>
           <td>

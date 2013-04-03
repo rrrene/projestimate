@@ -34,7 +34,7 @@ class ProjectCategoriesController < ApplicationController
 
     unless @project_category.child_reference.nil?
       if @project_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This project category can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:project_categories_cant_be_edited)
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
       end
     end
@@ -44,7 +44,7 @@ class ProjectCategoriesController < ApplicationController
     @project_category = ProjectCategory.new(params[:project_category])
 
     if @project_category.save
-      flash[:notice] = "Project category was successfully created."
+      flash[:notice] = I18n.t (:project_categories_succesfull_created)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
     else
       render action: "new"
@@ -62,7 +62,7 @@ class ProjectCategoriesController < ApplicationController
     end
 
     if @project_category.update_attributes(params[:project_category])
-      flash[:notice] = "Project category was successfully updated."
+      flash[:notice] = I18n.t (:project_categories_succesfull_updated)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
     else
       render action: "edit"
@@ -78,7 +78,7 @@ class ProjectCategoriesController < ApplicationController
       @project_category.destroy
     end
 
-    flash[:notice] = "Project category was successfully deleted."
+    flash[:notice] = I18n.t (:project_categories_succesfull_deleted)
     redirect_to projects_global_params_path(:anchor => "tabs-2")
   end
 end

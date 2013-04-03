@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     #  render "new" and return
     #else
       if @user.save
-        redirect_to redirect(users_path), :notice => "The account was successfully created"
+        redirect_to redirect(users_path), :notice => "#{I18n.t (:account_succesfull_created)}"
       else
         render "new"
       end
@@ -105,7 +105,7 @@ class UsersController < ApplicationController
     #end
 
     if @user.update_attributes(params[:user])
-      redirect_to(redirect(users_path), :notice => "The account was successfully updated." )
+      redirect_to(redirect(users_path), :notice => "#{I18n.t (:account_succesfull_updated)}" )
     else
       render(:edit)
     end
@@ -149,7 +149,7 @@ class UsersController < ApplicationController
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
       if !user.nil?
-        redirect_to root_url, :notice => "  Email or user name already exist in the database."
+        redirect_to root_url, :notice =>"#{I18n.t (:email_or_username_already_exist)}"
       else
         user = User.new(:email => params[:email],
                          :first_name => params[:first_name],
@@ -166,10 +166,10 @@ class UsersController < ApplicationController
 
         UserMailer.account_created(user).deliver
         UserMailer.account_request.deliver
-        redirect_to root_url, :notice => "Account demand send with success."
+        redirect_to root_url, :notice => "#{I18n.t (:account_demand_send)}"
       end
     else
-      redirect_to root_url, :notice => "Please check all fields."
+      redirect_to root_url, :notice => "#{I18n.t (:check_all_fields)}"
     end
   end
 

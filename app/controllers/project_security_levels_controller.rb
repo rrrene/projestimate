@@ -36,7 +36,7 @@ class ProjectSecurityLevelsController < ApplicationController
 
     unless @project_security_level.child_reference.nil?
       if @project_security_level.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This security level can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:project_securities_level_cant_be_edited)
         redirect_to project_security_levels_path
       end
     end
@@ -46,7 +46,7 @@ class ProjectSecurityLevelsController < ApplicationController
     @project_security_level = ProjectSecurityLevel.new(params[:project_security_level])
 
     if @project_security_level.save
-      redirect_to redirect(project_security_levels_url), notice: 'Project security level was successfully created.'
+      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:project_securities_level_succesfull_created)}"
     else
       render action: "new"
     end
@@ -63,7 +63,7 @@ class ProjectSecurityLevelsController < ApplicationController
     end
 
     if @project_security_level.update_attributes(params[:project_security_level])
-      redirect_to redirect(project_security_levels_url), notice: 'Project security level was successfully updated.'
+      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:project_securities_level_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -79,7 +79,7 @@ class ProjectSecurityLevelsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to project_security_levels_url, notice: "Project security level was successfully deleted." }
+      format.html { redirect_to project_security_levels_url, notice: "#{I18n.t (:project_securities_level_succesfull_deleted)}" }
       format.json { head :ok }
     end
   end
