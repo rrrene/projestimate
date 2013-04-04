@@ -41,7 +41,7 @@ class WbsActivityElementsController < ApplicationController
 
     unless is_master_instance?
       if @wbs_activity_element.is_defined?
-        flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity, :anchor => "tabs-2") and return
       end
     end
@@ -75,7 +75,7 @@ class WbsActivityElementsController < ApplicationController
 
         @wbs_activity_ratio_element.save(:validate => false)
       end
-      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), notice: 'Wbs activity element was successfully created.'
+      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), notice: "#{I18n.t (:wbs_activity_element_succesfull_created)}"
     else
       selected = WbsActivityElement.find(params[:wbs_activity_element][:parent_id]) #@selected = @wbs_activity_element.parent
       @selected_record_status = RecordStatus.where("id = ? ", selected.record_status_id).first
@@ -103,7 +103,7 @@ class WbsActivityElementsController < ApplicationController
     end
 
     if @wbs_activity_element.update_attributes(params[:wbs_activity_element])
-      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), :notice => 'Wbs activity element was successfully updated.'
+      redirect_to edit_wbs_activity_path(@wbs_activity, :anchor => "tabs-2"), :notice => "#{I18n.t (:wbs_activity_element_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -124,7 +124,7 @@ class WbsActivityElementsController < ApplicationController
       if @wbs_activity_element.is_local_record? || @wbs_activity_element.is_retired?
         @wbs_activity_element.destroy
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
       end
     end
 

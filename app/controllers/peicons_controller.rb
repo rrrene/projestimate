@@ -39,7 +39,7 @@ class PeiconsController < ApplicationController
 
     unless @icon.child_reference.nil?
       if @icon.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This Projestimate Icon can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:icon_cant_be_edited)
         redirect_to peicons_path
       end
     end
@@ -70,7 +70,7 @@ class PeiconsController < ApplicationController
     if @icon.update_attributes(params[:peicon])
       redirect_to redirect(peicons_path)
     else
-      flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
+      flash[:error] = I18n.t (:icons) + @icon.errors.values.flatten.join(" #{I18n.t (:and)} ")
       render :edit
     end
   end
@@ -94,7 +94,7 @@ class PeiconsController < ApplicationController
       @peicon.destroy
     end
 
-    redirect_to peicons_path, :notice => "Icon was successfully deleted."
+    redirect_to peicons_path, :notice => "#{I18n.t (:icon_succesfull_deleted)}"
   end
 
   def choose_icon

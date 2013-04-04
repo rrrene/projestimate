@@ -45,7 +45,7 @@ class ProjectSecuritiesController < ApplicationController
 
     if @project_security.save
       @project_security.update_attribute("project_security_level", params[:project_security_level])
-      redirect_to redirect(project_securities_url), notice: 'Project security was successfully created.'
+      redirect_to redirect(project_securities_url), notice: "#{I18n.t (:project_securities_succesfull_created)}"
     else
       render action: "new"
     end
@@ -57,7 +57,7 @@ class ProjectSecuritiesController < ApplicationController
     respond_to do |format|
       if @project_security.update_attributes(params[:project_security])
         @project_security.update_attribute("project_security_level", params[:project_security_level])
-        format.html { redirect_to project_securities_url, notice: 'Project security was successfully updated.' }
+        format.html { redirect_to project_securities_url, notice: "#{I18n.t (:project_securities_succesfull_updated)}" }
       else
         format.html { render action: "edit" }
       end

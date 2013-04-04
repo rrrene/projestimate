@@ -34,7 +34,7 @@ class PlatformCategoriesController < ApplicationController
 
     unless @platform_category.child_reference.nil?
       if @platform_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This platform category can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:platform_category_cant_be_edited)
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
       end
     end
@@ -44,7 +44,7 @@ class PlatformCategoriesController < ApplicationController
     @platform_category = PlatformCategory.new(params[:platform_category])
 
     if @platform_category.save
-      flash[:notice] = "Platform category was successfully created."
+      flash[:notice] = I18n.t (:platform_category_succesfull_created)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
     else
       render action: "new"
@@ -62,7 +62,7 @@ class PlatformCategoriesController < ApplicationController
     end
 
     if @platform_category.update_attributes(params[:platform_category])
-      flash[:notice] = "Platform category was successfully updated."
+      flash[:notice] = I18n.t (:platform_category_succesfull_updated)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
     else
       render action: "edit"
@@ -78,7 +78,7 @@ class PlatformCategoriesController < ApplicationController
       @platform_category.destroy
     end
 
-    flash[:notice] = "Platform category was successfully deleted."
+    flash[:notice] = I18n.t (:platform_category_succesfull_deleted)
     redirect_to projects_global_params_path(:anchor => "tabs-3")
   end
 end

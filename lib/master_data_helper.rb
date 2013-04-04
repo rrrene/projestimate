@@ -14,7 +14,7 @@ module MasterDataHelper
       #UUID generation on create
       #TODO: validate uuid format and length in model
       before_validation(:on => :create) do
-        self.uuid = UUIDTools::UUID.timestamp_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"
+        self.uuid = UUIDTools::UUID.random_create.to_s   #generate uuid like: 4f844456-42bb-11e2-bebb-d4bed96c8c48"
       end
 
       #scope for find methods

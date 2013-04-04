@@ -39,7 +39,7 @@ class EventTypesController < ApplicationController
 
     unless @event_type.child_reference.nil?
       if @event_type.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This event type can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:event_type_cant_be_edited)
         redirect_to event_types_path
       end
     end
@@ -63,7 +63,7 @@ class EventTypesController < ApplicationController
     end
 
     if @event_type.update_attributes(params[:event_type])
-      redirect_to event_types_path, notice: 'Event type was successfully updated.'
+      redirect_to event_types_path, notice: "#{I18n.t (:event_type_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -80,7 +80,7 @@ class EventTypesController < ApplicationController
       @event_type.destroy
     end
 
-    flash[:notice] = "Event type was successfully deleted."
+    flash[:notice] = I18n.t (:event_type_succesfull_deleted)
     redirect_to event_type_url
   end
 end

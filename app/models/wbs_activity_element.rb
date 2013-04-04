@@ -77,7 +77,7 @@
           @inserts.push("(\"#{Time.now}\",
                           \"#{ !row[2].nil? ? row[2].gsub("\"", "\"\"") : row[2] }\",
                           \"#{ !row[0].nil? ? row[0].gsub("\"", "\"\"") : row[0] }\",
-                          \"#{ !row[1].nil? ? row[1].gsub("\"", "\"\"") : row[1] }\", #{@localstatus.id}, #{@wbs_activity.id}, \"#{UUIDTools::UUID.timestamp_create.to_s}\")")
+                          \"#{ !row[1].nil? ? row[1].gsub("\"", "\"\"") : row[1] }\", #{@localstatus.id}, #{@wbs_activity.id}, \"#{UUIDTools::UUID.random_create.to_s}\")")
 
         end
       end

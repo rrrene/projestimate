@@ -30,7 +30,7 @@ class EstimationValuesController < ApplicationController
 
     respond_to do |format|
       if @est_value.update_attributes(params[:estimation_value])
-        format.html { redirect_to redirect(@est_value), notice: 'Estimation Value was successfully updated.' }
+        format.html { redirect_to redirect(@est_value), notice: "#{I18n.t (:estimation_value_succesfull_updated)}" }
       else
         format.html { render action: "edit" }
       end

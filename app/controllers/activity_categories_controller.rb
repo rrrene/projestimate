@@ -38,7 +38,7 @@ class ActivityCategoriesController < ApplicationController
 
     unless @activity_category.child_reference.nil?
       if @activity_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This Activity category can not be edited, previous changes have not yet been validated"
+        flash[:notice] = I18n.t (:activity_category_cant_be_edited)
         redirect_to activity_categories_path
       end
     end
@@ -63,7 +63,7 @@ class ActivityCategoriesController < ApplicationController
     end
 
     if @activity_category.update_attributes(params[:activity_category])
-      flash[:notice] = "Activity category was successfully updated."
+      flash[:notice] = I18n.t (:activity_category_succesfull_update)
       redirect_to redirect("/projects_global_params#tabs-4")
     else
       render action: "edit"

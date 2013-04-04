@@ -69,12 +69,12 @@ class ReferenceValuesController < ApplicationController
       if @reference_value.is_local_record? || @reference_value.is_retired?
         @reference_value.destroy
       else
-        flash[:error] = "Master record can not be deleted, it is required for the proper functioning of the application"
+        flash[:error] = I18n.t (:master_record_cant_be_deleted)
         redirect_to redirect(reference_values_path)  and return
       end
     end
 
-    flash[:notice] = "Reference value was successfully deleted."
+    flash[:notice] = I18n.t (:reference_value_succesfull_deleted)
     redirect_to reference_values_path
   end
 end

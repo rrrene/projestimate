@@ -54,7 +54,7 @@ class MasterSettingsController < ApplicationController
 
     unless @master_setting.child_reference.nil?
       if @master_setting.child_reference.is_proposed_or_custom?
-        flash[:notice] = "This master setting can not be edited, previous changes have not yet been validated."
+        flash[:notice] = I18n.t (:master_settings_cant_be_edited)
         redirect_to master_settings_path
       end
     end
@@ -66,7 +66,7 @@ class MasterSettingsController < ApplicationController
     @master_setting = MasterSetting.new(params[:master_setting])
 
     if @master_setting.save
-      redirect_to redirect(master_settings_path), notice: 'Master setting was successfully created.'
+      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:master_settings_succesfull_created)}"
     else
       render action: "new"
     end
@@ -85,7 +85,7 @@ class MasterSettingsController < ApplicationController
     end
 
     if @master_setting.update_attributes(params[:master_setting])
-      redirect_to redirect(master_settings_path), notice: 'Master setting was successfully updated.'
+      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:master_settings_succesfull_updated)}"
     else
       render action: "edit"
     end
@@ -103,7 +103,7 @@ class MasterSettingsController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:notice] = "Master setting was successfully deleted."
+      flash[:notice] = I18n.t (:master_settings_succesfull_deleted)
       format.html { redirect_to master_settings_url }
     end
   end

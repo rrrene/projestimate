@@ -60,9 +60,9 @@ class WbsActivityRatioElementsController < ApplicationController
 
     #we test total
     if @total != 100
-      flash.now[:warning] = "Warning - Ratios successfully saved, but sum is different of 100%"
+      flash.now[:warning] = I18n.t (:warning_sum_ratio_different_100)
     else
-      flash.now[:notice] = "Ratios successfully saved"
+      flash.now[:notice] = I18n.t (:ratio_succesfull_saved)
     end
 
     respond_to do |format|

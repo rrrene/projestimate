@@ -5,7 +5,7 @@ FactoryGirl.define do
 
   #sequence to generate UUID on test records
   sequence :uuid do |n|
-    "#{UUIDTools::UUID.timestamp_create.to_s}"
+    "#{UUIDTools::UUID.random_create.to_s}"
   end
 
   sequence :login_name do |n|

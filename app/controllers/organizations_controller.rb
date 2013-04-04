@@ -41,7 +41,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(params[:organization])
 
     if @organization.save
-      redirect_to redirect("/organizationals_params"), notice: 'Organization was successfully created.'
+      redirect_to redirect("/organizationals_params"), notice: "#{I18n.t (:organization_succesfull_created)}"
     else
       render action: "new"
     end
@@ -51,7 +51,7 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
-      flash[:notice] = 'Organization was successfully updated.'
+      flash[:notice] = I18n.t (:organization_succesfull_updated)
       redirect_to redirect("/organizationals_params")
     else
       render action: "edit"
@@ -62,7 +62,7 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     @organization.destroy
-    flash[:notice] = 'Organization was successfully deleted.'
+    flash[:notice] = I18n.t (:organization_succesfull_deleted)
     redirect_to "/organizationals_params"
   end
 
