@@ -12,6 +12,12 @@ class Home < ActiveRecord::Base
       puts "   - Reference Value"
       self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
+      puts "   - Projestimate Module"
+      self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "uuid"])
+
+      puts "   - Attribute Module"
+      self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "string_data_low", "string_data_most_likely", "string_data_high", "numeric_data_low", "numeric_data_most_likely", "numeric_data_high", "date_data_low", "date_data_most_likely", "date_data_high", "uuid"])
+
       puts "   - WBS Activity"
       self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
 
@@ -311,6 +317,9 @@ class Home < ActiveRecord::Base
       puts "   - Projestimate Module"
       self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "uuid"])
 
+      puts "   - Attribute..."
+      self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
+
       puts "   - Attribute Module"
       self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "string_data_low", "string_data_most_likely", "string_data_high", "numeric_data_low", "numeric_data_most_likely", "numeric_data_high", "date_data_low", "date_data_most_likely", "date_data_high", "uuid"])
 
@@ -321,7 +330,10 @@ class Home < ActiveRecord::Base
         ext_attr_modules.each do |ext_attr_module|
           if ext_module.id == ext_attr_module.pemodule_id and ext_module.record_status_id == ext_defined_rs_id
             pemod = Pemodule.find_by_uuid(ext_module.uuid)
+            ext_attr = ExternalMasterDatabase::ExternalAttribute.find_by_id(ext_attr_module.attribute_id)
+            attr = Object::Attribute.find_by_uuid(ext_attr.uuid)
             ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = #{pemod.id} WHERE uuid = '#{ext_attr_module.uuid}'")
+            ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET attribute_id = #{attr.id} WHERE uuid = '#{ext_attr_module.uuid}'")
           end
         end
       end
@@ -416,11 +428,7 @@ class Home < ActiveRecord::Base
       puts "   - Acquisition categories"
       self.create_records(ExternalMasterDatabase::ExternalAcquisitionCategory, AcquisitionCategory, ["name", "description", "uuid"])
 
-      puts "   - Attribute..."
-      self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
-
       puts "   - Projestimate Icons"
-
       #Need to have same UUID as Master Instance Icons
       external_icons =  ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
 
