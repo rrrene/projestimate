@@ -264,6 +264,7 @@ class ProjectsController < ApplicationController
 
     #Max pos or 1
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
 
     #When adding a module in the "timeline", it creates an entry in the table ModuleProject for the current project, at position 2 (the one being reserved for the input module).
     my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => 1)
@@ -327,7 +328,7 @@ class ProjectsController < ApplicationController
     #Save output values
     @project.module_projects.each do |mp|
       mp.estimation_values.each do |est_val|
-        if est_val.in_out == "output"
+        if est_val.in_out == "output" or est_val.in_out == "both"
           out_result = Hash.new
           @results.each do |res|
             ["low", "most_likely", "high"].each do |level|
@@ -336,7 +337,7 @@ class ProjectsController < ApplicationController
           end
           out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val)
           est_val.update_attributes(out_result)
-        elsif est_val.in_out == "input"
+        elsif est_val.in_out == "input" or est_val.in_out == "both"
           in_result = Hash.new
           ["low", "most_likely", "high"].each do |level|
             in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
