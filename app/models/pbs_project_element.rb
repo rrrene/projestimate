@@ -33,8 +33,8 @@ class PbsProjectElement < ActiveRecord::Base
   has_and_belongs_to_many :module_projects
 
   # Get Activities per Product
-  #has_many :product_activities
-  #has_many :wbs_project_elements, :through => :product_activities
+  has_many :product_activities
+  has_many :wbs_project_elements, :through => :product_activities, :dependent => :destroy
 
   validates_presence_of :name
   #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation

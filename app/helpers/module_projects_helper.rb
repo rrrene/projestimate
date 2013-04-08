@@ -20,7 +20,7 @@
 
 module ModuleProjectsHelper
 
-  def probable_value(results, mpa)
+  def probable_value_save(results, mpa)
     attribute_alias = mpa.attribute.alias.to_sym
     if mpa.attribute.attribute_type == "numeric"
       min = results[:low][attribute_alias].to_f
@@ -32,5 +32,11 @@ module ModuleProjectsHelper
       "-"
     end
   end
+
+  def probable_value(results, mpa)
+    attribute_alias = mpa.attribute.alias.to_sym
+    results
+  end
+
 
 end
