@@ -78,7 +78,7 @@ class WbsActivityRatiosController < ApplicationController
                                            :wbs_activity_ratio_id => @wbs_activity_ratio.id,
                                            :wbs_activity_element_id => wbs_activity_element.id,
                                            :record_status_id => @wbs_activity_ratio.record_status_id,
-                                           :uuid => UUIDTools::UUID.timestamp_create.to_s)
+                                           :uuid => UUIDTools::UUID.random_create.to_s)
         ware.save(:validate => false)
       end
       redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => "tabs-3"))

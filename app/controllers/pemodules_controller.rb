@@ -112,7 +112,6 @@ class PemodulesController < ApplicationController
       @pemodule.attribute_modules.create(:attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
     end
     @pemodule.pe_attributes(force_reload = true)
-    #@pemodule.pe_attribute_ids = nil
 
     if @pemodule.save
       flash[:notice] = I18n.t (:succesfull_update)
@@ -135,7 +134,7 @@ class PemodulesController < ApplicationController
       attribute.update_attribute("is_mandatory", params[:is_mandatory][i])
       attribute.update_attribute("description", params[:description][i])
       attribute.update_attribute("custom_attribute", params[:custom_attribute][i])
-      #TODO: save string and date value
+
       attribute.update_attribute("numeric_data_low", params[:numeric_data_low][i])
       attribute.update_attribute("numeric_data_most_likely", params[:numeric_data_most_likely][i])
       attribute.update_attribute("numeric_data_high", params[:numeric_data_high][i])

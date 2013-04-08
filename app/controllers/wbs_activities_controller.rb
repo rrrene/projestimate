@@ -160,7 +160,7 @@ class WbsActivitiesController < ApplicationController
         new_wbs_activity.state = "draft"
       end
 
-      new_wbs_activity.uuid =  UUIDTools::UUID.timestamp_create.to_s
+      new_wbs_activity.uuid =  UUIDTools::UUID.random_create.to_s
       new_wbs_activity.transaction do
         if new_wbs_activity.save(:validate => false)
           old_wbs_activity.save  #Original WbsActivity copy number will be incremented to 1
