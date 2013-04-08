@@ -1,9 +1,8 @@
 <%= simple_form_for @user do |f| %>
   <%= f.error_notification %>
-
   <div class="tabs">
     <ul>
-      <li><a href="#tabs-1"><%= I18n.t(:global ) %></a></li>
+      <li><a href="#tabs-1"><%= t(:global) %></a></li>
       <li><a href="#tabs-2"><%= I18n.t(:associated_groups ) %></a></li>
       <li><a href="#tabs-3"><%= I18n.t(:associated_organizations ) %></a></li>
       <li><a href="#tabs-4"><%= I18n.t(:associated_projects ) %></a></li>
