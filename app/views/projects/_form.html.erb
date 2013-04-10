@@ -32,16 +32,19 @@
 
     <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :state, :label => "#{I18n.t "state"}", :label => "#{I18n.t "state"}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :state, :label => "#{I18n.t "state"}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
-      <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => Time.now.strftime(I18n.t "date.formats.long") %>
-    <% end %>
+    <%= f.label "#{I18n.t "start_date"}" %>
+    <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t "date.formats.long") : I18n.l(@project.start_date)) %>
+
+    <!--<%#= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
+        <%#= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t "date.formats.long") : I18n.l(@project.start_date)) %>
+    <%# end %>
     <script>
-      $(document).ready(function() {
-        $('.datepicker').datepicker();
-      });
-    </script>
+        $(document).ready(function() {
+            $('.datepicker').datepicker({language: '#{set_user_language}'});
+        });
+    </script>-->
 
 
     <%= f.input :organization_id, :label => "#{I18n.t "organization"}", :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>

@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    $('.datepicker').datepicker({
+        language: '<%= "#{set_user_language}" %>',
+        autoclose: true,
+        todayBtn: true
+    });
+
      $('.tabs ul li').hover(
         function () {
           $(this.children).css('display', 'inline');
