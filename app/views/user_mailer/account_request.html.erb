@@ -1,6 +1,13 @@
-<p>
-  Une nouvelle demande de compte a été faite.
-</p>
-<p>
-  Merci de la prendre en compte.
-</p>
+<%=simple_format(I18n.t(:mail_salutation, :value => '')) %>
+
+<br/>
+
+<%=I18n.t(:mail_body_account_activation_request) %>
+
+<a href='<%= "#{SETTINGS['HOST_URL']}/users" %>'>ProjEstimate</a>
+
+
+<%=simple_format(I18n.t(:mail_complimentary_close)) %>
+
+<%=simple_format(I18n.t(:mail_footer)) %>
+<a href='<%= "#{SETTINGS['HOST_URL']}" %>'>ProjEstimate</a>

@@ -21,53 +21,53 @@
 ########################################################################
 
 class UserMailer < ActionMailer::Base
-  default :from => "no-reply@spirula.fr"
+  default :from => 'no-reply@spirula.fr'
 
   #Send the new password
   def forgotten_password(user)
     @user = user
-    mail(:to => @user.email, :subject => "Projestimate - New password")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_lost_password))
   end
 
   #Confirm the new password
   def new_password(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate password has changed")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_new_password))
   end
 
   #Send an account request
   def account_request
-    mail(:to => AdminSetting.find_by_key("notifications_email").value, :subject => "New account request")
+    mail(:to => AdminSetting.find_by_key('notifications_email').value, :subject => I18n.t(:mail_subject_account_activation_request))
   end
 
   #Confirm validation of account - password is writed
   def account_validate(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account is validated")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
   end
 
   #Confirm validation of account - the password is not writed
   def account_validate_no_pw(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has been validated")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
   end
 
   #Notify than account is suspended
   def account_suspended(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has been suspended")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_suspended))
   end
 
   #Confirm validation of account (ldap protocol)
   def account_validate_ldap(user)
     @user = user
-    mail(:to => @user.email, :subject => "Your ProjEstimate account has changed")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
   end
 
   #Account created
   def account_created(user)
     @user = user
-    mail(:to => @user.email, :subject => "ProjEstimate Account created")
+    mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_created))
   end
   
 end

@@ -1,4 +1,4 @@
-en-gb:
+en-GB:
   #standard local format
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
@@ -538,7 +538,7 @@ en-gb:
   remember_me: "Remember me"
   edit_password: "Update your password"
   forgotten_password_help: "You will receive an email with a link that allows you to change your password."
-  ask_new_account_help: "Then, you must wait until an administrator validate your account. When the user account is enabled by the administrator, you will receive an email with a link that allows you to change your password."
+  ask_new_account_help: "You will receive a confirmation email, but you must wait until an administrator enable your account.\nWhen your account is activated by the administrator, you receive a second confirmation email."
 
   #translations
   choose_locale : "Choose a local"
@@ -806,3 +806,23 @@ en-gb:
   ratio_error_changed: "Error when changing Wbs activity ratio"
   work_element_type_cant_be_edited: "This work element type can not be edited, previous changes have not yet been validated."
   work_element_type_succesfull_updated: "Work element type was successfully updated."
+
+  mail_salutation: "Dear %{value},"
+  mail_complimentary_close: "Sincerely,\nProjEstimate"
+  mail_footer: "\n-----------------------------------------------\nThis email have been sent automatically through the ProjEstimate server.\n\n"
+  mail_subject_lost_password: "[ProjEstimate] New password"
+  mail_body_lost_password: 'To change your password, click on the following link: '
+  mail_subject_account_activation_request: "[ProjEstimate] Account activation request"
+  mail_body_account_activation_request: "A new user has registered. The account is pending your approval.\n\n"
+  mail_subject_account_activation: "[ProjEstimate] Your account is activated"
+  mail_body_account_activation: "We are pleased to confirm the activation of your ProjEstimate account.\n\n"
+  mail_body_account_information: "Please remember your login details:\n<ul><li>Login: <b>%{user}</b></li>\n<li>Password: <b>%{pwd}</b></li></ul>\n\n"
+  mail_body_account_information_no_pwd: "Your credentials have not changed."
+  mail_subject_account_created: "[ProjEstimate] Your account is created"
+  mail_body_account_created: "Your account creation request has been fully taken into account.\n\n"
+  mail_body_account_not_yet_activated: "Your account is not active yet.\nOnce an administrator has activated, you will receive a second notification by email.\n\n"
+  mail_subject_new_password: "[ProjEstimate] Your password has changed"
+  mail_password_unchanged: "Your password is unchanged (we recommend you to change it as from your user profile)"
+  mail_password_from_ldap: "Password of your corporate directory"
+  mail_subject_account_suspended: "[ProjEstimate] Your account is suspended"
+  mail_body_account_suspended: "We would like to inform you that your ProjEstimate account (%{value}) has been suspended.\nYou can ask to reactivate it by sending an email to the administrator %{adm}\n\n"
