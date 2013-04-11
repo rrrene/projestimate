@@ -1,6 +1,6 @@
 <% action_name = controller.action_name %>
-<% if ["new", "edit"].include?(action_name) %>
-  <h2><%= ("#{action_name}" == "new")? "#{I18n.t "new_project"}" : "#{I18n.t "edit_project"}: #{@project.title}"%></h2>
+<% if ['new', 'edit'].include?(action_name) %>
+  <h2><%= ("#{action_name}" == 'new')? "#{I18n.t 'new_project'}" : "#{I18n.t 'edit_project'}: #{@project.title}"%></h2>
 <% else %>
   <h1><%= I18n.t(:new_project)%></h1>
 <% end %>
@@ -12,7 +12,7 @@
 <div class="tabs">
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:global_properties)%></a></li>
-    <% if action_name == "edit" %>
+    <% if action_name == 'edit' %>
       <li><a href="#tabs-2"><%= I18n.t(:wbs_product)%></a></li>
       <li><a href="#tabs-3"><%= I18n.t(:wbs_activity)%></a></li>
       <li><a href="#tabs-4"><%= I18n.t(:estimation_plan)%></a></li>
@@ -26,51 +26,51 @@
 
   <div id="tabs-1">
 
-    <%= f.input :title, :label => "#{I18n.t "name"}", :input_html => { :class => 'input-xxlarge', :autofocus => (controller.action_name == "new")} %>
+    <%= f.input :title, :label => "#{I18n.t 'name'}", :input_html => { :class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
 
-    <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.input :alias, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :state, :label => "#{I18n.t "state"}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.label "#{I18n.t "start_date"}" %>
-    <%= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t "date.formats.long") : I18n.l(@project.start_date)) %>
-
-    <!--<%#= f.input :start_date, :label => "#{I18n.t "start_date"}", :as => :date, :start_year => Date.today.year, :end_year => Date.today.year, :discard_day => true do %>
-        <%#= f.text_field :start_date, :class => 'datepicker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t "date.formats.long") : I18n.l(@project.start_date)) %>
-    <%# end %>
+    <%= f.label "#{I18n.t 'start_date'}" %>
+    <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@project.start_date)) %>
     <script>
         $(document).ready(function() {
-            $('.datepicker').datepicker({language: '#{set_user_language}'});
+            $(".date-picker").datepicker({
+                language: '<%= set_user_language %>',
+                autoclose: true,
+                todayHighlight: true,
+                todayBtn: true
+            });
         });
-    </script>-->
+    </script>
 
+    <%= f.input :organization_id, :label => "#{I18n.t 'organization'}", :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :organization_id, :label => "#{I18n.t "organization"}", :as => :select, :collection => @organizations, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_area_id, :label => "#{I18n.t "project_area"}", :as => :select, :collection => @project_areas, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :acquisition_category_id, :label => "#{I18n.t "acquisition_category"}", :as => :select, :collection => @acquisition_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :platform_category_id, :label => "#{I18n.t 'platform_category'}", :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :platform_category_id, :label => "#{I18n.t "platform_category"}", :as => :select, :collection => @platform_categories, :input_html => { :class => 'input-xxlarge' }  %>
-
-    <%= f.input :project_category_id, :label => "#{I18n.t "project_category"}", :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => { :class => 'input-xxlarge' }  %>
 
     <div class="actions">
-      <%= f.submit "Save", :class => "btn" %>
-      <%= f.submit "Apply", :class => "btn" %>
+      <%= f.submit 'Save', :class => 'btn' %>
+      <%= f.submit 'Apply', :class => 'btn' %>
     </div>
 
     <% end %>
   </div>
 
-  <% unless action_name == "new" or action_name == "create" %>
+  <% unless action_name == 'new' or action_name == 'create' %>
 
     <div id="tabs-2">
        <div class="component_tree" id="project_wbs_product_section">
          <% unless @project.nil? || @pe_wbs_project_product.nil? %>
-           <%=raw generate_wbs_product(@pe_wbs_project_product.pbs_project_elements.last.root, @project, "", 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
+           <%=raw generate_wbs_product(@pe_wbs_project_product.pbs_project_elements.last.root, @project, '', 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
          <% end %>
        </div>
     </div>
@@ -78,20 +78,20 @@
     <div id="tabs-3">
       <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
           <div class="well component_tree">
-            <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
+            <%= form_tag '/add_wbs_activity_to_project', :method => :post, :id => 'form_select_and_add_wbs_activity', :remote => true do %>
                 <p style="margin: 10px; ">
                   <label><% I18n.t(:available_wbs_activity) %></label>
                   <%= hidden_field_tag :project_id,  @project.id  %>
-                  <%= select_tag "wbs_activity_element", options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id]}), :prompt => I18n.t(:select_wbs_activity) %>
-                  <%= select_tag "project_default_wbs_activity_ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
-                  <%= submit_tag I18n.t(:button_add), :class => "btn", :id => "add_activity_and_ratio_to_project", :disabled => true %>
+                  <%= select_tag 'wbs_activity_element', options_for_select(@wbs_activity_elements.map{|i| [i.wbs_activity.name, i.id]}), :prompt => I18n.t(:select_wbs_activity) %>
+                  <%= select_tag 'project_default_wbs_activity_ratio', options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] } ), :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
+                  <%= submit_tag I18n.t(:button_add), :class => 'btn', :id => 'add_activity_and_ratio_to_project', :disabled => true %>
                 </p>
             <% end %>
           </div>
       <% end %>
 
       <div class="show_list">
-        <span class="pull-right">Show hidden element <%= check_box_tag "show_excluded_elt", true, false, :onchange => "refresh_me();", :remote => true %></span>  <br />
+        <span class="pull-right">Show hidden element <%= check_box_tag 'show_excluded_elt', true, false, :onchange => 'refresh_me();', :remote => true %></span>  <br />
         <div  id="wbs_project_elements_section" class="component_tree">
             <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
         </div>
@@ -100,21 +100,21 @@
 
     <div id="tabs-4">
 
-      <% if controller.controller_name == "projects" %>
+      <% if controller.controller_name == 'projects' %>
 
         Add a Projestimate Module
-        <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
+        <%= select_tag 'select_module', options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
 
         Select PBS-element
-        <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>
+        <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>
 
-        <%= hidden_field_tag "project_id", @project.id %>
+        <%= hidden_field_tag 'project_id', @project.id %>
 
-        <%=  link_to "Associate PBS-element", pbs_element_matrix_path(@project.id), :class => "btn" %>
-        <%=  link_to "Associate PE-module each other", module_projects_matrix_path(@project.id), :class => "btn" %>
+        <%=  link_to 'Associate PBS-element', pbs_element_matrix_path(@project.id), :class => 'btn' %>
+        <%=  link_to 'Associate PE-module each other', module_projects_matrix_path(@project.id), :class => 'btn' %>
 
       <% end %>
-      <%= render :partial => "estimation_plan" %>
+      <%= render :partial => 'estimation_plan' %>
     </div>
 
     <div id="tabs-5">
