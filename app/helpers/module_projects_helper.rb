@@ -27,7 +27,6 @@ module ModuleProjectsHelper
       ml = results[:most_likely][attribute_alias].to_f
       high = results[:high][attribute_alias].to_f
       res = (min+4*ml+high)/6
-      res
     else
       "-"
     end

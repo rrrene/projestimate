@@ -102,9 +102,9 @@
 
     <div id="tabs-5">
 
-      <%= f.input :language_id, :label => I18n.t("languages"), :as => :select, :collection => Language.all.map{|i| [i.name, i.id]}, include_blank: "(auto)", :selected => @user.language_id%>
+      <%= f.input :language_id, :label => I18n.t("languages"), :as => :select, :collection => Language.all.map{|i| [i.name, i.id]}.sort, include_blank: "(auto)", :selected => @user.language_id %>
 
-      <%= f.input :time_zone, :label => I18n.t("time_zone"), :as => :select, :collection => ActiveSupport::TimeZone.all.map(&:name), :include_blank => false, :selected => @user.time_zone || "GMT" %>
+      <%= f.input :time_zone, :label => I18n.t("time_zone"), :as => :select, :collection => ActiveSupport::TimeZone.all.map{|i| i.to_s}, :include_blank => false, :selected => @user.time_zone || "GMT" %>
 
       <p><%= I18n.t(:assistance) %></p>
       <p><%= I18n.t(:notifications) %></p>
