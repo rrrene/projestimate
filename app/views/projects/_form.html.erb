@@ -35,7 +35,7 @@
     <%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => { :class => 'input-xxlarge' } %>
 
     <%= f.label "#{I18n.t 'start_date'}" %>
-    <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.long') : I18n.l(@project.start_date)) %>
+    <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@project.start_date)) %>
     <script>
         $(document).ready(function() {
             $(".date-picker").datepicker({
