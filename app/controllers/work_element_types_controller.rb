@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,13 +25,13 @@ class WorkElementTypesController < ApplicationController
 
   def index
     authorize! :manage_wet, WorkElementType
-    set_page_title "Work Element Type"
+    set_page_title 'Work Element Type'
     @work_element_types = WorkElementType.all
   end
 
   def new
     authorize! :manage_wet, WorkElementType
-    set_page_title "Work Element Type"
+    set_page_title 'Work Element Type'
     @work_element_type = WorkElementType.new
     @peicons = Peicon.all
   end
@@ -39,13 +39,13 @@ class WorkElementTypesController < ApplicationController
   # GET /work_element_types/1/edit
   def edit
     authorize! :manage_wet, WorkElementType
-    set_page_title "Work Element Type"
+    set_page_title 'Work Element Type'
     @work_element_type = WorkElementType.find(params[:id])
     @peicons = Peicon.all
 
     unless @work_element_type.child_reference.nil?
       if @work_element_type.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:work_element_type_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_work_element_type_cant_be_edit)
         redirect_to work_element_types_path
       end
     end
@@ -56,13 +56,13 @@ class WorkElementTypesController < ApplicationController
     @work_element_type = WorkElementType.new(params[:work_element_type])
 
     @peicons = Peicon.all
-    peicon = Peicon.find_by_name("Default")
+    peicon = Peicon.find_by_name('Default')
     @work_element_type.peicon_id = peicon.nil? ? nil : peicon.id
 
     if @work_element_type.save
       redirect_to redirect(work_element_types_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -80,10 +80,10 @@ class WorkElementTypesController < ApplicationController
     @peicons = Peicon.all
 
     if @work_element_type.update_attributes(params[:work_element_type])
-      flash[:notice] =  I18n.t (:work_element_type_succesfull_updated)
+      flash[:notice] =  I18n.t (:notice_work_element_type_successful_updated)
       redirect_to redirect(work_element_types_path)
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 

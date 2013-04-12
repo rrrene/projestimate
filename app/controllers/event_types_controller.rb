@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -39,7 +39,7 @@ class EventTypesController < ApplicationController
 
     unless @event_type.child_reference.nil?
       if @event_type.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:event_type_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_event_type_cant_be_edit)
         redirect_to event_types_path
       end
     end
@@ -63,9 +63,9 @@ class EventTypesController < ApplicationController
     end
 
     if @event_type.update_attributes(params[:event_type])
-      redirect_to event_types_path, notice: "#{I18n.t (:event_type_succesfull_updated)}"
+      redirect_to event_types_path, notice: "#{I18n.t (:notice_event_type_successful_updated)}"
     else
-      render action: "edit"
+      render action: 'edit'
     end
 
   end
@@ -80,7 +80,7 @@ class EventTypesController < ApplicationController
       @event_type.destroy
     end
 
-    flash[:notice] = I18n.t (:event_type_succesfull_deleted)
+    flash[:notice] = I18n.t (:notice_event_type_successful_deleted)
     redirect_to event_type_url
   end
 end

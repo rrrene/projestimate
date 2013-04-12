@@ -3,24 +3,28 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe UserMailer do
       before(:each) do
         ActionMailer::Base.deliveries = []
+        I18n.locale = 'en' #we force Locale to English
+        #@user = FactoryGirl.create(:user)
+        @user = User.first
+        @user.language = Language.where("locale = ?", "en").first #we force user language to English too.
+        @mailer_created = UserMailer.account_created(@user)
+        @mailer_validate_ldap=UserMailer.account_validate_ldap(@user)
+        @mailer_account_suspended=UserMailer.account_suspended(@user)
+        @mailer_new=UserMailer.new_password(@user)
+        @mailer_forgotten_password=UserMailer.forgotten_password(@user)
+        @mailer_account_request=UserMailer.account_request()
+        @mailer_account_validate=UserMailer.account_validate(@user)
+        @mailer_account_validate_nopwd=UserMailer.account_validate_no_pw(@user)
 
-        @user = FactoryGirl.create(:user)
-        @mailerCreated = UserMailer.account_created(@user)
-        @mailerValidateLDAP=UserMailer.account_validate_ldap(@user)
-        @mailerAccountsuspended=UserMailer.account_suspended(@user)
-        @mailerNew=UserMailer.new_password(@user)
-        @mailerForgottenPassword=UserMailer.forgotten_password(@user)
-        @mailerAccountRequest=UserMailer.account_request()
-        @mailerAccountValidate=UserMailer.account_validate(@user)
-        @mailerAccountValidateNoPw=UserMailer.account_validate_no_pw(@user)
+
       end
 
       describe "Created" do
         it "should have Subject ProjEstimate Account created" do
-          @mailerCreated.subject.should eq('ProjEstimate Account created')
+          @mailer_created.subject.should eq(I18n.t(:mail_subject_account_created))
         end
         it "should have to user mail from created mail" do
-          @mailerCreated.to[0].should==(@user.email)
+          @mailer_created.to[0].should==(@user.email)
         end
         #it "should send Account created emails" do
         #  @mailerCreated.deliver
@@ -28,10 +32,10 @@ describe UserMailer do
       end
       describe "Validate LDAP" do
         it "should have Subject Your ProjEstimate account has changed" do
-          @mailerValidateLDAP.subject.should eq('Your ProjEstimate account has changed')
+          @mailer_validate_ldap.subject.should eq(I18n.t(:mail_subject_account_activation))
         end
         it "should have to user mail from validateLDAP" do
-          @mailerValidateLDAP.to[0].should==(@user.email)
+          @mailer_validate_ldap.to[0].should==(@user.email)
         end
         #it "should send Account validatedLDAP emails" do
         #  @mailerValidateLDAP.deliver
@@ -39,10 +43,10 @@ describe UserMailer do
       end
       describe "Account suspended" do
         it "should have Subject Your ProjEstimate account has changed" do
-          @mailerAccountsuspended.subject.should eq('Your ProjEstimate account has been suspended')
+          @mailer_account_suspended.subject.should eq(I18n.t(:mail_subject_account_suspended))
         end
         it "should have to user mail from validateLDAP" do
-          @mailerAccountsuspended.to[0].should==(@user.email)
+          @mailer_account_suspended.to[0].should==(@user.email)
         end
         #it "should send Account suspended emails" do
         #  @mailerAccountsuspended.deliver
@@ -50,10 +54,10 @@ describe UserMailer do
       end
       describe "Reset password" do
         it "should have Subject Your ProjEstimate password has changed" do
-          @mailerNew.subject.should eq('Your ProjEstimate password has changed')
+          @mailer_new.subject.should eq(I18n.t(:mail_subject_new_password))
         end
         it "should have to user mail from new password" do
-          @mailerNew.to[0].should==(@user.email)
+          @mailer_new.to[0].should==(@user.email)
         end
         #it "should send password reseted emails" do
         #  @mailerNew.deliver
@@ -62,10 +66,10 @@ describe UserMailer do
       describe "Forgotten password" do
       #Don't modifie please: tests are in echec because the method FOrgotten Password is not fonctionnal'
         it "should have Subject Projestimate - New password" do
-          @mailerForgottenPassword.subject.should eq('Projestimate - New password')
+          @mailer_forgotten_password.subject.should eq(I18n.t(:mail_subject_lost_password))
         end
         it "should have to user mail from forgotten password" do
-          @mailerForgottenPassword.to[0].should==(@user.email)
+          @mailer_forgotten_password.to[0].should==(@user.email)
         end
         #it "should send reset password emails" do
         #  @mailerAccountValidate.deliver
@@ -73,10 +77,10 @@ describe UserMailer do
       end
       describe "New account request" do
         it "should have Subject New account request" do
-          @mailerAccountRequest.subject.should eq('New account request')
+          @mailer_account_request.subject.should eq(I18n.t(:mail_subject_account_activation_request))
         end
         it "should have to user mail from New account request" do
-          @mailerAccountRequest.to[0].should==(AdminSetting.find_by_key("notifications_email").value)
+          @mailer_account_request.to[0].should==(AdminSetting.find_by_key("notifications_email").value)
         end
         #it "should send new account request emails" do
         #  @mailerAccountRequest.deliver
@@ -84,10 +88,10 @@ describe UserMailer do
       end
       describe "Account validated" do
         it "should have Subject Your ProjEstimate account is validated" do
-          @mailerAccountValidate.subject.should eq('Your ProjEstimate account is validated')
+          @mailer_account_validate.subject.should eq(I18n.t(:mail_subject_account_activation))
         end
         it "should have to user mail from Account Validate" do
-          @mailerAccountValidate.to[0].should==(@user.email)
+          @mailer_account_validate.to[0].should==(@user.email)
         end
         #it "should send Account validated emails" do
         #  @mailerAccountValidate.deliver
@@ -95,10 +99,10 @@ describe UserMailer do
       end
       describe "Account validated without password" do
         it "should have Subject Your ProjEstimate account has been validated" do
-          @mailerAccountValidateNoPw.subject.should eq('Your ProjEstimate account has been validated')
+          @mailer_account_validate_nopwd.subject.should eq(I18n.t(:mail_subject_account_activation))
         end
         it "should have to user mail from Account Validate without password" do
-          @mailerAccountValidateNoPw.to[0].should==(@user.email)
+          @mailer_account_validate_nopwd.to[0].should==(@user.email)
         end
         #it "should send Account ValidateNoPw emails" do
         #  @mailerAccountValidateNoPw.deliver

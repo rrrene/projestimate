@@ -52,7 +52,7 @@ class PbsProjectElementsController < ApplicationController
         @pbs_project_element.update_attribute :parent, nil
       end
     else
-      flash[:error] = I18n.t (:verify_pbs_project_element_value)
+      flash[:error] = I18n.t (:error_pbs_project_element_failed_update)
     end
 
     render :partial => "pbs_project_elements/refresh_tree"

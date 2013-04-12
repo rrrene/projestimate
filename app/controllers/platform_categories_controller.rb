@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,18 +24,18 @@ class PlatformCategoriesController < ApplicationController
   before_filter :get_record_statuses
 
   def new
-    set_page_title "Platform Category"
+    set_page_title 'Platform Category'
     @platform_category = PlatformCategory.new
   end
 
   def edit
-    set_page_title "Platform Category"
+    set_page_title 'Platform Category'
     @platform_category = PlatformCategory.find(params[:id])
 
     unless @platform_category.child_reference.nil?
       if @platform_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:platform_category_cant_be_edited)
-        redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
+        flash[:warning] = I18n.t (:warning_platform_category_cant_be_edit)
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
       end
     end
   end
@@ -44,10 +44,10 @@ class PlatformCategoriesController < ApplicationController
     @platform_category = PlatformCategory.new(params[:platform_category])
 
     if @platform_category.save
-      flash[:notice] = I18n.t (:platform_category_succesfull_created)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
+      flash[:notice] = I18n.t (:notice_platform_category_successful_created)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -62,10 +62,10 @@ class PlatformCategoriesController < ApplicationController
     end
 
     if @platform_category.update_attributes(params[:platform_category])
-      flash[:notice] = I18n.t (:platform_category_succesfull_updated)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-3"))
+      flash[:notice] = I18n.t (:notice_platform_category_successful_updated)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -78,7 +78,7 @@ class PlatformCategoriesController < ApplicationController
       @platform_category.destroy
     end
 
-    flash[:notice] = I18n.t (:platform_category_succesfull_deleted)
-    redirect_to projects_global_params_path(:anchor => "tabs-3")
+    flash[:notice] = I18n.t (:notice_platform_category_successful_deleted)
+    redirect_to projects_global_params_path(:anchor => 'tabs-3')
   end
 end

@@ -1,8 +1,28 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 class WbsProjectElementsController < ApplicationController
   helper_method :disabled_if_from_library
 
   def disabled_if_from_library
-    if params[:action] == "new"
+    if params[:action] == 'new'
       false
     else
       if @wbs_project_element.wbs_activity.nil?
@@ -84,10 +104,10 @@ class WbsProjectElementsController < ApplicationController
     @potential_parents = @pe_wbs_project.wbs_project_elements
 
     if @wbs_project_element.save
-     redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: "#{I18n.t (:wbs_project_element_succesfull_created)}"
+     redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
 
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -104,11 +124,11 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
-        format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: "#{I18n.t (:wbs_project_element_succesfull_updated)}"}
+        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_updated)}"}
         format.json { head :no_content }
       else
         flash[:error] = @wbs_project_element.errors.full_messages.to_sentence
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @wbs_project_element.errors, status: :unprocessable_entity }
       end
     end
@@ -127,7 +147,7 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
-      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3"), :notice => "#{I18n.t (:wbs_project_element_succesfull_deleted)}" }
+      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:notice_wbs_project_element_successful_deleted)}" }
 
       format.json { head :no_content }
     end
@@ -142,7 +162,7 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element = current_wbs_project_element
     @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
 
-    render :partial => "wbs_project_elements/refresh"
+    render :partial => 'wbs_project_elements/refresh'
   end
 
   # Allow user to swith from on ratio table to another
@@ -159,15 +179,15 @@ class WbsProjectElementsController < ApplicationController
 
     @wbs_project_element.wbs_activity_ratio_id = params[:wbs_activity_ratio_id]
     if @wbs_project_element.save
-      flash[:notice] = @wbs_project_element.name+" #{I18n.t (:ratio_succesfull_changed)}"
+      flash[:notice] = @wbs_project_element.name+" #{I18n.t (:notice_ratio_successful_changed)}"
     else
-      flash[:error] = I18n.t (:ratio_error_changed)
+      flash[:error] = I18n.t (:error_wbs_project_element_ratio_failed_update)
     end
 
     respond_to do |format|
-      format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3") }
+      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
 
-      format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3") }
+      format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
     end
   end
 

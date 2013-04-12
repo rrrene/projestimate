@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,13 +24,13 @@ class LaborCategoriesController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-    set_page_title "Labors Categories"
+    set_page_title 'Labors Categories'
     authorize! :manage_labor_categories, LaborCategory
     @labor_categories = LaborCategory.all
   end
 
   def new
-    set_page_title "Labors Categories"
+    set_page_title 'Labors Categories'
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new
 
@@ -40,13 +40,13 @@ class LaborCategoriesController < ApplicationController
   end
 
   def edit
-    set_page_title "Labors Categories"
+    set_page_title 'Labors Categories'
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
 
     unless @labor_category.child_reference.nil?
       if @labor_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:labor_category_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_labor_category_cant_be_edit)
         redirect_to redirect(labor_categories_path)
       end
     end
@@ -56,10 +56,10 @@ class LaborCategoriesController < ApplicationController
     authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
-      flash[:notice] = I18n.t (:labor_category_succesfull_created)
+      flash[:notice] = I18n.t (:notice_labor_category_successful_created)
       redirect_to redirect(labor_categories_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -75,10 +75,10 @@ class LaborCategoriesController < ApplicationController
     end
 
     if @labor_category.update_attributes(params[:labor_category])
-      flash[:notice] = I18n.t (:labor_category_succesfull_updated)
-      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:labor_category_succesfull_updated)}"
+      flash[:notice] = I18n.t (:notice_notice_labor_category_successful_updated)
+      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:notice_notice_labor_category_successful_updated)}"
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -92,7 +92,7 @@ class LaborCategoriesController < ApplicationController
       @labor_category.destroy
     end
 
-    flash[:notice] = I18n.t (:labor_category_succesfull_deleted)
+    flash[:notice] = I18n.t (:notice_labor_category_successful_deleted)
     redirect_to labor_categories_path
   end
 

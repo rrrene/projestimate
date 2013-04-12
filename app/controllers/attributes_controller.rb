@@ -42,7 +42,7 @@ class AttributesController < ApplicationController
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:attribute_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_attribute_cant_be_edit)
         redirect_to attributes_path
       end
     end

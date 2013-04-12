@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -42,9 +42,9 @@ class OrganizationLaborCategoriesController < ApplicationController
 
     respond_to do |format|
       if @organization_labor_category.save
-        format.html { redirect_to "/organizationals_params", notice: "#{I18n.t (:organization_labor_succesfull_created)}" }
+        format.html { redirect_to '/organizationals_params', notice: "#{I18n.t (:notice_organization_labor_successful_created)}" }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
       end
     end
   end
@@ -54,9 +54,9 @@ class OrganizationLaborCategoriesController < ApplicationController
 
     respond_to do |format|
       if @organization_labor_category.update_attributes(params[:organization_labor_category])
-        format.html { redirect_to "/organizationals_params", notice: "#{I18n.t (:organization_labor_succesfull_updated)}"}
+        format.html { redirect_to '/organizationals_params', notice: "#{I18n.t (:notice_organization_labor_successful_updated)}"}
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
       end
     end
   end

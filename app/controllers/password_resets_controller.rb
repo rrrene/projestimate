@@ -32,10 +32,10 @@ class PasswordResetsController < ApplicationController
     @user = User.find_by_password_reset_token!(params[:id])
     if @user.password_reset_sent_at < 2.hours.ago
       UserMailer.new_password(@user).deliver
-      redirect_to new_password_reset_path, :error => "#{I18n.t (:reset_password_expired)}"
+      redirect_to new_password_reset_path, :error => "#{I18n.t (:warning_reset_password_expired)}"
     elsif @user.update_attributes(params[:user])
       UserMailer.new_password(@user).deliver
-      redirect_to root_url, :notice => "#{I18n.t (:reset_password_succesfull)}"
+      redirect_to root_url, :notice => "#{I18n.t (:notice_password_succesfull_reset)}"
     else
       render :edit
     end

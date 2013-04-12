@@ -2,7 +2,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -30,13 +30,13 @@ class GroupsController < ApplicationController
 
   def index
     authorize! :edit_groups, Group
-    set_page_title "Groups"
+    set_page_title 'Groups'
     @groups = Group.all
   end
 
   def new
     authorize! :edit_groups, Group
-    set_page_title "New group"
+    set_page_title 'New group'
     @group = Group.new
     @users = User.all
     @projects = Project.all
@@ -45,7 +45,7 @@ class GroupsController < ApplicationController
 
   def edit
     authorize! :edit_groups, Group
-    set_page_title "Edit group"
+    set_page_title 'Edit group'
     @group = Group.find(params[:id])
     @users = User.all
     @projects = Project.all
@@ -54,7 +54,7 @@ class GroupsController < ApplicationController
       @enable_update_in_local = true
       unless @group.child_reference.nil?
         if @group.child_reference.is_proposed_or_custom?
-          flash[:notice] = I18n.t (:group_cant_be_edited)
+          flash[:warning] = I18n.t (:warning_group_cant_be_edit)
           redirect_to groups_path and return
         end
       end
@@ -88,7 +88,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to redirect(groups_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -109,7 +109,7 @@ class GroupsController < ApplicationController
     unless is_master_instance?
       if @group.is_local_record?
         @enable_update_in_local = true
-        @group.custom_value = "Locally edited"
+        @group.custom_value = 'Locally edited'
       else
         @enable_update_in_local = false
       end
@@ -118,7 +118,7 @@ class GroupsController < ApplicationController
     if @group.update_attributes(params[:group])
       redirect_to redirect(groups_path)
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -135,12 +135,12 @@ class GroupsController < ApplicationController
       if @group.is_local_record? || @group.is_retired?
         @group.destroy
       else
-        flash[:error] = I18n.t (:master_record_cant_be_deleted)
+        flash[:error] = I18n.t (:warning_master_record_cant_be_delete)
         redirect_to redirect(groups_path)  and return
       end
     end
 
-    flash[:notice] = I18n.t (:group_succesfull_deleted)
+    flash[:notice] = I18n.t (:notice_group_successful_deleted)
     redirect_to groups_url
   end
 
@@ -148,14 +148,14 @@ class GroupsController < ApplicationController
     if is_master_instance?
       true
     else
-      if params[:action] == "new"
+      if params[:action] == 'new'
         true
-      elsif params[:action] == "edit"
+      elsif params[:action] == 'edit'
         @group = Group.find(params[:id])
         if @group.is_local_record?
           true
         else
-          if params[:anchor] == "tabs-1"
+          if params[:anchor] == 'tabs-1'
             false
           end
         end

@@ -21,7 +21,7 @@
 class EstimationValuesController < ApplicationController
 
   def edit
-    set_page_title "Edit Module Project Attribute"
+    set_page_title 'Edit Module Project Attribute'
     @est_value = EstimationValue.find(params[:id])
   end
 
@@ -30,9 +30,9 @@ class EstimationValuesController < ApplicationController
 
     respond_to do |format|
       if @est_value.update_attributes(params[:estimation_value])
-        format.html { redirect_to redirect(@est_value), notice: "#{I18n.t (:estimation_value_succesfull_updated)}" }
+        format.html { redirect_to redirect(@est_value), notice: "#{I18n.t (:notice_estimation_value_successful_updated)}" }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
       end
     end
   end

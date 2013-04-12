@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ class MasterSettingsController < ApplicationController
   # GET /master_settings
   # GET /master_settings.json
   def index
-    set_page_title "Projestimate Global Parameters"
+    set_page_title 'Projestimate Global Parameters'
     @master_settings = MasterSetting.all
 
     respond_to do |format|
@@ -38,7 +38,7 @@ class MasterSettingsController < ApplicationController
   # GET /master_settings/new
   # GET /master_settings/new.json
   def new
-    set_page_title "Projestimate Global Parameters"
+    set_page_title 'Projestimate Global Parameters'
     @master_setting = MasterSetting.new
 
     respond_to do |format|
@@ -49,12 +49,12 @@ class MasterSettingsController < ApplicationController
 
   # GET /master_settings/1/edit
   def edit
-    set_page_title "Projestimate Global Parameters"
+    set_page_title 'Projestimate Global Parameters'
     @master_setting = MasterSetting.find(params[:id])
 
     unless @master_setting.child_reference.nil?
       if @master_setting.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:master_settings_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_master_settings_cant_be_edit)
         redirect_to master_settings_path
       end
     end
@@ -66,9 +66,9 @@ class MasterSettingsController < ApplicationController
     @master_setting = MasterSetting.new(params[:master_setting])
 
     if @master_setting.save
-      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:master_settings_succesfull_created)}"
+      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:notice_master_settings_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -85,9 +85,9 @@ class MasterSettingsController < ApplicationController
     end
 
     if @master_setting.update_attributes(params[:master_setting])
-      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:master_settings_succesfull_updated)}"
+      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:notice_master_settings_successful_updated)}"
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -103,7 +103,7 @@ class MasterSettingsController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:notice] = I18n.t (:master_settings_succesfull_deleted)
+      flash[:notice] = I18n.t (:notice_master_settings_successful_deleted)
       format.html { redirect_to master_settings_url }
     end
   end

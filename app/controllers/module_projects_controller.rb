@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@ class ModuleProjectsController < ApplicationController
 
 
   def pbs_element_matrix
-    set_page_title "Associate PBS-element"
+    set_page_title 'Associate PBS-element'
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
   end
@@ -32,10 +32,10 @@ class ModuleProjectsController < ApplicationController
     @module_projects = @project.module_projects
 
     @module_projects.each do |mp|
-      mp.update_attribute("pbs_project_element_ids", params[:pbs_project_elements][mp.id.to_s])
+      mp.update_attribute('pbs_project_element_ids', params[:pbs_project_elements][mp.id.to_s])
     end
 
-    redirect_to redirect(edit_project_path(@project, :anchor => "tabs-4"))
+    redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-4'))
 
   end
 
@@ -56,9 +56,9 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.new(params[:module_project])
 
     if @module_project.save
-      redirect_to redirect(@module_project), notice: "#{I18n.t (:module_project_succesfull_created)}"
+      redirect_to redirect(@module_project), notice: "#{I18n.t (:notice_module_project_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -68,15 +68,15 @@ class ModuleProjectsController < ApplicationController
 
     @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
       @module_project.estimation_values.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
-        if mpa.custom_attribute == "user"
-          mpa.update_attribute("is_mandatory", params[:is_mandatory][j])
-          mpa.update_attribute("in_out", params[:in_out][j])
-          mpa.update_attribute("description", params[:description][j])
+        if mpa.custom_attribute == 'user'
+          mpa.update_attribute('is_mandatory', params[:is_mandatory][j])
+          mpa.update_attribute('in_out', params[:in_out][j])
+          mpa.update_attribute('description', params[:description][j])
         end
       end
     end
 
-    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
   def module_projects_matrix
@@ -88,9 +88,9 @@ class ModuleProjectsController < ApplicationController
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
     @module_projects.each do |mp|
-      mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
+      mp.update_attribute('associated_module_project_ids', params[:module_projects][mp.id.to_s])
     end
-    redirect_to redirect(edit_project_path(@project.id)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+    redirect_to redirect(edit_project_path(@project.id)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
   def destroy
@@ -103,7 +103,7 @@ class ModuleProjectsController < ApplicationController
     #...finally, destroy object module_project
     @module_project.destroy
 
-    redirect_to edit_project_path(@project.id, :anchor => "tabs-4")
+    redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
   def associate_module_project_to_ratios
@@ -116,11 +116,11 @@ class ModuleProjectsController < ApplicationController
       mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])
     end
 
-    if params[:commit] == I18n.t("apply")
-      flash[:notice] = I18n.t (:module_project_succesfull_updated)
-      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
+    if params[:commit] == I18n.t('apply')
+      flash[:notice] = I18n.t (:notice_module_project_successful_updated)
+      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => 'tabs-3'))  #redirect_to :back
     else
-      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+      redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
     end
   end
 
