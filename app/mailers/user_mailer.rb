@@ -22,17 +22,24 @@
 
 class UserMailer < ActionMailer::Base
   default :from => 'no-reply@spirula.fr'
+  OLD_LOCALE = I18n.locale
 
   #Send the new password
   def forgotten_password(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_lost_password))
+  ensure
+    reset_locale
   end
 
   #Confirm the new password
   def new_password(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_new_password))
+  ensure
+    reset_locale
   end
 
   #Send an account request
@@ -43,31 +50,51 @@ class UserMailer < ActionMailer::Base
   #Confirm validation of account - password is writed
   def account_validate(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
+  ensure
+    reset_locale
   end
 
   #Confirm validation of account - the password is not writed
   def account_validate_no_pw(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
+  ensure
+    reset_locale
   end
 
   #Notify than account is suspended
   def account_suspended(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_suspended))
+  ensure
+    reset_locale
   end
 
   #Confirm validation of account (ldap protocol)
   def account_validate_ldap(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_activation))
+  ensure
+    reset_locale
   end
 
   #Account created
   def account_created(user)
     @user = user
+    I18n.locale = user.locale
     mail(:to => @user.email, :subject => I18n.t(:mail_subject_account_created))
+  ensure
+    reset_locale
+  end
+
+  protected
+  def reset_locale
+    I18n.locale = OLD_LOCALE
   end
   
 end

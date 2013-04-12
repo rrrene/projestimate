@@ -263,4 +263,8 @@ class User < ActiveRecord::Base
     self.time_zone.nil? ? "UTC" : self.time_zone
   end
 
+  def locale
+    self.language.locale.downcase
+  end
+
 end
