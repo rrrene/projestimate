@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,7 @@ class ProjectSecurityLevelsController < ApplicationController
 
     unless @project_security_level.child_reference.nil?
       if @project_security_level.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:project_securities_level_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_project_securities_level_cant_be_edit)
         redirect_to project_security_levels_path
       end
     end
@@ -46,9 +46,9 @@ class ProjectSecurityLevelsController < ApplicationController
     @project_security_level = ProjectSecurityLevel.new(params[:project_security_level])
 
     if @project_security_level.save
-      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:project_securities_level_succesfull_created)}"
+      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -63,9 +63,9 @@ class ProjectSecurityLevelsController < ApplicationController
     end
 
     if @project_security_level.update_attributes(params[:project_security_level])
-      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:project_securities_level_succesfull_updated)}"
+      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_updated)}"
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -79,7 +79,7 @@ class ProjectSecurityLevelsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to project_security_levels_url, notice: "#{I18n.t (:project_securities_level_succesfull_deleted)}" }
+      format.html { redirect_to project_security_levels_url, notice: "#{I18n.t (:notice_project_securities_level_successful_deleted)}" }
       format.json { head :ok }
     end
   end

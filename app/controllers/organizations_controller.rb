@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
 
   def new
     authorize! :manage_organizations, Organization
-    set_page_title "Organizations"
+    set_page_title 'Organizations'
     @organization = Organization.new
 
     respond_to do |format|
@@ -31,7 +31,7 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    set_page_title "Organizations"
+    set_page_title 'Organizations'
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
   end
@@ -41,9 +41,9 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(params[:organization])
 
     if @organization.save
-      redirect_to redirect("/organizationals_params"), notice: "#{I18n.t (:organization_succesfull_created)}"
+      redirect_to redirect('/organizationals_params'), notice: "#{I18n.t (:notice_organization_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -51,10 +51,10 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
-      flash[:notice] = I18n.t (:organization_succesfull_updated)
-      redirect_to redirect("/organizationals_params")
+      flash[:notice] = I18n.t (:notice_organization_successful_updated)
+      redirect_to redirect('/organizationals_params')
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -62,12 +62,12 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     @organization.destroy
-    flash[:notice] = I18n.t (:organization_succesfull_deleted)
-    redirect_to "/organizationals_params"
+    flash[:notice] = I18n.t (:notice_organization_successful_deleted)
+    redirect_to '/organizationals_params'
   end
 
   def organizationals_params
-    set_page_title "Organizational Parameters"
+    set_page_title 'Organizational Parameters'
     @organizations = Organization.all
     @organizations_labor_categories = OrganizationLaborCategory.all || []
   end

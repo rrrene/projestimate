@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    set_page_title("Events")
+    set_page_title('Events')
     @events = Event.all
   end
 
@@ -40,7 +40,7 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to redirect(events_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -48,9 +48,9 @@ class EventsController < ApplicationController
     @event = nil
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
-      redirect_to events_path, notice: "#{I18n.t (:event_succesfull_updated)}"
+      redirect_to events_path, notice: "#{I18n.t (:notice_event_successful_updated)}"
     else
-      render action: "edit"
+      render action: 'edit'
     end
 
   end

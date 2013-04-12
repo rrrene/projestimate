@@ -1,3 +1,22 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
 
 #Module for master data method
 module DataValidationHelper
@@ -22,9 +41,9 @@ module DataValidationHelper
       if parent_record.nil?
         @record.record_status = @defined_status
         if @record.save
-          flash[:notice] = 'Changes on record was successfully validated.'
+          flash[:notice] = I18n.t(:notice_master_data_successful_validated)
         else
-          flash[:error] = "Changes validation failed: #{@record.errors.full_messages.to_sentence}."
+          flash[:error] = I18n.l(error_master_data_failed_validate, value => @record.errors.full_messages.to_sentence)
         end
       else
         temp_parent_uuid = parent_record.uuid
@@ -45,9 +64,9 @@ module DataValidationHelper
           @record.record_status = @defined_status
 
           if @record.save
-            flash[:notice] = 'Changes on record was successfully validated.'
+            flash[:notice] = I18n.t(:notice_master_data_successful_validated)
           else
-           flash[:error] = "Changes validation failed: #{@record.errors.full_messages.to_sentence}."
+           flash[:error] = I18n.l(error_master_data_failed_validate, value => @record.errors.full_messages.to_sentence)
           end
         end
       end
@@ -82,9 +101,9 @@ module DataValidationHelper
         if child_record.nil?
           @record.record_status = @defined_status
           if @record.save
-            flash[:notice] = 'Change on record was successfully restored.'
+            flash[:notice] = I18n.t(:notice_master_data_successful_validated)
           else
-            flash[:error] =  'Changes restoration failed.'
+            flash[:error] =  I18n.t(:error_master_data_failed_restore)
           end
 
         else
@@ -107,14 +126,14 @@ module DataValidationHelper
             @record.record_status = @defined_status
 
             if @record.save
-              flash[:notice] = 'Change on record was successfully restored.'
+              flash[:notice] = I18n.t(:notice_master_data_successful_restored)
             else
-              flash[:error] =  'Changes restoration failed.'
+              flash[:error] = I18n.t(:error_master_data_failed_restore)
             end
           end
         end
       else
-        flash[:error] = "unauthorized action: you are trying to restore a non retired record ! "
+        flash[:error] = I18n.t(:warning_master_data_unauthorized_action)
       end
 
       redirect_to :back and return

@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 require 'will_paginate/array'
 
 class WbsActivitiesController < ApplicationController
@@ -11,9 +31,9 @@ class WbsActivitiesController < ApplicationController
   def import
     begin
       WbsActivityElement.import(params[:file], params[:separator])
-      flash[:notice] = I18n.t (:import_succesfull)
+      flash[:notice] = I18n.t (:notice_wbs_activity_element_import_successful)
     rescue Exception => e
-      flash[:error] = I18n.t (:verify_file_integrity)
+      flash[:error] = I18n.t (:error_wbs_activity_failed_file_integrity)
       flash[:warning] = "#{e}"
     end
     redirect_to wbs_activities_path
@@ -33,12 +53,12 @@ class WbsActivitiesController < ApplicationController
   end
 
   def index
-    set_page_title "WBS activities"
+    set_page_title 'WBS activities'
     @wbs_activities = WbsActivity.all
   end
 
   def edit
-    set_page_title "WBS activities"
+    set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
 
     @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all#.paginate(:page => params[:page], :per_page => 30)
@@ -78,7 +98,7 @@ class WbsActivitiesController < ApplicationController
       end
     else
       if @wbs_activity.is_local_record?
-        @wbs_activity.custom_value = "Locally edited"
+        @wbs_activity.custom_value = 'Locally edited'
       end
     end
 
@@ -90,7 +110,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def new
-    set_page_title "WBS activities"
+    set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.new
   end
 
@@ -99,7 +119,7 @@ class WbsActivitiesController < ApplicationController
     #If we are on local instance, Status is set to "Local"
     if is_master_instance?
       @wbs_activity.record_status = @proposed_status
-      @wbs_activity.state = "defined"
+      @wbs_activity.state = 'defined'
      else #so not on master
       @wbs_activity.record_status = @local_status
     end
@@ -131,17 +151,17 @@ class WbsActivitiesController < ApplicationController
     else
       if @wbs_activity.is_local_record? #|| @wbs_activity.is_retired?
         if @wbs_activity.defined?
-          @wbs_activity.update_attribute(:state, "retired")
+          @wbs_activity.update_attribute(:state, 'retired')
         else
             @wbs_activity.destroy
         end
       else
-        flash[:error] = I18n.t (:master_record_cant_be_deleted)
+        flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
         redirect_to redirect(wbs_activities_path)  and return
       end
     end
 
-    flash[:success] = I18n.t (:wbs_activity_succesfull_deleted)
+    flash[:notice] = I18n.t (:notice_wbs_activity_successful_deleted)
     redirect_to wbs_activities_path
   end
 
@@ -154,10 +174,10 @@ class WbsActivitiesController < ApplicationController
 
       if is_master_instance?
         new_wbs_activity.record_status = @proposed_status
-        new_wbs_activity.state = "defined"
+        new_wbs_activity.state = 'defined'
       else
         new_wbs_activity.record_status = @local_status
-        new_wbs_activity.state = "draft"
+        new_wbs_activity.state = 'draft'
       end
 
       new_wbs_activity.uuid =  UUIDTools::UUID.random_create.to_s
@@ -188,7 +208,7 @@ class WbsActivitiesController < ApplicationController
           new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
           new_wbs_activity_ratios.each do |act_ratio|
             act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
-              wbs_activity_elt = WbsActivityElement.where("copy_id = ? and wbs_activity_id = ?", act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
+              wbs_activity_elt = WbsActivityElement.where('copy_id = ? and wbs_activity_id = ?', act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
               act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
               act_ratio_elt.save
             end
@@ -198,30 +218,30 @@ class WbsActivitiesController < ApplicationController
         end
       end
 
-      redirect_to("/wbs_activities", :notice  =>  "#{I18n.t (:wbs_activity_succesfull_duplicated)}") and return
+      redirect_to('/wbs_activities', :notice  =>  "#{I18n.t (:notice_wbs_activity_successful_duplicated)}") and return
 
     rescue ActiveRecord::RecordNotSaved => e
       flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
 
     rescue
-      flash[:notice] = I18n.t (:wbs_activity_failed_duplication)+" "+new_wbs_activity.errors.full_messages.to_sentence
-      redirect_to "/wbs_activities"
+      flash[:error] = I18n.t (:error_wbs_activity_failed_duplicate)+' '+new_wbs_activity.errors.full_messages.to_sentence
+      redirect_to '/wbs_activities'
     end
   end
 
   def wbs_record_statuses_collection
     if @wbs_activity.new_record?
       if is_master_instance?
-        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Proposed')
       else
-        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Local')
       end
     else
       @wbs_record_status_collection = []
       if @wbs_activity.is_defined?
-        @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Defined')
       else
-        @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
+        @wbs_record_status_collection = RecordStatus.where('name <> ?', 'Defined')
       end
     end
   end
@@ -231,7 +251,7 @@ class WbsActivitiesController < ApplicationController
     begin
       wbs_activity = WbsActivity.find(params[:id])
       wbs_activity.record_status = @defined_status
-      wbs_activity_root_element = WbsActivityElement.where("wbs_activity_id = ? and is_root = ?", wbs_activity.id, true).first
+      wbs_activity_root_element = WbsActivityElement.where('wbs_activity_id = ? and is_root = ?', wbs_activity.id, true).first
 
       wbs_activity.transaction do
         if wbs_activity.save
@@ -255,9 +275,9 @@ class WbsActivitiesController < ApplicationController
             end
           end
 
-          flash[:notice] =I18n.t (:wbs_activity_succesfull_updated)
+          flash[:notice] =I18n.t (:notice_wbs_activity_successful_updated)
         else
-          flash[:error] = I18n.t (:change_validation_failed)+ " " +wbs_activity_root_element.errors.full_messages.to_sentence+"."
+          flash[:error] = I18n.t (:error_wbs_activity_failed_update)+ ' ' +wbs_activity_root_element.errors.full_messages.to_sentence+'.'
         end
       end
 
@@ -278,9 +298,9 @@ class WbsActivitiesController < ApplicationController
     if is_master_instance?
       true
     else
-      if params[:action] == "new"
+      if params[:action] == 'new'
         true
-      elsif params[:action] == "edit"
+      elsif params[:action] == 'edit'
         @wbs_activity = WbsActivity.find(params[:id])
         #if @wbs_activity.is_local_record? && @wbs_activity.defined?
         if @wbs_activity.is_defined? || @wbs_activity.defined?

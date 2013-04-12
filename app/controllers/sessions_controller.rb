@@ -2,7 +2,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,8 @@ class SessionsController < ApplicationController
         end
 
         #Last and previous login setting
-        user.update_attribute("previous_login", user.last_login)
-        user.update_attribute("last_login", Time.now)
+        user.update_attribute('previous_login', user.last_login)
+        user.update_attribute('last_login', Time.now)
 
         #Set current user
         session[:current_user_id] = user.id
@@ -46,12 +46,12 @@ class SessionsController < ApplicationController
         else
           session[:current_project_id] = user.projects.first.id
         end
-        redirect_to session[:remember_address] || "/dashboard", :flash => { :notice => "#{I18n.t (:welcome)} "+ user.name }
+        redirect_to session[:remember_address] || '/dashboard', :flash => { :notice => "#{I18n.t (:text_welcome)} "+ user.name }
       else #user.suspended? || user.blacklisted?
-        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:account_black_listed)}" }
+        redirect_to '/dashboard', :flash => { :warning => "#{I18n.t (:warning_account_black_listed)}" }
       end
     else
-        redirect_to "/dashboard", :flash => { :error => "#{I18n.t (:invalid_username_password)}" }
+        redirect_to '/dashboard', :flash => { :warning => "#{I18n.t (:warning_invalid_username_password)}" }
     end
   end
 
@@ -83,19 +83,19 @@ class SessionsController < ApplicationController
   def reset_forgotten_password
     user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name] ])
     if user
-      if user.auth_method.name == "Application" or user.auth_method.nil?
+      if user.auth_method.name == 'Application' or user.auth_method.nil?
         if user.active?
           user.send_password_reset if user
-          redirect_to root_url, :error => "#{I18n.t (:password_reset_instruction)}"
+          redirect_to root_url, :notice => "#{I18n.t (:notice_session_password_reset_instruction)}"
         else
           user.send_password_reset if user
-          redirect_to root_url, :error => "#{I18n.t (:account_not_active)}"
+          redirect_to root_url, :warning => "#{I18n.t (:warning_session_account_not_active)}"
         end
       else
-        redirect_to root_url, :error => "#{I18n.t (:account_ldap_association)}"
+        redirect_to root_url, :error => "#{I18n.t (:error_account_ldap_association)}"
       end
     else
-      redirect_to root_url, :error => "#{I18n.t (:bad_username)}"
+      redirect_to root_url, :warning => "#{I18n.t (:warning_session_bad_username)}"
     end
   end
 

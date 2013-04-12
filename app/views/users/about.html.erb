@@ -1,17 +1,17 @@
 include Projestimate::I18n
-<h2><%= link_to "ProjEstimate", "http://projestimate.org/" %></h2>
+<h2><%= link_to 'ProjEstimate', 'http://projestimate.org/' %></h2>
 <p>
-  Version : 0.7.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to I18n.t("checking_new_release"), "http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog" %>)
+  Version : 0.7.0-Alpha.2+<%= COMMIT_VERSION %>  (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
 </p>
 
 <p>
-  Copyright © 2012-2013 <%= link_to "Spirula", "http://Spirula.fr" %>
+  Copyright © 2012-2013 <%= link_to 'Spirula', 'http://Spirula.fr' %>
 </p>
 
 <p>
-  <%=I18n.t("projestimate_open_source")%> <%= link_to "GNU AGPL-v3", "http://www.gnu.org/licenses/agpl-3.0.html" %>
+  <%=I18n.t('text_projestimate_open_source')%> <%= link_to 'GNU AGPL-v3', 'http://www.gnu.org/licenses/agpl-3.0.html' %>
   <br>
-  <%=I18n.t("projestimate_open_source_references")%>
+  <%=I18n.t('text_projestimate_open_source_references')%>
 </p>
 
 <p>
@@ -21,12 +21,12 @@ include Projestimate::I18n
 <%# cache('about_page') do %>
   <span>
     <p>
-      <%=I18n.t("latest_update")%> <%= @latest_local_update.nil? ? "None" : I18n.l(@latest_local_update) %>    <br />
+      <%=I18n.t(:text_latest_update)%> <%= @latest_local_update.nil? ? 'None' : I18n.l(@latest_local_update) %>    <br />
     </p>
     <p>
-      <%=I18n.t("latest_masterData_repository_update")%> <%= @latest_repo_update.nil? ? "None" : I18n.l(@latest_repo_update) %>
+      <%=I18n.t(:text_latest_masterData_repository_update)%> <%= @latest_repo_update.nil? ? 'None' : I18n.l(@latest_repo_update) %>
     </p>
-    <%= link_to I18n.t("download_master_data"), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => "btn", :disable_with => I18n.t("please_wait"), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
-    <%= image_tag "/assets/ajax-loader.gif", :id => "spiner", :class => "hide" %>
+    <%= link_to I18n.t(:text_download_master_data), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => 'btn', :disable_with => I18n.t(:text_please_wait), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
+    <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
   </span>
 <%# end %>

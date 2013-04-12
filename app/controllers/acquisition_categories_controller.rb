@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,7 @@ class AcquisitionCategoriesController < ApplicationController
 
     unless @acquisition_category.child_reference.nil?
       if @acquisition_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:not_update_acquisition_category_message)
+        flash[:warning] = I18n.t (:warning_acquisition_category_cannot_be_updated)
         redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       end
     end
@@ -46,7 +46,7 @@ class AcquisitionCategoriesController < ApplicationController
     authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
-      flash[:notice] = I18n.t (:new_acquisition_category_message)
+      flash[:notice] = I18n.t (:notice_acquisition_category_successful_created)
       redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
     else
       render action: "edit"
@@ -65,7 +65,7 @@ class AcquisitionCategoriesController < ApplicationController
     end
 
     if @acquisition_category.update_attributes(params[:acquisition_category])
-      flash[:notice] = I18n.t (:edit_acquisition_category_message)
+      flash[:notice] = I18n.t (:notice_acquisition_category_successful_updated)
       #redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       redirect_to redirect("/projects_global_params#tabs-4")
     else
@@ -84,7 +84,7 @@ class AcquisitionCategoriesController < ApplicationController
       @acquisition_category.destroy
     end
 
-    flash[:notice] = I18n.t (:destroy_acquisition_category_message)
+    flash[:notice] = I18n.t (:notice_acquisition_category_successful_destroyed)
     redirect_to projects_global_params_path(:anchor => "tabs-4")
   end
 end

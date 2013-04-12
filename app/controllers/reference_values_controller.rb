@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 class ReferenceValuesController < ApplicationController
   include DataValidationHelper
 
@@ -28,7 +48,7 @@ class ReferenceValuesController < ApplicationController
     if @reference_value.save
       redirect_to redirect(reference_values_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -45,7 +65,7 @@ class ReferenceValuesController < ApplicationController
 
     unless is_master_instance?
       if @reference_value.is_local_record?
-        @reference_value.custom_value = "Locally edited"
+        @reference_value.custom_value = 'Locally edited'
       end
     end
 
@@ -69,12 +89,12 @@ class ReferenceValuesController < ApplicationController
       if @reference_value.is_local_record? || @reference_value.is_retired?
         @reference_value.destroy
       else
-        flash[:error] = I18n.t (:master_record_cant_be_deleted)
+        flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
         redirect_to redirect(reference_values_path)  and return
       end
     end
 
-    flash[:notice] = I18n.t (:reference_value_succesfull_deleted)
+    flash[:notice] = I18n.t (:notice_reference_value_successful_deleted)
     redirect_to reference_values_path
   end
 end

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -42,7 +42,7 @@ class AttributesController < ApplicationController
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:attribute_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_attribute_cant_be_edit)
         redirect_to attributes_path
       end
     end

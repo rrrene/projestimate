@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,20 +21,20 @@
 class ProjectSecuritiesController < ApplicationController
 
   def index
-    set_page_title "Projects Securities"
+    set_page_title 'Projects Securities'
     @project_securitiy_levels = ProjectSecurityLevel.all
-    @permissions = @permissions = Permission.all.select{|i| i.is_permission_project == true }
+    @permissions = @permissions = Permission.all.select{|i| i.is_permission_project }
   end
 
   def new
-    set_page_title "Project securities"
+    set_page_title 'Project securities'
     @project_security = ProjectSecurity.new
     @projects = Project.all.map{|i| [i.title, i.id]}
     @users = []
   end
 
   def edit
-    set_page_title "Project securities"
+    set_page_title 'Project securities'
     @project_security = ProjectSecurity.find(params[:id])
     @projects = Project.all.map{|i| [i.title, i.id]}
     @users = Project.find(@project_security.project.id).users.map{|i| [i.name, i.id]}
@@ -44,10 +44,10 @@ class ProjectSecuritiesController < ApplicationController
     @project_security = ProjectSecurity.new(params[:project_security])
 
     if @project_security.save
-      @project_security.update_attribute("project_security_level", params[:project_security_level])
-      redirect_to redirect(project_securities_url), notice: "#{I18n.t (:project_securities_succesfull_created)}"
+      @project_security.update_attribute('project_security_level', params[:project_security_level])
+      redirect_to redirect(project_securities_url), notice: "#{I18n.t (:notice_project_securities_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -56,10 +56,10 @@ class ProjectSecuritiesController < ApplicationController
 
     respond_to do |format|
       if @project_security.update_attributes(params[:project_security])
-        @project_security.update_attribute("project_security_level", params[:project_security_level])
-        format.html { redirect_to project_securities_url, notice: "#{I18n.t (:project_securities_succesfull_updated)}" }
+        @project_security.update_attribute('project_security_level', params[:project_security_level])
+        format.html { redirect_to project_securities_url, notice: "#{I18n.t (:notice_project_securities_successful_updated)}" }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
       end
     end
   end

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -33,18 +33,18 @@ class ProjectAreasController < ApplicationController
   end
 
   def new
-    set_page_title "Project Area"
+    set_page_title 'Project Area'
     @project_area = ProjectArea.new
   end
 
   def edit
-    set_page_title "Project Area"
+    set_page_title 'Project Area'
     @project_area = ProjectArea.find(params[:id])
 
     unless @project_area.child_reference.nil?
       if @project_area.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:project_area_cant_be_edited)
-        redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
+        flash[:warning] = I18n.t (:warning_project_area_cant_be_edit)
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
       end
     end
   end
@@ -54,10 +54,10 @@ class ProjectAreasController < ApplicationController
     @project_area = ProjectArea.new(params[:project_area])
 
     if @project_area.save
-      flash[:notice] = I18n.t (:project_area_succesfull_created)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
+      flash[:notice] = I18n.t (:notice_project_area_successful_created)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
     else
-       render action: "new"
+       render action: 'new'
     end
   end
 
@@ -72,10 +72,10 @@ class ProjectAreasController < ApplicationController
     end
 
     if @project_area.update_attributes(params[:project_area])
-      flash[:notice] = I18n.t (:project_area_succesfull_updated)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-1"))
+      flash[:notice] = I18n.t (:notice_project_area_successful_updated)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -88,7 +88,7 @@ class ProjectAreasController < ApplicationController
       @project_area.destroy
     end
 
-    flash[:notice] = I18n.t (:project_area_succesfull_deleted)
-    redirect_to projects_global_params_path(:anchor => "tabs-1")
+    flash[:notice] = I18n.t (:notice_project_area_successful_deleted)
+    redirect_to projects_global_params_path(:anchor => 'tabs-1')
   end
 end
