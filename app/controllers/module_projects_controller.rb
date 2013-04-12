@@ -36,7 +36,6 @@ class ModuleProjectsController < ApplicationController
     end
 
     redirect_to redirect(edit_project_path(@project, :anchor => "tabs-4"))
-
   end
 
   def index
@@ -56,7 +55,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.new(params[:module_project])
 
     if @module_project.save
-      redirect_to redirect(@module_project), notice: "#{I18n.t (:module_project_succesfull_created)}"
+      redirect_to redirect(@module_project), notice: "#{I18n.t(:module_project_succesfull_created)}"
     else
       render action: "new"
     end

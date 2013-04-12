@@ -101,7 +101,7 @@
       <% if controller.controller_name == "projects" %>
 
         Add a Projestimate Module
-        <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
+        <%= select_tag "select_module", options_for_select(Pemodule.where("record_status_id = ?", @defined_status.id).all.map{|i| [i.title , i.id] }), :prompt => '' %>
 
         Select PBS-element
         <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>

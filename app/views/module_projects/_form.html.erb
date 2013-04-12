@@ -29,9 +29,9 @@
         </tr>
         <% @module_project.estimation_values.each_with_index do |attr, i| %>
 
-          <% unless attr.pbs_project_element.is_root? %>
+          <%# unless attr.pbs_project_element.is_root? %>
             <%= hidden_field_tag "hidden_ids[]", attr.id %>
-          <% else %>
+          <%# else %>
             <tr class="">
               <td><%= attr.attribute.nil? ? "-" : attr.attribute.name %></td>
               <td><%= select_tag "in_out[]", options_for_select([["input"], ["output"], ["both"]], :selected => attr.in_out), :prompt => "Choose...", :disabled => !(attr.custom_attribute?) %> </td>
@@ -39,7 +39,7 @@
               <td><%= text_field_tag "description[]", attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
             </tr>
 
-          <% end %>
+          <%# end %>
         <% end %>
       </table>
       <%= f.submit I18n.t("save"), :class => "btn " %>
