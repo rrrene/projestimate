@@ -1,20 +1,11 @@
-Bonjour <%= @user.name %>,
+<%=simple_format(I18n.t(:mail_salutation, :value => @user.name)) %>
 
-<p xmlns="http://www.w3.org/1999/html">
-  Votre demande de création de compte a été bien prise en compte.
-</p>
-<p>Vos identitifiants sont</p>
-<p>
-  <p>login : <%= @user.login_name %></p>
-  <p>password : <%= @user.password %></p>
-</p>
+<%=simple_format(I18n.t(:mail_body_account_created)) %>
+<%=simple_format(I18n.t(:mail_body_account_information, :user => @user.login_name, :pwd => @user.password)) %>
 
-<p>
-  Votre compte n'est pas encore actif.
-</p>
+<%=simple_format(I18n.t(:mail_body_account_not_yet_activated)) %>
 
-<p>
-  Bien cordialement,
+<%=simple_format(I18n.t(:mail_complimentary_close)) %>
 
-  L'équipe Projestimate
-</p>
+<%=simple_format(I18n.t(:mail_footer)) %>
+<a href='<%= "#{SETTINGS['HOST_URL']}" %>'>ProjEstimate</a>

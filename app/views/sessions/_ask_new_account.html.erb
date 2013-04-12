@@ -18,14 +18,14 @@
   <%= text_field_tag :email, "", :class => "login_info span5" %>
 
   <%= label_tag I18n.t("languages")%>
-  <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }), :class => "login_info span5", :prompt => "Choose..." %>
+  <%= select_tag :language, options_for_select(Language.all.map{|i| [i.name, i.id] }.sort), :class => "login_info span5", :prompt => "Choose..." %>
   </div>
 
   <br/>
   <div class="actions"><%= submit_tag I18n.t("send_request") %></div>
   <div>
       <br/>
-      <%= I18n.t(:ask_new_account_help ) %>
+      <%= simple_format(I18n.t(:ask_new_account_help)) %>
       <br/>
   </div>
   <br/>

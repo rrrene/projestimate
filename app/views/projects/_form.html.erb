@@ -20,7 +20,6 @@
       <li><a href="#tabs-6"><%= I18n.t(:calendar)%> </a></li>
       <li><a href="#tabs-7"><%= I18n.t(:resources)%> </a></li>
       <li><a href="#tabs-8"><%= I18n.t(:analyse)%> </a></li>
-      <li><a href="#tabs-9"><%= "Test"%> </a></li>
     <% end %>
   </ul>
 
@@ -101,7 +100,7 @@
       <% if controller.controller_name == "projects" %>
 
         Add a Projestimate Module
-        <%= select_tag "select_module", options_for_select(Pemodule.where("record_status_id = ?", @defined_status.id).all.map{|i| [i.title , i.id] }), :prompt => '' %>
+        <%= select_tag "select_module", options_for_select(Pemodule.all.map{|i| [i.title , i.id] }), :prompt => '' %>
 
         Select PBS-element
         <%= select_tag "select_pbs_project_elements", options_for_select(@project.root_component.subtree.map{|i| [i.name , i.id] }), :prompt => '' %>
@@ -167,16 +166,6 @@
 
   <div id="tabs-8">
     <div style="clear: both"></div>
-  </div>
-
-  <div id="tabs-9">
-    <div style="clear: both">
-      <% WbsProjectElement.where(:pe_wbs_project_id => @pe_wbs_project_activity.id).arrange_as_array(:order => 'name DESC').each do |n| %>
-      <table>
-        <tr><td><%=  "#{'-' * n.depth} #{n.name}" %></td></tr>
-      </table>
-      <% end %>
-    </div>
   </div>
 
 </div>

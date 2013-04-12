@@ -538,7 +538,7 @@ fr:
   remember_me: "Se souvenir de moi"
   edit_password: "Mettre à jour votre mot de passe"
   forgotten_password_help: "Vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
-  ask_new_account_help: "Vous devez attendre jusqu'à ce qu'un administrateur valide votre compte. Lorsque le compte est activé par l'administrateur, vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
+  ask_new_account_help: "Vous allez recevoir un courriel de confirmation, mais vous devez attendre jusqu'à ce qu'un administrateur valide votre compte.\n Lorsque votre compte est activé par l'administrateur, vous recevez un second courriel de confirmation."
 
   #translations
   choose_locale : "Choisir une langue"
@@ -807,3 +807,23 @@ fr:
   ratio_error_changed: "Erreur lors du changement de ratio"
   work_element_type_cant_be_edited: "Ce type d'élément de travail ne peut être modifié, les modifications précédentes n'ont pas encore été validé."
   work_element_type_succesfull_updated: "Work element type a été mis à jour avec succès.."
+
+  mail_salutation: "Bonjour %{value},"
+  mail_complimentary_close: "Bien à vous,\nProjEstimate"
+  mail_footer: "\n-----------------------------------------------\nCe courriel a été envoyé automatiquement via le serveur ProjEstimate.\n\n"
+  mail_subject_lost_password: "[ProjEstimate] Nouveau mot de passe"
+  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant: '
+  mail_subject_account_activation_request: "[ProjEstimate] demande d'activation du compte"
+  mail_body_account_activation_request: "Un nouvel utilisateur s'est inscrit. Le compte est en attente de votre approbation.\n\n"
+  mail_subject_account_activation: "[ProjEstimate] Votre compte est activé"
+  mail_body_account_activation: "Nous sommes heureux de confirmer l'activation de votre compte ProjEstimate.\n\n"
+  mail_body_account_information: "S'il vous plaît rappelez-vous vos informations de connexion:\n<ul><li>Identifiant : <b>%{user}</b></li>\n<li>Mot de passe : <b>%{pwd}</b></li></ul>\n\n"
+  mail_body_account_information_no_pwd: "Vos informations d'identification n'ont pas changé.\n\n"
+  mail_subject_account_created: "[ProjEstimate] Votre compte est créé"
+  mail_body_account_created: "Votre demande de création de compte a été pleinement prises en compte.\n\n"
+  mail_body_account_not_yet_activated: "Votre compte n'est pas encore actif.\nUne fois qu'un administrateur l'aura activé, vous recevrez une notification par courriel.\n\n"
+  mail_subject_new_password: "[ProjEstimate] Votre mot de passe a changé"
+  mail_password_unchanged: "Votre mot de passe est inchangé. (nous vous conseillons de le changer à partir de votre profil utilisateur)"
+  mail_password_from_ldap: "Mot de passe de votre annuaire d'entreprise"
+  mail_subject_account_suspended: "[ProjEstimate] Votre compte est suspendu"
+  mail_body_account_suspended: "ous tenons à vous informer que votre compte ProjEstimate (%{value}) a été suspendu.\nVous pouvez demander à le réactiver en envoyant un email à l'administrateur %{adm}\n\n"

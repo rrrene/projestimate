@@ -36,14 +36,12 @@ class ModuleProject < ActiveRecord::Base
   def next
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos + 1), :project_id => self.project.id)
-    mps
   end
 
   #Return in a array previous modules project of self.
   def previous
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
-    mps
   end
 
   def compatible_with(wet_alias)

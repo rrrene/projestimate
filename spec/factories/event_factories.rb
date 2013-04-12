@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   factory :event, :class => Event do
     name  'Event1'
     description 'Event number 1'

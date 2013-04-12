@@ -1,12 +1,9 @@
-<p><%= @user.name %></p>
+<%=simple_format(I18n.t(:mail_salutation, :value => @user.name)) %>
 
-<p>Votre compte a été suspendu.</p>
+<%= #noinspection RubyQuotedStringsInspection
+    simple_format(I18n.t(:mail_body_account_suspended), :value => @user.login_name, :adm =>  AdminSetting.find_by_key('notifications_email').value) %>
 
-<p>
-  Bien cordialement
-</p>
+<%=simple_format(I18n.t(:mail_complimentary_close)) %>
 
-<p>
-  L'équipe Projestimate
-</p>
-
+<%=simple_format(I18n.t(:mail_footer)) %>
+<a href='<%= "#{SETTINGS['HOST_URL']}" %>'>ProjEstimate</a>

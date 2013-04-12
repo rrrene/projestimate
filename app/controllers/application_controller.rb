@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   helper_method :load_admin_setting
   helper_method :get_record_statuses
   helper_method :set_locale_from_browser
+  helper_method :set_user_language
 
   before_filter :set_user_time_zone
   before_filter :set_user_language

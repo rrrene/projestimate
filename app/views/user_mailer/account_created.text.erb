@@ -1,21 +1,12 @@
-Bonjour <%= @user.name %>,
+Hello <%= @user.name %>,
 
-<p xmlns="http://www.w3.org/1999/html">
-  Votre demande de création de compte a été bien prise en compte.
-</p>
-<p>
-<p>Vos identitifiants sont</p>
-<p>
-  login : <%= @user.login_name %>
-  password : <%= @user.password %>
-</p>
+Your account creation request has been fully taken into account.
 
-<p>
-  Votre compte n'est pas encore actif.
-</p>
+Please remember your login details:
+  Login: <%= @user.login_name %>
+  Password: <%= @user.password %>
 
-<p>
-  Bien cordialement,
+Sincerly,
 
-  L'équipe Projestimate
-</p>
+-----------------------------------------------
+This email have been sent automatically through the ProjEstimate server.
