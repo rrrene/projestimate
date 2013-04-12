@@ -1,12 +1,32 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UserMailer do
       before(:each) do
         ActionMailer::Base.deliveries = []
-        I18n.locale = 'en' #we force Locale to English
+
         #@user = FactoryGirl.create(:user)
         @user = User.first
-        @user.language = Language.where("locale = ?", "en").first #we force user language to English too.
+        @user.language = Language.where("locale = ?", "en").first #we force user language to English.
         @mailer_created = UserMailer.account_created(@user)
         @mailer_validate_ldap=UserMailer.account_validate_ldap(@user)
         @mailer_account_suspended=UserMailer.account_suspended(@user)
@@ -15,8 +35,7 @@ describe UserMailer do
         @mailer_account_request=UserMailer.account_request()
         @mailer_account_validate=UserMailer.account_validate(@user)
         @mailer_account_validate_nopwd=UserMailer.account_validate_no_pw(@user)
-
-
+        I18n.locale = 'en' #we force Locale to English
       end
 
       describe "Created" do
