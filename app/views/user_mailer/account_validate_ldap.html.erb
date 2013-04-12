@@ -1,14 +1,10 @@
-<p><%= @user.name %></p>
+<%=simple_format(I18n.t(:mail_salutation, :value => @user.name )) %>
 
-<p>Nous vous confirmons la création de votre compte Projestimate.</p>
-<p>
-  Identifiant : <%= @user.login_name %><br/>
-  Mots de passe: << Mot de passe de votre annuaire d'entreprise >>
-</p>
+<%=simple_format(I18n.t(:mail_body_account_activation)) %>
+<%=simple_format(I18n.t(:mail_body_account_information, :user => @user.login_name, :pwd => I18n.t(:mail_password_from_ldap))) %>
 
-<p>
-    Bien cordialement
-</p>
+<%=simple_format(I18n.t(:mail_complimentary_close)) %>
 
-L'équipe Projestimate
+<%=simple_format(I18n.t(:mail_footer)) %>
+<a href='<%= "#{SETTINGS['HOST_URL']}" %>'>ProjEstimate</a>
 

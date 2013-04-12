@@ -1,12 +1,9 @@
-<p><%= @user.name %></p>
+<%=simple_format(I18n.t(:mail_salutation, :value => @user.name)) %>
 
-<p>Votre compte est validé. Vos identifiants n'ont pas changé.</p>
+<%=simple_format(I18n.t(:mail_body_account_activation)) %>
+<%=simple_format(I18n.t(:mail_body_account_information_no_pwd)) %>
 
-<p>
-  Bien cordialement,
-</p>
+<%=simple_format(I18n.t(:mail_complimentary_close)) %>
 
-<p>
-  L'équipe Projestimate
-</p>
-
+<%=simple_format(I18n.t(:mail_footer)) %>
+<a href='<%= "#{SETTINGS['HOST_URL']}" %>'>ProjEstimate</a>
