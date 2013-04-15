@@ -6,19 +6,24 @@
     <li><a href="#tabs-3">Output data</a></li>
     <li><a href="#tabs-4">Estimation Plan </a></li>
     <li><a href="#tabs-5">Charts </a></li>
-    <li><a href="#tabs-6">Activity Estimation </a></li>
   </ul>
 
   <div id="tabs-1">
-      <div class="span6">
-        <h3> WBS-Product </h3>
-        <%= render :partial => "users/pe_wbs" -%>
+    <div class="row">
+      <div class="offset1 span6">
+        <h3>
+          WBS-Product
+        </h3>
+        <%= render :partial => "users/pe_wbs" %>
       </div>
 
       <div class="span5">
-        <h3> WBS-Activity </h3>
-        <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity -%>
+        <h3>
+          WBS-Activity
+        </h3>
+        <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
       </div>
+    </div>
   </div>
 
   <div id="tabs-3">
@@ -26,7 +31,7 @@
       Output data
     </h3>
     <div class="output_data">
-      <%=raw display_results -%>
+      <%=raw display_results %>
     </div>
   </div>
 
@@ -34,7 +39,7 @@
     <h3>
       Estimation plan
     </h3>
-    <%= render "projects/estimation_plan" -%>
+    <%= render "projects/estimation_plan" %>
   </div>
 
   <div id="tabs-5">
@@ -43,21 +48,15 @@
     </h3>
   </div>
 
-  <div id="tabs-6">
-    <h3>
-      Activities Estimation
-    </h3>
-  </div>
-
   <div id="tabs-2">
     <h3>
       Estimation Module
     </h3>
     <% unless current_component.nil? %>
-        <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :remote => true) do -%>
-            <%=raw display_input -%>
-            <div id='execute_estimation'><%= submit_tag I18n.t("execute_estimation"), :class => "btn btn-danger" %></div>
-        <% end -%>
+      <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :remote => true) do -%>
+        <%=raw display_input %>
+        <%= submit_tag I18n.t("execute_estimation"), :class => "btn btn-danger" %>
+      <% end -%>
     <% end %>
   </div>
 

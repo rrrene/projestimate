@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
     end
 
     if @project.update_attributes(params[:project])
-      redirect_to redirect(projects_url), notice: "#{I18n.t (:project_succesfull_updated)}"
+      redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_succesfull_updated)}"
     else
       render(:edit)
     end
@@ -356,7 +356,7 @@ class ProjectsController < ApplicationController
               # We don't have to remplace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value[@pbs_project_element.id] = @results[level.to_sym][est_val.attribute.alias.to_sym]
+              level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.attribute.alias}_#{mp.id.to_s}".to_sym]
               out_result["string_data_#{level}"] = level_estimation_value
             end
           end
@@ -405,7 +405,7 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == "output" or est_val.in_out=="both"
           # In each estimation module, The Product (PBS) seem to be mandatory
-          @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}")
+          @result_hash["#{est_val.attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.attribute.alias}")
         end
       end
     end
