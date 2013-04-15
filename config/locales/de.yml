@@ -811,6 +811,10 @@ de:
   notice_master_data_successful_restored: "Restore has been successfully validated."
   warning_master_data_unauthorized_action: "unauthorized action: you are trying to restore a non retired record ! "
   notice_project_succesfull_updated: "Project was succesfully updated"
+  notice_project_succesfull_created: "Project was succesfully created"
+  error_project_creation_failled: "An error has occurred during the creation of project"
+  notice_project_succesfull_duplicated: "Project succesfully duplicated"
+  error_project_duplication_failled: "An error has occurred during the duplication of project"
 
   #mail
   mail_salutation: "Dear %{value},"
