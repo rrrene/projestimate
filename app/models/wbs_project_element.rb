@@ -1,6 +1,6 @@
 class WbsProjectElement < ActiveRecord::Base
 
-  has_ancestry
+  has_ancestry :cache_depth => true
 
   belongs_to :pe_wbs_project
   belongs_to :wbs_activity_element
