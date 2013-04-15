@@ -812,6 +812,7 @@ en-gb:
   error_master_data_failed_restore: "Restore failed."
   notice_master_data_successful_restored: "Restore has been successfully validated."
   warning_master_data_unauthorized_action: "unauthorized action: you are trying to restore a non retired record ! "
+  notice_project_succesfull_updated: "Project was succesfully updated"
 
   #mail
   mail_salutation: "Dear %{value},"
@@ -833,3 +834,5 @@ en-gb:
   mail_password_from_ldap: "Password of your corporate directory"
   mail_subject_account_suspended: "[ProjEstimate] Your account is suspended"
   mail_body_account_suspended: "We would like to inform you that your ProjEstimate account (%{value}) has been suspended.\nYou can ask to reactivate it by sending an email to the administrator %{adm}\n\n"
+
+  text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."

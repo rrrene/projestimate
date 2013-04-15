@@ -812,6 +812,7 @@ fr:
   error_master_data_failed_restore: "La restauration a échouée."
   notice_master_data_successful_restored: "La restauration a été validée avec succès."
   warning_master_data_unauthorized_action: "action non autorisée: vous essayez de restaurer un enregistrement qui n'est pas 'retired'! "
+  notice_project_succesfull_updated: "Le projet a été mis à jour avec succès"
 
   #mail
   mail_salutation: "Bonjour %{value},"
@@ -833,3 +834,5 @@ fr:
   mail_password_from_ldap: "Mot de passe de votre annuaire d'entreprise"
   mail_subject_account_suspended: "[ProjEstimate] Votre compte est suspendu"
   mail_body_account_suspended: "ous tenons à vous informer que votre compte ProjEstimate (%{value}) a été suspendu.\nVous pouvez demander à le réactiver en envoyant un email à l'administrateur %{adm}\n\n"
+
+  text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
