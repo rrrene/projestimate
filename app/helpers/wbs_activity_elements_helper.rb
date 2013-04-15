@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 module WbsActivityElementsHelper
 
   def generate_activity_element_tree(element, tree)
@@ -115,7 +135,7 @@ module WbsActivityElementsHelper
     res = String.new
     if element.attributes.has_key? "record_status_id"
       res << link_to( '', new_wbs_activity_element_path(:selected_parent_id => element.id, :activity_id => element.wbs_activity_id), :class => "icon-plus icon-large")
-      res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), :class => "icon-edit icon-large", :title => "Edit", :confirm => (I18n.t(:master_force_edit) if element.is_defined?) )
+      res << link_to( '', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), :class => "icon-edit icon-large", :title => "Edit", :confirm => (I18n.t(:text_master_force_edit) if element.is_defined?) )
       res << link_to( '', element, confirm: 'Are you sure?', method: :delete, :class => "icon-trash icon-large", :title => "Delete")
 
       unless enable_update_in_local?

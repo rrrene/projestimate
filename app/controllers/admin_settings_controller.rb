@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -26,23 +26,23 @@ class AdminSettingsController < ApplicationController
   helper_method :admin_setting_selected_status
 
   def index
-    set_page_title "Parameters"
+    set_page_title 'Parameters'
     @admin_settings = AdminSetting.all
   end
 
   def new
-    set_page_title "Parameters"
+    set_page_title 'Parameters'
     @admin_setting = AdminSetting.new
   end
 
   def edit
-    set_page_title "Parameters"
+    set_page_title 'Parameters'
     @admin_setting = AdminSetting.find(params[:id])
 
     if is_master_instance?
       unless @admin_setting.child_reference.nil?
         if @admin_setting.child_reference.is_proposed_or_custom?
-          flash[:notice] = I18n.t (:administration_setting_cant_be_edited)
+          flash[:warning] = I18n.t (:warning_administration_setting_cant_be_edited)
           redirect_to admin_settings_path
         end
       end
@@ -57,10 +57,10 @@ class AdminSettingsController < ApplicationController
     end
 
     if @admin_setting.save
-      flash[:notice] = I18n.t (:administration_setting_succesfull_created)
+      flash[:notice] = I18n.t (:notice_administration_setting_successful_created)
       redirect_to redirect(admin_settings_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -76,15 +76,15 @@ class AdminSettingsController < ApplicationController
     end
 
     unless is_master_instance?
-      @admin_setting.custom_value = "Locally edited"
+      @admin_setting.custom_value = 'Locally edited'
     end
 
     if @admin_setting.update_attributes(params[:admin_setting])
-      flash[:notice] = I18n.t (:administration_setting_succesfull_updated)
+      flash[:notice] = I18n.t (:notice_administration_setting_successful_updated)
       redirect_to redirect(admin_settings_path)
     else
-      flash[:notice] = I18n.t (:error_update)
-      render action: "edit"
+      flash[:error] = I18n.t (:error_administration_setting_failed_update)
+      render action: 'edit'
     end
   end
 
@@ -95,18 +95,18 @@ class AdminSettingsController < ApplicationController
       if @admin_setting.is_defined? || @admin_setting.is_custom?
         #logical deletion: delete don't have to suppress records anymore on defined record
         @admin_setting.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
-        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
+        flash[:notice] = I18n.t (:notice_administration_setting_successful_deleted)
       else
         @admin_setting.destroy
-        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
+        flash[:notice] = I18n.t (:notice_administration_setting_successful_deleted)
       end
       #if in local instance
     else
       if @admin_setting.is_local_record?
         @admin_setting.destroy
-        flash[:notice] = I18n.t (:administration_setting_succesfull_deleted)
+        flash[:notice] = I18n.t (:notice_administration_setting_successful_deleted)
       else
-        flash[:notice] = I18n.t (:cant_delete_masterdata_record)
+        flash[:warning] = I18n.t (:warning_masterdata_record_cant_delete)
       end
     end
 
@@ -142,7 +142,7 @@ class AdminSettingsController < ApplicationController
 
 
   def unselect_conditions
-    (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ""
+    (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ''
   end
 
 end

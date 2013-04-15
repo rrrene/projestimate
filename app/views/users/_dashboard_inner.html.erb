@@ -9,21 +9,21 @@
   </ul>
 
   <div id="tabs-1">
-      <div class="offset1 row">
-        <div class="span6">
-          <h3>
-            WBS-Product
-          </h3>
-          <%= render :partial => "users/pe_wbs" %>
-        </div>
-
-        <div class="span5">
-          <h3>
-            WBS-Activity
-          </h3>
-          <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
-        </div>
+    <div class="row">
+      <div class="offset1 span6">
+        <h3>
+          WBS-Product
+        </h3>
+        <%= render :partial => "users/pe_wbs" %>
       </div>
+
+      <div class="span5">
+        <h3>
+          WBS-Activity
+        </h3>
+        <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+      </div>
+    </div>
   </div>
 
   <div id="tabs-3">

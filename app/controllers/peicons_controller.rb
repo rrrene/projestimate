@@ -2,7 +2,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,40 +24,40 @@ class PeiconsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-    set_page_title "Icons libraries"
+    set_page_title 'Icons libraries'
     @icons = Peicon.all
   end
 
   def new
-    set_page_title "Icons libraries"
+    set_page_title 'Icons libraries'
     @icon = Peicon.new
   end
 
   def edit
-    set_page_title "Icons libraries"
+    set_page_title 'Icons libraries'
     @icon = Peicon.find(params[:id])
 
     unless @icon.child_reference.nil?
       if @icon.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:icon_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_icon_cant_be_edit)
         redirect_to peicons_path
       end
     end
   end
 
   def create
-    set_page_title "Icons libraries"
+    set_page_title 'Icons libraries'
     @icon = Peicon.new(params[:peicon])
     if @icon.save
       redirect_to redirect(peicons_path)
     else
-      flash[:error] = "Icons #{ @icon.errors.values.flatten.join(" and ")}"
+      flash[:error] = I18n.t (:icons) + "#{ @icon.errors.values.flatten.join(' and ')}"
       render :new
     end
   end
 
   def update
-    set_page_title "Icons libraries"
+    set_page_title 'Icons libraries'
     @icon = nil
     current_icon = Peicon.find(params[:id])
     if current_icon.is_defined?
@@ -70,7 +70,7 @@ class PeiconsController < ApplicationController
     if @icon.update_attributes(params[:peicon])
       redirect_to redirect(peicons_path)
     else
-      flash[:error] = I18n.t (:icons) + @icon.errors.values.flatten.join(" #{I18n.t (:and)} ")
+      flash[:error] = I18n.t (:icons) + @icon.errors.values.flatten.join(" #{I18n.t (:support.array.two_words_connector)} ")
       render :edit
     end
   end
@@ -94,7 +94,7 @@ class PeiconsController < ApplicationController
       @peicon.destroy
     end
 
-    redirect_to peicons_path, :notice => "#{I18n.t (:icon_succesfull_deleted)}"
+    redirect_to peicons_path, :notice => "#{I18n.t (:notice_icon_successful_deleted)}"
   end
 
   def choose_icon

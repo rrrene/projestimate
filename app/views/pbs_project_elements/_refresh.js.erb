@@ -15,6 +15,7 @@
 //    }
 //);
 
-$(".input_data").html("<%=raw j(display_input) %>");
+$(".input_data").html("<%=raw j(display_input) %>  <%=raw j submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger'%> ");
 
 $(".output_data").html("<%=raw j(display_results) %>");
+

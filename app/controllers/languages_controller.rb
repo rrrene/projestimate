@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,24 +25,24 @@ class LanguagesController < ApplicationController
 
   def index
     authorize! :edit_languages, Language
-    set_page_title "Languages"
+    set_page_title 'Languages'
     @languages = Language.all
   end
 
   def new
     authorize! :edit_languages, Language
-    set_page_title "Add a language"
+    set_page_title 'Add a language'
     @language = Language.new
   end
 
   def edit
     authorize! :edit_languages, Language
-    set_page_title "Edit language"
+    set_page_title 'Edit language'
     @language = Language.find(params[:id])
 
     unless @language.child_reference.nil?
       if @language.child_reference.is_proposed_or_custom?
-        flash[:warning] = I18n.t (:language_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_language_cant_be_edit)
         redirect_to languages_path
       end
     end
@@ -53,9 +53,9 @@ class LanguagesController < ApplicationController
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
-      redirect_to redirect(languages_path), notice: "#{I18n.t (:language_succesfull_created)}"
+      redirect_to redirect(languages_path), notice: "#{I18n.t (:notice_language_successful_created)}"
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -71,10 +71,10 @@ class LanguagesController < ApplicationController
     end
 
     if @language.update_attributes(params[:language])
-      redirect_to redirect(languages_path), notice: "#{I18n.t (:language_succesfull_updated)}"
+      redirect_to redirect(languages_path), notice: "#{I18n.t (:notice_language_successful_updated)}"
     else
-      flash[:error] = "#{I18n.t (:update_failed)}"+"#{@language.errors.full_messages.to_sentence}"
-      render action: "edit"
+      flash[:error] = "#{I18n.t (:error_language_failed_update)}"+"#{@language.errors.full_messages.to_sentence}"
+      render action: 'edit'
     end
   end
 
@@ -91,7 +91,7 @@ class LanguagesController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:notice] = I18n.t (:language_succesfull_deleted)
+      flash[:notice] = I18n.t (:notice_language_successful_deleted)
       format.html { redirect_to languages_url }
     end
   end

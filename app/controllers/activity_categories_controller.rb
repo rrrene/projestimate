@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -38,7 +38,7 @@ class ActivityCategoriesController < ApplicationController
 
     unless @activity_category.child_reference.nil?
       if @activity_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:activity_category_cant_be_edited)
+        flash[:warning] = I18n.t (:warning_activity_category_cannot_be_edited)
         redirect_to activity_categories_path
       end
     end
@@ -63,10 +63,10 @@ class ActivityCategoriesController < ApplicationController
     end
 
     if @activity_category.update_attributes(params[:activity_category])
-      flash[:notice] = I18n.t (:activity_category_succesfull_update)
-      redirect_to redirect("/projects_global_params#tabs-4")
+      flash[:notice] = I18n.t (:notice_activity_category_successful_update)
+      redirect_to redirect('/projects_global_params#tabs-4')
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,12 +21,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = I18n.t (:access_denied)
+    flash[:error] = I18n.t (:error_access_denied)
     redirect_to root_url
   end
 
   rescue_from Errno::ECONNREFUSED do |error|
-    flash[:error] = I18n.t (:connection_refused)
+    flash[:error] = I18n.t (:error_connection_refused)
   end
 
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance

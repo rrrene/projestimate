@@ -1,9 +1,8 @@
 #encoding: utf-8
-
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -44,7 +43,10 @@ class UserMailer < ActionMailer::Base
 
   #Send an account request
   def account_request
+    I18n.locale = 'en'
     mail(:to => AdminSetting.find_by_key('notifications_email').value, :subject => I18n.t(:mail_subject_account_activation_request))
+  ensure
+    reset_locale
   end
 
   #Confirm validation of account - password is writed

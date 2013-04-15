@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329102239) do
+ActiveRecord::Schema.define(:version => 20130410101935) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -185,9 +185,9 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
 
   create_table "estimation_values", :force => true do |t|
     t.integer  "attribute_id"
-    t.string   "string_data_low"
-    t.string   "string_data_most_likely"
-    t.string   "string_data_high"
+    t.text     "string_data_low"
+    t.text     "string_data_most_likely"
+    t.text     "string_data_high"
     t.float    "numeric_data_low"
     t.float    "numeric_data_most_likely"
     t.float    "numeric_data_high"
@@ -479,6 +479,7 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.boolean  "with_activities",          :default => false
   end
 
   add_index "pemodules", ["record_status_id"], :name => "index_pemodules_on_record_status_id"
@@ -781,8 +782,8 @@ ActiveRecord::Schema.define(:version => 20130329102239) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

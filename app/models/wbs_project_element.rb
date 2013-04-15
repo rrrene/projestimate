@@ -8,9 +8,11 @@ class WbsProjectElement < ActiveRecord::Base
   belongs_to :wbs_activity_ratio  #Default Wbs-Activity-Ratio
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
-  #Product and Activities association
+  #Product and Activities association  TODO: remove 2 following lines if not used
   #has_many :product_activities
-  #has_many :pbs_project_elements, :through => :product_activities
+  #has_many :pbs_project_elements, :through => :product_activities, :dependent => :destroy
+
+  #accepts_nested_attributes_for :product_activities, :reject_if => :all_blank, :allow_destroy => true
 
   scope :elements_root, where(:is_root => true)
 
@@ -27,6 +29,18 @@ class WbsProjectElement < ActiveRecord::Base
     })
 
     propagate
+  end
+
+  # Sort tree in an ordered List accordingly to the tree structure (for example to represent the children in a sorted out list in a select)
+  def self.arrange_as_array(options={}, hash=nil)
+    hash ||= arrange(options)
+
+    arr = []
+    hash.each do |node, children|
+      arr << node
+      arr += arrange_as_array(options, children) unless children.empty?
+    end
+    arr
   end
 
   def is_from_library_and_is_leaf?

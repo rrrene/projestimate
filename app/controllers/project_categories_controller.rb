@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,18 +24,18 @@ class ProjectCategoriesController < ApplicationController
   before_filter :get_record_statuses
 
   def new
-    set_page_title "Project Category"
+    set_page_title 'Project Category'
     @project_category = ProjectCategory.new
   end
 
   def edit
-    set_page_title "Project Category"
+    set_page_title 'Project Category'
     @project_category = ProjectCategory.find(params[:id])
 
     unless @project_category.child_reference.nil?
       if @project_category.child_reference.is_proposed_or_custom?
-        flash[:notice] = I18n.t (:project_categories_cant_be_edited)
-        redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
+        flash[:warning] = I18n.t (:warning_project_categories_cant_be_edit)
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-2'))
       end
     end
   end
@@ -44,10 +44,10 @@ class ProjectCategoriesController < ApplicationController
     @project_category = ProjectCategory.new(params[:project_category])
 
     if @project_category.save
-      flash[:notice] = I18n.t (:project_categories_succesfull_created)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
+      flash[:notice] = I18n.t (:notice_project_categories_successful_created)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-2'))
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -62,10 +62,10 @@ class ProjectCategoriesController < ApplicationController
     end
 
     if @project_category.update_attributes(params[:project_category])
-      flash[:notice] = I18n.t (:project_categories_succesfull_updated)
-      redirect_to redirect(projects_global_params_path(:anchor => "tabs-2"))
+      flash[:notice] = I18n.t (:notice_project_categories_successful_updated)
+      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-2'))
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -78,7 +78,7 @@ class ProjectCategoriesController < ApplicationController
       @project_category.destroy
     end
 
-    flash[:notice] = I18n.t (:project_categories_succesfull_deleted)
-    redirect_to projects_global_params_path(:anchor => "tabs-2")
+    flash[:notice] = I18n.t (:notice_project_categories_successful_deleted)
+    redirect_to projects_global_params_path(:anchor => 'tabs-2')
   end
 end

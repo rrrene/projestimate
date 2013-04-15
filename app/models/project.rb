@@ -117,57 +117,58 @@ class Project < ActiveRecord::Base
 
   #Execute a set of module (commun or typed) in the order (user order). Recursive method.
   #TODO : move to Pemodule class
-  def run_estimation_plan(input_data, level)
-  #def run_estimation_plan(current_pos, arguments, last_result, c, project)
-
-    #current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos, self.id)
-    #operations = current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
-    #
-    #next_current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos+1, self.id)
-    #next_operations = next_current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
-    #
-    #new_arguments = HashWithIndifferentAccess.new
-    #
-    #operations.map{|j| j.alias}.each_with_index do |my_op, index|
-    #
-    #  my_object =  "#{my_op.camelcase}::#{my_op.camelcase}".constantize.send(:new, arguments[my_op], project.id, current_pos, c.id, index)
-    #  last_result[my_op.to_sym] = my_object.send(my_op)
-    #
-    #  next_operations.map{|j| j.alias}.each do |no|
-    #    new_arguments[no] = last_result
-    #  end
-    #
-    #end
-    #
-    #unless current_pos >= self.module_projects.map(&:position_y).max
-    #  self.run_estimation_plan(current_pos+1, new_arguments, last_result, c, project)
-    #else
-    #  return last_result
-    #end
-
-    @result_array = Array.new
-    @result_hash = Hash.new
-    inputs = Hash.new
-
-    self.module_projects.each do |module_project|
-
-      module_project.estimation_values.each do |est_val|
-        if est_val.in_out == "input" or est_val.in_out == "both"
-          inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
-        end
-
-        current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
-        cm = current_module.send(:new, inputs)
-
-        if est_val.in_out == "output" or est_val.in_out=="both"
-          @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}")
-        end
-      end
-
-    end
-
-    @result_hash
-  end
+  #def run_estimation_plan(input_data, level)
+  ##def run_estimation_plan(current_pos, arguments, last_result, c, project)
+  #
+  #  #current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos, self.id)
+  #  #operations = current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
+  #  #
+  #  #next_current_module_projects = ModuleProject.find_all_by_position_y_and_project_id(current_pos+1, self.id)
+  #  #next_operations = next_current_module_projects.map{|j| j.pemodule}.reject{|i| !i.compliant_component_type.include?(c.work_element_type.alias)}
+  #  #
+  #  #new_arguments = HashWithIndifferentAccess.new
+  #  #
+  #  #operations.map{|j| j.alias}.each_with_index do |my_op, index|
+  #  #
+  #  #  my_object =  "#{my_op.camelcase}::#{my_op.camelcase}".constantize.send(:new, arguments[my_op], project.id, current_pos, c.id, index)
+  #  #  last_result[my_op.to_sym] = my_object.send(my_op)
+  #  #
+  #  #  next_operations.map{|j| j.alias}.each do |no|
+  #  #    new_arguments[no] = last_result
+  #  #  end
+  #  #
+  #  #end
+  #  #
+  #  #unless current_pos >= self.module_projects.map(&:position_y).max
+  #  #  self.run_estimation_plan(current_pos+1, new_arguments, last_result, c, project)
+  #  #else
+  #  #  return last_result
+  #  #end
+  #
+  #  @result_array = Array.new
+  #  @result_hash = Hash.new
+  #  inputs = Hash.new
+  #
+  #  self.module_projects.each do |module_project|
+  #
+  #    module_project.estimation_values.each do |est_val|
+  #      if est_val.in_out == "input" or est_val.in_out == "both"
+  #        inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
+  #      end
+  #
+  #      current_pbs_elem = ApplicationController.send :current_component
+  #      current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
+  #      cm = current_module.send(:new, inputs)
+  #
+  #      if est_val.in_out == "output" or est_val.in_out=="both"
+  #        @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}", current_pbs_elem, module_project)
+  #      end
+  #    end
+  #
+  #  end
+  #
+  #  @result_hash
+  #end
 
   #Return folders list of a projects
   def folders

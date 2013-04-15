@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -52,7 +52,7 @@ class PbsProjectElementsController < ApplicationController
         @pbs_project_element.update_attribute :parent, nil
       end
     else
-      flash[:error] = I18n.t (:verify_pbs_project_element_value)
+      flash[:error] = I18n.t (:error_pbs_project_element_failed_update)
     end
 
     render :partial => "pbs_project_elements/refresh_tree"

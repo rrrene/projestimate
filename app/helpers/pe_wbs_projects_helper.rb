@@ -65,8 +65,8 @@ module PeWbsProjectsHelper
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "#{mpe.is_completed unless mp.nil?}", '#', :class => 'icon-exclamation-sign icon-large' }
-          #{ link_to "#{mpe.is_validated unless mp.nil?}", '#', :class => 'icon-trash icon-large' }
+          #{ link_to "#{mpe.is_completed unless mpe.nil?}", '#', :class => 'icon-exclamation-sign icon-large' }
+          #{ link_to "#{mpe.is_validated unless mpe.nil?}", '#', :class => 'icon-trash icon-large' }
         </div>
       </li>"
     end

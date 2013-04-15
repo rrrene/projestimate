@@ -104,7 +104,7 @@ end
 
 group :development do
   #For UML classes diagram generator
-  gem 'railroady', :group => [:development, :test]
+  gem 'railroady', :group => [:development]
   # To use debugger
   #gem 'ruby-debug19', :require => 'ruby-debug'  
 end

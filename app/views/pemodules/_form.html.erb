@@ -45,6 +45,8 @@
           <% end %>
          </table>
 
+         <br />
+         <%= f.input :with_activities, :label => "Is that this module will assess and evaluate the activities ?", :as => :radio_buttons %>
       </div><br />
 
       <%= submit_tag I18n.t("save"), :class => "btn"  %>

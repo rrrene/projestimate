@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 class EstimationValuesController < ApplicationController
 
   def edit
-    set_page_title "Edit Module Project Attribute"
+    set_page_title 'Edit Module Project Attribute'
     @est_value = EstimationValue.find(params[:id])
   end
 
@@ -30,9 +30,9 @@ class EstimationValuesController < ApplicationController
 
     respond_to do |format|
       if @est_value.update_attributes(params[:estimation_value])
-        format.html { redirect_to redirect(@est_value), notice: "#{I18n.t (:estimation_value_succesfull_updated)}" }
+        format.html { redirect_to redirect(@est_value), notice: "#{I18n.t (:notice_estimation_value_successful_updated)}" }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
       end
     end
   end

@@ -20,7 +20,7 @@
 
 module ModuleProjectsHelper
 
-  def probable_value(results, mpa)
+  def probable_value_save(results, mpa)
     attribute_alias = mpa.attribute.alias.to_sym
     if mpa.attribute.attribute_type == "numeric"
       min = results[:low][attribute_alias].to_f
@@ -31,5 +31,33 @@ module ModuleProjectsHelper
       "-"
     end
   end
+
+  def probable_value(results, mpa, with_activities=false)
+    attribute_alias = mpa.attribute.alias.to_sym
+    if with_activities
+      if mpa.attribute.attribute_type == "numeric"
+        min = results[:low][attribute_alias].to_f
+        ml = results[:most_likely][attribute_alias].to_f
+        high = results[:high][attribute_alias].to_f
+        res = (min+4*ml+high)/6
+        res
+      else
+        "-"
+      end
+    else #only PBS are evaluated
+      if with_activities
+        if mpa.attribute.attribute_type == "numeric"
+          min = results[:low][attribute_alias].to_f
+          ml = results[:most_likely][attribute_alias].to_f
+          high = results[:high][attribute_alias].to_f
+          res = (min+4*ml+high)/6
+          res
+        else
+          "-"
+        end
+      end
+    end
+  end
+
 
 end

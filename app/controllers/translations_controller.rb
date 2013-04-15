@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -39,7 +39,7 @@ class TranslationsController < ApplicationController
     end
     Translate::Storage.new(:fr).write_to_file
 
-    redirect_to translations_url, :notice => "#{I18n.t (:added_translation)}"
+    redirect_to translations_url, :notice => "#{I18n.t (:notice_translation_successful_added)}"
   end
 
   #Load translations from config/locale/*.yml files

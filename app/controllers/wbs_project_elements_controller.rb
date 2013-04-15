@@ -43,8 +43,9 @@ class WbsProjectElementsController < ApplicationController
 
     @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @project = Project.find(params[:project_id])
-    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
-    @potential_parents = @pe_wbs_project.wbs_project_elements
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
 
     respond_to do |format|
       format.html # new.html.erb
@@ -58,7 +59,8 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
     @project = Project.find(params[:project_id])
-    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
 
 
     if @wbs_project_element.is_root
@@ -66,7 +68,7 @@ class WbsProjectElementsController < ApplicationController
       @potential_parents = nil
     else
       @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
-      @potential_parents = @pe_wbs_project.wbs_project_elements
+      @potential_parents = @pe_wbs_project_activity.wbs_project_elements
     end
   end
 
@@ -80,12 +82,12 @@ class WbsProjectElementsController < ApplicationController
     #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @selected_parent ||= params[:parent_id]
 
-    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
-    @potential_parents = @pe_wbs_project.wbs_project_elements
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product =  @project.pe_wbs_projects.wbs_product.first
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
 
     if @wbs_project_element.save
      redirect_to edit_project_path(@project, :anchor => "tabs-3"), notice: "#{I18n.t (:wbs_project_element_succesfull_created)}"
-
     else
       render action: "new"
     end
@@ -99,8 +101,9 @@ class WbsProjectElementsController < ApplicationController
 
     #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @selected_parent ||= params[:parent_id]
-    @pe_wbs_project = @project.pe_wbs_projects.wbs_activity.first
-    @potential_parents = @pe_wbs_project.wbs_project_elements
+    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
