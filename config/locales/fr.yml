@@ -813,6 +813,10 @@ fr:
   notice_master_data_successful_restored: "La restauration a été validée avec succès."
   warning_master_data_unauthorized_action: "action non autorisée: vous essayez de restaurer un enregistrement qui n'est pas 'retired'! "
   notice_project_succesfull_updated: "Le projet a été mis à jour avec succès"
+  notice_project_succesfull_created: "Le projet a correctement été créé"
+  error_project_creation_failled: "Une erreur est survenue lors de la création du projet"
+  notice_project_succesfull_duplicated: "Le projet a été dupliqué avec succès"
+  error_project_duplication_failled: "Une erreur est survenue lors de la duplication du projet"
 
   #mail
   mail_salutation: "Bonjour %{value},"
