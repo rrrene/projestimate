@@ -1,21 +1,3 @@
-////function warn_me(){
-//window.onbeforeunload = function(){
-//    var inputs = new Array();
-//
-//    inputs = $(".simple_form input");
-//
-//    var unfinished = 'false';
-//    for (var i=0; i<inputs.length; ++i) {
-//        if ( inputs[i].value != '' ) {
-//            unfinished = 'true';
-//        }
-//    }
-//    if ( unfinished == 'true' ) {
-//        return "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page.";
-//    }
-//
-//}
-
 var warnLeavingUnsavedMessage;
 
 function warn_me(message){
