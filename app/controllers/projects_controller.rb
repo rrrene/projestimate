@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
     end
 
     if @project.update_attributes(params[:project])
-      redirect_to redirect(projects_url), notice: "#{I18n.t (:project_succesfull_updated)}"
+      redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_succesfull_updated)}"
     else
       render(:edit)
     end

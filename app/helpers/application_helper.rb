@@ -40,7 +40,10 @@ module ApplicationHelper
 			res
 		end
   end
-
+  def javascript_heads
+    tags =javascript_tag("$(window).load(function(){ warn_me('#{escape_javascript I18n.t (:text_warn_on_leaving_unsaved)}'); });")
+    tags
+  end
   #Avoid repetition in views when setting page title
   def page_title(title)
     content_for :action_title, title
