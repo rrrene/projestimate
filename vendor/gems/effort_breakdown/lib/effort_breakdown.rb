@@ -39,6 +39,9 @@ module EffortBreakdown
     # Calculate each Wbs activity effort according to Ratio and Reference_Value
     def get_effort_per_hour
 
+      # First build cache_depth
+      WbsProjectElement.rebuild_depth_cache!
+
       get_efforts_with_one_activity_element
 
       #case @module_project.reference_value.value.to_s
@@ -53,6 +56,8 @@ module EffortBreakdown
       #  # All Activity-elements defined as reference
       #  when "All Activity-elements"
       #    get_efforts_with_all_activities_elements
+      #  else
+      #    get_efforts_with_one_activity_element
       #end
     end
 
@@ -76,30 +81,40 @@ module EffortBreakdown
 
       output_effort = Hash.new
 
-      #pe_wbs_activity.wbs_project_elements.each do |wbs_project_element|
-      project_wbs_project_elt_root.descendants.each do |wbs_project_element|
-        # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
-        unless wbs_project_element.wbs_activity_element.nil?
-          puts "WBS_ACTIVITY_ELEMENT_ID = #{wbs_project_element.id}"
-          ratio_reference = nil
-          # Use project default Ratio, unless PSB got its own Ratio,
-          # If default ratio was defined in PBS, it will override the one defined in module-project
-          if @pbs_project_element.wbs_activity_ratio.nil?
-            ratio_reference = wbs_project_elt_with_ratio.wbs_activity_ratio
-          else
-            ratio_reference = @pbs_project_element.wbs_activity_ratio
-          end
+      project_wbs_project_elt_root.children.each do |node|
+        # Sort node subtree by ancestry_depth
+        sorted_node_elements = node.subtree.order("ancestry_depth desc")
+        sorted_node_elements.each do |wbs_project_element|
+          # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
+          unless wbs_project_element.wbs_activity_element.nil?
+            puts "WBS_ACTIVITY_ELEMENT_ID = #{wbs_project_element.id}"
+            ratio_reference = nil
+            # Use project default Ratio, unless PSB got its own Ratio,
+            # If default ratio was defined in PBS, it will override the one defined in module-project
+            if @pbs_project_element.wbs_activity_ratio.nil?
+              ratio_reference = wbs_project_elt_with_ratio.wbs_activity_ratio
+            else
+              ratio_reference = @pbs_project_element.wbs_activity_ratio
+            end
 
-          #Get the referenced wbs_activity_elt of the ratio_reference
-          referenced_ratio_element = WbsActivityRatioElement.where("wbs_activity_ratio_id =? and simple_reference = ?", ratio_reference.id, true).first
+            #Get the referenced wbs_activity_elt of the ratio_reference
+            referenced_ratio_element = WbsActivityRatioElement.where("wbs_activity_ratio_id =? and simple_reference = ?", ratio_reference.id, true).first
 
-          # Element effort is really computed only on leaf element
-          if wbs_project_element.is_childless?
-            # Get the ratio Value of current element
-            corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
-            current_output_effort = (@input_effort_per_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
-            puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
-            output_effort[wbs_project_element.id] = current_output_effort
+            # Element effort is really computed only on leaf element
+            if wbs_project_element.is_childless?
+              # Get the ratio Value of current element
+              corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
+              current_output_effort = (@input_effort_per_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
+              puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
+              output_effort[wbs_project_element.id] = current_output_effort
+            else
+              node_effort = 0
+              wbs_project_element.child_ids.each do |child|
+                node_effort = node_effort + output_effort[child]
+              end
+              output_effort[wbs_project_element.id] = node_effort
+              puts "NEW_NODE_EFFORT = #{node_effort}"
+            end
           end
         end
       end
@@ -113,7 +128,6 @@ module EffortBreakdown
       #pbs_output_effort
       output_effort
     end
-
 
     # Get each wbs-activity-element effort with a set of activity elements as references
     def get_efforts_with_a_set_of_activity_elements
