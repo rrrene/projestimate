@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410101935) do
+ActiveRecord::Schema.define(:version => 20130415084403) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -848,6 +848,7 @@ ActiveRecord::Schema.define(:version => 20130410101935) do
     t.text     "additional_description"
     t.boolean  "exclude",                 :default => false
     t.string   "ancestry"
+    t.integer  "ancestry_depth",          :default => 0
     t.integer  "author_id"
     t.integer  "copy_number",             :default => 0
     t.datetime "created_at",                                 :null => false
