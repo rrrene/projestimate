@@ -20,7 +20,7 @@
 
 #encoding: utf-8
 class PasswordResetsController < ApplicationController
-  layout "login"
+  layout 'login'
 
   #Edit the new password, checks token validity
   def edit
@@ -35,7 +35,7 @@ class PasswordResetsController < ApplicationController
       redirect_to new_password_reset_path, :error => "#{I18n.t (:warning_reset_password_expired)}"
     elsif @user.update_attributes(params[:user])
       UserMailer.new_password(@user).deliver
-      redirect_to root_url, :notice => "#{I18n.t (:notice_password_succesfull_reset)}"
+      redirect_to root_url, :notice => "#{I18n.t (:notice_password_successful_reset)}"
     else
       render :edit
     end

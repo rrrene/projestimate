@@ -2,7 +2,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
     if params[:id]
       @project = Project.find(params[:id])
     else
-      @project = Project.new :state => "preliminary"
+      @project = Project.new :state => 'preliminary'
     end
     @user = @project.users.first
     @project_areas = ProjectArea.all
@@ -49,23 +49,23 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    set_page_title "Projects"
+    set_page_title 'Projects'
     @projects = Project.page(params[:page]).per_page(5)
     respond_to do |format|
       format.html
       format.js {
-        render :partial => "project_record_number"
+        render :partial => 'project_record_number'
       }
     end
   end
 
   def new
-    set_page_title "New project"
+    set_page_title 'New project'
   end
 
   #Create a new project
   def create
-    set_page_title "Create project"
+    set_page_title 'Create project'
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
 
@@ -73,8 +73,8 @@ class ProjectsController < ApplicationController
       @project.transaction do
         if @project.save
           #New default Pe-Wbs-Project
-          pe_wbs_project_product  = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product - Product Breakdown Structure", :wbs_type => "Product")
-          pe_wbs_project_activity = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => "Activity")
+          pe_wbs_project_product  = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
+          pe_wbs_project_activity = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
 
           if pe_wbs_project_product.save
             ##New root Pbs-Project-Element
@@ -87,26 +87,26 @@ class ProjectsController < ApplicationController
 
           if pe_wbs_project_activity.save
             ##New Root Wbs-Project-Element
-            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :is_root => true, :description => "WBS-Activity Root Element", :author_id => current_user.id)
+            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{@project.title} WBS-Activity", :is_root => true, :description => 'WBS-Activity Root Element', :author_id => current_user.id)
             wbs_project_element.save
           else
             redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
-          if current_user.groups.map(&:code_group).include? ("super_admin")
+          if current_user.groups.map(&:code_group).include? ('super_admin')
             current_user.project_ids = current_user.project_ids.push(@project.id)
             current_user.save
           end
 
-          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:notice_project_succesfull_created)}"
+          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:notice_project_successful_created)}"
         else
-          flash[:error] = I18n.t (:error_project_creation_failled)+" "+ @project.errors.full_messages.to_sentence + "."
+          flash[:error] = I18n.t (:error_project_creation_failed)+' '+ @project.errors.full_messages.to_sentence + '.'
           render :new
         end
       end
 
     rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-      flash[:error] = I18n.t (:error_project_creation_failled) + " " +@project.errors.full_messages.to_sentence + "."
+      flash[:error] = I18n.t (:error_project_creation_failed) + ' ' +@project.errors.full_messages.to_sentence + '.'
       redirect_to :back
     end
 
@@ -115,7 +115,7 @@ class ProjectsController < ApplicationController
   #Edit a selected project
   def edit
     authorize! :modify_a_project, Project
-    set_page_title "Edit project"
+    set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
@@ -134,7 +134,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    set_page_title "Edit project"
+    set_page_title 'Edit project'
 
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
     end
 
     if @project.update_attributes(params[:project])
-      redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_succesfull_updated)}"
+      redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_successful_updated)}"
     else
       render(:edit)
     end
@@ -199,7 +199,7 @@ class ProjectsController < ApplicationController
     if params[:project_id]
       session[:current_project_id] = params[:project_id]
     end
-    redirect_to "/dashboard"
+    redirect_to '/dashboard'
   end
 
   #Load specific security depending of user selected (last tabs on project editing page)
@@ -212,7 +212,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :partial => "projects/run_estimation" }
+      format.js { render :partial => 'projects/run_estimation' }
     end
 
   end
@@ -227,7 +227,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :partial => "projects/run_estimation" }
+      format.js { render :partial => 'projects/run_estimation' }
     end
 
   end
@@ -236,10 +236,10 @@ class ProjectsController < ApplicationController
   def update_project_security_level
     @user = User.find(params[:user_id].to_i)
     @prj_scrt = ProjectSecurity.find_by_user_id_and_project_id(@user.id, current_project.id)
-    @prj_scrt.update_attribute("project_security_level_id", params[:project_security_level])
+    @prj_scrt.update_attribute('project_security_level_id', params[:project_security_level])
 
     respond_to do |format|
-      format.js { render :partial => "projects/run_estimation" }
+      format.js { render :partial => 'projects/run_estimation' }
     end
 
   end
@@ -248,10 +248,10 @@ class ProjectsController < ApplicationController
   def update_project_security_level_group
     @group = Group.find(params[:group_id].to_i)
     @prj_scrt = ProjectSecurity.find_by_group_id_and_project_id(@group.id, current_project.id)
-    @prj_scrt.update_attribute("project_security_level_id", params[:project_security_level])
+    @prj_scrt.update_attribute('project_security_level_id', params[:project_security_level])
 
     respond_to do |format|
-      format.js { render :partial => "projects/run_estimation" }
+      format.js { render :partial => 'projects/run_estimation' }
     end
 
   end
@@ -274,8 +274,8 @@ class ProjectsController < ApplicationController
     # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
     #@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
       my_module_project.pemodule.attribute_modules.each do |am|
-        if am.in_out == "both"
-          ["input", "output"].each do |in_out|
+        if am.in_out == 'both'
+          ['input', 'output'].each do |in_out|
             mpa = EstimationValue.create(  :attribute_id => am.attribute.id,
                                             :module_project_id => my_module_project.id,
                                             :in_out => in_out,
@@ -331,7 +331,7 @@ class ProjectsController < ApplicationController
     #end
 
     results = Hash.new
-    ["low", "most_likely", "high"].each do |level|
+    ['low', 'most_likely', 'high'].each do |level|
       #results[level.to_sym] = current_project.run_estimation_plan(params[level], level)
       results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
     end
@@ -347,10 +347,10 @@ class ProjectsController < ApplicationController
       current_pbs_estimations = mp.estimation_values###.where("pbs_project_element_id = ?", @pbs_project_element.id)
       #mp.estimation_values.each do |est_val|
       current_pbs_estimations.each do |est_val|
-        if est_val.in_out == "output" or est_val.in_out == "both"
+        if est_val.in_out == 'output' or est_val.in_out == 'both'
           out_result = Hash.new
           @results.each do |res|
-            ["low", "most_likely", "high"].each do |level|
+            ['low', 'most_likely', 'high'].each do |level|
               ###out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
 
               # We don't have to remplace the value, but we need to update them
@@ -364,9 +364,9 @@ class ProjectsController < ApplicationController
           #out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val, @results[level.to_sym][:with_activities])
           est_val.update_attributes(out_result)
 
-        elsif est_val.in_out == "input" or est_val.in_out == "both"
+        elsif est_val.in_out == 'input' or est_val.in_out == 'both'
           in_result = Hash.new
-          ["low", "most_likely", "high"].each do |level|
+          ['low', 'most_likely', 'high'].each do |level|
             in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
           end
           est_val.update_attributes(in_result)
@@ -375,7 +375,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :partial => "pbs_project_elements/refresh" }
+      format.js { render :partial => 'pbs_project_elements/refresh' }
     end
   end
 
@@ -389,7 +389,7 @@ class ProjectsController < ApplicationController
     project.module_projects.each do |module_project|
 
       module_project.estimation_values.each do |est_val|
-        if est_val.in_out == "input" or est_val.in_out == "both"
+        if est_val.in_out == 'input' or est_val.in_out == 'both'
           inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
         end
 
@@ -397,13 +397,13 @@ class ProjectsController < ApplicationController
         current_module = "#{module_project.pemodule}::#{module_project.pemodule}".constantize
 
         #Need to add input for pbs_project_element and module_project
-        inputs["pbs_project_element_id".to_sym] = current_pbs_project_elt.id
-        inputs["module_project_id".to_sym] = module_project.id
+        inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
+        inputs['module_project_id'.to_sym] = module_project.id
 
         # Normally, the input data is commonly from the ExpertJudment Module on PBS (when running estimation on its product)
         cm = current_module.send(:new, inputs)
 
-        if est_val.in_out == "output" or est_val.in_out=="both"
+        if est_val.in_out == 'output' or est_val.in_out=='both'
           # In each estimation module, The Product (PBS) seem to be mandatory
           @result_hash["#{est_val.attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.attribute.alias}")
         end
@@ -420,7 +420,7 @@ class ProjectsController < ApplicationController
     @resultat = Array.new
 
     results = Hash.new
-    ["low", "most_likely", "high"].each do |level|
+    ['low', 'most_likely', 'high'].each do |level|
       results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
       puts "RESULT_#{level.to_sym} = #{results[level.to_sym]}"
     end
@@ -433,18 +433,18 @@ class ProjectsController < ApplicationController
     #Save output values
     @project.module_projects.each do |mp|
       mp.estimation_values.each do |est_val|
-        if est_val.in_out == "output"
+        if est_val.in_out == 'output'
           out_result = Hash.new
           @results.each do |res|
-            ["low", "most_likely", "high"].each do |level|
+            ['low', 'most_likely', 'high'].each do |level|
               out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
             end
           end
           out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val)
           est_val.update_attributes(out_result)
-        elsif est_val.in_out == "input"
+        elsif est_val.in_out == 'input'
           in_result = Hash.new
-          ["low", "most_likely", "high"].each do |level|
+          ['low', 'most_likely', 'high'].each do |level|
             in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
           end
           est_val.update_attributes(in_result)
@@ -491,11 +491,11 @@ class ProjectsController < ApplicationController
       #  new_mp.save
       #end
 
-      flash[:success] = I18n.t (:notice_project_succesfull_duplicated)
-      redirect_to "/projects" and return
+      flash[:success] = I18n.t (:notice_project_successful_duplicated)
+      redirect_to '/projects' and return
     rescue
-      flash["Error"] = I18n.t (:error_project_duplication_failled)
-      redirect_to "/projects"
+      flash['Error'] = I18n.t (:error_project_duplication_failed)
+      redirect_to '/projects'
     end
   end
 
@@ -503,43 +503,43 @@ class ProjectsController < ApplicationController
   def commit
     project = Project.find(params[:project_id])
     project.commit!
-    redirect_to "/projects"
+    redirect_to '/projects'
   end
 
   def activate
     u = current_user
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
-    redirect_to "/projects"
+    redirect_to '/projects'
   end
 
   def find_use
     @project = Project.find(params[:project_id])
     @related_projects = Project.find(params[:project_id])
     respond_to do |format|
-      format.js { render :partial => "projects/find_use" }
+      format.js { render :partial => 'projects/find_use' }
     end
   end
 
   def projects_global_params
-    set_page_title "Project global parameters"
+    set_page_title 'Project global parameters'
   end
 
   def project_record_number
     @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
-    render :partial => "project_record_number"
+    render :partial => 'project_record_number'
   end
 
-  def sort_column                                                                                                                    t
-    Project.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  def sort_column
+    Project.column_names.include?(params[:sort]) ? params[:sort] : 'title'
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
   def default_work_element_type
-    wet = WorkElementType.find_by_alias("folder")
+    wet = WorkElementType.find_by_alias('folder')
     return wet
   end
 
@@ -588,8 +588,8 @@ class ProjectsController < ApplicationController
           flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
         end
       #end
-        format.html { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
-        format.js { redirect_to edit_project_path(@project, :anchor => "tabs-3")}
+        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3')}
+        format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3')}
     end
   end
 
@@ -598,7 +598,7 @@ class ProjectsController < ApplicationController
     new_ancestors = []
     new_ancestors << wbs_elt_root.id
     node_ancestors.each do |ancestor|
-      corresponding_wbs_project = WbsProjectElement.where("wbs_activity_element_id = ? and pe_wbs_project_id = ?", ancestor, pe_wbs_activity.id).first
+      corresponding_wbs_project = WbsProjectElement.where('wbs_activity_element_id = ? and pe_wbs_project_id = ?', ancestor, pe_wbs_activity.id).first
       new_ancestors << corresponding_wbs_project.id
     end
     new_ancestors.join('/')

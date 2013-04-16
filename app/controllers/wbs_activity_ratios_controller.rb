@@ -136,7 +136,7 @@ class WbsActivityRatiosController < ApplicationController
     @ratio.transaction do
       if @ratio.save
         @ratio.wbs_activity_ratio_elements.update_all(:record_status_id => @defined_status.id)
-        flash[:notice] = I18n.t (:wbs_activity_ratio_successful_validated)
+        flash[:notice] = I18n.t (:notice_wbs_activity_ratio_successful_validated)
       else
         flash[:error] = @ratio.errors.full_messages.to_sentence
       end
