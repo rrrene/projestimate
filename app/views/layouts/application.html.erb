@@ -6,8 +6,8 @@
 
   <title><%= @page_title ? @page_title : controller.action_name %></title>
 
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application", "projestimate_script", "warn_text" %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application', 'projestimate_script', 'warn_text' %>
   <%= javascript_heads %>
   <%= csrf_meta_tag %>
 
@@ -24,7 +24,7 @@
         <div class="container">
           <div class="row">
             <div class="pull-left">
-              <%= link_to(content_tag(:div, "", :class=> "logoEstimate" ), "/dashboard") %>
+              <%= link_to(content_tag(:div, '', :class=> 'logoEstimate'), '/dashboard') %>
             </div>
 
             <div style="margin-top:16px;">
