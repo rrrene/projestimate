@@ -85,7 +85,7 @@
 
 
           <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <%= form_tag import_wbs_activity_ratios_path, :multipart => true do %>
+            <%= form_tag import_wbs_activity_ratios_path, :multipart => true, :class => 'simple_form' do %>
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 id="myModalLabel"><%= I18n.t(:import ) %> Wbs Activity Ratio</h3>
@@ -127,7 +127,7 @@
         <%= select_tag "Ratio", options_for_select(@wbs_activity_ratios.map{|i| [i.name, i.id] }, :selected => @wbs_activity_ratio ), :class => "select_ratio" %>
       </div>
 
-      <%= form_tag '/save_values', :id => 'save_ratio_elt_reference', :remote => true  do %>
+      <%= form_tag '/save_values', :id => 'save_ratio_elt_reference', :remote => true , :class => 'simple_form' do %>
         <div id="ratio_section">
           <%= render :partial => 'wbs_activity_ratio_elements', :object => @wbs_activity_ratio_elements %>
         </div>

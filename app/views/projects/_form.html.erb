@@ -80,7 +80,7 @@
     <div id="tabs-3">
       <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
           <div class="well component_tree">
-            <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true do %>
+            <%= form_tag "/add_wbs_activity_to_project", :method => :post, :id => "form_select_and_add_wbs_activity", :remote => true, :class => 'simple_form' do %>
                 <p style="margin: 10px; ">
                   <label><% I18n.t(:available_wbs_activity) %></label>
                   <%= hidden_field_tag :project_id,  @project.id  %>

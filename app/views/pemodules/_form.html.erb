@@ -59,7 +59,7 @@
   <% unless @pemodule.is_typed %>
 
     <div id="tabs-2">
-      <%= form_tag("/update_selected_attributes", :method => "get") do -%>
+      <%= form_tag("/update_selected_attributes", :method => "get",  :class=>'simple_form') do -%>
         <%= hidden_field_tag "module_id", @pemodule.id %>
         <%= hidden_field_tag "pemodule[pe_attribute_ids][]" %>
 
@@ -85,7 +85,7 @@
 
 
       <div id="tabs-3">
-        <%= form_tag("/set_attributes_module", :method => "POST") do -%>
+        <%= form_tag("/set_attributes_module", :method => "POST", :class => 'simple_form') do -%>
             <%= hidden_field_tag "module_id", @pemodule.id %>
             <div class="list_attr">
               <%= render :partial => "attribute_settings", :object => @attribute_settings %>
