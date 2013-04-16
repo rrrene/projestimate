@@ -24,7 +24,7 @@
             <h5><%= I18n.t(:display)%> <%= select_tag "project_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> <%= I18n.t(:record_per_page)%></h5>
           </td>
           <td>
-            <%= form_tag "project_search", :class => "navbar-search pull-right", :remote => true, :method => :get do %>
+            <%= form_tag "project_search", :class => "navbar-search pull-right", :remote => true, :method => :get, :class => 'simple_form' do %>
               <h5> <%= I18n.t(:quick_search)%> <%= text_field_tag "project_searches", "", :placeholder => "", :class => "search-input" %> </h5>
             <% end %>
           </td>

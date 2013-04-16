@@ -56,7 +56,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.new(params[:module_project])
 
     if @module_project.save
-      redirect_to redirect(@module_project), notice: "#{I18n.t (:module_project_succesfull_created)}"
+      redirect_to redirect(@module_project), notice: "#{I18n.t (:notice_module_project_succesfull_created)}"
     else
       render action: "new"
     end
@@ -76,7 +76,7 @@ class ModuleProjectsController < ApplicationController
       end
     end
 
-    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_succesfull_updated)}"
   end
 
   def module_projects_matrix
@@ -90,7 +90,7 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute("associated_module_project_ids", params[:module_projects][mp.id.to_s])
     end
-    redirect_to redirect(edit_project_path(@project.id)), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+    redirect_to redirect(edit_project_path(@project.id)), notice: "#{I18n.t (:notice_module_project_succesfull_updated)}"
   end
 
   def destroy
@@ -117,10 +117,10 @@ class ModuleProjectsController < ApplicationController
     end
 
     if params[:commit] == I18n.t("apply")
-      flash[:notice] = I18n.t (:module_project_succesfull_updated)
+      flash[:notice] = I18n.t (:notice_module_project_succesfull_updated)
       redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => "tabs-3"))  #redirect_to :back
     else
-      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:module_project_succesfull_updated)}"
+      redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:notice_module_project_succesfull_updated)}"
     end
   end
 
