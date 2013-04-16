@@ -414,46 +414,6 @@ class ProjectsController < ApplicationController
     @result_hash
   end
 
-
-  # Run estimation with on Product and Activities
-  def run_estimation_save
-    @resultat = Array.new
-
-    results = Hash.new
-    ["low", "most_likely", "high"].each do |level|
-      results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
-      puts "RESULT_#{level.to_sym} = #{results[level.to_sym]}"
-    end
-
-    @module_projects = current_project.module_projects
-    @results = results
-    @project = current_project
-    @pbs_project_element = current_component
-
-    #Save output values
-    @project.module_projects.each do |mp|
-      mp.estimation_values.each do |est_val|
-        if est_val.in_out == "output"
-          out_result = Hash.new
-          @results.each do |res|
-            ["low", "most_likely", "high"].each do |level|
-              out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
-            end
-          end
-          out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val)
-          est_val.update_attributes(out_result)
-        elsif est_val.in_out == "input"
-          in_result = Hash.new
-          ["low", "most_likely", "high"].each do |level|
-            in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
-          end
-          est_val.update_attributes(in_result)
-        end
-      end
-    end
-  end
-
-
   def run_estimation_plan_with_activities
 
   end
