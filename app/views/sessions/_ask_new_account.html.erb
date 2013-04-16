@@ -2,7 +2,7 @@
   ProjEstimate - <%= I18n.t(:ask_account ) %>
 </h3>
 
-<%= form_tag "/create_inactive_user" do %>
+<%= form_tag "/create_inactive_user", :class => 'simple_form' do %>
 
 <div class="field_login">
   <%= label_tag I18n.t("first_name") %>

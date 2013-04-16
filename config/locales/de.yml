@@ -815,7 +815,8 @@ de:
   error_project_creation_failled: "An error has occurred during the creation of project"
   notice_project_succesfull_duplicated: "Project succesfully duplicated"
   error_project_duplication_failled: "An error has occurred during the duplication of project"
-
+  notice_module_project_succesfull_updated: "Module Project was succesfully updated"
+  notice_module_project_succesfull_created: "Module Project was succesfully created"
   #mail
   mail_salutation: "Dear %{value},"
   mail_complimentary_close: "Sincerely,\nProjEstimate"

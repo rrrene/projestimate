@@ -7,7 +7,7 @@
   </ul>
 
   <div id="tabs-1">
-    <%= form_for(@module_project) do |f| %>
+    <%= simple_form_for(@module_project) do |f| %>
       <% if @module_project.errors.any? %>
         <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
           <h2><%= pluralize(@module_project.errors.count, "error") %> prohibited this module_project from being saved:</h2>

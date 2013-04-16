@@ -1,47 +1,25 @@
-<%= form_for(@organization_labor_category) do |f| %>
-  <% if @organization_labor_category.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@organization_labor_category.errors.count, "error") %> prohibited this organization_labor_category from being saved:</h2>
+<%= simple_form_for(@organization_labor_category) do |f| %>
+   <div >
 
-      <ul>
-      <% @organization_labor_category.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <%= f.input :organization_id %>
 
-  <div >
+    <%= f.input :labor_category_id %>
 
-    <%= f.label I18n.t("organization") %><br />
-    <%= f.number_field :organization_id %>
+    <%= f.input :level %>
 
-    <%= f.label I18n.t("labor_category") %><br />
-    <%= f.number_field :labor_category_id %>
+    <%= f.input :name %>
 
-    <%= f.label I18n.t("level") %><br />
-    <%= f.text_field :level %>
+    <%= f.input :description %>
 
-    <%= f.label I18n.t("name") %><br />
-    <%= f.text_field :name %>
+    <%= f.input :cost_per_hour %>
 
-    <%= f.label I18n.t("description")%><br />
-    <%= f.text_area :description %>
+    <%= f.input :base_year %>
 
-    <%= f.label I18n.t("cost_per_hour") %><br />
-    <%= f.text_field :cost_per_hour %>
+    <%= f.input :currency_id %>
 
-    <%= f.label I18n.t("base_year") %><br />
-    <%= f.number_field :base_year %>
+    <%= f.input :hour_per_day %>
 
-    <%= f.label I18n.t("currency") %><br />
-    <%= f.number_field :currency_id %>
-
-    <%= f.label I18n.t("hour_per_day") %><br />
-    <%= f.text_field :hour_per_day %>
-
-    <%= f.label I18n.t("days_per_year") %><br />
-    <%= f.number_field :days_per_year %>
+    <%= f.input :days_per_year %>
   </div>
   <div class="actions">
     <%= f.submit I18n.t("save"), :class => "btn" %>

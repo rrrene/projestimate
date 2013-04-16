@@ -11,7 +11,7 @@
       })
   </script>
 
-  <%= form_tag translations_path(:locale => params[:locale]), :remote => true do %>
+  <%= form_tag translations_path(:locale => params[:locale]), :remote => true, :class => 'simple_form' do %>
       <p>
         <%= I18n.t(:choose_locale  ) %> <%= select_tag "available_locales", options_for_select(@available_locales, :selected => params[:locale] || session[:current_locale]), :prompt => 'Choose...' %>
       </p>

@@ -1,6 +1,6 @@
 <div class="span12">
   <h1><%= I18n.t(:project_securities)%></h1>
-  <%= form_tag({:action=>"set_rights_project_security", :controller=>"permissions"}, :method => "post") do %>
+  <%= form_tag({:action=>"set_rights_project_security", :controller=>"permissions"}, :method => "post", :class => 'simple_form') do %>
     <table class="table table-striped permissions">
       <tr>
         <th style="text-align:left;"><%= I18n.t(:permissions)%></th>
