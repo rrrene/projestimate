@@ -196,7 +196,3 @@ jQuery.fn.submitWithAjax = function () {
     });
 };
 
-
-function toggle_folder(elem){
-    $(elem).parent().parent().next().toggle();
-}

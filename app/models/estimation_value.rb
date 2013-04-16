@@ -26,10 +26,11 @@ class EstimationValue < ActiveRecord::Base
   belongs_to :module_project
   belongs_to :pbs_project_element
 
-  #Serialize some output data for estimatin result
+  #Serialize some output data for estimation result
   serialize :string_data_low, Hash
   serialize :string_data_most_likely, Hash
   serialize :string_data_high, Hash
+  serialize :string_data_probable, Hash
 
   #Metaprogrammation
   #input or output
