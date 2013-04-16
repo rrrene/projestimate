@@ -34,7 +34,6 @@ module ExpertJudgment
 
     end
 
-
     #GETTERS
     def get_effort_per_hour
       @effort_per_hour

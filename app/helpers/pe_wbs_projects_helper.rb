@@ -50,8 +50,6 @@ module PeWbsProjectsHelper
     end
 
     def wbs_navigation_links(c)
-      mpe = ModuleProjectsPbsProjectElement.where(:module_project_id => current_component.id, :pbs_project_element_id => c.id).first
-
       "<li class='#{ c.id == session[:pbs_project_element_id] ? 'selected' : '' }'  >
         <div class='block_label'>
           <div>
@@ -60,13 +58,12 @@ module PeWbsProjectsHelper
           </div>
         </div>
         <div class='block_link'>
-          #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_pbs_project_element, PbsProjectElement}
-          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl delete' if can? :delete_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "#{mpe.is_completed unless mpe.nil?}", '#', :class => 'icon-exclamation-sign icon-large' }
-          #{ link_to "#{mpe.is_validated unless mpe.nil?}", '#', :class => 'icon-trash icon-large' }
+          #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement}
+          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl icon-trash icon-large' if can? :delete_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-up icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-down icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", '#', :class => "bl icon-ok icon-large #{c.is_validated? ? 'icon-green' : 'icon-red' }" }
+          #{ link_to "", '#', :class => "bl icon-ok-circle icon-large #{c.is_completed? ? 'icon-green' : 'icon-red' }" }
         </div>
       </li>"
     end
@@ -81,13 +78,13 @@ module PeWbsProjectsHelper
           </div>
         </div>
         <div class='block_link'>
-          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder ') if can? :add_a_pbs_project_element, PbsProjectElement}
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "undefined" },:remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "link" }, :remote => true, :class => 'bl new_link ' if can? :add_a_pbs_project_element, PbsProjectElement}
+          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "folder" }, :remote => true, :class => 'bl icon-folder-open icon-large') if can? :add_a_pbs_project_element, PbsProjectElement}
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "undefined" },:remote => true, :class => 'bl icon-folder-plus icon-large ' if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => c.id, :type_component => "link" }, :remote => true, :class => 'bl icon-folder-link icon-large ' if can? :add_a_pbs_project_element, PbsProjectElement}
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl delete' if can? :delete_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl up ' if can? :move_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl down ' if can? :move_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-up icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-down icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
         </div>
       </li>"
     end
@@ -101,10 +98,10 @@ module PeWbsProjectsHelper
           </div>
         </div>
         <div class='block_link'>
-          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "folder" }, :remote => true, :class => 'bl new_folder') if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "" }, :remote => true, :class => 'bl new_undefined ' if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "link" }, :remote => true, :class => 'bl new_link '  if can? :add_a_pbs_project_element, PbsProjectElement }
-          #{ link_to "", edit_pbs_project_element_path(pbs_project_element, :project_id => @project.id), :remote => true, :class => 'bl edit' if can? :edit_a_pbs_project_element, PbsProjectElement }
+          #{ link_to("", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "folder" }, :remote => true, :class => 'bl icon-folder-open icon-large') if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "" }, :remote => true, :class => 'bl icon-plus icon-large ' if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", { :controller => 'pbs_project_elements', :action => 'new', :pe_wbs_project_id => project.pe_wbs_projects.wbs_product.first.id, :comp_parent_id => pbs_project_element.id, :type_component => "link" }, :remote => true, :class => 'bl icon-link icon-large '  if can? :add_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", edit_pbs_project_element_path(pbs_project_element, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement }
         </div>
       </li>"
     end
