@@ -32,31 +32,36 @@ module ModuleProjectsHelper
     end
   end
 
-  def probable_value(results, mpa, with_activities=false)
-    attribute_alias = mpa.attribute.alias.to_sym
-    if with_activities
-      if mpa.attribute.attribute_type == "numeric"
-        min = results[:low][attribute_alias].to_f
-        ml = results[:most_likely][attribute_alias].to_f
-        high = results[:high][attribute_alias].to_f
-        res = (min+4*ml+high)/6
-        res
-      else
-        "-"
+  # Compute the probable result for each node
+  # results: estimation result for (low, most_likely, high)
+  # estimation_value : the estimation_value object
+  def probable_value(results, estimation_value)
+    minimum = 0.0
+    most_likely = 0.0
+    maximum = 0.0
+    attribute_alias = estimation_value.attribute.alias.to_sym
+
+    min_estimation_value = results[:low]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+    most_likely_estimation_value = results[:most_likely]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+    high_estimation_value = results[:high]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+
+    # Get the current estimation Module
+    if estimation_value.module_project.pemodule.with_activities
+      hash_data_probable = Hash.new
+      min_estimation_value.keys.each do |wbs_project_elt_id|
+
+        minimum = min_estimation_value[wbs_project_elt_id].to_f
+        most_likely = most_likely_estimation_value[wbs_project_elt_id].to_f
+        maximum = high_estimation_value[wbs_project_elt_id].to_f
+
+        hash_data_probable[wbs_project_elt_id] = (minimum + 4*most_likely + maximum) / 6
       end
-    else #only PBS are evaluated
-      if with_activities
-        if mpa.attribute.attribute_type == "numeric"
-          min = results[:low][attribute_alias].to_f
-          ml = results[:most_likely][attribute_alias].to_f
-          high = results[:high][attribute_alias].to_f
-          res = (min+4*ml+high)/6
-          res
-        else
-          "-"
-        end
-      end
+      hash_data_probable
+
+    else
+      data_probable =  (min_estimation_value.to_f + 4*most_likely_estimation_value.to_f + high_estimation_value.to_f) / 6
     end
+
   end
 
 
