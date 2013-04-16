@@ -186,12 +186,11 @@ module ProjectsHelper
   def display_input
     res = String.new
     current_project.module_projects.each do |module_project|
-      if module_project.pemodule.with_activities
-        res << display_inputs_with_activities(module_project)
-      else
+      #if module_project.pemodule.with_activities
+      #  res << display_inputs_with_activities(module_project)
+      #else
         res << display_inputs_without_activities(module_project)
-      end
-      res
+      #end
     end
     res
   end
@@ -217,28 +216,28 @@ module ProjectsHelper
     res << "</tr>"
 
 
-      module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
         res << "<tr><td>#{wbs_project_elt.name}</td>"
-         ["low", "most_likely", "high"].each do |level|
-           res << "<td>"
-           module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
-             if (est_val.in_out == "input" or est_val.in_out=="both")# and est_val.module_project.id == module_project.id
-               str = "#{est_val.attribute.attribute_type}_data_#{level}"
-               level_estimation_values = Hash.new
-               level_estimation_values = est_val.send("string_data_#{level}")
+        ["low", "most_likely", "high"].each do |level|
+          res << "<td>"
+          module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
+            if (est_val.in_out == "input" or est_val.in_out=="both")# and est_val.module_project.id == module_project.id
+              #str = "#{est_val.attribute.attribute_type}_data_#{level}"
+              #level_estimation_values = Hash.new
+              #level_estimation_values = est_val.send("string_data_#{level}")
 
-               if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
-                 res << "#{text_field_tag "level_estimation_values"}"
-               else
-                 res << "#{level_probable_value[pbs_project_element.id]}"
-               end
-             end
-           end
-           res << "</td>"
+              #if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
+               res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}]"}"
+              #else
+              # res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}_#{module_project.id.to_s}]", level_estimation_values}"
+              #end
+            end
          end
-         res << "<td></td>"
-         res << "</tr>"
+         res << "</td>"
        end
+       res << "<td></td>"
+       res << "</tr>"
+     end
     res << "</table>"
     end
     res

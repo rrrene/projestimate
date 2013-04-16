@@ -320,19 +320,8 @@ class ProjectsController < ApplicationController
   def run_estimation
     @resultat = Array.new
 
-    #  #Pour chaque folder
-    #  folder_result = {}
-    #  @folders.map do |folder| folder.children.map{|j| j.estimation_values }.each do |mpa|
-    #    %w(low most_likely high).each do |level|
-    #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
-    #    end
-    #    mpa.first.update_attributes(folder_result)
-    #  end
-    #end
-
     results = Hash.new
     ["low", "most_likely", "high"].each do |level|
-      #results[level.to_sym] = current_project.run_estimation_plan(params[level], level)
       results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
     end
 
@@ -351,8 +340,6 @@ class ProjectsController < ApplicationController
           out_result = Hash.new
           @results.each do |res|
             ["low", "most_likely", "high"].each do |level|
-              ###out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
-
               # We don't have to remplace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
@@ -360,16 +347,22 @@ class ProjectsController < ApplicationController
               out_result["string_data_#{level}"] = level_estimation_value
             end
           end
-
-          #out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val, @results[level.to_sym][:with_activities])
           est_val.update_attributes(out_result)
 
         elsif est_val.in_out == "input" or est_val.in_out == "both"
-          in_result = Hash.new
-          ["low", "most_likely", "high"].each do |level|
-            in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
-          end
-          est_val.update_attributes(in_result)
+          #in_result = Hash.new
+          #["low", "most_likely", "high"].each do |level|
+          #  level_estimation_value = Hash.new
+          #  level_estimation_value = est_val.send("string_data_#{level}")
+          #  begin
+          #    level_estimation_value[@pbs_project_element.id] = @results[level.to_sym][est_val.attribute.alias.to_sym][mp.id.to_s]
+          #    in_result["string_data_#{level}"] = level_estimation_value
+          #  rescue
+          #    in_result["string_data_#{level}"] = Hash.new
+          #  end
+          #
+          #end
+          #est_val.update_attributes(in_result)
         end
       end
     end
@@ -387,10 +380,11 @@ class ProjectsController < ApplicationController
     inputs = Hash.new
 
     project.module_projects.each do |module_project|
-
       module_project.estimation_values.each do |est_val|
-        if est_val.in_out == "input" or est_val.in_out == "both"
-          inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
+        module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+          if est_val.in_out == "input"
+            inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
+          end
         end
 
         current_pbs_project_elt = current_component
@@ -410,12 +404,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_per_hour=>{"337"=>18000.0, "338"=>12000.0}}
     @result_hash
-  end
-
-  def run_estimation_plan_with_activities
-
   end
 
   #Method to duplicate project and associated pe_wbs_project
