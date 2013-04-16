@@ -285,7 +285,7 @@ fr:
   validate: "Valider"
   update: "Mettre à jour"
   empty: "Aucun"
-  are_you_sur?: "Etes-vous sûr ?"
+  are_you_sur: "Etes-vous sûr ?"
   back: "Retour"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
@@ -357,6 +357,7 @@ fr:
   new_auth_method: "Créer une nouvelle méthode d'authentification"
 
   #currencies
+  currencies: "Devises"
   edit_currency: "Editer une devise"
   new_currency: "Créer une nouvelle devise"
 
@@ -426,13 +427,13 @@ fr:
   currency: "Devise"
   hour_per_day: "Heures par jour"
   days_per_year: "Jours par année"
-  edit_organisation_labor_category: "Editer la catégorie de travailleurs de l'organisation"
-  new_organisation_labor_category: "Créer une catégorie de travailleurs de l'organisation"
+  edit_organization_labor_category: "Editer la catégorie de travailleurs de l'organisation"
+  new_organization_labor_category: "Créer une catégorie de travailleurs de l'organisation"
 
   #Organization
   organization: "Organisations"
-  edit_organisation: "Editer l'organisation"
-  new_organisation: "Créer une organisation"
+  edit_organization: "Editer l'organisation"
+  new_organization: "Créer une organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Catégories de travailleurs des organisations"
 
@@ -443,7 +444,7 @@ fr:
 
   #peicons
   icon: "Icône"
-  icon-message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
+  text_icon_message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
   edit_icon: "Editer l'icône"
   new_icon: "Ajouter un icône"
   icons: "Icônes"
@@ -527,7 +528,7 @@ fr:
   not_yet_supported: "Pas encore supporté"
   ldap_account_password_or_application_account_password: "mot de passe de l'utilisateur (ou Mot de passe LDAP)"
   ask_new_account: "Pour demander un compte, cliquez sur 'Demander un compte' puis suivre les instructions"
-  forgotten_password?: "Cliquez sur 'Mot de passe oublié ?' puis suivre les instructions"
+  forgotten_password: "Cliquez sur 'Mot de passe oublié ?' puis suivre les instructions"
   additional_guidance: "Vous pouvez trouver des conseils supplémentaires"
   here: "ici"
   or: "ou"
@@ -541,7 +542,7 @@ fr:
   ask_new_account_help: "Vous allez recevoir un courriel de confirmation, mais vous devez attendre jusqu'à ce qu'un administrateur valide votre compte.\n Lorsque votre compte est activé par l'administrateur, vous recevez un second courriel de confirmation."
 
   #translations
-  choose_locale : "Choisir une langue"
+  choose_locale: "Choisir une langue"
   save_translations: "Sauvegarder les traductions"
 
   #user mailer
@@ -636,8 +637,8 @@ fr:
 
   #messages
   status_custom: "N'est obligatoire que lorsque le statut est à Custom"
-  restoring?: "Confirmez-vous la restauration de ce dossier en mode défini?"
-  validation?: "Confirmez-vous la validation des changements sur cet enregistrement?"
+  restoring: "Confirmez-vous la restauration de ce dossier en mode défini?"
+  validation: "Confirmez-vous la validation des changements sur cet enregistrement?"
   global_settings_updated: "Les paramètres globaux ont été mis à jour."
   attributes_settings_updated: "Les paramètres des attributs ont été mis à jour."
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
@@ -645,7 +646,7 @@ fr:
   to_install_module: "pour installer un module sur ProjEstimate"
   no_estimation_plan: "Aucun plan d'estimation n'a été défini."
   select_module: "Sélectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
-  etape: "Etape"
+  step: "Etape"
 
   general_csv_separator: ';'
   general_csv_decimal_separator: ','

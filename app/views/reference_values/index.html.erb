@@ -8,15 +8,15 @@
       <tr>
         <td><%= r.value %></td>
         <td><%= r.record_status.name unless r.record_status.nil? %> <%= r.show_custom_value %></td>
-        <td><%= link_to "", edit_reference_value_path(r), :class => "icn_edit", :title => I18n.t("edit") %></td>
-        <td><%= link_to "", r, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete")%></td>
+        <td><%= link_to '', edit_reference_value_path(r), :class => 'icn_edit', :title => I18n.t('edit') %></td>
+        <td><%= link_to '', r, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete')%></td>
       <td>
           <% if is_master_instance? && !r.is_local_record? %>
             <% if r.is_retired? %>
-              <%= link_to(I18n.t("restore"), "reference_values/#{r.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
+              <%= link_to(I18n.t('restore'), "reference_values/#{r.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
             <% else %>
               <% unless r.is_defined? %>
-                <%= link_to(I18n.t("validate"), "reference_values/#{r.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
+                <%= link_to(I18n.t('validate'), "reference_values/#{r.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title'))%>
               <% end %>
             <% end %>
           <% end %>
@@ -25,4 +25,4 @@
   <% end %>
 
 </table>
-<%= link_to I18n.t("new_reference_value"), new_reference_value_path, :class=>"btn" %>
+<%= link_to I18n.t('new_reference_value'), new_reference_value_path, :class=> 'btn' %>

@@ -13,15 +13,15 @@
     <tr>
       <td><%= project_security_level.name %></td>
       <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
-      <td><%= link_to '', edit_project_security_level_path(project_security_level), :class => "icn_edit", :title => I18n.t("edit") %></td>
-      <td><%= link_to '', project_security_level, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title => I18n.t("delete") %></td>
+      <td><%= link_to '', edit_project_security_level_path(project_security_level), :class => 'icn_edit', :title => I18n.t('edit') %></td>
+      <td><%= link_to '', project_security_level, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %></td>
       <td>
         <% if is_master_instance? && !project_security_level.is_local_record? %>
             <% if project_security_level.is_retired? %>
-                <%= link_to(I18n.t("restore"), "project_security_levels/#{project_security_level.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
+                <%= link_to(I18n.t('restore'), "project_security_levels/#{project_security_level.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
             <% else %>
                 <% unless project_security_level.is_defined? %>
-                    <%= link_to(I18n.t("validate"), "project_security_levels/#{project_security_level.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
+                    <%= link_to(I18n.t('validate'), "project_security_levels/#{project_security_level.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title'))%>
                 <% end %>
             <% end %>
         <% end %>
@@ -32,5 +32,5 @@
 
   <br />
 
-  <%= link_to I18n.t("new_project_security_level"), new_project_security_level_path, :class => "btn" %>
+  <%= link_to I18n.t('new_project_security_level'), new_project_security_level_path, :class => 'btn' %>
 </div>

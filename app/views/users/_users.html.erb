@@ -21,10 +21,10 @@
       <td><%= user.auth_method %>
       <td><%= user.user_status %>
       <td>
-        <%= link_to('', "users/#{user.id}/edit", :class => "icn_edit", :title => "Edit") +
-            link_to('', "users/#{user.id}/activate", :class => "icn_jump_back", :title => "Activate") +
-            link_to('', {:controller => "users", :action => "find_use_user", :user_id => user.id }, :remote => true, :class => "icn_find_use", :title => "Find Use") +
-            link_to('', user, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash", :title =>I18n.t("delete"))
+        <%= link_to('', "users/#{user.id}/edit", :class => 'icn_edit', :title => 'Edit') +
+            link_to('', "users/#{user.id}/activate", :class => 'icn_jump_back', :title => 'Activate') +
+            link_to('', {:controller => 'users', :action => 'find_use_user', :user_id => user.id }, :remote => true, :class => 'icn_find_use', :title => 'Find Use') +
+            link_to('', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title =>I18n.t('delete'))
         %>
 
       </td>
@@ -36,11 +36,11 @@
   <tr>
     <td style="text-align:right;">
       <% if @users.previous_page %>
-        <%= link_to I18n.t("previous"), params.merge(page: @users.previous_page), :remote => true %>
+        <%= link_to I18n.t('previous'), params.merge(page: @users.previous_page), :remote => true %>
       <% end %>
       Page <%= @users.current_page %> <%= I18n.t(:of ) %> <%= @users.total_pages %>
       <% if @users.next_page %>
-        <%= link_to I18n.t("next"), params.merge(page: @users.next_page), :remote => true %>
+        <%= link_to I18n.t('next'), params.merge(page: @users.next_page), :remote => true %>
       <% end %>
     </td>
     <td>

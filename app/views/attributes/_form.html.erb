@@ -3,41 +3,41 @@
     <%= f.error_notification %>
 
     <div >
-      <%= f.input :name, :label => I18n.t("name") %>
+      <%= f.input :name, :label => I18n.t('name') %>
 
       <%= f.input :alias %>
 
-      <%= f.input :description, :label => I18n.t("description"), :title => "Brief description of attribute", :input_html => {:rows => 3} %>
+      <%= f.input :description, :label => I18n.t('description'), :title => 'Brief description of attribute', :input_html => {:rows => 3} %>
 
-      <%= f.input :aggregation, :label => I18n.t("aggregation"), :as => :select, :collection => Attribute::type_aggregation %>
+      <%= f.input :aggregation, :label => I18n.t('aggregation'), :as => :select, :collection => Attribute::type_aggregation %>
 
-      <%= f.input :attr_type, :title => I18n.t("validation_options"), :label => "Attributes type and values options" do %>
+      <%= f.input :attr_type, :title => I18n.t('validation_options'), :label => 'Attributes type and values options' do %>
         <% if @attribute.options.empty? %>
-          <%= select_tag "options[]", options_for_select(Attribute::type_values), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
-          <%= select_tag "options[]", options_for_select(Attribute::value_options), :onchange => "select_boolean(this.value);", :class => "type_value", :style => "display:none;", :prompt => "Choose" %>
-          <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value", :style => "display:none;" } %>
+          <%= select_tag 'options[]', options_for_select(Attribute::type_values), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(Attribute::value_options), :onchange => 'select_boolean(this.value);', :class => 'type_value', :style => 'display:none;', :prompt => 'Choose' %>
+          <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value', :style => 'display:none;'} %>
         <% else %>
-          <%= select_tag "options[]", options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => "select_value_options(this.value);", :prompt => "Choose" %>
-          <%= select_tag "options[]", options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => "type_value", :prompt => "Choose" %>
-          <%= text_field_tag "options[]", @attribute.options[2] , { :class => "text_field_value" } %>
+          <%= select_tag 'options[]', options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => 'type_value', :prompt => 'Choose' %>
+          <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value'} %>
         <% end %>
       <% end %> <br />
 
-      <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %>
+      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3 } %>
 
-      <%= f.association :record_status, :label => I18n.t("record_status"),
+      <%= f.association :record_status, :label => I18n.t('record_status'),
                         :collection => @attribute.record_status_collection,
-                        :input_html => {:class => "record_status"},
+                        :input_html => {:class => 'record_status'},
                         :selected => (@attribute.is_defined_or_nil? ? @proposed_status.id : @attribute.record_status_id),
                         :disabled => (true if @attribute.is_retired?) %><br />
 
-      <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @attribute.is_custom?) %>
+      <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @attribute.is_custom?) %>
     </div>
 
     <div class="actions">
       <% if can? :update, @attribute %>
-          <%= f.submit I18n.t("save"), :class => "btn" %>
-          <%= f.submit I18n.t("apply"), :class => "btn" %>
+          <%= f.submit I18n.t('save'), :class => 'btn' %>
+          <%= f.submit I18n.t('apply'), :class => 'btn' %>
       <% end %>
     </div>
 

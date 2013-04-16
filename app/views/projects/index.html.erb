@@ -13,7 +13,7 @@
             <h2><%= I18n.t(:projects)%></h2>
           </td>
           <td style="text-align:right;">
-            <%= link_to I18n.t("new_project"), new_project_path, :class => "btn" %>
+            <%= link_to I18n.t('new_project'), new_project_path, :class => 'btn' %>
           </td>
         </tr>
       </table>
@@ -21,11 +21,11 @@
       <table border="0" width="100%">
         <tr>
           <td>
-            <h5><%= I18n.t(:display)%> <%= select_tag "project_record_number", options_for_select([5,10,25,50]), :class => "pull-left span2"%> <%= I18n.t(:record_per_page)%></h5>
+            <h5><%= I18n.t(:display)%> <%= select_tag 'project_record_number', options_for_select([5,10,25,50]), :class => 'pull-left span2' %> <%= I18n.t(:record_per_page)%></h5>
           </td>
           <td>
-            <%= form_tag "project_search", :class => "navbar-search pull-right", :remote => true, :method => :get, :class => 'simple_form' do %>
-              <h5> <%= I18n.t(:quick_search)%> <%= text_field_tag "project_searches", "", :placeholder => "", :class => "search-input" %> </h5>
+            <%= form_tag 'project_search', :class => 'navbar-search pull-right', :remote => true, :method => :get, :class => 'simple_form' do %>
+              <h5> <%= I18n.t(:quick_search)%> <%= text_field_tag 'project_searches', '', :placeholder => '', :class => 'search-input' %> </h5>
             <% end %>
           </td>
         </tr>

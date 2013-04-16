@@ -1,7 +1,7 @@
 <div class="span12">
   <h1><%= I18n.t(:global_permission) %></h1>
 
-  <%= form_tag({:action=>"set_rights", :controller=>"permissions"}, :method => "post", :class => 'simple_form') do %>
+  <%= form_tag({:action=> 'set_rights', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
     <table class="table table-striped permissions">
       <tr>
         <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
@@ -24,6 +24,6 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag I18n.t("save"), :class => "btn" %>
+    <%= submit_tag I18n.t('save'), :class => 'btn' %>
     <% end %>
 </div>

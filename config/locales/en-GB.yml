@@ -285,7 +285,7 @@ en-gb:
   validate: "Validate"
   update: "Update"
   empty: "None"
-  are_you_sur?: "Are you sure?"
+  are_you_sur: "Are you sure?"
   back: "Back"
   restore_title: "Restore changes"
   validate_title: "Validates changes"
@@ -357,6 +357,7 @@ en-gb:
   new_auth_method: "New authentication method"
 
   #currencies
+  currencies: "Currencies"
   edit_currency: "Edit currency"
   new_currency: "New currency"
 
@@ -426,13 +427,13 @@ en-gb:
   currency: "Currency"
   hour_per_day: "Hour per day"
   days_per_year: "Days per year"
-  edit_organisation_labor_category: "Edit an organisation labour category"
-  new_organisation_labor_category: "New organisation labour category"
+  edit_organization_labor_category: "Edit an organisation labour category"
+  new_organization_labor_category: "New organisation labour category"
 
   #Organization
   organization: "Organisation"
-  edit_organisation: "Edit an organisation"
-  new_organisation: "New organisation"
+  edit_organization: "Edit an organisation"
+  new_organization: "New organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Organisational labours categories"
 
@@ -443,7 +444,7 @@ en-gb:
 
   #peicons
   icon: "Icon"
-  icon-message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
+  text_icon_message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
   edit_icon: "Edit icon"
   new_icon: "Add an icon"
   icons: "Icons"
@@ -527,7 +528,7 @@ en-gb:
   not_yet_supported: "Not yet supported"
   ldap_account_password_or_application_account_password: "User's password (or LDAP account password)"
   ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
-  forgotten_password?: "Click to 'Lost password' then follow instructions."
+  forgotten_password: "Click to 'Lost password' then follow instructions."
   additional_guidance: "You can find additional guidance"
   here: "here"
   or: "or"
@@ -541,7 +542,7 @@ en-gb:
   ask_new_account_help: "You will receive a confirmation email, but you must wait until an administrator enable your account.\nWhen your account is activated by the administrator, you receive a second confirmation email."
 
   #translations
-  choose_locale : "Choose a local"
+  choose_locale: "Choose a local"
   save_translations: "Save Translations"
 
   #user_mailer
@@ -636,8 +637,8 @@ en-gb:
 
   #messages
   status_custom: "Is needed only when Status = Custom"
-  restoring?: "Do you confirm restoring this record as defined ?"
-  validation?: "Do you confirm changes validation on this record?"
+  restoring: "Do you confirm restoring this record as defined ?"
+  validation: "Do you confirm changes validation on this record?"
   global_settings_updated: "Global settings have been updated."
   attributes_settings_updated: "Attributes settings have been updated."
   refers_to: "No ProjEstimate modules has been installed. Please refer to"
@@ -645,7 +646,7 @@ en-gb:
   to_install_module: "to install ProjEstimate modules."
   no_estimation_plan: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
-  etape: "Step"
+  step: "Step"
 
   general_csv_separator: ','
   general_csv_decimal_separator: '.'

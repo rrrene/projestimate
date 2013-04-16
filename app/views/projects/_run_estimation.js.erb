@@ -1,19 +1,19 @@
 $(".securities_user").html("<label><%= I18n.t(:securities)%></label><br />");
 $(".securities_user").append("<%= j(
-                                select_tag("project_security_level",
+                                select_tag('project_security_level',
                                   options_for_select(
                                     ProjectSecurityLevel.all.map{|i|[i.name, i.id]},
                                     :selected => @prj_scrt.project_security_level_id),
-                                    :prompt => "Choose..."))
+                                    :prompt => 'Choose...'))
                               %>");
 
 $(".securities_group").html("<label><%= I18n.t(:securities)%></label><br />");
 $(".securities_group").append("<%= j(
-                                select_tag("project_security_level_group",
+                                select_tag('project_security_level_group',
                                   options_for_select(
                                     ProjectSecurityLevel.all.map{|i|[i.name, i.id]},
                                     :selected => @prj_scrt.project_security_level_id),
-                                    :prompt => "Choose..."))
+                                    :prompt => 'Choose...'))
                               %>");
 
 $("#project_security_level").change(

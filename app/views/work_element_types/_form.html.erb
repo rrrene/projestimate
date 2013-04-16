@@ -15,7 +15,7 @@
                       :selected => (@work_element_type.is_defined_or_nil? ? @proposed_status.id : @work_element_type.record_status_id),
                       :disabled => (true if @work_element_type.is_retired?) %><br />
 
-    <%= f.input :custom_value, :label => I18n.t("reference_values "), :input_html => {:class => "custom_value"}, :disabled => (true unless @work_element_type.is_custom?) %><br />
+    <%= f.input :custom_value, :label => I18n.t("reference_values"), :input_html => {:class => "custom_value"}, :disabled => (true unless @work_element_type.is_custom?) %><br />
 
     <p>
       <div class="my_peicon">

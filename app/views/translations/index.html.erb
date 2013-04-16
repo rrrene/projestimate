@@ -13,12 +13,12 @@
 
   <%= form_tag translations_path(:locale => params[:locale]), :remote => true, :class => 'simple_form' do %>
       <p>
-        <%= I18n.t(:choose_locale  ) %> <%= select_tag "available_locales", options_for_select(@available_locales, :selected => params[:locale] || session[:current_locale]), :prompt => 'Choose...' %>
+        <%= I18n.t(:choose_locale) %> <%= select_tag 'available_locales', options_for_select(@available_locales, :selected => params[:locale] || session[:current_locale]), :prompt => 'Choose...' %>
       </p>
 
       <div id="list_translations">
           <%= render :partial => 'list_translations', :object => @translations %>
       </div>
-      <%= submit_tag I18n.t("save_translations"), :class => "btn" %>
+      <%= submit_tag I18n.t('save_translations'), :class => 'btn' %>
   <% end %>
 </div>

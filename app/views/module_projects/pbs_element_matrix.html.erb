@@ -1,7 +1,7 @@
 <div class="span12">
   <h1>Associate Product-Element with current module project</h1>
 
-  <%= form_tag({:action=>"associate", :controller=>"module_projects", :project_id => @project.id}, :method => "POST", :class => 'simple_form') do %>
+  <%= form_tag({:action=> 'associate', :controller=> 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
     <table class="table table-striped">
       <tr>
         <th style="text-align:left;">Product-Element</th>
@@ -27,8 +27,8 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag "Save", :class => "btn" %>
-    <%= submit_tag "Apply", :class => "btn" %>
+    <%= submit_tag 'Save', :class => 'btn' %>
+    <%= submit_tag 'Apply', :class => 'btn' %>
     <% end %>
 </div>
 

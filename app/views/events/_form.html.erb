@@ -1,7 +1,7 @@
 <%= simple_form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <h2><%= pluralize(@event.errors.count, 'error') %> prohibited this event from being saved:</h2>
 
       <ul>
       <% @event.errors.full_messages.each do |msg| %>
@@ -13,12 +13,12 @@
 
   <div >
 
-    <%= f.input :name, :label => "#{I18n.t "name"}", :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :name, :label => "#{I18n.t 'name'}", :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.input :description, :label => "#{I18n.t "description"}", :input_html => { :class => 'input-xxlarge' } %>
+    <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => { :class => 'input-xxlarge' } %>
 
-    <%= f.label "#{I18n.t "start_date"}" %>
-    <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@event.start_date.nil? ? Time.now.strftime(I18n.t "date.formats.default") : I18n.l(@event.start_date)) %>
+    <%= f.label "#{I18n.t 'start_date'}" %>
+    <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@event.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@event.start_date)) %>
     <script>
         $(document).ready(function() {
             $(".date-picker").datepicker({
@@ -29,18 +29,18 @@
             });
         });
     </script>
-    <%= f.label "#{I18n.t "end_date"}" %>
-    <%= f.text_field :end_date, :class => 'date-picker input-xxlarge', :value => (@event.end_date.nil? ? Time.now.strftime(I18n.t "date.formats.default") : I18n.l(@event.end_date))%>
+    <%= f.label "#{I18n.t 'end_date'}" %>
+    <%= f.text_field :end_date, :class => 'date-picker input-xxlarge', :value => (@event.end_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@event.end_date))%>
 
-    <%= f.input :event_type_id, :label => "#{I18n.t "event_types"}", :as => :select, :collection => @event_types, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :event_type_id, :label => "#{I18n.t 'event_types'}", :as => :select, :collection => @event_types, :input_html => { :class => 'input-xxlarge' }  %>
 
-    <%= f.input :project_id, :label => "#{I18n.t "projects"}", :as => :select, :collection => @projects, :input_html => { :class => 'input-xxlarge' }  %>
+    <%= f.input :project_id, :label => "#{I18n.t 'projects'}", :as => :select, :collection => @projects, :input_html => { :class => 'input-xxlarge' }  %>
 
 
   </div>
   <div class="actions">
-    <%= f.submit I18n.t("save"), :class => "btn" %>
-    <%= f.submit I18n.t("apply"), :class => "btn" %>
+    <%= f.submit I18n.t('save'), :class => 'btn' %>
+    <%= f.submit I18n.t('apply'), :class => 'btn' %>
   </div>
 <% end %>
 

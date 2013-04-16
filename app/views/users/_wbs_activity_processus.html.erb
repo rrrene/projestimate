@@ -7,7 +7,7 @@
     </div>
     <div class="widget-content">
       <div class="span12">
-        <%= render :partial => "users/pe_wbs" %>
+        <%= render :partial => 'users/pe_wbs' %>
       </div>
     </div>
   </div>
@@ -19,14 +19,14 @@
       </h3>
     </div>
     <div class="widget-content">
-      <%= render :partial => "projects/estimation_plan" %>
+      <%= render :partial => 'projects/estimation_plan' %>
     </div>
   </div>
 </div>
 
 <div class="span6">
   <% unless current_component.nil? %>
-      <%= form_tag({:controller => "projects", :action => "run_estimation", :pbs_project_element_id => current_component.id}, :method => "get", :remote => true, :class => 'simple_form') %>
+      <%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :method => 'get', :remote => true, :class => 'simple_form') %>
       <% @project.module_projects.each do |mp| %>
           <div class="widget">
             <% if mp.compatible_with(current_component.work_element_type.alias) || current_component %>
@@ -55,9 +55,8 @@
       <% end %>
 
       <div class="submit_link">
-        <%= submit_tag I18n.t("execute_estimation"), :class => "btn btn-danger", :onclick => "loading();" %>
+        <%= submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger', :onclick => 'loading();' %>
       </div>
 
   <% end %>
-</div>
 </div>

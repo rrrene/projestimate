@@ -4,12 +4,12 @@
     <div class="login_input">
       <div class="input-prepend">
         <span class="add-on"><img src="/assets/man.png" /></span>
-        <%= text_field_tag :username, cookies[:login], :class => "login_username", :placeholder => I18n.t("login_name_or_email") %>
+        <%= text_field_tag :username, cookies[:login], :class => 'login_username', :placeholder => I18n.t('login_name_or_email') %>
       </div>
 
       <div class="input-prepend">
         <span class="add-on"><img src="/assets/keez.png" /></span>
-        <%= password_field_tag :password, "", :class => "login_pw", :placeholder => I18n.t("password") %>
+        <%= password_field_tag :password, '', :class => 'login_pw', :placeholder => I18n.t('password') %>
       </div>
 
       <label class="checkbox">
@@ -21,12 +21,12 @@
     <div class="pull_right">
 
       <div class="login_connexion">
-        <%= submit_tag I18n.t("connect"), :class => "btn btn-danger" %>
+        <%= submit_tag I18n.t('connect'), :class => 'btn btn-danger' %>
       </div>
 
-      <%= link_to I18n.t("need_help"),  "/help_login", :remote => true %> <br/>
-      <%= link_to I18n.t("forgotten_password"), "/forgotten_password", :remote => true %> <br/>
-      <%= link_to I18n.t("ask_account"), "/ask_new_account", :remote => true %>
+      <%= link_to I18n.t('need_help'), '/help_login', :remote => true %> <br/>
+      <%= link_to I18n.t('forgotten_password'), '/forgotten_password', :remote => true %> <br/>
+      <%= link_to I18n.t('ask_account'), '/ask_new_account', :remote => true %>
     </div>
 
 

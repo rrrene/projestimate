@@ -21,19 +21,19 @@
       <td><%= wbs_activity_ratio_element.wbs_activity_element.description %></td>
 
       <% unless wbs_activity_ratio_element.wbs_activity_element.has_children? %>
-          <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => "input-mini", :tabindex => i %></td>
-          <td><%= radio_button_tag "simple_reference", wbs_activity_ratio_element.id, wbs_activity_ratio_element.simple_reference%></td>
-          <td><%= check_box_tag "multiple_references[]", wbs_activity_ratio_element.id, wbs_activity_ratio_element.multiple_references%></td>
+          <td><%= text_field_tag "ratio_values[#{wbs_activity_ratio_element.id}]", wbs_activity_ratio_element.ratio_value, :class => 'input-mini', :tabindex => i %></td>
+          <td><%= radio_button_tag 'simple_reference', wbs_activity_ratio_element.id, wbs_activity_ratio_element.simple_reference%></td>
+          <td><%= check_box_tag 'multiple_references[]', wbs_activity_ratio_element.id, wbs_activity_ratio_element.multiple_references%></td>
       <% else %>
           <td> - </td>
           <td> - </td>
           <td> - </td>
       <% end %>
-      <%= hidden_field_tag "wbs_activity_ratio_id", wbs_activity_ratio_element.wbs_activity_ratio_id %>
-      <%= hidden_field_tag "wbs_activity_id", wbs_activity_ratio_element.wbs_activity_ratio.wbs_activity_id %>
+      <%= hidden_field_tag 'wbs_activity_ratio_id', wbs_activity_ratio_element.wbs_activity_ratio_id %>
+      <%= hidden_field_tag 'wbs_activity_id', wbs_activity_ratio_element.wbs_activity_ratio.wbs_activity_id %>
     </tr>
   <% end %>
 </table>
 
-<%= submit_tag I18n.t(:save ), :id => "reference_value_submit_save", :class => "btn" %>
+<%= submit_tag I18n.t(:save ), :id => 'reference_value_submit_save', :class => 'btn' %>
 

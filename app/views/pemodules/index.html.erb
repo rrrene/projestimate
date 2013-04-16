@@ -4,7 +4,7 @@
         <tr>
           <td><h2><%= I18n.t(:projestimate_module) %></h2></td>
           <td style="text-align:right;">
-            <%= link_to I18n.t("new_pemodule"), new_pemodule_path, :class => "btn" %>
+            <%= link_to I18n.t('new_pemodule'), new_pemodule_path, :class => 'btn' %>
           </td>
         </tr>
     </table>
@@ -27,15 +27,15 @@
           <td><%= pemodule.description %></td>
           <td><%= pemodule.record_status.name unless pemodule.record_status.nil? %> <%= pemodule.show_custom_value %></td>
           <td class="align-center"><%= File.exists?("#{Rails.root}/vendor/plugins/#{pemodule.alias}/lib/#{pemodule.alias}.rb") ? raw("<div class='icn_alert_success'></div>") : raw("<div class='icn_alert_error'></div>") %></td>
-          <td class="align-center"><%= link_to '', edit_pemodule_path(pemodule), :class => "icn_edit" %></td>
-          <td class="align-center"><%= link_to '', pemodule, confirm: I18n.t("are_you_sur?"), method: :delete, :class => "icn_trash" %></td>
+          <td class="align-center"><%= link_to '', edit_pemodule_path(pemodule), :class => 'icn_edit' %></td>
+          <td class="align-center"><%= link_to '', pemodule, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash' %></td>
           <td>
             <% if is_master_instance? && !pemodule.is_local_record? %>
                 <% if pemodule.is_retired? %>
-                    <%= link_to(I18n.t("restore"), "pemodules/#{pemodule.id}/restore_change", confirm: I18n.t("restoring?"), :title => I18n.t("restore_title"))%>
+                    <%= link_to(I18n.t('restore'), "pemodules/#{pemodule.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
                 <% else %>
                     <% unless pemodule.is_defined? %>
-                        <%= link_to(I18n.t("validate"), "pemodules/#{pemodule.id}/validate_change", confirm: I18n.t("validation?"), :title => I18n.t("validate_title"))%>
+                        <%= link_to(I18n.t('validate'), "pemodules/#{pemodule.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title'))%>
                     <% end %>
                 <% end %>
             <% end %>
@@ -44,7 +44,7 @@
       <% end %>
     <% else %>
       <tr>
-        <td><%= I18n.t(:refers_to) %> <%= link_to I18n.t("official_documentation"), load_master_setting('url_wiki') %> <%= I18n.t(:to_install_module) %> </td>
+        <td><%= I18n.t(:refers_to) %> <%= link_to I18n.t('official_documentation'), load_master_setting('url_wiki') %> <%= I18n.t(:to_install_module) %> </td>
         <td></td>
         <td></td>
         <td></td>

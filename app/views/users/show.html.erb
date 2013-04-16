@@ -1,6 +1,6 @@
 <div id="main">
   <% unless current_project.nil? or current_user.nil? %>
-    <%= render "dashboard_inner" %>
+    <%= render 'dashboard_inner' %>
   <% else %>
     <div><%= load_admin_setting('welcome_message') %></div>
   <% end %>
