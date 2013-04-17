@@ -23,7 +23,6 @@ class AcquisitionCategoriesController < ApplicationController
 
   before_filter :get_record_statuses
 
-
   def new
     authorize! :manage_acquisition_categories, AcquisitionCategory
     set_page_title I18n.t (:acquisition_category)
