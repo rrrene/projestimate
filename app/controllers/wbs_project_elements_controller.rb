@@ -107,7 +107,7 @@ class WbsProjectElementsController < ApplicationController
     @potential_parents = @pe_wbs_project_activity.wbs_project_elements
 
     if @wbs_project_element.save
-     redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:wbs_project_element_successful_created)}"
+     redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
     else
       render action: 'new'
     end
@@ -127,7 +127,7 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
-        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:wbs_project_element_successful_updated)}"}
+        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_updated)}"}
         format.json { head :no_content }
       else
         flash[:error] = @wbs_project_element.errors.full_messages.to_sentence
@@ -150,7 +150,7 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
-      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:wbs_project_element_successful_deleted)}" }
+      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:notice_wbs_project_element_successful_deleted)}" }
 
       format.json { head :no_content }
     end
@@ -182,9 +182,9 @@ class WbsProjectElementsController < ApplicationController
 
     @wbs_project_element.wbs_activity_ratio_id = params[:wbs_activity_ratio_id]
     if @wbs_project_element.save
-      flash[:notice] = @wbs_project_element.name+" #{I18n.t (:ratio_successful_changed)}"
+      flash[:notice] = @wbs_project_element.name+" #{I18n.t (:notice_ratio_successful_changed)}"
     else
-      flash[:error] = I18n.t (:ratio_error_changed)
+      flash[:error] = I18n.t (:error_wbs_project_element_ratio_failed_update)
     end
 
     respond_to do |format|
