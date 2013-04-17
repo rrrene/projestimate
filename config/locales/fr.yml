@@ -820,6 +820,7 @@ fr:
   error_project_duplication_failed: "Une erreur est survenue lors de la duplication du projet"
   notice_module_project_successful_updated: "Module Project a été mis à jour avec succès"
   notice_module_project_successful_created: "Module Project a été créé avec succès"
+  notice_attribute_module_successful_created: "L'attribut du module a été créé avec succès"
   #mail
   mail_salutation: "Bonjour %{value},"
   mail_complimentary_close: "Bien à vous,\nProjEstimate"
