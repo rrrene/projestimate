@@ -27,7 +27,7 @@ class AttributeModulesController < ApplicationController
     @attribute_module = AttributeModule.new(params[:attribute_module])
 
       if @attribute_module.save
-        redirect_to attribute_modules_path, notice: I18n.t (:notice_attribute_module_successful_created)
+        redirect_to attribute_modules_path, notice: "#{I18n.t (:notice_attribute_module_successful_created)}"
       else
         render action: "new"
       end
