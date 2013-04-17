@@ -59,7 +59,7 @@ module PeWbsProjectsHelper
         </div>
         <div class='block_link'>
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement}
-          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl icon-trash icon-large' if can? :delete_a_pbs_project_element, PbsProjectElement }
+          #{ link_to "", c, confirm: 'Are you sure?', method: :delete, :remote => true, :class => 'bl icon-trash icon-large' if can? :delete_a_pbs_project_element, PbsProjectElement}
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'up', :pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-up icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", { :controller => 'pbs_project_elements', :action => 'down' ,:pbs_project_element_id => c.id, :pe_wbs_project_id => c.pe_wbs_project_id, :project_id => @project.id}, :remote => true, :class => 'bl icon-arrow-down icon-large ' if can? :move_a_pbs_project_element, PbsProjectElement }
           #{ link_to "", '#', :class => "bl icon-ok icon-large #{c.is_validated? ? 'icon-green' : 'icon-red' }" }
