@@ -357,6 +357,12 @@ class ProjectsController < ApplicationController
               level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.attribute.alias}_#{mp.id.to_s}".to_sym]
               out_result["string_data_#{level}"] = level_estimation_value
             end
+
+            # compute the probable value for each node
+            probable_estimation_value = Hash.new
+            probable_estimation_value = est_val.send("string_data_probable")
+            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            out_result["string_data_probable"] = probable_estimation_value
           end
 
           #out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val, @results[level.to_sym][:with_activities])
