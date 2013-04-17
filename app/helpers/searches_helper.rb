@@ -23,11 +23,13 @@ module SearchesHelper
     link_to(raw("#{ res.to_s.gsub(/(#{params})/i, '<strong>\1</strong>')}") , "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit" , :class => "search_result")
   end
 
-  def display_description(res)
+  def display_description(res, params)
     res.description
   end
 
-  def display_update(res)
-    "Last update #{res.updated_at.strftime("%d %m %Y")}"
+  def display_update(res, params)
+    unless res.updated_at.nil?
+      "Last update #{res.updated_at.strftime("%d %m %Y")}"
+    end
   end
 end
