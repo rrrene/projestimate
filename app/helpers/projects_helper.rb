@@ -132,15 +132,15 @@ module ProjectsHelper
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
-        module_project.estimation_values.where("in_out = ?", "output").each do |mpa|
-          if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-            str = "#{mpa.attribute.attribute_type}_data_#{level}"
+        module_project.estimation_values.where("in_out = ?", "output").each do |est_val|
+          if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+            str = "#{est_val.attribute.attribute_type}_data_#{level}"
             level_estimation_values = Hash.new
-            level_estimation_values = mpa.send("string_data_#{level}")
+            level_estimation_values = est_val.send("string_data_#{level}")
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
             end
           end
         end
@@ -152,9 +152,9 @@ module ProjectsHelper
     #Show the global result of the PBS
     res << "<tr>
               <td><strong>  </strong></td>"
-    ["low", "most_likely", "high", "probable"].each do |level|
-      res << "<td></td>"
-    end
+      ["low", "most_likely", "high", "probable"].each do |level|
+        res << "<td></td>"
+      end
     res << "</tr>"
 
     # Show the probable values
@@ -203,13 +203,13 @@ module ProjectsHelper
       res << "<tr>"
       module_project.estimation_values.each do |est_val|
         if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-          res << "<th>#{est_val.attribute.name}</th>"
+          res << "<th>#{est_val.module_project.pemodule.title}</th>"
         end
       end
       res << "</tr>"
       res << "<tr>
                 <th></th>"
-                ["low", "most_likely", "high", "probable"].each do |level|
+                ["low", "most_likely", "high"].each do |level|
                   res << "<th>#{level.humanize}</th>"
                 end
     res << "</tr>"
@@ -233,7 +233,6 @@ module ProjectsHelper
          end
          res << "</td>"
        end
-       res << "<td></td>"
        res << "</tr>"
      end
     res << "</table>"

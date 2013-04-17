@@ -365,8 +365,7 @@ class ProjectsController < ApplicationController
             out_result["string_data_probable"] = probable_estimation_value
           end
 
-          #out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val, @results[level.to_sym][:with_activities])
-          est_val.update_attributes(out_result)
+            est_val.update_attributes(out_result)
 
         elsif est_val.in_out == 'input'
           in_result = Hash.new
@@ -397,7 +396,7 @@ class ProjectsController < ApplicationController
 
     project.module_projects.each do |module_project|
       module_project.estimation_values.each do |est_val|
-        if est_val.in_out == 'input' or est_val.in_out == 'both'
+        if est_val.in_out == 'input'
           inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
         end
 
