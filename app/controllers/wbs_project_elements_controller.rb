@@ -142,17 +142,18 @@ class WbsProjectElementsController < ApplicationController
   def destroy
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
+    if (@wbs_project_element.destroy_leaf)
+      if @wbs_project_element.destroy
+        @project.included_wbs_activities.delete(@wbs_project_element.wbs_activity_id)
+        @project.save
+      end
 
-    if @wbs_project_element.destroy
-      @project.included_wbs_activities.delete(@wbs_project_element.wbs_activity_id)
-      @project.save
-    end
+      respond_to do |format|
+        #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
+        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:notice_wbs_project_element_successful_deleted)}" }
 
-    respond_to do |format|
-      #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
-      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:notice_wbs_project_element_successful_deleted)}" }
-
-      format.json { head :no_content }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -193,5 +194,7 @@ class WbsProjectElementsController < ApplicationController
       format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
     end
   end
+
+
 
 end
