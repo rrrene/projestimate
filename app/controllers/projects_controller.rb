@@ -347,12 +347,10 @@ class ProjectsController < ApplicationController
       current_pbs_estimations = mp.estimation_values###.where("pbs_project_element_id = ?", @pbs_project_element.id)
       #mp.estimation_values.each do |est_val|
       current_pbs_estimations.each do |est_val|
-        if est_val.in_out == 'output' or est_val.in_out == 'both'
+        if est_val.in_out == 'output'
           out_result = Hash.new
           @results.each do |res|
             ['low', 'most_likely', 'high'].each do |level|
-              ###out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
-
               # We don't have to remplace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
@@ -364,10 +362,15 @@ class ProjectsController < ApplicationController
           #out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val, @results[level.to_sym][:with_activities])
           est_val.update_attributes(out_result)
 
-        elsif est_val.in_out == 'input' or est_val.in_out == 'both'
+        elsif est_val.in_out == 'input'
           in_result = Hash.new
           ['low', 'most_likely', 'high'].each do |level|
-            in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
+            mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+              level_estimation_value = Hash.new
+              level_estimation_value = est_val.send("string_data_#{level}")
+              level_estimation_value[@pbs_project_element.id] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
+              in_result["string_data_#{level}"] = level_estimation_value
+            end
           end
           est_val.update_attributes(in_result)
         end
@@ -387,7 +390,6 @@ class ProjectsController < ApplicationController
     inputs = Hash.new
 
     project.module_projects.each do |module_project|
-
       module_project.estimation_values.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out == 'both'
           inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
@@ -412,50 +414,6 @@ class ProjectsController < ApplicationController
 
     puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_per_hour=>{"337"=>18000.0, "338"=>12000.0}}
     @result_hash
-  end
-
-
-  # Run estimation with on Product and Activities
-  def run_estimation_save
-    @resultat = Array.new
-
-    results = Hash.new
-    ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
-      puts "RESULT_#{level.to_sym} = #{results[level.to_sym]}"
-    end
-
-    @module_projects = current_project.module_projects
-    @results = results
-    @project = current_project
-    @pbs_project_element = current_component
-
-    #Save output values
-    @project.module_projects.each do |mp|
-      mp.estimation_values.each do |est_val|
-        if est_val.in_out == 'output'
-          out_result = Hash.new
-          @results.each do |res|
-            ['low', 'most_likely', 'high'].each do |level|
-              out_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = @results[level.to_sym][est_val.attribute.alias.to_sym]
-            end
-          end
-          out_result["#{est_val.attribute.explicit_data_type}_data_probable"] = probable_value(@results, est_val)
-          est_val.update_attributes(out_result)
-        elsif est_val.in_out == 'input'
-          in_result = Hash.new
-          ['low', 'most_likely', 'high'].each do |level|
-            in_result["#{est_val.attribute.explicit_data_type}_data_#{level}"] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
-          end
-          est_val.update_attributes(in_result)
-        end
-      end
-    end
-  end
-
-
-  def run_estimation_plan_with_activities
-
   end
 
   #Method to duplicate project and associated pe_wbs_project
