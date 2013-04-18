@@ -74,4 +74,19 @@ class WbsProjectElement < ActiveRecord::Base
   end
 
 
+  def destroy_leaf
+    unless self.is_root
+      if self.wbs_activity.nil? && self.wbs_activity_element.nil?
+        return true
+      else
+        if self.is_added_wbs_root?
+          return true
+        else
+          return false
+        end
+      end
+    end
+    return false
   end
+
+end
