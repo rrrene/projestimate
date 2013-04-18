@@ -8,12 +8,6 @@ class WbsProjectElement < ActiveRecord::Base
   belongs_to :wbs_activity_ratio  #Default Wbs-Activity-Ratio
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
-  #Product and Activities association  TODO: remove 2 following lines if not used
-  #has_many :product_activities
-  #has_many :pbs_project_elements, :through => :product_activities, :dependent => :destroy
-
-  #accepts_nested_attributes_for :product_activities, :reject_if => :all_blank, :allow_destroy => true
-
   scope :elements_root, where(:is_root => true)
 
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
@@ -43,6 +37,7 @@ class WbsProjectElement < ActiveRecord::Base
     arr
   end
 
+  # Test if element is from the Library and if it's a leaf element
   def is_from_library_and_is_leaf?
     unless self.is_root
       if self.wbs_activity.nil? && self.wbs_activity_element.nil? && self.parent.can_get_new_child.nil?
@@ -59,6 +54,18 @@ class WbsProjectElement < ActiveRecord::Base
         end
       end
     end
+  end
+
+  # Test if element can have another children
+  def update_can_get_new_child
+    if !self.parent.can_get_new_child.nil? && self.parent.can_get_new_child?
+      self.can_get_new_child = false
+      self.save
+    end
+  end
+
+  def cannot_get_new_child_link?
+    !self.can_get_new_child.nil? && !self.can_get_new_child?
   end
 
 end
