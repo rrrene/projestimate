@@ -42,7 +42,7 @@ class AttributeModulesController < ApplicationController
       @attribute_module.destroy
     end
 
-    redirect_to attribute_modules_url
+    redirect_to edit_pemodule_path(@attribute_module.pemodule)
   end
 
 end

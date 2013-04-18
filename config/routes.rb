@@ -106,7 +106,6 @@ ProjestimateMaquette::Application.routes.draw do
   get "update_selected_attributes" => "pemodules#update_selected_attributes"
   post "set_attributes_module" => "pemodules#set_attributes_module"
   get "estimations_params" => "pemodules#estimations_params", :as => "estimations_params"
-  get "export_to_pdf" => "pemodules#export_to_pdf"
 
   resources :groups
   get "associated_user" => "groups#associated_user" , :as => "associated_user"

@@ -124,7 +124,7 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    redirect_to edit_pemodule_path(params[:module_id])
+    redirect_to edit_pemodule_path(params[:module_id], :anchor => "tabs-3")
   end
 
   #Update attribute settings (3th tabs)
