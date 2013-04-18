@@ -16,7 +16,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "uuid"])
 
       puts "   - Attribute Module"
-      self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "string_data_low", "string_data_most_likely", "string_data_high", "numeric_data_low", "numeric_data_most_likely", "numeric_data_high", "date_data_low", "date_data_most_likely", "date_data_high", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "uuid"])
 
       puts "   - WBS Activity"
       self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ["name", "description", "uuid"])
@@ -321,7 +321,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Attribute Module"
-      self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out","in_out", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "uuid"])
 
       #Associate attritube modules to modules
       ext_pemodules = ExternalPemodule.all

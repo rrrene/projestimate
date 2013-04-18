@@ -186,7 +186,11 @@ module ProjectsHelper
     res = String.new
     current_project.module_projects.each do |module_project|
       if module_project.pemodule.with_activities
-        res << display_inputs_with_activities(module_project)
+        if module_project.pemodule.title == "Effort Breakdown"
+          res << display_inputs_without_activities(module_project)
+        else
+          res << display_inputs_with_activities(module_project)
+        end
       else
         res << display_inputs_without_activities(module_project)
       end
