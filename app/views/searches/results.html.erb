@@ -11,7 +11,7 @@
                   <% @results.each do |res| %>
                       <% if res.class == cla %>
                           <li><%= display_link(res, params[:search]) %>
-                          <li><%= display_description(res, params[:search]) %>. <%= display_update(res, params[:search]) %>
+                          <li><%= display_update(res, params[:search]) %>
                       <% end %>
                   <% end %>
               </ul>

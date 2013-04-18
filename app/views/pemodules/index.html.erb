@@ -26,7 +26,6 @@
           <td><%= pemodule.alias %></td>
           <td><%= pemodule.description %></td>
           <td><%= pemodule.record_status.name unless pemodule.record_status.nil? %> <%= pemodule.show_custom_value %></td>
-          <td class="align-center"><%= File.exists?("#{Rails.root}/vendor/plugins/#{pemodule.alias}/lib/#{pemodule.alias}.rb") ? raw("<div class='icn_alert_success'></div>") : raw("<div class='icn_alert_error'></div>") %></td>
           <td class="align-center"><%= link_to '', edit_pemodule_path(pemodule), :class => 'icn_edit' %></td>
           <td class="align-center"><%= link_to '', pemodule, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash' %></td>
           <td>

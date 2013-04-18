@@ -132,15 +132,15 @@ module ProjectsHelper
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
-        module_project.estimation_values.where("in_out = ?", "output").each do |mpa|
-          if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-            str = "#{mpa.attribute.attribute_type}_data_#{level}"
+        module_project.estimation_values.where("in_out = ?", "output").each do |est_val|
+          if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+            str = "#{est_val.attribute.attribute_type}_data_#{level}"
             level_estimation_values = Hash.new
-            level_estimation_values = mpa.send("string_data_#{level}")
+            level_estimation_values = est_val.send("string_data_#{level}")
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt]}"
             end
           end
         end
@@ -152,9 +152,9 @@ module ProjectsHelper
     #Show the global result of the PBS
     res << "<tr>
               <td><strong>  </strong></td>"
-    ["low", "most_likely", "high", "probable"].each do |level|
-      res << "<td></td>"
-    end
+      ["low", "most_likely", "high", "probable"].each do |level|
+        res << "<td></td>"
+      end
     res << "</tr>"
 
     # Show the probable values
@@ -182,51 +182,109 @@ module ProjectsHelper
     res
   end
 
-
-  # Display th inputs parameters view
   def display_input
     res = String.new
-    @module_projects.each do |module_project|
-      if module_project.compatible_with(current_component.work_element_type.alias) || current_component
-        pemodule = Pemodule.find(module_project.pemodule.id)
-          res << "<div class='input_data'>"
-            res << "<div class='widget'>"
-              res << "<div class='widget-header'>
-                        <h3>#{module_project.pemodule.title.humanize} - #{current_component.name}</h3>
-                      </div>"
-              res << "<div class='widget-content'>"
-
-                res << "<table class='table table-bordered'>
-                          <tr>
-                            <th></th>"
-                            ###current_component.estimation_values.each do |mpa|
-                            module_project.estimation_values.each do |mpa|
-                              if (mpa.in_out == "input" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-                                res << "<th>#{mpa.attribute.name}</th>"
-                              end
-                            end
-                          res << "</tr>"
-                      ["low", "most_likely", "high"].each do |level|
-                        res << "<tr>"
-                        res << "<td>#{level.humanize}</td>"
-                        ###current_component.estimation_values.each do |mpa|
-                        module_project.estimation_values.each do |mpa|
-                          if (mpa.in_out == "input" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-                            res << "<td>#{text_field_tag "#{level}[#{mpa.attribute.alias}][#{module_project.id}]", mpa.send("#{mpa.attribute.attribute_type}_data_#{level}")}</td>"
-                          end
-                        end
-                        res << "</tr>"
-                      end
-                res << "</table>"
-              res << "</div>"
-            res << "</div>"
-        end
+    current_project.module_projects.each do |module_project|
+      if module_project.pemodule.with_activities
+        res << display_inputs_with_activities(module_project)
+      else
+        res << display_inputs_without_activities(module_project)
       end
+    end
     res
   end
 
-  def display_charts_results
-    array = ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
+  def display_inputs_with_activities(module_project)
+    pbs_project_element = @pbs_project_element || current_project.root_component
+    res = String.new
+    if module_project.compatible_with(current_component.work_element_type.alias) || current_component
+      pemodule = Pemodule.find(module_project.pemodule.id)
+      res << "<table class='table table-bordered'>"
+      res << "<tr>"
+      module_project.estimation_values.each do |est_val|
+        if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+          res << "<th>#{est_val.module_project.pemodule.title}</th>"
+        end
+      end
+      res << "</tr>"
+      res << "<tr>
+                <th></th>"
+                ["low", "most_likely", "high"].each do |level|
+                  res << "<th>#{level.humanize}</th>"
+                end
+    res << "</tr>"
+
+
+     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+        res << "<tr><td>#{wbs_project_elt.name}</td>"
+        ["low", "most_likely", "high"].each do |level|
+          res << "<td>"
+          module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
+            if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
+              str = "#{est_val.attribute.attribute_type}_data_#{level}"
+              level_estimation_values = Hash.new
+              level_estimation_values = est_val.send("string_data_#{level}")
+              if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
+                res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+              else
+                res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+              end
+            end
+         end
+         res << "</td>"
+       end
+       res << "</tr>"
+     end
+    res << "</table>"
+    end
+    res
+  end
+
+
+  # Display th inputs parameters view
+  def display_inputs_without_activities(module_project)
+    pbs_project_element = @pbs_project_element || current_project.root_component
+    res = String.new
+    if module_project.compatible_with(current_component.work_element_type.alias) || current_component
+      pemodule = Pemodule.find(module_project.pemodule.id)
+      res << "<div class='input_data'>"
+        res << "<div class='widget'>"
+          res << "<div class='widget-header'>
+                    <h3>#{module_project.pemodule.title.humanize} - #{current_component.name}</h3>
+                  </div>"
+          res << "<div class='widget-content'>"
+
+            res << "<table class='table table-bordered'>
+                      <tr>
+                        <th></th>"
+                        ###current_component.estimation_values.each do |est_val|
+                        module_project.estimation_values.each do |est_val|
+                          if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+                            res << "<th>#{est_val.attribute.name}</th>"
+                          end
+                        end
+                      res << "</tr>"
+                  ["low", "most_likely", "high"].each do |level|
+                    res << "<tr>"
+                    res << "<td>#{level.humanize}</td>"
+                    module_project.estimation_values.each do |est_val|
+                      if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+                        level_estimation_values = Hash.new
+                        level_estimation_values = est_val.send("string_data_#{level}")
+                        if level_estimation_values[pbs_project_element.id].nil?
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values["default_#{level}".to_sym]}</td>"
+                        else
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values[pbs_project_element.id]}</td>"
+                        end
+                      end
+                    end
+                    res << "</tr>"
+                  end
+            res << "</table>"
+          res << "</div>"
+        res << "</div>"
+      end
+    res
   end
 
 end

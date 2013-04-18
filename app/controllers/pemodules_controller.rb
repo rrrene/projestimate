@@ -124,7 +124,7 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    redirect_to edit_pemodule_path(params[:module_id])
+    redirect_to edit_pemodule_path(params[:module_id], :anchor => "tabs-3")
   end
 
   #Update attribute settings (3th tabs)
@@ -139,9 +139,10 @@ class PemodulesController < ApplicationController
       attribute.update_attribute('description', params[:description][i])
       attribute.update_attribute('custom_attribute', params[:custom_attribute][i])
 
-      attribute.update_attribute('numeric_data_low', params[:numeric_data_low][i])
-      attribute.update_attribute('numeric_data_most_likely', params[:numeric_data_most_likely][i])
-      attribute.update_attribute('numeric_data_high', params[:numeric_data_high][i])
+      attribute.update_attribute('default_low', params[:default_low][i])
+      attribute.update_attribute('default_most_likely', params[:default_most_likely][i])
+      attribute.update_attribute('default_high', params[:default_high][i])
+
       if params[:custom_attribute][i] == 'user'
         attribute.update_attribute('project_value', nil)
       else
@@ -152,8 +153,6 @@ class PemodulesController < ApplicationController
     redirect_to edit_pemodule_path(params[:module_id]), :notice => "#{I18n.t (:notice_pemodule_successful_updated)}"
   end
 
-  # DELETE //1
-  # DELETE //1.json
   def destroy
     authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])

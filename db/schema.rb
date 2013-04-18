@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416082759) do
+ActiveRecord::Schema.define(:version => 20130417144017) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -95,15 +95,9 @@ ActiveRecord::Schema.define(:version => 20130416082759) do
     t.boolean  "is_mandatory"
     t.string   "in_out"
     t.text     "description"
-    t.string   "string_data_low"
-    t.string   "string_data_most_likely"
-    t.string   "string_data_high"
-    t.integer  "numeric_data_low"
-    t.integer  "numeric_data_most_likely"
-    t.integer  "numeric_data_high"
-    t.date     "date_data_low"
-    t.date     "date_data_most_likely"
-    t.date     "date_data_high"
+    t.string   "default_low"
+    t.string   "default_most_likely"
+    t.string   "default_high"
     t.integer  "dimensions"
     t.string   "custom_attribute"
     t.string   "project_value"
@@ -188,9 +182,6 @@ ActiveRecord::Schema.define(:version => 20130416082759) do
     t.text     "string_data_low"
     t.text     "string_data_most_likely"
     t.text     "string_data_high"
-    t.float    "numeric_data_low"
-    t.float    "numeric_data_most_likely"
-    t.float    "numeric_data_high"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "links"
@@ -198,9 +189,6 @@ ActiveRecord::Schema.define(:version => 20130416082759) do
     t.string   "in_out"
     t.text     "description"
     t.integer  "module_project_id"
-    t.date     "date_data_low"
-    t.date     "date_data_most_likely"
-    t.date     "date_data_high"
     t.boolean  "undefined_attribute"
     t.integer  "pbs_project_element_id"
     t.integer  "dimensions"
@@ -782,8 +770,8 @@ ActiveRecord::Schema.define(:version => 20130416082759) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
