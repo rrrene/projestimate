@@ -65,7 +65,7 @@ class WbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     respond_to do |format|
       format.html # new.html.erb
@@ -87,8 +87,8 @@ class WbsProjectElementsController < ApplicationController
       @selected_parent = nil
       @potential_parents = nil
     else
-      @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
-      @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+      @selected_parent = @wbs_project_element.parent
+      @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
     end
   end
 
@@ -99,14 +99,14 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element.author_id = current_user.id
 
     @project = Project.find(params[:project_id])
-    #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
-    @selected_parent ||= params[:parent_id]
+    @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
 
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product =  @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     if @wbs_project_element.save
+      @wbs_project_element.update_can_get_new_child
      redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
     else
       render action: 'new'
@@ -119,11 +119,10 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
 
-    #@selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
-    @selected_parent ||= params[:parent_id]
+    @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
