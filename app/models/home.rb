@@ -321,7 +321,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalAttribute, Object::Attribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Attribute Module"
-      self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "is_mandatory", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out","in_out", "uuid"])
 
       #Associate attritube modules to modules
       ext_pemodules = ExternalPemodule.all
@@ -332,8 +332,8 @@ class Home < ActiveRecord::Base
             loc_module = Pemodule.find_by_uuid(ext_module.uuid)
             ext_attr = ExternalMasterDatabase::ExternalAttribute.find_by_id(ext_attr_module.attribute_id)
             loc_attr = Object::Attribute.find_by_uuid(ext_attr.uuid)
-            ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = 1 WHERE uuid = '#{ext_attr_module.uuid}'")
-            ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET attribute_id = 1 WHERE uuid = '#{ext_attr_module.uuid}'")
+            ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = #{loc_module.id} WHERE uuid = '#{ext_attr_module.uuid}'")
+            ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET attribute_id = #{loc_attr.id} WHERE uuid = '#{ext_attr_module.uuid}'")
           end
         end
       end
