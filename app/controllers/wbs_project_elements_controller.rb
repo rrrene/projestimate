@@ -65,12 +65,22 @@ class WbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
-
+    #@potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    select_parents_elements()
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @wbs_project_element }
     end
+  end
+
+  def select_parents_elements
+    @potential_parents= Array.new
+    @pe_wbs_project_activity.wbs_project_elements.each do |element|
+      unless element.is_from_library_and_is_leaf?
+        @potential_parents << element
+      end
+    end
+    return @potential_parents
   end
 
 
@@ -88,7 +98,7 @@ class WbsProjectElementsController < ApplicationController
       @potential_parents = nil
     else
       @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
-      @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+      @potential_parents = select_parents_elements()
     end
   end
 
@@ -104,7 +114,7 @@ class WbsProjectElementsController < ApplicationController
 
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product =  @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    @potential_parents = select_parents_elements()
 
     if @wbs_project_element.save
      redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
@@ -123,7 +133,8 @@ class WbsProjectElementsController < ApplicationController
     @selected_parent ||= params[:parent_id]
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @potential_parents = @pe_wbs_project_activity.wbs_project_elements
+    @potential_parents = select_parents_elements()
+    #@potential_parents = @pe_wbs_project_activity.wbs_project_elements
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
