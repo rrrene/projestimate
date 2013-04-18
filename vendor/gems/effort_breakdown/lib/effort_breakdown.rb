@@ -112,8 +112,10 @@ module EffortBreakdown
               output_effort[wbs_project_element.id] = current_output_effort
             else
               node_effort = 0
-              wbs_project_element.child_ids.each do |child|
-                node_effort = node_effort + output_effort[child]
+              wbs_project_element.children.each do |child|
+                unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+                  node_effort = node_effort + output_effort[child.id]
+                end
               end
               output_effort[wbs_project_element.id] = node_effort
               puts "NEW_NODE_EFFORT = #{node_effort}"
@@ -126,7 +128,15 @@ module EffortBreakdown
       output_effort[project_one_activity_element.id] = @input_effort_per_hour
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
-      output_effort[project_wbs_project_elt_root.id] = output_effort.inject(0) {|sum, (key,value)| sum += value}
+      #output_effort[project_wbs_project_elt_root.id] = output_effort.inject(0) {|sum, (key,value)| sum += value}
+      root_element_effort_per_hour = 0.0
+      project_wbs_project_elt_root.children.each do |child|
+        unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+        end
+      end
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
+
       puts "OUTPUT_EFFORT = #{output_effort}"
       pbs_output_effort = Hash.new
       pbs_output_effort["#{@pbs_project_element.id}"] = output_effort
@@ -184,8 +194,10 @@ module EffortBreakdown
               output_effort[wbs_project_element.id] = current_output_effort
             else
               node_effort = 0
-              wbs_project_element.child_ids.each do |child|
-                node_effort = node_effort + output_effort[child]
+              wbs_project_element.children.each do |child|
+                unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+                  node_effort = node_effort + output_effort[child.id]
+                end
               end
               output_effort[wbs_project_element.id] = node_effort
               puts "NEW_NODE_EFFORT = #{node_effort}"
@@ -195,7 +207,13 @@ module EffortBreakdown
       end
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
-      output_effort[project_wbs_project_elt_root.id] = output_effort.inject(0) {|sum, (key,value)| sum += value}
+      root_element_effort_per_hour = 0.0
+      project_wbs_project_elt_root.children.each do |child|
+        unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+        end
+      end
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
       puts "OUTPUT_EFFORT = #{output_effort}"
       #pbs_output_effort
       output_effort
@@ -245,8 +263,10 @@ module EffortBreakdown
               output_effort[wbs_project_element.id] = current_output_effort
             else
               node_effort = 0
-              wbs_project_element.child_ids.each do |child|
-                node_effort = node_effort + output_effort[child]
+              wbs_project_element.children.each do |child|
+                unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+                  node_effort = node_effort + output_effort[child.id]
+                end
               end
               output_effort[wbs_project_element.id] = node_effort
               puts "NEW_NODE_EFFORT = #{node_effort}"
@@ -256,12 +276,13 @@ module EffortBreakdown
       end
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
-      output_effort[project_wbs_project_elt_root.id] = output_effort.inject(0) {|sum, (key,value)| sum += value}
-      puts "OUTPUT_EFFORT = #{output_effort}"
-      pbs_output_effort = Hash.new
-      pbs_output_effort["#{@pbs_project_element.id}"] = output_effort
-      puts "PBS_OUTPUT_EFFORT = #{pbs_output_effort}"
-      #pbs_output_effort
+      root_element_effort_per_hour = 0.0
+      project_wbs_project_elt_root.children.each do |child|
+        unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
+          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+        end
+      end
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
       output_effort
     end
 
