@@ -63,9 +63,11 @@ class WbsProjectElement < ActiveRecord::Base
 
   # Test if element can have another children
   def update_can_get_new_child
-    if !self.parent.can_get_new_child.nil? && self.parent.can_get_new_child?
-      self.can_get_new_child = false
-      self.save
+    unless self.is_root
+      if !self.parent.can_get_new_child.nil? && self.parent.can_get_new_child?
+        self.can_get_new_child = false
+        self.save
+      end
     end
   end
 
