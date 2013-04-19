@@ -27,10 +27,10 @@ class AttributeModule < ActiveRecord::Base
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
   belongs_to :pemodule
-  belongs_to :attribute, :class_name => "Attribute", :foreign_key => "attribute_id"
+  belongs_to :pe_attribute, :class_name => "PeAttribute", :foreign_key => "pe_attribute_id"
 
-  #TODO? validates :pemodule_id, :attribute_id, :presence => true
+  #TODO? validates :pemodule_id, :pe_attribute_id, :presence => true
   validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates_presence_of :attribute_id
+  validates_presence_of :pe_attribute_id
   validates :custom_value, :presence => true, :if => :is_custom?
 end

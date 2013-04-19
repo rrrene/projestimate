@@ -248,7 +248,7 @@ fr:
 
   master: "Paramètres master"
   project_global_parameters: "Paramètres globaux des projets"
-  attributes: "Attributs"
+  pe_attributes: "Attributs"
   labor_categories: "Catégories de travailleurs"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
@@ -344,8 +344,8 @@ fr:
   aggregation: "Agrégation"
   validation_options: "Validations et options"
   attributes_type: "Type d'attribut"
-  edit_attribute: "Editer un attribut"
-  new_attribute: "Créer un nouvel attribut"
+  edit_pe_attribute: "Editer un attribut"
+  new_pe_attribute: "Créer un nouvel attribut"
 
   #auth_method
   server_name: "Nom du serveur"

@@ -22,7 +22,7 @@
 class EstimationValue < ActiveRecord::Base
   has_ancestry
 
-  belongs_to :attribute
+  belongs_to :pe_attribute
   belongs_to :module_project
   belongs_to :pbs_project_element
 
@@ -49,6 +49,6 @@ class EstimationValue < ActiveRecord::Base
   end
 
   def to_s
-    self.attribute.name
+    self.pe_attribute.name
   end
 end

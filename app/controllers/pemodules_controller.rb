@@ -27,7 +27,7 @@ class PemodulesController < ApplicationController
     authorize! :manage_modules, Pemodule
     set_page_title 'Modules'
     @pemodules = Pemodule.all
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
   end
 
   def new
@@ -36,7 +36,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
     @pemodule = Pemodule.new
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
     @attribute_settings = []
   end
 
@@ -46,7 +46,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
     @pemodule = Pemodule.find(params[:id])
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
 
     unless @pemodule.child_reference.nil?
@@ -60,7 +60,7 @@ class PemodulesController < ApplicationController
   def update
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
 
     @pemodule = nil
     current_pemodule = Pemodule.find(params[:id])
@@ -89,7 +89,7 @@ class PemodulesController < ApplicationController
     @pemodule.compliant_component_type = params[:compliant_wet]
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
 
     if @pemodule.save
       redirect_to redirect(pemodules_url)
@@ -107,13 +107,13 @@ class PemodulesController < ApplicationController
     attributes_ids = params[:pemodule][:pe_attribute_ids]
 
     @pemodule.attribute_modules.each do |m|
-      m.destroy unless attributes_ids.include?(m.attribute_id.to_s)
-      attributes_ids.delete(m.attribute_id.to_s)
+      m.destroy unless attributes_ids.include?(m.pe_attribute_id.to_s)
+      attributes_ids.delete(m.pe_attribute_id.to_s)
     end
 
     #Attribute module record_status is according to the Pemodule record_status
     attributes_ids.each do |g|
-      @pemodule.attribute_modules.create(:attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
+      @pemodule.attribute_modules.create(:pe_attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
     end
     @pemodule.pe_attributes(force_reload = true)
 
@@ -132,7 +132,7 @@ class PemodulesController < ApplicationController
     authorize! :manage_modules, Pemodule
     selected_attributes = params[:attributes]
     selected_attributes.each_with_index do |attr, i|
-      conditions = {:attribute_id => attr.to_i, :pemodule_id => params[:module_id]}
+      conditions = {:pe_attribute_id => attr.to_i, :pemodule_id => params[:module_id]}
       attribute = AttributeModule.first(:conditions => conditions)
       attribute.update_attribute('in_out', params[:in_out][i])
       attribute.update_attribute('is_mandatory', params[:is_mandatory][i])

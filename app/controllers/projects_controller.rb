@@ -276,7 +276,7 @@ class ProjectsController < ApplicationController
       my_module_project.pemodule.attribute_modules.each do |am|
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
-            mpa = EstimationValue.create(  :attribute_id => am.attribute.id,
+            mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
                                             :module_project_id => my_module_project.id,
                                             :in_out => in_out,
                                             :is_mandatory => am.is_mandatory,
@@ -289,7 +289,7 @@ class ProjectsController < ApplicationController
                                             :project_value => am.project_value )
           end
         else
-          mpa = EstimationValue.create(  :attribute_id => am.attribute.id,
+          mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
                                          :module_project_id => my_module_project.id,
                                          :in_out => am.in_out,
                                          :is_mandatory => am.is_mandatory,
@@ -324,7 +324,7 @@ class ProjectsController < ApplicationController
     #  folder_result = {}
     #  @folders.map do |folder| folder.children.map{|j| j.estimation_values }.each do |mpa|
     #    %w(low most_likely high).each do |level|
-    #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.attribute.alias}_#{level}") }.flatten.compact.sum}
+    #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.pe_attribute.alias}_#{level}") }.flatten.compact.sum}
     #    end
     #    mpa.first.update_attributes(folder_result)
     #  end
@@ -354,7 +354,7 @@ class ProjectsController < ApplicationController
               # We don't have to remplace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.attribute.alias}_#{mp.id.to_s}".to_sym]
+              level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
               out_result["string_data_#{level}"] = level_estimation_value
             end
 
@@ -373,7 +373,7 @@ class ProjectsController < ApplicationController
             mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value[@pbs_project_element.id] = params[level][est_val.attribute.alias.to_sym][mp.id.to_s]
+              level_estimation_value[@pbs_project_element.id] = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
               in_result["string_data_#{level}"] = level_estimation_value
             end
           end
@@ -397,7 +397,7 @@ class ProjectsController < ApplicationController
     project.module_projects.each do |module_project|
       module_project.estimation_values.each do |est_val|
         if est_val.in_out == 'input'
-          inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
+          inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
         end
 
         current_pbs_project_elt = current_component
@@ -412,7 +412,7 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
           # In each estimation module, The Product (PBS) seem to be mandatory
-          @result_hash["#{est_val.attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.attribute.alias}")
+          @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
         end
       end
     end

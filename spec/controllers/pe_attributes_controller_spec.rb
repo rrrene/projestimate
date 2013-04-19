@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe AttributesController do
+describe PeAttributesController do
   before :each do
     @attribute = FactoryGirl.create(:ksloc_attribute)
     @params = { :id => @attribute.id }
@@ -70,7 +70,7 @@ describe AttributesController do
     it "destroys the requested event" do
       expect {
         delete :destroy, {:id => @attribute.to_param}
-      }.to change(Attribute, :count).by(-1)
+      }.to change(PeAttribute, :count).by(-1)
     end
   end
 

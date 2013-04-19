@@ -1,7 +1,7 @@
 
-#Attributes
+#PeAttributes
 FactoryGirl.define do
-  factory :cost_attribute, :class => :attribute  do |attr|
+  factory :cost_attribute, :class => :pe_attribute  do |attr|
      attr.name "Cost"
      attr.alias "cost"
      attr.description "Cost desc"
@@ -11,7 +11,7 @@ FactoryGirl.define do
      association :record_status, :factory => :proposed_status, strategy: :build
   end
 
-  factory :ksloc_attribute, :class => :attribute do |attr|
+  factory :ksloc_attribute, :class => :pe_attribute do |attr|
      attr.name "Ksloc1"
      attr.alias "ksloc1"
      attr.description "Attribut number 1"
