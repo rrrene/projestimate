@@ -417,7 +417,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_per_hour=>{"337"=>18000.0, "338"=>12000.0}}
+    puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_man_hour=>{"337"=>18000.0, "338"=>12000.0}}
     @result_hash
   end
 

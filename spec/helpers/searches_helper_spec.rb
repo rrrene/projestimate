@@ -7,7 +7,7 @@ describe SearchesHelper do
   end
 
   it "should display description" do
-    display_link(@ksloc_attribute, "toto").should == "<a href=\"/attributes/#{@ksloc_attribute.id}/edit\" class=\"search_result\">Ksloc1 - Attribut number 1</a>"
+    display_link(@ksloc_attribute, "toto").should == "<a href=\"/pe_attributes/#{@ksloc_attribute.id}/edit\" class=\"search_result\">Ksloc1 - Attribut number 1</a>"
   end
 
   it "should display description" do

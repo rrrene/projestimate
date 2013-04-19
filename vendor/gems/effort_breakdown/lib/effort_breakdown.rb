@@ -4,18 +4,18 @@ module EffortBreakdown
 
   #Effort Breakdown class
   class EffortBreakdown
-    attr_accessor  :pbs_project_element, :module_project, :input_effort_per_hour #module input/output parameters
+    attr_accessor  :pbs_project_element, :module_project, :input_effort_man_hour #module input/output parameters
 
     def initialize(module_input_data)
       @pbs_project_element = PbsProjectElement.find(module_input_data[:pbs_project_element_id])
       @module_project = ModuleProject.find(module_input_data[:module_project_id])
-      @input_effort_per_hour = module_input_data[:effort_per_hour].to_f
+      @input_effort_man_hour = module_input_data[:effort_man_hour].to_f
     end
 
-    #def set_input_effort_per_hour(pbs_project_element)
-    #  #TODO i think that elem[:input_effort_per_hour] id from the "Estimation_Value" table (need to know the "module_project_id")
+    #def effort_man_hour(pbs_project_element)
+    #  #TODO i think that elem[:input_effort_man_hour] id from the "Estimation_Value" table (need to know the "module_project_id")
     #  # Also need to know which value from (min, max, most_likely, probable) will be used when running this estimation module
-    #  @input_effort_per_hour = pbs_project_element[:input_effort_per_hour]
+    #  @input_effort_man_hour = pbs_project_element[:input_effort_man_hour]
     #end
 
 
@@ -32,12 +32,12 @@ module EffortBreakdown
     end
 
     # Return effort of associated Pbs-Element
-    def get_pbs_effort_per_hour(pbs_elem)
+    def get_pbs_effort_man_hour(pbs_elem)
 
     end
 
     # Calculate each Wbs activity effort according to Ratio and Reference_Value
-    def get_effort_per_hour
+    def get_effort_man_hour
 
       # First build cache_depth
       WbsProjectElement.rebuild_depth_cache!
@@ -107,7 +107,7 @@ module EffortBreakdown
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
               corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
-              current_output_effort = (@input_effort_per_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
+              current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort
             else
@@ -125,17 +125,17 @@ module EffortBreakdown
       end
 
       # Update the one activity element effort
-      output_effort[project_one_activity_element.id] = @input_effort_per_hour
+      output_effort[project_one_activity_element.id] = @input_effort_man_hour
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
       #output_effort[project_wbs_project_elt_root.id] = output_effort.inject(0) {|sum, (key,value)| sum += value}
-      root_element_effort_per_hour = 0.0
+      root_element_effort_man_hour = 0.0
       project_wbs_project_elt_root.children.each do |child|
         unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
-          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+          root_element_effort_man_hour = root_element_effort_man_hour + output_effort[child.id]
         end
       end
-      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_man_hour
 
       puts "OUTPUT_EFFORT = #{output_effort}"
       pbs_output_effort = Hash.new
@@ -189,7 +189,7 @@ module EffortBreakdown
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
               corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
-              current_output_effort = (@input_effort_per_hour.to_f * corresponding_ratio_value.to_f / referenced_values_efforts)
+              current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / referenced_values_efforts)
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort
             else
@@ -207,13 +207,13 @@ module EffortBreakdown
       end
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
-      root_element_effort_per_hour = 0.0
+      root_element_effort_man_hour = 0.0
       project_wbs_project_elt_root.children.each do |child|
         unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
-          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+          root_element_effort_man_hour = root_element_effort_man_hour + output_effort[child.id]
         end
       end
-      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_man_hour
       puts "OUTPUT_EFFORT = #{output_effort}"
       #pbs_output_effort
       output_effort
@@ -258,7 +258,7 @@ module EffortBreakdown
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
               corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
-              current_output_effort = (@input_effort_per_hour.to_f * corresponding_ratio_value.to_f / 100)
+              current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100)
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort
             else
@@ -276,13 +276,13 @@ module EffortBreakdown
       end
 
       # After treating all leaf and node elements, the root element is going to compute by aggregation
-      root_element_effort_per_hour = 0.0
+      root_element_effort_man_hour = 0.0
       project_wbs_project_elt_root.children.each do |child|
         unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
-          root_element_effort_per_hour = root_element_effort_per_hour + output_effort[child.id]
+          root_element_effort_man_hour = root_element_effort_man_hour + output_effort[child.id]
         end
       end
-      output_effort[project_wbs_project_elt_root.id] = root_element_effort_per_hour
+      output_effort[project_wbs_project_elt_root.id] = root_element_effort_man_hour
       output_effort
     end
 

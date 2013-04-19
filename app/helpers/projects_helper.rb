@@ -140,7 +140,7 @@ module ProjectsHelper
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt]}"
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
             end
           end
         end

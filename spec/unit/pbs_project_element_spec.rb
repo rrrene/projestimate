@@ -4,7 +4,7 @@ describe PbsProjectElement do
 
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
-    @folder = FactoryGirl.create(:folder)
+    @folder = FactoryGirl.create(:folder)   # Pbs_project_element
     @folder1 = FactoryGirl.create(:folder, :name => "Folder11", :work_element_type => @work_element_type)
     @bad = FactoryGirl.create(:bad, :name => "bad_name")
   end
@@ -26,13 +26,6 @@ describe PbsProjectElement do
     @folder1.folder?.should be_true
   end
 
-  it "should have return an array of value" do
-    @folder.ksloc.should be_an_instance_of Array
-  end
-
-  it "should have return only one value" do
-    @folder.ksloc_low.should be_empty
-  end
   it "should duplicate pbs project element" do
     @folder2=@folder.amoeba_dup
     @folder2.copy_id = @folder.id

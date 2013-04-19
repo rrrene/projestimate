@@ -65,26 +65,6 @@ class PbsProjectElement < ActiveRecord::Base
     end
   end
 
-  #Generate an method numeric_data_low or numeric_data_ml etc...
-  #Usage: component1.numeric_data_high
-  #Return correct value.
-  attr_list = []
-  attr_list.each do |attr|
-    define_method("#{attr}") do
-      res = Array.new
-      %w(low most_likely high).each do |level|
-        res << self.estimation_values.keep_if{ |i| i.pe_attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
-      end
-      return res.flatten
-    end
-
-    %w(low most_likely high).each do |level|
-      define_method("#{attr}_#{level}") do
-        self.estimation_values.select{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
-      end
-    end
-  end
-
   #Override
   def to_s
     self.name

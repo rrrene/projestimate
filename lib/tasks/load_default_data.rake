@@ -365,6 +365,15 @@ def load_data!
       Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
     end
 
+  reference_values = [
+    ["One Activity-element"],
+    ["All Activity-elements"],
+    ["A set of activity-elements"],
+  ]
+  reference_values.each do |i|
+    ReferenceValue.create(:name => i[0], :record_status_id => rsid)
+  end
+
   #  puts "\n\n"
   #  puts "Default data was successfully loaded. Enjoy !"
   #rescue Errno::ECONNREFUSED
