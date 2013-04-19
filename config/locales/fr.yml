@@ -526,7 +526,7 @@ fr:
   ldap_account_or_application_account: "Identifiant ou courriel de l'utilisateur (ou Identifiant LDAP)"
   not_yet_supported: "Pas encore supporté"
   ldap_account_password_or_application_account_password: "mot de passe de l'utilisateur (ou Mot de passe LDAP)"
-  ask_new_account: "Pour demander un compte, cliquez sur 'Demander un compte' puis suivre les instructions"
+  text_ask_new_account: "Pour demander un compte, cliquez sur 'Demander un compte' puis suivre les instructions"
   text_forgotten_password: "Cliquez sur 'Mot de passe oublié ?' puis suivre les instructions"
   additional_guidance: "Vous pouvez trouver des conseils supplémentaires"
   here: "ici"

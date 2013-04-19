@@ -114,7 +114,7 @@ class ProjectsController < ApplicationController
 
   #Edit a selected project
   def edit
-    authorize! :modify_a_project, Project
+    authorize! :edit_a_project, Project
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
