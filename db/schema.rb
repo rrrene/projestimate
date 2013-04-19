@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130417144017) do
+ActiveRecord::Schema.define(:version => 20130418131424) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
   end
 
   create_table "attribute_modules", :force => true do |t|
-    t.integer  "attribute_id"
+    t.integer  "pe_attribute_id"
     t.integer  "pemodule_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -113,28 +113,6 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
   add_index "attribute_modules", ["record_status_id"], :name => "index_attribute_modules_on_record_status_id"
   add_index "attribute_modules", ["reference_id"], :name => "index_attribute_modules_on_parent_id"
   add_index "attribute_modules", ["uuid"], :name => "index_attribute_modules_on_uuid", :unique => true
-
-  create_table "attributes", :force => true do |t|
-    t.string   "name"
-    t.string   "alias"
-    t.text     "description"
-    t.string   "attr_type"
-    t.text     "options"
-    t.text     "aggregation"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "uuid"
-    t.integer  "record_status_id"
-    t.string   "custom_value"
-    t.integer  "owner_id"
-    t.text     "change_comment"
-    t.integer  "reference_id"
-    t.string   "reference_uuid"
-  end
-
-  add_index "attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
-  add_index "attributes", ["reference_id"], :name => "index_attributes_on_parent_id"
-  add_index "attributes", ["uuid"], :name => "index_attributes_on_uuid", :unique => true
 
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
@@ -178,7 +156,7 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
   add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
 
   create_table "estimation_values", :force => true do |t|
-    t.integer  "attribute_id"
+    t.integer  "pe_attribute_id"
     t.text     "string_data_low"
     t.text     "string_data_most_likely"
     t.text     "string_data_high"
@@ -422,6 +400,28 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
 
   add_index "pbs_project_elements", ["ancestry"], :name => "index_components_on_ancestry"
 
+  create_table "pe_attributes", :force => true do |t|
+    t.string   "name"
+    t.string   "alias"
+    t.text     "description"
+    t.string   "attr_type"
+    t.text     "options"
+    t.text     "aggregation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "reference_id"
+    t.string   "reference_uuid"
+  end
+
+  add_index "pe_attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
+  add_index "pe_attributes", ["reference_id"], :name => "index_attributes_on_parent_id"
+  add_index "pe_attributes", ["uuid"], :name => "index_attributes_on_uuid", :unique => true
+
   create_table "pe_wbs_projects", :force => true do |t|
     t.string   "name"
     t.integer  "project_id"
@@ -656,6 +656,7 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -770,8 +771,8 @@ ActiveRecord::Schema.define(:version => 20130417144017) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

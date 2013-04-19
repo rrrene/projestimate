@@ -8,9 +8,9 @@ describe EstimationValue do
                             :alias => "foo",
                             :description => "Bar")
     @module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
-    @ksloc_attribute = Attribute.new(:name=>"Cost",:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
-    @ksloc_attribute2 = Attribute.new(:name=>1,:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
-    @mpa = EstimationValue.new(:attribute_id => @ksloc_attribute.id,
+    @ksloc_attribute = PeAttribute.new(:name=>"Cost",:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
+    @ksloc_attribute2 = PeAttribute.new(:name=>1,:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
+    @mpa = EstimationValue.new(:pe_attribute_id => @ksloc_attribute.id,
                                       :in_out => "input",
                                       :module_project_id => @module_project.id,
                                       :custom_attribute => "user",
@@ -18,7 +18,7 @@ describe EstimationValue do
                                       :description => "Undefined",
                                       :undefined_attribute => true,
                                       :dimensions => 3)
-    @mpa2 = EstimationValue.new(:attribute_id => @ksloc_attribute2.id,
+    @mpa2 = EstimationValue.new(:pe_attribute_id => @ksloc_attribute2.id,
                                       :in_out => "input",
                                       :module_project_id => @module_project.id,
                                       :custom_attribute => "toto",

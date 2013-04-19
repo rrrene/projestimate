@@ -18,27 +18,27 @@
 #
 ########################################################################
 
-class AttributesController < ApplicationController
+class PeAttributesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_attributes, Attribute
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
-    @attributes = Attribute.all
+    @attributes = PeAttribute.all
   end
 
   def new
-    authorize! :manage_attributes, Attribute
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
-    @attribute = Attribute.new
+    @attribute = PeAttribute.new
   end
 
   def edit
-    authorize! :manage_attributes, Attribute
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
-    @attribute = Attribute.find(params[:id])
+    @attribute = PeAttribute.find(params[:id])
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?
@@ -49,14 +49,14 @@ class AttributesController < ApplicationController
   end
 
   def create
-    authorize! :manage_attributes, Attribute
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
-    @attribute = Attribute.new(params[:attribute])
+    @attribute = PeAttribute.new(params[:pe_attribute])
     @attribute.options = params[:options]
     @attribute.attr_type = params[:options][0]
 
     if @attribute.save
-      redirect_to redirect(attributes_path)
+      redirect_to redirect(pe_attributes_path)
     else
       render action: "new"
     end
@@ -64,9 +64,9 @@ class AttributesController < ApplicationController
 
   def update
     set_page_title "Attributes"
-    authorize! :manage_attributes, Attribute
+    authorize! :manage_attributes, PeAttribute
     @attribute = nil
-    current_attribute = Attribute.find(params[:id])
+    current_attribute = PeAttribute.find(params[:id])
     if current_attribute.is_defined?
       @attribute = current_attribute.amoeba_dup
       @attribute.owner_id = current_user.id
@@ -74,11 +74,11 @@ class AttributesController < ApplicationController
       @attribute = current_attribute
     end
 
-    if @attribute.update_attributes(params[:attribute])
+    if @attribute.update_attributes(params[:pe_attribute])
       if @attribute.update_attribute("options", params[:options])
         @attribute.attr_type = params[:options][0]
         if @attribute.save
-          redirect_to redirect(attributes_path)
+          redirect_to redirect(pe_attributes_path)
         else
           render action: "edit"
         end
@@ -91,15 +91,14 @@ class AttributesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_attributes, Attribute
-    @attribute = Attribute.find(params[:id])
+    authorize! :manage_attributes, PeAttribute
+    @attribute = PeAttribute.find(params[:id])
     if @attribute.is_defined? || @attribute.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record
       @attribute.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
       @attribute.destroy
     end
-
-    redirect_to attributes_path
+    redirect_to pe_attributes_path
   end
 end

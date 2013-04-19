@@ -15,10 +15,10 @@
   </tr>
 
   <% @attribute_settings.each_with_index do |ma, i| %>
-    <%= hidden_field_tag 'attributes[]', ma.attribute_id %>
+    <%= hidden_field_tag 'attributes[]', ma.pe_attribute_id %>
     <tr class="">
-      <td><%= ma.attribute.nil? ? '-' : ma.attribute.name %></td>
-      <td><%= text_field_tag 'description[]', ma.description.blank? ? (ma.attribute.nil? ? '-' :  ma.attribute.description) : ma.description  %></td>
+      <td><%= ma.pe_attribute.nil? ? '-' : ma.pe_attribute.name %></td>
+      <td><%= text_field_tag 'description[]', ma.description.blank? ? (ma.pe_attribute.nil? ? '-' :  ma.pe_attribute.description) : ma.description  %></td>
       <td><%= text_field_tag "default_low[]", ma.default_low, :class => 'input-mini' %></td>
       <td><%= text_field_tag "default_most_likely[]", ma.default_most_likely, :class => 'input-mini' %></td>
       <td><%= text_field_tag "default_high[]", ma.default_high, :class => 'input-mini' %></td>

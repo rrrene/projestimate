@@ -26,7 +26,7 @@ class RecordStatus < ActiveRecord::Base
 
   has_many :acquisition_categories
   has_many :activity_categories
-  has_many :associated_attributes, :class_name => "Attribute"
+  has_many :associated_attributes, :class_name => "PeAttribute"
   has_many :attribute_modules
   has_many :currencies
   has_many :event_types

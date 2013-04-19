@@ -248,7 +248,7 @@ en:
 
   master: "Master parameters"
   project_global_parameters: "Project global parameters"
-  attributes: "Attributes"
+  pe_attributes: "Attributes"
   labor_categories: "Labor categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
@@ -344,8 +344,8 @@ en:
   aggregation: "Aggregation"
   validation_options: "Validations and options"
   attributes_type: "Attribute type"
-  edit_attribute: "Edit an attribute"
-  new_attribute: "New attribute"
+  edit_pe_attribute: "Edit an attribute"
+  new_pe_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"
@@ -518,27 +518,26 @@ en:
   no_results: "No result found for"
 
   #sessions
-  ask_account: "Ask an account"
+  button_ask_account: "Ask an account"
   send_request: "Submit"
   login_name_or_email: "Login name or email"
-  forgotten_password: "Lost password?"
+  button_forgotten_password: "Lost password?"
   open_url_id: "Open Url Id"
-  no_account: "No account"
   ldap_account_or_application_account: "User's login id or email (or LDAP account id)."
   not_yet_supported: "Not yet supported"
   ldap_account_password_or_application_account_password: "User's password (or LDAP account password)"
   ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
-  forgotten_password: "Click to 'Lost password' then follow instructions."
+  text_forgotten_password: "Click to 'Lost password' then follow instructions."
   additional_guidance: "You can find additional guidance"
   here: "here"
   or: "or"
   contact: "contact"
   administrators: "the administrators."
-  need_help: "Need help?"
+  button_need_help: "Need help?"
   connect: "Login"
   remember_me: "Remember me"
   edit_password: "Update your password"
-  forgotten_password_help: "You will receive an email with a link that allows you to change your password."
+  text_forgotten_password_help: "You will receive an email with a link that allows you to change your password."
   ask_new_account_help: "You will receive a confirmation email, but you must wait until an administrator enable your account.\nWhen your account is activated by the administrator, you receive a second confirmation email."
 
   #translations

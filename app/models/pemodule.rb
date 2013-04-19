@@ -30,7 +30,7 @@ class Pemodule < ActiveRecord::Base
 
   #Pemodule has many attribute, attribute has many pemodule
   has_many :attribute_modules, :dependent => :destroy
-  has_many :pe_attributes,  :source => :attribute, :through => :attribute_modules   #:class_name => "Attribute",
+  has_many :pe_attributes,  :source => :pe_attribute, :through => :attribute_modules   #:class_name => "Attribute",
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

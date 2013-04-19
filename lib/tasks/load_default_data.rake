@@ -161,7 +161,7 @@ def load_data!
     ]
 
     attributes.each do |i|
-      Attribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
+      PeAttribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
     end
 
     puts "   - Projestimate Icons"

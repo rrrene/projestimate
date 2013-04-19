@@ -33,7 +33,7 @@
             <%= hidden_field_tag 'hidden_ids[]', attr.id %>
           <%# else %>
             <tr class="">
-              <td><%= attr.attribute.nil? ? '-' : attr.attribute.name %></td>
+              <td><%= attr.pe_attribute.nil? ? '-' : attr.pe_attribute.name %></td>
               <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => 'Choose...', :disabled => !(attr.custom_attribute?) %> </td>
               <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => 'Choose...', :disabled => !(attr.custom_attribute?) %></td>
               <td><%= text_field_tag 'description[]', attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>

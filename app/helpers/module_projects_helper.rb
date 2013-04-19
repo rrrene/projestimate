@@ -21,8 +21,8 @@
 module ModuleProjectsHelper
 
   def probable_value_save(results, mpa)
-    attribute_alias = mpa.attribute.alias.to_sym
-    if mpa.attribute.attribute_type == "numeric"
+    attribute_alias = mpa.pe_attribute.alias.to_sym
+    if mpa.pe_attribute.attribute_type == "numeric"
       min = results[:low][attribute_alias].to_f
       ml = results[:most_likely][attribute_alias].to_f
       high = results[:high][attribute_alias].to_f
@@ -39,11 +39,11 @@ module ModuleProjectsHelper
     minimum = 0.0
     most_likely = 0.0
     maximum = 0.0
-    attribute_alias = estimation_value.attribute.alias.to_sym
+    attribute_alias = estimation_value.pe_attribute.alias.to_sym
 
-    min_estimation_value = results[:low]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
-    most_likely_estimation_value = results[:most_likely]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
-    high_estimation_value = results[:high]["#{estimation_value.attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+    min_estimation_value = results[:low]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+    most_likely_estimation_value = results[:most_likely]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
+    high_estimation_value = results[:high]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
 
     # Get the current estimation Module
     if estimation_value.module_project.pemodule.with_activities
