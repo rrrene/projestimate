@@ -457,7 +457,7 @@ fr:
   custom_attribute: "Attribut personnalisé"
   attributes_settings: "Paramètres des attributs"
   compatibility: "Compatibilité"
-  attribute_name: "Nom de l'attribut"
+  pe_attribute_name: "Nom de l'attribut"
   selected: "Sélectionné"
   edit_pemodule: "Editer le module"
   new_pemodule: "Créer un module"
