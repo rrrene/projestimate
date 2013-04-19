@@ -13,7 +13,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - Projestimate Module"
-      self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "compliant_component_type", "with_activities", "uuid"])
 
       puts "   - Attribute Module"
       self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "uuid"])
