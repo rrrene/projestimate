@@ -1,7 +1,7 @@
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
-  EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
+  EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalPeAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
                     ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
                     ExternalPermission]
 
@@ -46,7 +46,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalAcquisitionCategory, AcquisitionCategory, ["name", "description", "uuid"])
 
       puts "   - Attribute..."
-      self.update_records(ExternalMasterDatabase::ExternalAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Projestimate Icons"
       self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "icon_file_name", "icon_content_type", "icon_updated_at", "icon_file_size", "uuid"])
@@ -102,11 +102,7 @@ class Home < ActiveRecord::Base
   def self.latest_repo_update
     dates = Array.new
     EXTERNAL_BASES.each do |table|
-      if table == PeAttribute
-        dates << PeAttribute::attribute_updated_at
-      else
-        dates << table.all.map(&:updated_at)
-      end
+      dates << table.all.map(&:updated_at)
     end
     res = dates.flatten.compact.max
     res
@@ -318,7 +314,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "compliant_component_type", "with_activities", "uuid"])
 
       puts "   - Attribute..."
-      self.create_records(ExternalMasterDatabase::ExternalAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
 
       puts "   - Attribute Module"
       self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "uuid"])
@@ -330,7 +326,7 @@ class Home < ActiveRecord::Base
         ext_attr_modules.each do |ext_attr_module|
           if ext_module.id == ext_attr_module.pemodule_id and ext_module.record_status_id == ext_defined_rs_id
             loc_module = Pemodule.find_by_uuid(ext_module.uuid)
-            ext_attr = ExternalMasterDatabase::ExternalAttribute.find_by_id(ext_attr_module.pe_attribute_id)
+            ext_attr = ExternalMasterDatabase::ExternalPeAttribute.find_by_id(ext_attr_module.pe_attribute_id)
             loc_attr = PeAttribute.find_by_uuid(ext_attr.uuid)
             ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = #{loc_module.id} WHERE uuid = '#{ext_attr_module.uuid}'")
             ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pe_attribute_id = #{loc_attr.id} WHERE uuid = '#{ext_attr_module.uuid}'")
