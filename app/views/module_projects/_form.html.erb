@@ -8,42 +8,42 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@module_project) do |f| %>
-      <% if @module_project.errors.any? %>
-        <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-          <h2><%= pluralize(@module_project.errors.count, 'error') %> prohibited this module_project from being saved:</h2>
+        <% if @module_project.errors.any? %>
+            <div id="error_explanation" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+              <h2><%= pluralize(@module_project.errors.count, 'error') %> prohibited this module_project from being saved:</h2>
 
-          <ul>
-          <% @module_project.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <table class="table table-striped">
-        <tr>
-          <th><%= I18n.t(:name) %></th>
-          <th><%= I18n.t(:in_out) %></th>
-          <th><%= I18n.t(:mandatory) %></th>
-          <th><%= I18n.t(:description) %></th>
-        </tr>
-        <% @module_project.estimation_values.each_with_index do |attr, i| %>
-
-          <%# unless attr.pbs_project_element.is_root? %>
-            <%= hidden_field_tag 'hidden_ids[]', attr.id %>
-          <%# else %>
-            <tr class="">
-              <td><%= attr.pe_attribute.nil? ? '-' : attr.pe_attribute.name %></td>
-              <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => 'Choose...', :disabled => !(attr.custom_attribute?) %> </td>
-              <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => 'Choose...', :disabled => !(attr.custom_attribute?) %></td>
-              <td><%= text_field_tag 'description[]', attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute)  %></td>
-            </tr>
-
-          <%# end %>
+              <ul>
+                <% @module_project.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
         <% end %>
-      </table>
-      <%= f.submit I18n.t('save'), :class => 'btn ' %>
-      <%= f.submit I18n.t('apply'), :class => 'btn' %>
+
+        <table class="table table-striped">
+          <tr>
+            <th><%= I18n.t(:name) %></th>
+            <th><%= I18n.t(:in_out) %></th>
+            <th><%= I18n.t(:mandatory) %></th>
+            <th><%= I18n.t(:description) %></th>
+          </tr>
+          <% @module_project.estimation_values.each_with_index do |attr, i| %>
+
+              <%# unless attr.pbs_project_element.is_root? %>
+              <%= hidden_field_tag 'hidden_ids[]', attr.id %>
+              <%# else %>
+              <tr class="">
+                <td><%= attr.pe_attribute.nil? ? '-' : attr.pe_attribute.name %></td>
+                <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => I18n.t('helpers.select.prompt'), :disabled => !(attr.custom_attribute?) %> </td>
+                <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :disabled => !(attr.custom_attribute?) %></td>
+                <td><%= text_field_tag 'description[]', attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute) %></td>
+              </tr>
+
+              <%# end %>
+          <% end %>
+        </table>
+        <%= f.submit I18n.t('save'), :class => 'btn ' %>
+        <%= f.submit I18n.t('apply'), :class => 'btn' %>
     <% end %>
   </div>
 

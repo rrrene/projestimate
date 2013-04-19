@@ -8,11 +8,11 @@ module CocomoBasic
     #Constructor
     def initialize(elem)
       case elem[:complexity]
-        when "organic"
+        when 'organic'
           set_cocomo_organic(elem)
-        when "semidetached"
+        when 'semidetached'
           set_cocomo_semidetached(elem)
-        when "semidetached"
+        when 'semidetached'
           set_cocomo_embedded(elem)
         else
           set_cocomo_organic(elem)
@@ -25,7 +25,7 @@ module CocomoBasic
       @coef_b = 1.05
       @coef_c = 0.38
       @coef_kls = elem[:ksloc].to_f
-      @complexity = "organic"
+      @complexity = 'organic'
     end
 
     def set_cocomo_semidetached(elem)
@@ -33,7 +33,7 @@ module CocomoBasic
       @coef_b = 1.12
       @coef_c = 0.35
       @coef_kls = elem[:ksloc].to_f
-      @complexity = "semidetached"
+      @complexity = 'semidetached'
     end
 
     def set_cocomo_embedded(elem)
@@ -41,19 +41,19 @@ module CocomoBasic
       @coef_b = 1.2
       @coef_c = 0.32
       @coef_kls = elem[:ksloc].to_f
-      @complexity = "embbeded"
+      @complexity = 'embedded'
     end
 
     #Getters
     #Return effort
     def get_effort_per_hour
-      res =  @coef_a*(coef_kls ** @coef_b) * 152
+      res =  @coef_a*(coef_kls**@coef_b) * 152
       return res.to_f
     end
 
     #Return delay
     def get_delay
-      return 2.5*(get_effort_per_hour ** @coef_c).to_f
+      return 2.5*(get_effort_per_hour**@coef_c).to_f
     end
 
     #Return end date
