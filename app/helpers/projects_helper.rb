@@ -184,12 +184,22 @@ module ProjectsHelper
 
   def display_input
     res = String.new
+    pbs_project_element = @pbs_project_element || current_project.root_component
+
     current_project.module_projects.each do |module_project|
       if module_project.pemodule.with_activities
         if module_project.pemodule.title == "Effort Breakdown"
           res << display_inputs_without_activities(module_project)
         else
-          res << display_inputs_with_activities(module_project)
+          if module_project.pemodule.title == "WbsActivityComplement"
+            refer_module = Module.where("title = ? AND record_status_id = ?", "EffortBreakdown", @defined_status.id).last
+            refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).last
+            last_estimation_result = module_project.estimation_values.where("in_out = ? AND pe_attribute_id = ?", "output", refer_attribute.id).first
+            last_estimation_result = last_estimation_result.nil? ? Hash.new : last_estimation_result[pbs_project_element.id]
+            res << display_inputs_with_activities(module_project, last_estimation_result)
+          else
+            res << display_inputs_with_activities(module_project)
+          end
         end
       else
         res << display_inputs_without_activities(module_project)
@@ -198,7 +208,7 @@ module ProjectsHelper
     res
   end
 
-  def display_inputs_with_activities(module_project)
+  def display_inputs_with_activities(module_project, last_estimation_result=nil)
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
@@ -231,7 +241,15 @@ module ProjectsHelper
               if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
                 res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
               else
-                res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                if last_estimation_result.nil?
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                else
+                  if last_estimation_result.empty?
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                  else
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", last_estimation_result[wbs_project_elt.id]}"
+                  end
+                  end
               end
             end
          end
