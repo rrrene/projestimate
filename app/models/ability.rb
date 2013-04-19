@@ -58,7 +58,7 @@ class Ability
       #  end
       #end
 
-      #can :manage_attributes, Attribute
+      #can :manage_attributes, PeAttribute
 
     #end
   end

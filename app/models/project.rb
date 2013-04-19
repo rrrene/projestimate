@@ -153,7 +153,7 @@ class Project < ActiveRecord::Base
   #
   #    module_project.estimation_values.each do |est_val|
   #      if est_val.in_out == "input" or est_val.in_out == "both"
-  #        inputs[est_val.attribute.alias.to_sym] = input_data[est_val.attribute.alias][module_project.id.to_s]
+  #        inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
   #      end
   #
   #      current_pbs_elem = ApplicationController.send :current_component
@@ -161,7 +161,7 @@ class Project < ActiveRecord::Base
   #      cm = current_module.send(:new, inputs)
   #
   #      if est_val.in_out == "output" or est_val.in_out=="both"
-  #        @result_hash[est_val.attribute.alias.to_sym] = cm.send("get_#{est_val.attribute.alias}", current_pbs_elem, module_project)
+  #        @result_hash[est_val.pe_attribute.alias.to_sym] = cm.send("get_#{est_val.pe_attribute.alias}", current_pbs_elem, module_project)
   #      end
   #    end
   #

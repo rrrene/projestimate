@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Attribute do
+describe PeAttribute do
 
   before :each do
     @attribute = FactoryGirl.create(:ksloc_attribute)
@@ -8,9 +8,9 @@ describe Attribute do
   end
 
   it 'should return attribute_update_at date' do
-    Attribute::attribute_updated_at.should be_an_instance_of Array
-    Attribute::attribute_updated_at.last.to_date.should eq @attribute.updated_at.to_date
-    Attribute::attribute_updated_at.should include(@attribute.updated_at.to_s)
+    PeAttribute::attribute_updated_at.should be_an_instance_of Array
+    PeAttribute::attribute_updated_at.last.to_date.should eq @attribute.updated_at.to_date
+    PeAttribute::attribute_updated_at.should include(@attribute.updated_at.to_s)
   end
 
 
@@ -103,13 +103,13 @@ describe Attribute do
   end
 
   it 'should list and return an array of aggregation type' do
-    Attribute::type_aggregation.should be_an_instance_of Array
-    Attribute::type_aggregation.should eql([["Moyenne", "average" ] ,["Somme", "sum"], ["Maximum", "maxi" ]])
+    PeAttribute::type_aggregation.should be_an_instance_of Array
+    PeAttribute::type_aggregation.should eql([["Moyenne", "average" ] ,["Somme", "sum"], ["Maximum", "maxi" ]])
   end
 
   it 'should list and return an array of value options type' do
-    Attribute::value_options.should be_an_instance_of Array
-    Attribute::value_options.should eql([
+    PeAttribute::value_options.should be_an_instance_of Array
+    PeAttribute::value_options.should eql([
          ["Greater than or equal to", ">=" ],
          ["Greater than", ">" ],
          ["Lower than or equal to", "<=" ],
@@ -120,12 +120,12 @@ describe Attribute do
   end
 
   it 'should list and return an array of type_values' do
-    Attribute::type_values.should be_an_instance_of Array
-    Attribute::type_values.should eql([["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ],["Array", "array"]])
+    PeAttribute::type_values.should be_an_instance_of Array
+    PeAttribute::type_values.should eql([["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ],["Array", "array"]])
   end
 
   it 'should list an array' do
-    Attribute::attribute_list.should be_an_instance_of Array
+    PeAttribute::attribute_list.should be_an_instance_of Array
   end
 
   specify "should return :name + ' - ' + :description.truncate(20)" do

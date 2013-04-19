@@ -248,7 +248,7 @@ en-gb:
 
   master: "Master parameters"
   project_global_parameters: "Project global parameters"
-  attributes: "Attributes"
+  pe_attributes: "Attributes"
   labor_categories: "Labour categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
@@ -344,8 +344,8 @@ en-gb:
   aggregation: "Aggregation"
   validation_options: "Validations and options"
   attributes_type: "Attribute type"
-  edit_attribute: "Edit an attribute"
-  new_attribute: "New attribute"
+  edit_pe_attribute: "Edit an attribute"
+  new_pe_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"

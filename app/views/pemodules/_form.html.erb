@@ -3,7 +3,7 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:project_global_parameters) %></a></li>
     <% unless @pemodule.is_typed %>
-      <li><a href="#tabs-2"><%= I18n.t(:attributes) %> </a></li>
+      <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
       <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %></a></li>
     <% end %>
   </ul>
@@ -65,14 +65,14 @@
 
           <table class="table table-striped">
             <tr>
-              <th><%= I18n.t(:attribute_name) %></th>
+              <th><%= I18n.t(:pe_attribute_name) %></th>
               <th><%= I18n.t(:selected) %></th>
               <th><%= I18n.t(:description) %></th>
             </tr>
               <% @attributes.each do |attr| %>
                 <tr class="<%= cycle('even', 'odd')%>">
-                  <td><%= link_to attr.name, edit_attribute_path(attr) unless attr.nil? %></td>
-                  <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:attribute_id).include?(attr.id) %>
+                  <td><%= link_to attr.name, edit_pe_attribute_path(attr) unless attr.nil? %></td>
+                  <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
                   <td><%= attr.description %></td>
                 </tr>
               <% end %>

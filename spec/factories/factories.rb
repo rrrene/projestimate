@@ -96,7 +96,7 @@ FactoryGirl.define do
     pe_wbs_project
   end
 
-  factory :attribute, :class => Attribute do |attr|
+  factory :pe_attribute, :class => PeAttribute do |attr|
      attr.name "attr"
      attr.alias "attr"
      attr.description "Attr"

@@ -21,7 +21,7 @@
 #Master table
 #Global attributes of project. Ex : size, cost, result, date etc...
 #Those attributes are used into AttributeModule
-class Attribute < ActiveRecord::Base
+class PeAttribute < ActiveRecord::Base
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   serialize :options, Array
@@ -54,11 +54,11 @@ class Attribute < ActiveRecord::Base
   end
 
   def self.attribute_list
-    Object::Attribute.all.map(&:alias)
+    PeAttribute.all.map(&:alias)
   end
 
   def self.attribute_updated_at
-    Object::Attribute.all.map(&:updated_at)
+    PeAttribute.all.map(&:updated_at)
   end
 
   #Override

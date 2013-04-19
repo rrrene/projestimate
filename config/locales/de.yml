@@ -246,7 +246,7 @@ de:
 
   master: "Master parameters"
   project_global_parameters: "Project global parameters"
-  attributes: "Attributes"
+  pe_attributes: "Attributes"
   labor_categories: "Labor categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
@@ -342,8 +342,8 @@ de:
   aggregation: "Aggregation"
   validation_options: "Validations and options"
   attributes_type: "Attribute type"
-  edit_attribute: "Edit an attribute"
-  new_attribute: "New attribute"
+  edit_pe_attribute: "Edit an attribute"
+  new_pe_attribute: "New attribute"
 
   #auth_method
   server_name: "Server name"
@@ -412,7 +412,7 @@ de:
   current_link: "Current link"
   edit_link: "Edit a link"
   module_name: "Module name"
-  associable_attributes: "Associable attributes"
+  associable_pe_attributes: "Associable attributes"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associate Product-Element with current module project"

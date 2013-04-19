@@ -9,16 +9,16 @@
 
       <%= f.input :description, :label => I18n.t('description'), :title => 'Brief description of attribute', :input_html => {:rows => 3} %>
 
-      <%= f.input :aggregation, :label => I18n.t('aggregation'), :as => :select, :collection => Attribute::type_aggregation %>
+      <%= f.input :aggregation, :label => I18n.t('aggregation'), :as => :select, :collection => PeAttribute::type_aggregation %>
 
       <%= f.input :attr_type, :title => I18n.t('validation_options'), :label => 'Attributes type and values options' do %>
         <% if @attribute.options.empty? %>
-          <%= select_tag 'options[]', options_for_select(Attribute::type_values), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
-          <%= select_tag 'options[]', options_for_select(Attribute::value_options), :onchange => 'select_boolean(this.value);', :class => 'type_value', :style => 'display:none;', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(PeAttribute::type_values), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(PeAttribute::value_options), :onchange => 'select_boolean(this.value);', :class => 'type_value', :style => 'display:none;', :prompt => 'Choose' %>
           <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value', :style => 'display:none;'} %>
         <% else %>
-          <%= select_tag 'options[]', options_for_select(Attribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
-          <%= select_tag 'options[]', options_for_select(Attribute::value_options, :selected => @attribute.options[1]), :class => 'type_value', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(PeAttribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => 'select_value_options(this.value);', :prompt => 'Choose' %>
+          <%= select_tag 'options[]', options_for_select(PeAttribute::value_options, :selected => @attribute.options[1]), :class => 'type_value', :prompt => 'Choose' %>
           <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value'} %>
         <% end %>
       <% end %> <br />

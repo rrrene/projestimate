@@ -73,7 +73,7 @@ class PbsProjectElement < ActiveRecord::Base
     define_method("#{attr}") do
       res = Array.new
       %w(low most_likely high).each do |level|
-        res << self.estimation_values.keep_if{ |i| i.attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
+        res << self.estimation_values.keep_if{ |i| i.pe_attribute.alias == attr }.map{|j| j.send("numeric_data_#{level}") }
       end
       return res.flatten
     end

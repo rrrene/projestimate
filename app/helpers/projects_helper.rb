@@ -69,7 +69,7 @@ module ProjectsHelper
       res << "</tr>"
 
       module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
-        res << "<tr><td>#{estimation_value.attribute.name}</td>"
+        res << "<tr><td>#{estimation_value.pe_attribute.name}</td>"
 
         ["low", "most_likely", "high", "probable"].each do |level|
           res << "<td>"
@@ -113,7 +113,7 @@ module ProjectsHelper
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th>#{mpa.attribute.name}</th>"
+        res << "<th>#{mpa.pe_attribute.name}</th>"
       end
     end
     res << "</tr>"
@@ -134,7 +134,7 @@ module ProjectsHelper
         res << "<td>"
         module_project.estimation_values.where("in_out = ?", "output").each do |est_val|
           if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-            str = "#{est_val.attribute.attribute_type}_data_#{level}"
+            str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
             level_estimation_values = Hash.new
             level_estimation_values = est_val.send("string_data_#{level}")
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
@@ -163,7 +163,7 @@ module ProjectsHelper
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
         res << "<td colspan='3'>"
 
-        str = "#{mpa.attribute.attribute_type}_data_probable"
+        str = "#{mpa.pe_attribute.attribute_type}_data_probable"
         level_probable_value = mpa.send("string_data_probable")
         if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil?
           res << "-"
@@ -225,13 +225,13 @@ module ProjectsHelper
           res << "<td>"
           module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
             if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
-              str = "#{est_val.attribute.attribute_type}_data_#{level}"
+              str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
               level_estimation_values = Hash.new
               level_estimation_values = est_val.send("string_data_#{level}")
               if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
-                res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
               else
-                res << "#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
               end
             end
          end
@@ -264,7 +264,7 @@ module ProjectsHelper
                         ###current_component.estimation_values.each do |est_val|
                         module_project.estimation_values.each do |est_val|
                           if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-                            res << "<th>#{est_val.attribute.name}</th>"
+                            res << "<th>#{est_val.pe_attribute.name}</th>"
                           end
                         end
                       res << "</tr>"
@@ -276,9 +276,9 @@ module ProjectsHelper
                         level_estimation_values = Hash.new
                         level_estimation_values = est_val.send("string_data_#{level}")
                         if level_estimation_values[pbs_project_element.id].nil?
-                          res << "<td>#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values["default_#{level}".to_sym]}</td>"
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values["default_#{level}".to_sym]}</td>"
                         else
-                          res << "<td>#{text_field_tag "[#{level}][#{est_val.attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values[pbs_project_element.id]}</td>"
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values[pbs_project_element.id]}</td>"
                         end
                       end
                     end
