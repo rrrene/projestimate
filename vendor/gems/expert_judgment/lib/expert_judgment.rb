@@ -1,4 +1,4 @@
-require "expert_judgment/version"
+require 'expert_judgment/version'
 
 module ExpertJudgment
 

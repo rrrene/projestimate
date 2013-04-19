@@ -1,4 +1,4 @@
-require "effort_breakdown/version"
+require 'effort_breakdown/version'
 
 module EffortBreakdown
 
@@ -44,15 +44,15 @@ module EffortBreakdown
 
       case @module_project.reference_value.value.to_s
         # One Activity-element. defined as the reference
-        when "One Activity-element"
+        when 'One Activity-element'
           get_efforts_with_one_activity_element
 
         # A set of Activity-elements defined as reference
-        when "A set of activity-elements"
+        when 'A set of activity-elements'
           get_efforts_with_a_set_of_activity_elements
 
         # All Activity-elements defined as reference
-        when "All Activity-elements"
+        when 'All Activity-elements'
           get_efforts_with_all_activities_elements
         else
           get_efforts_with_one_activity_element
@@ -73,7 +73,7 @@ module EffortBreakdown
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
       #wbs_project_elt_with_ratio = WbsProjectElement.where("pe_wbs_project_id = ? and wbs_activity_id = ? and is_added_wbs_root = ?", pe_wbs_activity.id, @pbs_project_element.wbs_activity_id, true).first
       # If we manage more than one wbs_activity per project, this will be depend on the wbs_project_element ancestry(witch has the wbs_activity_ratio)
-      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where("is_added_wbs_root = ?", true).first
+      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where('is_added_wbs_root = ?', true).first
 
       ratio_reference = nil
       # Use project default Ratio, unless PSB got its own Ratio,
@@ -85,11 +85,11 @@ module EffortBreakdown
       end
 
       # Get the referenced wbs_activity_elt of the ratio_reference
-      referenced_ratio_element = WbsActivityRatioElement.where("wbs_activity_ratio_id =? and simple_reference = ?", ratio_reference.id, true).first
+      referenced_ratio_element = WbsActivityRatioElement.where('wbs_activity_ratio_id =? and simple_reference = ?', ratio_reference.id, true).first
 
       # Get the WBS-Project element corresponding to the defined activity as the one reference value
       one_activity_element = referenced_ratio_element.wbs_activity_element
-      project_one_activity_element = pe_wbs_activity.wbs_project_elements.where("wbs_activity_element_id = ?", one_activity_element.id).first
+      project_one_activity_element = pe_wbs_activity.wbs_project_elements.where('wbs_activity_element_id = ?', one_activity_element.id).first
       puts "ONE_ACTIVITY_ELEMENT_ID = #{one_activity_element.id}"
       puts "project_one_activity_element = #{project_one_activity_element.id}"
 
@@ -97,7 +97,7 @@ module EffortBreakdown
 
       project_wbs_project_elt_root.children.each do |node|
         # Sort node subtree by ancestry_depth
-        sorted_node_elements = node.subtree.order("ancestry_depth desc")
+        sorted_node_elements = node.subtree.order('ancestry_depth desc')
         sorted_node_elements.each do |wbs_project_element|
           # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
           unless wbs_project_element.wbs_activity_element.nil?
@@ -106,7 +106,7 @@ module EffortBreakdown
             # Element effort is really computed only on leaf element
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
-              corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
+              corresponding_ratio_value = WbsActivityRatioElement.where('wbs_activity_ratio_id = ? and wbs_activity_element_id = ?', ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort
@@ -158,7 +158,7 @@ module EffortBreakdown
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
       #wbs_project_elt_with_ratio = WbsProjectElement.where("pe_wbs_project_id = ? and wbs_activity_id = ? and is_added_wbs_root = ?", pe_wbs_activity.id, @pbs_project_element.wbs_activity_id, true).first
       # If we manage more than one wbs_activity per project, this will be depend on the wbs_project_element ancestry(witch has the wbs_activity_ratio)
-      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where("is_added_wbs_root = ?", true).first
+      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where('is_added_wbs_root = ?', true).first
 
       ratio_reference = nil
       # Use project default Ratio, unless PSB got its own Ratio,
@@ -170,7 +170,7 @@ module EffortBreakdown
       end
 
       #Get the referenced wbs_activity_elt of the ratio_reference
-      referenced_ratio_elements = WbsActivityRatioElement.where("wbs_activity_ratio_id =? and multiple_references = ?", ratio_reference.id, true)
+      referenced_ratio_elements = WbsActivityRatioElement.where('wbs_activity_ratio_id =? and multiple_references = ?', ratio_reference.id, true)
       referenced_values_efforts = 0
       referenced_ratio_elements.each do |reference_value|
         referenced_values_efforts = referenced_values_efforts + reference_value.ratio_value.to_f
@@ -179,7 +179,7 @@ module EffortBreakdown
       output_effort = Hash.new
       project_wbs_project_elt_root.children.each do |node|
         # Sort node subtree by ancestry_depth
-        sorted_node_elements = node.subtree.order("ancestry_depth desc")
+        sorted_node_elements = node.subtree.order('ancestry_depth desc')
         sorted_node_elements.each do |wbs_project_element|
           # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
           unless wbs_project_element.wbs_activity_element.nil?
@@ -188,7 +188,7 @@ module EffortBreakdown
             # Element effort is really computed only on leaf element
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
-              corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
+              corresponding_ratio_value = WbsActivityRatioElement.where('wbs_activity_ratio_id = ? and wbs_activity_element_id = ?', ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / referenced_values_efforts)
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort
@@ -233,7 +233,7 @@ module EffortBreakdown
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
       # wbs_project_elt_with_ratio = WbsProjectElement.where("pe_wbs_project_id = ? and wbs_activity_id = ? and is_added_wbs_root = ?", pe_wbs_activity.id, @pbs_project_element.wbs_activity_id, true).first
       # If we manage more than one wbs_activity per project, this will be depend on the wbs_project_element ancestry(witch has the wbs_activity_ratio)
-      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where("is_added_wbs_root = ?", true).first
+      wbs_project_elt_with_ratio = project_wbs_project_elt_root.children.where('is_added_wbs_root = ?', true).first
 
       ratio_reference = nil
       # Use project default Ratio, unless PSB got its own Ratio,
@@ -247,7 +247,7 @@ module EffortBreakdown
       output_effort = Hash.new
       project_wbs_project_elt_root.children.each do |node|
         # Sort node subtree by ancestry_depth
-        sorted_node_elements = node.subtree.order("ancestry_depth desc")
+        sorted_node_elements = node.subtree.order('ancestry_depth desc')
 
         sorted_node_elements.each do |wbs_project_element|
           # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
@@ -257,7 +257,7 @@ module EffortBreakdown
             # Element effort is really computed only on leaf element
             if wbs_project_element.is_childless?
               # Get the ratio Value of current element
-              corresponding_ratio_value = WbsActivityRatioElement.where("wbs_activity_ratio_id = ? and wbs_activity_element_id = ?", ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
+              corresponding_ratio_value = WbsActivityRatioElement.where('wbs_activity_ratio_id = ? and wbs_activity_element_id = ?', ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100)
               puts "OUTPUT_EFFORT #{wbs_project_element.id} = #{current_output_effort}"
               output_effort[wbs_project_element.id] = current_output_effort

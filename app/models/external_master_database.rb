@@ -73,7 +73,7 @@ module ExternalMasterDatabase
     include ExternalInclude
   end
 
-  class ExternalAttribute < ActiveRecord::Base
+  class ExternalPeAttribute < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
   end

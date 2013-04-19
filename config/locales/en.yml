@@ -526,7 +526,7 @@ en:
   ldap_account_or_application_account: "User's login id or email (or LDAP account id)."
   not_yet_supported: "Not yet supported"
   ldap_account_password_or_application_account_password: "User's password (or LDAP account password)"
-  ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
+  text_ask_new_account: "To ask an account, click 'Ask an account' then follow instructions."
   text_forgotten_password: "Click to 'Lost password' then follow instructions."
   additional_guidance: "You can find additional guidance"
   here: "here"
