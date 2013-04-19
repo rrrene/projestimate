@@ -315,7 +315,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ["value", "uuid"])
 
       puts "   - Projestimate Module"
-      self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "compliant_component_type", "with_activities", "uuid"])
 
       puts "   - Attribute..."
       self.create_records(ExternalMasterDatabase::ExternalAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
