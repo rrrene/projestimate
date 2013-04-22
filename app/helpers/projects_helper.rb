@@ -140,7 +140,7 @@ module ProjectsHelper
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
             end
           end
         end
@@ -276,9 +276,9 @@ module ProjectsHelper
                         level_estimation_values = Hash.new
                         level_estimation_values = est_val.send("string_data_#{level}")
                         if level_estimation_values[pbs_project_element.id].nil?
-                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values["default_#{level}".to_sym]}</td>"
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values["default_#{level}"]}</td>"
                         else
-                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}]", level_estimation_values[pbs_project_element.id]}</td>"
+                          res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values[pbs_project_element.id]}</td>"
                         end
                       end
                     end

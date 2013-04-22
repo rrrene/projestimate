@@ -54,7 +54,7 @@ module PeWbsProjectsHelper
         <div class='block_label'>
           <div>
             #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
-            #{ link_to(c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "libelle") }
+            #{ link_to(c.link? ? Project.find(c.project_link) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "libelle") }
           </div>
         </div>
         <div class='block_link'>

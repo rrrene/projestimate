@@ -36,7 +36,9 @@ module ExpertJudgment
 
     #GETTERS
     def get_effort_man_hour
-      @effort_man_hour
+      new_effor_man_hour = Hash.new
+      @effort_man_hour.each {|key, value| new_effor_man_hour[key.to_i] = value.to_f}
+      return new_effor_man_hour
     end
 
   end
