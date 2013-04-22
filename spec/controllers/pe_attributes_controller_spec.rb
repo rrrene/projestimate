@@ -65,7 +65,7 @@ describe PeAttributesController do
 
     it "redirects to the attributes list" do
       delete :destroy, {:id => @attribute.to_param}
-      response.should redirect_to(attributes_url)
+      response.should redirect_to(pe_attributes_url)
     end
     it "destroys the requested event" do
       expect {
