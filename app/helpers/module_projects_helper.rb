@@ -40,16 +40,15 @@ module ModuleProjectsHelper
     most_likely = 0.0
     maximum = 0.0
     attribute_alias = estimation_value.pe_attribute.alias.to_sym
-
+    puts "RESULT_FOR_PROBABLE = #{results}"
     min_estimation_value = results[:low]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
     most_likely_estimation_value = results[:most_likely]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
     high_estimation_value = results[:high]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
 
     # Get the current estimation Module
     if estimation_value.module_project.pemodule.with_activities
-      hash_data_probable = Hash.new
+      hash_data_probable = Hash.new ##HashWithIndifferentAccess.new
       min_estimation_value.keys.each do |wbs_project_elt_id|
-
         minimum = min_estimation_value[wbs_project_elt_id].to_f
         most_likely = most_likely_estimation_value[wbs_project_elt_id].to_f
         maximum = high_estimation_value[wbs_project_elt_id].to_f
