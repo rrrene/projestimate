@@ -19,8 +19,10 @@ module EffortBreakdown
     def get_effort_man_hour
       # First build cache_depth
       WbsProjectElement.rebuild_depth_cache!
-      efforts_man_hour = nil
 
+      #TODO: need to compute effort of node that has an ratio but which has child/children not coming from Library
+
+      efforts_man_hour = nil
       if @module_project.reference_value.nil?
         efforts_man_hour = get_efforts_with_one_activity_element
       else
@@ -255,4 +257,4 @@ module EffortBreakdown
     end
 
   end #END CLASS
-end   #END MODULE
+end #END MODULE
