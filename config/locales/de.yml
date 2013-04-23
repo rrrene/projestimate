@@ -824,6 +824,7 @@ de:
   mail_footer: "\n-----------------------------------------------\nThis email have been sent automatically through the ProjEstimate server.\n\n"
   mail_subject_lost_password: "[ProjEstimate] New password"
   mail_body_lost_password: 'To change your password, click on the following link: '
+  mail_body_lost_password_token_delay: 'Warning, this link is valid for a period of 2 hours. Beyond that, you must restart the process'
   mail_subject_account_activation_request: "[ProjEstimate] Account activation request"
   mail_body_account_activation_request: "A new user has registered. The account is pending your approval.\n\n"
   mail_subject_account_activation: "[ProjEstimate] Your account is activated"
