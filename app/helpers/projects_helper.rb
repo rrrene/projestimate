@@ -225,61 +225,62 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-      res << "<table class='table table-bordered'>"
-      res << "<tr>"
-      module_project.estimation_values.each do |est_val|
-        if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-          res << "<th>#{est_val.module_project.pemodule.title}</th>"
-        end
-      end
-      res << "</tr>"
-      res << "<tr>
-                <th></th>"
-                ["low", "most_likely", "high"].each do |level|
-                  res << "<th>#{level.humanize}</th>"
-                end
-      res << "</tr>"
+      res << "<div class='input_data'>"
+        res << "<div class='widget'>"
+          res << "<div class='widget-header'>
+                    <h3>#{module_project.pemodule.title.humanize} - #{current_component.name}</h3>
+                  </div>"
+          res << "<div class='widget-content'>"
+          res << "<table class='table table-bordered'>"
+            res << "<tr>
+                      <th></th>"
+                      ["low", "most_likely", "high"].each do |level|
+                        res << "<th>#{level.humanize}</th>"
+                      end
+            res << "</tr>"
 
-      module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
-        res << "<tr><td>#{wbs_project_elt.name}</td>"
-        ["low", "most_likely", "high"].each do |level|
-          res << "<td>"
-          module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
-            if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
-              str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
-              level_estimation_values = Hash.new
-              level_estimation_values = est_val.send("string_data_#{level}")
+          module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+            res << "<tr><td>#{wbs_project_elt.name}</td>"
+            ["low", "most_likely", "high"].each do |level|
+              res << "<td>"
+              module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
+                if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
+                  str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
+                  level_estimation_values = Hash.new
+                  level_estimation_values = est_val.send("string_data_#{level}")
 
-              # For Wbs_Activity Complement module, input data are from last executed module
-              if module_project.pemodule.alias == "wbs_activity_completion"
-                pbs_last_result = nil
-                unless last_estimation_result.nil?
-                  level_last_result = last_estimation_result.send("string_data_#{level}")
-                  ##puts "LEVEL_RESULT = #{level_last_result}"
-                  pbs_last_result =  level_last_result[pbs_project_element.id]
-                  ##puts "PBS_RESULT = #{pbs_last_result}"
-                end
+                  # For Wbs_Activity Complement module, input data are from last executed module
+                  if module_project.pemodule.alias == "wbs_activity_completion"
+                    pbs_last_result = nil
+                    unless last_estimation_result.nil?
+                      level_last_result = last_estimation_result.send("string_data_#{level}")
+                      ##puts "LEVEL_RESULT = #{level_last_result}"
+                      pbs_last_result =  level_last_result[pbs_project_element.id]
+                      ##puts "PBS_RESULT = #{pbs_last_result}"
+                    end
 
-                if pbs_last_result.nil? || wbs_project_elt.wbs_activity_element.nil?
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
-                else
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
-                end
-              else
-                if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
-                else
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
-                end
-              end
+                    if pbs_last_result.nil? || wbs_project_elt.wbs_activity_element.nil?
+                      res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                    else
+                      res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
+                    end
+                  else
+                    if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
+                      res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                    else
+                      res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                    end
+                  end
 
-            end
+                end
+             end
+             res << "</td>"
+           end
+           res << "</tr>"
          end
-         res << "</td>"
-       end
-       res << "</tr>"
-     end
-    res << "</table>"
+        res << "</table>"
+      res << "</div>"
+    res << "</div>"
     end
     res
   end
