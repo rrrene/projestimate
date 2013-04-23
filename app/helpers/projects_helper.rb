@@ -136,8 +136,8 @@ module ProjectsHelper
           if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
             level_estimation_values = Hash.new
             level_estimation_values = est_val.send("string_data_#{level}")
-            puts "ESTIMATION_VALUE = #{est_val}"
-            puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
+            #puts "ESTIMATION_VALUE = #{est_val}"
+            #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
@@ -238,11 +238,15 @@ module ProjectsHelper
                 ["low", "most_likely", "high"].each do |level|
                   res << "<th>#{level.humanize}</th>"
                 end
+                res << "<th></th>"
       res << "</tr>"
 
       module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+        pe_attribute_alias = nil
+        level_parameter = ""
         res << "<tr><td>#{wbs_project_elt.name}</td>"
         ["low", "most_likely", "high"].each do |level|
+          level_parameter = level
           res << "<td>"
           module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
             if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
@@ -274,10 +278,15 @@ module ProjectsHelper
               end
 
             end
+            pe_attribute_alias = est_val.pe_attribute.alias
          end
          res << "</td>"
-       end
-       res << "</tr>"
+        end
+
+        #Available to copy value
+        input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
+        res << "<td><div id='#{input_id}' class='copyLib' data-effort_input_id='#{input_id}' title='Copy value in other fields'></td></div>"
+        res << "</tr>"
      end
     res << "</table>"
     end

@@ -251,6 +251,18 @@
     background-position:  0 -740px; height: 20px; width: 20px;
 }
 
+.copyLib {
+    padding-left: 0.5em;
+    padding-right: 20px;
+}
+.copyLib {
+    background-image: url("/assets/egal-copy.png");
+    background-repeat: no-repeat;
+    height: 18px;
+    margin-bottom: 4px;
+    margin-left: 3px;
+}
+
 /* New/Edit Article Module */
 
 div.field {
