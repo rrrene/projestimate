@@ -24,7 +24,7 @@
               <% end %>
             <% end %>
 
-            <div class="<%= pbs_class %> window span2 <%=pmod.pemodule.alias%>">
+            <div class="<%= pbs_class %> window span2 <%=pmod.pemodule.alias %>">
                 <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
                 <br>
                 <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
@@ -34,6 +34,39 @@
                 <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
             </div>
 
+            <script>
+              $(document).ready(function() {
+                jsPlumb.ready(function() {
+                  <% pmod.associated_module_projects.each do |amp| %>
+                    <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
+                        jsPlumb.setRenderMode(jsPlumb.SVG);
+                        jsPlumb.importDefaults({
+                            Connector:"Straight",
+                            PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+                            Endpoint:[ "Rectangle", { radius:1 } ],
+                            EndpointStyle:{ fillStyle:"#ffa500" },
+                            Anchor:"AutoDefault"
+                          });
+
+                        var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias%>"));
+                        var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias%>"));
+
+                        e0.setEnabled(false);
+                        e1.setEnabled(false);
+
+                        jsPlumb.connect({
+                          source:e0,
+                          target:e1,
+                          endpoint:"Rectangle",
+                          connector:[ "Straight" ]
+                        });
+                    <% end %>
+                  <% end %>
+                });
+                e0 = null;
+                e1 = null;
+              });
+            </script>
           <% end %>
         </div>
       <% end %>
