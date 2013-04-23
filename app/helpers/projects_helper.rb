@@ -238,9 +238,12 @@ module ProjectsHelper
                 ["low", "most_likely", "high"].each do |level|
                   res << "<th>#{level.humanize}</th>"
                 end
+                res << "<th></th>"
       res << "</tr>"
 
       module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+        pe_attribute_alias = nil
+        level_parameter = ""
         res << "<tr><td>#{wbs_project_elt.name}</td>"
         ["low", "most_likely", "high"].each do |level|
           res << "<td>"
@@ -274,9 +277,15 @@ module ProjectsHelper
               end
 
             end
+            pe_attribute_alias = est_val.pe_attribute.alias
          end
          res << "</td>"
-       end
+        end
+
+        #Available to copy value
+        input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
+        res << "<td><div id='#{input_id}' class='copyLib' data-effort_input_id='#{input_id}' title='Copy value in other fields'></td></div>"
+
        res << "</tr>"
      end
     res << "</table>"
