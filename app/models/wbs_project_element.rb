@@ -91,4 +91,9 @@ class WbsProjectElement < ActiveRecord::Base
     return false
   end
 
+  #Function that tell if a node has one or more children that are not from library
+  def has_one_or_more_complement_child?
+
+  end
+
 end

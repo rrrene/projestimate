@@ -136,8 +136,8 @@ module ProjectsHelper
           if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
             level_estimation_values = Hash.new
             level_estimation_values = est_val.send("string_data_#{level}")
-            puts "ESTIMATION_VALUE = #{est_val}"
-            puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
+            #puts "ESTIMATION_VALUE = #{est_val}"
+            #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
               res << " - "
             else
@@ -163,8 +163,6 @@ module ProjectsHelper
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
         res << "<td colspan='3'>"
-
-        str = "#{mpa.pe_attribute.attribute_type}_data_probable"
         level_probable_value = mpa.send("string_data_probable")
         if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil?
           res << "-"
