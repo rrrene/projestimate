@@ -127,7 +127,11 @@ module WbsActivityElementsHelper
         #"<span class=''>#{element.pe_wbs_project.name} WBS-Activity</span>"
         "<span class=''>#{@project.title} WBS-Activity : Activity breakdown Structure </span>"
       else
-        "<span class=''> #{element.name} </span>"
+        if element.wbs_activity_element.nil? && element.wbs_activity.nil?
+          "<span class=''> * #{element.name} </span>"
+        else
+          "<span class=''> #{element.name} </span>"
+        end
       end
     end
   end
