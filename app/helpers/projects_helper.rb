@@ -240,6 +240,7 @@ module ProjectsHelper
             module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
               pe_attribute_alias = nil
               level_parameter = ""
+              readonly_option = false
               res << "<tr><td>#{wbs_project_elt.name}</td>"
               ["low", "most_likely", "high"].each do |level|
                 res << "<td>"
@@ -260,9 +261,15 @@ module ProjectsHelper
                       end
 
                       if pbs_last_result.nil? || wbs_project_elt.wbs_activity_element.nil?
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                        if wbs_project_elt.is_root?
+                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
+                          readonly_option = true
+                        else
+                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                        end
                       else
                         res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
+                        readonly_option = true
                       end
                     else
                       if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
@@ -280,8 +287,11 @@ module ProjectsHelper
 
               #Available to copy value
               input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
-              res << "<td><div id='#{input_id}' class='copyLib' data-effort_input_id='#{input_id}' title='Copy value in other fields'></td></div>"
-
+              res << "<td>"
+              unless readonly_option
+                res << "<div id='#{input_id}' class='copyLib' data-effort_input_id='#{input_id}' title='Copy value in other fields'></div>"
+              end
+              res << "</td>"
              res << "</tr>"
            end
           res << "</table>"

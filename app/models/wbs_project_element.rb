@@ -75,7 +75,6 @@ class WbsProjectElement < ActiveRecord::Base
     !self.can_get_new_child.nil? && !self.can_get_new_child?
   end
 
-
   def destroy_leaf
     unless self.is_root
       if self.wbs_activity.nil? && self.wbs_activity_element.nil?
@@ -88,12 +87,19 @@ class WbsProjectElement < ActiveRecord::Base
         end
       end
     end
-    return false
+    false
   end
 
   #Function that tell if a node has one or more children that are not from library
-  def has_one_or_more_complement_child?
-
+  def has_new_complement_child?
+    has_new_additional_child = false
+    if self.has_children?  && !self.is_root?
+      self.children.each do |child|
+        has_new_additional_child = child.wbs_activity_element.nil? && child.wbs_activity.nil?
+        break if has_new_additional_child
+      end
+    end
+    has_new_additional_child
   end
 
 end
