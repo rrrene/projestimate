@@ -20,6 +20,10 @@
       <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map{|i| [i.name, i.id]}, :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
     <% end %>
 
+    <%= f.input :is_completed %>
+
+    <%= f.input :is_validated %>
+
     </br>
 
     <%= f.submit I18n.t("save"), :class => "btn" %>
