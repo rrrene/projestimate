@@ -363,12 +363,8 @@ div.field textarea:focus {
    color: darkred;
 }
 
-.selected, .unselected{
-
-}
-
-.selected{
-    background-color: lightBlue;
+.selected .block_link, .selected .block_label{
+    background-color: #fafad2;
 }
 
 .new_folder{
