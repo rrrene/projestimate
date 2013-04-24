@@ -30,7 +30,7 @@ class Peicon < ActiveRecord::Base
                        :content_type => { :content_type => "image/png" },
                        :size => { :in => 0..10.kilobytes }
 
-  has_many :work_element_types
+  has_many :work_element_types, :dependent => :destroy
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"

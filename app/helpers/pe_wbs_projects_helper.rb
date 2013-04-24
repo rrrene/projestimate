@@ -50,12 +50,11 @@ module PeWbsProjectsHelper
     end
 
     def wbs_navigation_links(c)
-      "<li class='#{ c.id == current_component.id ? 'selected' : '' }'  >
+      "<li class='#{ c.id == current_component.id ? "selected" : '' } #{ c.is_completed ? "is_completed" : '' } #{ c.is_validated ? "is_validated" : '' }'  >
         <div class='block_label'>
-          <div>
-            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
-            #{ link_to(c.link? ? Project.find(c.project_link) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "libelle") }
-          </div>
+          #{  image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
+          #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } #{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } 'libelle") }
+          #{  link_to(c.link? ? Project.find(c.project_link) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "libelle") }
         </div>
         <div class='block_link'>
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement}
@@ -71,7 +70,8 @@ module PeWbsProjectsHelper
       "<li class='#{ c.id == current_component.id ? 'selected' : '' }' >
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
-            #{image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
+            #{ image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
+            #{ content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } #{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } 'libelle") }
             #{ link_to(c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "libelle") }
           </div>
         </div>
@@ -92,6 +92,7 @@ module PeWbsProjectsHelper
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }
+            #{ content_tag('span', '', :class => "#{ pbs_project_element.is_completed ? 'icon-star' : 'icon-star-empty' } #{ pbs_project_element.is_validated ? 'icon-circle' : 'icon-circle-blank' } 'libelle") }
             #{ link_to(pbs_project_element.name + ' - Product Breakdown Structure', { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => "libelle ") }
           </div>
         </div>

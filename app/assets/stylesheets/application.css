@@ -364,7 +364,8 @@ div.field textarea:focus {
 }
 
 .selected .block_link, .selected .block_label{
-    background-color: #fafad2;
+    padding: 1px;
+    margin: 1px;
 }
 
 .new_folder{
