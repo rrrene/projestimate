@@ -1,32 +1,43 @@
-<div class="span4" xmlns="http://www.w3.org/1999/html">
+<div class="span5" xmlns="http://www.w3.org/1999/html">
   <%= simple_form_for(@pbs_project_element, :remote => true) do |f| %>
-    <%= f.error_notification %>
-    <%= hidden_field_tag :project_id,  @project.id  %>
+      <%= f.error_notification %>
+      <%= hidden_field_tag :project_id, @project.id %>
 
-    <% unless @pbs_project_element.is_root? %>
-      <%= f.input :ancestry, :label => I18n.t("ancestry") , :as => :select, :collection => @folder_components, :label => "Parent", :selected => @pbs_project_element.parent.id %>
+      <% if @pbs_project_element.link? %>
+          <%= f.input :project_link, :label => I18n.t('project_link'), :as => :select, :collection => Project.all.map { |i| [i.title, i.id] } %>
+      <% else %>
+          <%= f.input :name, :label => I18n.t('name') %>
+      <% end %>
 
-      <%= f.input :work_element_type_id, :label => I18n.t("work_element_type") , :as => :select, :collection => WorkElementType.all, :include_blank => false %>
-    <% end %>
+      <% unless @pbs_project_element.is_root? %>
+          <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :label => 'Parent', :selected => @pbs_project_element.parent.id %>
 
-    <% if @pbs_project_element.link? %>
-      <%= f.input :project_link, :label => I18n.t("project_link"), :as => :select, :collection => Project.all.map{|i| [i.title, i.id]} %>
-    <% else %>
-      <%= f.input :name, :label => I18n.t("name")  %>
-    <% end %>
+          <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
+      <% end %>
 
-    <% unless @pbs_project_element.link?%>
-      <%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map{|i| [i.name, i.id]}, :prompt => I18n.t(:select_wbs_activity) %>
-      <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map{|i| [i.name, i.id]}, :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
-    <% end %>
+      <% unless @pbs_project_element.link? %>
+          <table border=0>
+            <tr>
+              <td>
+                <%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map { |i| [i.name, i.id] }, :prompt => I18n.t(:select_wbs_activity) %>
+              </td>
+              <td>
+                <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map { |i| [i.name, i.id] }, :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
+              </td>
+            </tr>
+          </table>
+      <% end %>
 
-    <%= f.input :is_completed %>
+      <table border=0>
+        <tr>
+          <td><%= f.input :is_completed %></td>
+          <td><%= f.input :is_validated %></td>
+        </tr>
+      </table>
 
-    <%= f.input :is_validated %>
+      <br>
 
-    </br>
-
-    <%= f.submit I18n.t("save"), :class => "btn" %>
+      <%= f.submit I18n.t('save'), :class => 'btn' %>
 
   <% end %>
 </div>
