@@ -488,9 +488,7 @@ en-gb:
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS Activity"
-  select_wbs_activity: "Select a WBS Activity"
-  select_default_wbs_activity_ratio: "Select Default WBS-Activity-Ratio"
-  button_add: "ADD"     
+  button_add: "ADD"
   default_wbs_activity_ratio: "Default WBS activity ratio"      
   estimation_plan: "Estimation plan"
   securities: "Securities"
@@ -825,7 +823,7 @@ en-gb:
   mail_complimentary_close: "Sincerely,\nProjEstimate"
   mail_footer: "\n-----------------------------------------------\nThis email have been sent automatically through the ProjEstimate server.\n\n"
   mail_subject_lost_password: "[ProjEstimate] New password"
-  mail_body_lost_password: 'To change your password, click on the following link: '
+  mail_body_lost_password: 'To change your password, click on the following link (or copy it into your browser): '
   mail_body_lost_password_token_delay: 'Warning, this link is valid for a period of 2 hours. Beyond that, you must restart the process'
   mail_subject_account_activation_request: "[ProjEstimate] Account activation request"
   mail_body_account_activation_request: "A new user has registered. The account is pending your approval.\n\n"
