@@ -825,7 +825,7 @@ fr:
   mail_complimentary_close: "Bien à vous,\nProjEstimate"
   mail_footer: "\n-----------------------------------------------\nCe courriel a été envoyé automatiquement via le serveur ProjEstimate.\n\n"
   mail_subject_lost_password: "[ProjEstimate] Nouveau mot de passe"
-  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant: '
+  mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant (ou le recopier le dans votre navigateur): '
   mail_body_lost_password_token_delay: 'Attention, ce lien est valable pour une durée de 2 heures. Au-delà, vous devrez recommencer la procédure'
   mail_subject_account_activation_request: "[ProjEstimate] demande d'activation du compte"
   mail_body_account_activation_request: "Un nouvel utilisateur s'est inscrit. Le compte est en attente de votre approbation.\n\n"
