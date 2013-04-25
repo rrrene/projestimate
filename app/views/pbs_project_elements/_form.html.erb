@@ -14,28 +14,24 @@
 
           <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
       <% end %>
-
       <% unless @pbs_project_element.link? %>
-          <table border=0>
+          <table cellpadding="8" border=0>
             <tr>
               <td>
-                <%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map { |i| [i.name, i.id] }, :prompt => I18n.t(:select_wbs_activity) %>
+                <%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map { |i| [i.name, i.id] }, :prompt => I18n.t('helpers.select.prompt') %>
               </td>
               <td>
-                <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map { |i| [i.name, i.id] }, :prompt => I18n.t(:select_default_wbs_activity_ratio) %>
+                <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map { |i| [i.name, i.id] }, :prompt => I18n.t('helpers.select.prompt') %>
               </td>
             </tr>
           </table>
       <% end %>
-
-      <table border=0>
+      <table cellpadding="8" border="0">
         <tr>
           <td><%= f.input :is_completed %></td>
           <td><%= f.input :is_validated %></td>
         </tr>
       </table>
-
-      <br>
 
       <%= f.submit I18n.t('save'), :class => 'btn' %>
 
