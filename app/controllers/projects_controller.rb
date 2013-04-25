@@ -401,7 +401,7 @@ class ProjectsController < ApplicationController
         end
 
         current_pbs_project_elt = current_component
-        current_module = "#{module_project.pemodule}::#{module_project.pemodule}".gsub(" ", "").constantize
+        current_module = "#{module_project.pemodule.alias.camelcase.constantize}::#{module_project.pemodule.alias.camelcase.constantize}".gsub(" ", "").constantize
 
         #Need to add input for pbs_project_element and module_project
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
