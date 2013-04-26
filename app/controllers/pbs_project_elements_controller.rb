@@ -158,6 +158,7 @@ class PbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     component_a = PbsProjectElement.find(params[:pbs_project_element_id])
+
     unless component_a.position == @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.map(&:position).max
       component_b = PbsProjectElement.find_by_position(component_a.position + 1)
       component_a.update_attribute("position", component_a.position + 1)
