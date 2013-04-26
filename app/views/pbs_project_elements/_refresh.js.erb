@@ -1,21 +1,15 @@
-//$("#main").html("<%# j render(:partial => "users/dashboard_inner", :locals => { :resultat => @resultat } ) %>");
-//
-//$( ".tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
-//
-//$('.component_tree > ul li').hover(
-//
-//    function () {
-//      $(this.children).css('display', 'inline');
-//    },
-//
-//    function () {
-//     $('.block_link').hide();
-//    }
-//);
-
 $(".component_tree").html("<%=raw j generate_wbs_product(current_component.root, @project, '', 5) %>");
 
 $(".input_data").html("<%=raw j(display_input) %>  <%=raw j submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger'%> ");
 
 $(".output_data").html("<%=raw j(display_results) %>");
+
+$('.component_tree > ul li').hover(
+    function () {
+      $(this.children).css('display', 'inline');
+    },
+    function () {
+     $('.block_link').hide();
+    }
+);
 
