@@ -49,7 +49,6 @@ module ProjectsHelper
   end
 
 
-
   def display_results_without_activities(module_project)
     res = String.new
     pbs_project_element = @pbs_project_element || current_project.root_component
@@ -260,7 +259,10 @@ module ProjectsHelper
                         ##puts "PBS_RESULT = #{pbs_last_result}"
                       end
 
-                      if pbs_last_result.nil? || wbs_project_elt.wbs_activity_element.nil?
+                      if pbs_last_result.nil?
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+
+                      elsif wbs_project_elt.wbs_activity_element.nil?
                         if wbs_project_elt.is_root?
                           res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
                           readonly_option = true
