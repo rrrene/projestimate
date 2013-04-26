@@ -66,10 +66,6 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
-    pbs_project_element.estimation_values.each do |mpa|
-      mpa.destroy
-    end
-
     #Destroy the selected pbs_project_element
     pbs_project_element.destroy
 
