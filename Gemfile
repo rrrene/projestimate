@@ -102,6 +102,7 @@ end
 
 group :development do
   #For UML classes diagram generator (!looks not easy to turn it in order on windows)
+  gem 'thin' #Instead of webrick (and avoid WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true)
   gem 'railroady', :group => [:development], :platforms => [:mri]
   #gem 'orphan_records'
   # To use debugger

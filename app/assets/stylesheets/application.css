@@ -294,9 +294,10 @@
 }
 
 .block_link a.bl{
-   display: inline-block;
-   float: left;
-   margin-left: 2px;
+    display: inline-block;
+    float: left;
+    margin-left: 2px;
+    text-decoration: none;
 }
 
 .up{
