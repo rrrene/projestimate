@@ -120,14 +120,6 @@ class PbsProjectElementsController < ApplicationController
 
     @user = current_user
 
-    @project.module_projects.each do |mp|
-      mp.estimation_values.reject{|i| i.pbs_project_element_id != @project.root_component.id }.each do |mpa|
-        new_mpa = mpa.dup
-        new_mpa.save
-        mpa.update_attribute("pbs_project_element_id", @pbs_project_element.id)
-      end
-    end
-
     @module_projects = @project.module_projects
 
     render :partial => "pbs_project_elements/refresh_tree"

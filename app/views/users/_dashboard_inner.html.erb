@@ -54,8 +54,10 @@
     </h3>
     <% unless current_component.nil? %>
       <%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :remote => true, :class => 'simple_form') do -%>
-        <%=raw display_input %>
-        <%= submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger' %>
+        <div class="input_data">
+          <%=raw display_input %>
+          <%= submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger' %>
+        </div>
       <% end -%>
     <% end %>
   </div>
