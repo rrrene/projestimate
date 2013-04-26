@@ -20,7 +20,6 @@
 
 #Module Attribute are duplicated on AttributeProject in order to use it.
 class EstimationValue < ActiveRecord::Base
-  has_ancestry
 
   belongs_to :pe_attribute
   belongs_to :module_project

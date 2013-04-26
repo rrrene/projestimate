@@ -148,17 +148,17 @@ def load_data!
       
     puts '   - Attributes'
       attributes = [
-      ['KSLOC', 'ksloc', 'Kilo Size Line Of Code.', 'integer', [], 'sum'],
-      ['Cost', 'cost', 'Cost of a product, a service or a process.', 'integer', [], 'sum'],
-      ['Delay', 'delay', 'Time allowed for the completion of something.', 'integer', [], 'average'],
-      ['Staffing', 'staffing', 'Staff required to accomplish a task', 'integer', [], 'sum'],
-      ['Staffing complexity', 'staffing_complexity', "A rating of the project's inherent difficulty in terms of the rate at which staff are added to a project.", 'integer', [], 'average'],
-      ['Effective technology', 'effective_technology', 'A composite metric that captures factors relating to the efficiency or productivity with which development can be carried out.', 'integer', [], 'average'],
-      ['End date', 'end_date', 'End date for a task, a pbs_project_element. Dependent of delay.', 'date', [], 'maxi'],
-      ['Effort Man Hour', 'effort_man_hour', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour.', 'float', [], 'average'],
+      ['KSLOC', 'ksloc', 'Kilo (1000) Source Lines Of Code.', 'float', ['float','>=', '0'], 'sum'],
+      ['Cost', 'cost', 'Cost of a product, a service or a process in local currency', 'float', ['float','>=', '0'], 'sum'],
+      ['Delay', 'delay', 'Time allowed for the completion of something in number of days', 'float', ['float','>=', '0'], 'average'],
+      ['Staffing', 'staffing', 'Staff required to accomplish a task in number of people', 'integer', ['integer','>=', '0'], 'sum'],
+      ['Staffing complexity', 'staffing_complexity', "A rating of the project's inherent difficulty in terms of the rate at which staff are added to a project.", 'float', ['float','>=', '0'], 'average'],
+      ['Effective technology', 'effective_technology', 'A composite metric that captures factors relating to the efficiency or productivity with which development can be carried out.', 'float', ['float','>=', '0'], 'average'],
+      ['End date', 'end_date', 'End date for a task, a pbs_project_element. Dependent of delay.', 'date', ['date'], 'maxi'],
+      ['Effort Man Hour', 'effort_man_hour', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour.', 'float', ['float','>=', '0'], 'average'],
       ['Effort Man Month', 'effort_man_month', 'A man-month or person-month is the amount of work performed by an average worker in one Month.', 'float', ['float','>=', '0'], 'average'],
-      ['Duration', 'duration', 'Duration of a task', 'integer', [], 'average'],
-      ['Complexity', 'complexity', 'Application complexity (for COCOMO modules)', 'integer', [], 'average'],
+      ['Duration', 'duration', 'Duration of a task in hour', 'float', ['float','>=', '0'], 'average'],
+      ['Complexity', 'complexity', 'classes of software projects (for COCOMO modules) - Organic projects: "small" teams with "good" experience working with "less than rigid" requirements - Semi-detached projects: "medium" teams with mixed experience working with a mix of rigid and less than rigid requirements - Embedded projects: developed within a set of "tight" constraints. It is also combination of organic and semi-detached projects.(hardware, software, operational, ...)', 'list', ['list','','Organic;Semi-detached;Embedded'], 'average'],
     ]
 
     attributes.each do |i|
@@ -372,7 +372,7 @@ def load_data!
     ['A set of activity-elements'],
   ]
   reference_values.each do |i|
-    ReferenceValue.create(:name => i[0], :record_status_id => rsid)
+    ReferenceValue.create(:value => i[0], :record_status_id => rsid)
   end
 
   #  puts "\n\n"

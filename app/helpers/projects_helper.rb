@@ -138,10 +138,10 @@ module ProjectsHelper
             level_estimation_values = est_val.send("string_data_#{level}")
             #puts "ESTIMATION_VALUE = #{est_val}"
             #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
-            if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
+            if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
               res << " - "
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
             end
           end
         end
@@ -164,10 +164,10 @@ module ProjectsHelper
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
         res << "<td colspan='3'>"
         level_probable_value = mpa.send("string_data_probable")
-        if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil?
+        if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id].nil?
           res << "-"
         else
-          res << "<div align='center'>#{level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id]}</div>"
+          res << "<div align='center'>#{level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id][:value]}</div>"
         end
         res << "</td>"
         res << "<td></td>"
@@ -262,20 +262,20 @@ module ProjectsHelper
 
                       if pbs_last_result.nil? || wbs_project_elt.wbs_activity_element.nil?
                         if wbs_project_elt.is_root?
-                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
+                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
                           readonly_option = true
                         else
                           res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
                         end
                       else
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id], :readonly => true}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
                         readonly_option = true
                       end
                     else
-                      if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil?
+                      if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
                         res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
                       else
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id.to_s]}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
                       end
                     end
 
