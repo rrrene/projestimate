@@ -121,7 +121,6 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.string   "base_dn"
     t.string   "user_name_attribute"
     t.boolean  "certificate"
-    t.string   "scope"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "uuid"
@@ -155,18 +154,6 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
   add_index "currencies", ["record_status_id"], :name => "index_currencies_on_record_status_id"
   add_index "currencies", ["reference_id"], :name => "index_currencies_on_parent_id"
   add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
-
-  create_table "ej_estimation_values", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "pbs_project_element_id"
-    t.integer  "wbs_activity_element_id"
-    t.float    "minimum"
-    t.float    "most_likely"
-    t.float    "maximum"
-    t.float    "probable"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-  end
 
   create_table "estimation_values", :force => true do |t|
     t.integer  "pe_attribute_id"
@@ -277,6 +264,11 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "help_code"
+  end
+
+  create_table "homes", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "labor_categories", :force => true do |t|
@@ -399,6 +391,7 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.string   "name"
     t.integer  "project_link"
     t.integer  "position"
+    t.integer  "copy_id"
     t.integer  "wbs_activity_id"
     t.integer  "wbs_activity_ratio_id"
     t.boolean  "is_completed"
@@ -540,13 +533,6 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.datetime "updated_at"
   end
 
-  create_table "product_activities", :force => true do |t|
-    t.integer  "pbs_project_element_id"
-    t.integer  "wbs_project_element_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-  end
-
   create_table "project_areas", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -653,6 +639,7 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.text     "purpose"
     t.text     "level_of_detail"
     t.text     "scope"
+    t.integer  "copy_number"
     t.text     "included_wbs_activities"
   end
 
@@ -736,6 +723,9 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.integer  "organization_id"
   end
 
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["login_name"], :name => "index_users_on_login_name", :unique => true
+
   create_table "versions", :force => true do |t|
     t.datetime "local_latest_update"
     t.datetime "repository_latest_update"
@@ -750,14 +740,15 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.string   "state"
     t.text     "description"
     t.integer  "organization_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "record_status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.integer  "copy_number",      :default => 0
   end
 
   add_index "wbs_activities", ["owner_id"], :name => "index_wbs_activities_on_owner_id"
@@ -779,8 +770,8 @@ ActiveRecord::Schema.define(:version => 20130418131424) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
