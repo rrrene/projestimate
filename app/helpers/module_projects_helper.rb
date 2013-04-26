@@ -20,18 +20,6 @@
 
 module ModuleProjectsHelper
 
-  def probable_value_save(results, mpa)
-    attribute_alias = mpa.pe_attribute.alias.to_sym
-    if mpa.pe_attribute.attribute_type == "numeric"
-      min = results[:low][attribute_alias].to_f
-      ml = results[:most_likely][attribute_alias].to_f
-      high = results[:high][attribute_alias].to_f
-      res = (min+4*ml+high)/6
-    else
-      "-"
-    end
-  end
-
   # Compute the probable result for each node
   # results: estimation result for (low, most_likely, high)
   # estimation_value : the estimation_value object
@@ -40,7 +28,7 @@ module ModuleProjectsHelper
     most_likely = 0.0
     maximum = 0.0
     attribute_alias = estimation_value.pe_attribute.alias.to_sym
-    puts "RESULT_FOR_PROBABLE = #{results}"
+    #puts "RESULT_FOR_PROBABLE = #{results}"
     min_estimation_value = results[:low]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
     most_likely_estimation_value = results[:most_likely]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
     high_estimation_value = results[:high]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
@@ -56,12 +44,8 @@ module ModuleProjectsHelper
         hash_data_probable[wbs_project_elt_id] = (minimum + 4*most_likely + maximum) / 6
       end
       hash_data_probable
-
     else
       data_probable =  (min_estimation_value.to_f + 4*most_likely_estimation_value.to_f + high_estimation_value.to_f) / 6
     end
-
   end
-
-
 end

@@ -285,7 +285,6 @@ class ProjectsController < ApplicationController
                                             :string_data_most_likely => {:default_most_likely => am.default_most_likely},
                                             :string_data_high => {:default_high => am.default_high},
                                             :custom_attribute => am.custom_attribute,
-                                            :dimensions => am.dimensions,
                                             :project_value => am.project_value )
           end
         else
@@ -298,8 +297,6 @@ class ProjectsController < ApplicationController
                                          :string_data_most_likely => {:default_most_likely => am.default_most_likely},
                                          :string_data_high => {:default_high => am.default_high},
                                          :custom_attribute => am.custom_attribute,
-                                         #:pbs_project_element_id => c.id,
-                                         :dimensions => am.dimensions,
                                          :project_value => am.project_value )
         end
       end
@@ -320,19 +317,8 @@ class ProjectsController < ApplicationController
   def run_estimation
     @resultat = Array.new
 
-    #  #Pour chaque folder
-    #  folder_result = {}
-    #  @folders.map do |folder| folder.children.map{|j| j.estimation_values }.each do |mpa|
-    #    %w(low most_likely high).each do |level|
-    #      folder_result = { "numeric_data_#{level}" => folder.children.map{|i| i.send("#{mpa.first.pe_attribute.alias}_#{level}") }.flatten.compact.sum}
-    #    end
-    #    mpa.first.update_attributes(folder_result)
-    #  end
-    #end
-
     results = Hash.new
     ['low', 'most_likely', 'high'].each do |level|
-      #results[level.to_sym] = current_project.run_estimation_plan(params[level], level)
       results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
     end
 
@@ -345,28 +331,43 @@ class ProjectsController < ApplicationController
     @project.module_projects.each do |mp|
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values###.where("pbs_project_element_id = ?", @pbs_project_element.id)
-      #mp.estimation_values.each do |est_val|
       current_pbs_estimations.each do |est_val|
         if est_val.in_out == 'output'
           out_result = Hash.new
           @results.each do |res|
             ['low', 'most_likely', 'high'].each do |level|
-              # We don't have to remplace the value, but we need to update them
+              # We don't have to replace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
+              ##level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
+
+              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
+
+              # In case when module use the wbs_project_element, the is_consistent need to be set
+              if mp.pemodule.with_activities
+                psb_level_estimation = level_estimation_value[@pbs_project_element.id]
+                level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
+              else
+                level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
+              end
+
               out_result["string_data_#{level}"] = level_estimation_value
             end
 
             # compute the probable value for each node
             probable_estimation_value = Hash.new
             probable_estimation_value = est_val.send("string_data_probable")
-            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            pbs_probable_est_value = probable_value(@results, est_val)
+
+            if mp.pemodule.with_activities
+              probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
+            else
+              probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
+            end
             out_result["string_data_probable"] = probable_estimation_value
           end
-
-            est_val.update_attributes(out_result)
-
+          est_val.update_attributes(out_result)
         elsif est_val.in_out == 'input'
           in_result = Hash.new
           ['low', 'most_likely', 'high'].each do |level|
@@ -385,6 +386,31 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js { render :partial => 'pbs_project_elements/refresh' }
     end
+  end
+
+
+  # After estimation, need to know if node value are consistent or not
+  def set_element_consistency(estimation_result, module_project)
+    result_with_consistency = Hash.new
+    unless estimation_result.nil?
+      estimation_result.each do |wbs_project_elt_id, est_value|
+        consistency = true
+        wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
+        if wbs_project_element.has_children?
+          if !module_project.pemodule.alias.to_s == "effort_breakdown" && wbs_project_element.has_new_complement_child?
+            children_est_value = 0.0
+            wbs_project_element.child_ids.each do |child_id|
+              children_est_value =  children_est_value + estimation_result[child_id].to_f
+            end
+            if est_value.to_f != children_est_value.to_f
+              consistency = false
+            end
+          end
+        end
+        result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
+      end
+    end
+    result_with_consistency
   end
 
 
@@ -420,6 +446,7 @@ class ProjectsController < ApplicationController
     puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_man_hour=>{"337"=>18000.0, "338"=>12000.0}}
     @result_hash
   end
+
 
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
