@@ -10,21 +10,21 @@ FactoryGirl.define do
     name "Component"
     is_root false
 
-    trait :trait_folder do
+    trait :pbs_trait_folder do
       name "Folder"
     end
 
-    trait :trait_bad do
+    trait :pbs_trait_bad do
       name "bad"
     end
   end
 
-  factory :folder, :class => PbsProjectElement do
+  factory :pbs_folder, :class => PbsProjectElement do
     name "Folder"
     is_root false
   end
 
-  factory :bad, :class => PbsProjectElement do |cl|
+  factory :pbs_bad, :class => PbsProjectElement do |cl|
     cl.name ""
     cl.is_root false
   end

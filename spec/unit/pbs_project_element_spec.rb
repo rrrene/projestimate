@@ -4,9 +4,9 @@ describe PbsProjectElement do
 
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
-    @folder = FactoryGirl.create(:folder)   # Pbs_project_element
-    @folder1 = FactoryGirl.create(:folder, :name => "Folder1", :work_element_type => @work_element_type)
-    @bad = FactoryGirl.create(:bad, :name => "bad_name")
+    @folder = FactoryGirl.create(:pbs_folder)   # Pbs_project_element
+    @folder1 = FactoryGirl.create(:pbs_folder, :name => "Folder1", :work_element_type => @work_element_type)
+    @bad = FactoryGirl.create(:pbs_bad, :name => "bad_name")
   end
 
   it 'should be valid' do
