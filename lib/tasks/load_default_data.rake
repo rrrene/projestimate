@@ -68,6 +68,10 @@ def load_data!
     
   puts ' Creating Master Parameters ...'
 
+    # Version
+    puts '   - Version table'
+    Version.create :comment => "No update data has been save"
+
     #RecordStatus
     record_status = Array.new
     record_status = [
