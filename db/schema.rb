@@ -773,6 +773,7 @@ ActiveRecord::Schema.define(:version => 20130426132414) do
     t.integer  "reference_id"
     t.string   "reference_uuid"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

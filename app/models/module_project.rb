@@ -44,6 +44,10 @@ class ModuleProject < ActiveRecord::Base
     mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
   end
 
+  def links
+    self.associated_module_project_ids
+  end
+
   def compatible_with(wet_alias)
     if self.pemodule.compliant_component_type.nil?
       false

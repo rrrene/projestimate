@@ -71,6 +71,7 @@ class PemodulesController < ApplicationController
       @pemodule = current_pemodule
     end
 
+    @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
     @pemodule.compliant_component_type = params[:compliant_wet]
 
     #if @pemodule.save#(:validate => false)
@@ -90,6 +91,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
     @attributes = PeAttribute.all
+    @attribute_settings = []
 
     if @pemodule.save
       redirect_to redirect(pemodules_url)
