@@ -1,76 +1,38 @@
-
-<div id="stage">
-</div>
-
 <div class="module_box">
-    <% module_projects = @project.module_projects %>
+  <% module_projects = @project.module_projects %>
 
-    <% unless module_projects.empty? %>
-      <% for i in 1..@module_positions %>
+  <% unless module_projects.empty? %>
+    <% for j in 1..@module_positions %>
 
-        <div class="" >
-          <div class="window span2" >
-              <%= I18n.t(:step) %> <%= i %>
-          </div>
+      <div class="" >
+        <div class="window span2" >
+            <%= I18n.t(:step) %> <%= j %>
         </div>
+      </div>
 
 
-        <div class="row">
-          <% ModuleProject.where(:project_id => @project.id, :position_y => i).each_with_index do |pmod, i| %>
+      <div class="row">
+        <% ModuleProject.where(:project_id => @project.id, :position_y => j).each_with_index do |pmod, i| %>
 
-            <% if @pbs_project_element %>
-              <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
-                <% pbs_class = 'highlight' %>
-              <% end %>
+          <% if @pbs_project_element %>
+            <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
+              <% pbs_class = 'highlight' %>
             <% end %>
-
-            <div class="<%= pbs_class %> window span2 <%=pmod.pemodule.alias %>">
-                <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
-                <br>
-                <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
-                <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
-                <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
-                <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
-                <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
-            </div>
-
-            <script>
-              $(document).ready(function() {
-                jsPlumb.ready(function() {
-                  <% pmod.associated_module_projects.each do |amp| %>
-                    <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
-                        jsPlumb.setRenderMode(jsPlumb.SVG);
-                        jsPlumb.importDefaults({
-                            Connector:"Straight",
-                            PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-                            Endpoint:[ "Rectangle", { radius:1 } ],
-                            EndpointStyle:{ fillStyle:"#ffa500" },
-                            Anchor:"AutoDefault"
-                          });
-
-                        var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias%>"));
-                        var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias%>"));
-
-                        e0.setEnabled(false);
-                        e1.setEnabled(false);
-
-                        jsPlumb.connect({
-                          source:e0,
-                          target:e1,
-                          endpoint:"Rectangle",
-                          connector:[ "Straight" ]
-                        });
-                    <% end %>
-                  <% end %>
-                });
-                e0 = null;
-                e1 = null;
-              });
-            </script>
           <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <p><%= I18n.t(:no_estimation_plan)%></p>
+
+          <div class="<%= pbs_class %> window span2 <%= pmod.pemodule.alias %> ">
+              <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
+              <br>
+              <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
+              <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
+              <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
+              <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
+              <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
+  <% else %>
+    <p><%= I18n.t(:no_estimation_plan)%></p>
+  <% end %>
 </div>

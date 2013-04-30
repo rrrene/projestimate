@@ -106,7 +106,7 @@ class Project < ActiveRecord::Base
 
   #Override
   def to_s
-    self.title + ' - ' + self.description.truncate(20)
+    self.title + ' - ' + self.description.truncate(40)
   end
 
   #Return project value

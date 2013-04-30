@@ -1,66 +1,112 @@
-<div class="tabs">
-
-  <ul>
-    <li><a href="#tabs-1">WBS Projects </a></li>
-    <li><a href="#tabs-2">Estimation Modules</a></li>
-    <li><a href="#tabs-3">Output data</a></li>
-    <li><a href="#tabs-4">Estimation Plan </a></li>
-    <li><a href="#tabs-5">Charts </a></li>
-  </ul>
-
-  <div id="tabs-1">
-    <div class="row">
-      <div class="offset1 span6">
-        <h3>
-          WBS-Product
-        </h3>
-        <%= render :partial => 'users/pe_wbs' %>
+<div class="row-fluid">
+  <div class="span6">
+    <div class="widget-box collapsible">
+      <div class="widget-title">
+        <a href="#collapseProduct" data-toggle="collapse" class="">
+          <span class="icon">
+            <i class="icon-align-left"></i>
+          </span>
+        </a>
+        <h5>WBS-Product</h5>
       </div>
-
-      <div class="span5">
-        <h3>
-          WBS-Activity
-        </h3>
-        <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
-      </div>
-    </div>
-  </div>
-
-  <div id="tabs-3">
-    <h3>
-      Output data
-    </h3>
-    <div class="output_data">
-      <%=raw display_results %>
-    </div>
-  </div>
-
-  <div id="tabs-4">
-    <h3>
-      Estimation plan
-    </h3>
-    <%= render 'projects/estimation_plan' %>
-  </div>
-
-  <div id="tabs-5">
-    <h3>
-      Charts
-    </h3>
-  </div>
-
-  <div id="tabs-2">
-    <h3>
-      Estimation Module
-    </h3>
-    <% unless current_component.nil? %>
-      <%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :remote => true, :class => 'simple_form') do -%>
-        <div class="input_data">
-          <%=raw display_input %>
-          <%= submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger' %>
+      <div class="collapse in" id="collapseProduct">
+        <div class="widget-content">
+          <%= render :partial => 'users/pe_wbs' %>
         </div>
-      <% end -%>
-    <% end %>
+      </div>
+    </div>
   </div>
 
+  <div class="span6">
+    <div class="widget-box">
+      <div class="widget-title">
+        <a href="#collapseActivity" data-toggle="collapse" class="">
+          <span class="icon"><i class="icon-list"></i></span>
+        </a>
+        <h5>WBS-Activity</h5>
+      </div>
+      <div class="collapse in" id="collapseActivity">
+        <div class="widget-content">
+          <div class="row-fluid">
+            <div class="span6">
+              <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :remote => true, :class => 'simple_form') do -%>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"><span class="icon"><i class="icon-align-left"></i></span>
+          <h5>Estimation module - Input data </h5>
+          <div class="buttons">
+            <a href="" onclick="$(this).closest('form').submit(); $('#spiner').toggle();" class="btn btn-mini btn-success">
+              <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
+              <%= I18n.t('execute_estimation') %>
+            </a>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="input_data">
+            <%=raw display_input %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"><span class="icon"><i class="icon-list"></i></span>
+          <h5>Estimation module - Output data </h5>
+          <div class="buttons">
+            <a href="" class="btn btn-mini btn-warning">
+              JSON
+            </a>
+            <a href="" class="btn btn-mini btn-warning">
+              XML
+            </a>
+            <a href="" class="btn btn-mini btn-warning">
+              CSV
+            </a>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="row-fluid">
+            <div class="output_data">
+              <%=raw display_results %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="widget-box">
+      <div class="widget-title"><span class="icon"><i class="icon-signal"></i></span>
+        <h5>Estimation Plan</h5>
+      </div>
+      <div class="widget-content">
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="output_data">
+              <%= render 'projects/estimation_plan' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 

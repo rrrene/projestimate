@@ -388,7 +388,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   # After estimation, need to know if node value are consistent or not
   def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
@@ -488,7 +487,6 @@ class ProjectsController < ApplicationController
       redirect_to '/projects'
     end
   end
-
 
   def commit
     project = Project.find(params[:project_id])
@@ -627,6 +625,13 @@ class ProjectsController < ApplicationController
       @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
     end
   end
+
+  def display_estimation_plan
+    @project = Project.find(params[:id])
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_projects = ModuleProject.where(:project_id => @project.id)
+  end
+
 
 
 end

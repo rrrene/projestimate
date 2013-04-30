@@ -54,18 +54,14 @@ module ProjectsHelper
     pbs_project_element = @pbs_project_element || current_project.root_component
 
     pemodule = Pemodule.find(module_project.pemodule.id)
-    res << "<div class='widget'>"
-    res << "<div class='widget-header'>
-                <h3>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h3>
-              </div>"
-    res << "<div class='widget-content'>"
-    res << "<table class='table table-bordered'>
+    res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+    res << "<table class='table table-condensed table-bordered'>
                  <tr>
                    <th></th>"
-    ["low", "most_likely", "high", "probable"].each do |level|
-      res << "<th>#{level.humanize}</th>"
-    end
-    res << "</tr>"
+                    ["low", "most_likely", "high", "probable"].each do |level|
+                      res << "<th>#{level.humanize}</th>"
+                    end
+        res << "</tr>"
 
     module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
       res << "<tr><td>#{estimation_value.pe_attribute.name}</td>"
@@ -85,8 +81,6 @@ module ProjectsHelper
     end
 
     res << "</table>"
-    res << "</div>"
-    res << "</div>"
 
     res
   end
@@ -101,18 +95,14 @@ module ProjectsHelper
     project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
 
     pemodule = Pemodule.find(module_project.pemodule.id)
-    res << "<div class='widget'>"
-    res << "<div class='widget-header'>
-                <h3>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h3>
-            </div>"
-    res << "<div class='widget-content'>"
-    res <<    "<table class='table table-bordered'>
-                 <tr>
-                   <th></th>"
+    res << " <h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5> "
+    res << " <table class='table table-condensed table-bordered'>
+               <tr>
+                 <th></th>"
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th>#{mpa.pe_attribute.name}</th>"
+        res << "<th colspan=4>#{mpa.pe_attribute.name}</th>"
       end
     end
     res << "</tr>"
@@ -175,7 +165,6 @@ module ProjectsHelper
     res << "</tr>"
     res << "</table>"
     res << "</div>"
-    res << "</div>"
 
     res
   end
@@ -222,19 +211,15 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-        res << "<div class='widget'>"
-          res << "<div class='widget-header'>
-                      <h3>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h3>
-                  </div>"
-          res << "<div class='widget-content'>"
-            res << "<table class='table table-bordered'>"
-              res << "<tr>
-                        <th></th>"
-                        ["low", "most_likely", "high"].each do |level|
-                          res << "<th>#{level.humanize}</th>"
-                        end
-                        res << "<th></th>"
-              res << "</tr>"
+        res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+          res << "<table class='table table-condensed table-bordered'>"
+            res << "<tr>
+                      <th></th>"
+                      ["low", "most_likely", "high"].each do |level|
+                        res << "<th>#{level.humanize}</th>"
+                      end
+                      res << "<th></th>"
+            res << "</tr>"
 
             module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
               pe_attribute_alias = nil
@@ -260,24 +245,24 @@ module ProjectsHelper
                       end
 
                       if pbs_last_result.nil?
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini text-center"}"
 
                       elsif wbs_project_elt.wbs_activity_element.nil?
                         if wbs_project_elt.is_root?
-                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
+                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini text-center"}"
                           readonly_option = true
                         else
-                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                          res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini text-center"}"
                         end
                       else
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini text-center"}"
                         readonly_option = true
                       end
                     else
                       if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini text-center"}"
                       else
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
+                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value], :class => "input-mini text-center"}"
                       end
                     end
 
@@ -297,8 +282,6 @@ module ProjectsHelper
              res << "</tr>"
            end
           res << "</table>"
-        res << "</div>"
-      res << "</div>"
     end
     res
   end
@@ -310,13 +293,8 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-          res << "<div class='widget'>"
-            res << "<div class='widget-header'>
-                      <h3>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h3>
-                    </div>"
-            res << "<div class='widget-content'>"
-
-              res << "<table class='table table-bordered'>
+          res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+              res << "<table class='table table-condensed table-bordered'>
                         <tr>
                           <th></th>"
                           ###current_component.estimation_values.each do |est_val|
@@ -334,17 +312,15 @@ module ProjectsHelper
                           level_estimation_values = Hash.new
                           level_estimation_values = est_val.send("string_data_#{level}")
                           if level_estimation_values[pbs_project_element.id].nil?
-                            res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values["default_#{level}"]}</td>"
+                            res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values["default_#{level}".to_sym], :class => "input-mini text-center"}</td>"
                           else
-                            res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values[pbs_project_element.id]}</td>"
+                            res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values[pbs_project_element.id], :class => "input-mini text-center" }</td>"
                           end
                         end
                       end
                       res << "</tr>"
                     end
               res << "</table>"
-            res << "</div>"
-          res << "</div>"
       end
     res
   end
