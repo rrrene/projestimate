@@ -13,18 +13,19 @@
         <% end %>
       </tr>
 
-      <% @module_projects.each do |i| %>
+      <%# @module_projects.each do |i| %>
           <tr>
             <td>
-              <strong><%= i.pemodule.title %></strong>
+              <strong><%= @module_project.pemodule.title %></strong>
             </td>
             <% @references_values.each do |ref| %>
                 <td>
-                  <%= radio_button_tag "module_projects_#{i.id}", ref.id, i.reference_value.nil? ? false : (i.reference_value == ref) %>
+                  <%#= radio_button_tag "module_projects_#{i.id}", ref.id, i.reference_value.nil? ? false : (i.reference_value == ref) %>
+                  <%= radio_button_tag "module_projects_#{@module_project.id}", ref.id, @module_project.reference_value.nil? ? false : (@module_project.reference_value == ref) %>
                 </td>
             <% end %>
           </tr>
-      <% end %>
+      <%# end %>
     </table>
 
     <%= submit_tag I18n.t('save'), :class => 'btn ' %>
