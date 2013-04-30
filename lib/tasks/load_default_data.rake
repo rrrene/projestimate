@@ -198,7 +198,7 @@ def load_data!
     #Create default language
     Language.create(:name => 'English (United States)', :locale => 'en', :record_status_id => rsid)
     Language.create(:name => 'Français (France)', :locale => 'fr', :record_status_id => rsid)
-    Language.create(:name => 'English (British)', :locale => 'en-GB', :record_status_id => rsid)
+    Language.create(:name => 'English (British)', :locale => 'en-gb', :record_status_id => rsid)
     Language.create(:name => 'Deutsch (Deutschland)', :locale => 'de', :record_status_id => rsid)
 
   puts ' Creating Admin Parameters ...'

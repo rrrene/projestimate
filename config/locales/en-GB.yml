@@ -842,3 +842,8 @@ en-gb:
 
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   label_module_with_activities: "Is the module using Activities ?"
+  label_add_a_module_to_project: "Add the selected module"
+  label_filter_on_pbs_element: "Focus on a PBS-element"
+  button_build_estimation_path: "Establish estimation paths"
+  button_configure_module_pbs_element: "Configure PBS-elements"
+  label_show_hidden_elements: "Show hidden elements"

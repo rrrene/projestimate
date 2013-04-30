@@ -842,3 +842,8 @@ fr:
 
   text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
   label_module_with_activities: "Est-ce que le module utilise les activités?"
+  label_add_a_module_to_project: "Ajouter le module sélectionné"
+  label_filter_on_pbs_element: "Focus sur un élément du PBS"
+  button_build_estimation_path: "Etablir les chemins d'estimation"
+  button_configure_module_pbs_element: "Configurer les éléments du PBS"
+  label_show_hidden_elements: "Montrer les éléments cachés"
