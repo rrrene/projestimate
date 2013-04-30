@@ -3,85 +3,99 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:project_global_parameters) %></a></li>
     <% unless @pemodule.is_typed %>
-      <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
-      <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %></a></li>
+        <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
+        <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %></a></li>
     <% end %>
   </ul>
 
   <div id="tabs-1">
     <%= simple_form_for(@pemodule) do |f| %>
-      <%= f.error_notification %>
+        <%= f.error_notification %>
 
-      <%= hidden_field_tag 'id', (@pemodule.id || nil) %>
-       <div>
-          <%= f.input :title, :label => I18n.t('name') %>
-
-          <%= f.input :alias %>
-
-          <%= f.input :description, :label => I18n.t('description'), :input_html => { :rows => 3 } %>
-
-          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3 } %>
-
-          <%= f.association :record_status, :label => I18n.t('record_status'), :label => 'Status',
-                            :collection => @pemodule.record_status_collection,
-                            :input_html => {:class => 'record_status'},
-                            :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
-                            :disabled => (true if @pemodule.is_retired?) %><br />
-
-          <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @pemodule.is_custom?) %><br />
-
-          <%= f.label I18n.t('compatibility') %>
-
-         <table>
-          <% @wets.each do |wet| %>
+        <%= hidden_field_tag 'id', (@pemodule.id || nil) %>
+        <div>
+          <table>
             <tr>
-              <td><%= wet.name %></td>
-              <% unless @pemodule.compliant_component_type.nil? %>
-                  <td><%= check_box_tag 'compliant_wet[]', wet.alias, @pemodule.compliant_component_type.include?(wet.alias) ? true : false  %></td>
-              <% else %>
-                  <td><%= check_box_tag 'compliant_wet[]', wet.alias, false  %></td>
-              <% end %>
+              <td><%= f.input :title, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge'} %> </td>
+
+              <td><%= f.input :alias, :input_html => {:class => 'input-medium'} %></td>
             </tr>
-          <% end %>
-         </table>
+          </table>
 
-         <br />
-         <%= f.input :with_activities, :label => I18n.t(:label_module_with_activities) , :as => :radio_buttons %>
-      </div><br />
+          <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-      <%= submit_tag I18n.t('save'), :class => 'btn' %>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-      <span class="on_success_global"></span>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge',:rows => 3} %>
+
+          <table>
+            <tr>
+              <td>
+                <%= f.association :record_status, :label => I18n.t('record_status'), :label => 'Status',
+                                  :collection => @pemodule.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
+                                  :disabled => (true if @pemodule.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @pemodule.is_custom?) %>
+              </td>
+            </tr>
+          </table>
+
+
+
+          <%= f.label I18n.t('label_compatibility') %>
+            <table style="margin-left:20px">
+            <% @wets.each do |wet| %>
+                <tr>
+                  <td><%= wet.name %></td>
+                  <% unless @pemodule.compliant_component_type.nil? %>
+                      <td><%= check_box_tag 'compliant_wet[]', wet.alias, @pemodule.compliant_component_type.include?(wet.alias) ? true : false %></td>
+                  <% else %>
+                      <td><%= check_box_tag 'compliant_wet[]', wet.alias, false %></td>
+                  <% end %>
+                </tr>
+            <% end %>
+          </table>
+
+
+          <br/>
+          <%= f.input :with_activities, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons %>
+        </div>
+        <br/>
+
+        <%= submit_tag I18n.t('save'), :class => 'btn' %>
+        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <span class="on_success_global"></span>
 
     <% end -%>
   </div>
 
   <% unless @pemodule.is_typed %>
 
-    <div id="tabs-2">
-      <%= form_tag('/update_selected_attributes', :method => 'get',  :class=>'simple_form') do -%>
-        <%= hidden_field_tag 'module_id', @pemodule.id %>
-        <%= hidden_field_tag 'pemodule[pe_attribute_ids][]' %>
+      <div id="tabs-2">
+        <%= form_tag('/update_selected_attributes', :method => 'get', :class => 'simple_form') do -%>
+            <%= hidden_field_tag 'module_id', @pemodule.id %>
+            <%= hidden_field_tag 'pemodule[pe_attribute_ids][]' %>
 
-          <table class="table table-striped">
-            <tr>
-              <th><%= I18n.t(:pe_attribute_name) %></th>
-              <th><%= I18n.t(:selected) %></th>
-              <th><%= I18n.t(:description) %></th>
-            </tr>
+            <table class="table table-striped">
+              <tr>
+                <th><%= I18n.t(:pe_attribute_name) %></th>
+                <th><%= I18n.t(:selected) %></th>
+                <th><%= I18n.t(:description) %></th>
+              </tr>
               <% @attributes.each do |attr| %>
-                <tr class="<%= cycle('even', 'odd')%>">
-                  <td><%= link_to attr.name, edit_pe_attribute_path(attr) unless attr.nil? %></td>
-                  <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
-                  <td><%= attr.description %></td>
-                </tr>
+                  <tr class="<%= cycle('even', 'odd') %>">
+                    <td><%= link_to attr.name, edit_pe_attribute_path(attr) unless attr.nil? %></td>
+                    <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
+                    <td><%= attr.description %></td>
+                  </tr>
               <% end %>
-          </table>
-        <%= submit_tag I18n.t('save'), :class => 'btn' %>
-        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-        <span class="on_success_attr"></span>
-      <% end -%>
-    </div>
+            </table>
+            <%= submit_tag I18n.t('save'), :class => 'btn' %>
+            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+            <span class="on_success_attr"></span>
+        <% end -%>
+      </div>
 
 
       <div id="tabs-3">
@@ -90,11 +104,11 @@
             <div class="list_attr">
               <%= render :partial => 'attribute_settings', :object => @attribute_settings %>
             </div>
-          <%= submit_tag I18n.t('save'), :class => 'btn' %>
-          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-          <span class="on_success_attr_set"></span>
+            <%= submit_tag I18n.t('save'), :class => 'btn' %>
+            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+            <span class="on_success_attr_set"></span>
         <% end -%>
-    </div>
+      </div>
   <% end %>
 
 </div>

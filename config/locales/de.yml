@@ -454,7 +454,7 @@ de:
   high: "Default value (High)"
   custom_attribute: "Custom attribute"
   attributes_settings: "Attributes settings"
-  compatibility: "Compatibility"
+  label_compatibility: "Compatible PBS element (for data input)"
   pe_attribute_name: "Attribute name"
   selected: "Selected"
   edit_pemodule: "Edit module"

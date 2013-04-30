@@ -33,7 +33,7 @@ class PemodulesController < ApplicationController
   def new
     authorize! :manage_modules, Pemodule
     set_page_title 'New Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link'
+    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @pemodule = Pemodule.new
     @attributes = PeAttribute.all
@@ -43,7 +43,7 @@ class PemodulesController < ApplicationController
   def edit
     authorize! :manage_modules, Pemodule
     set_page_title 'Edit Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link'
+    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @pemodule = Pemodule.find(params[:id])
     @attributes = PeAttribute.all
@@ -58,7 +58,7 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link'
+    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @attributes = PeAttribute.all
 
@@ -126,7 +126,7 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    redirect_to edit_pemodule_path(params[:module_id], :anchor => "tabs-3")
+    redirect_to edit_pemodule_path(params[:module_id], :anchor => 'tabs-3')
   end
 
   #Update attribute settings (3th tabs)
