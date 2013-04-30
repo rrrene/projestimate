@@ -22,6 +22,7 @@
 #Pemodule represent the Module of the application.
 #Pemodule can be commun(sum, average) or typed(cocomo, pnr...)
 class Pemodule < ActiveRecord::Base
+  include AASM
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   #Project has many module, module has many project
@@ -41,6 +42,17 @@ class Pemodule < ActiveRecord::Base
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :title, :alias, :presence => true, :uniqueness => {:scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
+
+  #ASSM needs
+  aasm :column => :with_activities do  # defaults to aasm_state
+    state :no, :initial => true
+    state :yes_for_input
+    state :yes_for_output_with_ratio
+    state :yes_for_output_without_ratio
+    state :yes_for_input_output_with_ratio
+    state :yes_for_input_output_without_ratio
+  end
+
 
   ##Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
