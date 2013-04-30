@@ -4,9 +4,9 @@
       <%= hidden_field_tag :project_id, @project.id %>
 
       <% if @pbs_project_element.link? %>
-          <%= f.input :project_link, :label => I18n.t('project_link'), :as => :select, :collection => Project.all.map { |i| [i.title, i.id] } %>
+          <%= f.input :project_link, :label => I18n.t('project_link'), :input_html => {:class => 'input-xlarge'}, :as => :select, :collection => Project.all.map { |i| [i.title, i.id] } %>
       <% else %>
-          <%= f.input :name, :label => I18n.t('name') %>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge'} %>
       <% end %>
 
       <% unless @pbs_project_element.is_root? %>
@@ -15,25 +15,27 @@
           <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
       <% end %>
       <% unless @pbs_project_element.link? %>
-          <table cellpadding="8" border=0>
+          <%= I18n.t(:text_overloading_default_ratio_table) %>
+          <table cellspacing="2" border=0>
             <tr>
               <td>
                 <%= f.input :wbs_activity_id, :label => I18n.t(:wbs_activity), :as => :select, :collection => @project_wbs_activities.map { |i| [i.name, i.id] }, :prompt => I18n.t('helpers.select.prompt') %>
               </td>
+              <td>&nbsp;</td>
               <td>
-                <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:default_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map { |i| [i.name, i.id] }, :prompt => I18n.t('helpers.select.prompt') %>
+                <%= f.input :wbs_activity_ratio_id, :label => I18n.t(:label_wbs_activity_ratio), :as => :select, :collection => @pbs_wbs_activity_ratios.map { |i| [i.name, i.id] }, :prompt => I18n.t('helpers.select.prompt') %>
               </td>
             </tr>
           </table>
       <% end %>
-      <table cellpadding="8" border="0">
+      <table cellspacing="2" border="0">
         <tr>
-          <td><%= f.input :is_completed %></td>
-          <td><%= f.input :is_validated %></td>
+          <td><%= f.input :is_completed, :label => I18n.t(:label_is_completed) %></td>
+          <td> &nbsp; &nbsp;</td>
+          <td><%= f.input :is_validated, :label => I18n.t(:label_is_validated) %></td>
         </tr>
       </table>
 
       <%= f.submit I18n.t('save'), :class => 'btn' %>
-
   <% end %>
 </div>

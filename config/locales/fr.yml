@@ -267,9 +267,9 @@ fr:
   #attributes
   name: "Nom"
   description: "Description"
-  change_comment: "Commentaire"
+  change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
   record_status: "Statut de l'enregistrement"
-  custom_value: "Valeur personnalisée"
+  custom_value: "Valeur personnalisée (si statut = custom)"
 
 
   wbs_activity_elements: "Eléments du WBS-Activités"
@@ -487,9 +487,9 @@ fr:
   new_project: "Créer un nouveau projet"
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
-  available_wbs_activity: "WBS Activité disponibles"
+  available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
   button_add: "Ajouter"
-  default_wbs_activity_ratio: "Ratio par défaut " 
+  label_wbs_activity_ratio: "Table des ratios"
   estimation_plan: "Plan  d'estimation"
   securities: "Sécurités"
   calendar: "Calendrier"
@@ -613,8 +613,8 @@ fr:
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Editer un élément du WBS activités ratio"
   new_wbs_activity_ratio_element: "Créer un nouvel élément du WBS activités ratio"
-  one_reference_value: "Valeur de référence"
-  set_of_reference_value: "Valeurs de références"
+  one_reference_value: "Valeur de référence unique"
+  set_of_reference_value: "Valeurs de références multiples"
 
   # wbs activity ratios
   edit_wbs_activity_ratio: "Editer un wbs activités ratio"
@@ -847,3 +847,7 @@ fr:
   button_build_estimation_path: "Etablir les chemins d'estimation"
   button_configure_module_pbs_element: "Configurer les éléments du PBS"
   label_show_hidden_elements: "Montrer les éléments cachés"
+  label_ratio_value: "Valeur du ratio"
+  label_is_completed: "Est terminée"
+  label_is_validated: "Est validé"
+  text_overloading_default_ratio_table: "Selectionner une table de ratio pour surcharger, sur ce composant, la valeur par défaut"

@@ -265,9 +265,9 @@ de:
   #attributes
   name: "Name"
   description: "Description"
-  change_comment: "Comment"
+  change_comment: "Comment (explain and justify your change request)"
   record_status: "Record status"
-  custom_value: "Custom value"
+  custom_value: "Custom value (if status=custom)"
 
 
   wbs_activity_elements: "WBS-Activity Elements"
@@ -485,9 +485,9 @@ de:
   new_project: "New project"
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
-  available_wbs_activity: "Available WBS Activity"
+  available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
   button_add: "ADD"
-  default_wbs_activity_ratio: "Default WBS activity ratio"      
+  label_wbs_activity_ratio: "Ratio table"
   estimation_plan: "Estimation plan"
   securities: "Securities"
   calendar: "Calendar"
@@ -611,8 +611,8 @@ de:
   #wbs activity ratio element
   edit_wbs_activity_ratio_element: "Edit a wbs activity ratio element"
   new_wbs_activity_ratio_element: "New wbs activity ratio element"
-  one_reference_value: "One reference value"
-  set_of_reference_value: "A set of reference value"
+  one_reference_value: "Single reference value"
+  set_of_reference_value: "A set of reference values"
 
   # wbs activity ratios
   edit_wbs_activity_ratio: "Edit a wbs activity ratio"
@@ -845,3 +845,7 @@ de:
   button_build_estimation_path: "Establish estimation paths"
   button_configure_module_pbs_element: "Configure PBS-elements"
   label_show_hidden_elements: "Show hidden elements"
+  label_ratio_value: "Ratio value"
+  label_is_completed: "Is completed"
+  label_is_validated: "Is validated"
+  text_overloading_default_ratio_table: "To override (for this component) the default ratio table, select a WBS-activities and its associated ratio table"
