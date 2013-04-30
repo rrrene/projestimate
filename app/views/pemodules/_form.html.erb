@@ -24,6 +24,8 @@
 
           <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge',:rows => 3} %>
+
           <table>
             <tr>
               <td>
@@ -38,7 +40,7 @@
               </td>
             </tr>
           </table>
-          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge',:rows => 3} %>
+
 
 
           <%= f.label I18n.t('label_compatibility') %>
@@ -54,6 +56,7 @@
                 </tr>
             <% end %>
           </table>
+
 
           <br/>
           <%= f.input :with_activities, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons %>

@@ -657,6 +657,15 @@ fr:
       mark: '*'
     error_notification:
       default_message: "Des erreurs se sont glissées dans votre saisie:"
+    options:
+      pemodule:
+        with_activities:
+          "no": 'Non'
+          yes_for_input: "Oui pour les données d'entrées"
+          yes_for_output_with_ratio: "Oui pour les données de sorties avec utilisation de ratio"
+          yes_for_output_without_ratio: "Oui pour les données sorties sans utilisation de ratio"
+          yes_for_input_output_with_ratio: "Oui pour les données d'entrées/sorties avec utilisation de ratio"
+          yes_for_input_output_without_ratio: "Oui pour les données d'entrées/sorties sans utilisation de ratio"
 
   #Error, warning, notice messages
   warning_wbs_activity_ratio_elt_value_range: "Entrez des valeurs entre ]0 - 100]"
