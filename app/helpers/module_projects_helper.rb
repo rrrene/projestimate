@@ -34,8 +34,9 @@ module ModuleProjectsHelper
     high_estimation_value = results[:high]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
 
     # Get the current estimation Module
-    if estimation_value.module_project.pemodule.with_activities
-      hash_data_probable = Hash.new ##HashWithIndifferentAccess.new
+    estimation_pemodule = estimation_value.module_project.pemodule
+    if estimation_pemodule.yes_for_output_with_ratio? || estimation_pemodule.yes_for_output_without_ratio? || estimation_pemodule.yes_for_input_output_with_ratio? || estimation_pemodule.yes_for_input_output_without_ratio?
+      hash_data_probable = Hash.new
       min_estimation_value.keys.each do |wbs_project_elt_id|
         minimum = min_estimation_value[wbs_project_elt_id].to_f
         most_likely = most_likely_estimation_value[wbs_project_elt_id].to_f
