@@ -24,8 +24,6 @@
 
           <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge',:rows => 3} %>
-
           <table>
             <tr>
               <td>
@@ -41,13 +39,13 @@
             </tr>
           </table>
 
-
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
           <%= f.label I18n.t('label_compatibility') %>
-            <table style="margin-left:20px">
+          <table style="margin-left:20px">
             <% @wets.each do |wet| %>
                 <tr>
-                  <td><%= wet.name %></td>
+                  <td><%= wet.name %>&nbsp;&nbsp;</td>
                   <% unless @pemodule.compliant_component_type.nil? %>
                       <td><%= check_box_tag 'compliant_wet[]', wet.alias, @pemodule.compliant_component_type.include?(wet.alias) ? true : false %></td>
                   <% else %>
@@ -57,9 +55,7 @@
             <% end %>
           </table>
 
-
-          <br/>
-          <%= f.input :with_activities, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons %>
+          <%= f.input :with_activities, :input_html => {:style => 'margin-left:0px'}, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons, collection: [:no, :yes_for_input, :yes_for_output_with_ratio, :yes_for_output_without_ratio, :yes_for_input_output_with_ratio, :yes_for_input_output_without_ratio] %>
         </div>
         <br/>
 
@@ -96,7 +92,6 @@
             <span class="on_success_attr"></span>
         <% end -%>
       </div>
-
 
       <div id="tabs-3">
         <%= form_tag('/set_attributes_module', :method => 'POST', :class => 'simple_form') do -%>
