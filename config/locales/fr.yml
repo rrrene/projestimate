@@ -860,3 +860,4 @@ fr:
   label_is_completed: "Est terminée"
   label_is_validated: "Est validé"
   text_overloading_default_ratio_table: "Selectionner une table de ratio pour surcharger, sur ce composant, la valeur par défaut"
+  text_no_icon: "aucune icône sélectionnée"

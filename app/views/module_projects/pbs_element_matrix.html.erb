@@ -1,37 +1,38 @@
 <div class="span12">
   <h1>Associate Product-Element with current module project</h1>
 
-  <%= form_tag({:action=> 'associate', :controller=> 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
-    <table class="table table-striped">
-      <tr>
-        <th style="text-align:left;">Product-Element</th>
-        <% @module_projects.each do |mp| %>
-          <th style="text-align:center;">
-            <%= mp.pemodule.title %>
-          </th>
-        <% end %>
-      </tr>
+  <%= form_tag({:action => 'associate', :controller => 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
+      <table class="table table-striped">
+        <tr>
+          <th style="text-align:left;">Product-Element</th>
+          <% @module_projects.each do |mp| %>
+              <th style="text-align:center;">
+                <%= mp.pemodule.title %>
+              </th>
+          <% end %>
+        </tr>
 
         <% for element in @project.pe_wbs_projects.wbs_product.first.pbs_project_elements %>
-          <tr>
-            <td style="padding-left: <%= element.depth + 2 %>em;">
-              <%= element.work_element_type.peicon.nil? ? '?' : image_tag(element.work_element_type.peicon.icon.url) %>
-              <%= element.name %></td>
-            <% @module_projects.each do |mp| %>
-              <td style="text-align: center;">
-                <% if mp.compatible_with(element.work_element_type.alias) %>
-                  <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id}")%>
-                <% else %>
-                  -
-                <% end %>
+            <tr>
+              <td style="padding-left: <%= element.depth + 2 %>em;">
+                <%= element.work_element_type.peicon.nil? ? '?' : image_tag(element.work_element_type.peicon.icon.url) %>&nbsp;
+                <%= element.name %>
               </td>
-            <% end %>
-          </tr>
+              <% @module_projects.each do |mp| %>
+                  <td style="text-align: center;">
+                    <% if mp.compatible_with(element.work_element_type.alias) %>
+                        <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id}") %>
+                    <% else %>
+                        -
+                    <% end %>
+                  </td>
+              <% end %>
+            </tr>
         <% end %>
       </table>
       <%= submit_tag I18n.t('save'), :class => 'btn' %>
       <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-    <% end %>
+  <% end %>
 </div>
 
 

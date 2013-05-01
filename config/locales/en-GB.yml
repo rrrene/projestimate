@@ -860,3 +860,4 @@ en-gb:
   label_is_completed: "Is completed"
   label_is_validated: "Is validated"
   text_overloading_default_ratio_table: "To override (for this component) the default ratio table, select a WBS-activities and its associated ratio table"
+  text_no_icon: "no icon selected"
