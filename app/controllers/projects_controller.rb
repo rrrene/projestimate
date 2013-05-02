@@ -371,12 +371,19 @@ class ProjectsController < ApplicationController
         elsif est_val.in_out == 'input'
           in_result = Hash.new
           ['low', 'most_likely', 'high'].each do |level|
-            mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
-              level_estimation_value = Hash.new
-              level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value[@pbs_project_element.id] = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
-              in_result["string_data_#{level}"] = level_estimation_value
+            level_estimation_value = Hash.new
+            level_estimation_value = est_val.send("string_data_#{level}")
+            pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+
+            wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where("is_root = ?", true).first
+            if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
+              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input) ###pbs_estimation_input_value
+            else
+              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input.to_f
             end
+
+            in_result["string_data_#{level}"] = level_estimation_value
+
           end
           est_val.update_attributes(in_result)
         end
@@ -386,6 +393,36 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js { render :partial => 'pbs_project_elements/refresh' }
     end
+  end
+
+  # Compute the input element value
+  ## values_to_set : Hash
+  def compute_tree_node_estimation_value(tree_root, values_to_set)
+    WbsProjectElement.rebuild_depth_cache!
+    new_effort_man_hour = Hash.new
+    root_element_effort_man_hour = 0.0
+
+    tree_root.children.each do |node|
+      # Sort node subtree by ancestry_depth
+      sorted_node_elements = node.subtree.order('ancestry_depth desc')
+      sorted_node_elements.each do |wbs_project_element|
+        if wbs_project_element.is_childless?
+          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s].to_f ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+        else
+          node_effort = 0
+          wbs_project_element.children.each do |child|
+            node_effort = node_effort + new_effort_man_hour[child.id] ###new_effort_man_hour[child.id][:value]
+          end
+          new_effort_man_hour[wbs_project_element.id] = node_effort ###{:value => node_effort}
+        end
+      end
+
+      #compute the wbs root effort
+      root_element_effort_man_hour = root_element_effort_man_hour + new_effort_man_hour[node.id] ###new_effort_man_hour[node.id][:value]
+    end
+
+    new_effort_man_hour[tree_root.id] = root_element_effort_man_hour ###{:value => root_element_effort_man_hour}
+    new_effort_man_hour
   end
 
 

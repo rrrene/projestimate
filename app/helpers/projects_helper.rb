@@ -261,7 +261,7 @@ module ProjectsHelper
                         res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
 
                       elsif wbs_project_elt.wbs_activity_element.nil?
-                        if wbs_project_elt.is_root?
+                        if wbs_project_elt.is_root? || wbs_project_elt.has_children?
                           res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true}"
                           readonly_option = true
                         else
@@ -272,11 +272,10 @@ module ProjectsHelper
                         readonly_option = true
                       end
                     else
-                      if level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"}"
-                      else
-                        res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
-                      end
+                      readonly_option = wbs_project_elt.has_children? ? true : false
+                      nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
+                      last_value = nullity_condition ? 0 : level_estimation_values[pbs_project_element.id][wbs_project_elt.id]
+                      res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ? nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option }"
                     end
 
                   end
