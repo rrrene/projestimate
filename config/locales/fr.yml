@@ -452,7 +452,7 @@ fr:
 
   #pemodules
   low: "Valeur par defaut (Basse)"
-  likely: "Valeur par defaut (La plus probable)"
+  likely: "Valeur par defaut (La plus vraisemblable)"
   high: "Valeur par defaut (Haute)"
   custom_attribute: "Attribut personnalisé"
   attributes_settings: "Paramètres des attributs"
