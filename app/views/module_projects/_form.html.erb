@@ -34,8 +34,8 @@
               <%# else %>
               <tr class="">
                 <td><%= attr.pe_attribute.nil? ? '-' : attr.pe_attribute.name %></td>
-                <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => I18n.t('helpers.select.prompt'), :disabled => !(attr.custom_attribute?) %> </td>
-                <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :disabled => !(attr.custom_attribute?) %></td>
+                <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => I18n.t('helpers.select.prompt'), :readonly => true %> </td>
+                <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :readonly => attr.is_mandatory %></td>
                 <td><%= text_field_tag 'description[]', attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute) %></td>
               </tr>
 
@@ -51,8 +51,13 @@
     <%= render :partial => 'summary_module_projects_association' %>
   </div>
 
+
   <div id="tabs-3">
-    <%= render :partial => 'module_projects/module_settings' %>
+    <% if @module_project.pemodule.yes_for_output_with_ratio? || @module_project.pemodule.yes_for_input_output_with_ratio? %>
+        <%= render :partial => 'module_projects/module_settings' %>
+    <% else %>
+        <%= render :text => "There is no Ratio parameter to set for this module." %>
+    <% end %>
   </div>
 
 </div>

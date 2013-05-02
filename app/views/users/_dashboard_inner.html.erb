@@ -14,7 +14,7 @@
         </h5>
       </div>
       <div class="collapse in" id="collapseProduct">
-        <div class="widget-content">
+        <div class="widget-content resizableProduct">
           <%= render :partial => 'users/pe_wbs' %>
         </div>
       </div>
@@ -50,7 +50,7 @@
         <div class="widget-title"><span class="icon"><i class="icon-align-left"></i></span>
           <h5>Estimation module - Input data </h5>
           <div class="buttons">
-            <%= select_tag "pbs_list",  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }), :class => "pull-right", :prompt => "Product Quick Access" %>
+            <%= select_tag "pbs_list",  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }, :selected => current_component.id), :class => "pull-right", :prompt => "Product Quick Access" %>
             <a href="" onclick="$(this).closest('form').submit(); $('#spiner').toggle();" class="btn btn-mini">
               <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
               <%= I18n.t('execute_estimation') %>
@@ -79,11 +79,23 @@
             <a href="" class="btn btn-mini btn-warning">
               CSV
             </a>
+            <a href="#tab1" class="btn btn-mini btn-danger" data-toggle="tab">
+              Tables
+            </a>
+            <a href="#tab2" class="btn btn-mini btn-danger" data-toggle="tab">
+              Charts
+            </a>
           </div>
         </div>
-        <div class="widget-content">
-          <div class="output_data">
-            <%=raw display_results.blank? ? "#{ content_tag(:div, "No results has been save up in the project's database", :class => "alert alert-info")}" : display_results  %>
+
+        <div class="widget-content tab-content">
+          <div id="tab1" class="tab-pane active">
+            <div class="output_data">
+              <%=raw display_results.blank? ? "#{ content_tag(:div, "No results has been save up in the project's database", :class => "alert alert-info")}" : display_results  %>
+            </div>
+          </div>
+          <div id="tab2" class="tab-pane">
+            My cool charts !
           </div>
         </div>
       </div>
@@ -109,6 +121,7 @@
     </div>
   </div>
 </div>
+
 
 
 

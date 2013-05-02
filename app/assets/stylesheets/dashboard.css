@@ -380,6 +380,9 @@ body {
 .widget-box.collapsible .collapse.in .widget-content {
     border-bottom: 1px solid #CDCDCD;
 }
+.widget-content table td {
+    text-align:center;
+}
 
 /* Tables */
 .table th {

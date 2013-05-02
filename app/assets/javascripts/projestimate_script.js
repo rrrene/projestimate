@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
      $('ul li').hover(
         function () {
           $(this.children).css('display', 'block');
