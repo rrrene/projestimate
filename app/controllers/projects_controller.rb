@@ -344,7 +344,7 @@ class ProjectsController < ApplicationController
               level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
-              if mp.pemodule.with_activities
+              if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
                 level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
               else
@@ -360,7 +360,7 @@ class ProjectsController < ApplicationController
             ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
             pbs_probable_est_value = probable_value(@results, est_val)
 
-            if mp.pemodule.with_activities
+            if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
               probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
             else
               probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value

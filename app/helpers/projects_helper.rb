@@ -38,7 +38,7 @@ module ProjectsHelper
     res = String.new
     pbs_project_element = @pbs_project_element || current_project.root_component
     current_project.module_projects.each do |module_project|
-      if module_project.pemodule.with_activities
+      if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
         res << display_results_with_activities(module_project)
       else
         res << display_results_without_activities(module_project)
@@ -54,7 +54,7 @@ module ProjectsHelper
     pbs_project_element = @pbs_project_element || current_project.root_component
 
     pemodule = Pemodule.find(module_project.pemodule.id)
-    res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+    res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
     res << "<table class='table table-condensed table-bordered'>
                  <tr>
                    <th></th>"
@@ -95,7 +95,7 @@ module ProjectsHelper
     project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
 
     pemodule = Pemodule.find(module_project.pemodule.id)
-    res << " <h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5> "
+    res << " <h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4> "
     res << " <table class='table table-condensed table-bordered'>
                <tr>
                  <th></th>"
@@ -164,11 +164,12 @@ module ProjectsHelper
     end
     res << "</tr>"
     res << "</table>"
-    res << "</div>"
 
     res
   end
 
+
+  # Display Estimations output results according to the module behavior
   def display_input
     res = String.new
     pbs_project_element = @pbs_project_element || current_project.root_component
@@ -176,30 +177,26 @@ module ProjectsHelper
     current_project.module_projects.each do |module_project|
       current_project = module_project.project
 
-      if module_project.pemodule.with_activities
-        if module_project.pemodule.title == "Effort Breakdown"
-          res << display_inputs_without_activities(module_project)
-        else
-          if module_project.pemodule.alias == "wbs_activity_completion"
+      ##if module_project.pemodule.with_activities
+      if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
+        if module_project.pemodule.alias == "wbs_activity_completion"
+          @defined_status = RecordStatus.find_by_name("Defined")
 
-            @defined_status = RecordStatus.find_by_name("Defined")
+          last_estimation_result = nil
+          refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
+          refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
+          refer_module_project =  current_project.module_projects.where("pemodule_id = ?", refer_module.id).last
 
-            last_estimation_result = nil
-            refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
-            refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            refer_module_project =  current_project.module_projects.where("pemodule_id = ?", refer_module.id).last
-
-            unless refer_module_project.nil?
-              last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
-              last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
-            end
-            ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
-            res << display_inputs_with_activities(module_project, last_estimation_result)
-          else
-            res << display_inputs_with_activities(module_project)
+          unless refer_module_project.nil?
+            last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
+            last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
           end
+          ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
+          res << display_inputs_with_activities(module_project, last_estimation_result)
+        else
+          res << display_inputs_with_activities(module_project)
         end
-      else
+      elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
         res << display_inputs_without_activities(module_project)
       end
     end
@@ -211,8 +208,18 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-        res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+        res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
           res << "<table class='table table-condensed table-bordered'>"
+
+            res << "<tr>
+                      <th></th>"
+              module_project.estimation_values.each do |mpa|
+                if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
+                  res << "<th colspan=4>#{mpa.pe_attribute.name}</th>"
+                end
+              end
+            res << "</tr>"
+
             res << "<tr>
                       <th></th>"
                       ["low", "most_likely", "high"].each do |level|
@@ -276,7 +283,7 @@ module ProjectsHelper
               input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
               res << "<td>"
               unless readonly_option
-                res << "<div id='#{input_id}' class='copyLib' data-effort_input_id='#{input_id}' title='Copy value in other fields'></div>"
+                res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields'></span>"
               end
               res << "</td>"
              res << "</tr>"
@@ -293,7 +300,7 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-          res << "<h5>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h5>"
+          res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
               res << "<table class='table table-condensed table-bordered'>
                         <tr>
                           <th></th>"

@@ -454,7 +454,7 @@ de:
   high: "Default value (High)"
   custom_attribute: "Custom attribute"
   attributes_settings: "Attributes settings"
-  compatibility: "Compatibility"
+  label_compatibility: "Compatible PBS element (for data input)"
   pe_attribute_name: "Attribute name"
   selected: "Selected"
   edit_pemodule: "Edit module"
@@ -655,6 +655,15 @@ de:
       mark: '*'
     error_notification:
       default_message: "Bitte überprüfen Sie die folgenden Fehler:"
+    options:
+      pemodule:
+        with_activities:
+          "no": 'No'
+          yes_for_input: 'Yes for input'
+          yes_for_output_with_ratio: 'Yes for output with ratio'
+          yes_for_output_without_ratio: 'Yes for output without ratio'
+          yes_for_input_output_with_ratio: 'Yes for input/output with ratio'
+          yes_for_input_output_without_ratio: 'Yes for input/output without ratio'
 
   #Error, warning, notice messages
   warning_wbs_activity_ratio_elt_value_range: "Please, enter value between ]0 - 100]"
@@ -840,3 +849,8 @@ de:
 
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   label_module_with_activities: "Is the module using Activities ?"
+  label_add_a_module_to_project: "Add the selected module"
+  label_filter_on_pbs_element: "Focus on a PBS-element"
+  button_build_estimation_path: "Establish estimation paths"
+  button_configure_module_pbs_element: "Configure PBS-elements"
+  label_show_hidden_elements: "Show hidden elements"

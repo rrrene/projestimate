@@ -32,10 +32,6 @@ class PbsProjectElement < ActiveRecord::Base
 
   has_and_belongs_to_many :module_projects
 
-  # Get Activities per Product  TODO: remove 2 following lines if not used
-  #has_many :product_activities
-  #has_many :wbs_project_elements, :through => :product_activities, :dependent => :destroy
-
   validates_presence_of :name
   #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation
 
@@ -47,10 +43,10 @@ class PbsProjectElement < ActiveRecord::Base
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
+    exclude_field [:estimation_values]
 
     customize(lambda { |original_pbs_project_elt, new_pbs_project_elt|
       new_pbs_project_elt.copy_id = original_pbs_project_elt.id
-
     })
   end
 

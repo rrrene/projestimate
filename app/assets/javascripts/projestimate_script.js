@@ -53,6 +53,16 @@ $(document).ready(function() {
             }
     );
 
+    $("#pbs_list").change(
+        function(){
+            $('#spiner').show();
+            $.ajax({
+                url:'/selected_pbs_project_element',
+                data:'id=' + this.value
+            })
+        }
+    )
+
     $( ".tabs" ).tabs({
         beforeLoad: function( event, ui ) {
             ui.jqXHR.error(function() {

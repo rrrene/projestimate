@@ -1,8 +1,10 @@
 $(".component_tree").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 
-$(".input_data").html("<%=raw j(display_input) %>  <%=raw j submit_tag I18n.t('execute_estimation'), :class => 'btn btn-danger'%> ");
+$(".input_data").html("<%=raw j(display_input) %>");
 
 $(".output_data").html("<%=raw j(display_results) %>");
+
+$(".component_name").html("<%=raw current_component %>");
 
 $('.component_tree > ul li').hover(
     function () {
@@ -12,4 +14,6 @@ $('.component_tree > ul li').hover(
      $('.block_link').hide();
     }
 );
+
+$('#spiner').hide();
 

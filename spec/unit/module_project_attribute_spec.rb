@@ -10,22 +10,20 @@ describe EstimationValue do
     @module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => @pemodule.id, :position_y => 1)
     @ksloc_attribute = PeAttribute.new(:name=>"Cost",:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
     @ksloc_attribute2 = PeAttribute.new(:name=>1,:alias=>"cost",:description=>"Cost desc" ,:attr_type=>"Integer")
+
     @mpa = EstimationValue.new(:pe_attribute_id => @ksloc_attribute.id,
                                       :in_out => "input",
                                       :module_project_id => @module_project.id,
                                       :custom_attribute => "user",
                                       :is_mandatory => true,
-                                      :description => "Undefined",
-                                      :undefined_attribute => true,
-                                      :dimensions => 3)
+                                      :description => "Undefined")
+
     @mpa2 = EstimationValue.new(:pe_attribute_id => @ksloc_attribute2.id,
                                       :in_out => "input",
                                       :module_project_id => @module_project.id,
                                       :custom_attribute => "toto",
                                       :is_mandatory => true,
-                                      :description => "Undefined",
-                                      :undefined_attribute => true,
-                                      :dimensions => 3)
+                                      :description => "Undefined")
 
 
     @mpa2.save

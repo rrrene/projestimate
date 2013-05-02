@@ -29,10 +29,13 @@
               <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
               <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
           </div>
+
+          <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
+
         <% end %>
       </div>
     <% end %>
   <% else %>
-    <p><%= I18n.t(:no_estimation_plan)%></p>
+    <%= content_tag(:div, I18n.t(:no_estimation_plan), :class => "alert alert-info") %>
   <% end %>
 </div>

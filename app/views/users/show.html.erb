@@ -1,8 +1,11 @@
 <div id="main">
   <% unless current_project.nil? or current_user.nil? %>
-    <div id="content-header">
-      <h1>Dashboard - <%= current_project %></h1>
+    <div class="row">
+      <div id="content-header">
+        <h1>Dashboard - <%= current_project %></h1>
+      </div>
     </div>
+
     <%= render 'dashboard_inner' %>
   <% else %>
     <div><%= load_admin_setting('welcome_message') %></div>

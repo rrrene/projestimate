@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426132414) do
+ActiveRecord::Schema.define(:version => 20130430101143) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20130426132414) do
     t.integer  "pemodule_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_mandatory"
+    t.boolean  "is_mandatory",        :default => false
     t.string   "in_out"
     t.text     "description"
     t.string   "default_low"
@@ -448,6 +448,7 @@ ActiveRecord::Schema.define(:version => 20130426132414) do
     t.string   "title"
     t.string   "alias"
     t.text     "description"
+    t.string   "with_activities",          :default => "0"
     t.integer  "type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -460,7 +461,6 @@ ActiveRecord::Schema.define(:version => 20130426132414) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.boolean  "with_activities",          :default => false
   end
 
   add_index "pemodules", ["record_status_id"], :name => "index_pemodules_on_record_status_id"

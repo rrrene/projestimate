@@ -238,6 +238,7 @@ body {
     background: none repeat scroll 0 0 #eeeeee;
     margin-left: 192px;
     border-left: 1px solid #red;
+    min-height: 1000px;
 }
 
 #content-header h1 {
@@ -291,8 +292,12 @@ body {
 	margin-bottom: 0;
 }
 
+/*.table th{*/
+    /*background-color: lightblue;  */
+/*}*/
+
 .widget-title, .modal-header, .table th, div.dataTables_wrapper .ui-widget-header, .ui-dialog .ui-dialog-titlebar {
-	background-color: #efefef;
+    background-color: lightblue;
 	background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
 	background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
     background-image: -moz-linear-gradient(top, #fdfdfd 0%, #eaeaea 100%);
@@ -352,6 +357,13 @@ body {
 	float: right;
 	margin: 8px 10px 0 0;
 }
+.widget-title .buttons  select {
+    height: 23px;
+    font-size: 11px;
+    margin-left: 6px;
+    border-radius: 6px;
+    padding-top: 2px;
+}
 .widget-title .label {
 	padding: 3px 5px 2px;
 	float: right;
@@ -400,8 +412,7 @@ body {
 .table input{
     text-align: center; /* center checkbox horizontally */
     vertical-align: middle;
-    display: table-cell;
-    display: table;
+    height: 12px;
 }
 .modal {
 	z-index: 99999 !important;
@@ -669,15 +680,10 @@ body {
 }
 
 .copyLib {
-    padding-left: 0.5em;
-    padding-right: 20px;
-}
-.copyLib {
-    background-image: url("/assets/egal-copy.png");
-    background-repeat: no-repeat;
-    height: 18px;
-    margin-bottom: 4px;
-    margin-left: 3px;
+    /*padding-left: 0.5em;*/
+    /*padding-right: 20px;*/
+    /*margin-bottom: 4px;*/
+    /*margin-left: 3px;*/
 }
 
 
@@ -688,6 +694,10 @@ body {
     color: #666;
     overflow-y: auto;
     clear: both;
+}
+
+.overflow{
+    overflow-y: auto;
 }
 
 .component_tree ul{

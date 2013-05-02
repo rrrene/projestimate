@@ -82,13 +82,6 @@ module EffortBreakdown
 
       output_effort = Hash.new
 
-      #TODO: see better solution or remove above commented code
-      #wbs_project_elt_with_new_nodes = project_wbs_project_elt_root.subtree
-      #wbs_project_elt_without_new_nodes =  wbs_project_elt_with_new_nodes.reject{|elt| elt.wbs_activity_element.nil? && !elt.is_root? }
-      #puts "TREE_WITHOUT_NEW_NODES = #{wbs_project_elt_without_new_nodes}"
-      #new_wbs_tree_root = wbs_project_elt_without_new_nodes.root
-      #new_wbs_tree_root.children.each do |node|
-
       project_wbs_project_elt_root.children.each do |node|
         # Sort node subtree by ancestry_depth
         sorted_node_elements = node.subtree.order('ancestry_depth desc')
@@ -169,7 +162,7 @@ module EffortBreakdown
           # A Wbs_project_element is only computed is this module if it has a corresponding Ratio table
           unless wbs_project_element.wbs_activity_element.nil?
             # Element effort is really computed only on leaf element
-            if wbs_project_element.is_childless?
+            if wbs_project_element.is_childless?  || wbs_project_element.has_new_complement_child?
               # Get the ratio Value of current element
               corresponding_ratio_value = WbsActivityRatioElement.where('wbs_activity_ratio_id = ? and wbs_activity_element_id = ?', ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / referenced_values_efforts)
@@ -234,7 +227,7 @@ module EffortBreakdown
           unless wbs_project_element.wbs_activity_element.nil?
 
             # Element effort is really computed only on leaf element
-            if wbs_project_element.is_childless?
+            if wbs_project_element.is_childless? || wbs_project_element.has_new_complement_child?
               # Get the ratio Value of current element
               corresponding_ratio_value = WbsActivityRatioElement.where('wbs_activity_ratio_id = ? and wbs_activity_element_id = ?', ratio_reference.id, wbs_project_element.wbs_activity_element_id).first.ratio_value
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100)
@@ -247,7 +240,6 @@ module EffortBreakdown
                 end
               end
               output_effort[wbs_project_element.id] = node_effort
-              #puts "NEW_NODE_EFFORT = #{node_effort}"
             end
           end
         end

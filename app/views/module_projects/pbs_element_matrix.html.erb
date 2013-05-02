@@ -2,7 +2,7 @@
   <h1>Associate Product-Element with current module project</h1>
 
   <%= form_tag({:action=> 'associate', :controller=> 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered table-condensed">
       <tr>
         <th style="text-align:left;">Product-Element</th>
         <% @module_projects.each do |mp| %>
@@ -27,8 +27,8 @@
           </tr>
         <% end %>
       </table>
-    <%= submit_tag 'Save', :class => 'btn' %>
-    <%= submit_tag 'Apply', :class => 'btn' %>
+      <%= submit_tag I18n.t('save'), :class => 'btn' %>
+      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
     <% end %>
 </div>
 
