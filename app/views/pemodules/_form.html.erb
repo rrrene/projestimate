@@ -53,7 +53,7 @@
                   <% end %>
                 </tr>
             <% end %>
-          </table>
+          </table><br />
 
           <%= f.input :with_activities, :input_html => {:style => 'margin-left:0px'}, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons, collection: [:no, :yes_for_input, :yes_for_output_with_ratio, :yes_for_output_without_ratio, :yes_for_input_output_with_ratio, :yes_for_input_output_without_ratio] %>
         </div>

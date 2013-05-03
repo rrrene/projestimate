@@ -66,23 +66,15 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
 
-    ###@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
-      @module_project.estimation_values.each_with_index do |mpa|
-        if mpa.custom_attribute == 'user'
-          mpa.update_attribute('is_mandatory', params[:is_mandatory][j])
-          mpa.update_attribute('in_out', params[:in_out][j])
-          mpa.update_attribute('description', params[:description][j])
-        end
+    @module_project.estimation_values.each_with_index do |est_val, j|
+      corresponding_am = AttributeModule.where("pemodule_id =? and pe_attribute_id = ?", @module_project.pemodule.id, est_val.pe_attribute.id).first
+      unless corresponding_am.is_mandatory
+        est_val.update_attribute('is_mandatory', params["is_mandatory_#{est_val.id}_#{est_val.in_out}"])
       end
-    ###end
+      est_val.update_attribute('description', params["description_#{est_val.id}_#{est_val.in_out}"])
+    end
+
     redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
-
-    #if @module_project.update_attributes(params[:module_project])
-    #  redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
-    #else
-    #  render action: 'edit'
-    #end
-
   end
 
   def module_projects_matrix

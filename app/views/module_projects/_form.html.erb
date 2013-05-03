@@ -27,18 +27,14 @@
             <th><%= I18n.t(:mandatory) %></th>
             <th><%= I18n.t(:description) %></th>
           </tr>
-          <% @module_project.estimation_values.each_with_index do |attr, i| %>
-              <%# unless attr.pbs_project_element.is_root? %>
-              <%= hidden_field_tag 'hidden_ids[]', attr.id %>
-              <%# else %>
+          <% @module_project.estimation_values.each_with_index do |est_val, i| %>
+              <%= hidden_field_tag 'hidden_ids[]', est_val.id %>
               <tr class="">
-                <td><%= attr.pe_attribute.nil? ? '-' : attr.pe_attribute.name %></td>
-                <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => attr.in_out), :prompt => I18n.t('helpers.select.prompt'), :readonly => true %> </td>
-                <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => attr.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :readonly => attr.is_mandatory %></td>
-                <td><%= text_field_tag 'description[]', attr.description.blank? ? '-' : attr.description, :disabled => !(attr.custom_attribute) %></td>
+                <td><%= est_val.pe_attribute.nil? ? '-' : est_val.pe_attribute.name %></td>
+                <td><%= select_tag 'in_out[]', options_for_select([['input'], ['output'], ['both']], :selected => est_val.in_out), :prompt => I18n.t('helpers.select.prompt'), :disabled => true %> </td>
+                <td><%= select_tag "is_mandatory_#{est_val.id}_#{est_val.in_out}", options_for_select([['yes', true], ['no', false]], :selected => est_val.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :disabled => AttributeModule.where("pemodule_id =? and pe_attribute_id = ?", @module_project.pemodule.id, est_val.pe_attribute.id).first.is_mandatory %></td>
+                <td><%= text_field_tag "description_#{est_val.id}_#{est_val.in_out}", est_val.description.blank? ? '-' : est_val.description %></td>
               </tr>
-
-              <%# end %>
           <% end %>
         </table>
         <%= f.submit I18n.t('save'), :class => 'btn ' %>
