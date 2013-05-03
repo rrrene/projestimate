@@ -66,17 +66,23 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
 
-    @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
-      @module_project.estimation_values.select{|i| i.pbs_project_element_id == c.id }.each_with_index do |mpa, j|
+    ###@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
+      @module_project.estimation_values.each_with_index do |mpa|
         if mpa.custom_attribute == 'user'
           mpa.update_attribute('is_mandatory', params[:is_mandatory][j])
           mpa.update_attribute('in_out', params[:in_out][j])
           mpa.update_attribute('description', params[:description][j])
         end
       end
-    end
-
+    ###end
     redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+
+    #if @module_project.update_attributes(params[:module_project])
+    #  redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+    #else
+    #  render action: 'edit'
+    #end
+
   end
 
   def module_projects_matrix

@@ -160,10 +160,11 @@ $(document).ready(function() {
     });
 
     //Allow to copy value from one field to another
+    $('.copyLib').css( 'cursor', 'pointer' );
+
     $(".copyLib").click(function(){
         var effort_input_id = "_low"+$(this).data("effort_input_id");
-        //var first_value = document.getElementById("_low_effort_man_hour_69_435").value;
-        var first_value = document.getElementById(effort_input_id).value;
+        var first_value = $("#"+effort_input_id).val();
 
         var low_level =         "_low"+$(this).data("effort_input_id");
         var most_likely_level = "_most_likely"+$(this).data("effort_input_id");
@@ -222,18 +223,6 @@ function refresh_me(data){
     });
 }
 
-function copy_field_value() {
-   //"[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]"
-   var field_input_id = "_"+level+input_id;    //'#_most_likely_effort_man_hour_69_435'
-   var set_value = document.getElementById(field_input_id).val ;
-   var first_value = document.getElementById("_low_effort_man_hour_69_435").value;
-
-   var element_id = $(this).data('wbs_id');
-   document.getElementById("_low_effort_man_hour_69_435").value = first_value;
-   document.getElementById("_most_likely_effort_man_hour_69_435").value = first_value;
-   document.getElementById("_high_effort_man_hour_69_435").value = first_value;
-   return false;
-}
 
 jQuery.fn.submitWithAjax = function () {
     this.submit(function () {

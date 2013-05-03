@@ -96,7 +96,7 @@ module EffortBreakdown
               current_output_effort = (@input_effort_man_hour.to_f * corresponding_ratio_value.to_f / 100) * referenced_ratio_element.ratio_value.to_f
               output_effort[wbs_project_element.id] = current_output_effort
             else
-              node_effort = 0
+              node_effort = 0.0
               wbs_project_element.children.each do |child|
                 unless child.wbs_activity_element.nil? || child.wbs_activity.nil?
                   node_effort = node_effort + output_effort[child.id]

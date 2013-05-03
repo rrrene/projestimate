@@ -19,3 +19,20 @@ $('.spiner').hide();
 
 $("#pbs_list").val(<%= current_component.id %>)
 
+//Allow to copy value from one field to another
+$('.copyLib').css( 'cursor', 'pointer' );
+$(".copyLib").click(function(){
+    var effort_input_id = "_low"+$(this).data("effort_input_id");
+    var first_value = $("#"+effort_input_id).val();
+
+    var low_level =         "_low"+$(this).data("effort_input_id");
+    var most_likely_level = "_most_likely"+$(this).data("effort_input_id");
+    var high_level =        "_high"+$(this).data("effort_input_id");
+
+    document.getElementById(low_level).value = first_value;
+    document.getElementById(most_likely_level).value = first_value;
+    document.getElementById(high_level).value = first_value;
+    return false;
+});
+
+
