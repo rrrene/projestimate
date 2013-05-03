@@ -80,7 +80,7 @@ module WbsActivityElementsHelper
         tree << "<ul class='sortable'>"
         element.children.each do |e|
           if show_hidden == 'true'
-            tree << "<ul>
+            tree << "
                        <li style='margin-left:#{element.depth}em;' >
                         <div class='block_label'>
                           #{show_element_name(e)}
@@ -93,7 +93,7 @@ module WbsActivityElementsHelper
             generate_wbs_project_elt_tree(e, tree, show_hidden)
           else
               unless e.exclude
-                tree << "<ul>
+                tree << "
                        <li style='margin-left:#{element.depth}em;' >
                         <div class='block_label'>
                           #{show_element_name(e)}

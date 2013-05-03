@@ -106,7 +106,7 @@ class Project < ActiveRecord::Base
 
   #Override
   def to_s
-    self.title + ' - ' + self.description.truncate(20)
+    self.title + ' - ' + self.description.truncate(40)
   end
 
   #Return project value
@@ -171,7 +171,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.folder? }
+    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.work_element_type.alias == "folder" }
   end
 
   def self.table_search(search)

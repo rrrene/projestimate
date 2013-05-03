@@ -60,7 +60,7 @@
       <div id="tabs-2">
         <div class="field_checkbox">
           <h3><%= f.label :groups %></h3>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered table-condensed">
             <% @groups.each do |group| %>
               <tr>
                 <td><span><%= group.name %></span></td>
@@ -74,7 +74,7 @@
       <div id="tabs-3">
         <div class="field_checkbox">
           <h3><%= f.label :associated_organizations %></h3>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered table-condensed">
             <% @organizations.each do |org| %>
               <tr>
                 <td><span><%= org.name %></span>
@@ -88,7 +88,7 @@
     <div id="tabs-4">
         <div class="field_checkbox">
           <h3><%= f.label :projets_associes %></h3>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered table-condensed">
             <% @projects.each do |project| %>
               <tr>
                 <td><span><%= project.title %></span>

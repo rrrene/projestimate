@@ -12,8 +12,8 @@
   <%= csrf_meta_tag %>
 
 </head>
-<body class="app">
-      <%= render 'layouts/component_popup' %>
+<body>
+    <%= render 'layouts/component_popup' %>
 
     <a href="http://projestimate.org">
       <img style="position: fixed; top: 0; right: 0; border: 0; z-index: 3000;" src="/assets/ribbon.gif" alt="Follow us">
@@ -54,13 +54,16 @@
       </div>
     </div>
 
-    <div class="container-fluid the-container">
-      <div class="row-fluid">
-        <div class="span12">
-          <%= yield %>
+    <div id="content">
+      <div class="container-fluid the-container">
+        <div class="row-fluid">
+          <div class="span12">
+            <%= yield %>
+          </div>
         </div>
       </div>
     </div>
+
 
 
 

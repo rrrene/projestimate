@@ -1,7 +1,8 @@
-<div class="span12">
-  <h2><%= I18n.t(:auth_methods) %> </h2>
+<div id="content-header">
+  <h1><%= I18n.t(:auth_methods) %></h1>
+</div>
 
-  <table class="table table-striped" >
+  <table class="table table-striped table-bordered table-condensed" >
     <tr>
       <th><%= I18n.t(:name) %></th>
       <th><%= I18n.t(:record_status) %></th>
@@ -31,8 +32,5 @@
   <% end %>
   </table>
 
-  <br />
-
   <%= link_to I18n.t('new_auth_method'), new_auth_method_path, :class => 'btn' %>
-</div>
 

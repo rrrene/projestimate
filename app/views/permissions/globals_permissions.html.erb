@@ -2,7 +2,7 @@
   <h1><%= I18n.t(:global_permission) %></h1>
 
   <%= form_tag({:action=> 'set_rights', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
-    <table class="table table-striped permissions">
+    <table class="table table-striped table-bordered table-condensed permissions">
       <tr>
         <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
         <% @groups.each do |group| %>

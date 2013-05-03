@@ -53,7 +53,7 @@ module CocomoBasic
 
     #Return delay
     def get_delay
-      return 2.5*(get_effort_man_hour**@coef_c).to_f
+      return 2.5*((get_effort_man_hour/152)**@coef_c).to_f
     end
 
     #Return end date
@@ -63,7 +63,7 @@ module CocomoBasic
 
     #Return staffing
     def get_staffing
-      return get_effort_man_hour / get_delay
+      return (get_effort_man_hour/152) / get_delay
     end
 
     def get_complexity

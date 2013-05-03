@@ -1,8 +1,7 @@
 $(document).ready(function() {
-
-     $('.tabs ul li').hover(
+     $('ul li').hover(
         function () {
-          $(this.children).css('display', 'inline');
+          $(this.children).css('display', 'block');
         },
         function () {
          $('.block_link').hide();
@@ -53,7 +52,25 @@ $(document).ready(function() {
             }
     );
 
-    $( ".tabs" ).tabs();
+    $("#pbs_list").change(
+        function(){
+            $('#spiner').show();
+            $.ajax({
+                url:'/selected_pbs_project_element',
+                data:'id=' + this.value
+            })
+        }
+    )
+
+    $( ".tabs" ).tabs({
+        beforeLoad: function( event, ui ) {
+            ui.jqXHR.error(function() {
+                ui.panel.html(
+                    "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                        "If this wouldn't be a demo." );
+            });
+        }
+    });
 
     if(($('.div_tabs_to_disable').data('enable_update')) ==  false){
         $('.div_tabs_to_disable').find('input, textarea, button, select, a').attr('disabled','disabled');
@@ -192,7 +209,7 @@ function refresh_me(data){
         ,
         success: function(data) {
             $('#wbs_project_elements_section').html(data.html);
-            $('.component_tree ul li').hover(
+            $('ul li').hover(
                 function () {
                     $(this.children).css('display', 'block');
                 },
