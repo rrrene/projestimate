@@ -54,7 +54,7 @@ $(document).ready(function() {
 
     $("#pbs_list").change(
         function(){
-            $('#spiner').show();
+            $('.spiner').show();
             $.ajax({
                 url:'/selected_pbs_project_element',
                 data:'id=' + this.value

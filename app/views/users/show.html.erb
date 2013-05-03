@@ -2,7 +2,10 @@
   <% unless current_project.nil? or current_user.nil? %>
     <div class="row">
       <div id="content-header">
-        <h1>Dashboard - <%= current_project %></h1>
+        <h1>Dashboard -
+          <%= current_project.title %>
+          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
+        </h1>
       </div>
     </div>
 
