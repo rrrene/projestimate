@@ -5,6 +5,7 @@
         <a href="#collapseProduct" data-toggle="collapse">
           <span class="icon">
             <i class="icon-align-left"></i>
+            <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
           </span>
         </a>
         <h5>WBS-Product -
@@ -27,6 +28,7 @@
         <a href="#collapseActivity" data-toggle="collapse">
           <span class="icon">
             <i class="icon-list"></i>
+            <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
           </span>
         </a>
         <h5>WBS-Activity</h5>
@@ -47,13 +49,21 @@
   <div class="row-fluid">
     <div class="span6">
       <div class="widget-box">
-        <div class="widget-title"><span class="icon"><i class="icon-align-left"></i></span>
+        <div class="widget-title"><span class="icon">
+          <i class="icon-align-left"></i>
+          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
+        </span>
           <h5>Estimation module - Input data </h5>
           <div class="buttons">
             <%= select_tag "pbs_list",  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }, :selected => current_component.id), :class => "pull-right", :prompt => "Product Quick Access" %>
-            <a href="" onclick="$(this).closest('form').submit(); $('#spiner').toggle();" class="btn btn-mini">
-              <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
-              <%= I18n.t('execute_estimation') %>
+            <a href="" onclick="$(this).closest('form').submit();
+                                $('.spiner').show();
+                                $('.icon-signal').toggle();
+                                $('.icon-list').toggle();
+                                $('.icon-align-left').toggle();"
+                       class="btn btn-mini"
+                       title="<%= I18n.t :run_estimation %>">
+              <i class="icon-play"></i>
             </a>
           </div>
         </div>
@@ -67,7 +77,11 @@
 
     <div class="span6">
       <div class="widget-box">
-        <div class="widget-title"><span class="icon"><i class="icon-list"></i></span>
+        <div class="widget-title">
+          <span class="icon">
+          <i class="icon-list"></i>
+          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
+        </span>
           <h5>Estimation module - Output data </h5>
           <div class="buttons">
             <a href="" class="btn btn-mini btn-warning">

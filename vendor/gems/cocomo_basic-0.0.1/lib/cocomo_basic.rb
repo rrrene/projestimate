@@ -7,12 +7,12 @@ module CocomoBasic
 
     #Constructor
     def initialize(elem)
-      case elem[:complexity]
+      case elem[:complexity].underscore
         when 'organic'
           set_cocomo_organic(elem)
         when 'semidetached'
           set_cocomo_semidetached(elem)
-        when 'semidetached'
+        when 'embedded'
           set_cocomo_embedded(elem)
         else
           set_cocomo_organic(elem)
@@ -48,12 +48,12 @@ module CocomoBasic
     #Return effort
     def get_effort_man_hour
       res =  @coef_a*(coef_kls**@coef_b) * 152
-      return res.to_f
+      return res.to_f.floor
     end
 
     #Return delay
     def get_delay
-      return 2.5*((get_effort_man_hour/152)**@coef_c).to_f
+      return 2.5*((get_effort_man_hour/152)**@coef_c).to_f.floor
     end
 
     #Return end date
@@ -63,7 +63,7 @@ module CocomoBasic
 
     #Return staffing
     def get_staffing
-      return (get_effort_man_hour/152) / get_delay
+      return ((get_effort_man_hour/152) / get_delay).floor
     end
 
     def get_complexity
