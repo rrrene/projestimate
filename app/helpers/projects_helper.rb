@@ -117,7 +117,7 @@ module ProjectsHelper
 
     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
       res << "<tr>
-                <td>#{wbs_project_elt.name}</td>"
+                <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
@@ -232,7 +232,8 @@ module ProjectsHelper
               pe_attribute_alias = nil
               level_parameter = ""
               readonly_option = false
-              res << "<tr><td>#{wbs_project_elt.name}</td>"
+              res << "<tr><td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>" ###res << "<tr><td>#{wbs_project_elt.name}</td>"
+
               ["low", "most_likely", "high"].each do |level|
                 res << "<td>"
                 module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
