@@ -282,7 +282,7 @@ module ProjectsHelper
               input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
               res << "<td>"
               unless readonly_option
-                res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields'></span>"
+                res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
               end
               res << "</td>"
              res << "</tr>"
