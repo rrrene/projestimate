@@ -28,7 +28,6 @@
             <th><%= I18n.t(:description) %></th>
           </tr>
           <% @module_project.estimation_values.each_with_index do |attr, i| %>
-
               <%# unless attr.pbs_project_element.is_root? %>
               <%= hidden_field_tag 'hidden_ids[]', attr.id %>
               <%# else %>
@@ -56,7 +55,7 @@
     <% if @module_project.pemodule.yes_for_output_with_ratio? || @module_project.pemodule.yes_for_input_output_with_ratio? %>
         <%= render :partial => 'module_projects/module_settings' %>
     <% else %>
-        <%= render :text => "There is no Ratio parameter to set for this module." %>
+        <%= render :text => I18n.t('ratio_settings_message') %>
     <% end %>
   </div>
 
