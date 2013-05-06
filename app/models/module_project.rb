@@ -32,6 +32,8 @@ class ModuleProject < ActiveRecord::Base
 
   has_and_belongs_to_many :pbs_project_elements
 
+  default_scope :order => "position_x ASC, position_y ASC"
+
   #Return in a array next modules project of self.
   def next
     pos = self.position_y.to_i

@@ -51,7 +51,7 @@
     <% if @module_project.pemodule.yes_for_output_with_ratio? || @module_project.pemodule.yes_for_input_output_with_ratio? %>
         <%= render :partial => 'module_projects/module_settings' %>
     <% else %>
-        <%= render :text => I18n.t('ratio_settings_message') %>
+        <%= content_tag(:div, I18n.t('ratio_settings_message'), :class => "alert alert-info") %>
     <% end %>
   </div>
 

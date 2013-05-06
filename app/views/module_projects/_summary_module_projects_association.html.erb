@@ -17,7 +17,7 @@
         </td>
         <% @module_projects.each_with_index do |j, k| %>
           <td>
-            <% if  k < l %>
+            <% if  k<l && i.position_y!=j.position_y %>
               <%= check_box_tag("module_projects[#{i.id}][]", j.id, (i.associated_module_projects.map(&:id).include?(j.id)) )%>
             <% else %>
               -
