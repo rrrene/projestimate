@@ -7,12 +7,11 @@ module CocomoBasic
 
     #Constructor
     def initialize(elem)
-      case elem[:complexity].underscore
+      case elem[:complexity]
         when 'organic'
           set_cocomo_organic(elem)
         when 'semi-detached'
           set_cocomo_semidetached(elem)
-        when 'embedded'
         when 'embedded'
           set_cocomo_embedded(elem)
         else
