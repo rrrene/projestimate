@@ -20,7 +20,7 @@
             <% end %>
           <% end %>
 
-          <div class="<%= pbs_class %> window span2 <%= pmod.pemodule.alias %> ">
+          <div class="<%= pbs_class %> window span2 <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
               <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
               <br>
               <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>

@@ -258,49 +258,53 @@ class ProjectsController < ApplicationController
 
   #Allow o add a module to a estimation process
   def add_module
-    @array_modules = Pemodule.all
     @project = Project.find(params[:project_id])
-    @pemodules ||= Pemodule.all
 
-    #Max pos or 1
-    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
+    unless (params[:module_selected].nil? || @project.nil?)
+      @array_modules = Pemodule.all
+      @pemodules ||= Pemodule.all
 
-    #When adding a module in the "timeline", it creates an entry in the table ModuleProject for the current project, at position 2 (the one being reserved for the input module).
-    my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => 1)
-    my_module_project.save
+      #Max pos or 1
+      @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+      @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
 
-    #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
-    # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
-    #@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
-      my_module_project.pemodule.attribute_modules.each do |am|
-        if am.in_out == 'both'
-          ['input', 'output'].each do |in_out|
+      #When adding a module in the "timeline", it creates an entry in the table ModuleProject for the current project, at position 2 (the one being reserved for the input module).
+      ###my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => 1)
+      my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => @module_positions_x.to_i+1)
+      my_module_project.save
+
+      #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
+      # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
+      #@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
+        my_module_project.pemodule.attribute_modules.each do |am|
+          if am.in_out == 'both'
+            ['input', 'output'].each do |in_out|
+              mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
+                                              :module_project_id => my_module_project.id,
+                                              :in_out => in_out,
+                                              :is_mandatory => am.is_mandatory,
+                                              :description => am.description,
+                                              :string_data_low => {:default_low => am.default_low},
+                                              :string_data_most_likely => {:default_most_likely => am.default_most_likely},
+                                              :string_data_high => {:default_high => am.default_high},
+                                              :custom_attribute => am.custom_attribute,
+                                              :project_value => am.project_value )
+            end
+          else
             mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
-                                            :module_project_id => my_module_project.id,
-                                            :in_out => in_out,
-                                            :is_mandatory => am.is_mandatory,
-                                            :description => am.description,
-                                            :string_data_low => {:default_low => am.default_low},
-                                            :string_data_most_likely => {:default_most_likely => am.default_most_likely},
-                                            :string_data_high => {:default_high => am.default_high},
-                                            :custom_attribute => am.custom_attribute,
-                                            :project_value => am.project_value )
+                                           :module_project_id => my_module_project.id,
+                                           :in_out => am.in_out,
+                                           :is_mandatory => am.is_mandatory,
+                                           :description => am.description,
+                                           :string_data_low => {:default_low => am.default_low},
+                                           :string_data_most_likely => {:default_most_likely => am.default_most_likely},
+                                           :string_data_high => {:default_high => am.default_high},
+                                           :custom_attribute => am.custom_attribute,
+                                           :project_value => am.project_value )
           end
-        else
-          mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
-                                         :module_project_id => my_module_project.id,
-                                         :in_out => am.in_out,
-                                         :is_mandatory => am.is_mandatory,
-                                         :description => am.description,
-                                         :string_data_low => {:default_low => am.default_low},
-                                         :string_data_most_likely => {:default_most_likely => am.default_most_likely},
-                                         :string_data_high => {:default_high => am.default_high},
-                                         :custom_attribute => am.custom_attribute,
-                                         :project_value => am.project_value )
         end
-      end
-    #end
+      #end
+    end
   end
 
   def select_pbs_project_elements

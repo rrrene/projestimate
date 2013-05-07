@@ -691,6 +691,11 @@ body {
     /*margin-left: 3px;*/
 }
 
+.tree_element_in_out{
+    float: left;
+    text-align: left;
+}
+
 
 /* ==================================== WBS ====================================*/
 

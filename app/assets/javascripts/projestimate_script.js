@@ -160,7 +160,7 @@ $(document).ready(function() {
     });
 
     //Allow to copy value from one field to another
-    $('.copyLib').css( 'cursor', 'pointer' );
+    $('.copyLib').css('cursor', 'pointer');
 
     $(".copyLib").click(function(){
         var effort_input_id = "_low"+$(this).data("effort_input_id");
