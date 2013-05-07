@@ -47,6 +47,7 @@ ProjestimateMaquette::Application.routes.draw do
   resources :project_security_levels
 
   resources :estimation_values
+  match 'estimation_values/:type/convert' => 'estimation_values#convert', :as => 'convert'
 
   resources :attribute_modules
 

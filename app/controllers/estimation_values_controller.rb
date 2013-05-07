@@ -36,4 +36,29 @@ class EstimationValuesController < ApplicationController
       end
     end
   end
+
+  def convert
+    res = Array.new
+    @data = String.new
+    current_project.module_projects.each do |module_project|
+      module_project.estimation_values.each do |est_val|
+        res << est_val.string_data_low
+        res << est_val.string_data_most_likely
+        res << est_val.string_data_high
+      end
+    end
+
+    #res.each do |r|
+      if params[:type] == "json"
+        @data << res.first.to_json
+      elsif params[:type] == "xml"
+        @data << res.first.to_xml
+      elsif params[:type] == "csv"
+        @data << res.first.to_csv
+      end
+    #end
+
+    send_data(@data, :type => "text/#{params[:type]}; header=present", :disposition => "attachment; filename=data.#{params[:type]}")
+
+  end
 end
