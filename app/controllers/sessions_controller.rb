@@ -86,16 +86,20 @@ class SessionsController < ApplicationController
       if user.auth_method.name == 'Application' or user.auth_method.nil?
         if user.active?
           user.send_password_reset if user
-          redirect_to root_url, :notice => "#{I18n.t (:notice_session_password_reset_instruction)}"
+          flash[:notice] = I18n.t(:notice_session_password_reset_instruction)
+          redirect_to root_url
         else
           user.send_password_reset if user
-          redirect_to root_url, :warning => "#{I18n.t (:warning_session_account_not_active)}"
+          flash[:warning] = I18n.t(:warning_session_account_not_active)
+          redirect_to root_url
         end
       else
-        redirect_to root_url, :error => "#{I18n.t (:error_account_ldap_association)}"
+        flash[:error] = I18n.t(:error_account_ldap_association)
+        redirect_to root_url
       end
     else
-      redirect_to root_url, :warning => "#{I18n.t (:warning_session_bad_username)}"
+      flash[:warning] = I18n.t(:warning_session_bad_username)
+      redirect_to root_url
     end
   end
 
