@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430101143) do
+ActiveRecord::Schema.define(:version => 20130506073938) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -331,15 +331,15 @@ ActiveRecord::Schema.define(:version => 20130430101143) do
   add_index "master_settings", ["uuid"], :name => "index_master_settings_on_uuid", :unique => true
 
   create_table "module_projects", :force => true do |t|
-    t.integer  "pemodule_id"
-    t.integer  "project_id"
-    t.integer  "position_y"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "nb_input_attr"
-    t.integer  "nb_output_attr"
-    t.integer  "position_x"
-    t.integer  "reference_value_id"
+    t.integer "pemodule_id"
+    t.integer "project_id"
+    t.string  "position_x"
+    t.integer "position_y"
+    t.integer "nb_input_attr"
+    t.integer "nb_output_attr"
+    t.integer "reference_value_id"
+    t.string  "created_at"
+    t.string  "updated_at"
   end
 
   create_table "module_projects_pbs_project_elements", :id => false, :force => true do |t|
@@ -649,6 +649,7 @@ ActiveRecord::Schema.define(:version => 20130430101143) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -763,8 +764,8 @@ ActiveRecord::Schema.define(:version => 20130430101143) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

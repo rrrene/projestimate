@@ -93,6 +93,7 @@ class PbsProjectElementsController < ApplicationController
     render :partial => "pbs_project_elements/refresh"
   end
 
+
   #Create a new pbs_project_element and refresh the partials
   def new
     @pe_wbs_project = PeWbsProject.find(params[:pe_wbs_project_id])
