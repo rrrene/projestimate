@@ -1,3 +1,4 @@
+
 * {
 	outline:none !important;
 	-moz-outline: none !important;
@@ -854,4 +855,14 @@ body {
 
 .inner-well{
     margin: 10px;
+}
+
+.attribute_tooltip{
+cursor: help;
+    color: green;
+    border-bottom: 1px dotted green
+}
+
+.tooltip-inner {
+    background-color: #adff2f;
 }
