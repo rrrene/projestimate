@@ -642,7 +642,7 @@ en-gb:
   refers_to: "No ProjEstimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
   to_install_module: "to install ProjEstimate modules."
-  no_estimation_plan: "No estimating plan has been defined."
+  notice_no_estimation_plan_defined: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   step: "Step"
 
@@ -862,3 +862,5 @@ en-gb:
   label_is_validated: "Is validated"
   text_overloading_default_ratio_table: "To override (for this component) the default ratio table, select a WBS-activities and its associated ratio table"
   text_no_icon: "no icon selected"
+  tooltip_run_estimation: "Execute the estimate"
+  notice_no_estimation_saved : "No results has been save up in the project's database"

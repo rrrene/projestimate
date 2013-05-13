@@ -642,7 +642,7 @@ fr:
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
   official_documentation: "Documentation officielle"
   to_install_module: "pour installer un module sur ProjEstimate"
-  no_estimation_plan: "Aucun plan d'estimation n'a été défini."
+  notice_no_estimation_plan_defined: "Aucun plan d'estimation n'a été défini."
   select_module: "Sélectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
   step: "Etape"
 
@@ -862,3 +862,5 @@ fr:
   label_is_validated: "Est validé"
   text_overloading_default_ratio_table: "Selectionner une table de ratio pour surcharger, sur ce composant, la valeur par défaut"
   text_no_icon: "aucune icône sélectionnée"
+  tooltip_run_estimation: "Executer l'estimation"
+  notice_no_estimation_saved : "Aucun résultat n'a été enregistré dans la base de données du projet"
