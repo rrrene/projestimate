@@ -9,7 +9,7 @@
 
   <div id="tabs-1">
 
-    <table border="0" width="100%">
+    <table border="0">
       <tr>
         <td style="text-align:right;">
           <%= link_to I18n.t('new_user'), new_user_path, :class => 'btn' %>
@@ -18,7 +18,7 @@
     </table>
 
     <%= form_tag 'user_search', :remote => true, :method => :get, :class => 'simple_form' do %>
-      <table border="0" width="100%">
+      <table border="0" >
         <tr>
           <td>
             <h5><%= I18n.t(:display ) %> <%= select_tag 'user_record_number', options_for_select([5,10,25,50]), :class => 'pull-left span2' %> <%= I18n.t(:record_per_page ) %></h5>
@@ -31,10 +31,10 @@
           </td>
         </tr>
       </table>
-    <% end %>
+      <% end %>
 
 
-    <div id="users">
+    <div id="users" style="width:100%;overflow:auto;">
       <%= render :partial => 'users', :object => @users %>
     </div>
 

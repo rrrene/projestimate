@@ -387,10 +387,6 @@ body {
 
 
 /* Tables */
-
-.table th, .table td {
-    vertical-align: middle;
-}
 .table th {
 	height: auto;
 	font-size: 10px;
@@ -514,6 +510,10 @@ body {
 
 .the-sidebar {
     position: absolute;
+}
+
+.the-container {
+    margin-left: 20px;
 }
 
 [class^="icn_"],
@@ -682,6 +682,13 @@ body {
 .search_input {
     background: url('/assets/iconsProjestimateMenu.png') no-repeat center left;
     background-position:  0 -740px; height: 20px; width: 20px;
+}
+
+.copyLib {
+    /*padding-left: 0.5em;*/
+    /*padding-right: 20px;*/
+    /*margin-bottom: 4px;*/
+    /*margin-left: 3px;*/
 }
 
 .tree_element_in_out{
@@ -932,4 +939,21 @@ input[type="color"],
 
 .alert {
     margin: 0px;
+}
+
+.attribute_tooltip{
+cursor: help;
+    color: green;
+    border-bottom: 1px dotted green
+}
+
+.tooltip-inner {
+    background-color: #adff2f;
+}
+
+.confirm_deletion{
+    background-color: #fafad2;
+    padding: 20px;
+    border: 1px solid #DDDDDD;
+    color: #333333;
 }

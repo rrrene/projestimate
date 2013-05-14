@@ -279,7 +279,8 @@ fr:
   save: "Sauvegarder"
   apply: "Appliquer"
   edit: "Editer"
-  delete: "Supprimer "
+  delete: "Supprimer"
+  cancel: "Annuler"
   show: "Voir"
   restore: "Restaurer"
   validate: "Valider"
@@ -503,6 +504,8 @@ fr:
   group_securities_resume: "Résumé des sécurités du groupe"
   group_name: "Nom du groupe"
   global_properties: "Propriétés globales"
+  text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
+  warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement"
@@ -519,7 +522,7 @@ fr:
   #sessions
   button_ask_account: "Demander un compte"
   send_request: "Envoyer"
-  login_name_or_email: "Login ou email"
+  login_name_or_email: "identifiant de connexion ou courriel"
   button_forgotten_password: "Mot de passe oublié ?"
   open_url_id: "Identifiant OpenId"
   ldap_account_or_application_account: "Identifiant ou courriel de l'utilisateur (ou Identifiant LDAP)"
@@ -642,7 +645,7 @@ fr:
   refers_to: "Aucun module projestimate n'est installé. Veuillez vous référer à la"
   official_documentation: "Documentation officielle"
   to_install_module: "pour installer un module sur ProjEstimate"
-  no_estimation_plan: "Aucun plan d'estimation n'a été défini."
+  notice_no_estimation_plan_defined: "Aucun plan d'estimation n'a été défini."
   select_module: "Sélectionnez un module dans la liste. Les modifications seront automatiquement sauvegardée."
   step: "Etape"
 
@@ -782,7 +785,7 @@ fr:
   notice_session_password_reset_instruction: "Les instructions de réinitialisation de mot de passe vous ont été envoyés."
   warning_session_account_not_active: "Ce compte n'est pas actif"
   error_account_ldap_association: "Your account is associated with the corporate directory/LDAP. Please contact your system administrator to know your ids."
-  warning_session_bad_username: "Nom d'utilisateur incorrect"
+  warning_session_bad_username: "Nous n'avons pas de compte utilisant ce nom de login ou ce courriel"
   application: "Application"
   notice_translation_successful_added: "Traduction ajoutée"
   notice_account_successful_created: "Votre compte a été créé avec succès"
@@ -862,3 +865,5 @@ fr:
   label_is_validated: "Est validé"
   text_overloading_default_ratio_table: "Selectionner une table de ratio pour surcharger, sur ce composant, la valeur par défaut"
   text_no_icon: "aucune icône sélectionnée"
+  tooltip_run_estimation: "Executer l'estimation"
+  notice_no_estimation_saved : "Aucun résultat n'a été enregistré dans la base de données du projet"

@@ -56,7 +56,6 @@ class PbsProjectElementsController < ApplicationController
     end
 
     render :partial => "pbs_project_elements/refresh_tree"
-
   end
 
   def destroy
@@ -80,10 +79,10 @@ class PbsProjectElementsController < ApplicationController
 
   #Select the current pbs_project_element and refresh the partial
   def selected_pbs_project_element
-    session[:pbs_project_element_id] = params[:id]
+    session[:pbs_project_element_id] = params[:pbs_id]
 
     @user = current_user
-    @project = current_project
+    @project = current_project.nil? ? Project.find(params[:project_id]) : current_project    #@project = current_project
     @module_projects = @project.module_projects
     @pbs_project_element = current_component
 
@@ -92,6 +91,7 @@ class PbsProjectElementsController < ApplicationController
 
     render :partial => "pbs_project_elements/refresh"
   end
+
 
   #Create a new pbs_project_element and refresh the partials
   def new

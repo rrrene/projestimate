@@ -66,10 +66,10 @@ $(document).ready(function() {
             $('.spiner').show();
             $.ajax({
                 url:'/selected_pbs_project_element',
-                data:'id=' + this.value
+                data:'pbs_id=' + this.value + '&project_id=' + $('#project_id').val()
             })
         }
-    )
+    );
 
     $( ".tabs" ).tabs({
         beforeLoad: function( event, ui ) {
@@ -184,6 +184,7 @@ $(document).ready(function() {
         document.getElementById(high_level).value = first_value;
         return false;
     });
+
 });
 
 // ################################# Other methods #################################
@@ -231,7 +232,6 @@ function refresh_me(data){
         error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
 }
-
 
 jQuery.fn.submitWithAjax = function () {
     this.submit(function () {

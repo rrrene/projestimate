@@ -36,14 +36,16 @@ module ProjectsHelper
   # This helper method will display Estimation Result according the estimation purpose (PBS and/or Activities)
   def display_results
     res = String.new
-    pbs_project_element = @pbs_project_element || current_project.root_component
-    current_project.module_projects.each do |module_project|
-      if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
-        res << display_results_with_activities(module_project)
-      else
-        res << display_results_without_activities(module_project)
+    unless current_project.nil?
+      pbs_project_element = @pbs_project_element || current_project.root_component
+      current_project.module_projects.each do |module_project|
+        if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
+          res << display_results_with_activities(module_project)
+        else
+          res << display_results_without_activities(module_project)
+        end
+        res
       end
-      res
     end
     res
   end
@@ -64,7 +66,7 @@ module ProjectsHelper
         res << "</tr>"
 
     module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
-      res << "<tr><td>#{estimation_value.pe_attribute.name}</td>"
+      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description}'>#{estimation_value.pe_attribute.name}</span></td>"
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
@@ -102,7 +104,7 @@ module ProjectsHelper
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th colspan=4>#{mpa.pe_attribute.name}</th>"
+        res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
       end
     end
     res << "</tr>"
@@ -172,32 +174,34 @@ module ProjectsHelper
   # Display Estimations output results according to the module behavior
   def display_input
     res = String.new
-    pbs_project_element = @pbs_project_element || current_project.root_component
+    unless current_project.nil?
+      pbs_project_element = @pbs_project_element || current_project.root_component
 
-    current_project.module_projects.each do |module_project|
-      current_project = module_project.project
+      current_project.module_projects.each do |module_project|
+        current_project = module_project.project
 
-      ##if module_project.pemodule.with_activities
-      if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
-        if module_project.pemodule.alias == "wbs_activity_completion"
-          @defined_status = RecordStatus.find_by_name("Defined")
+        ##if module_project.pemodule.with_activities
+        if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
+          if module_project.pemodule.alias == "wbs_activity_completion"
+            @defined_status = RecordStatus.find_by_name("Defined")
 
-          last_estimation_result = nil
-          refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
-          refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-          refer_module_project =  current_project.module_projects.where("pemodule_id = ?", refer_module.id).last
+            last_estimation_result = nil
+            refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
+            refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
+            refer_module_project =  current_project.module_projects.where("pemodule_id = ?", refer_module.id).last
 
-          unless refer_module_project.nil?
-            last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
-            last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
+            unless refer_module_project.nil?
+              last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
+              last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
+            end
+            ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
+            res << display_inputs_with_activities(module_project, last_estimation_result)
+          else
+            res << display_inputs_with_activities(module_project)
           end
-          ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
-          res << display_inputs_with_activities(module_project, last_estimation_result)
-        else
-          res << display_inputs_with_activities(module_project)
+        elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
+          res << display_inputs_without_activities(module_project)
         end
-      elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
-        res << display_inputs_without_activities(module_project)
       end
     end
     res
@@ -214,7 +218,7 @@ module ProjectsHelper
                 <th></th>"
       module_project.estimation_values.each do |mpa|
         if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-          res << "<th colspan=4>#{mpa.pe_attribute.name}</th>"
+          res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}' rel='tooltip'>#{mpa.pe_attribute.name}</span></th>"
         end
       end
       res << "</tr>"
@@ -310,7 +314,7 @@ module ProjectsHelper
             module_project.estimation_values.each do |est_val|
               if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
                 res << "<tr>"
-                res << "<td>#{est_val.pe_attribute.name}</td>"
+                res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val.pe_attribute.description}'>#{est_val.pe_attribute.name}</span></td>"
                 level_estimation_values = Hash.new
                 ["low", "most_likely", "high"].each do |level|
                 level_estimation_values = est_val.send("string_data_#{level}")

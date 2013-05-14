@@ -146,6 +146,7 @@ ProjestimateMaquette::Application.routes.draw do
   match 'projects/:id/display_estimation_plan' => 'projects#display_estimation_plan', :as => 'display_estimation_plan'
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
+  match 'projects/:project_id/confirm_deletion' => 'projects#confirm_deletion', :as => :confirm_deletion
 
   resources :users
   get "dashboard" => "users#show", :as => "dashboard"

@@ -1,4 +1,4 @@
-$(".component_tree").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
+$(".project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 
 $(".input_data").html("<%=raw j(display_input) %>");
 
@@ -17,7 +17,7 @@ $('.component_tree > ul li').hover(
 
 $('.spiner').hide();
 
-$("#pbs_list").val(<%= current_component.id %>)
+$("#pbs_list").val(<%= current_component.nil? ? '' : current_component.id %>);
 
 //Allow to copy value from one field to another
 $('.copyLib').css( 'cursor', 'pointer' );
