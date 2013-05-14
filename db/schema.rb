@@ -763,8 +763,8 @@ ActiveRecord::Schema.define(:version => 20130430101143) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

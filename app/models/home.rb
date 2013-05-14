@@ -46,7 +46,7 @@ class Home < ActiveRecord::Base
       self.update_records(ExternalMasterDatabase::ExternalAcquisitionCategory, AcquisitionCategory, ["name", "description", "uuid"])
 
       puts "   - Attribute..."
-      self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
+      self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "options", "uuid"])
 
       puts "   - Projestimate Icons"
       self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ["name", "icon_file_name", "icon_content_type", "icon_updated_at", "icon_file_size", "uuid"])
@@ -314,7 +314,7 @@ class Home < ActiveRecord::Base
       self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ["title", "alias", "description", "compliant_component_type", "with_activities", "uuid"])
 
       puts "   - Attribute..."
-      self.create_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "uuid"])
+      self.create_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ["name", "alias", "description", "attr_type", "aggregation", "options", "uuid"])
 
       puts "   - Attribute Module"
       self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ["description", "default_low", "default_most_likely", "default_high", "in_out", "uuid"])

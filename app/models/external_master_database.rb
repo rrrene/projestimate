@@ -76,6 +76,7 @@ module ExternalMasterDatabase
   class ExternalPeAttribute < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+    serialize :options, Array
   end
 
   class ExternalAttributeModule < ActiveRecord::Base
