@@ -60,7 +60,7 @@ $(document).ready(function() {
                 data:'pbs_id=' + this.value + '&project_id=' + $('#project_id').val()
             })
         }
-    )
+    );
 
     $( ".tabs" ).tabs({
         beforeLoad: function( event, ui ) {

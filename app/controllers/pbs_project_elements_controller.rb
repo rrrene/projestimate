@@ -56,7 +56,6 @@ class PbsProjectElementsController < ApplicationController
     end
 
     render :partial => "pbs_project_elements/refresh_tree"
-
   end
 
   def destroy
