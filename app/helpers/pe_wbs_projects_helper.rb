@@ -25,7 +25,7 @@ module PeWbsProjectsHelper
 
     def generate_wbs_product(pbs_project_element, project, tree, gap)
       #Root is always display
-      if pbs_project_element.is_root?
+      if !pbs_project_element.nil? && pbs_project_element.is_root?
         tree << "<ul >
            #{wbs_root_links(pbs_project_element, project)}"
         end
@@ -50,12 +50,12 @@ module PeWbsProjectsHelper
     end
 
     def wbs_navigation_links(c)
-      "<li class='#{ c.id == current_component.id ? "selected" : '' }' >
+      "<li class='#{ c.id == (current_component.nil? ? nil : current_component.id) ? "selected" : '' }' >
         <div class='block_label'>
           #{  image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
           #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
           #{  content_tag('span', '', :class => "#{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-          #{  link_to(c.link? ? (c.project_link.nil? ? '!! undefined link' : Project.find(c.project_link)) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "", :confirm => ('You are going to modify a validated PBS, confirm to continue or abort to cancel ?' if c.is_validated) ) }
+          #{  link_to(c.link? ? (c.project_link.nil? ? '!! undefined link' : Project.find(c.project_link)) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => c.id, :project_id => @project.id}, :remote => true, :class => "", :confirm => ('You are going to modify a validated PBS, confirm to continue or abort to cancel ?' if c.is_validated) ) }
         </div>
         <div class='block_link'>
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement}
@@ -90,13 +90,14 @@ module PeWbsProjectsHelper
     end
 
     def wbs_root_links(pbs_project_element, project)
-      "<li class='#{ pbs_project_element.id == current_component.id ? 'selected' : '' }'>
+      #"<li class='#{ pbs_project_element.id == current_component.id ? 'selected' : '' }'>
+      "<li class='#{ pbs_project_element.id == (current_component.nil? ? nil : current_component.id) ? 'selected' : '' }'>
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }
             #{  content_tag('span', '', :class => "#{ pbs_project_element.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
             #{  content_tag('span', '', :class => "#{ pbs_project_element.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-            #{ link_to(pbs_project_element.name + ' - Product Breakdown Structure', { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => pbs_project_element.id}, :remote => true, :class => " ") }
+            #{ link_to(pbs_project_element.name + ' - Product Breakdown Structure', { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => pbs_project_element.id, :project_id => @project.id}, :remote => true, :class => " ") }
           </div>
         </div>
         <div class='block_link'>
