@@ -171,14 +171,41 @@ class ProjectsController < ApplicationController
     end
   end
   
-  def destroy
+  def destroy_save
     @project = Project.find(params[:id])
     @project.destroy
 
     current_user.delete_recent_project(@project.id)
     session[:current_project_id] = current_user.projects.first
-
     redirect_to session[:return_to]
+  end
+
+
+  def destroy
+    @project = Project.find(params[:id])
+    case params[:commit]
+      when I18n.t('delete')
+        if params[:yes_confirmation] == "selected"
+          @project.destroy
+          current_user.delete_recent_project(@project.id)
+          session[:current_project_id] = current_user.projects.first
+
+          #redirect_to session[:return_to]
+          redirect_to projects_path, :notice => "Project was successfully deleted"
+        else
+          flash[:warning] = I18n.t('warning_need_check_box_confirmation')
+          render :template => "projects/confirm_deletion"
+        end
+      when I18n.t('cancel')
+        redirect_to projects_path
+      else
+        render :template => "projects/confirm_deletion"
+    end
+  end
+
+
+  def confirm_deletion
+    @project = Project.find(params[:project_id])
   end
 
   def select_categories

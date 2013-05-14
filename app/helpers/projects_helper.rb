@@ -64,7 +64,7 @@ module ProjectsHelper
         res << "</tr>"
 
     module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
-      res << "<tr><td><span class='attribute_tooltip' title='#{estimation_value.pe_attribute.description}'>#{estimation_value.pe_attribute.name}</span></td>"
+      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description}'>#{estimation_value.pe_attribute.name}</span></td>"
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
@@ -310,7 +310,7 @@ module ProjectsHelper
             module_project.estimation_values.each do |est_val|
               if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
                 res << "<tr>"
-                res << "<td><span class='attribute_tooltip' title='#{est_val.pe_attribute.description}'>#{est_val.pe_attribute.name}</span></td>"
+                res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val.pe_attribute.description}'>#{est_val.pe_attribute.name}</span></td>"
                 level_estimation_values = Hash.new
                 ["low", "most_likely", "high"].each do |level|
                 level_estimation_values = est_val.send("string_data_#{level}")

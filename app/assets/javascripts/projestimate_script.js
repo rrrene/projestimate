@@ -175,6 +175,7 @@ $(document).ready(function() {
         document.getElementById(high_level).value = first_value;
         return false;
     });
+
 });
 
 // ################################# Other methods #################################
@@ -222,7 +223,6 @@ function refresh_me(data){
         error: function(XMLHttpRequest, testStatus, errorThrown) { alert('Error!'); }
     });
 }
-
 
 jQuery.fn.submitWithAjax = function () {
     this.submit(function () {

@@ -279,7 +279,8 @@ fr:
   save: "Sauvegarder"
   apply: "Appliquer"
   edit: "Editer"
-  delete: "Supprimer "
+  delete: "Supprimer"
+  cancel: "Annuler"
   show: "Voir"
   restore: "Restaurer"
   validate: "Valider"
@@ -503,6 +504,8 @@ fr:
   group_securities_resume: "Résumé des sécurités du groupe"
   group_name: "Nom du groupe"
   global_properties: "Propriétés globales"
+  text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
+  warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement"
