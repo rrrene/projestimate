@@ -70,7 +70,7 @@ def load_data!
 
     # Version
     puts '   - Version table'
-    Version.create :comment => "No update data has been save"
+    Version.create :comment => 'No update data has been save'
 
     #RecordStatus
     record_status = Array.new
@@ -109,7 +109,7 @@ def load_data!
 
     puts '   - Project categories'
     ProjectCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
-    pjcategory=ProjectCategory.first
+    #pjcategory=ProjectCategory.first
     ProjectCategory.create(:name => 'Multimedia', :description => 'TBD', :record_status_id => rsid)
     ProjectCategory.create(:name => 'Network Management', :description => 'TBD', :record_status_id => rsid)
     ProjectCategory.create(:name => 'Office Automation', :description => 'TBD', :record_status_id => rsid)
@@ -124,7 +124,7 @@ def load_data!
 
     puts '   - Platform categories'
     PlatformCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
-    plcategory=PlatformCategory.first    
+    #plcategory=PlatformCategory.first
     PlatformCategory.create(:name => 'Client-Server', :description => 'TBD', :record_status_id => rsid)
     PlatformCategory.create(:name => 'Mobile Ground-Based', :description => 'TBD', :record_status_id => rsid)
     PlatformCategory.create(:name => 'Server', :description => 'TBD', :record_status_id => rsid)
@@ -148,7 +148,7 @@ def load_data!
       acquisition_category.each do |i|
         AcquisitionCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
       end
-      accategory=AcquisitionCategory.first
+      #accategory=AcquisitionCategory.first
       
     puts '   - Attributes'
       attributes = [
@@ -254,7 +254,7 @@ def load_data!
       array_labor_category.each do |i|
         LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
       end
-      laborcategory=LaborCategory.first
+      #laborcategory=LaborCategory.first
 
     puts '   - Activity categories'
     #Default actitity category
@@ -307,9 +307,13 @@ def load_data!
     PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
     pe_wbs_project = PeWbsProject.first
     #Create root pbs_project_element
-    pbs_project_element = PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => 'Root folder')
-    pbs_project_element = PbsProjectElement.first
+    PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => 'Root folder')
+    #pbs_project_element = PbsProjectElement.first
     PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
+    pe_wbs_project = PeWbsProject.last
+    #Create root pbs_project_element
+    WbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :description => 'WBS-Activity Root Element', :name => "Root Element - #{project.title} WBS-Activity)")
+    #wbs_project_element = wbsProjectElement.first
 
     puts 'Create project security level...'
     #Default project Security Level
