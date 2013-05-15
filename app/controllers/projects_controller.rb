@@ -42,10 +42,13 @@ class ProjectsController < ApplicationController
     @pemodules ||= Pemodule.all
     @project_modules = @project.pemodules
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
     @organizations = Organization.all
     @project_modules = @project.pemodules
     @project_security_levels = ProjectSecurityLevel.all
     @module_project = ModuleProject.find_by_project_id(@project.id)
+
+    @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
   end
 
   def index
@@ -287,7 +290,7 @@ class ProjectsController < ApplicationController
   def add_module
     @project = Project.find(params[:project_id])
 
-    unless (params[:module_selected].nil? || @project.nil?)
+    unless params[:module_selected].nil? || @project.nil?
       @array_modules = Pemodule.all
       @pemodules ||= Pemodule.all
 
@@ -296,9 +299,11 @@ class ProjectsController < ApplicationController
       @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
 
       #When adding a module in the "timeline", it creates an entry in the table ModuleProject for the current project, at position 2 (the one being reserved for the input module).
-      ###my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => 1)
       my_module_project = ModuleProject.new(:project_id => @project.id, :pemodule_id => params[:module_selected], :position_y => 1, :position_x => @module_positions_x.to_i+1)
       my_module_project.save
+
+      @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+      @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
 
       #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
       # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
@@ -361,7 +366,7 @@ class ProjectsController < ApplicationController
     #Save output values: only for current pbs_project_element
     @project.module_projects.each do |mp|
       # get the estimation_value for the current_pbs_project_element
-      current_pbs_estimations = mp.estimation_values###.where("pbs_project_element_id = ?", @pbs_project_element.id)
+      current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|
         if est_val.in_out == 'output'
           out_result = Hash.new

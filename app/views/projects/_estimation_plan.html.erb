@@ -1,40 +1,58 @@
-<div class="module_box">
+<div class="module_box"  style=" width: inherit; overflow-x:scroll;">
+  <br /><br />
+
   <% module_projects = @project.module_projects %>
+  <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
   <% unless module_projects.empty? %>
-    <% for j in 1..@module_positions %>
-
-      <div class="" >
-        <div class="window span2" >
-            <%= I18n.t(:step) %> <%= j %>
-        </div>
-      </div>
-
-
-      <div class="row">
-        <% ModuleProject.where(:project_id => @project.id, :position_y => j).each_with_index do |pmod, i| %>
-
-          <% if @pbs_project_element %>
-            <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
-              <% pbs_class = 'highlight' %>
-            <% end %>
-          <% end %>
-
-          <div class="<%= pbs_class %> window span2 <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
-              <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
-              <br>
-              <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
-              <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
-              <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
-              <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
-              <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
-          </div>
-
-          <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
-
+    <table class="table table-condensed table-bordered">
+      <tr>
+        <th></th>
+        <% for x in 1..@module_positions_x.to_i do %>
+            <th><h4><%= @alphabet[x-1] %></h4></th>
         <% end %>
-      </div>
-    <% end %>
+      </tr>
+
+        <% for y in 1..@module_positions do %>
+          <tr>
+            <td style="width: 40px;">
+              <div class="" style="padding-top: 2em;">
+                <div class="window span2" style="width: 30px;">
+                    <%= y %>
+                </div>
+              </div>
+            </td>
+
+            <% for x in 1..@module_positions_x.to_i do %>
+              <td>
+                  <div class="pemodule_plan">
+                    <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
+                    <% if pmod %>
+
+                      <% if @pbs_project_element %>
+                        <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
+                          <% pbs_class = 'highlight' %>
+                        <% end %>
+                      <% end %>
+
+                      <div class="<%= pbs_class %> window span2 <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
+                          <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
+                          <br>
+                          <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
+                          <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
+                          <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
+                          <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
+                          <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+                      </div>
+
+                      <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
+                    <% end %>
+                  </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+    </table>
   <% else %>
     <%= content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info') %>
   <% end %>

@@ -873,3 +873,10 @@ cursor: help;
     border: 1px solid #DDDDDD;
     color: #333333;
 }
+
+div.pemodule_plan{
+    height: 120px;
+    width: 150px;
+    padding-top: 2em;
+    padding-left: 2em;
+}

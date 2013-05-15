@@ -90,7 +90,6 @@ module PeWbsProjectsHelper
     end
 
     def wbs_root_links(pbs_project_element, project)
-      #"<li class='#{ pbs_project_element.id == current_component.id ? 'selected' : '' }'>
       "<li class='#{ pbs_project_element.id == (current_component.nil? ? nil : current_component.id) ? 'selected' : '' }'>
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
@@ -108,5 +107,4 @@ module PeWbsProjectsHelper
         </div>
       </li>"
     end
-
 end

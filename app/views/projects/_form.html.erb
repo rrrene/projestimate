@@ -104,31 +104,28 @@
     </div>
 
     <div id="tabs-4">
-
       <% if controller.controller_name == 'projects' %>
-
-            <table style="width: 100%" border=0>
-              <tr>
-                <td>
-                  <%= I18n.t(:label_add_a_module_to_project) %>
-                  <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ?', @defined_status.id).all.map { |i| [i.title, i.id] }), :prompt => '' %>
-                </td>
-                <td class="pull-right">
-                  <%= I18n.t(:label_filter_on_pbs_element) %>
-                  <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
-                </td>
-              <tr>
-                <td>
-                  <%= hidden_field_tag 'project_id', @project.id %>
-                  <%= link_to I18n.t(:button_build_estimation_path), module_projects_matrix_path(@project.id), :class => 'btn' %>
-                  <%= link_to I18n.t(:button_configure_module_pbs_element), pbs_element_matrix_path(@project.id), :class => 'btn' %>
-                </td>
-                <td></td>
-              </tr>
-            </table>
-
+        <table style="width: 100%" border=0>
+          <tr>
+            <td>
+              <%= I18n.t(:label_add_a_module_to_project) %>
+              <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ?', @defined_status.id).all.map { |i| [i.title, i.id] }), :prompt => '' %>
+            </td>
+            <td class="pull-right">
+              <%= I18n.t(:label_filter_on_pbs_element) %>
+              <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
+            </td>
+          <tr>
+            <td>
+              <%= hidden_field_tag 'project_id', @project.id %>
+              <%= link_to I18n.t(:button_build_estimation_path), module_projects_matrix_path(@project.id), :class => 'btn' %>
+              <%= link_to I18n.t(:button_configure_module_pbs_element), pbs_element_matrix_path(@project.id), :class => 'btn' %>
+            </td>
+            <td></td>
+          </tr>
+        </table>
       <% end %>
-      <%= render :partial => 'estimation_plan' %>
+      <%= render :partial => 'estimation_plan', :locals => { :module_projects => @project.module_projects } %>
     </div>
 
     <div id="tabs-5">

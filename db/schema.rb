@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130506073938) do
+ActiveRecord::Schema.define(:version => 20130515135503) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -333,7 +333,7 @@ ActiveRecord::Schema.define(:version => 20130506073938) do
   create_table "module_projects", :force => true do |t|
     t.integer "pemodule_id"
     t.integer "project_id"
-    t.string  "position_x"
+    t.integer "position_x"
     t.integer "position_y"
     t.integer "nb_input_attr"
     t.integer "nb_output_attr"

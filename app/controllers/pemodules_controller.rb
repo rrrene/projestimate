@@ -175,7 +175,11 @@ class PemodulesController < ApplicationController
     @project = @project_module.project
 
     if @project_module.position_y > 1
-      @project_module.update_attribute('position_y', @project_module.position_y - 1)
+      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y.to_i-1).first
+      if current_pmodule
+        current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
+      end
+      @project_module.update_attribute('position_y', @project_module.position_y.to_i - 1)
     end
 
     @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
@@ -188,7 +192,13 @@ class PemodulesController < ApplicationController
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @project_module.update_attribute('position_y', @project_module.position_y + 1 )
+
+    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y+1).first
+    if current_pmodule
+      current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
+    end
+
+    @project_module.update_attribute('position_y', @project_module.position_y.to_i + 1 )
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
@@ -198,8 +208,13 @@ class PemodulesController < ApplicationController
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    if @project_module.position_x > 1
-      @project_module.update_attribute('position_x', @project_module.position_x - 1 )
+    if @project_module.position_x.to_i > 1
+      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i-1, @project_module.position_y).first
+      if current_pmodule
+        current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
+      end
+
+      @project_module.update_attribute('position_x', @project_module.position_x.to_i - 1 )
     end
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
@@ -209,6 +224,12 @@ class PemodulesController < ApplicationController
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+
+    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i+1, @project_module.position_y.to_i).first
+    if current_pmodule
+      current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
+    end
+
     @project_module.update_attribute('position_x', @project_module.position_x.to_i + 1 )
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')

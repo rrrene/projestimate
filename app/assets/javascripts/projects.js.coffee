@@ -1,11 +1,12 @@
 jQuery ->
   $("#select_module").on 'change', ->
-    $.ajax
-      url: "/add_module"
-      method: "get"
-      data:
-        module_selected: $(this).val()
-        project_id: $("#project_id").val()
+    unless $("#select_module").val() is ""
+      $.ajax
+        url: "/add_module"
+        method: "get"
+        data:
+          module_selected: $(this).val()
+          project_id: $("#project_id").val()
 
   $("#select_pbs_project_elements").on 'change', ->
     $.ajax
