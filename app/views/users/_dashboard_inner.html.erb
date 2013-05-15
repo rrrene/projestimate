@@ -56,12 +56,13 @@
           <h5>Estimation module - Input data </h5>
           <div class="buttons">
             <%= select_tag 'pbs_list',  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }, :selected => current_component.id), :class => 'pull-right', :prompt => 'Product Quick Access' %>
-            <a href="" onclick="$(this).closest('form').submit();
+            <a href="" onclick="$('#run_estimation').closest('form').submit();
                                 $('.spiner').show();
                                 $('.icon-signal').toggle();
                                 $('.icon-list').toggle();
                                 $('.icon-align-left').toggle();"
                        class="btn btn-mini"
+                       id="run_estimation"
                        title="<%= I18n.t :tooltip_run_estimation %>">
               <i class="icon-play"></i>
             </a>

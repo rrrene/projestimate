@@ -419,6 +419,13 @@ body {
     vertical-align: middle;
     height: 12px;
 }
+.table select{
+    height: 23px;
+    font-size: 11px;
+    margin-left: 6px;
+    border-radius: 6px;
+    padding-top: 2px;
+}
 .modal {
 	z-index: 99999 !important;
 }
@@ -710,7 +717,7 @@ body {
     overflow-y: auto;
 }
 
-.component_tree ul{
+ul{
     list-style-type: none;
 }
 
@@ -860,6 +867,13 @@ body {
     max-width: 160px;
 }
 
+.nav-list > li > a, .nav-list .nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: #0088cc;
+}
+
 body {
   font-size: 12px;
 }
@@ -956,4 +970,8 @@ cursor: help;
     padding: 20px;
     border: 1px solid #DDDDDD;
     color: #333333;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    color: black;
 }
