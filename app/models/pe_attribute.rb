@@ -73,7 +73,7 @@ class PeAttribute < ActiveRecord::Base
   end
 
   def self.type_values
-    [["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ],["Array", "array"]]
+    [["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ]]
   end
 
   def self.value_options

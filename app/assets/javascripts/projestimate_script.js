@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $("#run_estimation").bind('click', function() {
+        $('.icon-signal').toggle();
+        $('.icon-list').toggle();
+        $('.icon-align-left').toggle();
         $('.spiner').show();
     });
 
@@ -30,7 +33,7 @@ $(document).ready(function() {
             })
     });
 
-    $('.input-mini').blur(
+    $('.input-small').blur(
         function(){
             $.ajax({
                 url:"check_attribute",
