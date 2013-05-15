@@ -101,4 +101,11 @@ class PeAttributesController < ApplicationController
     end
     redirect_to pe_attributes_path
   end
+
+  def check_attribute
+    @attribute = EstimationValue.find(params[:est_val_id]).pe_attribute
+    @is_valid = @attribute.is_validate(params[:value])
+    @level = params[:level]
+    @est_val_id = params[:est_val_id]
+  end
 end

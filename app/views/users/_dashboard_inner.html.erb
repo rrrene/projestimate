@@ -5,7 +5,6 @@
         <a href="#collapseProduct" data-toggle="collapse">
           <span class="icon">
             <i class="icon-align-left"></i>
-            <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
           </span>
         </a>
         <h5>WBS-Product -
@@ -28,7 +27,6 @@
         <a href="#collapseActivity" data-toggle="collapse">
           <span class="icon">
             <i class="icon-list"></i>
-            <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
           </span>
         </a>
         <h5>WBS-Activity</h5>
@@ -51,19 +49,11 @@
       <div class="widget-box">
         <div class="widget-title"><span class="icon">
           <i class="icon-align-left"></i>
-          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
         </span>
           <h5>Estimation module - Input data </h5>
           <div class="buttons">
             <%= select_tag 'pbs_list',  options_for_select(current_project.root_component.subtree.map{|i| [i.name, i.id] }, :selected => current_component.id), :class => 'pull-right', :prompt => 'Product Quick Access' %>
-            <a href="" onclick="$(this).closest('form').submit();
-                                $('.spiner').show();
-                                $('.icon-signal').toggle();
-                                $('.icon-list').toggle();
-                                $('.icon-align-left').toggle();"
-                       class="btn btn-mini"
-                       title="<%= I18n.t :tooltip_run_estimation %>">
-              <i class="icon-play"></i>
+            <%= submit_tag "Run", :class => "btn btn-mini", :title => I18n.t(:tooltip_run_estimation), :id => "run_estimation" %>
             </a>
           </div>
         </div>
@@ -80,7 +70,6 @@
         <div class="widget-title">
           <span class="icon">
           <i class="icon-list"></i>
-          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
         </span>
           <h5>Estimation module - Output data </h5>
           <div class="buttons">
@@ -105,7 +94,7 @@
         <div class="widget-content tab-content">
           <div id="tab1" class="tab-pane active">
             <div class="output_data">
-              <%=raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results  %>
+              <%=raw sanitize(display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results, :tags => %w(table tr th td), :attributes => %w(id class)) %>
             </div>
           </div>
           <div id="tab2" class="tab-pane">

@@ -73,7 +73,7 @@ class PeAttribute < ActiveRecord::Base
   end
 
   def self.type_values
-    [["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ],["Array", "array"]]
+    [["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ]]
   end
 
   def self.value_options
@@ -89,17 +89,23 @@ class PeAttribute < ActiveRecord::Base
 
   # Verify if params val is validate
   def is_validate(val)
-    array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
-    unless array.empty?
-      str = array[1] + array[2]
-      str_to_eval = val + str.to_s
-      begin
-        eval(str_to_eval)
-      rescue Exception => se
-        return false
+    if self.attribute_type == "numeric"
+      array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
+      unless array.empty?
+        str = array[1] + array[2]
+        str_to_eval = val + str.to_s
+        begin
+          eval(str_to_eval)
+        rescue Exception => se
+          return false
+        end
+      else
+        return true
       end
+    elsif self.attribute_type == "string"
+      val.class == String
     else
-      return true
+      val.class == Date
     end
   end
 

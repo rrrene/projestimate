@@ -2,7 +2,7 @@ $(".project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.r
 
 $(".input_data").html("<%=raw j(display_input) %>");
 
-$(".output_data").html("<%=raw j(display_results) %>");
+$(".output_data").html("<%=raw j(sanitize(display_results, :tags => %w(table tr th td), :attributes => %w(id class))) %>");
 
 $(".component_name").html("<%=raw current_component %>");
 
@@ -33,6 +33,15 @@ $(".copyLib").click(function(){
     document.getElementById(most_likely_level).value = first_value;
     document.getElementById(high_level).value = first_value;
     return false;
+});
+
+$('.input-mini').blur(
+    function(){
+        $.ajax({
+            url:"check_attribute",
+            type: 'POST',
+            data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
+        })
 });
 
 

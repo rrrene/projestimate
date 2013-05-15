@@ -880,3 +880,7 @@ div.pemodule_plan{
     padding-top: 2em;
     padding-left: 2em;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+    color: black;
+}

@@ -64,6 +64,7 @@ ProjestimateMaquette::Application.routes.draw do
   get "select_users" => "project_securities#select_users", :as => "select_users"
 
   resources :pe_attributes
+  post "check_attribute" => "pe_attributes#check_attribute", :as => "check_attribute"
 
   resources :project_categories
 

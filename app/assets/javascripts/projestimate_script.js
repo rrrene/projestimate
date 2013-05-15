@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    $("#run_estimation").bind('click', function() {
+        $('.icon-signal').toggle();
+        $('.icon-list').toggle();
+        $('.icon-align-left').toggle();
+        $('.spiner').show();
+    });
+
      $('ul li').hover(
         function () {
           $(this.children).css('display', 'block');
@@ -23,6 +30,15 @@ $(document).ready(function() {
                     url:"user_record_number",
                     method: 'GET',
                     data: "nb=" + this.value
+            })
+    });
+
+    $('.input-small').blur(
+        function(){
+            $.ajax({
+                url:"check_attribute",
+                type: 'POST',
+                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
             })
     });
 

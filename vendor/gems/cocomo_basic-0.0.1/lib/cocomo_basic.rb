@@ -10,7 +10,7 @@ module CocomoBasic
       case elem[:complexity]
         when 'organic'
           set_cocomo_organic(elem)
-        when 'semi-detached'
+        when 'semi_detached'
           set_cocomo_semidetached(elem)
         when 'embedded'
           set_cocomo_embedded(elem)
@@ -47,7 +47,7 @@ module CocomoBasic
     #Getters
     #Return effort (in man-hour)
     def get_effort_man_hour
-      return (152 * @coef_a*(coef_kls**@coef_b)).to_f
+      return (152 * @coef_a*(@coef_kls**@coef_b)).to_f
     end
 
     #Return delay (in hour)

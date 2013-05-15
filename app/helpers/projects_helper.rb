@@ -255,17 +255,17 @@ module ProjectsHelper
                 end
 
                 if pbs_last_result.nil?
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini"}"
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini  #{level} #{est_val.id}"}"
 
                 elsif wbs_project_elt.wbs_activity_element.nil?
                   if wbs_project_elt.is_root? || wbs_project_elt.has_children?
-                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini "}"
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini  #{level} #{est_val.id}"}"
                     readonly_option = true
                   else
-                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini"}"
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini  #{level} #{est_val.id}"}"
                   end
                 else
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini "}"
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini #{level} #{est_val.id}"}"
                   readonly_option = true
                 end
               else
@@ -318,12 +318,7 @@ module ProjectsHelper
                 level_estimation_values = Hash.new
                 ["low", "most_likely", "high"].each do |level|
                 level_estimation_values = est_val.send("string_data_#{level}")
-                  if level_estimation_values[pbs_project_element.id].nil?
-                    res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values["default_#{level}".to_sym], :class => "input-mini "}</td>"
-                  else
-                    res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values[pbs_project_element.id], :class => "input-mini " }</td>"
-                  end
-
+                  res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
                   if level == "low"
                     input_id = "_#{est_val.pe_attribute.alias}_#{module_project.id}"
                     res << "<td>"
@@ -376,6 +371,23 @@ module ProjectsHelper
       res << "</table>"
     end
     res
+  end
+
+  def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    if est_val.pe_attribute.attr_type == "integer" or est_val.pe_attribute.attr_type == "float" or est_val.pe_attribute.attr_type == "text"
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    elsif est_val.pe_attribute.attr_type == "list"
+      select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                 options_for_select(est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]}),
+                 :class => "input-small",
+                 :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]
+    elsif est_val.pe_attribute.attr_type == "date"
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    end
   end
 
 end
