@@ -2,7 +2,7 @@ $(".project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.r
 
 $(".input_data").html("<%=raw j(display_input) %>");
 
-$(".output_data").html("<%=raw j(sanitize(display_results, :tags => %w(table tr th td), :attributes => %w(id class))) %>");
+$(".output_data").html("<%=raw j(sanitize(display_results, :tags => %w(table tr th td span), :attributes => %w(id class style))) %>");
 
 $(".component_name").html("<%=raw current_component %>");
 

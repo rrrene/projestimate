@@ -334,45 +334,6 @@ module ProjectsHelper
     res
   end
 
-
-  # Display th inputs parameters view
-  def display_inputs_without_activities_SAVE(module_project)
-    pbs_project_element = @pbs_project_element || current_project.root_component
-    res = String.new
-    if module_project.compatible_with(current_component.work_element_type.alias) || current_component
-      pemodule = Pemodule.find(module_project.pemodule.id)
-      res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
-      res << "<table class='table table-condensed table-bordered'>
-                        <tr>
-                          <th></th>"
-      ###current_component.estimation_values.each do |est_val|
-      module_project.estimation_values.each do |est_val|
-        if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-          res << "<th>#{est_val.pe_attribute.name}</th>"
-        end
-      end
-      res << "</tr>"
-      ["low", "most_likely", "high"].each do |level|
-        res << "<tr>"
-        res << "<td>#{level.humanize}</td>"
-        module_project.estimation_values.each do |est_val|
-          if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-            level_estimation_values = Hash.new
-            level_estimation_values = est_val.send("string_data_#{level}")
-            if level_estimation_values[pbs_project_element.id].nil?
-              res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values["default_#{level}".to_sym], :class => "input-mini "}</td>"
-            else
-              res << "<td>#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]", level_estimation_values[pbs_project_element.id], :class => "input-mini " }</td>"
-            end
-          end
-        end
-        res << "</tr>"
-      end
-      res << "</table>"
-    end
-    res
-  end
-
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
     if est_val.pe_attribute.attr_type == "integer" or est_val.pe_attribute.attr_type == "float" or est_val.pe_attribute.attr_type == "text"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
