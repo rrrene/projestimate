@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $("#run_estimation").bind('click', function() {
+        $('.spiner').show();
+    });
+
      $('ul li').hover(
         function () {
           $(this.children).css('display', 'block');
