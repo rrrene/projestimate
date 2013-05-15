@@ -843,6 +843,8 @@ ul{
 
     z-index: 20;
     margin: 70px;
+
+    min-width:150px;
 }
 
 .window a{
