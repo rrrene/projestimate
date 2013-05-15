@@ -489,8 +489,8 @@ class ProjectsController < ApplicationController
     inputs = Hash.new
 
     project.module_projects.each do |module_project|
-      module_project.estimation_values.each do |est_val|
-        if est_val.in_out == 'input'
+      module_project.estimation_values.sort!{ |a,b| a.in_out <=> b.in_out }.each do |est_val|
+        if est_val.in_out == 'input' or est_val.in_out=='both'
           inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
         end
 
