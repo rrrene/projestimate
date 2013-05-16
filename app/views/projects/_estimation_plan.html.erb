@@ -1,4 +1,4 @@
-<br /><br />
+  <br /><br />
   <% module_projects = @project.module_projects %>
   <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
@@ -32,7 +32,7 @@
                       <% end %>
 
                       <div class="<%= pbs_class %> window span2 <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
-                          <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id) %>
+                          <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
                           <br>
                           <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
                           <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>

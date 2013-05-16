@@ -47,8 +47,6 @@ class ProjectsController < ApplicationController
     @project_modules = @project.pemodules
     @project_security_levels = ProjectSecurityLevel.all
     @module_project = ModuleProject.find_by_project_id(@project.id)
-
-    @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
   end
 
   def index

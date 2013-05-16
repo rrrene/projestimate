@@ -91,6 +91,7 @@ class ModuleProjectsController < ApplicationController
     redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
+
   def destroy
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
