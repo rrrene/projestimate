@@ -1,6 +1,4 @@
-<div class="module_box"  style=" width: inherit; overflow-x:scroll;">
-  <br /><br />
-
+<br /><br />
   <% module_projects = @project.module_projects %>
   <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
@@ -15,12 +13,10 @@
 
         <% for y in 1..@module_positions do %>
           <tr>
-            <td style="width: 40px;">
-              <div class="" style="padding-top: 2em;">
+            <td>
                 <div class="window span2" style="width: 30px;">
                     <%= y %>
                 </div>
-              </div>
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
@@ -56,4 +52,4 @@
   <% else %>
     <%= content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info') %>
   <% end %>
-</div>
+

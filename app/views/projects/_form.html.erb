@@ -125,7 +125,9 @@
           </tr>
         </table>
       <% end %>
-      <%= render :partial => 'estimation_plan', :locals => { :module_projects => @project.module_projects } %>
+      <div class="module_box"  style=" width: inherit; overflow-x:scroll;">
+        <%= render :partial => 'estimation_plan', :locals => { :module_projects => @project.module_projects } %>
+      </div>
     </div>
 
     <div id="tabs-5">
