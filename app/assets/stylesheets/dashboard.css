@@ -978,4 +978,6 @@ div.pemodule_plan{
     height: 20px;
     width: 150px;
     vertical-align: middle;
+    margin-left:auto;
+    margin-right:auto;
 }
