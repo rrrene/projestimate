@@ -127,6 +127,17 @@
   </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $(".date-picker").datepicker({
+            language: '<%= set_user_language %>',
+            autoclose: true,
+            todayHighlight: true,
+            todayBtn: true
+        });
+    });
+</script>
+
 
 
 
