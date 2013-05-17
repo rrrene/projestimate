@@ -121,7 +121,7 @@ describe PeAttribute do
 
   it 'should list and return an array of type_values' do
     PeAttribute::type_values.should be_an_instance_of Array
-    PeAttribute::type_values.should eql([["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ],["Array", "array"]])
+    PeAttribute::type_values.should eql([["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ]])
   end
 
   it 'should list an array' do
