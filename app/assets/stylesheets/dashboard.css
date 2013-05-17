@@ -975,8 +975,9 @@ input[type="color"],
 }
 
 div.pemodule_plan{
-    height: 120px;
+    height: 20px;
     width: 150px;
-    padding: 0.5em;
-
+    vertical-align: middle;
+    margin-left:auto;
+    margin-right:auto;
 }
