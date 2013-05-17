@@ -20,6 +20,7 @@
               </td>
               <% @module_projects.each do |mp| %>
                   <td style="text-align: center;">
+                    <%= hidden_field_tag "pbs_project_elements[#{mp.id}][]" %>
                     <% if mp.compatible_with(element.work_element_type.alias) %>
                         <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id}") %>
                     <% else %>
