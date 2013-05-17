@@ -254,8 +254,10 @@ describe User do
       user2.user_status = 'suspended'
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('suspended').to('pending')
       user2.user_status = 'active'
+      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('active').to('pending')
       user2.user_status = 'blacklisted'
+      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('blacklisted').to('pending')
     end
   end
