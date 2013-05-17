@@ -23,7 +23,8 @@
               <td>
                   <div class="pemodule_plan">
                     <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
-                    <% if pmod %>
+
+                    <% unless pmod.nil? %>
 
                       <% if @pbs_project_element %>
                         <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>

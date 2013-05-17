@@ -7,6 +7,7 @@ jQuery ->
         data:
           module_selected: $(this).val()
           project_id: $("#project_id").val()
+          pbs_project_element_id: $("#select_pbs_project_elements").val()
 
   $("#select_pbs_project_elements").on 'change', ->
     $.ajax

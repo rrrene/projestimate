@@ -288,6 +288,12 @@ class ProjectsController < ApplicationController
   def add_module
     @project = Project.find(params[:project_id])
 
+    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ""
+      @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
+    else
+      @pbs_project_element = @project.root_component
+    end
+
     unless params[:module_selected].nil? || @project.nil?
       @array_modules = Pemodule.all
       @pemodules ||= Pemodule.all
@@ -339,12 +345,13 @@ class ProjectsController < ApplicationController
 
   def select_pbs_project_elements
     @project = Project.find(params[:project_id])
-    if params[:pbs_project_element_id]
+    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ""
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
     else
       @pbs_project_element = @project.root_component
     end
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
   end
 
   #Run estimation process
