@@ -56,7 +56,7 @@ class Project < ActiveRecord::Base
     state :in_progress
     state :in_review
     state :private
-    state :access_locked      ##locked
+    state :access_locked ##locked
     state :baseline
     state :closed
 

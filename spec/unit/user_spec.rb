@@ -216,28 +216,37 @@ describe User do
 
     it "should set user_status to 'active' when transition to :active" do
       user2.user_status = "pending"
+      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('pending').to('active')
       user2.user_status = 'suspended'
+      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('suspended').to('active')
       user2.user_status = 'blacklisted'
+      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('blacklisted').to('active')
     end
 
     it "should set user_status to 'suspended' when transition to :suspended" do
       user2.user_status = "pending"
+      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('pending').to('suspended')
       user2.user_status = 'active'
+      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('active').to('suspended')
       user2.user_status = 'blacklisted'
+      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('blacklisted').to('suspended')
     end
 
     it "should set user_status to 'blacklisted' when transition to :blacklisted" do
       user2.user_status = 'suspended'
+      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('suspended').to('blacklisted')
       user2.user_status = 'active'
+      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('active').to('blacklisted')
       user2.user_status = 'pending'
+      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('pending').to('blacklisted')
     end
 
@@ -245,8 +254,10 @@ describe User do
       user2.user_status = 'suspended'
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('suspended').to('pending')
       user2.user_status = 'active'
+      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('active').to('pending')
       user2.user_status = 'blacklisted'
+      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('blacklisted').to('pending')
     end
   end
