@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();
         $('.icon-list').toggle();

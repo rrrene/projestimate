@@ -89,8 +89,9 @@ class PeAttribute < ActiveRecord::Base
 
   # Verify if params val is validate
   def is_validate(val)
+    array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
+
     if self.attribute_type == "numeric"
-      array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
       unless array.empty?
         str = array[1] + array[2]
         str_to_eval = val + str.to_s
@@ -104,8 +105,13 @@ class PeAttribute < ActiveRecord::Base
       end
     elsif self.attribute_type == "string"
       val.class == String
-    else
-      val.class == Date
+    elsif self.attribute_type == "date"
+      str_to_eval = "'#{val}'.to_date #{ array[1]} '#{array[2]}'.to_date"
+      begin
+        eval(str_to_eval)
+      rescue Exception => se
+        return false
+      end
     end
   end
 

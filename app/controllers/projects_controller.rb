@@ -357,7 +357,6 @@ class ProjectsController < ApplicationController
   #Run estimation process
   def run_estimation
     @resultat = Array.new
-
     results = Hash.new
     ['low', 'most_likely', 'high'].each do |level|
       results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
@@ -516,7 +515,12 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
           # In each estimation module, The Product (PBS) seem to be mandatory
-          @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+          begin
+            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+          rescue Exception => e
+            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = '-'
+            puts e.message
+          end
         end
       end
     end
