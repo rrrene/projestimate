@@ -865,3 +865,4 @@ de:
   text_no_icon: "no icon selected"
   tooltip_run_estimation: "Execute the estimate"
   notice_no_estimation_saved : "No results has been save up in the project's database"
+  session_inactivity_timeout_expire: "Your session has expired"
