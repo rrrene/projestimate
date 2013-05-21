@@ -5,7 +5,11 @@
     <div>
       <%= f.input :key, :label => I18n.t('key'), :input_html => {:disabled => (!is_master_instance? && ! @admin_setting.new_record?)} %>
 
-      <%= f.input :value, :label => I18n.t('value'), :input_html => {:rows => 5 } %>
+      <%= f.input :value, :label => I18n.t('value'), :input_html => {:rows => 5 } unless (@admin_setting.key=="session_maximum_lifetime" || @admin_setting.key=="session_inactivity_timeout") %>
+
+      <%= f.input :value, :label => I18n.t('value'), :as => :select, :collection =>  [ "unset","1","7","30","60","366"]  if (@admin_setting.key=="session_maximum_lifetime") %>
+
+      <%= f.input :value, :label => I18n.t('value'), :as => :select, :collection =>  [ "unset","0.5","1","2","4","8","12","24","48"]  if (@admin_setting.key=="session_inactivity_timeout") %>
 
       <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3, :disabled => (!is_master_instance? && @admin_setting) } %><br />
 
