@@ -70,12 +70,12 @@ module ProjectsHelper
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
-        level_estimation_value = Hash.new
-        level_estimation_value = estimation_value.send("string_data_#{level}")
-        if level_estimation_value.nil? || level_estimation_value[pbs_project_element.id].nil?
+        level_estimation_values = Hash.new
+        level_estimation_values = estimation_value.send("string_data_#{level}")
+        if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
           res << "-"
         else
-          res << "#{level_estimation_value[pbs_project_element.id]}"
+          res << "#{pemodule_output(level_estimation_values, pbs_project_element, estimation_value)}"
         end
         res << "</td>"
       end
@@ -337,7 +337,7 @@ module ProjectsHelper
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
     if est_val.pe_attribute.attr_type == "integer" or est_val.pe_attribute.attr_type == "float"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     number_with_delimiter(level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
                      :class => "input-small #{level} #{est_val.id}"
     elsif est_val.pe_attribute.attr_type == "list"
       select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
@@ -346,12 +346,33 @@ module ProjectsHelper
                  :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]
     elsif est_val.pe_attribute.attr_type == "date"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                      display_date(level_estimation_values[pbs_project_element.id]),
                      :class => "input-small #{level} #{est_val.id} date-picker"
     else
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                      (level_estimation_values[pbs_project_element.id] == 0.0) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
+    end
+  end
+
+  def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
+    if estimation_value.pe_attribute.attr_type == "date"
+      display_date(level_estimation_values[pbs_project_element.id])
+    else
+      number_with_delimiter(level_estimation_values[pbs_project_element.id])
+    end
+
+  end
+
+  def display_date(date)
+    if date == 0.0 or date.nil?
+      ""
+    else
+      begin
+        I18n.l(date.to_date)
+      rescue
+        date
+      end
     end
   end
 

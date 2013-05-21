@@ -182,7 +182,8 @@ class PemodulesController < ApplicationController
       @project_module.update_attribute('position_y', @project_module.position_y.to_i - 1)
 
       #Remove existing links between modules (for impacted modules only)
-      @project_module.associated_module_projects.delete_all
+      ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
+
     end
 
     @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
@@ -204,7 +205,7 @@ class PemodulesController < ApplicationController
     @project_module.update_attribute('position_y', @project_module.position_y.to_i + 1 )
 
     #Remove existing links between modules (for impacted modules only)
-    @project_module.associated_module_projects.delete_all
+    ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end

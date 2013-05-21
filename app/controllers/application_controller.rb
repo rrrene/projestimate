@@ -44,6 +44,21 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
+  before_filter :update_activity_time
+  before_filter :session_expiry
+
+  def session_expiry
+    @time_left = (session[:expires] - Time.now).to_i
+    unless @time_left > 0
+      reset_session
+      flash[:error] = 'Expiration.'
+      redirect_to root_url
+    end
+  end
+
+  def update_activity_time
+    session[:expires] = 10.seconds.from_now
+  end
 
   #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
   #This method test if we are on Master or Local instance
