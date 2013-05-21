@@ -364,7 +364,7 @@ module ProjectsHelper
     if estimation_value.pe_attribute.attr_type == "date"
       display_date(level_estimation_values[pbs_project_element.id])
     else
-      number_with_delimiter(level_estimation_values[pbs_project_element.id])
+      level_estimation_values[pbs_project_element.id]
     end
 
   end
