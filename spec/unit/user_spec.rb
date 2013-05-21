@@ -175,6 +175,10 @@ describe User do
   #check admin status
   it "should be in Admin or MasterAdmin groups to be an admin account" do
     first_user = User.first
+    group = FactoryGirl.create(:group)
+    group.name = "Admin"
+    first_user.groups << group
+    first_user.save
     first_user.should have_at_least(1).admin_groups
   end
 
@@ -216,37 +220,28 @@ describe User do
 
     it "should set user_status to 'active' when transition to :active" do
       user2.user_status = "pending"
-      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('pending').to('active')
       user2.user_status = 'suspended'
-      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('suspended').to('active')
       user2.user_status = 'blacklisted'
-      user2.save
       lambda { user2.switch_to_active! }.should change(user2, :user_status).from('blacklisted').to('active')
     end
 
     it "should set user_status to 'suspended' when transition to :suspended" do
       user2.user_status = "pending"
-      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('pending').to('suspended')
       user2.user_status = 'active'
-      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('active').to('suspended')
       user2.user_status = 'blacklisted'
-      user2.save
       lambda { user2.switch_to_suspended! }.should change(user2, :user_status).from('blacklisted').to('suspended')
     end
 
     it "should set user_status to 'blacklisted' when transition to :blacklisted" do
       user2.user_status = 'suspended'
-      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('suspended').to('blacklisted')
       user2.user_status = 'active'
-      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('active').to('blacklisted')
       user2.user_status = 'pending'
-      user2.save
       lambda { user2.switch_to_blacklisted! }.should change(user2, :user_status).from('pending').to('blacklisted')
     end
 
@@ -254,10 +249,8 @@ describe User do
       user2.user_status = 'suspended'
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('suspended').to('pending')
       user2.user_status = 'active'
-      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('active').to('pending')
       user2.user_status = 'blacklisted'
-      user2.save
       lambda { user2.switch_to_pending! }.should change(user2, :user_status).from('blacklisted').to('pending')
     end
   end
@@ -296,9 +289,20 @@ describe User do
   #end
 
   it "should return admin group" do
-    @user.admin_groups.should have_at_least(2).items  #Admin and MasterAdmin
-  end
+    #@user.admin_groups.should have_at_least(2).items  #Admin and MasterAdmin
+    new_user = User.first
+    group1 = FactoryGirl.create(:group)
+    group1.name = "Admin"
 
+    group2 = FactoryGirl.create(:group)
+    group2.name = "MasterAdmin"
+
+    new_user.groups << group1
+    new_user.groups << group2
+
+    new_user.save
+    new_user.admin_groups.should have_at_least(2).items  #Admin and MasterAdmin
+  end
 
   it "should be an admin if he had admin right" do
   end
