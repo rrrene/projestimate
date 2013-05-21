@@ -335,15 +335,20 @@ module ProjectsHelper
   end
 
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    if est_val.pe_attribute.attr_type == "integer" or est_val.pe_attribute.attr_type == "float"
+    if est_val.pe_attribute.attr_type == "integer"
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym].to_i : level_estimation_values[pbs_project_element.id].to_i,
+                     :class => "input-small #{level} #{est_val.id}"
+    elsif est_val.pe_attribute.attr_type == "float"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                      number_with_delimiter(level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
                      :class => "input-small #{level} #{est_val.id}"
     elsif est_val.pe_attribute.attr_type == "list"
       select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                 options_for_select(est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]}),
-                 :class => "input-small",
-                 :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]
+                 options_for_select(
+                     est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]},
+                     :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
+                 :class => "input-small"
     elsif est_val.pe_attribute.attr_type == "date"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                       display_date(level_estimation_values[pbs_project_element.id]),
@@ -365,14 +370,10 @@ module ProjectsHelper
   end
 
   def display_date(date)
-    if date == 0.0 or date.nil?
-      ""
-    else
-      begin
-        I18n.l(date.to_date)
-      rescue
-        date
-      end
+    begin
+      I18n.l(date.to_date)
+    rescue
+      "Invalid date time"
     end
   end
 

@@ -417,9 +417,9 @@ class ProjectsController < ApplicationController
 
             wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where("is_root = ?", true).first
             if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input) ###pbs_estimation_input_value
+              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
             else
-              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input.to_f
+              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
             end
 
             in_result["string_data_#{level}"] = level_estimation_value
