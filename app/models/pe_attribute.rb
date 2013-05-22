@@ -83,22 +83,29 @@ class PeAttribute < ActiveRecord::Base
      ["Lower than or equal to", "<=" ],
      ["Lower than", "<" ],
      ["Equal to", "=="],
-     ["Not equal to", "!="]
+     ["Not equal to", "!="],
+     ["Between", "between"]
     ]
   end
 
   # Verify if params val is validate
   def is_validate(val)
     array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
-
     if self.attribute_type == "numeric"
       unless array.empty?
-        str = array[1] + array[2]
-        str_to_eval = val + str.to_s
-        begin
-          eval(str_to_eval)
-        rescue Exception => se
-          return false
+        if self.options[1] == "between"
+          v1 = self.options[2].split(',').first.to_i
+          v2 = self.options[2].split(',').last.to_i
+          puts self.options[2]
+          val.to_i.between?(v1, v2)
+        else
+          str = array[1] + array[2]
+          str_to_eval = val + str.to_s
+          begin
+            eval(str_to_eval)
+          rescue Exception => se
+            return false
+          end
         end
       else
         return true
