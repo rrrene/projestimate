@@ -15,13 +15,17 @@
         <% if @attribute.options.empty? %>
           <%= select_tag 'options[]', options_for_select(PeAttribute::type_values), :onchange => 'select_value_options(this.value);', :prompt => I18n.t('helpers.select.prompt') %>
           <%= select_tag 'options[]', options_for_select(PeAttribute::value_options), :onchange => 'select_boolean(this.value);', :class => 'type_value', :style => 'display:none;', :prompt => I18n.t('helpers.select.prompt') %>
-          <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value', :style => 'display:none;'} %>
+          <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value', :style => 'display:none;' } %>
+          <div class="pe_attribute_precision" style="display:none;">
+            <%= f.input :precision, :label => "Precision", :input_html => { :rows => 3 } %>
+          </div>
         <% else %>
           <%= select_tag 'options[]', options_for_select(PeAttribute::type_values, :selected => (@attribute.options[0] || @attribute.attr_type)), :onchange => 'select_value_options(this.value);', :prompt => I18n.t('helpers.select.prompt') %>
           <%= select_tag 'options[]', options_for_select(PeAttribute::value_options, :selected => @attribute.options[1]), :class => 'type_value', :prompt => I18n.t('helpers.select.prompt') %>
           <%= text_field_tag 'options[]', @attribute.options[2] , { :class => 'text_field_value'} %>
+          <%= f.input :precision, :label => "Precision", :input_html => { :rows => 3 } %>
         <% end %>
-      <% end %> <br />
+      <% end %>
 
       <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3 } %>
 
@@ -52,20 +56,24 @@
         $(".text_field_value").val("");
         $(".boolean_value").val("");
         $(".type_value").val("");
+        $(".pe_attribute_precision").hide();
       }
       else if(elem == "list" || elem == "array")
       {
         $(".text_field_value").show();
-
         $(".boolean_value").hide();
         $(".type_value").hide();
         $(".boolean_value").val("");
         $(".type_value").val("");
+        $(".pe_attribute_precision").hide();
       }
-      else
-      {
+      else if(elem == "float"){
+        $(".pe_attribute_precision").show();
+      }
+      else {
         $(".text_field_value").show();
         $(".type_value").show();
+        $(".pe_attribute_precision").hide();
       }
     }
   </script>

@@ -208,7 +208,8 @@ function hide_popup(elem) {
 }
 
 function toggle_folder(elem){
-    $(elem).parent().parent().next().toggle();
+    if($(elem).parent().parent().next().is('ul') == true)
+        $(elem).parent().parent().next().toggle();
 }
 
 function refresh_me(data){
