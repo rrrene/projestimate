@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130515135503) do
+ActiveRecord::Schema.define(:version => 20130522084353) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(:version => 20130515135503) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.integer  "precision"
   end
 
   add_index "pe_attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
@@ -763,8 +764,8 @@ ActiveRecord::Schema.define(:version => 20130515135503) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

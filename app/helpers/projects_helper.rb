@@ -363,10 +363,11 @@ module ProjectsHelper
   def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
     if estimation_value.pe_attribute.attr_type == "date"
       display_date(level_estimation_values[pbs_project_element.id])
+    elsif estimation_value.pe_attribute.precision
+      level_estimation_values[pbs_project_element.id].round(estimation_value.pe_attribute.precision)
     else
       level_estimation_values[pbs_project_element.id]
     end
-
   end
 
   def display_date(date)
