@@ -88,6 +88,9 @@ fr:
       over_x_years:
         one:   "plus d'un an"
         other: "plus de %{count} ans"
+      x_hours:
+        one: 1 heure
+        other: ! '%{count} heures'
       x_days:
         one:   "1 jour"
         other: "%{count} jours"
@@ -867,4 +870,5 @@ fr:
   text_no_icon: "aucune icône sélectionnée"
   tooltip_run_estimation: "Executer l'estimation"
   notice_no_estimation_saved : "Aucun résultat n'a été enregistré dans la base de données du projet"
-  session_inactivity_timeout_expire: "Votre session a expirée"
+  error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."
+  label_disabled: "Aucun"

@@ -39,7 +39,8 @@ class SessionsController < ApplicationController
 
         #Set current user
         session[:current_user_id] = user.id
-
+        session[:ctime] = Time.now.utc.to_i
+        session[:atime] = Time.now.utc.to_i
         #Set current project
         if user.projects.empty?
           session[:current_project_id] = nil

@@ -14,7 +14,20 @@
   <% @admin_settings.each do |admin_setting| %>
     <tr >
       <td><%= admin_setting.key %></td>
-      <td><%= admin_setting.value %></td>
+
+      <% unless (admin_setting.key=="session_maximum_lifetime" || admin_setting.key=="session_inactivity_timeout")%>
+            <td><%=  admin_setting.value  %></td>
+      <%end%>
+      <%if admin_setting.key=="session_maximum_lifetime"%>
+          <td><%=  I18n.t('datetime.distance_in_words.x_days', :count => admin_setting.value.to_i)%></td>
+      <%elsif admin_setting.key=="session_inactivity_timeout" %>
+          <%if admin_setting.value.to_i==30%>
+              <td><%=  I18n.t('datetime.distance_in_words.x_minutes', :count => (admin_setting.value.to_i))%></td>
+          <%else%>
+              <td><%=  I18n.t('datetime.distance_in_words.x_hours', :count => admin_setting.value.to_i)%></td>
+          <%end%>
+      <% end %>
+
       <td><%= admin_setting.record_status.name unless admin_setting.record_status.nil? %> <%= admin_setting.show_custom_value %></td>
       <td><%= link_to '', edit_admin_setting_path(admin_setting), :class => 'icn_edit', :title => I18n.t('edit') %></td>
       <td>
