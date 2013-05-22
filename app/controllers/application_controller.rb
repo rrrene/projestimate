@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
   before_filter :update_activity_time
 
   def session_expiry
-    if current_user()
+    if current_user
       unless load_admin_setting("session_inactivity_timeout")=="unset"
         if session[:expires]
           @time_left = (session[:expires] - Time.now).to_i
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def update_activity_time
-    if current_user()
+    if current_user
       unless load_admin_setting("session_inactivity_timeout")=="unset"
         if  load_admin_setting("session_inactivity_timeout")=="0.5"
           session[:expires] = 30.seconds.from_now
