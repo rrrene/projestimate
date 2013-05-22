@@ -48,12 +48,13 @@ class ApplicationController < ActionController::Base
   before_filter :update_activity_time
 
   def session_expiration
-
-    if current_user
-      if session_expired?
-        reset_session
-        flash[:error] = I18n.t(:error_session_expired)
-        redirect_to root_url
+    unless load_admin_setting("session_maximum_lifetime").nil? && load_admin_setting("session_inactivity_timeout").nil?
+      if current_user
+        if session_expired?
+          reset_session
+          flash[:error] = I18n.t(:error_session_expired)
+          redirect_to root_url
+        end
       end
     end
   end
