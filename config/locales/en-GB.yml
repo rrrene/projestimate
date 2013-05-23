@@ -497,6 +497,7 @@ en-gb:
   button_add: "ADD"
   label_wbs_activity_ratio: "Ratio table"
   estimation_plan: "Estimation plan"
+  button_estimation_plan: "Edit estimation plan"
   securities: "Securities"
   calendar: "Calendar"
   resources: "Resources"
@@ -873,3 +874,4 @@ en-gb:
   notice_no_estimation_saved : "No results has been save up in the project's database"
   error_session_expired: "Your session has expired. Please login again."
   label_disabled: "Unset"
+  label_pbs_element_matrix: "Associate PBS elements with project modules"
