@@ -94,8 +94,8 @@ class PeAttribute < ActiveRecord::Base
     if self.attribute_type == "numeric"
       unless array.empty?
         if self.options[1] == "between"
-          v1 = self.options[2].split(',').first.to_i
-          v2 = self.options[2].split(',').last.to_i
+          v1 = self.options[2].split(';').first.to_i
+          v2 = self.options[2].split(';').last.to_i
           puts self.options[2]
           val.to_i.between?(v1, v2)
         else
