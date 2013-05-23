@@ -368,7 +368,7 @@ class ProjectsController < ApplicationController
     @pbs_project_element = current_component
 
     #Save output values: only for current pbs_project_element
-    @project.module_projects.select{|i| i.compatible_with(@pbs_project_element.work_element_type.alias) or i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id)}.each do |mp|
+    @project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |mp|
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|

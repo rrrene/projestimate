@@ -38,7 +38,7 @@ module ProjectsHelper
     res = String.new
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
-      current_project.module_projects.select{|i| i.compatible_with(pbs_project_element.work_element_type.alias) or i.pbs_project_elements.map(&:id).include?(pbs_project_element.id)}.each do |module_project|
+      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
         if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
           res << display_results_with_activities(module_project)
         else
@@ -177,7 +177,7 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-      current_project.module_projects.select{|i| i.compatible_with(pbs_project_element.work_element_type.alias) or i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
+      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
         current_project = module_project.project
 
         ##if module_project.pemodule.with_activities
@@ -188,7 +188,7 @@ module ProjectsHelper
             last_estimation_result = nil
             refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
             refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            refer_module_project =  current_project.module_projects.select{|i| i.compatible_with(pbs_project_element.work_element_type.alias) or i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
+            refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
 
             unless refer_module_project.nil?
               last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
