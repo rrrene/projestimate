@@ -514,7 +514,6 @@ class ProjectsController < ApplicationController
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
-          # In each estimation module, The Product (PBS) seem to be mandatory
           begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e

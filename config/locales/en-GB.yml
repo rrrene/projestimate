@@ -423,6 +423,7 @@ en-gb:
   position: "Position"
   associate_Product_element_module_project: "Associate Product-Element with current module project"
   ratio_settings_message: "There is no Ratio parameter to set for this module."
+  select_unselect_all: "Select/Unselect all"
 
   #organization_labor_categories
   labor_category: "Labour category"

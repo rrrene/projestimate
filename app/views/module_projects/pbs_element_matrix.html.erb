@@ -1,19 +1,26 @@
 <div class="span12">
+  <% @alphabetical = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
   <h1>Associate Product-Element with current module project</h1>
 
   <%= form_tag({:action => 'associate', :controller => 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
       <table class="table table-striped">
         <tr>
+          <th></th>
           <th style="text-align:left;">Product-Element</th>
           <% @module_projects.each do |mp| %>
               <th style="text-align:center;">
                 <%= mp.pemodule.title %>
+                <p>
+                  (<%= @alphabetical[mp.position_x-1] %>;<%= mp.position_y %>)&nbsp;
+                   <%= link_to '', "", :id => "cols_select_all_#{mp.id}", "data-mp_id"=> mp.id, "data-rows_or_cols"=> "cols", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);" %>
+                </p>
               </th>
           <% end %>
         </tr>
 
         <% for element in @project.pe_wbs_projects.wbs_product.first.pbs_project_elements %>
             <tr>
+              <td><%= link_to '', "", :id => "lines_select_all_#{element.id}", "data-mp_id"=> element.id, "data-rows_or_cols"=> "rows", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);"  %></td>
               <td style="padding-left: <%= element.depth + 2 %>em;">
                 <%= element.work_element_type.peicon.nil? ? '?' : image_tag(element.work_element_type.peicon.icon.url) %>&nbsp;
                 <%= element.name %>
@@ -22,7 +29,7 @@
                   <td style="text-align: center;">
                     <%= hidden_field_tag "pbs_project_elements[#{mp.id}][]" %>
                     <% if mp.compatible_with(element.work_element_type.alias) %>
-                        <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id}") %>
+                        <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id} pbs_#{element.id}") %>
                     <% else %>
                         -
                     <% end %>
@@ -34,6 +41,27 @@
       <%= submit_tag I18n.t('save'), :class => 'btn' %>
       <%= submit_tag I18n.t('apply'), :class => 'btn' %>
   <% end %>
+</div>
+
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="widget-box">
+      <div class="widget-title"><span class="icon"><i class="icon-signal"></i></span>
+        <h5>Estimation Plan</h5>
+        <div class="buttons">
+          <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
+            Edit estimation plan
+          </a>
+        </div>
+      </div>
+      <div class="widget-content">
+        <div class="module_box"  style=" width: inherit; overflow-x:scroll;">
+          <%= render 'projects/estimation_plan', :locals => { :module_projects => @project.module_projects }  %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 

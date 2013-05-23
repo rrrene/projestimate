@@ -72,7 +72,7 @@ module ProjectsHelper
         res << "<td>"
         level_estimation_values = Hash.new
         level_estimation_values = estimation_value.send("string_data_#{level}")
-        if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
+        if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id].blank?
           res << "-"
         else
           res << "#{pemodule_output(level_estimation_values, pbs_project_element, estimation_value)}"
@@ -104,7 +104,7 @@ module ProjectsHelper
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
+        res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
       end
     end
     res << "</tr>"
@@ -337,7 +337,7 @@ module ProjectsHelper
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
     if est_val.pe_attribute.attr_type == "integer"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym].to_i : level_estimation_values[pbs_project_element.id].to_i,
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
     elsif est_val.pe_attribute.attr_type == "float"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
@@ -363,8 +363,16 @@ module ProjectsHelper
   def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
     if estimation_value.pe_attribute.attr_type == "date"
       display_date(level_estimation_values[pbs_project_element.id])
-    elsif estimation_value.pe_attribute.precision
-      level_estimation_values[pbs_project_element.id].round(estimation_value.pe_attribute.precision)
+    elsif estimation_value.pe_attribute.attr_type == "float"
+      begin
+        if estimation_value.pe_attribute.precision
+          level_estimation_values[pbs_project_element.id].round(estimation_value.pe_attribute.precision)
+        else
+          level_estimation_values[pbs_project_element.id].round(2)
+        end
+      rescue
+        level_estimation_values[pbs_project_element.id]
+      end
     else
       level_estimation_values[pbs_project_element.id]
     end

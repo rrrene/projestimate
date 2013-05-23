@@ -6,8 +6,9 @@
           jsPlumb.setRenderMode(jsPlumb.SVG);
           jsPlumb.importDefaults({
             Connector:"Straight",
-            PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-            Endpoint:[ "Rectangle", { radius:1 } ],
+            //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+            PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+            Endpoint:[ "Rectangle", { radius:1, width:7, height:7 } ],
             EndpointStyle:{ fillStyle:"#ffa500" },
             Anchor:"AutoDefault"
           });
