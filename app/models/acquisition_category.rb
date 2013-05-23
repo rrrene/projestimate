@@ -34,6 +34,11 @@ class AcquisitionCategory < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => { :case_sensitive => false, :scope => :record_status_id }
   validates :custom_value, :presence => true, :if => :is_custom?
 
+  amoeba do
+    enable
+    exclude_field [:projects]
+  end
+
   def to_s
     name
   end
