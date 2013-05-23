@@ -13,36 +13,34 @@
 
         <% for y in 1..@module_positions do %>
           <tr>
-            <td class="line_number" style="max-width: 30px; vertical-align: middle;">
+            <td class="line_number" style="max-width: 40px; vertical-align: middle;">
                 <h4 style="text-align: center;"><%= y %></h4>
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
-              <td class="module_bloc_size" style="margin: 5px;">
-                  <div class="pemodule_plan">
-                    <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
+              <td class="module_bloc_size" style="vertical-align: middle;">
+                <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
-                    <% unless pmod.nil? %>
+                <% unless pmod.nil? %>
 
-                      <% if @pbs_project_element %>
-                        <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
-                          <% pbs_class = 'highlight' %>
-                        <% end %>
-                      <% end %>
-
-                      <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
-                          <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
-                          <br>
-                          <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
-                          <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
-                          <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
-                          <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
-                          <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
-                      </div>
-
-                      <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
+                  <% if @pbs_project_element %>
+                    <% if pmod.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) %>
+                      <% pbs_class = 'highlight' %>
                     <% end %>
+                  <% end %>
+
+                  <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
+                      <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
+                      <br>
+                      <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
+                      <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
+                      <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
+                      <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
+                      <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
                   </div>
+
+                  <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
+                <% end %>
               </td>
             <% end %>
           </tr>

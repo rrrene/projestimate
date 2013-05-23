@@ -1,4 +1,4 @@
-<div class="span12">
+<div class="module_box"  style=" width: auto; overflow-x:auto; margin-bottom: 30px;"> <!-- <div class="span12"  style="  overflow-x:scroll;"> -->
   <% @alphabetical = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
   <h1>Associate Product-Element with current module project</h1>
 
@@ -8,7 +8,7 @@
           <th></th>
           <th style="text-align:left;">Product-Element</th>
           <% @module_projects.each do |mp| %>
-              <th style="text-align:center;">
+              <th style="text-align:center; min-width: 70px;">
                 <%= mp.pemodule.title %>
                 <p>
                   (<%= @alphabetical[mp.position_x-1] %>;<%= mp.position_y %>)&nbsp;
@@ -20,7 +20,11 @@
 
         <% for element in @project.pe_wbs_projects.wbs_product.first.pbs_project_elements %>
             <tr>
-              <td><%= link_to '', "", :id => "lines_select_all_#{element.id}", "data-mp_id"=> element.id, "data-rows_or_cols"=> "rows", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);"  %></td>
+              <td>
+                <% unless element.is_root? %>
+                    <%= link_to '', "", :id => "lines_select_all_#{element.id}", "data-mp_id"=> element.id, "data-rows_or_cols"=> "rows", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);" %>
+                <% end %>
+              </td>
               <td style="padding-left: <%= element.depth + 2 %>em;">
                 <%= element.work_element_type.peicon.nil? ? '?' : image_tag(element.work_element_type.peicon.icon.url) %>&nbsp;
                 <%= element.name %>
@@ -63,5 +67,6 @@
     </div>
   </div>
 </div>
+
 
 
