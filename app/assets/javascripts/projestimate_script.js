@@ -241,6 +241,46 @@ function refresh_me(data){
     });
 }
 
+
+
+
+function select_or_unselect_all(clicked_elt){
+    var mp_id = $(clicked_elt).data("mp_id");
+    var rows_or_cols = $(clicked_elt).data("rows_or_cols");
+    var at_least_one_selected = false;
+    var number_of_elt = 0;
+    var number_of_checked_elt = 0;
+
+    if (rows_or_cols == "cols") {
+        $('.module_project_'+mp_id+':checkbox').each(function(){
+            number_of_elt = number_of_elt+1;
+            //at_least_one_selected = (this.checked ? true : false);
+            if (this.checked)
+                number_of_checked_elt = number_of_checked_elt+1;
+        });
+
+        if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
+            $('.module_project_'+mp_id).attr("checked", true);
+        else
+            $('.module_project_'+mp_id).attr("checked", false);
+    }
+    else{
+        if (rows_or_cols == "rows") {
+            $('.pbs_'+mp_id+':checkbox').each(function(){
+                number_of_elt = number_of_elt+1;
+                if (this.checked)
+                    number_of_checked_elt = number_of_checked_elt+1;
+            });
+
+            if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
+                $('.pbs_'+mp_id).attr("checked", true);
+            else
+                $('.pbs_'+mp_id).attr("checked", false);
+        }
+    }
+}
+
+
 jQuery.fn.submitWithAjax = function () {
     this.submit(function () {
         $.post($(this).attr('action'), $(this).serialize(), null, "script");

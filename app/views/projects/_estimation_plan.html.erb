@@ -3,7 +3,7 @@
   <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
   <% unless module_projects.empty? %>
-    <table class="table table-condensed table-bordered">
+    <table class="table table-condensed table-bordered" style="width: auto;">
       <tr>
         <th></th>
         <% for x in 1..@module_positions_x.to_i do %>
@@ -13,14 +13,12 @@
 
         <% for y in 1..@module_positions do %>
           <tr>
-            <td style="vertical-align: middle;">
-                <div class="span2" style="max-width: 20px;">
-                    <%= y %>
-                </div>
+            <td class="line_number" style="max-width: 30px; vertical-align: middle;">
+                <h4 style="text-align: center;"><%= y %></h4>
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
-              <td>
+              <td class="module_bloc_size" style="margin: 5px;">
                   <div class="pemodule_plan">
                     <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
@@ -32,7 +30,7 @@
                         <% end %>
                       <% end %>
 
-                      <div class="<%= pbs_class %> window span2 <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
+                      <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
                           <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
                           <br>
                           <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>

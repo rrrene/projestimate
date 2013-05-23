@@ -420,6 +420,7 @@ fr:
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
   ratio_settings_message: "Ce module n'utilise pas de ratio."
+  select_unselect_all: "Tout cocher/Tout décocher"
 
   #organization_labor_categories
   labor_category: "Catégorie de travail"

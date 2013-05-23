@@ -104,7 +104,7 @@ module ProjectsHelper
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
+        res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
       end
     end
     res << "</tr>"

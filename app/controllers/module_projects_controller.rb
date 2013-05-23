@@ -25,18 +25,22 @@ class ModuleProjectsController < ApplicationController
     set_page_title 'Associate PBS-element'
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
+
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
   end
 
   def associate
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     @module_projects.each do |mp|
       mp.update_attribute('pbs_project_element_ids', params[:pbs_project_elements][mp.id.to_s])
     end
 
     redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-4'))
-
   end
 
   def index
