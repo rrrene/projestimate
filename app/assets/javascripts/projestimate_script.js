@@ -34,14 +34,15 @@ $(document).ready(function() {
             })
     });
 
-    $('.input-small').blur(
+    $('.input-small').bind("blur",(
         function(){
             $.ajax({
                 url:"check_attribute",
                 type: 'POST',
                 data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
             })
-    });
+        }
+    ));
 
 
     $('#states').change(

@@ -88,40 +88,6 @@ class PeAttribute < ActiveRecord::Base
     ]
   end
 
-  # Verify if params val is validate
-  def is_validate(val)
-    array = self.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
-    if self.attribute_type == "numeric"
-      unless array.empty?
-        if self.options[1] == "between"
-          v1 = self.options[2].split(',').first.to_i
-          v2 = self.options[2].split(',').last.to_i
-          puts self.options[2]
-          val.to_i.between?(v1, v2)
-        else
-          str = array[1] + array[2]
-          str_to_eval = val + str.to_s
-          begin
-            eval(str_to_eval)
-          rescue Exception => se
-            return false
-          end
-        end
-      else
-        return true
-      end
-    elsif self.attribute_type == "string"
-      val.class == String
-    elsif self.attribute_type == "date"
-      str_to_eval = "'#{val}'.to_date #{ array[1]} '#{array[2]}'.to_date"
-      begin
-        eval(str_to_eval)
-      rescue Exception => se
-        return false
-      end
-    end
-  end
-
   #return the data type
   def data_type
     self.attr_type
