@@ -1,14 +1,23 @@
-<div class="span12">
-  <h2><%= I18n.t(:master) %></h2>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:master) %></a></li>
+  </ul>
+
+  <div id="tabs-1">
+    <table border="0" width="100%">
+      <tr>
+        <td style="text-align:right;">
+          <%= link_to I18n.t('new_master_setting'), new_master_setting_path, :class => 'btn' %>
+        </td>
+      </tr>
+    </table>
 
   <table class="table table-striped table-bordered table-condensed">
     <tr>
       <th><%= I18n.t(:key) %></th>
       <th><%= I18n.t(:value) %></th>
       <th><%= I18n.t(:record_status) %></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th><%= I18n.t(:actions) %></th>
     </tr>
 
   <% @master_settings.each do |master_setting| %>
@@ -16,9 +25,9 @@
       <td><%= master_setting.key %></td>
       <td><%= master_setting.value %></td>
       <td><%= master_setting.record_status.name unless master_setting.record_status.nil? %> <%= master_setting.show_custom_value %></td>
-      <td><%= link_to '', edit_master_setting_path(master_setting), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-      <td><%= link_to '', master_setting, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title =>I18n.t('delete') %></td>
       <td>
+        <%= link_to '', edit_master_setting_path(master_setting), :class => 'icn_edit', :title => I18n.t('edit') %>
+      <%= link_to '', master_setting, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title =>I18n.t('delete') %>
         <% if is_master_instance? && !master_setting.is_local_record? %>
             <% if master_setting.is_retired? %>
                 <%= link_to(I18n.t('restore'), "master_settings/#{master_setting.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
@@ -32,5 +41,6 @@
     </tr>
   <% end %>
   </table>
-  <%= link_to I18n.t('new_master_setting'), new_master_setting_path, :class => 'btn' %>
+
+</div>
 </div>
