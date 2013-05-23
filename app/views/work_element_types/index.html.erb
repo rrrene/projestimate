@@ -1,41 +1,50 @@
-<div class="span12">
-  <h1>WorkElement Type</h1>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:work_element_type) %></a></li>
+  </ul>
 
-  <table class="table table-striped table-bordered table-condensed">
-    <tr>
-      <th style="text-align:left;"><%= I18n.t(:name) %></th>
-      <th style="text-align:left;">Alias</th>
-      <th style="text-align:left;"><%= I18n.t(:description) %></th>
-      <th style="text-align:left;"><%= I18n.t(:icon) %></th>
-      <th><%= I18n.t(:record_status) %></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+  <div id="tabs-1">
+    <table border="0" width="100%">
+      <tr>
+        <td style="text-align:right;">
+          <%= link_to I18n.t(:new_work_element_type), new_work_element_type_path, :class => 'btn' %>
+        </td>
+      </tr>
+    </table>
 
-  <% @work_element_types.each do |work_element_type| %>
-      <tr class="">
-      <td><%= work_element_type.name %></td>
-      <td><%= work_element_type.alias %></td>
-      <td><%= work_element_type.description %></td>
-      <td><%= work_element_type.peicon.nil? ? 'None' : image_tag(work_element_type.peicon.icon.url) %></td>
-      <td><%= work_element_type.record_status.name unless work_element_type.record_status.nil? %> <%= work_element_type.show_custom_value %> </td>
-      <td><%= link_to I18n.t(:edit) , edit_work_element_type_path(work_element_type) %></td>
-      <td><%= link_to I18n.t(:delete), work_element_type, confirm: I18n.t(:are_you_sur), method: :delete %></td>
-      <td>
-         <% if work_element_type.is_retired? %>
-              <%= link_to(I18n.t(:restore), "work_element_types/#{work_element_type.id}/restore_change", confirm: I18n.t(:restoring), :title => I18n.t(:restore_title))%>
-         <% else %>
-              <% unless work_element_type.is_defined? %>
-                  <%= link_to(I18n.t(:validate), "work_element_types/#{work_element_type.id}/validate_change", confirm: I18n.t(:validation), :title => I18n.t(:validate_title))%>
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th><%= I18n.t(:name) %></th>
+        <th>Alias</th>
+        <th><%= I18n.t(:description) %></th>
+        <th><%= I18n.t(:icon) %></th>
+        <th><%= I18n.t(:record_status) %></th>
+        <th><%= I18n.t(:actions) %></th>
+      </tr>
+      </thead>
+
+      <% @work_element_types.each do |work_element_type| %>
+          <tr>
+            <td><%= work_element_type.name %></td>
+            <td><%= work_element_type.alias %></td>
+            <td><%= work_element_type.description %></td>
+            <td><%= work_element_type.peicon.nil? ? 'None' : image_tag(work_element_type.peicon.icon.url) %></td>
+            <td><%= work_element_type.record_status.name unless work_element_type.record_status.nil? %> <%= work_element_type.show_custom_value %> </td>
+            <td>
+              <%= link_to '', edit_work_element_type_path(work_element_type), :class => 'icn_edit', :title => I18n.t('edit') %>
+              <%= link_to '', work_element_type, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %>
+
+              <% if work_element_type.is_retired? %>
+                  <%= link_to(I18n.t(:restore), "work_element_types/#{work_element_type.id}/restore_change", confirm: I18n.t(:restoring), :title => I18n.t(:restore_title)) %>
+              <% else %>
+                  <% unless work_element_type.is_defined? %>
+                      <%= link_to(I18n.t(:validate), "work_element_types/#{work_element_type.id}/validate_change", confirm: I18n.t(:validation), :title => I18n.t(:validate_title)) %>
+                  <% end %>
               <% end %>
-         <% end %>
-      </td>
-    </tr>
-  <% end %>
-  </table>
-
-  <br />
-
-  <%= link_to I18n.t(:new_work_element_type), new_work_element_type_path, :class => "btn" %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
 </div>
