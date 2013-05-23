@@ -11,8 +11,12 @@ module Sandbox
     def initialize(input)
       @description_sandbox = input[:description_sandbox]
       @list_sandbox = input[:list_sandbox]
-      @integer_sandbox = input[:integer_sandbox].to_i
-      @float_sandbox = input[:float_sandbox].to_f
+      input[:float_sandbox].blank? ?
+          @float_sandbox = nil :
+          @float_sandbox = input[:float_sandbox].to_f
+      input[:integer_sandbox].blank? ?
+          @integer_sandbox = nil :
+          @integer_sandbox = input[:integer_sandbox].to_i
       @date_sandbox = input[:date_sandbox]
     end
 

@@ -44,21 +44,81 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
+  before_filter :session_expiration
   before_filter :update_activity_time
-  before_filter :session_expiry
 
-  def session_expiry
-    @time_left = (session[:expires] - Time.now).to_i
-    unless @time_left > 0
-      reset_session
-      flash[:error] = 'Expiration.'
-      redirect_to root_url
+  def session_expiration
+    unless load_admin_setting("session_maximum_lifetime").nil? && load_admin_setting("session_inactivity_timeout").nil?
+      if current_user
+        if session_expired?
+          reset_session
+          flash[:error] = I18n.t(:error_session_expired)
+          redirect_to root_url
+        end
+      end
     end
   end
 
-  def update_activity_time
-    session[:expires] = 10.seconds.from_now
+  def session_expired?
+    unless load_admin_setting("session_maximum_lifetime")=="unset"
+      unless session[:ctime] && (Time.now.utc.to_i - session[:ctime].to_i <= load_admin_setting("session_maximum_lifetime").to_i*60*60*24)
+        return true
+      end
+    end
+
+    unless load_admin_setting("session_inactivity_timeout")=="unset"
+      if load_admin_setting("session_inactivity_timeout").to_i==30
+        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting("session_inactivity_timeout").to_i*60)
+          return true
+        end
+      else
+        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting("session_inactivity_timeout").to_i*60*60)
+          return true
+        end
+      end
+
+    end
+    false
   end
+
+  def update_activity_time
+    if current_user
+      unless load_admin_setting("session_inactivity_timeout")=="unset"
+          session[:atime] = Time.now.utc.to_i
+      end
+    end
+  end
+
+
+  #before_filter :session_expiry
+  #before_filter :update_activity_time
+  #
+  #def session_expiry
+  #  if current_user()
+  #    unless load_admin_setting("session_inactivity_timeout")=="unset"
+  #      if session[:expires]
+  #        @time_left = (session[:expires] - Time.now).to_i
+  #        unless @time_left > 0
+  #          reset_session
+  #          flash[:error] = I18n.t('session_inactivity_timeout_expire')
+  #          redirect_to root_url
+  #        end
+  #      end
+  #    end
+  #  end
+  #end
+  #
+  #def update_activity_time
+  #  if current_user()
+  #    unless load_admin_setting("session_inactivity_timeout")=="unset"
+  #      if  load_admin_setting("session_inactivity_timeout")=="0.5"
+  #        session[:expires] = 30.seconds.from_now
+  #      else
+  #        session[:expires] = load_admin_setting("session_inactivity_timeout").to_f.minutes.from_now
+  #      end
+  #    end
+  #  end
+  #end
 
   #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
   #This method test if we are on Master or Local instance

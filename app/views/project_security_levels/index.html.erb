@@ -1,36 +1,46 @@
-<div class="span12">
-  <h2><%= I18n.t(:security_level) %></h2>
-  <table class="table table-striped table-bordered table-condensed">
-    <tr>
-      <th style="text-align:left;"><%= I18n.t(:name) %></th>
-      <th><%= I18n.t(:record_status) %></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:security_level) %></a></li>
+  </ul>
 
-  <% @project_security_levels.each do |project_security_level| %>
-    <tr>
-      <td><%= project_security_level.name %></td>
-      <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
-      <td><%= link_to '', edit_project_security_level_path(project_security_level), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-      <td><%= link_to '', project_security_level, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %></td>
-      <td>
-        <% if is_master_instance? && !project_security_level.is_local_record? %>
-            <% if project_security_level.is_retired? %>
-                <%= link_to(I18n.t('restore'), "project_security_levels/#{project_security_level.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
-            <% else %>
-                <% unless project_security_level.is_defined? %>
-                    <%= link_to(I18n.t('validate'), "project_security_levels/#{project_security_level.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title'))%>
-                <% end %>
-            <% end %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  </table>
+  <div id="tabs-1">
+    <table border="0" width="100%">
+      <tr>
+        <td style="text-align:right;">
+          <%= link_to I18n.t('new_project_security_level'), new_project_security_level_path, :class => 'btn' %>
+        </td>
+      </tr>
+    </table>
 
-  <br />
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th style="text-align:left;"><%= I18n.t(:name) %></th>
+        <th><%= I18n.t(:record_status) %></th>
+        <th><%= I18n.t(:actions) %></th>
+      </tr>
+      </thead>
 
-  <%= link_to I18n.t('new_project_security_level'), new_project_security_level_path, :class => 'btn' %>
+      <% @project_security_levels.each do |project_security_level| %>
+          <tr>
+            <td><%= project_security_level.name %></td>
+            <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
+            <td>
+              <%= link_to '', edit_project_security_level_path(project_security_level), :class => 'icn_edit', :title => I18n.t('edit') %>
+              <%= link_to '', project_security_level, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %>
+              <% if is_master_instance? && !project_security_level.is_local_record? %>
+                  <% if project_security_level.is_retired? %>
+                      <%= link_to(I18n.t('restore'), "project_security_levels/#{project_security_level.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title')) %>
+                  <% else %>
+                      <% unless project_security_level.is_defined? %>
+                          <%= link_to(I18n.t('validate'), "project_security_levels/#{project_security_level.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title')) %>
+                      <% end %>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+
+  </div>
 </div>

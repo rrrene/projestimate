@@ -11,11 +11,16 @@ $('.component_tree ul li').hover(
 
 $('#edit_component').modal('hide');
 
-$('.input-mini').blur(
-    function(){
-        $.ajax({
-            url:"check_attribute",
-            type: 'POST',
-            data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
-        })
+$(".date-picker").datepicker({
+    language: '<%= set_user_language %>',
+    autoclose: true,
+    todayHighlight: true,
+    todayBtn: true
+}).on("hide", function(e){
+    $.ajax({
+        url:"check_attribute",
+        type: 'POST',
+        data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
+    })
 });
+

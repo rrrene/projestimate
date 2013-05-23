@@ -1,37 +1,47 @@
-<h2><%= I18n.t(:global_permission) %></h2>
-<div class="span12">
-  <table class="table table-strpied">
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:global_permission) %></a></li>
+  </ul>
+
+  <div id="tabs-1">
+    <table border="0" width="100%">
+      <tr>
+        <td style="text-align:right;">
+          <%= link_to I18n.t('new_permission'), new_permission_path, :class => 'btn' %>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
       <tr>
         <th><%= I18n.t(:permissions) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th><%= I18n.t(:actions) %></th>
       </tr>
+      </thead>
 
-    <% @permissions.each do |perm| %>
-      <tr>
-        <td><%= perm.name %></td>
-        <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
-        <td><%= link_to '', edit_permission_path(perm), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-        <td><%= link_to '', perm, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete')%></td>
-        <td>
-          <% if is_master_instance? && !perm.is_local_record? %>
-              <% if perm.is_retired? %>
-                  <%= link_to(I18n.t('restore'), "permissions/#{perm.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
-              <% else %>
-                  <% unless perm.is_defined? %>
-                      <%= link_to(I18n.t('validate'), "permissions/#{perm.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validation'))%>
+      <% @permissions.each do |perm| %>
+          <tr>
+            <td><%= perm.name %></td>
+            <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
+            <td>
+              <%= link_to '', edit_permission_path(perm), :class => 'icn_edit', :title => I18n.t('edit') %>
+            <%= link_to '', perm, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %>
+              <% if is_master_instance? && !perm.is_local_record? %>
+                  <% if perm.is_retired? %>
+                      <%= link_to(I18n.t('restore'), "permissions/#{perm.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title')) %>
+                  <% else %>
+                      <% unless perm.is_defined? %>
+                          <%= link_to(I18n.t('validate'), "permissions/#{perm.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validation')) %>
+                      <% end %>
                   <% end %>
               <% end %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
+            </td>
+          </tr>
+      <% end %>
+    </table>
 
-  <br />
-
-  <%= link_to I18n.t('new_permission'), new_permission_path, :class => 'btn' %>
+  </div>
 </div>
 

@@ -9,7 +9,7 @@ module EffortBreakdown
     def initialize(module_input_data)
       @pbs_project_element = PbsProjectElement.find(module_input_data[:pbs_project_element_id])
       @module_project = ModuleProject.find(module_input_data[:module_project_id])
-      @input_effort_man_hour = module_input_data[:effort_man_hour].to_f
+      @input_effort_man_hour = module_input_data[:effort_man_hour].to_f unless module_input_data[:effort_man_hour].nil?
     end
 
 

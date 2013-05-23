@@ -368,7 +368,7 @@ class ProjectsController < ApplicationController
     @pbs_project_element = current_component
 
     #Save output values: only for current pbs_project_element
-    @project.module_projects.each do |mp|
+    @project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|
@@ -417,9 +417,9 @@ class ProjectsController < ApplicationController
 
             wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where("is_root = ?", true).first
             if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input) ###pbs_estimation_input_value
+              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
             else
-              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input.to_f
+              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
             end
 
             in_result["string_data_#{level}"] = level_estimation_value
@@ -497,7 +497,7 @@ class ProjectsController < ApplicationController
     @result_hash = Hash.new
     inputs = Hash.new
 
-    project.module_projects.each do |module_project|
+    project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
       module_project.estimation_values.sort!{ |a,b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
           inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
@@ -514,7 +514,6 @@ class ProjectsController < ApplicationController
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
-          # In each estimation module, The Product (PBS) seem to be mandatory
           begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e

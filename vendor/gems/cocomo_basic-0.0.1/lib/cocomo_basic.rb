@@ -7,6 +7,7 @@ module CocomoBasic
 
     #Constructor
     def initialize(elem)
+      elem[:ksloc].nil? ? @coef_kls = 0 : @coef_kls = elem[:ksloc].to_f
       case elem[:complexity]
         when 'organic'
           set_cocomo_organic(elem)
@@ -24,7 +25,6 @@ module CocomoBasic
       @coef_a = 2.4
       @coef_b = 1.05
       @coef_c = 0.38
-      @coef_kls = elem[:ksloc].to_f
       @complexity = 'organic'
     end
 
@@ -32,7 +32,6 @@ module CocomoBasic
       @coef_a = 3
       @coef_b = 1.12
       @coef_c = 0.35
-      @coef_kls = elem[:ksloc].to_f
       @complexity = 'semi-detached'
     end
 
@@ -40,7 +39,6 @@ module CocomoBasic
       @coef_a = 3.6
       @coef_b = 1.2
       @coef_c = 0.32
-      @coef_kls = elem[:ksloc].to_f
       @complexity = 'embedded'
     end
 

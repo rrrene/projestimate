@@ -38,7 +38,7 @@ module ProjectsHelper
     res = String.new
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
-      current_project.module_projects.each do |module_project|
+      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
         if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
           res << display_results_with_activities(module_project)
         else
@@ -72,7 +72,7 @@ module ProjectsHelper
         res << "<td>"
         level_estimation_values = Hash.new
         level_estimation_values = estimation_value.send("string_data_#{level}")
-        if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil?
+        if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id].blank?
           res << "-"
         else
           res << "#{pemodule_output(level_estimation_values, pbs_project_element, estimation_value)}"
@@ -177,7 +177,7 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-      current_project.module_projects.each do |module_project|
+      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
         current_project = module_project.project
 
         ##if module_project.pemodule.with_activities
@@ -188,7 +188,7 @@ module ProjectsHelper
             last_estimation_result = nil
             refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
             refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            refer_module_project =  current_project.module_projects.where("pemodule_id = ?", refer_module.id).last
+            refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
 
             unless refer_module_project.nil?
               last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
@@ -255,23 +255,23 @@ module ProjectsHelper
                 end
 
                 if pbs_last_result.nil?
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini  #{level} #{est_val.id}"}"
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-small  #{level} #{est_val.id}"}"
 
                 elsif wbs_project_elt.wbs_activity_element.nil?
                   if wbs_project_elt.is_root? || wbs_project_elt.has_children?
-                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini  #{level} #{est_val.id}"}"
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-small  #{level} #{est_val.id}"}"
                     readonly_option = true
                   else
-                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-mini  #{level} #{est_val.id}"}"
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-small  #{level} #{est_val.id}"}"
                   end
                 else
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-mini #{level} #{est_val.id}"}"
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-small #{level} #{est_val.id}"}"
                   readonly_option = true
                 end
               else
                 readonly_option = wbs_project_elt.has_children? ? true : false
                 nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
-                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ? nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-mini' }"
+                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ? nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
               end
 
             end
@@ -335,15 +335,20 @@ module ProjectsHelper
   end
 
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    if est_val.pe_attribute.attr_type == "integer" or est_val.pe_attribute.attr_type == "float"
+    if est_val.pe_attribute.attr_type == "integer"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     number_with_delimiter(level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    elsif est_val.pe_attribute.attr_type == "float"
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
     elsif est_val.pe_attribute.attr_type == "list"
       select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                 options_for_select(est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]}),
-                 :class => "input-small",
-                 :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]
+                 options_for_select(
+                     est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]},
+                     :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
+                 :class => "input-small"
     elsif est_val.pe_attribute.attr_type == "date"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                       display_date(level_estimation_values[pbs_project_element.id]),
@@ -358,21 +363,26 @@ module ProjectsHelper
   def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
     if estimation_value.pe_attribute.attr_type == "date"
       display_date(level_estimation_values[pbs_project_element.id])
+    elsif estimation_value.pe_attribute.attr_type == "float"
+      begin
+        if estimation_value.pe_attribute.precision
+          level_estimation_values[pbs_project_element.id].round(estimation_value.pe_attribute.precision)
+        else
+          level_estimation_values[pbs_project_element.id].round(2)
+        end
+      rescue
+        level_estimation_values[pbs_project_element.id]
+      end
     else
-      number_with_delimiter(level_estimation_values[pbs_project_element.id])
+      level_estimation_values[pbs_project_element.id]
     end
-
   end
 
   def display_date(date)
-    if date == 0.0 or date.nil?
-      ""
-    else
-      begin
-        I18n.l(date.to_date)
-      rescue
-        date
-      end
+    begin
+      I18n.l(date.to_date)
+    rescue
+      "Invalid date time"
     end
   end
 
