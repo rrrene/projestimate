@@ -1,6 +1,6 @@
-<div class="module_box"  style=" width: auto; overflow-x:auto; margin-bottom: 30px;"> <!-- <div class="span12"  style="  overflow-x:scroll;"> -->
+<div class="module_box" style=" width: auto; overflow-x:auto; margin-bottom: 3px;"> <!-- <div class="span12"  style="  overflow-x:scroll;"> -->
   <% @alphabetical = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
-  <h1>Associate Product-Element with current module project</h1>
+  <h3><%= I18n.t(:label_pbs_element_matrix) %></h3>
 
   <%= form_tag({:action => 'associate', :controller => 'module_projects', :project_id => @project.id}, :method => 'POST', :class => 'simple_form') do %>
       <table class="table table-striped">
@@ -12,7 +12,7 @@
                 <%= mp.pemodule.title %>
                 <p>
                   (<%= @alphabetical[mp.position_x-1] %>;<%= mp.position_y %>)&nbsp;
-                   <%= link_to '', "", :id => "cols_select_all_#{mp.id}", "data-mp_id"=> mp.id, "data-rows_or_cols"=> "cols", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);" %>
+                  <%= link_to '', '', :id => "cols_select_all_#{mp.id}", 'data-mp_id' => mp.id, 'data-rows_or_cols' => 'cols', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
                 </p>
               </th>
           <% end %>
@@ -22,7 +22,7 @@
             <tr>
               <td>
                 <% unless element.is_root? %>
-                    <%= link_to '', "", :id => "lines_select_all_#{element.id}", "data-mp_id"=> element.id, "data-rows_or_cols"=> "rows", :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all(this);" %>
+                    <%= link_to '', '', :id => "lines_select_all_#{element.id}", 'data-mp_id' => element.id, 'data-rows_or_cols' => 'rows', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
                 <% end %>
               </td>
               <td style="padding-left: <%= element.depth + 2 %>em;">
@@ -47,26 +47,23 @@
   <% end %>
 </div>
 
+<div class="widget-box">
+  <div class="widget-title"><span class="icon"><i class="icon-signal"></i></span>
+    <h5><%= I18n.t(:estimation_plan) %></h5>
 
-<div class="row-fluid">
-  <div class="span12">
-    <div class="widget-box">
-      <div class="widget-title"><span class="icon"><i class="icon-signal"></i></span>
-        <h5>Estimation Plan</h5>
-        <div class="buttons">
-          <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
-            Edit estimation plan
-          </a>
-        </div>
-      </div>
-      <div class="widget-content">
-        <div class="module_box"  style=" width: inherit; overflow-x:scroll;">
-          <%= render 'projects/estimation_plan', :locals => { :module_projects => @project.module_projects }  %>
-        </div>
-      </div>
+    <div class="buttons">
+      <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
+        <%= I18n.t(:button_estimation_plan) %>
+      </a>
+    </div>
+  </div>
+  <div class="widget-content">
+    <div class="module_box" style=" width: inherit; overflow-x:scroll;">
+      <%= render 'projects/estimation_plan', :locals => {:module_projects => @project.module_projects} %>
     </div>
   </div>
 </div>
+
 
 
 
