@@ -28,6 +28,7 @@ class PeAttribute < ActiveRecord::Base
 
   has_many :attribute_modules, :dependent => :destroy
   has_many :pemodules, :through => :attribute_modules
+  has_many :estimation_values
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
