@@ -517,7 +517,7 @@ class ProjectsController < ApplicationController
           begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = '-'
+            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
             puts e.message
           end
         end
