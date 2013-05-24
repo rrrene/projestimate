@@ -887,8 +887,8 @@ ul{
 }
 
 .module_bloc_size{
-    width: 160px; /*width: 160px;*/
-    height: 130px;
+    min-height: 130px;
+    min-width: 160px;
 }
 
 

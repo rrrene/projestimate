@@ -8,7 +8,7 @@
       <th>Module projects</th>
       <% @module_projects.each do |mp| %>
         <th>
-          <%= mp.pemodule.title %>
+          <%= mp.pemodule.title %> (<%= @alphabetical[mp.position_x-1] %>;<%= mp.position_y %>)
         </th>
       <% end %>
     </tr>
@@ -36,3 +36,7 @@
   <%= submit_tag I18n.t('save'), :class => 'btn ' %>
   <%= submit_tag I18n.t('apply'), :class => 'btn' %>
 <% end %>
+
+<div class="widget-box">
+  <%= render 'module_projects/widget_estimation_plan', :locals => {:project => @project} %>
+</div>

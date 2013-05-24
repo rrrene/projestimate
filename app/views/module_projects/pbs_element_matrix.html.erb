@@ -48,20 +48,7 @@
 </div>
 
 <div class="widget-box">
-  <div class="widget-title"><span class="icon"><i class="icon-signal"></i></span>
-    <h5><%= I18n.t(:estimation_plan) %></h5>
-
-    <div class="buttons">
-      <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
-        <%= I18n.t(:button_estimation_plan) %>
-      </a>
-    </div>
-  </div>
-  <div class="widget-content">
-    <div class="module_box" style=" width: inherit; overflow-x:scroll;">
-      <%= render 'projects/estimation_plan', :locals => {:module_projects => @project.module_projects} %>
-    </div>
-  </div>
+  <%= render 'module_projects/widget_estimation_plan', :locals => {:project => @project} %>
 </div>
 
 
