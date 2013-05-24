@@ -84,11 +84,14 @@ class ModuleProjectsController < ApplicationController
   def module_projects_matrix
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
   end
 
   def associate_modules_projects
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
+
     @module_projects.each do |mp|
       mp.update_attribute('associated_module_project_ids', params[:module_projects][mp.id.to_s])
     end

@@ -26,8 +26,8 @@ module WbsActivityElementsHelper
     tree ||= String.new
     unless element.nil?
       if element.is_root?
-        tree << "<ul style='margin-left:1em;' id='tree'>
-                   <li style='margin-left:-1em;'>
+        tree << "<ul style='margin-left:1px;' id='tree'>
+                   <li style='margin-left:-1px;'>
                     <div class='block_label'>
                         #{show_element_name(element)}
                     </div>
@@ -40,15 +40,15 @@ module WbsActivityElementsHelper
       if element.has_children?
         tree << "<ul class='sortable'>"
         element.children.each do |e|
-          tree << "<ul>
-                     <li style='margin-left:#{element.depth}em;' >
-                      <div class='block_label'>
-                        #{show_element_name(e)}
-                      </div>
-                      <div class='block_link'>
-                        #{ link_activity_element(e) }
-                      </div>
-                    </li>"
+          tree << "
+                   <li style='margin-left:#{element.depth}px;' >
+                    <div class='block_label'>
+                      #{show_element_name(e)}
+                    </div>
+                    <div class='block_link'>
+                      #{ link_activity_element(e) }
+                    </div>
+                  </li>"
 
           generate_activity_element_tree(e, tree)
         end
@@ -62,11 +62,12 @@ module WbsActivityElementsHelper
   #Generate tree of Activity Element (projects/:id/edit and dashboard)
   def generate_wbs_project_elt_tree(element, tree, show_hidden=false)
     #Root is always display
+    gap = 2.5
     tree ||= String.new
     unless element.nil?
       if element.is_root?
-        tree << "<ul style='margin-left:1em;' id='tree'>
-                   <li style='margin-left:-1em;'>
+        tree << "<ul style='margin-left:1px;' id='tree'>
+                   <li style='margin-left:-1px;'>
                     <div class='block_label'>
                         #{show_element_name(element)}
                     </div>
@@ -81,20 +82,20 @@ module WbsActivityElementsHelper
         element.children.each do |e|
           if show_hidden == 'true'
             tree << "
-                       <li style='margin-left:#{element.depth}em;' >
-                        <div class='block_label'>
-                          #{show_element_name(e)}
-                        </div>
-                        <div class='block_link'>
-                          #{ link_activity_element(e) }
-                        </div>
-                      </li>"
+                     <li style='margin-left:-#{gap+element.depth}px;' >
+                      <div class='block_label'>
+                        #{show_element_name(e)}
+                      </div>
+                      <div class='block_link'>
+                        #{ link_activity_element(e) }
+                      </div>
+                    </li>"
 
             generate_wbs_project_elt_tree(e, tree, show_hidden)
           else
               unless e.exclude
                 tree << "
-                       <li style='margin-left:#{element.depth}em;' >
+                       <li style='margin-left:-#{gap+element.depth}px;' >
                         <div class='block_label'>
                           #{show_element_name(e)}
                         </div>

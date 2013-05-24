@@ -18,7 +18,7 @@
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
-              <td class="module_bloc_size" style="vertical-align: middle;">
+              <td class="module_bloc_size" style="vertical-align: middle; height: 130px; width: 160px;">
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
                 <% unless pmod.nil? %>
