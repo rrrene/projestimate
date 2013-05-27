@@ -38,7 +38,7 @@ module ModuleProjectsHelper
     if estimation_pemodule.yes_for_output_with_ratio? || estimation_pemodule.yes_for_output_without_ratio? || estimation_pemodule.yes_for_input_output_with_ratio? || estimation_pemodule.yes_for_input_output_without_ratio?
       hash_data_probable = Hash.new
 
-      if min_estimation_value.eql?("-") || most_likely_estimation_value.eql?("-") || high_estimation_value.eql?("-")
+      if min_estimation_value.nil? || most_likely_estimation_value.nil? || high_estimation_value.nil?
         hash_data_probable = Hash.new
       else
         min_estimation_value.keys.each do |wbs_project_elt_id|

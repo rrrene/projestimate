@@ -490,7 +490,7 @@ class ProjectsController < ApplicationController
         result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
       end
     else
-      result_with_consistency = Hash.new
+      result_with_consistency = nil
     end
 
     result_with_consistency
