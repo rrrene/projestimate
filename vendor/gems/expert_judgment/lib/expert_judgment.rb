@@ -8,7 +8,7 @@ module ExpertJudgment
 
     def initialize(elem)
       WbsProjectElement.rebuild_depth_cache!
-      @effort_man_hour = elem[:effort_man_hour]
+      elem[:effort_man_hour].blank? ? @effort_man_hour = nil : @effort_man_hour = elem[:effort_man_hour]
       set_minimum(elem)
       set_maximum(elem)
       set_most_likely(elem)
@@ -16,19 +16,19 @@ module ExpertJudgment
     end
 
     def set_minimum(elem)
-      @minimum = elem[:minimum].to_f
+      elem[:minimum].nil? ? @minimum = 0 : @minimum = elem[:minimum].to_f
     end
 
     def set_maximum(elem)
-      @maximum = elem[:maximum].to_f
+      elem[:maximum].nil? ? @maximum = 0 : @maximum = elem[:maximum].to_f
     end
 
     def set_most_likely(elem)
-      @most_likely = elem[:most_likely].to_f
+      elem[:most_likely].nil? ? @most_likely = 0 : @most_likely = elem[:most_likely].to_f
     end
 
     def set_probable
-      ( (@minimum + (4*@most_likely) + @maximum) / 6 ).to_f
+      ( (@minimum + (4*@most_likely) + @maximum) / 6 )
     end
 
     #Set the WBS-activity node elements effort using aggregation (sum) of child elements (from the bottom up)
@@ -53,7 +53,7 @@ module ExpertJudgment
         sorted_node_elements = node.subtree.order('ancestry_depth desc')
         sorted_node_elements.each do |wbs_project_element|
           if wbs_project_element.is_childless?
-            new_effort_man_hour[wbs_project_element.id] = @effort_man_hour[wbs_project_element.id.to_s].to_f
+            new_effort_man_hour[wbs_project_element.id] = (@effort_man_hour[wbs_project_element.id.to_s].blank? ? 0 : @effort_man_hour[wbs_project_element.id.to_s].to_f)
           else
             node_effort = 0
             wbs_project_element.children.each do |child|

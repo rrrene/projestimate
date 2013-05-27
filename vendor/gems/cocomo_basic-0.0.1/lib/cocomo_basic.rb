@@ -7,7 +7,7 @@ module CocomoBasic
 
     #Constructor
     def initialize(elem)
-      elem[:ksloc].nil? ? @coef_kls = 0 : @coef_kls = elem[:ksloc].to_f
+      elem[:ksloc].blank? ? @coef_kls = nil : @coef_kls = elem[:ksloc].to_f
       case elem[:complexity]
         when 'organic'
           set_cocomo_organic(elem)
@@ -45,22 +45,38 @@ module CocomoBasic
     #Getters
     #Return effort (in man-hour)
     def get_effort_man_hour
-      return (152 * @coef_a*(@coef_kls**@coef_b)).to_f
+      if @coef_kls
+        return (152 * @coef_a*(@coef_kls**@coef_b)).to_f
+      else
+        nil
+      end
     end
 
     #Return delay (in hour)
     def get_delay
-      return (152 * 2.5*((get_effort_man_hour/152)**@coef_c)).to_f
+      if @coef_kls
+        return (152 * 2.5*((get_effort_man_hour/152)**@coef_c)).to_f
+      else
+        nil
+      end
     end
 
     #Return end date
     def get_end_date
-      return Time.now + (get_delay/152).to_i.months
+      if @coef_kls
+        return Time.now + (get_delay/152).to_i.months
+      else
+        nil
+      end
     end
 
     #Return staffing
     def get_staffing
-      return get_effort_man_hour / get_delay
+      if @coef_kls
+        return get_effort_man_hour / get_delay
+      else
+        nil
+      end
     end
 
    def get_complexity

@@ -74,19 +74,13 @@ class PeAttributesController < ApplicationController
       @attribute = current_attribute
     end
 
-    if @attribute.update_attributes(params[:pe_attribute])
-      if @attribute.update_attribute("options", params[:options])
-        @attribute.attr_type = params[:options][0]
-        if @attribute.save
-          redirect_to redirect(pe_attributes_path)
-        else
-          render action: "edit"
-        end
+    if @attribute.update_attributes(params[:pe_attribute]) and @attribute.update_attribute("options", params[:options])
+      @attribute.attr_type = params[:options][0]
+      if @attribute.save
+        redirect_to redirect(pe_attributes_path)
       else
         render action: "edit"
       end
-    else
-      render action: "edit"
     end
   end
 

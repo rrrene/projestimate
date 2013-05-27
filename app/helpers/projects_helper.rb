@@ -66,7 +66,7 @@ module ProjectsHelper
         res << "</tr>"
 
     module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
-      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description}'>#{estimation_value.pe_attribute.name}</span></td>"
+      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description} - #{display_rule(estimation_value)}'>#{estimation_value.pe_attribute.name}</span></td>"
 
       ["low", "most_likely", "high", "probable"].each do |level|
         res << "<td>"
@@ -271,7 +271,7 @@ module ProjectsHelper
               else
                 readonly_option = wbs_project_elt.has_children? ? true : false
                 nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
-                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ? nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
               end
 
             end
@@ -348,7 +348,7 @@ module ProjectsHelper
                  options_for_select(
                      est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]},
                      :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
-                 :class => "input-small"
+                     :class => "input-small"
     elsif est_val.pe_attribute.attr_type == "date"
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                       display_date(level_estimation_values[pbs_project_element.id]),
@@ -384,6 +384,10 @@ module ProjectsHelper
     rescue
       "Invalid date time"
     end
+  end
+
+  def display_rule(est_val)
+    "<br> Options : #{est_val.pe_attribute.options.join(' ')}"
   end
 
 end

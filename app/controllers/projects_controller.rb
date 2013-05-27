@@ -101,13 +101,13 @@ class ProjectsController < ApplicationController
 
           redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:notice_project_successful_created)}"
         else
-          flash[:error] = I18n.t (:error_project_creation_failed)+' '+ @project.errors.full_messages.to_sentence + '.'
+          flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
         end
       end
 
     rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-      flash[:error] = I18n.t (:error_project_creation_failed) + ' ' +@project.errors.full_messages.to_sentence + '.'
+      flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
       redirect_to :back
     end
 
@@ -523,7 +523,7 @@ class ProjectsController < ApplicationController
           begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = '-'
+            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
             puts e.message
           end
         end
