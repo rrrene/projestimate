@@ -320,9 +320,9 @@ class ProjectsController < ApplicationController
                                               :in_out => in_out,
                                               :is_mandatory => am.is_mandatory,
                                               :description => am.description,
-                                              :string_data_low => {:default_low => am.default_low},
-                                              :string_data_most_likely => {:default_most_likely => am.default_most_likely},
-                                              :string_data_high => {:default_high => am.default_high},
+                                              :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                              :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                              :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
                                               :custom_attribute => am.custom_attribute,
                                               :project_value => am.project_value )
             end
@@ -332,9 +332,9 @@ class ProjectsController < ApplicationController
                                            :in_out => am.in_out,
                                            :is_mandatory => am.is_mandatory,
                                            :description => am.description,
-                                           :string_data_low => {:default_low => am.default_low},
-                                           :string_data_most_likely => {:default_most_likely => am.default_most_likely},
-                                           :string_data_high => {:default_high => am.default_high},
+                                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
                                            :custom_attribute => am.custom_attribute,
                                            :project_value => am.project_value )
           end
@@ -407,7 +407,9 @@ class ProjectsController < ApplicationController
             end
             out_result["string_data_probable"] = probable_estimation_value
           end
+
           est_val.update_attributes(out_result)
+
         elsif est_val.in_out == 'input'
           in_result = Hash.new
           ['low', 'most_likely', 'high'].each do |level|
@@ -469,7 +471,8 @@ class ProjectsController < ApplicationController
   # After estimation, need to know if node value are consistent or not
   def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
-    unless estimation_result.nil?
+    #unless estimation_result.nil? || estimation_result.eql?("-")
+    if !estimation_result.nil? && !estimation_result.eql?("-")
       estimation_result.each do |wbs_project_elt_id, est_value|
         consistency = true
         wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
@@ -486,7 +489,10 @@ class ProjectsController < ApplicationController
         end
         result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
       end
+    else
+      result_with_consistency = Hash.new
     end
+
     result_with_consistency
   end
 
@@ -569,7 +575,6 @@ class ProjectsController < ApplicationController
       redirect_to '/projects'
     end
   end
-
 
   def commit
     project = Project.find(params[:project_id])
