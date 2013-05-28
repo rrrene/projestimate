@@ -341,32 +341,33 @@ module ProjectsHelper
   end
 
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    if est_val.pe_attribute.attr_type == 'integer'
-      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
-                     :class => "input-small #{level} #{est_val.id}"
-    elsif est_val.pe_attribute.attr_type == 'float'
-      #if module_project.next
-      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
-                     :class => "input-small #{level} #{est_val.id}"
+    if est_val.pe_attribute.attr_type == 'integer' or est_val.pe_attribute.attr_type == 'float'
+
+      display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+
     elsif est_val.pe_attribute.attr_type == 'list'
+
       select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                  options_for_select(
                      est_val.pe_attribute.options[2].split(';'),
                      :selected => (level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id])),
                      :class => 'input-small'
+
     elsif est_val.pe_attribute.attr_type == 'date'
+
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                       level_estimation_values[pbs_project_element.id].nil? ? display_date(level_estimation_values["default_#{level}".to_sym]) : display_date(level_estimation_values[pbs_project_element.id]),
                      :class => "input-small #{level} #{est_val.id} date-picker"
-    else
+
+    else #type = text
+
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                      (level_estimation_values[pbs_project_element.id] == 0.0) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
     end
   end
 
+  #Display pemodule output depending attribute type.
   def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
     if estimation_value.pe_attribute.attr_type == 'date'
       display_date(level_estimation_values[pbs_project_element.id])
@@ -385,6 +386,7 @@ module ProjectsHelper
     end
   end
 
+  #Display a date depending user time zone
   def display_date(date)
     begin
       I18n.l(date.to_date)
@@ -393,6 +395,30 @@ module ProjectsHelper
     end
   end
 
+  #Display text field tag depending of estimation plan.
+  #Some pemodules can take previous and computed values
+  def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    if module_project.previous
+      comm_attr = ModuleProject::common_attributes(module_project.previous, module_project)
+      if comm_attr.empty?
+        text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                       level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                       :class => "input-small #{level} #{est_val.id}"
+      else
+        estimation_value = EstimationValue.find_by_pe_attribute_id(comm_attr.first.id)
+        new_level_estimation_values = estimation_value.send("string_data_#{level}")
+        text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                       new_level_estimation_values[pbs_project_element.id],
+                       :class => "input-small #{level} #{est_val.id}"
+      end
+    else
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    end
+  end
+
+  #Display rule and options of an attribute in a bootstrap tooltip
   def display_rule(est_val)
     "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong> <br> #{est_val.is_mandatory ? I18n.t(:mandatory) : I18n.t(:no_mandatory) }"
   end
