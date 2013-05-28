@@ -389,7 +389,7 @@ module ProjectsHelper
   end
 
   def display_rule(est_val)
-    "&#10; #{I18n.t(:tooltip_attribute_rules)}: #{est_val.pe_attribute.options.join(' ')}"
+    "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong>"
   end
 
 end
