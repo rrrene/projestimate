@@ -40,9 +40,11 @@
       <div class="login_wrapper"> </div>
       <div class="login_information">
         <% if controller.controller_name == "password_resets" %>
-          <%= render "sessions/retrieve_password" %>
+            <%= render "sessions/retrieve_password" %>
+        <% elsif controller.controller_name == "sessions" && controller.action_name == "reset_forgotten_password"%>
+            <%= render :template=>"sessions/reset_forgotten_password" %>
         <% else %>
-          <%= render "sessions/new" %>
+            <%= render "sessions/new" %>
         <% end %>
       </div>
     </div>
