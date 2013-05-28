@@ -877,3 +877,4 @@ en-gb:
   label_pbs_element_matrix: "Associate PBS elements with project modules"
   tooltip_attribute_rules: "Validation rules"
   error_invalid_date: "Invalid date time"
+  no_mandatory: "No Mandatory"

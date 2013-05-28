@@ -54,13 +54,18 @@ class EstimationValue < ActiveRecord::Base
   # Verify if params val is validate
   def is_validate(val)
     pe_attribute = self.pe_attribute
+    #if value is mandatory and not fill => false
     if self.is_mandatory and val.blank?
       false
+    #if value is not mandatory and not fill => true
+    elsif val.blank?
+      true
+    #if value is filled...
     else
       #deserialize options to do something like that : ['integer', '>=', 50]
       array = pe_attribute.options.compact.reject { |s| s.nil? or s.empty? or s.blank? }
 
-      #test attribute type and check validity
+      #test attribute type and check validity (numeric = float and integer)
       if pe_attribute.attribute_type == "numeric"
 
         unless val.is_numeric?
@@ -72,9 +77,8 @@ class EstimationValue < ActiveRecord::Base
         unless array.empty?
           #number between 1 and 10 (ex : 3 = true, 15 = false, -5 = false)
           if pe_attribute.options[1] == "between"
-            v1 = pe_attribute.options[2].split(';').first.to_i
-            v2 = pe_attribute.options[2].split(';').last.to_i
-            puts pe_attribute.options[2]
+            v1 = pe_attribute.options[2].split(',').first.to_i
+            v2 = pe_attribute.options[2].split(',').last.to_i
             val.to_i.between?(v1, v2)
           else
             #ex : eval('val <= 42')
