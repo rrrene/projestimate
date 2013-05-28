@@ -100,6 +100,7 @@ class SessionsController < ApplicationController
         redirect_to root_url
       end
     else
+      cookies[:login_name] = { :value => params[:login_name], :expires => Time.now + 3600}
       flash[:warning] = I18n.t(:warning_session_bad_username)
       render :layout => 'login'
     end
