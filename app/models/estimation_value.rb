@@ -77,8 +77,8 @@ class EstimationValue < ActiveRecord::Base
         unless array.empty?
           #number between 1 and 10 (ex : 3 = true, 15 = false, -5 = false)
           if pe_attribute.options[1] == "between"
-            v1 = pe_attribute.options[2].split(',').first.to_i
-            v2 = pe_attribute.options[2].split(',').last.to_i
+            v1 = pe_attribute.options[2].split(';').first.to_i
+            v2 = pe_attribute.options[2].split(';').last.to_i
             val.to_i.between?(v1, v2)
           else
             #ex : eval('val <= 42')

@@ -34,6 +34,12 @@ class ModuleProject < ActiveRecord::Base
 
   default_scope :order => "position_x ASC, position_y ASC"
 
+  #Return the common attributes (previous, next)
+  def self.common_attributes(node1, node2)
+    #TODO: use same order
+    node1.output_attributes & node2.input_attributes
+  end
+
   #Return in a array next modules project of self.
   def following
     pos = self.position_y.to_i
@@ -68,11 +74,6 @@ class ModuleProject < ActiveRecord::Base
     res
   end
 
-  #Return the common attributes
-  def self.common_attributes(node1, node2)
-    node1.output_attributes & node2.input_attributes
-  end
-
   #Return the next module with link
   def next
     ModuleProject.find(ActiveRecord::Base.connection.execute("SELECT module_project_id FROM associated_module_projects WHERE associated_module_project_id = #{self.id}").first).first
@@ -80,7 +81,7 @@ class ModuleProject < ActiveRecord::Base
 
   #Return the previous module with link
   def previous
-    self.associated_module_projects
+    self.associated_module_projects.first
   end
 
   def links
