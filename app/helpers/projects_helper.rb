@@ -273,8 +273,13 @@ module ProjectsHelper
               else
                 readonly_option = wbs_project_elt.has_children? ? true : false
                 nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
-                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
-              end
+                if wbs_project_elt.is_root? || wbs_project_elt.has_children?
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  nil: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+
+                else
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                end
+               end
 
             end
             pe_attribute_alias = est_val.pe_attribute.alias
