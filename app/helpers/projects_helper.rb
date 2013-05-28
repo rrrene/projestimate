@@ -189,7 +189,8 @@ module ProjectsHelper
             last_estimation_result = nil
             refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
             refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            #refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
+            ##refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
+            #TODO Automatisation
             refer_module_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND project_id =? AND pbs_project_elements.id = ?", refer_module.id, current_project.id, pbs_project_element.id).last
 
             unless refer_module_project.nil?
@@ -257,14 +258,14 @@ module ProjectsHelper
                 end
 
                 if pbs_last_result.nil?
-                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-small  #{level} #{est_val.id}"}"
+                  res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nil, :class => "input-small  #{level} #{est_val.id}"}"
 
                 elsif wbs_project_elt.wbs_activity_element.nil?
                   if wbs_project_elt.is_root? || wbs_project_elt.has_children?
                     res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-small  #{level} #{est_val.id}"}"
                     readonly_option = true
                   else
-                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", "", :class => "input-small  #{level} #{est_val.id}"}"
+                    res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nil, :class => "input-small  #{level} #{est_val.id}"}"
                   end
                 else
                   res << "#{text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", pbs_last_result[wbs_project_elt.id][:value], :readonly => true, :class => "input-small #{level} #{est_val.id}"}"

@@ -70,7 +70,11 @@ module ModuleProjectsHelper
     number_of_not_null = 0
     input_data.each do |key, value|
       if value.is_a?(Integer) || value.is_a?(Float)
+        if key.to_s.eql?("ml")
+          number_of_not_null = number_of_not_null+4
+        else
         number_of_not_null = number_of_not_null+1
+        end
       else
         not_integer_or_float << "#{key.to_s}"
       end
@@ -94,38 +98,5 @@ module ModuleProjectsHelper
       computed_probable_value = sum_of_not_null / number_of_not_null
     end
     computed_probable_value
-  end
-
-
-
-  def probable_value_SAVE(results, estimation_value)
-    minimum = 0.0
-    most_likely = 0.0
-    maximum = 0.0
-    attribute_alias = estimation_value.pe_attribute.alias.to_sym
-    #puts "RESULT_FOR_PROBABLE = #{results}"
-    min_estimation_value = results[:low]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
-    most_likely_estimation_value = results[:most_likely]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
-    high_estimation_value = results[:high]["#{estimation_value.pe_attribute.alias}_#{estimation_value.module_project_id.to_s}".to_sym]
-
-    # Get the current estimation Module
-    estimation_pemodule = estimation_value.module_project.pemodule
-    if estimation_pemodule.yes_for_output_with_ratio? || estimation_pemodule.yes_for_output_without_ratio? || estimation_pemodule.yes_for_input_output_with_ratio? || estimation_pemodule.yes_for_input_output_without_ratio?
-      hash_data_probable = Hash.new
-
-      min_estimation_value.keys.each do |wbs_project_elt_id|
-        minimum = min_estimation_value[wbs_project_elt_id]
-        most_likely = most_likely_estimation_value[wbs_project_elt_id]
-        maximum = high_estimation_value[wbs_project_elt_id]
-
-        hash_data_probable[wbs_project_elt_id] = (minimum + 4*most_likely + maximum) / 6
-      end
-
-      hash_data_probable
-
-      # Probable is only calculated for PBS
-    else
-      data_probable =  (min_estimation_value.to_f + 4*most_likely_estimation_value.to_f + high_estimation_value.to_f) / 6
-    end
   end
 end

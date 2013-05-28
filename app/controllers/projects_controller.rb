@@ -437,6 +437,7 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   # Compute the input element value
   ## values_to_set : Hash
   def compute_tree_node_estimation_value(tree_root, values_to_set)
@@ -449,11 +450,59 @@ class ProjectsController < ApplicationController
       sorted_node_elements = node.subtree.order('ancestry_depth desc')
       sorted_node_elements.each do |wbs_project_element|
         if wbs_project_element.is_childless?
-          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s].to_f ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+          ###new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s].to_f ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s] ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
         else
-          node_effort = 0
+          node_effort = 0.0
           wbs_project_element.children.each do |child|
-            node_effort = node_effort + new_effort_man_hour[child.id] ###new_effort_man_hour[child.id][:value]
+            node_effort = node_effort + new_effort_man_hour[child.id].to_f ###new_effort_man_hour[child.id][:value]
+          end
+          #new_effort_man_hour[wbs_project_element.id] = node_effort ###{:value => node_effort}
+          new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
+        end
+      end
+
+      #compute the wbs root effort
+      ###root_element_effort_man_hour = root_element_effort_man_hour + new_effort_man_hour[node.id] ###new_effort_man_hour[node.id][:value]
+    end
+
+    new_effort_man_hour[tree_root.id] = compact_array_and_compute_node_value(tree_root, new_effort_man_hour) ###root_element_effort_man_hour
+    new_effort_man_hour
+  end
+
+  def compact_array_and_compute_node_value(node, effort_array)
+    tab = []
+    node.children.map do |child|
+      value = effort_array[child.id]
+      if value.is_a?(Integer) || value.is_a?(Float)
+        tab << value
+      end
+    end
+
+    if tab.empty?
+      nil
+    else
+      tab.compact!.sum
+    end
+  end
+
+
+  def compute_tree_node_estimation_value_SAVE(tree_root, values_to_set)
+    WbsProjectElement.rebuild_depth_cache!
+    new_effort_man_hour = Hash.new
+    root_element_effort_man_hour = 0.0
+
+    tree_root.children.each do |node|
+      # Sort node subtree by ancestry_depth
+      sorted_node_elements = node.subtree.order('ancestry_depth desc')
+      sorted_node_elements.each do |wbs_project_element|
+        if wbs_project_element.is_childless?
+          ###new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s].to_f ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s] ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+        else
+          node_effort = 0.0
+          wbs_project_element.children.each do |child|
+            node_effort = node_effort + new_effort_man_hour[child.id].to_f ###new_effort_man_hour[child.id][:value]
           end
           new_effort_man_hour[wbs_project_element.id] = node_effort ###{:value => node_effort}
         end
