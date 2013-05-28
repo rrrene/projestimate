@@ -351,7 +351,8 @@ module ProjectsHelper
                  options_for_select(
                      est_val.pe_attribute.options[2].split(';'),
                      :selected => (level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id])),
-                     :class => 'input-small'
+                     :class => 'input-small',
+                     :prompt => "Unset"
 
     elsif est_val.pe_attribute.attr_type == 'date'
 
@@ -362,7 +363,7 @@ module ProjectsHelper
     else #type = text
 
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     (level_estimation_values[pbs_project_element.id] == 0.0) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     (level_estimation_values[pbs_project_element.id].nil?) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
     end
   end
@@ -391,7 +392,7 @@ module ProjectsHelper
     begin
       I18n.l(date.to_date)
     rescue
-      I18n.t(:error_invalid_date)
+      nil
     end
   end
 
