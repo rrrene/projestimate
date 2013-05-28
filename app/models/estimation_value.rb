@@ -62,6 +62,13 @@ class EstimationValue < ActiveRecord::Base
 
       #test attribute type and check validity
       if pe_attribute.attribute_type == "numeric"
+
+        unless val.is_numeric?
+          #return false is value is not numeric
+          return false
+        end
+
+        #unless there are not conditions/options
         unless array.empty?
           #number between 1 and 10 (ex : 3 = true, 15 = false, -5 = false)
           if pe_attribute.options[1] == "between"
@@ -82,6 +89,7 @@ class EstimationValue < ActiveRecord::Base
         else
           return true
         end
+
       #test class of val but not really good beacause '15565' is also an string
       elsif pe_attribute.attribute_type == "string"
         val.class == String

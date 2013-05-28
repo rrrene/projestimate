@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('.attribute_tooltip').tooltip({'html' : true });
+
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();
         $('.icon-list').toggle();
