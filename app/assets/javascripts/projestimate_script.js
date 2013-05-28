@@ -46,7 +46,6 @@ $(document).ready(function() {
         }
     ));
 
-
     $('#states').change(
         function(){
             $.ajax({

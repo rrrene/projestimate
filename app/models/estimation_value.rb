@@ -68,6 +68,10 @@ class EstimationValue < ActiveRecord::Base
       #test attribute type and check validity (numeric = float and integer)
       if pe_attribute.attribute_type == "numeric"
 
+        if pe_attribute.attr_type == "integer"
+          return val.valid_integer?
+        end
+
         unless val.is_numeric?
           #return false is value is not numeric
           return false
