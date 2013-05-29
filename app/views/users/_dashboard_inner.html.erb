@@ -93,7 +93,7 @@
         <div class="widget-content tab-content">
           <div id="tab1" class="tab-pane active">
             <div class="output_data">
-              <%=raw sanitize(display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results, :tags => %w(table tr th td span h4), :attributes => %w(id class style title)) %>
+              <%=raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results %>
             </div>
           </div>
           <div id="tab2" class="tab-pane">
