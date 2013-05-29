@@ -129,7 +129,7 @@ module ProjectsHelper
             level_estimation_values = est_val.send("string_data_#{level}")
             #puts "ESTIMATION_VALUE = #{est_val}"
             #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
-            if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
+            if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value].nil?
               res << ' - '
             else
               res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
@@ -156,7 +156,7 @@ module ProjectsHelper
       if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
         res << "<td colspan='3'>"
         level_probable_value = mpa.send('string_data_probable')
-        if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id].nil?
+        if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id][:value].nil?
           res << '-'
         else
           res << "<div align='center'>#{level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id][:value]}</div>"
@@ -274,9 +274,9 @@ module ProjectsHelper
                 readonly_option = wbs_project_elt.has_children? ? true : false
                 nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
                 if wbs_project_elt.is_root? || wbs_project_elt.has_children?
-                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  nil: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
                 else
-                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
                 end
                end
 

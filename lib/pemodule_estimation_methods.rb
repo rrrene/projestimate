@@ -11,10 +11,11 @@ module PemoduleEstimationMethods
       end
     end
 
-    if tab.empty?
-      nil
-    else
-      tab.compact!.sum
+    estimation_value = nil
+    unless tab.empty?
+      estimation_value = tab.compact.sum
     end
+
+    estimation_value
   end
 end
