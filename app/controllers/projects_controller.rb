@@ -21,6 +21,7 @@
 class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
+  include PemoduleEstimationMethods
 
   helper_method :sort_column
   helper_method :sort_direction
@@ -455,9 +456,10 @@ class ProjectsController < ApplicationController
         else
           node_effort = 0.0
           wbs_project_element.children.each do |child|
-            node_effort = node_effort + new_effort_man_hour[child.id].to_f ###new_effort_man_hour[child.id][:value]
+            node_effort = node_effort + new_effort_man_hour[child.id].to_f
           end
-          #new_effort_man_hour[wbs_project_element.id] = node_effort ###{:value => node_effort}
+          #new_effort_man_hour[wbs_project_element.id] = node_effort
+
           new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
         end
       end
@@ -468,22 +470,6 @@ class ProjectsController < ApplicationController
 
     new_effort_man_hour[tree_root.id] = compact_array_and_compute_node_value(tree_root, new_effort_man_hour) ###root_element_effort_man_hour
     new_effort_man_hour
-  end
-
-  def compact_array_and_compute_node_value(node, effort_array)
-    tab = []
-    node.children.map do |child|
-      value = effort_array[child.id]
-      if value.is_a?(Integer) || value.is_a?(Float)
-        tab << value
-      end
-    end
-
-    if tab.empty?
-      nil
-    else
-      tab.compact!.sum
-    end
   end
 
 
