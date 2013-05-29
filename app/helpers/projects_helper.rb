@@ -183,6 +183,7 @@ module ProjectsHelper
 
         ##if module_project.pemodule.with_activities
         if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
+
           if module_project.pemodule.alias == 'wbs_activity_completion'
             @defined_status = RecordStatus.find_by_name('Defined')
 
@@ -198,15 +199,71 @@ module ProjectsHelper
             end
             ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
             res << display_inputs_with_activities(module_project, last_estimation_result)
+          elsif module_project.pemodule.alias == 'effort_balancing'
+            res << display_effort_balancing(module_project, last_estimation_result)
           else
             res << display_inputs_with_activities(module_project)
           end
+
         elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
           res << display_inputs_without_activities(module_project)
         end
       end
     end
     res
+  end
+
+  def display_effort_balancing(module_project, last_estimation_result)
+    pbs_project_element = @pbs_project_element || current_project.root_component
+    res = String.new
+    if module_project.compatible_with(current_component.work_element_type.alias) || current_component
+      pemodule = Pemodule.find(module_project.pemodule.id)
+      res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
+      res << "<table class='table table-condensed table-bordered'>"
+
+      res << '<tr>
+                <th></th>'
+        module_project.previous.each_with_index do |est,i|
+          res << "<th>Estimation - #{i}</th>"
+        end
+        module_project.estimation_values.each do |est_val|
+          if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
+            res << "<th><span class='attribute_tooltip' title='#{est_val.pe_attribute.description} #{display_rule(est_val)}' rel='tooltip'>#{est_val.pe_attribute.name}</span></th>"
+          end
+        end
+
+      res << '</tr>'
+
+        module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+          res << "<tr>
+                    <td>
+                      <span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
+          res << '</td>'
+          module_project.previous.each do |mp|
+
+            mp.estimation_values.select{|i| i.in_out == 'output'}.each do |est_val|
+              level_estimation_values = Hash.new
+              level_estimation_values = est_val.send("string_data_probable")
+
+                res << '<td>'
+                  if level_estimation_values
+                    res << text_field_tag("", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value] , :readonly => true, :class => "input-small #{est_val.id}")
+                  end
+                res << '</td>'
+              end
+          end
+
+          module_project.estimation_values.select{|i| i.in_out == 'input'}.each do |est_val|
+            res << '<td>'
+            res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", '', :class => "input-small #{est_val.id}"}"
+            res << '</td>'
+          end
+
+          res << '</tr>'
+        end
+      res << '</table>'
+    end
+
   end
 
   def display_inputs_with_activities(module_project, last_estimation_result=nil)

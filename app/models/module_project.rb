@@ -44,13 +44,13 @@ class ModuleProject < ActiveRecord::Base
   #Return in a array next modules project of self.
   def following
     pos = self.position_y.to_i
-    mps = ModuleProject.where(:position_y => (pos + 1), :project_id => self.project.id)
+    mps = ModuleProject.where("position_y > #{pos} AND project_id = #{self.project.id}")
   end
 
   #Return in a array previous modules project of self.
   def preceding
     pos = self.position_y.to_i
-    mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
+    mps = ModuleProject.where("position_y < #{pos} AND project_id = #{self.project.id}")
   end
 
   #Return the outputs attributes of a module_projects
