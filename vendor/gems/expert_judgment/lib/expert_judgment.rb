@@ -10,12 +10,7 @@ module ExpertJudgment
 
     def initialize(elem)
       WbsProjectElement.rebuild_depth_cache!
-      ###elem[:effort_man_hour].blank? ? @effort_man_hour = nil : @effort_man_hour = elem[:effort_man_hour]
-      @effort_man_hour = elem[:effort_man_hour]
-
-
-      ##is_integer_or_float?(elem[:effort_man_hour]) ? @effort_man_hour = elem[:effort_man_hour] : @effort_man_hour = nil
-
+      elem[:effort_man_hour].blank? ? @effort_man_hour = nil : @effort_man_hour = elem[:effort_man_hour]
       set_minimum(elem)
       set_maximum(elem)
       set_most_likely(elem)
@@ -68,13 +63,7 @@ module ExpertJudgment
         sorted_node_elements = node.subtree.order('ancestry_depth desc')
         sorted_node_elements.each do |wbs_project_element|
           if wbs_project_element.is_childless?
-            ###new_effort_man_hour[wbs_project_element.id] = (@effort_man_hour[wbs_project_element.id.to_s].blank? ? 0 : @effort_man_hour[wbs_project_element.id.to_s].to_f)
-            new_effort_man_hour[wbs_project_element.id] = (is_integer_or_float?(@effort_man_hour[wbs_project_element.id.to_s]) ? @effort_man_hour[wbs_project_element.id.to_s].to_f : nil)
-            #if is_integer_or_float?(@effort_man_hour[wbs_project_element.id.to_s])
-            #  new_effort_man_hour[wbs_project_element.id] = @effort_man_hour[wbs_project_element.id.to_s].to_f
-            #else
-            #  new_effort_man_hour[wbs_project_element.id] = nil
-            #end
+            new_effort_man_hour[wbs_project_element.id] = (@effort_man_hour[wbs_project_element.id.to_s].blank? ? nil : @effort_man_hour[wbs_project_element.id.to_s].to_f)
           else
             node_effort = 0.0
             wbs_project_element.children.each do |child|
@@ -84,17 +73,12 @@ module ExpertJudgment
             new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
           end
         end
-
-        #compute the wbs root effort
-        ##root_element_effort_man_hour = root_element_effort_man_hour + new_effort_man_hour[node.id]
       end
 
-      ##TODO(REMOVE) new_effort_man_hour[@wbs_project_element_root.id] = root_element_effort_man_hour
       new_effort_man_hour[@wbs_project_element_root.id] = compact_array_and_compute_node_value(@wbs_project_element_root, new_effort_man_hour)
 
       new_effort_man_hour
     end
-
   end
 
 end
