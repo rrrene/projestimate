@@ -102,8 +102,12 @@ module ProjectsHelper
                <tr>
                  <th></th>"
 
+    # Get the module_project probable estimation values for showing element consistency
+    probable_est_value_for_consistency = nil
+
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
+        probable_est_value_for_consistency = mpa.send("string_data_probable")
         res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}'>#{mpa.pe_attribute.name}</span></th>"
       end
     end
@@ -118,8 +122,14 @@ module ProjectsHelper
     res << '</tr>'
 
     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+      pbs_probable_for_consistency = probable_est_value_for_consistency.nil? ? nil : probable_est_value_for_consistency[pbs_project_element.id]
+      wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
+      show_consistency_class = nil
+      unless wbs_project_elt_consistency
+        show_consistency_class = "<span class='consistency_class'> &#33; </span>"
+      end
       res << "<tr>
-                <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
+                <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name}</span></td>"
 
       ['low', 'most_likely', 'high', 'probable'].each do |level|
         res << '<td>'

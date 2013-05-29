@@ -55,7 +55,8 @@ module ModuleProjectsHelper
 
     # Probable is only calculated for PBS
     else
-      data_probable = compute_probable_value(min_estimation_value, most_likely_estimation_value, high_estimation_value)
+      probable_result = compute_probable_value(min_estimation_value, most_likely_estimation_value, high_estimation_value)
+      data_probable =  probable_result[:value]
     end
   end
 
@@ -66,6 +67,9 @@ module ModuleProjectsHelper
     not_integer_or_float = Array.new
     sum_of_not_null = 0.0
     computed_probable_value = 0.0
+
+    # leaf element consistency will be compute at the same time
+    consistency = false
 
     number_of_not_null = 0
     input_data.each do |key, value|
@@ -83,6 +87,7 @@ module ModuleProjectsHelper
     # If there is no null value, probable value is calculated normally as follow
     if not_integer_or_float.empty?
       computed_probable_value = (minimum.to_f + 4*most_likely.to_f + maximum.to_f) / 6
+      consistency = true
     else
       # One or more value is/are null
       input_data.each do |key, value|
@@ -97,6 +102,8 @@ module ModuleProjectsHelper
       # Calculate the probable value according to the number of not null value (sum is divide by the number od not null values)
       computed_probable_value = sum_of_not_null / number_of_not_null
     end
-    computed_probable_value
+
+    #computed_probable_value
+    {:value => computed_probable_value, :is_consistent => consistency}
   end
 end

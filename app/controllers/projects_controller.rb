@@ -395,7 +395,8 @@ class ProjectsController < ApplicationController
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
+                ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
+                level_estimation_value[@pbs_project_element.id]  =  set_element_value_with_activities(level_estimation_value_without_consistency)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
               end
@@ -407,13 +408,15 @@ class ProjectsController < ApplicationController
             probable_estimation_value = Hash.new
             probable_estimation_value = est_val.send("string_data_probable")
             ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
-            pbs_probable_est_value = probable_value(@results, est_val)
 
-            if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
-            else
-              probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
-            end
+            #pbs_probable_est_value = probable_value(@results, est_val)
+            #if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
+            #  probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
+            #else
+            #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
+            #end
+            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+
             out_result["string_data_probable"] = probable_estimation_value
           end
 
@@ -469,15 +472,28 @@ class ProjectsController < ApplicationController
     new_effort_man_hour
   end
 
+  #This method set result in DB with the :value key for node estimation value
+  def set_element_value_with_activities(estimation_result)
+    result_with_consistency = Hash.new
+    if !estimation_result.nil? && !estimation_result.eql?("-")
+      estimation_result.each do |wbs_project_elt_id, est_value|
+        result_with_consistency[wbs_project_elt_id] = {:value => est_value}
+      end
+    else
+      result_with_consistency = nil
+    end
+
+    result_with_consistency
+  end
 
   def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
     #unless estimation_result.nil? || estimation_result.eql?("-")
     if !estimation_result.nil? && !estimation_result.eql?("-")
       estimation_result.each do |wbs_project_elt_id, est_value|
-        consistency = true
+        consistency = false
         wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
-        if wbs_project_element.has_children?
+        if wbs_project_element.is_childless?
           if !module_project.pemodule.alias.to_s == "effort_breakdown" && wbs_project_element.has_new_complement_child?
             children_est_value = 0.0
             wbs_project_element.child_ids.each do |child_id|
@@ -487,6 +503,8 @@ class ProjectsController < ApplicationController
               consistency = false
             end
           end
+        else
+
         end
         result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
       end
