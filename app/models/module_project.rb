@@ -34,16 +34,54 @@ class ModuleProject < ActiveRecord::Base
 
   default_scope :order => "position_x ASC, position_y ASC"
 
+  #Return the common attributes (previous, next)
+  def self.common_attributes(node1, node2)
+    #TODO: use same order
+    node1.output_attributes & node2.input_attributes
+  end
+
   #Return in a array next modules project of self.
-  def next
+  def following
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos + 1), :project_id => self.project.id)
   end
 
   #Return in a array previous modules project of self.
-  def previous
+  def preceding
     pos = self.position_y.to_i
     mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
+  end
+
+  #Return the outputs attributes of a module_projects
+  def output_attributes
+    res = Array.new
+    self.estimation_values.each do |est_val|
+      if est_val.in_out == 'output'
+        res << est_val.pe_attribute
+      end
+    end
+    res
+  end
+
+  #Return the inputs attributes of a module_projects
+  def input_attributes
+    res = Array.new
+    self.estimation_values.each do |est_val|
+      if est_val.in_out == 'input'
+        res << est_val.pe_attribute
+      end
+    end
+    res
+  end
+
+  #Return the next module with link
+  def next
+    ModuleProject.find(ActiveRecord::Base.connection.execute("SELECT module_project_id FROM associated_module_projects WHERE associated_module_project_id = #{self.id}").first).first
+  end
+
+  #Return the previous module with link
+  def previous
+    self.associated_module_projects.first
   end
 
   def links

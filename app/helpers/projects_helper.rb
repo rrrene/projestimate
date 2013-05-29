@@ -60,29 +60,29 @@ module ProjectsHelper
     res << "<table class='table table-condensed table-bordered'>
                  <tr>
                    <th></th>"
-                    ["low", "most_likely", "high", "probable"].each do |level|
+                    ['low', 'most_likely', 'high', 'probable'].each do |level|
                       res << "<th>#{level.humanize}</th>"
                     end
-        res << "</tr>"
+        res << '</tr>'
 
-    module_project.estimation_values.where("in_out = ?", "output").each do |estimation_value|
-      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description} - #{display_rule(estimation_value)}'>#{estimation_value.pe_attribute.name}</span></td>"
+    module_project.estimation_values.where('in_out = ?', 'output').each do |estimation_value|
+      res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description} #{display_rule(estimation_value)}'>#{estimation_value.pe_attribute.name}</span></td>"
 
-      ["low", "most_likely", "high", "probable"].each do |level|
-        res << "<td>"
+      ['low', 'most_likely', 'high', 'probable'].each do |level|
+        res << '<td>'
         level_estimation_values = Hash.new
         level_estimation_values = estimation_value.send("string_data_#{level}")
         if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id].blank?
-          res << "-"
+          res << '-'
         else
           res << "#{pemodule_output(level_estimation_values, pbs_project_element, estimation_value)}"
         end
-        res << "</td>"
+        res << '</td>'
       end
-      res << "</tr>"
+      res << '</tr>'
     end
 
-    res << "</table>"
+    res << '</table>'
 
     res
   end
@@ -103,70 +103,70 @@ module ProjectsHelper
                  <th></th>"
 
     module_project.estimation_values.each do |mpa|
-      if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-        res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}'>#{mpa.pe_attribute.name}</span></th>"
+      if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
+        res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}'>#{mpa.pe_attribute.name}</span></th>"
       end
     end
-    res << "</tr>"
+    res << '</tr>'
 
     # We are showing for each PBS and/or ACTIVITY the (low, most_likely, high) values
-    res << "<tr>
-              <th></th>"
-              ["low", "most_likely", "high", "probable"].each do |level|
+    res << '<tr>
+              <th></th>'
+              ['low', 'most_likely', 'high', 'probable'].each do |level|
                 res << "<th>#{level.humanize}</th>"
               end
-    res << "</tr>"
+    res << '</tr>'
 
     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
       res << "<tr>
                 <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
 
-      ["low", "most_likely", "high", "probable"].each do |level|
-        res << "<td>"
-        module_project.estimation_values.where("in_out = ?", "output").each do |est_val|
-          if (est_val.in_out == "output" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
+      ['low', 'most_likely', 'high', 'probable'].each do |level|
+        res << '<td>'
+        module_project.estimation_values.where('in_out = ?', 'output').each do |est_val|
+          if (est_val.in_out == 'output' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
             level_estimation_values = Hash.new
             level_estimation_values = est_val.send("string_data_#{level}")
             #puts "ESTIMATION_VALUE = #{est_val}"
             #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?
-              res << " - "
+              res << ' - '
             else
               res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
               ###TODO res << "#{pemodule_output(level_estimation_values, pbs_project_element, est_val)}"
             end
           end
         end
-        res << "</td>"
+        res << '</td>'
       end
-      res << "</tr>"
+      res << '</tr>'
     end
 
     #Show the global result of the PBS
-    res << "<tr>
-              <td><strong>  </strong></td>"
-      ["low", "most_likely", "high", "probable"].each do |level|
-        res << "<td></td>"
+    res << '<tr>
+              <td><strong>  </strong></td>'
+      ['low', 'most_likely', 'high', 'probable'].each do |level|
+        res << '<td></td>'
       end
-    res << "</tr>"
+    res << '</tr>'
 
     # Show the probable values
     res << "<tr><td><strong> #{pbs_project_element.name} Probable Value </strong> </td>"
     module_project.estimation_values.each do |mpa|
-      if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
+      if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
         res << "<td colspan='3'>"
-        level_probable_value = mpa.send("string_data_probable")
+        level_probable_value = mpa.send('string_data_probable')
         if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id].nil?
-          res << "-"
+          res << '-'
         else
           res << "<div align='center'>#{level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id][:value]}</div>"
         end
-        res << "</td>"
-        res << "<td></td>"
+        res << '</td>'
+        res << '<td></td>'
       end
     end
-    res << "</tr>"
-    res << "</table>"
+    res << '</tr>'
+    res << '</table>'
 
     res
   end
@@ -189,12 +189,11 @@ module ProjectsHelper
             last_estimation_result = nil
             refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
             refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            ##refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
-            #TODO Automatisation
+            #refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
             refer_module_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND project_id =? AND pbs_project_elements.id = ?", refer_module.id, current_project.id, pbs_project_element.id).last
 
             unless refer_module_project.nil?
-              last_estimation_results = EstimationValue.where("in_out = ? AND pe_attribute_id = ? AND module_project_id = ?", "output", refer_attribute.id, refer_module_project.id).first
+              last_estimation_results = EstimationValue.where('in_out = ? AND pe_attribute_id = ? AND module_project_id = ?', 'output', refer_attribute.id, refer_module_project.id).first
               last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
             end
             ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
@@ -217,38 +216,38 @@ module ProjectsHelper
       pemodule = Pemodule.find(module_project.pemodule.id)
       res << "<h4>#{module_project.pemodule.title.humanize} - #{pbs_project_element.name}</h4>"
       res << "<table class='table table-condensed table-bordered'>"
-      res << "<tr>
-                <th></th>"
+      res << '<tr>
+                <th></th>'
       module_project.estimation_values.each do |mpa|
-        if (mpa.in_out == "output" or mpa.in_out=="both") and mpa.module_project.id == module_project.id
-          res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description}' rel='tooltip'>#{mpa.pe_attribute.name}</span></th>"
+        if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
+          res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}' rel='tooltip'>#{mpa.pe_attribute.name}</span></th>"
         end
       end
-      res << "</tr>"
+      res << '</tr>'
 
-      res << "<tr>
-                <th></th>"
-                ["low", "", "most_likely", "high"].each do |level|
+      res << '<tr>
+                <th></th>'
+                ['low', '', 'most_likely', 'high'].each do |level|
                   res << "<th>#{level.humanize}</th>"
                 end
-      res << "</tr>"
+      res << '</tr>'
 
       module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
         pe_attribute_alias = nil
-        level_parameter = ""
+        level_parameter = ''
         readonly_option = false
         res << "<tr><td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>" ###res << "<tr><td>#{wbs_project_elt.name}</td>"
 
-        ["low", "most_likely", "high"].each do |level|
-          res << "<td>"
-          module_project.estimation_values.where("in_out = ?", "input").each do |est_val|
-            if (est_val.in_out == "input" and est_val.module_project.id == module_project.id)
+        ['low', 'most_likely', 'high'].each do |level|
+          res << '<td>'
+          module_project.estimation_values.where('in_out = ?', 'input').each do |est_val|
+            if (est_val.in_out == 'input' and est_val.module_project.id == module_project.id)
               str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
               level_estimation_values = Hash.new
               level_estimation_values = est_val.send("string_data_#{level}")
 
               # For Wbs_Activity Complement module, input data are from last executed module
-              if module_project.pemodule.alias == "wbs_activity_completion"
+              if module_project.pemodule.alias == 'wbs_activity_completion'
                 pbs_last_result = nil
                 unless last_estimation_result.nil?
                   level_last_result = last_estimation_result.send("string_data_#{level}")
@@ -274,27 +273,31 @@ module ProjectsHelper
               else
                 readonly_option = wbs_project_elt.has_children? ? true : false
                 nullity_condition = (level_estimation_values.nil? or level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil?)
-                res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
-              end
+                if wbs_project_elt.is_root? || wbs_project_elt.has_children?
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  nil: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                else
+                  res << "#{ text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", nullity_condition ?  level_estimation_values["default_#{level}".to_sym]: level_estimation_values[pbs_project_element.id][wbs_project_elt.id], :readonly => readonly_option, :class => 'input-small' }"
+                end
+               end
 
             end
             pe_attribute_alias = est_val.pe_attribute.alias
           end
-          res << "</td>"
+          res << '</td>'
 
-          if level == "low"
+          if level == 'low'
             #Available to copy value
             input_id = "_#{pe_attribute_alias}_#{module_project.id}_#{wbs_project_elt.id}"
-            res << "<td>"
+            res << '<td>'
             unless readonly_option
               res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
             end
-            res << "</td>"
+            res << '</td>'
           end
         end
-       res << "</tr>"
+       res << '</tr>'
      end
-        res << "</table>"
+        res << '</table>'
       end
     res
   end
@@ -310,63 +313,66 @@ module ProjectsHelper
           res << "<table class='table table-condensed table-bordered'>
                       <tr>
                         <th></th>"
-                        ["low", "", "most_likely", "high"].each do |level|
+                        ['low', '', 'most_likely', 'high'].each do |level|
                           res << "<th>#{level.humanize}</th>"
                         end
-                      res << "</tr>"
+                      res << '</tr>'
             module_project.estimation_values.each do |est_val|
-              if (est_val.in_out == "input" or est_val.in_out=="both") and est_val.module_project.id == module_project.id
-                res << "<tr>"
-                res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val.pe_attribute.description}'>#{est_val.pe_attribute.name}</span></td>"
+              if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
+                res << '<tr>'
+                res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val.pe_attribute.description} #{display_rule(est_val)}'>#{est_val.pe_attribute.name}</span></td>"
                 level_estimation_values = Hash.new
-                ["low", "most_likely", "high"].each do |level|
+                ['low', 'most_likely', 'high'].each do |level|
                 level_estimation_values = est_val.send("string_data_#{level}")
                   res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
-                  if level == "low"
+                  if level == 'low'
                     input_id = "_#{est_val.pe_attribute.alias}_#{module_project.id}"
-                    res << "<td>"
+                    res << '<td>'
                       res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
-                    res << "</td>"
+                    res << '</td>'
                   end
                 end
               end
-              res << "</tr>"
+              res << '</tr>'
             end
-          res << "</table>"
+          res << '</table>'
       end
     res
   end
 
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    if est_val.pe_attribute.attr_type == "integer"
-      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
-                     :class => "input-small #{level} #{est_val.id}"
-    elsif est_val.pe_attribute.attr_type == "float"
-      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
-                     :class => "input-small #{level} #{est_val.id}"
-    elsif est_val.pe_attribute.attr_type == "list"
+    if est_val.pe_attribute.attr_type == 'integer' or est_val.pe_attribute.attr_type == 'float'
+
+      display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+
+    elsif est_val.pe_attribute.attr_type == 'list'
+
       select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
                  options_for_select(
-                     est_val.pe_attribute.options[2].split(";").map{|i| [i, i.underscore]},
-                     :selected => level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id]),
-                     :class => "input-small"
-    elsif est_val.pe_attribute.attr_type == "date"
+                     est_val.pe_attribute.options[2].split(';'),
+                     :selected => (level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id])),
+                     :class => 'input-small',
+                     :prompt => "Unset"
+
+    elsif est_val.pe_attribute.attr_type == 'date'
+
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                      display_date(level_estimation_values[pbs_project_element.id]),
+                      level_estimation_values[pbs_project_element.id].nil? ? display_date(level_estimation_values["default_#{level}".to_sym]) : display_date(level_estimation_values[pbs_project_element.id]),
                      :class => "input-small #{level} #{est_val.id} date-picker"
-    else
+
+    else #type = text
+
       text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     (level_estimation_values[pbs_project_element.id] == 0.0) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     (level_estimation_values[pbs_project_element.id].nil?) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}"
     end
   end
 
+  #Display pemodule output depending attribute type.
   def pemodule_output(level_estimation_values, pbs_project_element, estimation_value)
-    if estimation_value.pe_attribute.attr_type == "date"
+    if estimation_value.pe_attribute.attr_type == 'date'
       display_date(level_estimation_values[pbs_project_element.id])
-    elsif estimation_value.pe_attribute.attr_type == "float"
+    elsif estimation_value.pe_attribute.attr_type == 'float'
       begin
         if estimation_value.pe_attribute.precision
           level_estimation_values[pbs_project_element.id].round(estimation_value.pe_attribute.precision)
@@ -381,16 +387,41 @@ module ProjectsHelper
     end
   end
 
+  #Display a date depending user time zone
   def display_date(date)
     begin
       I18n.l(date.to_date)
     rescue
-      "Invalid date time"
+      nil
     end
   end
 
+  #Display text field tag depending of estimation plan.
+  #Some pemodules can take previous and computed values
+  def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    if module_project.previous
+      comm_attr = ModuleProject::common_attributes(module_project.previous, module_project)
+      if comm_attr.empty?
+        text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                       level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                       :class => "input-small #{level} #{est_val.id}"
+      else
+        estimation_value = EstimationValue.find_by_pe_attribute_id(comm_attr.first.id)
+        new_level_estimation_values = estimation_value.send("string_data_#{level}")
+        text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                       new_level_estimation_values[pbs_project_element.id],
+                       :class => "input-small #{level} #{est_val.id}"
+      end
+    else
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    end
+  end
+
+  #Display rule and options of an attribute in a bootstrap tooltip
   def display_rule(est_val)
-    "<br> Options : #{est_val.pe_attribute.options.join(' ')}"
+    "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong> <br> #{est_val.is_mandatory ? I18n.t(:mandatory) : I18n.t(:no_mandatory) }"
   end
 
 end
