@@ -21,6 +21,7 @@
 class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
+  include PemoduleEstimationMethods
 
   helper_method :sort_column
   helper_method :sort_direction
@@ -123,6 +124,10 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @wbs_activity_ratios = []
 
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
     defined_wbs_activities = WbsActivity.where('record_status_id = ?', @defined_status.id).all
     @wbs_activities = defined_wbs_activities.reject {|i| @project.included_wbs_activities.include?(i.id) }
     @wbs_activity_elements = []
@@ -164,6 +169,10 @@ class ProjectsController < ApplicationController
                                :project_security_level_id => params["group_securities_#{gpe.id}"])
       end
     end
+
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     if @project.update_attributes(params[:project])
       redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_successful_updated)}"
@@ -386,7 +395,8 @@ class ProjectsController < ApplicationController
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
+                ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
+                level_estimation_value[@pbs_project_element.id]  =  set_element_value_with_activities(level_estimation_value_without_consistency)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
               end
@@ -398,13 +408,15 @@ class ProjectsController < ApplicationController
             probable_estimation_value = Hash.new
             probable_estimation_value = est_val.send("string_data_probable")
             ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
-            pbs_probable_est_value = probable_value(@results, est_val)
 
-            if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
-            else
-              probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
-            end
+            #pbs_probable_est_value = probable_value(@results, est_val)
+            #if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
+            #  probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
+            #else
+            #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
+            #end
+            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+
             out_result["string_data_probable"] = probable_estimation_value
           end
 
@@ -437,39 +449,75 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   # Compute the input element value
   ## values_to_set : Hash
   def compute_tree_node_estimation_value(tree_root, values_to_set)
     WbsProjectElement.rebuild_depth_cache!
     new_effort_man_hour = Hash.new
-    root_element_effort_man_hour = 0.0
 
     tree_root.children.each do |node|
       # Sort node subtree by ancestry_depth
       sorted_node_elements = node.subtree.order('ancestry_depth desc')
       sorted_node_elements.each do |wbs_project_element|
         if wbs_project_element.is_childless?
-          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s].to_f ###{:value => values_to_set[wbs_project_element.id.to_s].to_f}
+          new_effort_man_hour[wbs_project_element.id] = values_to_set[wbs_project_element.id.to_s]
         else
-          node_effort = 0
-          wbs_project_element.children.each do |child|
-            node_effort = node_effort + new_effort_man_hour[child.id] ###new_effort_man_hour[child.id][:value]
-          end
-          new_effort_man_hour[wbs_project_element.id] = node_effort ###{:value => node_effort}
+          new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
         end
       end
-
-      #compute the wbs root effort
-      root_element_effort_man_hour = root_element_effort_man_hour + new_effort_man_hour[node.id] ###new_effort_man_hour[node.id][:value]
     end
 
-    new_effort_man_hour[tree_root.id] = root_element_effort_man_hour ###{:value => root_element_effort_man_hour}
+    new_effort_man_hour[tree_root.id] = compact_array_and_compute_node_value(tree_root, new_effort_man_hour) ###root_element_effort_man_hour
     new_effort_man_hour
+  end
+
+  #This method set result in DB with the :value key for node estimation value
+  def set_element_value_with_activities(estimation_result)
+    result_with_consistency = Hash.new
+    if !estimation_result.nil? && !estimation_result.eql?("-")
+      estimation_result.each do |wbs_project_elt_id, est_value|
+        result_with_consistency[wbs_project_elt_id] = {:value => est_value}
+      end
+    else
+      result_with_consistency = nil
+    end
+
+    result_with_consistency
+  end
+
+  def set_element_consistency(estimation_result, module_project)
+    result_with_consistency = Hash.new
+    #unless estimation_result.nil? || estimation_result.eql?("-")
+    if !estimation_result.nil? && !estimation_result.eql?("-")
+      estimation_result.each do |wbs_project_elt_id, est_value|
+        consistency = false
+        wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
+        if wbs_project_element.is_childless?
+          if !module_project.pemodule.alias.to_s == "effort_breakdown" && wbs_project_element.has_new_complement_child?
+            children_est_value = 0.0
+            wbs_project_element.child_ids.each do |child_id|
+              children_est_value =  children_est_value + estimation_result[child_id].to_f
+            end
+            if est_value.to_f != children_est_value.to_f
+              consistency = false
+            end
+          end
+        else
+
+        end
+        result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
+      end
+    else
+      result_with_consistency = nil
+    end
+
+    result_with_consistency
   end
 
 
   # After estimation, need to know if node value are consistent or not
-  def set_element_consistency(estimation_result, module_project)
+  def set_element_consistency_SAVE(estimation_result, module_project)
     result_with_consistency = Hash.new
     #unless estimation_result.nil? || estimation_result.eql?("-")
     if !estimation_result.nil? && !estimation_result.eql?("-")
@@ -520,12 +568,12 @@ class ProjectsController < ApplicationController
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
-          begin
+          #begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
-          rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
-            puts e.message
-          end
+          #rescue Exception => e
+          #  @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
+          #  puts e.message
+          #end
         end
       end
     end
