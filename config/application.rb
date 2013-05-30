@@ -15,7 +15,7 @@ module ProjestimateMaquette
 
     config.reload_plugins = true
 
-    config.autoload_paths += Dir["#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib"]
+    config.autoload_paths += Dir["#{config.root}/vendor/gems/cocomo_basic/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/expert_judgment/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/effort_breakdown/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/wbs_activity_completion/lib"]
@@ -23,7 +23,7 @@ module ProjestimateMaquette
     config.autoload_paths += Dir["#{config.root}/vendor/gems/sandbox/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/effort_balancing/lib"]
 
-    config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib)
+    config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/expert_judgment/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_breakdown/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/wbs_activity_completion/lib)
