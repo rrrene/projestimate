@@ -214,10 +214,10 @@ module ProjectsHelper
 
           res << '<td>'
           if level_estimation_values and level_estimation_values[pbs_project_element.id]
-            if level_estimation_values[pbs_project_element.id][wbs_project_elt.id]
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
-            else
+            if level_estimation_values[pbs_project_element.id] and level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
               res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
+            else
+              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
             end
           else
             res << "-"
@@ -313,9 +313,20 @@ module ProjectsHelper
               end
           end
 
-          module_project.estimation_values.select{|i| i.in_out == 'input'}.each do |est_val|
+          module_project.estimation_values.select{|i| i.in_out == 'output'}.each do |est_val|
             res << '<td>'
-            res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]", '', :class => "input-small #{est_val.id}"}"
+              level_estimation_values = Hash.new
+              level_estimation_values = est_val.send("string_data_most_likely")
+
+            if level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
+              res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
+                                       nil,
+                                       :class => "input-small #{est_val.id}"}"
+            else
+              res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
+                                       level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value],
+                                       :class => "input-small #{est_val.id}"}"
+            end
             res << '</td>'
           end
 
