@@ -368,7 +368,7 @@ class ProjectsController < ApplicationController
     @resultat = Array.new
     results = Hash.new
     ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
+      results[level.to_sym] = run_estimation_plan(params, level, current_project)
     end
 
     @module_projects = current_project.module_projects
@@ -415,7 +415,11 @@ class ProjectsController < ApplicationController
             #else
             #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
             #end
-            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            if est_val.pe_attribute.attribute_type == 'numeric'
+              probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            else
+              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val.pe_attribute.alias}_#{est_val.module_project_id.to_s}".to_sym]
+            end
 
             out_result["string_data_probable"] = probable_estimation_value
           end
@@ -427,11 +431,17 @@ class ProjectsController < ApplicationController
           ['low', 'most_likely', 'high'].each do |level|
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
-            pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            begin
+              pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            rescue
+              pbs_level_form_input = params[est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            end
 
             wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where("is_root = ?", true).first
             if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+              unless mp.pemodule.alias == 'effort_balancing'
+                level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+              end
             else
               level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
             end
@@ -554,7 +564,12 @@ class ProjectsController < ApplicationController
     project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
       module_project.estimation_values.sort!{ |a,b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
-          inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
+          if module_project.pemodule.alias == "effort_balancing"
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
+          else
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][module_project.id.to_s]
+          end
+
         end
 
         current_pbs_project_elt = current_component
