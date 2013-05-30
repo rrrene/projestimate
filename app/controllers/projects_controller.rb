@@ -389,7 +389,6 @@ class ProjectsController < ApplicationController
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
               ##level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
-
               level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
@@ -486,38 +485,9 @@ class ProjectsController < ApplicationController
     result_with_consistency
   end
 
-  def set_element_consistency(estimation_result, module_project)
-    result_with_consistency = Hash.new
-    #unless estimation_result.nil? || estimation_result.eql?("-")
-    if !estimation_result.nil? && !estimation_result.eql?("-")
-      estimation_result.each do |wbs_project_elt_id, est_value|
-        consistency = false
-        wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
-        if wbs_project_element.is_childless?
-          if !module_project.pemodule.alias.to_s == "effort_breakdown" && wbs_project_element.has_new_complement_child?
-            children_est_value = 0.0
-            wbs_project_element.child_ids.each do |child_id|
-              children_est_value =  children_est_value + estimation_result[child_id].to_f
-            end
-            if est_value.to_f != children_est_value.to_f
-              consistency = false
-            end
-          end
-        else
-
-        end
-        result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
-      end
-    else
-      result_with_consistency = nil
-    end
-
-    result_with_consistency
-  end
-
 
   # After estimation, need to know if node value are consistent or not
-  def set_element_consistency_SAVE(estimation_result, module_project)
+  def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
     #unless estimation_result.nil? || estimation_result.eql?("-")
     if !estimation_result.nil? && !estimation_result.eql?("-")
@@ -568,12 +538,12 @@ class ProjectsController < ApplicationController
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
-          #begin
+          begin
             @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
-          #rescue Exception => e
-          #  @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
-          #  puts e.message
-          #end
+          rescue Exception => e
+            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
+            puts e.message
+          end
         end
       end
     end

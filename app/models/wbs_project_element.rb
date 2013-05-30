@@ -96,4 +96,16 @@ class WbsProjectElement < ActiveRecord::Base
     has_new_additional_child
   end
 
+  # This method return all complement child of given node
+  def get_all_complement_children
+    children_tab = []
+    if self.has_children?
+      self.children.each do |child|
+        if child.wbs_activity_element.nil? && child.wbs_activity.nil?
+          tab << child.id
+        end
+      end
+    end
+  end
+
 end

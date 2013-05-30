@@ -126,7 +126,7 @@ module ProjectsHelper
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
       show_consistency_class = nil
       unless wbs_project_elt_consistency
-        show_consistency_class = "<span class='consistency_class'> &#33; </span>"
+        show_consistency_class = "<span class='consistency_class' title='#{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly'> &#33; </span>"
       end
       res << "<tr>
                 <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name}</span></td>"
@@ -195,25 +195,49 @@ module ProjectsHelper
         if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
           if module_project.pemodule.alias == "wbs_activity_completion"
             @defined_status = RecordStatus.find_by_name("Defined")
-
             last_estimation_result = nil
-            refer_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
-            refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-            #refer_module_project =  current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.where("pemodule_id = ?", refer_module.id).last
-            refer_module_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND project_id =? AND pbs_project_elements.id = ?", refer_module.id, current_project.id, pbs_project_element.id).last
+            effort_breakdown_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
 
-            unless refer_module_project.nil?
-              last_estimation_results = EstimationValue.where('in_out = ? AND pe_attribute_id = ? AND module_project_id = ?', 'output', refer_attribute.id, refer_module_project.id).first
-              last_estimation_result = last_estimation_results.nil? ? Hash.new : last_estimation_results
+            unless effort_breakdown_module.nil?
+              refer_module_potential_ids = module_project.associated_module_projects + module_project.inverse_associated_module_projects
+              #unless refer_module.empty?
+                refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
+                refer_modules_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND  project_id =? AND pbs_project_elements.id = ?", effort_breakdown_module.id, current_project.id, pbs_project_element.id)
+                refer_module_project = refer_modules_project.where(["module_project_id IN (?)", refer_module_potential_ids]).last
+                unless refer_module_project.nil?
+                  last_estimation_results = EstimationValue.where('in_out = ? AND pe_attribute_id = ? AND module_project_id = ?', 'output', refer_attribute.id, refer_module_project.id).first
+                  if last_estimation_results.nil?
+                    last_estimation_result = Hash.new
+                  else
+                    pe_wbs_project_activity = current_project.pe_wbs_projects.wbs_activity.first
+                    wbs_root = pe_wbs_project_activity.wbs_project_elements
+                    # Get all complement children
+                    complement_children = get_all_complement_children
+                    current_mp_est_value = module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
+                    ['low', 'most_likely', 'high'].each do |level|
+                      level_effort_breakdown_est_val =  last_estimation_result.send("string_data_#{level}")
+                      level_current_mp_est_val = current_mp_est_value.send("string_data_#{level}")
+                      if !level_current_mp_est_val.nil? || !level_current_mp_est_val.empty?
+                        pbs_level_value = level_current_mp_est_val[pbs_project_element.id]
+                        #if pbs_level_value.nil?
+                      else
+
+                      end
+                    end
+                    last_estimation_result = last_estimation_results
+                  end
+                end
+              #end
             end
-            ###puts "LAST_EFFORT_BREAkDOWN_RESULT = #{last_estimation_results}"
             res << display_inputs_with_activities(module_project, last_estimation_result)
+            # For Effort balancing module
           elsif module_project.pemodule.alias == 'effort_balancing'
             res << display_effort_balancing(module_project, last_estimation_result)
+            # For others module with Activities
           else
             res << display_inputs_with_activities(module_project)
           end
-
+          # For others modules that don't use WSB-Activities values in input
         elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
           res << display_inputs_without_activities(module_project)
         end
