@@ -47,7 +47,7 @@ module ModuleProjectsHelper
           maximum = high_estimation_value[wbs_project_elt_id]
 
           # Get the number of not null value
-          hash_data_probable[wbs_project_elt_id] =  compute_probable_value(minimum, most_likely, maximum)
+          hash_data_probable[wbs_project_elt_id] =  compute_probable_value(minimum, most_likely, maximum, estimation_value)
         end
       end
 
@@ -55,13 +55,13 @@ module ModuleProjectsHelper
 
     # Probable is only calculated for PBS
     else
-      probable_result = compute_probable_value(min_estimation_value, most_likely_estimation_value, high_estimation_value)
+      probable_result = compute_probable_value(min_estimation_value, most_likely_estimation_value, high_estimation_value, estimation_value)
       data_probable =  probable_result[:value]
     end
   end
 
   #Function that compute the probable value according to the number of nut null value
-  def compute_probable_value(minimum, most_likely, maximum)
+  def compute_probable_value(minimum, most_likely, maximum, estimation_value)
     # Get the number of not null value
     input_data = { :min => minimum, :ml => most_likely, :max => maximum }
     not_integer_or_float = Array.new
@@ -103,7 +103,12 @@ module ModuleProjectsHelper
       computed_probable_value = sum_of_not_null / number_of_not_null
     end
 
-    #computed_probable_value
+    #computed_probable_value according to the attribute type
+    if estimation_value.pe_attribute.attr_type.eql?("integer")
+      computed_probable_value = computed_probable_value.round
+    end
+
     {:value => computed_probable_value, :is_consistent => consistency}
   end
+
 end
