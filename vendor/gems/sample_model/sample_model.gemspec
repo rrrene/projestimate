@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'hamon_model/version'
+require 'sample_model/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'hamon_model'
-  gem.version       = HamonModel::VERSION
+  gem.name          = 'sample_model'
+  gem.version       = SampleModel::VERSION
   gem.authors       = 'Spirula'
   gem.email         = 'info@projestimate.org'
   gem.description   = %q{TODO: Write a gem description}

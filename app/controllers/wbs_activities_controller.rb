@@ -190,7 +190,7 @@ class WbsActivitiesController < ApplicationController
             ratio.save
           end
 
-          #Managing the compoment tree
+          #Managing the component tree
           new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
 
           new_wbs_activity_elements.each do |new_elt|

@@ -18,6 +18,7 @@
 #
 ########################################################################
 
+require 'cocomo_basic/version'
 module CocomoBasic
 
   #Definition of CocomoBasic
