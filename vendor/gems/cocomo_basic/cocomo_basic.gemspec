@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'expert_judgment/version'
+require 'cocomo_basic/version'
 
 Gem::Specification.new do |gem|
-  gem.name = 'expert_judgment'
-  gem.version = ExpertJudgment::VERSION
+  gem.name = 'cocomo_basic'
+  gem.version = CocomoBasic::VERSION
   gem.authors = 'Spirula'
   gem.email = 'info@projestimate.org'
-  gem.description = 'As a project owner an expert need the capability to fill 3 point-values for each WBS-activity-element (leaf) instancied on the project.'
-  gem.summary = 'Implementation of a basic Expert Judgement estimation method for ProjEstimate'
+  gem.summary = 'Implementation of Cocomo Basis (aka Cocomo 81-classic) estimation method for ProjEstimate'
+  gem.description = 'Basic COCOMO (Constructive Cost Model) computes software development effort (and cost) as a function of program size. Program size is expressed in estimated thousands of source lines of code (SLOC)'
   gem.license = 'AGPL-3'
   gem.homepage = 'http://projestimate.org/'
 
@@ -17,8 +17,4 @@ Gem::Specification.new do |gem|
   gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   gem.test_files = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = 'lib'
-
-  #Gem  dependencies: after install, the gem will create migration and run them
-  gem.add_development_dependency 'rake'
-
 end

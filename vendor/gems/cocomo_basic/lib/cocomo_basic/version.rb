@@ -18,6 +18,6 @@
 #
 ########################################################################
 
-module HamonModel
-  VERSION = "0.1.0"
+module CocomoBasic
+  VERSION = '0.1.0'
 end

@@ -4,16 +4,17 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'effort_breakdown/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "effort_breakdown"
-  gem.version       = EffortBreakdown::VERSION
-  gem.authors       = ["spirula-sga"]
-  gem.email         = ["salimata.gaye@spirula.fr"]
-  gem.description   = "This module distributes the Product global effort to its activities, using the ratio table"
-  gem.summary       = "Effort Breakdown"
-  gem.homepage      = ""
+  gem.name = 'effort_breakdown'
+  gem.version = EffortBreakdown::VERSION
+  gem.authors = 'Spirula'
+  gem.email = 'info@projestimate.org'
+  gem.description = 'This module split a global effort into effort per activities (i.e. effort per WBS-activity-elements) using a WBS-activity-ratio table.'
+  gem.summary = 'Implementation of a basic breakdown of the effort by activities for ProjEstimate'
+  gem.license = 'AGPL-3'
+  gem.homepage = 'http://projestimate.org/'
 
-  gem.files         = `git ls-files`.split($/)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
+  gem.files = `git ls-files`.split($/)
+  gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
+  gem.test_files = gem.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = 'lib'
 end
