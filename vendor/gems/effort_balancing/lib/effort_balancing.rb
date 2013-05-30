@@ -52,7 +52,7 @@ module EffortBalancing
           else
             node_effort = 0.0
             wbs_project_element.children.each do |child|
-              node_effort = node_effort + new_effort_man_hour[child.id]
+              node_effort = node_effort + new_effort_man_hour[child.id].to_f
             end
             new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
           end
