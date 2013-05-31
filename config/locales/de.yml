@@ -877,3 +877,5 @@ de:
   error_invalid_date: "Invalid date time"
   associable_attributes: "Associable attributes"
   no_mandatory: "No Mandatory"
+  label_precision: "Precision"
+  text_help_list_attribute: "(list of values ​​separated by semicolons)"
