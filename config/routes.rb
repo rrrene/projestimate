@@ -1,4 +1,4 @@
-ProjestimateMaquette::Application.routes.draw do
+Projestimate::Application.routes.draw do
   resources :versions
 
   resources :reference_values

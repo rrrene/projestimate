@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,35 +27,35 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :permissions
   has_and_belongs_to_many :organizations
 
-  belongs_to :language, :foreign_key => "language_id", :touch => true
-  belongs_to :auth_method, :foreign_key => "auth_type", :touch => true
+  belongs_to :language, :foreign_key => 'language_id', :touch => true
+  belongs_to :auth_method, :foreign_key => 'auth_type', :touch => true
 
   has_many :project_securities
-  has_many :authors, :foreign_key => "author_id", :class_name => "WbsProjectElement"
+  has_many :authors, :foreign_key => 'author_id', :class_name => 'WbsProjectElement'
 
   #Master and Special Data Tables
-  has_many :change_on_acquisition_categories, :foreign_key => "owner_id", :class_name => "AcquisitionCategory"
-  has_many :change_on_activity_categories,    :foreign_key => "owner_id", :class_name => "AcquisitionCategory"
-  has_many :change_on_attributes,             :foreign_key => "owner_id", :class_name => "PeAttribute"
-  has_many :change_on_attribute_modules,      :foreign_key => "owner_id", :class_name => "PeAttributeModule"
-  has_many :change_on_currencies,             :foreign_key => "owner_id", :class_name => "Currency"
-  has_many :change_on_event_types,            :foreign_key => "owner_id", :class_name => "EventType"
-  has_many :change_on_labor_categories,       :foreign_key => "owner_id", :class_name => "LaborCategory"
-  has_many :change_on_languages,              :foreign_key => "owner_id", :class_name => "Language"
-  has_many :change_on_master_settings,        :foreign_key => "owner_id", :class_name => "MasterSetting"
-  has_many :change_on_peicons,                :foreign_key => "owner_id", :class_name => "Peicon"
-  has_many :change_on_pemodules,              :foreign_key => "owner_id", :class_name => "Pemodule"
-  has_many :change_on_platform_categories,    :foreign_key => "owner_id", :class_name => "PlatformCategory"
-  has_many :change_on_project_areas,          :foreign_key => "owner_id", :class_name => "ProjectArea"
-  has_many :change_on_project_categories,     :foreign_key => "owner_id", :class_name => "ProjectCategory"
-  has_many :change_on_project_security_levels, :foreign_key => "owner_id", :class_name => "ProjectSecurityLevel"
-  has_many :change_on_record_statuses,         :foreign_key => "owner_id", :class_name => "RecordStatus"
-  has_many :change_on_work_element_types,      :foreign_key => "owner_id", :class_name => "WorkElementType"
+  has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
+  has_many :change_on_activity_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
+  has_many :change_on_attributes, :foreign_key => 'owner_id', :class_name => 'PeAttribute'
+  has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'PeAttributeModule'
+  has_many :change_on_currencies, :foreign_key => 'owner_id', :class_name => 'Currency'
+  has_many :change_on_event_types, :foreign_key => 'owner_id', :class_name => 'EventType'
+  has_many :change_on_labor_categories, :foreign_key => 'owner_id', :class_name => 'LaborCategory'
+  has_many :change_on_languages, :foreign_key => 'owner_id', :class_name => 'Language'
+  has_many :change_on_master_settings, :foreign_key => 'owner_id', :class_name => 'MasterSetting'
+  has_many :change_on_peicons, :foreign_key => 'owner_id', :class_name => 'Peicon'
+  has_many :change_on_pemodules, :foreign_key => 'owner_id', :class_name => 'Pemodule'
+  has_many :change_on_platform_categories, :foreign_key => 'owner_id', :class_name => 'PlatformCategory'
+  has_many :change_on_project_areas, :foreign_key => 'owner_id', :class_name => 'ProjectArea'
+  has_many :change_on_project_categories, :foreign_key => 'owner_id', :class_name => 'ProjectCategory'
+  has_many :change_on_project_security_levels, :foreign_key => 'owner_id', :class_name => 'ProjectSecurityLevel'
+  has_many :change_on_record_statuses, :foreign_key => 'owner_id', :class_name => 'RecordStatus'
+  has_many :change_on_work_element_types, :foreign_key => 'owner_id', :class_name => 'WorkElementType'
 
-  has_many :change_on_admin_settings, :foreign_key => "owner_id", :class_name => "AdminSetting"
-  has_many :change_on_auth_methods,   :foreign_key => "owner_id", :class_name => "AuthMethod"
-  has_many :change_on_groups,         :foreign_key => "owner_id", :class_name => "Group"
-  has_many :change_on_permissions,    :foreign_key => "owner_id", :class_name => "Permission"
+  has_many :change_on_admin_settings, :foreign_key => 'owner_id', :class_name => 'AdminSetting'
+  has_many :change_on_auth_methods, :foreign_key => 'owner_id', :class_name => 'AuthMethod'
+  has_many :change_on_groups, :foreign_key => 'owner_id', :class_name => 'Group'
+  has_many :change_on_permissions, :foreign_key => 'owner_id', :class_name => 'Permission'
 
   attr_accessor :password, :password_confirmation
 
@@ -65,12 +65,12 @@ class User < ActiveRecord::Base
   before_create { generate_token(:auth_token) }
 
   validates_presence_of :last_name, :first_name, :user_status, :auth_type
-  validates :login_name, :presence => true, :uniqueness => { case_sensitive: false }
-  validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i }, :uniqueness => {case_sensitive: false}
+  validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
+  validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i}, :uniqueness => {case_sensitive: false}
 
   validates :password, :presence => {:on => :create}, :confirmation => true
   validates :password_confirmation, :presence => {:on => :create}
-  validate :password_length, :on => :create, :if => "password.present?"
+  validate :password_length, :on => :create, :if => 'password.present?'
 
   #AASM
   aasm :column => :user_status do
@@ -101,14 +101,14 @@ class User < ActiveRecord::Base
   end
 
   scope :exists, lambda { |login|
-      where("email >= ? OR login_name < ?", login, login)
+    where('email >= ? OR login_name < ?', login, login)
   }
 
   #Check password minimum length value
   def password_length
     begin
       password_length = default_password_length = 4
-      user_as =  AdminSetting.find_by_key("password_min_length")
+      user_as = AdminSetting.find_by_key('password_min_length')
       if !user_as.nil?
         password_length = user_as.value.to_i
       end
@@ -124,15 +124,15 @@ class User < ActiveRecord::Base
 
   #return groups using for global permissions
   def group_for_global_permissions
-    self.groups.select{ |i| i.for_global_permission ==  true }
+    self.groups.select { |i| i.for_global_permission == true }
   end
 
   #return groups using for project securities
   def group_for_project_securities
-    self.groups.select{ |i| i.for_project_security ==  true }
+    self.groups.select { |i| i.for_project_security == true }
   end
 
-   # Allow to encrypt password
+  # Allow to encrypt password
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
@@ -143,11 +143,11 @@ class User < ActiveRecord::Base
   # Allow to identify the user before the connection.
   def self.authenticate(login, password)
     #login can be login_name or email
-    user = User.find(:first, :conditions => ["login_name = ? OR email = ?", login, login ])
+    user = User.find(:first, :conditions => ['login_name = ? OR email = ?', login, login])
 
     #if a user is found
     if user
-      if user.auth_method.name != "Application"
+      if user.auth_method.name != 'Application'
         begin
           user.ldap_authentication(password, login)
         rescue
@@ -168,14 +168,14 @@ class User < ActiveRecord::Base
   def ldap_authentication(password, login)
     self.auth_method.certificate ? use_ssl=:simple_tls : ''
     ldap_cn = Net::LDAP.new(:host => self.auth_method.server_name,
-                       :base => self.auth_method.base_dn,
-                       :port => self.auth_method.port.to_i,
-                       :encryption => use_ssl,
-                       :auth => {
-                           :method => :simple,
-                           :username => "#{self.auth_method.user_name_attribute.to_s}=#{self.login_name.to_s},#{self.auth_method.base_dn}",
-                           :password => password
-                       })
+                            :base => self.auth_method.base_dn,
+                            :port => self.auth_method.port.to_i,
+                            :encryption => use_ssl,
+                            :auth => {
+                                :method => :simple,
+                                :username => "#{self.auth_method.user_name_attribute.to_s}=#{self.login_name.to_s},#{self.auth_method.base_dn}",
+                                :password => password
+                            })
     if ldap_cn.bind
       if self.active?
         self
@@ -197,9 +197,9 @@ class User < ActiveRecord::Base
     self.name
   end
 
-  # Returns "Firtname Name"
+  # Returns "First Name"
   def name
-    self.first_name + " " + self.last_name
+    self.first_name + ' ' + self.last_name
   end
 
   #Send email in order to reset user password
@@ -220,7 +220,7 @@ class User < ActiveRecord::Base
   #Search on first_name, last_name, email, login_name fields.
   def self.table_search(search)
     if search
-      where('first_name LIKE ? or last_name LIKE ? or email LIKE ? or login_name LIKE ? or user_status LIKE ?', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%" )
+      where('first_name LIKE ? or last_name LIKE ? or email LIKE ? or login_name LIKE ? or user_status LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
     else
       scoped
     end
@@ -232,9 +232,9 @@ class User < ActiveRecord::Base
     self.ten_latest_projects
   end
 
-  #Load user project securioties for selected project id
+  #Load user project securities for selected project id
   def project_securities_for_select(prj_id)
-    self.project_securities.select{ |i| i.project_id == prj_id }.first
+    self.project_securities.select { |i| i.project_id == prj_id }.first
   end
 
   #Add in the list of latest project a new project
@@ -256,11 +256,11 @@ class User < ActiveRecord::Base
 
   #List of Admin group
   def admin_groups
-    Group.find_all_by_name(["Admin", "MasterAdmin"])
+    Group.find_all_by_name(['Admin', 'MasterAdmin'])
   end
 
   def tz
-    self.time_zone.nil? ? "UTC" : self.time_zone
+    self.time_zone.nil? ? 'UTC' : self.time_zone
   end
 
   def locale

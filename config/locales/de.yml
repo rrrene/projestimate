@@ -227,7 +227,7 @@ de:
  #  Menu
   projects: "Projects"
   recent_project: "Recent projects"
-  accueil: "Home"
+  home: "Home"
   all_projects: "All projects"
   create_new_project: "Create a new project"
 
@@ -630,8 +630,8 @@ de:
   #wbs project elements
   edit_wbs_project_element: "Edit a project element"
   new_wbs_project_element: "New wbs project element"
-  additionnal_description: "Additional description"
-  exlude: "Exclude"
+  additional_description: "Additional description"
+  exclude: "Exclude"
   author: "Author"
 
   #work element type
@@ -714,7 +714,7 @@ de:
   warning_cant_update_yourself: "You can't update yourself, as you already are on Master Instance"
   same_schema_version: "Same schema version"
   notice_projestimate_data_successful_updated: "Projestimate data have been updated successfully."
-  reprository_up_to_date: "Your repository is up to date"
+  repository_up_to_date: "Your repository is up to date"
   notice_masterdata_already_latest: "You already have the latest MasterData."
   warning_db_schema_differ_to_masterdata: "Your local DB schema differ to the MasterData one, please check for modifications or run 'rake db:migrate' command "
   error_default_data_failed_update: "!!! WARNING - Error: Default data was not loaded, please investigate. Maybe run bundle exec rake sunspot:solr:start RAILS_ENV=your_environment"
@@ -877,3 +877,5 @@ de:
   error_invalid_date: "Invalid date time"
   associable_attributes: "Associable attributes"
   no_mandatory: "No Mandatory"
+  label_precision: "Precision"
+  text_help_list_attribute: "(list of values ​​separated by semicolons)"
