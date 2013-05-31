@@ -31,9 +31,9 @@ module SampleModel
       @m = input[:methodology].blank? ? @m = nil : @m = input[:methodology].to_f
     end
 
-    def get_effort_man_week
+    def get_effort_man_hour
       begin
-        (450/(@p+@m))*(1 - Math.exp(((-1)*@k*@k*0.01)/32))
+        34.96*(450/(@p+@m))*(1 - Math.exp(((-1)*@k*@k*0.01)/32))
       rescue
         nil
       end
