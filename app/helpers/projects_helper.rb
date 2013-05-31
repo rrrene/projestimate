@@ -193,6 +193,7 @@ module ProjectsHelper
 
         ##if module_project.pemodule.with_activities
         if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
+
           if module_project.pemodule.alias == "wbs_activity_completion"
             @defined_status = RecordStatus.find_by_name("Defined")
             last_estimation_result = nil
@@ -210,7 +211,8 @@ module ProjectsHelper
                     last_estimation_result = Hash.new
                   else
                     pe_wbs_project_activity = current_project.pe_wbs_projects.wbs_activity.first
-                    wbs_root = pe_wbs_project_activity.wbs_project_elements
+                    project_wbs_root = pe_wbs_project_activity.wbs_project_elements.where("is_added_wbs_root = ?", true).first
+
                     # Get all complement children
                     complement_children = get_all_complement_children
                     current_mp_est_value = module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
