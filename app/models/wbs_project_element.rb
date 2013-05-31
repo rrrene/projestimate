@@ -120,12 +120,13 @@ class WbsProjectElement < ActiveRecord::Base
   def get_all_complement_children
     children_tab = []
     if self.has_children?
-      self.children.each do |child|
+      self.descendants.each do |child|
         if child.wbs_activity_element.nil? && child.wbs_activity.nil?
-          tab << child.id
+          children_tab << child.id
         end
       end
     end
+    children_tab
   end
 
 end
