@@ -878,3 +878,5 @@ fr:
   tooltip_attribute_rules: "Règles de Validation"
   error_invalid_date: "date/heure Invalide"
   no_mandatory: "Non obligatoire"
+  label_precision: "Précision"
+  text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"

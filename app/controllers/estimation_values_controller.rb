@@ -61,4 +61,10 @@ class EstimationValuesController < ApplicationController
     send_data(@data, :type => "text/#{params[:type]}; header=present", :disposition => "attachment; filename=data.#{params[:type]}")
 
   end
+
+  def generate_pdf
+    #pdf = PDFKit.new('/404.html')
+    #send_data(pdf, :type => "application/pdf", :disposition => "inline", :filename => "data.pdf")
+  end
+
 end

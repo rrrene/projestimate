@@ -878,3 +878,5 @@ en-gb:
   tooltip_attribute_rules: "Validation rules"
   error_invalid_date: "Invalid date time"
   no_mandatory: "No Mandatory"
+  label_precision: "Precision"
+  text_help_list_attribute: "(list of values ​​separated by semicolons)"

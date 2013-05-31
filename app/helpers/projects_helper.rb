@@ -146,7 +146,6 @@ module ProjectsHelper
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value].nil?
               res << ' - '
             else
-              #res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
               res << "#{display_value(level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value], est_val)}"
             end
           end
@@ -217,7 +216,11 @@ module ProjectsHelper
             if level_estimation_values[pbs_project_element.id] and level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
               res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
             else
-              res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
+              if est_val.pe_attribute.attribute_type == "numeric"
+                res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value]}"
+              else
+                res << "#{level_estimation_values[pbs_project_element.id][wbs_project_elt.id]}"
+              end
             end
           else
             res << "-"
