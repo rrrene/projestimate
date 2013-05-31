@@ -37,8 +37,8 @@ class ModuleProject < ActiveRecord::Base
   default_scope :order => "position_x ASC, position_y ASC"
 
   #Return the common attributes (previous, next)
-  def self.common_attributes(node1, node2)
-    node1.output_attributes & node2.input_attributes
+  def self.common_attributes(mp1, mp2)
+    mp1.output_attributes & mp2.input_attributes
   end
 
   #Return in a array next modules project of self.
@@ -78,8 +78,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the next pemodule with link
   def next
     results = Array.new
-    tmp_results = Array.new
-    self.associated_module_projects.empty? ? tmp_results = self.inverse_associated_module_projects : tmp_results = self.associated_module_projects
+    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
     tmp_results.each do |r|
       if self.following.map(&:id).include?(r.id)
         results << r
@@ -91,8 +90,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the previous pemodule with link
   def previous
     results = Array.new
-    tmp_results = Array.new
-    self.associated_module_projects.empty? ? tmp_results = self.inverse_associated_module_projects : tmp_results = self.associated_module_projects
+    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
     tmp_results.each do |r|
       if self.preceding.map(&:id).include?(r.id)
         results << r

@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'hamon_model'
+    gem 'sandbox_model'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install hamon_model
+    $ gem install sandbox_model
 
 ## Usage
 

@@ -115,7 +115,8 @@ describe PeAttribute do
          ["Lower than or equal to", "<=" ],
          ["Lower than", "<" ],
          ["Equal to", "=="],
-         ["Not equal to", "!="]
+         ["Not equal to", "!="],
+         ["Between", "between"]
         ])
   end
 

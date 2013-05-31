@@ -42,7 +42,7 @@
                     <div class="portlet_<%= mp.id %>" >
                       <%# begin %>
                       <%# yield mp.pemodule.alias.to_sym %>
-                      <%= render "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:resultat => @resultat} %>
+                      <%= render "#{mp.pemodule.alias}/#{mp.pemodule.alias}.html.erb", :locals => {:result => @result} %>
                       <%# rescue %>
                       <!--<strong>Please verify module installation</strong>-->
                       <%# end %>

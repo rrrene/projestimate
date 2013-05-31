@@ -75,7 +75,7 @@ class ProjectsController < ApplicationController
       @project.transaction do
         if @project.save
           #New default Pe-Wbs-Project
-          pe_wbs_project_product  = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
+          pe_wbs_project_product = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
           pe_wbs_project_activity = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
 
           if pe_wbs_project_product.save
@@ -129,12 +129,12 @@ class ProjectsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     defined_wbs_activities = WbsActivity.where('record_status_id = ?', @defined_status.id).all
-    @wbs_activities = defined_wbs_activities.reject {|i| @project.included_wbs_activities.include?(i.id) }
+    @wbs_activities = defined_wbs_activities.reject { |i| @project.included_wbs_activities.include?(i.id) }
     @wbs_activity_elements = []
     @wbs_activities.each do |wbs_activity|
       elements_root = wbs_activity.wbs_activity_elements.elements_root.first
       unless elements_root.nil?
-        @wbs_activity_elements << elements_root  #wbs_activity.wbs_activity_elements.last.root
+        @wbs_activity_elements << elements_root #wbs_activity.wbs_activity_elements.last.root
       end
     end
   end
@@ -180,7 +180,7 @@ class ProjectsController < ApplicationController
       render(:edit)
     end
   end
-  
+
   def destroy_save
     @project = Project.find(params[:id])
     @project.destroy
@@ -195,21 +195,21 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     case params[:commit]
       when I18n.t('delete')
-        if params[:yes_confirmation] == "selected"
+        if params[:yes_confirmation] == 'selected'
           @project.destroy
           current_user.delete_recent_project(@project.id)
           session[:current_project_id] = current_user.projects.first
 
           #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => "Project was successfully deleted"
+          redirect_to projects_path, :notice => 'Project was successfully deleted'
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
-          render :template => "projects/confirm_deletion"
+          render :template => 'projects/confirm_deletion'
         end
       when I18n.t('cancel')
         redirect_to projects_path
       else
-        render :template => "projects/confirm_deletion"
+        render :template => 'projects/confirm_deletion'
     end
   end
 
@@ -245,7 +245,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:project_id])
     @prj_scrt = ProjectSecurity.find_by_user_id_and_project_id(@user.id, @project.id)
     if @prj_scrt.nil?
-      @prj_scrt = ProjectSecurity.create(:user_id => @user.id, :project_id =>  @project.id)
+      @prj_scrt = ProjectSecurity.create(:user_id => @user.id, :project_id => @project.id)
     end
 
     respond_to do |format|
@@ -260,7 +260,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:project_id])
     @prj_scrt = ProjectSecurity.find_by_group_id_and_project_id(@group.id, @project.id)
     if @prj_scrt.nil?
-      @prj_scrt = ProjectSecurity.create(:group_id => @user.id, :project_id =>  @project.id)
+      @prj_scrt = ProjectSecurity.create(:group_id => @user.id, :project_id => @project.id)
     end
 
     respond_to do |format|
@@ -281,7 +281,7 @@ class ProjectsController < ApplicationController
 
   end
 
-    #Updates the security according to the previous users
+  #Updates the security according to the previous users
   def update_project_security_level_group
     @group = Group.find(params[:group_id].to_i)
     @prj_scrt = ProjectSecurity.find_by_group_id_and_project_id(@group.id, current_project.id)
@@ -297,7 +297,7 @@ class ProjectsController < ApplicationController
   def add_module
     @project = Project.find(params[:project_id])
 
-    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ""
+    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
     else
       @pbs_project_element = @project.root_component
@@ -321,40 +321,40 @@ class ProjectsController < ApplicationController
       #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
       # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
       #@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
-        my_module_project.pemodule.attribute_modules.each do |am|
-          if am.in_out == 'both'
-            ['input', 'output'].each do |in_out|
-              mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
-                                              :module_project_id => my_module_project.id,
-                                              :in_out => in_out,
-                                              :is_mandatory => am.is_mandatory,
-                                              :description => am.description,
-                                              :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                                              :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                                              :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                                              :custom_attribute => am.custom_attribute,
-                                              :project_value => am.project_value )
-            end
-          else
-            mpa = EstimationValue.create(  :pe_attribute_id => am.pe_attribute.id,
-                                           :module_project_id => my_module_project.id,
-                                           :in_out => am.in_out,
-                                           :is_mandatory => am.is_mandatory,
-                                           :description => am.description,
-                                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                                           :custom_attribute => am.custom_attribute,
-                                           :project_value => am.project_value )
+      my_module_project.pemodule.attribute_modules.each do |am|
+        if am.in_out == 'both'
+          ['input', 'output'].each do |in_out|
+            mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                         :module_project_id => my_module_project.id,
+                                         :in_out => in_out,
+                                         :is_mandatory => am.is_mandatory,
+                                         :description => am.description,
+                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                                         :custom_attribute => am.custom_attribute,
+                                         :project_value => am.project_value)
           end
+        else
+          mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                       :module_project_id => my_module_project.id,
+                                       :in_out => am.in_out,
+                                       :is_mandatory => am.is_mandatory,
+                                       :description => am.description,
+                                       :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                       :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                       :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                                       :custom_attribute => am.custom_attribute,
+                                       :project_value => am.project_value)
         end
+      end
       #end
     end
   end
 
   def select_pbs_project_elements
     @project = Project.find(params[:project_id])
-    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ""
+    if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
     else
       @pbs_project_element = @project.root_component
@@ -365,10 +365,10 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation
-    @resultat = Array.new
+    @result = Array.new
     results = Hash.new
     ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params[level], level, current_project)
+      results[level.to_sym] = run_estimation_plan(params, level, current_project)
     end
 
     @module_projects = current_project.module_projects
@@ -377,7 +377,7 @@ class ProjectsController < ApplicationController
     @pbs_project_element = current_component
 
     #Save output values: only for current pbs_project_element
-    @project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
+    @project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|
@@ -395,7 +395,7 @@ class ProjectsController < ApplicationController
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
                 ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
-                level_estimation_value[@pbs_project_element.id]  =  set_element_value_with_activities(level_estimation_value_without_consistency)
+                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
               end
@@ -405,7 +405,7 @@ class ProjectsController < ApplicationController
 
             # compute the probable value for each node
             probable_estimation_value = Hash.new
-            probable_estimation_value = est_val.send("string_data_probable")
+            probable_estimation_value = est_val.send('string_data_probable')
             ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
 
             #pbs_probable_est_value = probable_value(@results, est_val)
@@ -414,9 +414,13 @@ class ProjectsController < ApplicationController
             #else
             #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
             #end
-            probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            if est_val.pe_attribute.attribute_type == 'numeric'
+              probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+            else
+              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val.pe_attribute.alias}_#{est_val.module_project_id.to_s}".to_sym]
+            end
 
-            out_result["string_data_probable"] = probable_estimation_value
+            out_result['string_data_probable'] = probable_estimation_value
           end
 
           est_val.update_attributes(out_result)
@@ -426,11 +430,17 @@ class ProjectsController < ApplicationController
           ['low', 'most_likely', 'high'].each do |level|
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
-            pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            begin
+              pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            rescue
+              pbs_level_form_input = params[est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+            end
 
-            wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where("is_root = ?", true).first
+            wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where('is_root = ?', true).first
             if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+              unless mp.pemodule.alias == 'effort_balancing'
+                level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+              end
             else
               level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
             end
@@ -474,7 +484,7 @@ class ProjectsController < ApplicationController
   #This method set result in DB with the :value key for node estimation value
   def set_element_value_with_activities(estimation_result)
     result_with_consistency = Hash.new
-    if !estimation_result.nil? && !estimation_result.eql?("-")
+    if !estimation_result.nil? && !estimation_result.eql?('-')
       estimation_result.each do |wbs_project_elt_id, est_value|
         result_with_consistency[wbs_project_elt_id] = {:value => est_value}
       end
@@ -490,15 +500,15 @@ class ProjectsController < ApplicationController
   def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
     #unless estimation_result.nil? || estimation_result.eql?("-")
-    if !estimation_result.nil? && !estimation_result.eql?("-")
+    if !estimation_result.nil? && !estimation_result.eql?('-')
       estimation_result.each do |wbs_project_elt_id, est_value|
         consistency = true
         wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
         if wbs_project_element.has_children?
-          if !module_project.pemodule.alias.to_s == "effort_breakdown" && wbs_project_element.has_new_complement_child?
+          if !module_project.pemodule.alias.to_s == 'effort_breakdown' && wbs_project_element.has_new_complement_child?
             children_est_value = 0.0
             wbs_project_element.child_ids.each do |child_id|
-              children_est_value =  children_est_value + estimation_result[child_id].to_f
+              children_est_value = children_est_value + estimation_result[child_id].to_f
             end
             if est_value.to_f != children_est_value.to_f
               consistency = false
@@ -521,14 +531,19 @@ class ProjectsController < ApplicationController
     @result_hash = Hash.new
     inputs = Hash.new
 
-    project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
-      module_project.estimation_values.sort!{ |a,b| a.in_out <=> b.in_out }.each do |est_val|
+    project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
+      module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
-          inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
+          if module_project.pemodule.alias == 'effort_balancing'
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
+          else
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][module_project.id.to_s]
+          end
+
         end
 
         current_pbs_project_elt = current_component
-        current_module = "#{module_project.pemodule.alias.camelcase.constantize}::#{module_project.pemodule.alias.camelcase.constantize}".gsub(" ", "").constantize
+        current_module = "#{module_project.pemodule.alias.camelcase.constantize}::#{module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
 
         #Need to add input for pbs_project_element and module_project
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
@@ -548,7 +563,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    puts "RESULT_HASH [#{level}] = #{@result_hash}"  #Ex: RESULT_HASH = {:effort_man_hour=>{"337"=>18000.0, "338"=>12000.0}}
+    puts "RESULT_HASH [#{level}] = #{@result_hash}" #Ex: RESULT_HASH = {:effort_man_hour=>{"337"=>18000.0, "338"=>12000.0}}
     @result_hash
   end
 
@@ -558,20 +573,20 @@ class ProjectsController < ApplicationController
     begin
       old_prj = Project.find(params[:project_id])
 
-      new_prj = old_prj.amoeba_dup   #amoeba gem is configured in Project class model
+      new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
 
       if new_prj.save
-        old_prj.save  #Original project copy number will be incremented to 1
+        old_prj.save #Original project copy number will be incremented to 1
 
-        #Managing the compoment tree
+        #Managing the component tree
         new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
 
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
             new_c.ancestor_ids.each do |ancestor_id|
-               ancestor_id = PbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
-               new_ancestor_ids_list.push(ancestor_id)
+              ancestor_id = PbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
             end
             new_c.ancestry = new_ancestor_ids_list.join('/')
             new_c.save
@@ -649,41 +664,41 @@ class ProjectsController < ApplicationController
                                                 :wbs_activity_id => selected_wbs_activity_elt.wbs_activity_id, :name => selected_wbs_activity_elt.name,
                                                 :description => selected_wbs_activity_elt.description, :ancestry => @wbs_project_elements_root.id,
                                                 :author_id => current_user.id, :copy_number => 0,
-                                                :wbs_activity_ratio_id => params[:project_default_wbs_activity_ratio],  # Update Project default Wbs-Activity-Ratio
+                                                :wbs_activity_ratio_id => params[:project_default_wbs_activity_ratio], # Update Project default Wbs-Activity-Ratio
                                                 :is_added_wbs_root => true)
 
     selected_wbs_activity_children = selected_wbs_activity_elt.children
 
     respond_to do |format|
       #wbs_project_element.transaction do
-        if wbs_project_element.save
-          selected_wbs_activity_children.each do |child|
-            create_wbs_activity_from_child(child, @pe_wbs_project_activity, @wbs_project_elements_root)
-          end
-
-          #add some additional information for leaf element customization
-          added_wbs_project_elements =  WbsProjectElement.find_all_by_wbs_activity_id_and_pe_wbs_project_id(wbs_project_element.wbs_activity_id, @pe_wbs_project_activity.id)
-          added_wbs_project_elements.each do |project_elt|
-            if project_elt.has_children?
-              project_elt.can_get_new_child = false
-            else
-              project_elt.can_get_new_child = true
-            end
-            project_elt.save
-          end
-
-          @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
-          if @project.save
-            flash[:notice] = I18n.t (:notice_wbs_activity_successful_added)
-          else
-            flash[:error] = "#{@project.errors.full_messages.to_sentence}"
-          end
-        else
-          flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
+      if wbs_project_element.save
+        selected_wbs_activity_children.each do |child|
+          create_wbs_activity_from_child(child, @pe_wbs_project_activity, @wbs_project_elements_root)
         end
+
+        #add some additional information for leaf element customization
+        added_wbs_project_elements = WbsProjectElement.find_all_by_wbs_activity_id_and_pe_wbs_project_id(wbs_project_element.wbs_activity_id, @pe_wbs_project_activity.id)
+        added_wbs_project_elements.each do |project_elt|
+          if project_elt.has_children?
+            project_elt.can_get_new_child = false
+          else
+            project_elt.can_get_new_child = true
+          end
+          project_elt.save
+        end
+
+        @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
+        if @project.save
+          flash[:notice] = I18n.t (:notice_wbs_activity_successful_added)
+        else
+          flash[:error] = "#{@project.errors.full_messages.to_sentence}"
+        end
+      else
+        flash[:error] = "#{wbs_project_element.errors.full_messages.to_sentence}"
+      end
       #end
-        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3')}
-        format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3')}
+      format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
+      format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
     end
   end
 
@@ -700,7 +715,7 @@ class ProjectsController < ApplicationController
 
   def create_wbs_activity_from_child(node, pe_wbs_activity, wbs_elt_root)
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
-                                                 :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity, wbs_elt_root), :author_id => current_user.id, :copy_number => 0)
+                                                :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity, wbs_elt_root), :author_id => current_user.id, :copy_number => 0)
     wbs_project_element.transaction do
       wbs_project_element.save
 

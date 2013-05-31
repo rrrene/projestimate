@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 require File.expand_path('../boot', __FILE__)
 
 require 'csv'
@@ -10,24 +30,24 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module ProjestimateMaquette
+module Projestimate
   class Application < Rails::Application
 
     config.reload_plugins = true
 
-    config.autoload_paths += Dir["#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib"]
+    config.autoload_paths += Dir["#{config.root}/vendor/gems/cocomo_basic/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/expert_judgment/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/effort_breakdown/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/wbs_activity_completion/lib"]
-    config.autoload_paths += Dir["#{config.root}/vendor/gems/hamon_model/lib"]
+    config.autoload_paths += Dir["#{config.root}/vendor/gems/sample_model/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/sandbox/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/effort_balancing/lib"]
 
-    config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic-0.0.1/lib)
+    config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/expert_judgment/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_breakdown/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/wbs_activity_completion/lib)
-    config.autoload_paths += %W(#{config.root}/vendor/gems/hamon_model/lib)
+    config.autoload_paths += %W(#{config.root}/vendor/gems/sample_model/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/sandbox/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/app)

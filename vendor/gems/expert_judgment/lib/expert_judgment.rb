@@ -1,3 +1,22 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
 require 'expert_judgment/version'
 
 module ExpertJudgment
@@ -38,7 +57,7 @@ module ExpertJudgment
     end
 
     def set_probable
-      ( (@minimum + (4*@most_likely) + @maximum) / 6 )
+      ((@minimum + (4*@most_likely) + @maximum) / 6)
     end
 
     #Set the WBS-activity node elements effort using aggregation (sum) of child elements (from the bottom up)
@@ -50,7 +69,7 @@ module ExpertJudgment
       @pbs_project_element = PbsProjectElement.find(elem[:pbs_project_element_id])
       current_project = @pbs_project_element.pe_wbs_project.project
       pe_wbs_project_activity = current_project.pe_wbs_projects.wbs_activity.first
-      @wbs_project_element_root = pe_wbs_project_activity.wbs_project_elements.where("is_root = ?", true).first
+      @wbs_project_element_root = pe_wbs_project_activity.wbs_project_elements.where('is_root = ?', true).first
     end
 
     #GETTERS

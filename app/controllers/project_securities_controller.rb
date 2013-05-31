@@ -22,7 +22,7 @@ class ProjectSecuritiesController < ApplicationController
 
   def index
     set_page_title 'Projects Securities'
-    @project_securitiy_levels = ProjectSecurityLevel.all
+    @project_security_levels = ProjectSecurityLevel.all
     @permissions = @permissions = Permission.all.select{|i| i.is_permission_project }
   end
 

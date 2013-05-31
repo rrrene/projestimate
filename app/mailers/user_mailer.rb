@@ -49,7 +49,7 @@ class UserMailer < ActionMailer::Base
     reset_locale
   end
 
-  #Confirm validation of account - password is writed
+  #Confirm validation of account - password is written
   def account_validate(user)
     @user = user
     I18n.locale = user.locale
@@ -58,7 +58,7 @@ class UserMailer < ActionMailer::Base
     reset_locale
   end
 
-  #Confirm validation of account - the password is not writed
+  #Confirm validation of account - the password is not written
   def account_validate_no_pw(user)
     @user = user
     I18n.locale = user.locale
@@ -98,5 +98,5 @@ class UserMailer < ActionMailer::Base
   def reset_locale
     I18n.locale = OLD_LOCALE
   end
-  
+
 end
