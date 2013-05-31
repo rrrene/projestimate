@@ -39,9 +39,9 @@ module SampleModel
       end
     end
 
-    def get_schedule
+    def get_delay
       begin
-        (@k/2.5)*(1+(@r/10))
+        152*(@k/2.5)*(1+(@r/10))
       rescue
         nil
       end
