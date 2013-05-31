@@ -229,7 +229,7 @@ en:
  #  Menu
   projects: "Projects"
   recent_project: "Recent projects"
-  accueil: "Home"
+  home: "Home"
   all_projects: "All projects"
   create_new_project: "Create a new project"
 
@@ -632,7 +632,7 @@ en:
   #wbs project elements
   edit_wbs_project_element: "Edit a project element"
   new_wbs_project_element: "New wbs project element"
-  additionnal_description: "Additional description"
+  additional_description: "Additional description"
   exclude: "Exclude"
   author: "Author"
 
