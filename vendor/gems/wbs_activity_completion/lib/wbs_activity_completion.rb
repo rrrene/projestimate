@@ -15,7 +15,7 @@ module WbsActivityCompletion
     # The Output result
     def get_effort_man_hour
       output_effort_man_hour = Hash.new
-      @inputs_effort_man_hour.each {|key, value| output_effort_man_hour[key.to_i] = value.to_f}
+      @inputs_effort_man_hour.each {|key, value| output_effort_man_hour[key.to_i] = value.blank? ? nil : value.to_f}
       output_effort_man_hour
     end
   end
