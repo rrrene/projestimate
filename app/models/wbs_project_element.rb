@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 class WbsProjectElement < ActiveRecord::Base
 
   has_ancestry :cache_depth => true
@@ -5,8 +25,8 @@ class WbsProjectElement < ActiveRecord::Base
   belongs_to :pe_wbs_project
   belongs_to :wbs_activity_element
   belongs_to :wbs_activity
-  belongs_to :wbs_activity_ratio  #Default Wbs-Activity-Ratio
-  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
+  belongs_to :wbs_activity_ratio #Default Wbs-Activity-Ratio
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 
   scope :elements_root, where(:is_root => true)
 
@@ -87,13 +107,26 @@ class WbsProjectElement < ActiveRecord::Base
   #Function that tell if a node has one or more children that are not from library
   def has_new_complement_child?
     has_new_additional_child = false
-    if self.has_children?  && !self.is_root?
+    if self.has_children? && !self.is_root?
       self.children.each do |child|
         has_new_additional_child = child.wbs_activity_element.nil? && child.wbs_activity.nil?
         break if has_new_additional_child
       end
     end
     has_new_additional_child
+  end
+
+  # This method return all complement child of given node
+  def get_all_complement_children
+    children_tab = []
+    if self.has_children?
+      self.descendants.each do |child|
+        if child.wbs_activity_element.nil? && child.wbs_activity.nil?
+          children_tab << child.id
+        end
+      end
+    end
+    children_tab
   end
 
 end

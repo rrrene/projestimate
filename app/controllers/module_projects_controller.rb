@@ -53,6 +53,10 @@ class ModuleProjectsController < ApplicationController
     @module_projects = @project.module_projects
     @references_values = ReferenceValue.all
 
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
 
@@ -77,6 +81,10 @@ class ModuleProjectsController < ApplicationController
       end
       est_val.update_attribute('description', params["description_#{est_val.id}_#{est_val.in_out}"])
     end
+
+    # Get the project's max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end

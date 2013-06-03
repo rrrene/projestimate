@@ -43,7 +43,7 @@ class HomesController < ApplicationController
             $latest_update = Time.now #Rails.cache.write("$latest_update", Time.now)
             flash[:notice] = I18n.t (:notice_projestimate_data_successful_updated)
           else
-            puts I18n.t (:reprository_up_to_date)
+            puts I18n.t (:repository_up_to_date)
             flash[:notice] =  I18n.t (:notice_masterdata_already_latest)
           end
 

@@ -44,14 +44,14 @@ class Project < ActiveRecord::Base
 
   #serialize :ten_latest_projects
   validates_presence_of :state
-  validates  :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
+  validates :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
 
   searchable do
     text :title, :description, :alias
   end
 
   #ASSM needs
-  aasm :column => :state do  # defaults to aasm_state
+  aasm :column => :state do # defaults to aasm_state
     state :preliminary, :initial => true
     state :in_progress
     state :in_review
@@ -83,7 +83,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.encoding
-    ["Big5", "CP874", "CP932", "CP949", "gb18030", "ISO-8859-1", "ISO-8859-13", "ISO-8859-15", "ISO-8859-2", "ISO-8859-8", "ISO-8859-9", "UTF-8", "Windows-874"]
+    ['Big5', 'CP874', 'CP932', 'CP949', 'gb18030', 'ISO-8859-1', 'ISO-8859-13', 'ISO-8859-15', 'ISO-8859-2', 'ISO-8859-8', 'ISO-8859-9', 'UTF-8', 'Windows-874']
   end
 
   #Return possible states of project
@@ -91,17 +91,17 @@ class Project < ActiveRecord::Base
     if self.preliminary? || self.in_progress? || self.in_review? || self.private?
       Project.aasm_states_for_select
     else
-      Project.aasm_states_for_select.reject{|i| i[0] == "preliminary" || i[0] == "in_progress" || i[0] == "in_review" || i[0] == "private" }
+      Project.aasm_states_for_select.reject { |i| i[0] == 'preliminary' || i[0] == 'in_progress' || i[0] == 'in_review' || i[0] == 'private' }
     end
   end
 
-  #Return the root pbs_project_element of the pe-wbs-project and consequetly of the project.
+  #Return the root pbs_project_element of the pe-wbs-project and consequently of the project.
   def root_component
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{ |i| i.is_root = true}.first unless self.pe_wbs_projects.wbs_product.first.nil?
+    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_product.first.nil?
   end
 
   def wbs_project_element_root
-    self.pe_wbs_projects.wbs_activity.first.wbs_project_elements.select{ |i| i.is_root = true}.first  unless self.pe_wbs_projects.wbs_activity.first.nil?
+    self.pe_wbs_projects.wbs_activity.first.wbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_activity.first.nil?
   end
 
   #Override
@@ -111,10 +111,10 @@ class Project < ActiveRecord::Base
 
   #Return project value
   def project_value(attr)
-    self.send(attr.project_value.gsub("_id", ''))
+    self.send(attr.project_value.gsub('_id', ''))
   end
 
-  #Execute a set of module (commun or typed) in the order (user order). Recursive method.
+  #Execute a set of module (common or typed) in the order (user order). Recursive method.
   #TODO : move to Pemodule class
   #def run_estimation_plan(input_data, level)
   ##def run_estimation_plan(current_pos, arguments, last_result, c, project)
@@ -171,12 +171,12 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.work_element_type.alias == "folder" }
+    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
   end
 
   def self.table_search(search)
     if search
-      where('title LIKE ? or alias LIKE ? or state LIKE ?', "%#{search}%","%#{search}%", "%#{search}%" )
+      where('title LIKE ? or alias LIKE ? or state LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%")
     else
       scoped
     end

@@ -25,31 +25,32 @@ class ModuleProject < ActiveRecord::Base
 
   has_many :estimation_values
 
-  has_and_belongs_to_many :associated_module_projects,
-                          :class_name => "ModuleProject",
-                          :association_foreign_key => "associated_module_project_id",
-                          :join_table => "associated_module_projects"
+  has_many :dependances, :class_name => "AssociatedModuleProject"
+  has_many :associated_module_projects, :through => :dependances, :source => :associated_module_project
+
+  has_many :inverse_dependances, :class_name => "AssociatedModuleProject", :foreign_key => "associated_module_project_id"
+  has_many :inverse_associated_module_projects, :through => :inverse_dependances, :source => :module_project
+
 
   has_and_belongs_to_many :pbs_project_elements
 
   default_scope :order => "position_x ASC, position_y ASC"
 
   #Return the common attributes (previous, next)
-  def self.common_attributes(node1, node2)
-    #TODO: use same order
-    node1.output_attributes & node2.input_attributes
+  def self.common_attributes(mp1, mp2)
+    mp1.output_attributes & mp2.input_attributes
   end
 
   #Return in a array next modules project of self.
   def following
     pos = self.position_y.to_i
-    mps = ModuleProject.where(:position_y => (pos + 1), :project_id => self.project.id)
+    mps = ModuleProject.where("position_y > #{pos} AND project_id = #{self.project.id}")
   end
 
   #Return in a array previous modules project of self.
   def preceding
     pos = self.position_y.to_i
-    mps = ModuleProject.where(:position_y => (pos - 1), :project_id => self.project.id)
+    mps = ModuleProject.where("position_y < #{pos} AND project_id = #{self.project.id}")
   end
 
   #Return the outputs attributes of a module_projects
@@ -74,14 +75,28 @@ class ModuleProject < ActiveRecord::Base
     res
   end
 
-  #Return the next module with link
+  #Return the next pemodule with link
   def next
-    ModuleProject.find(ActiveRecord::Base.connection.execute("SELECT module_project_id FROM associated_module_projects WHERE associated_module_project_id = #{self.id}").first).first
+    results = Array.new
+    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results.each do |r|
+      if self.following.map(&:id).include?(r.id)
+        results << r
+      end
+    end
+    results
   end
 
-  #Return the previous module with link
+  #Return the previous pemodule with link
   def previous
-    self.associated_module_projects.first
+    results = Array.new
+    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results.each do |r|
+      if self.preceding.map(&:id).include?(r.id)
+        results << r
+      end
+    end
+    results
   end
 
   def links

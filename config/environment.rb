@@ -2,7 +2,7 @@
 require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
-ProjestimateMaquette::Application.initialize!
+Projestimate::Application.initialize!
 #config.autoload_paths << File.join(config.root, "lib")
 
 #Encoding.default_external = Encoding::UTF_8

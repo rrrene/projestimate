@@ -229,7 +229,7 @@ fr:
   #  Menu
   projects: "Projets"
   recent_project: "Projets récents"
-  accueil: "Accueil"
+  home: "Accueil"
   all_projects: "Tous les projets"
   create_new_project: "Créer un nouveau projet"
 
@@ -632,8 +632,8 @@ fr:
   #wbs project elements
   edit_wbs_project_element: "Editer un élément du projet"
   new_wbs_project_element: "Créer un nouvel élément du projet"
-  additionnal_description: "Description supplémentaire"
-  exlude: "Exclure"
+  additional_description: "Description supplémentaire"
+  exclude: "Exclure"
   author: "Auteur"
 
   #work element type
@@ -717,7 +717,7 @@ fr:
   warning_cant_update_yourself: "Vous ne pouvez pas vous mettre à jour, vous être déja sur l'instance principale."
   same_schema_version: "Même version du schéma"
   notice_projestimate_data_successful_updated: "Les données de Projestimate ont été mise à jour avec succès."
-  reprository_up_to_date: "Votre répertoire est à jour"
+  repository_up_to_date: "Votre répertoire est à jour"
   notice_masterdata_already_latest: "Vous avez déjà la dernière version de l'instance principale."
   warning_db_schema_differ_to_masterdata: "Votre schéma de base de données diffère de celui de l'instance principale,Merci de vérifier les modifications ou exécutez la commande 'rake db: migrate' "
   error_default_data_failed_update: "!!! AVERTISSEMENT - Erreur: Les données par défaut n'ont pas été chargées, merci de bien vouloir enquêter. Essayez d'exécuter la commande 'bundle exec rake sunspot:solr:start RAILS_ENV=your_environnement'"
@@ -879,3 +879,5 @@ fr:
   tooltip_attribute_rules: "Règles de Validation"
   error_invalid_date: "date/heure Invalide"
   no_mandatory: "Non obligatoire"
+  label_precision: "Précision"
+  text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"
