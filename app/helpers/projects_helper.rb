@@ -141,8 +141,6 @@ module ProjectsHelper
           if (est_val.in_out == 'output' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
             level_estimation_values = Hash.new
             level_estimation_values = est_val.send("string_data_#{level}")
-            #puts "ESTIMATION_VALUE = #{est_val}"
-            #puts "#{level} LEVEL_ESTIMATION_VALUE = #{level_estimation_values}"
             if level_estimation_values.nil? || level_estimation_values[pbs_project_element.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id].nil? || level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value].nil?
               res << ' - '
             else
@@ -239,7 +237,7 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-      current_project.module_projects.reorder('created_at ASC').select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
+      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
         current_project = module_project.project
 
         ##if module_project.pemodule.with_activities
@@ -313,7 +311,7 @@ module ProjectsHelper
 
             # For Effort balancing module
           elsif module_project.pemodule.alias == 'effort_balancing'
-            res << ddisplay_effort_balancing_input(module_project, last_estimation_result)
+            res << display_effort_balancing_input(module_project, last_estimation_result)
             # For others module with Activities
           else
             res << display_inputs_with_activities(module_project)
@@ -338,7 +336,7 @@ module ProjectsHelper
       res << '<tr>
                 <th></th>'
         module_project.previous.each_with_index do |est,i|
-          res << "<th>#{est.pemodule.alias}</th>"
+          res << "<th>#{display_path(module_project)}</th>"
         end
         module_project.estimation_values.each do |est_val|
           if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
@@ -621,4 +619,7 @@ module ProjectsHelper
     "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong> <br> #{est_val.is_mandatory ? I18n.t(:mandatory) : I18n.t(:no_mandatory) }"
   end
 
+  def display_path(mp)
+    (mp.preceding & mp.previous).join('<br>')
+  end
 end

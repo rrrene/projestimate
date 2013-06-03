@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('html, body').animate({ scrollTop: 0 });
+
     $('.attribute_tooltip').tooltip({'html' : true });
 
     $("#run_estimation").bind('click', function() {
