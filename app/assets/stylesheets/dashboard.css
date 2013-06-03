@@ -1083,3 +1083,7 @@ input[type="color"],
 }
 
 .consistency_class{ color: #ff0000;}
+
+.list_attr{
+    overflow:auto;
+}
