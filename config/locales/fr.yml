@@ -713,6 +713,7 @@ fr:
   notice_event_successful_updated: "L'événement a bien été mis à jour."
   warning_group_cant_be_edit: "Ce groupe ne peut pas être modifié, car les modifications précédentes n'ont pas encore été validées."
   notice_group_successful_deleted: "Le groupe a été supprimé avec succès."
+  notice_group_successful_updated: "Le groupe a bien été mis à jour avec succès"
   warning_cant_update_yourself: "Vous ne pouvez pas vous mettre à jour, vous être déja sur l'instance principale."
   same_schema_version: "Même version du schéma"
   notice_projestimate_data_successful_updated: "Les données de Projestimate ont été mise à jour avec succès."
