@@ -105,7 +105,9 @@ class UsersController < ApplicationController
     #end
 
     if @user.update_attributes(params[:user])
-      redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}" )
+      #redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}" )
+
+      redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
     else
       render(:edit)
     end

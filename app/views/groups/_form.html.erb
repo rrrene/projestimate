@@ -1,4 +1,7 @@
 <%= simple_form_for(@group) do |f| %>
+
+    <%= hidden_field_tag :current_tab, "", :class => "current_tab" %>
+
     <% if @group.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@group.errors.count, 'error') %> prohibited this group from being saved:</h2>

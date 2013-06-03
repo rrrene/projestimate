@@ -1,4 +1,8 @@
 <%= simple_form_for @user do |f| %>
+
+  <%= hidden_field_tag :current_tab, "", :class => "current_tab" %>
+
+
   <%= f.error_notification %>
   <div class="tabs">
     <ul>

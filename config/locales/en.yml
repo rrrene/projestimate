@@ -713,6 +713,7 @@ en:
   notice_event_successful_updated: "Event was successfully updated."
   warning_group_cant_be_edit: "This Group can't be edited, because the previous changes have not yet been validated."
   notice_group_successful_deleted: "Group was successfully deleted."
+  notice_group_successful_updated: "Group was successfully updated."
   warning_cant_update_yourself: "You can't update yourself, as you already are on Master Instance"
   same_schema_version: "Same schema version"
   notice_projestimate_data_successful_updated: "Projestimate data have been updated successfully."

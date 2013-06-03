@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    $('.tabs').tabs({
+        select: function(event, ui) {
+            var index_tab = ui.index + 1;
+            $(".current_tab").val("tabs-" + index_tab);
+        }
+    });
+
     $('html, body').animate({ scrollTop: 0 });
 
     $('.attribute_tooltip').tooltip({'html' : true });
