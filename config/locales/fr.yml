@@ -795,7 +795,7 @@ fr:
   application: "Application"
   notice_translation_successful_added: "Traduction ajoutée"
   notice_account_successful_created: "Votre compte a été créé avec succès"
-  notice_account_successful_updated: "Votre account a été mis à jour avec succès.."
+  notice_account_successful_updated: "Votre compte a été mis à jour avec succès.."
   warning_email_or_username_already_exist: "Cet email ou ce nom d'utilisateur existent déjà dans la base"
   notice_account_demand_send: "Demande de compte envoyée avec succès"
   warning_check_all_fields: "Merci de bien vouloir renseigner tous les champs."
