@@ -53,6 +53,7 @@ class PemodulesController < ApplicationController
       if @pemodule.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_pemodule_cant_be_edit)
         redirect_to pemodules_path
+
       end
     end
   end
@@ -80,7 +81,10 @@ class PemodulesController < ApplicationController
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
     end
-    redirect_to redirect(edit_pemodule_path(@pemodule))  #redirect_to redirect(pemodules_url)
+    #redirect_to redirect(edit_pemodule_path(@pemodule))
+    redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule, :anchor=>'tabs-1')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+
+    #redirect_to redirect(pemodules_url)
   end
 
 
@@ -95,6 +99,7 @@ class PemodulesController < ApplicationController
 
     if @pemodule.save
       redirect_to redirect(pemodules_url)
+
     else
       render :new
     end
@@ -127,7 +132,7 @@ class PemodulesController < ApplicationController
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
     #redirect_to edit_pemodule_path(params[:module_id], :anchor => 'tabs-2')
-    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_group_successful_updated)}"
+    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
 
   end
@@ -156,7 +161,7 @@ class PemodulesController < ApplicationController
     end
 
     #redirect_to edit_pemodule_path(params[:module_id]), :notice => "#{I18n.t (:notice_pemodule_successful_updated)}"
-    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_group_successful_updated)}"
+    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
   end
 
