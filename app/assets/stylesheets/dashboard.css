@@ -1083,3 +1083,5 @@ input[type="color"],
 }
 
 .not_consistent_class{ color: red;}
+
+.list_attr{overflow: auto;}
