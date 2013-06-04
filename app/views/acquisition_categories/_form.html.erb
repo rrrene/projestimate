@@ -1,34 +1,32 @@
-<div class="span12">
-  <%= simple_form_for(@acquisition_category) do |f| %>
+<%= simple_form_for(@acquisition_category) do |f| %>
     <%= f.error_notification %>
 
     <div>
-      <%= f.input :name, :label => I18n.t("name") %>
+      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
 
-      <%= f.input :description, :input_html => { :rows => 3 }, :label => I18n.t("description") %>
-
-      <%= f.input :change_comment, :input_html => { :rows => 3 }, :label => I18n.t("change_comment") %><br />
-
-      <%= f.association :record_status,
-                        :label => I18n.t("record_status"),
-                        :collection => @acquisition_category.record_status_collection,
-                        :input_html => { :class => "record_status"},
-                        :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
-                        :disabled => (true if @acquisition_category.is_retired?),
-                        :label => I18n.t("record_status") %><br />
-
-      <%= f.input :custom_value, :input_html => { :class => "custom_value"},
-                  :disabled => (true unless @acquisition_category.is_custom?),
-                  :hint => I18n.t("status_custom"),
-                  :label => I18n.t("custom_value")
-      %>
+      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+      <table>
+        <tr>
+          <td>
+            <%= f.association :record_status, :label => I18n.t('record_status'),
+                              :collection => @acquisition_category.record_status_collection,
+                              :input_html => {:class => 'record_status'},
+                              :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
+                              :disabled => (true if @acquisition_category.is_retired?) %>
+          </td>
+          <td>
+            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @acquisition_category.is_custom?) %>
+          </td>
+        </tr>
+      </table>
+      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
     </div>
 
     <div class="actions">
       <% if can? :update, @acquisition_category %>
-          <%= f.submit I18n.t("save"), :class => "btn"%>
-          <%= f.submit I18n.t("apply"), :class => "btn"%>
+          <%= f.submit I18n.t('save'), :class => 'btn' %>
+          <%= f.submit I18n.t('apply'), :class => 'btn' %>
       <% end %>
     </div>
-  <% end %>
-</div>
+<% end %>
+
