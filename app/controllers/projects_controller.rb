@@ -395,7 +395,7 @@ class ProjectsController < ApplicationController
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
                 ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
-                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency)
+                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, mp)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
               end
@@ -482,17 +482,44 @@ class ProjectsController < ApplicationController
   end
 
   #This method set result in DB with the :value key for node estimation value
-  def set_element_value_with_activities(estimation_result)
+  def set_element_value_with_activities(estimation_result, module_project)
     result_with_consistency = Hash.new
+    consistency = true
     if !estimation_result.nil? && !estimation_result.eql?('-')
       estimation_result.each do |wbs_project_elt_id, est_value|
-        result_with_consistency[wbs_project_elt_id] = {:value => est_value}
+        if module_project.pemodule.alias == 'wbs_activity_completion'
+          wbs_project_elt = WbsProjectElement.find(wbs_project_elt_id)
+          if wbs_project_elt.has_new_complement_child?
+            consistency =  set_wbs_completion_node_consistency(estimation_result, wbs_project_elt)
+          end
+          result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
+        else
+          result_with_consistency[wbs_project_elt_id] = {:value => est_value}
+        end
       end
     else
       result_with_consistency = nil
     end
 
     result_with_consistency
+  end
+
+
+  # After estimation, need to know if node value are consistent or not for WBS-Completion module
+  def set_wbs_completion_node_consistency(estimation_result, wbs_project_element)
+    consistency = true
+    estimation_result_without_null_value = []
+
+    wbs_project_element.child_ids.each do |child_id|
+      value = estimation_result[child_id]
+      if value.is_a?(Float) or value.is_a?(Integer)
+        estimation_result_without_null_value <<  value
+      end
+    end
+    if estimation_result[wbs_project_element.id].to_f != estimation_result_without_null_value.sum.to_f
+      consistency = false
+    end
+    consistency
   end
 
 

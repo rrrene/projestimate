@@ -108,11 +108,20 @@ module ProjectsHelper
 
     # Get the module_project probable estimation values for showing element consistency
     probable_est_value_for_consistency = nil
+    pbs_level_data_for_consistency = Hash.new
 
     module_project.estimation_values.each do |mpa|
       if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
         probable_est_value_for_consistency = mpa.send("string_data_probable")
         res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}'>#{mpa.pe_attribute.name}</span></th>"
+
+        # For is_consistent purpose
+        ['low', 'most_likely', 'high', 'probable'].each do |level|
+          unless level.eql?("probable")
+            pbs_data_level = mpa.send("string_data_#{level}")
+            pbs_data_level.nil? ? pbs_level_data_for_consistency[level] = nil : pbs_level_data_for_consistency[level] = pbs_data_level[pbs_project_element.id]
+          end
+        end
       end
     end
     res << '</tr>'
@@ -126,14 +135,35 @@ module ProjectsHelper
     res << '</tr>'
 
     module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+
       pbs_probable_for_consistency = probable_est_value_for_consistency.nil? ? nil : probable_est_value_for_consistency[pbs_project_element.id]
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
       show_consistency_class = nil
-      unless wbs_project_elt_consistency
-        show_consistency_class = "<span class='consistency_class' title='#{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly'> &#33; </span>"
+      unless wbs_project_elt_consistency || module_project.pemodule.alias == "effort_breakdown"
+        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='#{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly'></span>"
       end
+
+      #For wbs-activity-completion node consistency
+      completion_consistency = ""
+      title = ""
+      if module_project.pemodule.alias == "wbs_activity_completion"
+        current_wbs_consistency = true
+        pbs_level_data_for_consistency.each do |level, level_value|
+          if !pbs_level_data_for_consistency.nil?
+            wbs_level_data = level_value[wbs_project_elt.id]
+            wbs_level_data.nil? ? current_wbs_consistency_level = nil : current_wbs_consistency_level = wbs_level_data[:is_consistent]
+            current_wbs_consistency = current_wbs_consistency && current_wbs_consistency_level
+            if !!current_wbs_consistency == false
+              completion_consistency = "icon-warning-sign not_consistent_class attribute_tooltip"
+              title = "Caution: sum of children efforts are different from the node effort"
+              break
+            end
+          end
+        end
+      end
+
       res << "<tr>
-                <td><span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name}</span></td>"
+                <td><span class='tree_element_in_out #{completion_consistency}' title='#{title}' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name}</span></td>"
 
       ['low', 'most_likely', 'high', 'probable'].each do |level|
         res << '<td>'
@@ -274,7 +304,7 @@ module ProjectsHelper
                     # This will be completed only if WBS has one or more not coming from library
                     unless complement_children_ids.empty?
                       current_mp_est_value = module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
-                      new_created_estimation_value = EstimationValue.new
+                      ##new_created_estimation_value = EstimationValue.new
                       new_created_estimation_value = last_estimation_results
 
                       ['low', 'most_likely', 'high'].each do |level|
@@ -290,7 +320,6 @@ module ProjectsHelper
                           unless pbs_level_value.nil?
                             complement_children_ids.each do |complement_child_id|
                               #new_created_estimation_value_level[pbs_project_element.id] << complement_child_id
-
                               if !pbs_level_value[complement_child_id].nil? && !level_current_mp_est_val[pbs_project_element.id][complement_child_id].nil?
                                 new_created_estimation_value_level[pbs_project_element.id][complement_child_id] = {:value => level_current_mp_est_val[pbs_project_element.id][complement_child_id][:value]}
                               end
@@ -325,6 +354,7 @@ module ProjectsHelper
     res
   end
 
+  #Display the Effort Balancing Input
   def display_effort_balancing_input(module_project, last_estimation_result)
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
@@ -392,6 +422,8 @@ module ProjectsHelper
 
   end
 
+
+  #Display the Effort Balancing Output
   def display_inputs_with_activities(module_project, last_estimation_result=nil)
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
@@ -429,7 +461,7 @@ module ProjectsHelper
               level_estimation_values = Hash.new
               level_estimation_values = est_val.send("string_data_#{level}")
 
-              # For Wbs_Activity Complement module, input data are from last executed module
+              # For Wbs_Activity Complemention module, input data are from last executed module
               if module_project.pemodule.alias == 'wbs_activity_completion'
                 pbs_last_result = nil
                 unless last_estimation_result.nil?
@@ -524,7 +556,9 @@ module ProjectsHelper
     res
   end
 
+
   def pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    #if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
     if est_val.pe_attribute.attr_type == 'integer' or est_val.pe_attribute.attr_type == 'float'
 
       display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
@@ -551,6 +585,37 @@ module ProjectsHelper
                      :class => "input-small #{level} #{est_val.id}"
     end
   end
+
+
+  def pemodule_input_SAVE(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    if est_val.pe_attribute.attr_type == 'integer' or est_val.pe_attribute.attr_type == 'float'
+
+      display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+
+    elsif est_val.pe_attribute.attr_type == 'list'
+
+      select_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                 options_for_select(
+                     est_val.pe_attribute.options[2].split(';'),
+                     :selected => (level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id])),
+                 :class => 'input-small',
+                 :prompt => "Unset"
+
+    elsif est_val.pe_attribute.attr_type == 'date'
+
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? display_date(level_estimation_values["default_#{level}".to_sym]) : display_date(level_estimation_values[pbs_project_element.id]),
+                     :class => "input-small #{level} #{est_val.id} date-picker"
+
+    else #type = text
+
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     (level_estimation_values[pbs_project_element.id].nil?) ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    end
+  end
+
+
 
   #Display pemodule output depending attribute type.
   def display_value(value, estimation_value)
@@ -594,7 +659,12 @@ module ProjectsHelper
   #Display text field tag depending of estimation plan.
   #Some pemodules can take previous and computed values
   def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    unless module_project.previous.empty?
+
+    if module_project.previous.empty?
+      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
+                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
+                     :class => "input-small #{level} #{est_val.id}"
+    else
       comm_attr = ModuleProject::common_attributes(module_project.previous.first, module_project)
       if comm_attr.empty?
         text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
@@ -607,12 +677,9 @@ module ProjectsHelper
                        new_level_estimation_values[pbs_project_element.id],
                        :class => "input-small #{level} #{est_val.id}"
       end
-    else
-      text_field_tag "[#{level}][#{est_val.pe_attribute.alias.to_sym}][#{module_project.id}]",
-                     level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
-                     :class => "input-small #{level} #{est_val.id}"
     end
   end
+
 
   #Display rule and options of an attribute in a bootstrap tooltip
   def display_rule(est_val)
