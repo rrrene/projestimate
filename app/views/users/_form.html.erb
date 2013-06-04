@@ -1,131 +1,176 @@
 <%= simple_form_for @user do |f| %>
 
-  <%= hidden_field_tag :current_tab, "", :class => "current_tab" %>
+    <%= hidden_field_tag :current_tab, '', :class => 'current_tab' %>
 
+    <%= f.error_notification %>
+    <div class="tabs">
+      <ul>
+        <li><a href="#tabs-1"><%= t(:global) %></a></li>
+        <li><a href="#tabs-2"><%= I18n.t(:groups) %></a></li>
+        <li><a href="#tabs-3"><%= I18n.t(:organizations) %></a></li>
+        <li><a href="#tabs-4"><%= I18n.t(:projects) %></a></li>
+        <li><a href="#tabs-5"><%= I18n.t(:settings) %></a></li>
+      </ul>
 
-  <%= f.error_notification %>
-  <div class="tabs">
-    <ul>
-      <li><a href="#tabs-1"><%= t(:global) %></a></li>
-      <li><a href="#tabs-2"><%= I18n.t(:associated_groups ) %></a></li>
-      <li><a href="#tabs-3"><%= I18n.t(:associated_organizations ) %></a></li>
-      <li><a href="#tabs-4"><%= I18n.t(:associated_projects ) %></a></li>
-      <li><a href="#tabs-5"><%= I18n.t(:settings ) %></a></li>
-    </ul>
+      <div id="tabs-1">
+        <div class="accordion" id="accordion1">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
+                <b><%= I18n.t 'identity' %></b>
+              </a>
+            </div>
+            <div id="collapse1" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <table>
+                  <tr>
+                    <td> <%= f.input :first_name, :label => I18n.t('first_name'), :input_html => {:autofocus => (controller.action_name == 'new'), :class => 'input-large'} %></td>
+                    <td><%= f.input :last_name, :label => I18n.t('last_name'), :input_html => {:class => 'input-xlarge'} %>   </td>
+                  </tr>
+                  <tr>
+                    <td><%= f.input :initials, :label => I18n.t('initials'), :input_html => {:class => 'input-small'} %>  </td>
+                    <td><%= f.input :login_name, :label => I18n.t('login_name') %> </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><%= f.input :email, :label => I18n.t('email'), :input_html => {:class => 'input-xxlarge'} %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
 
-    <div id="tabs-1">
-      <fieldset>
-        <legend><%= I18n.t 'identity' %></legend>
-        <%= f.input :first_name, :label => I18n.t('first_name'), :input_html => {:autofocus => (controller.action_name == 'new')}  %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse2">
+                <b><%= I18n.t(:authentication) %></b>
+              </a>
+            </div>
+            <div id="collapse2" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <table>
+                  <tr>
+                    <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all, :selected => 'Application' %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge'} %></td>
+                    <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge'} %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
 
-        <%= f.input :last_name, :label => I18n.t('last_name') %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse3">
+                <b><%= I18n.t(:informations) %></b>
+              </a>
+            </div>
+            <div id="collapse3" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <table>
+                  <tr>
+                    <td colspan="2"><%= f.input :user_status, :label => I18n.t('user_status'), :as => :select, :collection => [['Active', 'active'], ['Pending', 'pending'], ['Suspended', 'suspended'], ['Blacklisted', 'blacklisted']], :input_html => {:class => 'input-medium'} %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.input :created_at, :label => I18n.t('created_at') do %>
+                          <%= f.text_field :created_at, :value => (I18n.l(@user.created_at) unless @user.created_at.nil?), :disabled => true, :input_html => {:class => 'input-xxlarge'} %>
+                      <% end %>    </td>
 
-        <%= f.input :login_name, :label => I18n.t('login_name') %>
+                    <td><%= f.input :updated_at, :label => I18n.t('updated_at') do %>
+                          <%= f.text_field :updated_at, :value => (I18n.l(@user.updated_at) unless @user.updated_at.nil?), :disabled => true, :input_html => {:class => 'input-xxlarge'} %>
+                      <% end %>    </td>
+                  </tr>
+                  <tr>
+                    <td><%= f.input :last_login, :label => I18n.t('last_login') do %>
+                          <%= f.text_field :last_login, :value => (I18n.l(@user.last_login) unless @user.last_login.nil?), :disabled => true %>
+                      <% end %>    </td>
 
-        <%= f.input :email, :label => I18n.t('email') %>
-
-        <%= f.input :initials, :label => I18n.t('initials') %>
-      </fieldset>
-
-      <fieldset>
-        <legend><%= I18n.t(:authentication) %></legend>
-        <%= f.input :password, :label => I18n.t('password') %>
-
-        <%= f.input :password_confirmation, :label => I18n.t('password_confirmation') %>
-
-        <%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all, :selected => 'Application' %>
-
-      </fieldset>
-
-      <fieldset>
-        <legend><%= I18n.t(:informations) %></legend>
-
-        <%= f.input :user_status, :label => I18n.t('user_status') , :as => :select, :collection => [['Active', 'active'],['Pending', 'pending'],['Suspended', 'suspended'],['Blacklisted', 'blacklisted']] %>
-
-        <%= f.input :created_at, :label => I18n.t('created_at') do %>
-          <%= f.text_field :created_at, :value => (I18n.l(@user.created_at) unless @user.created_at.nil?), :disabled => true %>
-        <% end %>
-
-        <%= f.input :updated_at, :label => I18n.t('updated_at') do %>
-          <%= f.text_field :updated_at, :value => (I18n.l(@user.updated_at) unless @user.updated_at.nil?), :disabled => true %>
-        <% end %>
-
-        <%= f.input :last_login, :label => I18n.t('last_login') do %>
-          <%= f.text_field :last_login, :value => (I18n.l(@user.last_login) unless @user.last_login.nil?), :disabled => true %>
-        <% end %>
-
-        <%= f.input :previous_login, :label => I18n.t('previous_login') do %>
-          <%= f.text_field :previous_login, :value => (I18n.l(@user.previous_login) unless @user.previous_login.nil?), :disabled => true %>
-        <% end %>
-
-      </fieldset>
-    </div>
+                    <td><%= f.input :previous_login, :label => I18n.t('previous_login') do %>
+                          <%= f.text_field :previous_login, :value => (I18n.l(@user.previous_login) unless @user.previous_login.nil?), :disabled => true %>
+                      <% end %>     </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div id="tabs-2">
+        <b><%= I18n.t(:associated_groups) %></b>
+        <br/><br/>
+
         <div class="field_checkbox">
-          <h3><%= f.label :groups %></h3>
           <table class="table table-striped table-bordered table-condensed">
             <% @groups.each do |group| %>
-              <tr>
-                <td><span><%= group.name %></span></td>
-                <td><%= check_box_tag 'user[group_ids][]', group.id, @project_groups.map(&:id).include?(group.id) ? true : false %></td>
-              </tr>
+                <tr>
+                  <td><%= group.name %></td>
+                  <td><%= check_box_tag 'user[group_ids][]', group.id, @project_groups.map(&:id).include?(group.id) ? true : false %></td>
+                </tr>
             <% end %>
           </table>
         </div>
       </div>
 
       <div id="tabs-3">
+        <b><%= I18n.t(:associated_organizations) %></b>
+        <br/><br/>
+
         <div class="field_checkbox">
-          <h3><%= f.label :associated_organizations %></h3>
           <table class="table table-striped table-bordered table-condensed">
             <% @organizations.each do |org| %>
-              <tr>
-                <td><span><%= org.name %></span>
-                <td><%= check_box_tag 'user[organization_ids][]', org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
-              </tr>
+                <tr>
+                  <td><span><%= org.name %></span>
+                  <td><%= check_box_tag 'user[organization_ids][]', org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+                </tr>
             <% end %>
           </table>
         </div>
       </div>
 
-    <div id="tabs-4">
+      <div id="tabs-4">
+        <b><%= I18n.t(:associated_projects) %></b>
+        <br/><br/>
+
         <div class="field_checkbox">
-          <h3><%= f.label :associated_projects %></h3>
+
           <table class="table table-striped table-bordered table-condensed">
             <% @projects.each do |project| %>
-              <tr>
-                <td><span><%= project.title %></span>
-                <td><%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
-                <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
-              </tr>
+                <tr>
+                  <td><span><%= project.title %></span>
+                  <td><%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+                  <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
+                </tr>
             <% end %>
           </table>
         </div>
       </div>
 
-    <div id="tabs-5">
+      <div id="tabs-5">
+        <table>
+          <tr>
+            <td><%= f.input :language_id, :label => I18n.t('languages'), :as => :select, :collection => Language.all.map { |i| [i.name, i.id] }.sort, include_blank: '(auto)', :selected => @user.language_id %></td>
+            <td><%= f.input :time_zone, :label => I18n.t('time_zone'), :input_html => {:class => 'input-xlarge'}, :as => :select, :collection => ActiveSupport::TimeZone.all.map { |i| [i.to_s, i.name] }, :include_blank => false, :selected => @user.time_zone || 'GMT' %></td>
+          </tr>
+          <!--
+        <p><%= I18n.t(:assistance) %></p>
+        <p><%= I18n.t(:notifications) %></p>
+        <p><%= I18n.t(:display_format) %></p>
+        <p><%= I18n.t(:decimal) %></p>
+        <p><%= I18n.t(:thousands) %></p>
+        <p><%= I18n.t(:first_day) %></p>
+        <p><%= I18n.t(:first_week) %></p>
+        <p><%= I18n.t(:export_preferences) %></p>
+        -->
+        </table>
+      </div>
 
-      <%= f.input :language_id, :label => I18n.t('languages'), :as => :select, :collection => Language.all.map{|i| [i.name, i.id]}.sort, include_blank: '(auto)', :selected => @user.language_id %>
-
-      <%= f.input :time_zone, :label => I18n.t('time_zone'), :as => :select, :collection => ActiveSupport::TimeZone.all.map{|i| [i.to_s, i.name]}, :include_blank => false, :selected => @user.time_zone || 'GMT' %>
-
-      <p><%= I18n.t(:assistance) %></p>
-      <p><%= I18n.t(:notifications) %></p>
-      <p><%= I18n.t(:display_format) %></p>
-      <p><%= I18n.t(:decimal) %></p>
-      <p><%= I18n.t(:thousands) %></p>
-      <p><%= I18n.t(:first_day) %></p>
-      <p><%= I18n.t(:first_week) %></p>
-      <p><%= I18n.t(:export_preferences) %></p>
-
+      <div class="actions">
+        <%= f.submit I18n.t('save'), :class => 'btn' %>
+        <%= f.submit I18n.t('apply'), :class => 'btn' %>
+        <%= link_to I18n.t('back'), users_path, :class => 'btn' %>
+      </div>
     </div>
-
-
-    <div class="actions">
-      <%= f.submit I18n.t('save'), :class => 'btn' %>
-      <%= f.submit I18n.t('apply'), :class => 'btn' %>
-    </div>
-  </div>
 
 <% end %>
