@@ -565,7 +565,7 @@ module ProjectsHelper
           value.round(2)
         end
       rescue
-        value.round(2)
+        value
       end
       when 'integer'
         begin
