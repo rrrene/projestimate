@@ -642,7 +642,6 @@ en-gb:
 
 
   #messages
-  status_custom: "Is needed only when Status = Custom"
   restoring: "Do you confirm restoring this record as defined ?"
   validation: "Do you confirm changes validation on this record?"
   global_settings_updated: "Global settings have been updated."

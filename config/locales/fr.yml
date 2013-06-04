@@ -642,7 +642,6 @@ fr:
 
 
   #messages
-  status_custom: "N'est obligatoire que lorsque le statut est à Custom"
   restoring: "Confirmez-vous la restauration de ce dossier en mode défini?"
   validation: "Confirmez-vous la validation des changements sur cet enregistrement?"
   global_settings_updated: "Les paramètres globaux ont été mis à jour."
