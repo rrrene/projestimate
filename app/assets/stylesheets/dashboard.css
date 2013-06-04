@@ -1082,4 +1082,4 @@ input[type="color"],
     border-radius: 4px;
 }
 
-.consistency_class{ color: #ff0000;}
+.not_consistent_class{ color: red;}
