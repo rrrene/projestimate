@@ -270,7 +270,7 @@ fr:
   #attributes
   name: "Nom"
   description: "Description"
-  change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
+  change_comment: "Commentaire (expliquer et justifier votre demande de changement)"
   record_status: "Statut de l'enregistrement"
   custom_value: "Valeur personnalisée (si statut = custom)"
 
