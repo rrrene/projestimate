@@ -100,8 +100,10 @@ class PeAttributesController < ApplicationController
     if params[:est_val_id]
       @ev = EstimationValue.find(params[:est_val_id])
       @is_valid = @ev.is_validate(params[:value])
+      test = params[:value]
       @level = params[:level]
       @est_val_id = params[:est_val_id]
+      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id].eql?
     end
   end
 end
