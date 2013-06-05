@@ -493,9 +493,12 @@ class ProjectsController < ApplicationController
             consistency =  set_wbs_completion_node_consistency(estimation_result, wbs_project_elt)
           end
           result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
+        elsif module_project.pemodule.alias == 'effort_balancing'
+          result_with_consistency[wbs_project_elt_id] = {:value => est_value}
         else
           result_with_consistency[wbs_project_elt_id] = {:value => est_value}
         end
+
       end
     else
       result_with_consistency = nil

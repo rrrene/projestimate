@@ -14,13 +14,14 @@
 
       <div id="tabs-1">
         <div class="accordion" id="accordion1">
-          <div class="accordion-group">
+          <div class="accordion-group accordion-caret">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse1">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                <i class="icon-caret-down"></i>
                 <b><%= I18n.t 'identity' %></b>
               </a>
             </div>
-            <div id="collapse1" class="accordion-body collapse in">
+            <div id="collapseOne" class="accordion-body in collapse">
               <div class="accordion-inner">
                 <table>
                   <tr>
@@ -41,11 +42,12 @@
 
           <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse2">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
+                <i class="icon-caret-down"></i>
                 <b><%= I18n.t(:authentication) %></b>
               </a>
             </div>
-            <div id="collapse2" class="accordion-body collapse in">
+            <div id="collapseTwo" class="accordion-body in collapse">
               <div class="accordion-inner">
                 <table>
                   <tr>
@@ -62,11 +64,12 @@
 
           <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse3">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree">
+                <i class="icon-caret-down"></i>
                 <b><%= I18n.t(:informations) %></b>
               </a>
             </div>
-            <div id="collapse3" class="accordion-body collapse in">
+            <div id="collapseThree" class="accordion-body collapse in">
               <div class="accordion-inner">
                 <table>
                   <tr>
@@ -139,8 +142,8 @@
             <% @projects.each do |project| %>
                 <tr>
                   <td><span><%= project.title %></span>
-                  <td><%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
-                  <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
+                    <%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+                  <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %></td>
                 </tr>
             <% end %>
           </table>

@@ -22,7 +22,7 @@
       <td><%= user.user_status %>
       <td>
         <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => 'Edit')  +
-            link_to(' ', "users/#{user.id}/activate", :class => 'icon-smile icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate')  +
+            link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate')  +
             link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id }, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => 'Find Use') +
             link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title =>I18n.t('delete'))
         %>

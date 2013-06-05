@@ -109,6 +109,14 @@
     .form-actions {
         text-align: center;
     }
+
+}
+
+div.actions {
+    margin:20px;
+}
+div.actions-tabs {
+    margin:0px;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
