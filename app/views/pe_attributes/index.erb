@@ -4,7 +4,7 @@
   </ul>
 
   <div id="tabs-1">
-    <table border="0">
+    <table border="0" width="100%">
       <tr>
         <td style="text-align:right;">
           <%= link_to I18n.t('new_pe_attribute'), new_pe_attribute_path, :class => 'btn' %>
@@ -20,7 +20,7 @@
             <th><%= I18n.t(:description) %></th>
             <th><%= I18n.t(:attributes_type) %></th>
             <th><%= I18n.t(:record_status) %></th>
-            <th class="actions"><%= I18n.t(:actions) %></th>
+            <th class="action"><%= I18n.t(:actions) %></th>
         </tr>
     </thead>
 
@@ -36,7 +36,7 @@
                     <td><%= attribute.description %></td>
                     <td><%= attribute.attr_type.humanize %></td>
                     <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
-                    <td class="actions">
+                    <td class="action">
                       <%= link_to '', edit_pe_attribute_path(attribute), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
                       <%= link_to '', attribute, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 
