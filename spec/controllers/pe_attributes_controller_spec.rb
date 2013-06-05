@@ -1,5 +1,7 @@
 require 'spec_helper'
+
 describe PeAttributesController do
+
   before :each do
     @attribute = FactoryGirl.create(:ksloc_attribute)
     @params = { :id => @attribute.id }
@@ -48,16 +50,31 @@ describe PeAttributesController do
   end
 
   describe "PUT update" do
+
     before :each do
-      @new_attribute = FactoryGirl.create(:cost_attribute)
+      @cost_attribute = FactoryGirl.create(:cost_attribute)
+      #@params = {:id => @attribute.to_param,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status => RecordStatus.first.id, :custom_value=>"local" }
+      @params = {:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status => RecordStatus.first.id, :custom_value=>"local" }
     end
 
     context "with valid params" do
-      it "updates the requested acquisition_category" do
-        @params = { :id=> @attribute.id,:name => "KSLOC1",:allias=>"KSLOC1", :uuid => "1", :description=>"test", :attr_type=>"integer", :record_status => RecordStatus.first.id, :custom_value=>"local" }
-        put :update, id: @new_attribute, attribute: FactoryGirl.attributes_for(:cost_attribute)
+      it "located the requested attribute" do
+        put :update, id: @cost_attribute, cost_attribute: FactoryGirl.attributes_for(:cost_attribute)
+        assigns(:cost_attribute)==(@cost_attribute)
+      end
+
+      #it "updates the requested peAttribute" do
+      #  #put :update, id: @cost_attribute.id, cost_attribute: FactoryGirl.attributes_for(:cost_attribute, :uuid => "12345", :description => "My_new_description")
+      #  put :update, id: @cost_attribute, cost_attribute: @params
+      #  #@cost_attribute.uuid.should eq("12345")
+      #  @cost_attribute.description.should eq("test")
+      #end
+
+      it "should redirect to the peAttribute_paths list" do
+        put :update, {id: @cost_attribute.to_param}
         response.should be_success
       end
+
     end
   end
 
@@ -67,6 +84,7 @@ describe PeAttributesController do
       delete :destroy, {:id => @attribute.to_param}
       response.should redirect_to(pe_attributes_url)
     end
+
     it "destroys the requested event" do
       expect {
         delete :destroy, {:id => @attribute.to_param}
