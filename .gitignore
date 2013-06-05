@@ -13,3 +13,5 @@
 /db/schema.rb
 projestimate.iws
 Gemfile.local
+/coverage
+/solr/*

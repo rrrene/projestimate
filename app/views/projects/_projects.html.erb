@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-condensed">
+<table class="table tablesorterPager table-striped table-bordered table-condensed">
   <thead>
   <tr>
     <th><%= I18n.t(:name) %></th>
@@ -6,7 +6,7 @@
     <th><%= I18n.t(:record_status) %></th>
     <th><%= I18n.t(:start_date) %></th>
     <th><%= I18n.t(:organizations) %></th>
-    <th><%= I18n.t(:actions) %></th>
+    <th class="action"><%= I18n.t(:actions) %></th>
   </tr>
   </thead>
   <% @projects.each do |project| %>
@@ -16,7 +16,7 @@
         <td><%= project.state %>
         <td><%= I18n.l(project.start_date) unless project.start_date.nil? %>
         <td><%= project.organization %>
-        <td>
+        <td class="action" style="width: 160px">
           <%=
               (project.baseline? || project.access_locked? || project.closed?) ?
                       commit = link_to('', '#', :class => 'icn_commit') :
@@ -34,6 +34,8 @@
         </td>
       </tr>
   <% end %>
+
+  <%= render :partial => 'layouts/footer_table' %>
 </table>
 
 <table border="0" width="100%">

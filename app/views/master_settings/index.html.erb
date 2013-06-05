@@ -12,12 +12,12 @@
       </tr>
     </table>
 
-  <table class="table table-striped table-bordered table-condensed">
+  <table class="table tablesorterPager table-striped table-bordered table-condensed">
     <tr>
       <th><%= I18n.t(:key) %></th>
       <th><%= I18n.t(:value) %></th>
       <th><%= I18n.t(:record_status) %></th>
-      <th><%= I18n.t(:actions) %></th>
+      <th class="action"><%= I18n.t(:actions) %></th>
     </tr>
 
   <% @master_settings.each do |master_setting| %>
@@ -25,7 +25,7 @@
       <td><%= master_setting.key %></td>
       <td><%= master_setting.value %></td>
       <td><%= master_setting.record_status.name unless master_setting.record_status.nil? %> <%= master_setting.show_custom_value %></td>
-      <td>
+      <td class="action">
         <%= link_to '', edit_master_setting_path(master_setting), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
       <%= link_to '', master_setting, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title =>I18n.t('delete') %>
         <% if is_master_instance? && !master_setting.is_local_record? %>
@@ -40,6 +40,8 @@
       </td>
     </tr>
   <% end %>
+
+    <%= render :partial => 'layouts/footer_table' %>
   </table>
 
 </div>

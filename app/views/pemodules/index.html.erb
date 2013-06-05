@@ -12,7 +12,7 @@
       </tr>
     </table>
 
-    <table class="table table-striped table-bordered table-condensed">
+    <table class="table tablesorterPager table-striped table-bordered table-condensed">
 
       <thead>
       <tr>
@@ -20,7 +20,7 @@
         <th>Alias</th>
         <th><%= I18n.t(:description) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
+        <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
@@ -31,7 +31,7 @@
                 <td><%= pemodule.alias %></td>
                 <td><%= pemodule.description %></td>
                 <td><%= pemodule.record_status.name unless pemodule.record_status.nil? %> <%= pemodule.show_custom_value %></td>
-                <td>
+                <td class="action">
                   <%= link_to '', edit_pemodule_path(pemodule), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
                   <%= link_to '', pemodule, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
                   <% if is_master_instance? && !pemodule.is_local_record? %>
@@ -52,6 +52,7 @@
           </tr>
       <% end %>
 
+      <%= render :partial => 'layouts/footer_table' %>
     </table>
 
   </div>

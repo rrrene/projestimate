@@ -12,22 +12,22 @@
       </tr>
     </table>
 
-    <table class="table table-striped table-bordered table-condensed">
+    <table class="table tablesorterPager table-striped table-bordered table-condensed">
       <thead>
       <tr>
         <th><%= I18n.t(:name) %></th>
-        <th><%= I18n.t(:icon) %></th>
+        <th class="action"><%= I18n.t(:icon) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
+        <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
       <% @icons.each do |i| %>
           <tr>
             <td><%= i.name %></td>
-            <td><%= image_tag i.icon.url(:small) %></td>
+            <td class="action"><%= image_tag i.icon.url(:small) %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %> <%= i.show_custom_value %></td>
-            <td>
+            <td class="action">
               <%= link_to '', edit_peicon_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !i.is_local_record? %>
@@ -42,6 +42,7 @@
             </td>
           </tr>
       <% end %>
+      <%= render :partial => 'layouts/footer_table' %>
     </table>
 
   </div>
