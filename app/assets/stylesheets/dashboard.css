@@ -2,6 +2,13 @@
 	outline:none !important;
 	-moz-outline: none !important;
 }
+.ui-tabs-panel {
+    overflow: auto;
+}
+.actions {
+   width: 86px;
+}
+
 
 /* Responsive design */
 @media (max-width: 480px) {

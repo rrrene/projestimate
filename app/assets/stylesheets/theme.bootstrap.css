@@ -126,7 +126,7 @@ caption {
 
 /* pager plugin */
 .tablesorter-bootstrap .tablesorter-pager select {
-  /*padding: 4px 6px;*/
+  padding: 4px 6px;
 }
 .tablesorter-bootstrap .tablesorter-pager .pagedisplay {
 	border: 0;
