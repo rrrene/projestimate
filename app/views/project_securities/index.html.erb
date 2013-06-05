@@ -3,7 +3,7 @@
 </div>
 
 <%= form_tag({:action=> 'set_rights_project_security', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
-  <table class="table table-striped table-bordered table-condensed permissions">
+  <table class="table tablesorterPager table-striped table-bordered table-condensed permissions">
     <tr>
       <th style="text-align:left;"><%= I18n.t(:permissions)%></th>
       <% @project_security_levels.each do |ps| %>
