@@ -139,8 +139,8 @@
             <% @projects.each do |project| %>
                 <tr>
                   <td><span><%= project.title %></span>
-                  <td><%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
-                  <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
+                    <%#= check_box_tag "user[project_ids][]", project.id, @project_users.map(&:id).include?(project.id) ? true : false %>
+                  <td><%= check_box_tag :project_ids, project.id, @project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %></td>
                 </tr>
             <% end %>
           </table>
