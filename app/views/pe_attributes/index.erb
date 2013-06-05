@@ -199,7 +199,21 @@
 
 
 
+
+
     });
+
+    var warnLeavingUnsavedMessage;
+
+    function warn_me(message){
+        warnLeavingUnsavedMessage = message;
+
+        window.onbeforeunload = function(){
+            var warn = false;
+
+            if (warn) {return warnLeavingUnsavedMessage;}
+        }
+    }
 </script>
 
 
