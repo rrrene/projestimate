@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    $(".accordion").on("show hide", function (e) {
+        $(e.target).siblings(".accordion-heading").find(".accordion-toggle i").toggleClass("icon-caret-down icon-caret-right",200);
+    });
+
     $('.tabs').tabs({
         select: function(event, ui) {
             var index_tab = ui.index + 1;
