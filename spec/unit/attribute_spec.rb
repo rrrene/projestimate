@@ -44,31 +44,6 @@ describe PeAttribute do
     @attribute.attribute_type.should eql("string")
   end
 
-  it 'should validate 15 because 15 is greather than 10' do
-    @attribute.is_validate("15").should be_true
-  end
-
-  it 'should not validate 9 because 9 is lower than 10' do
-    @attribute.is_validate("9").should be_false
-  end
-
-  it 'should not be valid because toto is not a integer' do
-    @attribute.is_validate("toto").should be_false
-  end
-
-  it 'should not be valid because string to evaluate is wrong' do
-    @attribute.is_validate(">").should be_false
-  end
-
-  it 'should not be return false bcause eval result is nil' do
-    @attribute.is_validate("nil").should be_false
-  end
-
-  it 'should be true because no options defined' do
-    @cost = FactoryGirl.build(:cost_attribute)
-    @cost.is_validate("15").should be_true
-  end
-
   it 'should be valid' do
     @attribute.should be_valid
   end
