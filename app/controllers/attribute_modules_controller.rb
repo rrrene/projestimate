@@ -45,4 +45,12 @@ class AttributeModulesController < ApplicationController
     redirect_to edit_pemodule_path(@attribute_module.pemodule)
   end
 
+  def check_attribute_modules
+    @attr = AttributeModule.find(params[:attr_id])
+    @is_valid = @attr.is_validate(params[:value])
+    @level = params[:level]
+    @est_val_id = params[:est_val_id]
+
+  end
+
 end
