@@ -12,64 +12,68 @@
       </tr>
     </table>
 
-    <table class="table tablesorterPager table-striped table-bordered table-condensed  ">
-      <thead>
-      <tr>
-        <th><%= I18n.t(:name) %></th>
-        <th>Alias</th>
-        <th><%= I18n.t(:description) %></th>
-        <th><%= I18n.t(:attributes_type) %></th>
-        <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
-      </tr>
-      </thead>
+    <table class="table tablesorterPager table-striped table-bordered table-condensed ">
+    <thead>
+        <tr>
+            <th><%= I18n.t(:name) %></th>
+            <th>Alias</th>
+            <th><%= I18n.t(:description) %></th>
+            <th><%= I18n.t(:attributes_type) %></th>
+            <th><%= I18n.t(:record_status) %></th>
+            <th class="action"><%= I18n.t(:actions) %></th>
+        </tr>
+    </thead>
 
-      <% if @attributes.empty? %>
-          <p style="text-align:center;"> <%= I18n.t('empty') %></p>
-      <% else %>
-          <% @attributes.each do |attribute| %>
-              <tr>
-                <td><%= attribute.name %></td>
-                <td><%= attribute.alias %></td>
-                <td><%= attribute.description %></td>
-                <td><%= attribute.attr_type.humanize %></td>
-                <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
-                <td>
-                  <%= link_to '', edit_pe_attribute_path(attribute), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                  <%= link_to '', attribute, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+        <tbody>
 
-                  <% if is_master_instance? && !attribute.is_local_record? %>
-                      <% if attribute.is_retired? %>
-                          <%= link_to('', "pe_attributes/#{attribute.id}/restore_change", confirm: I18n.t('restoring'),:class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
-                      <% else %>
-                          <% unless attribute.is_defined? %>
-                              <%= link_to('', "pe_attributes/#{attribute.id}/validate_change", confirm: I18n.t('validation'),:class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
+          <% if @attributes.empty? %>
+              <p style="text-align:center;"> <%= I18n.t('empty') %></p>
+          <% else %>
+              <% @attributes.each do |attribute| %>
+                  <tr>
+                    <td><%= attribute.name %></td>
+                    <td><%= attribute.alias %></td>
+                    <td><%= attribute.description %></td>
+                    <td><%= attribute.attr_type.humanize %></td>
+                    <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
+                    <td class="action">
+                      <%= link_to '', edit_pe_attribute_path(attribute), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                      <%= link_to '', attribute, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+
+                      <% if is_master_instance? && !attribute.is_local_record? %>
+                          <% if attribute.is_retired? %>
+                              <%= link_to('', "pe_attributes/#{attribute.id}/restore_change", confirm: I18n.t('restoring'),:class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
+                          <% else %>
+                              <% unless attribute.is_defined? %>
+                                  <%= link_to('', "pe_attributes/#{attribute.id}/validate_change", confirm: I18n.t('validation'),:class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
+                              <% end %>
                           <% end %>
                       <% end %>
-                  <% end %>
-                </td>
-              </tr>
-          <% end %>
-          <div id="pager" class="pager">
-            <tfoot>
+                    </td>
+                  </tr>
+              <% end %>
+        </tbody>
 
-              <th colspan="7" class="pager form-horizontal">
-                <button type="button" class="btn first"><i class="icon-step-backward"></i></button>
-                <button type="button" class="btn prev"><i class="icon-arrow-left"></i></button>
-                <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
-                <button type="button" class="btn next"><i class="icon-arrow-right"></i></button>
-                <button type="button" class="btn last"><i class="icon-step-forward"></i></button>
-                <select class="pagesize input-mini" title="Select page size">
-                  <option selected="selected" value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="40">40</option>
-                </select>
-                <select class="pagenum input-mini" title="Select page number"></select>
-              </th>
-            </tr>
-            </tfoot>
-          </div>
+        <tfoot>
+            <th colspan="7" class="pager form-horizontal">
+              <button type="button" class="btn first"><i class="icon-step-backward"></i></button>
+              <button type="button" class="btn prev"><i class="icon-arrow-left"></i></button>
+              <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+              <button type="button" class="btn next"><i class="icon-arrow-right"></i></button>
+              <button type="button" class="btn last"><i class="icon-step-forward"></i></button>
+              <select class="pagesize input-mini" title= "<%=I18n.t(:select_page_size)%>" >
+                <option value="5">5</option>
+                <option selected="selected" value="10">10</option>
+                <option value="20">25</option>
+                <option value="30">50</option>
+                <option value="40">100</option>
+              </select>
+              <select class="pagenum input-mini" title="<%=I18n.t(:select_page_number)%>"></select>
+            </th>
+        </tfoot>
+
+        </tr>
+
       <% end %>
     </table>
   </div>
@@ -100,7 +104,7 @@
 
             // output string - default is '{page}/{totalPages}'
             // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
-            output: '{startRow} to {endRow} ({totalRows})',
+            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})',
 
             // apply disabled classname to the pager arrows when the rows at either extreme is visible - default is true
             updateArrows: true,
@@ -113,7 +117,7 @@
 
             // if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
             // table row set to a height to compensate; default is false
-            fixedHeight: true,
+            fixedHeight: false,
 
             // remove rows from the table to speed up the sort of large tables.
             // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
@@ -152,35 +156,32 @@
             even       : '', // odd row zebra striping
             odd        : ''  // even row zebra striping
         });
-
+        $("table thead th.actions").data({
+            sorter: false,
+            filter: false
+        });
         // call the tablesorter plugin and apply the uitheme widget
         $("table")
                 .tablesorter({
                     // this will apply the bootstrap theme if "uitheme" widget is included
                     // the widgetOptions.uitheme is no longer required to be set
                     theme : "bootstrap",
-
                     widthFixed: true,
 
                     headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
 
                     // widget code contained in the jquery.tablesorter.widgets.js file
                     // use the zebra stripe widget if you plan on hiding any rows (filter widget)
-                    widgets : [ "uitheme", "filter", "zebra" ],
 
+                    widgets: [ 'uitheme', 'zebra', 'filter'],
                     widgetOptions : {
-                        // using the default zebra striping class name, so it actually isn't included in the theme variable above
-                        // this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
+
                         zebra : ["even", "odd"],
 
                         // reset filters button
                         filter_reset : ".reset"
-
-                        // set the uitheme widget to use the bootstrap theme class names
-                        // this is no longer required, if theme is set
-                        // ,uitheme : "bootstrap"
-
                     }
+
                 })
             // bind to pager events
             // *********************
@@ -197,7 +198,22 @@
                 .tablesorterPager(pagerOptions);
 
 
+
+
+
     });
+
+    var warnLeavingUnsavedMessage;
+
+    function warn_me(message){
+        warnLeavingUnsavedMessage = message;
+
+        window.onbeforeunload = function(){
+            var warn = false;
+
+            if (warn) {return warnLeavingUnsavedMessage;}
+        }
+    }
 </script>
 
 

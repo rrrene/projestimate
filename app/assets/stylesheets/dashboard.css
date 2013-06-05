@@ -2,7 +2,12 @@
 	outline:none !important;
 	-moz-outline: none !important;
 }
-
+.ui-tabs-panel {
+    overflow: auto;
+}
+.action {
+    width: 86px;
+}
 /* Responsive design */
 @media (max-width: 480px) {
 	#header h1 {
@@ -102,14 +107,6 @@
     .form-actions {
         text-align: center;
     }
-
-}
-
-div.actions {
-    margin:20px;
-}
-div.actions-tabs {
-    margin:0px;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -1090,6 +1087,4 @@ input[type="color"],
     border-radius: 4px;
 }
 
-.not_consistent_class{ color: red;}
-
-.list_attr{overflow: auto;}
+.consistency_class{ color: #ff0000;}

@@ -271,7 +271,7 @@ en:
   name: "Name"
   description: "Description"
   change_comment: "Comment (explain and justify your change request)"
-  record_status: "Record status"
+  record_status: "Status"
   custom_value: "Custom value (if status=custom)"
 
 
@@ -347,7 +347,7 @@ en:
   #attributes
   aggregation: "Aggregation"
   validation_options: "Validations and options"
-  attributes_type: "Attribute type"
+  attributes_type: "Type"
   edit_pe_attribute: "Edit an attribute"
   new_pe_attribute: "New attribute"
 
@@ -881,3 +881,5 @@ en:
   no_mandatory: "No Mandatory"
   label_precision: "Precision"
   text_help_list_attribute: "(list of values ​​separated by semicolons)"
+  select_page_size: "Select page size"
+  select_page_number: "Select page number"

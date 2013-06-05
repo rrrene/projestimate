@@ -271,7 +271,7 @@ fr:
   name: "Nom"
   description: "Description"
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
-  record_status: "Statut de l'enregistrement"
+  record_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
 
 
@@ -347,7 +347,7 @@ fr:
   #attributes
   aggregation: "Agrégation"
   validation_options: "Validations et options"
-  attributes_type: "Type d'attribut"
+  attributes_type: "Type"
   edit_pe_attribute: "Editer un attribut"
   new_pe_attribute: "Créer un nouvel attribut"
 
@@ -879,3 +879,5 @@ fr:
   no_mandatory: "Non obligatoire"
   label_precision: "Précision"
   text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"
+  select_page_size: "Nombre d'enregistrement par page"
+  select_page_number: "Selectionnez le numéro de page"
