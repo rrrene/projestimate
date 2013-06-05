@@ -407,12 +407,12 @@ module ProjectsHelper
             if level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
               res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
                                        nil,
-                                       :class => "input-small #{level} #{est_val.id}",
+                                       :class => "input-small #{est_val.id}",
                                        "data-est_val_id" => est_val.id}"
             else
               res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
                                        level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value],
-                                       :class => "input-small #{level} #{est_val.id}",
+                                       :class => "input-small #{est_val.id}",
                                        "data-est_val_id" => est_val.id}"
             end
             res << '</td>'

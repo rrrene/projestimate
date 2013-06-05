@@ -50,6 +50,7 @@ class AttributeModulesController < ApplicationController
     @is_valid = @attr.is_validate(params[:value])
     @level = params[:level]
     @est_val_id = params[:est_val_id]
+
   end
 
 end
