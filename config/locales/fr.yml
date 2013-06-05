@@ -562,7 +562,7 @@ fr:
   identity: "Identité de l'utilisateur"
   first_name: "Prénom"
   last_name: "Nom"
-  login_name: "Identifiant de connexion"
+  login_name: "Id de connexion"
   email: "Courriel"
   initials: "Initiales"
   associated_groups: "Groupes associés"

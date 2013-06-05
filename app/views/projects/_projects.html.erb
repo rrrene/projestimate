@@ -9,13 +9,14 @@
     <th class="action"><%= I18n.t(:actions) %></th>
   </tr>
   </thead>
+  <tbody>
   <% @projects.each do |project| %>
       <tr>
-        <td><%= project.title %>
-        <td><%= project.alias %>
-        <td><%= project.state %>
-        <td><%= I18n.l(project.start_date) unless project.start_date.nil? %>
-        <td><%= project.organization %>
+        <td><%= project.title %></td>
+        <td><%= project.alias %></td>
+        <td><%= project.state %></td>
+        <td><%= I18n.l(project.start_date) unless project.start_date.nil? %></td>
+        <td><%= project.organization %></td>
         <td class="action" style="width: 160px">
           <%=
               (project.baseline? || project.access_locked? || project.closed?) ?
@@ -36,19 +37,11 @@
   <% end %>
 
   <%= render :partial => 'layouts/footer_table' %>
+  </tbody>
 </table>
 
 <table border="0" width="100%">
   <tr>
-    <td style="text-align:right;">
-      <% if @projects.previous_page %>
-          <%= link_to I18n.t('previous'), params.merge(page: @projects.previous_page), :remote => true %>
-      <% end %>
-      Page <%= @projects.current_page %> <%= I18n.t(:of) %> <%= @projects.total_pages %>
-      <% if @projects.next_page %>
-          <%= link_to I18n.t('next'), params.merge(page: @projects.next_page), :remote => true %>
-      <% end %>
-    </td>
     <td>
       <% @projects.each do |project| %>
           <%= pop_up("find_use_project_#{project.id}", "#{project}'s relationships") do -%>

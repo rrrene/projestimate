@@ -1,5 +1,5 @@
 /*!
-* TableSorter 2.10.7 - Client-side table sorting with ease!
+* TableSorter 2.10.8 - Client-side table sorting with ease!
 * @requires jQuery v1.2.6+
 *
 * Copyright (c) 2007 Christian Bach
@@ -24,7 +24,7 @@
 
 			var ts = this;
 
-			ts.version = "2.10.7";
+			ts.version = "2.10.8";
 
 			ts.parsers = [];
 			ts.widgets = [];
@@ -1360,7 +1360,7 @@
 	ts.addParser({
 		id: "percent",
 		is: function(s) {
-			return (/(\d\s?%|%\s?\d)/).test(s);
+			return (/(\d\s*?%|%\s*?\d)/).test(s) && s.length < 15;
 		},
 		format: function(s, table) {
 			return s ? ts.formatFloat(s.replace(/%/g, ""), table) : s;
