@@ -315,7 +315,7 @@ fr:
   project_area: "Secteur de projets"
 
   #Project areas
-  edit_project_area: "Editer un secteur de projet"
+  edit_project_area: "Editer le secteur de projet \"%{value}\" ..."
   new_project_area: "Créer un secteur de projet"
 
   #Project categories
@@ -348,7 +348,7 @@ fr:
   aggregation: "Agrégation"
   validation_options: "Validations et options"
   attributes_type: "Type"
-  edit_pe_attribute: "Editer un attribut"
+  edit_pe_attribute: "Editer l'attribut \"%{value}\" ..."
   new_pe_attribute: "Créer un nouvel attribut"
 
   #auth_method
@@ -386,11 +386,11 @@ fr:
   new_group: "Créer un nouveau groupe ... "
 
   #Labor categories
-  edit_labor_category: "Editer une catégorie de travail"
+  edit_labor_category: "Editer la catégorie de travail \"%{value}\" ..."
   new_labor_category: "Créer une catégorie de travail"
 
   #languages
-  edit_language: "Editer un langage"
+  edit_language: "Editer le langage \"%{value}\""
   new_language: "Créer un nouveau langage"
   local: "Local"
 
@@ -450,7 +450,7 @@ fr:
   #peicons
   icon: "Icône"
   text_icon_message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
-  edit_icon: "Editer l'icône"
+  edit_icon: "Editer l'icône \"%{value}\" ..."
   new_icon: "Ajouter un icône"
   icons: "Icônes"
   actions: "Actions"
@@ -470,7 +470,7 @@ fr:
   #permissions
   is_permission_project: "Permission du projet"
   object_associated: "Objet associé"
-  edit_permission: "Editer une permission"
+  edit_permission: "Editer la permission \"%{value}\" ..."
   new_permission: "Créer une nouvelle permission"
   permissions: "Permissions"
 
@@ -484,7 +484,7 @@ fr:
   read_only: "Lecture seule"
 
   #project_security_levels
-  edit_project_security_level: "Editer le niveau des sécurités sur ce projet"
+  edit_project_security_level: "Editer le niveau des sécurités \"%{value}\" ..."
   new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
 
   #projects
@@ -512,11 +512,11 @@ fr:
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
 
   #Record_statuses
-  edit_record_status: "Editer le statut d'enregistrement"
+  edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."
   new_record_status: "Créer un nouveau statut d'enregistrement"
 
   #Reference_value
-  edit_reference_value: "Editer la valeur de référence"
+  edit_reference_value: "Editer la valeur de référence \"%{value}\""
   new_reference_value: "Créer une valeur de référence"
 
   #searches

@@ -1,24 +1,39 @@
-<%= simple_form_for(@record_status) do |f| %>
-  <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:record_status) %> </a></li>
+  </ul>
+  <div id="tabs-1">
+    <%= simple_form_for(@record_status) do |f| %>
+        <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :name, :label => I18n.t('name') %>
-    <%= f.input :uuid %>
-    <%= f.input :description, :label => I18n.t('description') %>
-    <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3 } %><br />
+        <%= f.input :name, :label => I18n.t('name') %>
+        <%= f.input :uuid, :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge'} %>
 
-    <%= f.association :record_status, :label => I18n.t('record_status'),
-                      :collection => @record_status.record_status_collection,
-                      :input_html => {:class => 'record_status'},
-                      :selected => (@record_status.is_defined_or_nil? ? @proposed_status.id : @record_status.record_status_id),
-                      :disabled => (true if @record_status.is_retired?) %><br />
+        <table>
+          <tr>
+            <td>
+              <%= f.association :record_status, :label => I18n.t('record_status'),
+                                :collection => @record_status.record_status_collection,
+                                :input_html => {:class => 'record_status'},
+                                :selected => (@record_status.is_defined_or_nil? ? @proposed_status.id : @record_status.record_status_id),
+                                :disabled => (true if @record_status.is_retired?) %>
+            </td>
+            <td>
+              <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @record_status.is_custom?) %>
+            </td>
+          </tr>
+        </table>
+        <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
-    <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @record_status.is_custom?) %><br />
-  </div>
-
-  <div class="form-actions">
-    <% if can? :update, @record_status %>
-        <%= f.button :submit %>
+        <div class="actions-tabs">
+          <% if can? :update, @record_status %>
+              <!--<%= f.button :submit %>-->
+              <%= f.submit I18n.t('save'), :class => 'btn' %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <%= link_to I18n.t('back'), record_status_path, :class => 'btn' %>
+          <% end %>
+        </div>
     <% end %>
   </div>
-<% end %>
+</div>
