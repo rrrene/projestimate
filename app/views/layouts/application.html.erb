@@ -7,7 +7,8 @@
   <title><%= @page_title ? @page_title : controller.action_name %></title>
 
   <%= stylesheet_link_tag 'application' %>
-  <%= javascript_include_tag 'application', 'projestimate_script', 'warn_text' %>
+  <%= javascript_include_tag 'application', 'projestimate_script', 'warn_text','jquery.tablesorter', 'jquery.tablesorter.widgets.js' %>
+
   <%= javascript_heads %>
   <%= csrf_meta_tag %>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
