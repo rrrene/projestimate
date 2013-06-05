@@ -18,6 +18,6 @@ FactoryGirl.define do
      attr.attr_type "integer"
      attr.options ["integer", ">=", "10"]
      uuid
-     association :record_status, :factory => :defined_status, strategy: :build
+     association :record_status, :factory => :proposed_status, strategy: :build
   end
 end
