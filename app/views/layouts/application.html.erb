@@ -14,55 +14,51 @@
 
 </head>
 <body>
-    <%= render 'layouts/component_popup' %>
+<%= render 'layouts/component_popup' %>
 
-    <div class="navbar">
-      <div class="navbar-inner">
-        <div class="container">
-          <div class="row">
-            <div class="pull-left">
-              <%= link_to(content_tag(:div, '', :class=> 'logoEstimate'), '/dashboard') %>
-            </div>
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="row">
+        <div class="pull-left">
+          <%= link_to(content_tag(:div, '', :class => 'logoEstimate'), '/dashboard') %>
+        </div>
 
-            <div style="margin-top:16px;">
-              <%= render 'layouts/search_input' %>
-            </div>
-          </div>
+        <div style="margin-top:16px;">
+          <%= render 'layouts/search_input' %>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= render 'layouts/user_account' %>
+      <div id="notifications">
+        <%= render 'layouts/notifications' %>
+      </div>
 
-    <div class="navbar">
-      <div class="navbar-inner">
-        <div class="container">
-            <%= render 'layouts/user_account' %>
-            <div id="notifications">
-              <%= render 'layouts/notifications' %>
-            </div>
+    </div>
+  </div>
+</div>
 
-        </div>
+<div class="the-sidebar">
+  <div class="sidebar-nav">
+    <%= render 'layouts/sidebar_menu' %>
+  </div>
+</div>
+
+<div id="content">
+  <div class="">
+    <div class="row-fluid">
+      <div class="span12">
+        <%= yield %>
       </div>
     </div>
-
-    <div class="the-sidebar">
-      <div class="well sidebar-nav">
-        <%= render 'layouts/sidebar_menu' %>
-      </div>
-    </div>
-
-    <div id="content">
-      <div class="container-fluid the-container">
-        <div class="row-fluid">
-          <div class="span12">
-            <%= yield %>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
+  </div>
+</div>
 
 </body>
 </html>

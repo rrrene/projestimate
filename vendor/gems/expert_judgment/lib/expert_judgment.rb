@@ -25,14 +25,11 @@ module ExpertJudgment
   class ExpertJudgment
     include PemoduleEstimationMethods
 
-    attr_accessor :effort_man_hour, :minimum, :most_likely, :maximum, :probable, :pbs_project_element_id, :wbs_project_element_root
+    attr_accessor :effort_man_hour, :pbs_project_element_id, :wbs_project_element_root
 
     def initialize(elem)
       WbsProjectElement.rebuild_depth_cache!
       elem[:effort_man_hour].blank? ? @effort_man_hour = nil : @effort_man_hour = elem[:effort_man_hour]
-      set_minimum(elem)
-      set_maximum(elem)
-      set_most_likely(elem)
       set_wbs_project_element_root(elem)
     end
 
@@ -44,21 +41,6 @@ module ExpertJudgment
       end
     end
 
-    def set_minimum(elem)
-      elem[:minimum].nil? ? @minimum = 0 : @minimum = elem[:minimum].to_f
-    end
-
-    def set_maximum(elem)
-      elem[:maximum].nil? ? @maximum = 0 : @maximum = elem[:maximum].to_f
-    end
-
-    def set_most_likely(elem)
-      elem[:most_likely].nil? ? @most_likely = 0 : @most_likely = elem[:most_likely].to_f
-    end
-
-    def set_probable
-      ((@minimum + (4*@most_likely) + @maximum) / 6)
-    end
 
     #Set the WBS-activity node elements effort using aggregation (sum) of child elements (from the bottom up)
     def set_node_effort_man_hour(node)

@@ -1,32 +1,43 @@
-<div class="span12">
-  <%= simple_form_for(@auth_method) do |f| %>
+<%= simple_form_for(@auth_method) do |f| %>
     <%= f.error_notification %>
 
-    <%= f.input :name, :label => I18n.t('name')  %>
-    <%= f.input :server_name, :label => I18n.t('server_name')  %>
-    <%= f.input :port, :as => :select, :collection => ['389', '636'], :label => I18n.t('port')   %>
-    <%= f.input :certificate, :label => 'Use SSL', :label => I18n.t('certificate')  %>
-    <%= f.input :base_dn, :label => I18n.t('base_dn')  %>
-    <%= f.input :user_name_attribute, :label => I18n.t('user_name_attribute')  %>  <br />
+    <div>
+      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+      <%= f.input :server_name, :label => I18n.t('server_name'), :input_html => {:class => 'input-large'} %>
+      <table>
+        <tr>
+          <td><%= f.input :port, :as => :select, :collection => ['389', '636'], :label => I18n.t('port'), :input_html => {:class => 'input-medium'} %></td>
+          <td></td>
+          <td><%= f.input :certificate, :label => I18n.t('certificate') %></td>
+        </tr>
+      </table>
+      <%= f.input :base_dn, :label => I18n.t('base_dn'), :input_html => {:class => 'input-xxlarge'} %>
+      <%= f.input :user_name_attribute, :label => I18n.t('user_name_attribute'), :input_html => {:class => 'input-large'} %>
 
-    <% if is_master_instance? %>
+      <% if is_master_instance? %>
 
-        <%= f.input :change_comment, :input_html => { :rows => 3 }, :label => I18n.t('change_comment')  %><br />
-
-        <%= f.association :record_status, :label => I18n.t('record_status'), :required => (is_master_instance? ? true : false),
-                          :collection => @auth_method.record_status_collection,
-                          :input_html => {:class => 'record_status'},
-                          :selected => (@auth_method.is_defined_or_nil? ? @proposed_status.id : @auth_method.record_status_id),
-                          :disabled => (true if @auth_method.is_retired?) %><br />
-
-        <%= f.input :custom_value, :label => I18n.t('custom_value') , :input_html => {:class => 'custom_value'}, :disabled => (true unless @auth_method.is_custom?) %><br />
-    <% end %>
-
-    <div class="actions">
-      <% if can? :update, @auth_method %>
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
-          <%= f.submit I18n.t('apply'), :class => 'btn' %>
+          <table>
+            <tr>
+              <td>
+                <%= f.association :record_status, :label => I18n.t('record_status'), :required => (is_master_instance? ? true : false),
+                                  :collection => @auth_method.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@auth_method.is_defined_or_nil? ? @proposed_status.id : @auth_method.record_status_id),
+                                  :disabled => (true if @auth_method.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @auth_method.is_custom?) %>
+              </td>
+            </tr>
+          </table>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
       <% end %>
-    </div>
-  <% end %>
+
+      <div class="actions">
+        <% if can? :update, @auth_method %>
+            <%= f.submit I18n.t('save'), :class => 'btn' %>
+            <%= f.submit I18n.t('apply'), :class => 'btn' %>
+        <% end %>
+      </div>
+<% end %>
 </div>

@@ -234,14 +234,14 @@ fr:
   create_new_project: "Créer un nouveau projet"
 
   library: "Bibliothèque"
-  project_global_setting: "Paramètres globaux du projet"
+  project_global_setting: "Paramètres du projet"
   estimation_setting: "Estimation"
   organization_setting: "Paramètres organisationnels"
   wbs_activities: "WBS-Activities"
   template: "Modèle"
 
   admin: "Administrateur"
-  administration: "Administration"
+  administration: "Paramètres d'admin"
   users: "Utilisateurs"
   groups: "Groupes"
   global_permission: "Permissions globales"
@@ -290,7 +290,7 @@ fr:
   update: "Mettre à jour"
   empty: "Aucun"
   are_you_sur: "Etes-vous sûr ?"
-  back: "Retour"
+  back: "Annuler"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
   previous: "< Précédent "
@@ -339,7 +339,7 @@ fr:
   new_activity_category: "Créer une catégorie d'activité"
 
   #Admin_settings
-  edit_admin_settings: "Editer les paramètres d'administrations"
+  edit_admin_settings: "Editer le paramètre d'administrations \"%{value}\""
   new_admin_settings: "Créer un nouveau paramètre d'administration"
   key: "Clé"
   value: "Valeur"
@@ -382,9 +382,8 @@ fr:
   #groups
   global: "Global"
   associated_users: "Utilisateurs associés"
-  associated_projects: "Projets associés"
-  edit_group: "Editer un groupe"
-  new_group: "Créer un nouveau groupe"
+  edit_group: "Editer le groupe \"%{value}\" ... "
+  new_group: "Créer un nouveau groupe ... "
 
   #Labor categories
   edit_labor_category: "Editer une catégorie de travail"
@@ -418,7 +417,7 @@ fr:
   current_link: "Liens courant"
   edit_link: "Editer le liens"
   module_name: "Nom du module"
-  associable_attributes: "Attributs associables"
+  associable_pe_attributes: "Attributs associables"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
@@ -437,7 +436,7 @@ fr:
   new_organization_labor_category: "Créer une catégorie de travailleurs de l'organisation"
 
   #Organization
-  organization: "Organisations"
+  organizations: "Organisations"
   edit_organization: "Editer l'organisation"
   new_organization: "Créer une organisation"
   inflation: "Inflation"
@@ -489,8 +488,8 @@ fr:
   new_project_security_level: "Créer un nouveau niveau de sécurité sur le projet"
 
   #projects
-  edit_project: "Editer le projet"
-  new_project: "Créer un nouveau projet"
+  edit_project: "Editer le projet \"%{value}\" ..."
+  new_project: "Créer un nouveau projet ..."
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
   available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
@@ -560,7 +559,7 @@ fr:
   hello: "Bonjour"
 
   #users
-  identity: "Identité"
+  identity: "Identité de l'utilisateur"
   first_name: "Prénom"
   last_name: "Nom"
   login_name: "Identifiant de connexion"
@@ -569,12 +568,12 @@ fr:
   associated_groups: "Groupes associés"
   associated_organizations: "Organisations associées"
   associated_projects: "Projets associés"
-  settings: "Paramètres"
-  authentication: "Authentification"
+  settings: "Préférences"
+  authentication: "Authentification de l'utilisateur"
   password: "Mot de passe"
   password_confirmation: "Confirmation du mot de passe"
   auth_type: "Authentification de l'utilisateur"
-  informations: "Informations"
+  informations: "Informations sur l'utilisateur"
   user_status: "Statut de l'utilisateur"
   created_at: "Créer le"
   updated_at: "Mis à jour le"
@@ -590,13 +589,13 @@ fr:
   first_week: "Première semaine de l'année"
   export_preferences: "Préférence d'exportation"
   execute_estimation: "Exécuter le processus d'estimation"
-  edit_user: "Editer un utilisateur"
-  new_user: "Créer un nouvel utilisateur"
+  edit_user: "Editer l'utilisateur \"%{value}\" ..."
+  new_user: "Créer un nouvel utilisateur ..."
   users: "Utilisateurs"
   filters: "Filtres"
 
   #wbs activities
-  edit_wbs_activity: "Editer un wbs activités"
+  edit_wbs_activity: "Editer le wbs activités \"%{value}\" ..."
   new_wbs_activity: "Créer un nouveau wbs activités"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
   one_activity_element: "Un activité-élément"
