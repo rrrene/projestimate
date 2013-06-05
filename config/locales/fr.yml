@@ -879,3 +879,5 @@ fr:
   no_mandatory: "Non obligatoire"
   label_precision: "Précision"
   text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"
+  select_page_size: "Nombre d'enregistrement par page"
+  select_page_number: "Selectionnez le numéro de page"

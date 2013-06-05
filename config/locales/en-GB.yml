@@ -880,3 +880,5 @@ en-gb:
   no_mandatory: "No Mandatory"
   label_precision: "Precision"
   text_help_list_attribute: "(list of values ​​separated by semicolons)"
+  select_page_size: "Select page size"
+  select_page_number: "Select page number"
