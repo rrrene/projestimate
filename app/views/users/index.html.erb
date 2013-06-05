@@ -6,23 +6,7 @@
   <div id="tabs-1">
 
     <table border="0" width="100%">
-      <tr>
-        <%= form_tag 'user_search', :remote => true, :method => :get, :class => 'simple_form' do %>
-            <td>
-              <b><%= I18n.t(:display) %>&nbsp;</b>
-              <%= select_tag 'user_record_number', options_for_select([5, 10, 25, 50]), :class => 'pull-left span2' %>
-              <%= I18n.t(:record_per_page) %>
-            </td>
-            <td>
-              <b><%= I18n.t(:filters) %>&nbsp;</b>
-              <%= select_tag 'states', options_for_select(User.aasm_states_for_select, :selected => 'active'), :prompt => 'All', :class => 'pull-left span4' %> <%= I18n.t(:state) %>
-            </td>
-            <td class="pull-right">
-              <b> <%= I18n.t(:quick_search) %>&nbsp;</b>
-              <%= text_field_tag 'user_searches', '', :placeholder => '', :class => 'search-input' %>
-            </td>
-        <% end %>
-      </tr>
+
 
       <tr>
         <td colspan=3 style="text-align:right;">

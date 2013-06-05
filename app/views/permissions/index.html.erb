@@ -17,7 +17,7 @@
       <tr>
         <th><%= I18n.t(:permissions) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
+        <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
@@ -25,7 +25,7 @@
           <tr>
             <td><%= perm.name %></td>
             <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
-            <td>
+            <td class="action">
               <%= link_to '', edit_permission_path(perm), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
             <%= link_to '', perm, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !perm.is_local_record? %>
@@ -40,6 +40,8 @@
             </td>
           </tr>
       <% end %>
+
+      <%= render :partial => 'layouts/footer_table' %>
     </table>
 
   </div>

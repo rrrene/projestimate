@@ -18,7 +18,7 @@
         <th><%= I18n.t(:name) %></th>
         <th><%= I18n.t(:description) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
+        <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
@@ -26,8 +26,8 @@
           <tr>
             <td><%= labor_category.name %></td>
             <td><%= labor_category.description %></td>
-            <td><%= labor_category.record_status.name unless labor_category.record_status.nil? %> <%= labor_category.show_custom_value %></td>
-            <td>
+            <td ><%= labor_category.record_status.name unless labor_category.record_status.nil? %> <%= labor_category.show_custom_value %></td>
+            <td class="action">
               <%= link_to '', edit_labor_category_path(labor_category), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', labor_category, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !labor_category.is_local_record? %>
@@ -40,8 +40,10 @@
                   <% end %>
               <% end %>
             </td>
+
           </tr>
       <% end %>
+      <%= render :partial => 'layouts/footer_table' %>
     </table>
   </div>
 </div>

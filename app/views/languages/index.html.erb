@@ -18,7 +18,7 @@
         <th><%= I18n.t(:name) %></th>
         <th><%= I18n.t(:local) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th><%= I18n.t(:actions) %></th>
+        <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
@@ -27,7 +27,7 @@
             <td><%= language.name %></td>
             <td><%= language.locale %></td>
             <td><%= language.record_status.name unless language.record_status.nil? %> <%= language.show_custom_value %></td>
-            <td>
+            <td class="action">
               <%= link_to '', edit_language_path(language), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', language, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !language.is_local_record? %>
@@ -42,6 +42,8 @@
             </td>
           </tr>
       <% end %>
+
+      <%= render :partial => 'layouts/footer_table' %>
     </table>
 
   </div>

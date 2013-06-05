@@ -75,7 +75,7 @@ $(document).ready(function() {
             even       : '', // odd row zebra striping
             odd        : ''  // even row zebra striping
         });
-        $("table thead th.actions").data({
+        $("table thead th.action").data({
             sorter: false,
             filter: false
         });
