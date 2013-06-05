@@ -4,60 +4,59 @@
 
 <div class="tabs">
 
-    <ul>
-        <li><a href="#tabs-1"><%= I18n.t(:organization) %></a></li>
-        <li><a href="#tabs-2"><%= I18n.t(:inflation) %></a></li>
-        <li><a href="#tabs-3"><%= I18n.t(:organizationals_labors_categories) %></a></li>
-    </ul>
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:organizations) %></a></li>
+    <li><a href="#tabs-2"><%= I18n.t(:inflation) %></a></li>
+    <li><a href="#tabs-3"><%= I18n.t(:organizationals_labors_categories) %></a></li>
+  </ul>
 
-        <div id="tabs-1">
-          <table class="table table-striped table-bordered table-condensed table-bordered table-condensed">
-              <tr>
-                <th><%= I18n.t(:name) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th></th>
-                <th></th>
-              </tr>
+  <div id="tabs-1">
+    <table class="table table-striped table-bordered table-condensed table-bordered table-condensed">
+      <tr>
+        <th><%= I18n.t(:name) %></th>
+        <th><%= I18n.t(:description) %></th>
+        <th></th>
+        <th></th>
+      </tr>
 
-              <% @organizations.each do |i| %>
-                 <tr>
-                   <td><%= i.name %></td>
-                   <td><%= i.description %></td>
-                   <td><%= link_to '', edit_organization_path(i), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-                   <td><%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title =>I18n.t('delete') %></td>
-                 </tr>
-              <% end %>
-            </table>
-            <%= link_to I18n.t('new_organization'), new_organization_path, :class => 'btn' %>
-        </div>
+      <% @organizations.each do |i| %>
+          <tr>
+            <td><%= i.name %></td>
+            <td><%= i.description %></td>
+            <td><%= link_to '', edit_organization_path(i), :class => 'icn_edit', :title => I18n.t('edit') %></td>
+            <td><%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %></td>
+          </tr>
+      <% end %>
+    </table>
+    <%= link_to I18n.t('new_organization'), new_organization_path, :class => 'btn' %>
+  </div>
 
-        <div id="tabs-2">
-            <p>TODO : inflation</p>
-        </div>
+  <div id="tabs-2">
+    <p>TODO : inflation</p>
+  </div>
 
-        <div id="tabs-3">
-          <table class="table table-striped table-bordered table-condensed">
-              <tr>
-                <th><%= I18n.t(:name) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
+  <div id="tabs-3">
+    <table class="table table-striped table-bordered table-condensed">
+      <tr>
+        <th><%= I18n.t(:name) %></th>
+        <th><%= I18n.t(:description) %></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
 
-              <% @organizations_labor_categories.each do |i| %>
-                 <tr>
-                   <td><%= i.name %></td>
-                   <td><%= i.description %></td>
-                   <td><%= link_to '', edit_organization_labor_category_path(i), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-                   <td><%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title =>I18n.t('delete') %></td>
-                 </tr>
-              <% end %>
-            </table>
-          <%= link_to I18n.t('new_organization_labor_category'), new_organization_labor_category_path, :class => 'btn' %>
-        </div>
-    </ul>
-
+      <% @organizations_labor_categories.each do |i| %>
+          <tr>
+            <td><%= i.name %></td>
+            <td><%= i.description %></td>
+            <td><%= link_to '', edit_organization_labor_category_path(i), :class => 'icn_edit', :title => I18n.t('edit') %></td>
+            <td><%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %></td>
+          </tr>
+      <% end %>
+    </table>
+    <%= link_to I18n.t('new_organization_labor_category'), new_organization_labor_category_path, :class => 'btn' %>
+  </div>
 </div>
+
 
 

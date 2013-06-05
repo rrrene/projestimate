@@ -43,12 +43,22 @@ $(document).ready(function() {
             })
     });
 
-    $('.input-small').bind("blur",(
+    $('table .input-small').bind("blur",(
         function(){
             $.ajax({
                 url:"check_attribute",
                 type: 'POST',
-                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
+                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + $(this).data("est_val_id") + "&wbs_project_elt_id=" + $(this).data("wbs_project_elt_id")
+            })
+        }
+    ));
+
+    $('table .input-mini').bind("blur",(
+        function(){
+            $.ajax({
+                url:"/check_attribute_modules",
+                type: 'POST',
+                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&attr_id=" + this.className.split(/\s/)[1]
             })
         }
     ));
@@ -201,6 +211,8 @@ $(document).ready(function() {
         document.getElementById(high_level).value = first_value;
         return false;
     });
+
+    $('html, body').animate({ scrollTop: 0 });
 
 });
 

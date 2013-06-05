@@ -1,24 +1,32 @@
-<div class="span12">
-  <%= simple_form_for(@project_category) do |f| %>
+<%= simple_form_for(@project_category) do |f| %>
     <%= f.error_notification %>
 
-    <%= f.input :name, :label => I18n.t("name") %><br />
-    <%= f.input :description, :input_html => { :rows => 3 }, :label => I18n.t("description") %><br />
-    <%= f.input :change_comment, :input_html => { :rows => 3 }, :label => I18n.t("change_comment") %><br />
+    <div>
+      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-    <%= f.association :record_status, :label => I18n.t("record_status"),
-                      :collection => @project_category.record_status_collection,
-                      :input_html => {:class => "record_status"},
-                      :selected => (@project_category.is_defined_or_nil? ? @proposed_status.id : @project_category.record_status_id),
-                      :disabled => (true if @project_category.is_retired?)%><br />
+      <table>
+        <tr>
+          <td>
+            <%= f.association :record_status, :label => I18n.t('record_status'),
+                              :collection => @project_category.record_status_collection,
+                              :input_html => {:class => 'record_status'},
+                              :selected => (@project_category.is_defined_or_nil? ? @proposed_status.id : @project_category.record_status_id),
+                              :disabled => (true if @project_category.is_retired?) %>
+          </td>
+          <td>
+            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @project_category.is_custom?) %>
+          </td>
+        </tr>
+      </table>
+      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
-    <%= f.input :custom_value, :input_html => {:class => "custom_value"}, :disabled => (true unless @project_category.is_custom?), :label => I18n.t("custom_value") %><br />
-
-    <div class="actions">
-      <% if can? :update, @project_category %>
-          <%= f.submit I18n.t("save"), :class => "btn" %>
-          <%= f.submit I18n.t("apply"), :class => "btn" %>
-      <% end %>
-    </div>
-  <% end %>
+      <div class="actions">
+        <% if can? :update, @project_category %>
+            <%= f.submit I18n.t('save'), :class => 'btn' %>
+            <%= f.submit I18n.t('apply'), :class => 'btn' %>
+        <% end %>
+      </div>
+<% end %>
 </div>
+

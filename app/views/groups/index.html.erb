@@ -21,19 +21,19 @@
       </tr>
 
       <% @groups.each do |group| %>
-          <tr class="">
+          <tr>
             <td><%= group.name %></td>
             <td><%= group.description %></td>
             <td><%= group.record_status.name unless group.record_status.nil? %> <%= group.show_custom_value %></td>
             <td>
-              <%= link_to '', edit_group_path(group, :anchor => 'tabs-1'), :class => 'icn_edit', :title => I18n.t('edit') %>
-              <%= link_to '', group, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %>
+              <%= link_to '', edit_group_path(group, :anchor => 'tabs-1'), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <%= link_to '', group, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !group.is_local_record? %>
                   <% if group.is_retired? %>
-                      <%= link_to(I18n.t('restore'), "groups/#{group.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title')) %>
+                      <%= link_to(' ', "groups/#{group.id}/restore_change", confirm: I18n.t('restoring'),:class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
                   <% else %>
                       <% unless group.is_defined? %>
-                          <%= link_to(I18n.t('validate'), "groups/#{group.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title')) %>
+                          <%= link_to(' ', "groups/#{group.id}/validate_change", confirm: I18n.t('validation'),:class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
                       <% end %>
                   <% end %>
               <% end %>

@@ -18,7 +18,7 @@
       <tr>
         <th><%= I18n.t(:name) %></th>
         <th><%= I18n.t(:description) %></th>
-        <th><%= I18n.t(:organization) %></th>
+        <th><%= I18n.t(:organizations) %></th>
         <th><%= I18n.t(:state) %></th>
         <th><%= I18n.t(:record_status) %></th>
         <th><%= I18n.t(:actions) %></th>
@@ -33,17 +33,17 @@
             <td><%= wbs_activity.state %></td>
             <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
             <td class="text-centered">
-              <%= link_to '', edit_wbs_activity_path(wbs_activity), :class => 'icon-edit icon-large', :title => I18n.t(:edit), confirm: (I18n.t(:text_master_force_edit) if wbs_activity.is_defined?) %>
-              <%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_wbs_activity", :class => 'icn_duplicate', :title => 'Duplicate') %>
+              <%= link_to '', edit_wbs_activity_path(wbs_activity), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit), confirm: (I18n.t(:text_master_force_edit) if wbs_activity.is_defined?) %>
+              <%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_wbs_activity", :class => 'icon-copy icon-large icon-border pull-left', :title => 'Duplicate') %>
               <% unless wbs_activity.retired? %>
-                  <%= link_to '', wbs_activity, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-trash icon-large', :title => I18n.t(:delete) %>
+                  <%= link_to '', wbs_activity, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t(:delete) %>
               <% end %>
               <% if is_master_instance? && !wbs_activity.is_local_record? %>
                   <% if wbs_activity.is_retired? %>
-                      <%= link_to('', "wbs_activities/#{wbs_activity.id}/restore_change", confirm: I18n.t(:actions), :title => I18n.t(:restore_title), :class => 'icon-hand-left icon-large') %>
+                      <%= link_to('', "wbs_activities/#{wbs_activity.id}/restore_change", confirm: I18n.t(:actions), :title => I18n.t(:restore_title), :class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange') %>
                   <% else %>
                       <% unless wbs_activity.is_defined? %>
-                          <%= link_to('', "/wbs_activities/#{wbs_activity.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title => I18n.t(:validate_title), :class => 'icon-ok icon-large') %>
+                          <%= link_to('', "/wbs_activities/#{wbs_activity.id}/validate_change_with_children", confirm: 'Do you confirm changes validation on this record and all its elements?', :title => I18n.t(:validate_title), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green') %>
                       <% end %>
                   <% end %>
               <% end %>

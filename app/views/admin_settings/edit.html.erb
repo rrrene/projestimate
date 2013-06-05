@@ -1,4 +1,4 @@
-<h2><%= I18n.t(:edit_admin_settings)%></h2>
+<strong>&nbsp;<i class="icon-pencil icon-large" style ="color:blue">&nbsp;<%= I18n.t(:edit_admin_settings, :value => @admin_setting.key) %></i></strong>
 <div class="module width_full">
   <%= render 'form' %>
 </div>

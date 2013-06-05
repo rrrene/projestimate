@@ -1,10 +1,3 @@
-<% action_name = controller.action_name %>
-<% if ['new', 'edit'].include?(action_name) %>
-    <h2 xmlns="http://www.w3.org/1999/html"><%= (action_name == 'new') ? I18n.t(:new_wbs_activity) : I18n.t(:edit_wbs_activity) %></h2>
-<% else %>
-    <h1><%= I18n.t(:new_activities) %></h1>
-<% end %>
-
 <div class="tabs">
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:general) %> </a></li>
@@ -27,7 +20,7 @@
           <% else %>
               <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
               <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-              <%= f.input :organization_id, :label => I18n.t('organization'), :as => :select, :collection => current_user.organizations, :input_html => {:class => 'input-xxlarge'} %>
+              <%= f.input :organization_id, :label => I18n.t('organizations'), :as => :select, :collection => current_user.organizations, :input_html => {:class => 'input-xxlarge'} %>
 
               <%= f.input :state, :label => I18n.t('state'), :as => :select, :collection => WbsActivity.aasm_states_for_select, :input_html => {:class => 'input-xxlarge'} %>
           <% end %>
@@ -53,6 +46,7 @@
 
           <%= f.submit I18n.t(:save), :class => 'btn' %>
           <%= f.submit I18n.t(:apply), :class => 'btn' %>
+          <%= link_to I18n.t('back'), wbs_activities_path, :class => 'btn' %>
       <% end %>
     </div>
 
@@ -64,12 +58,12 @@
         </div>
 
         <div id="tabs-3">
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered table-condensed">
             <tr>
               <th><%= I18n.t(:name) %></th>
               <th><%= I18n.t(:description) %></th>
               <th><%= I18n.t(:record_status) %></th>
-              <th colspan=3>Actions</th>
+              <th colspan=5>Actions</th>
             </tr>
             <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
                 <tr>
@@ -77,13 +71,13 @@
                   <td><%= wbs_activity_ratio.description %></td>
                   <td><%= wbs_activity_ratio.record_status %></td>
                   <td>
-                    <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity_id), :class => 'icon-edit icon-large', :title => I18n.t(:edit) %>
-                    <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-trash icon-large', :title => I18n.t(:delete) %>
-                    <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => 'icon-download icon-large', :title => I18n.t(:export) %>
-                    <a href="#myModal" role="button" class="icon-upload icon-large" data-toggle="modal" title="Import a CSV file"></a>
+                    <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity_id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit) %>
+                    <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t(:delete) %>
+                    <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => 'icon-download icon-large icon-border pull-left', :title => I18n.t(:export) %>
+                    <a href="#myModal" role="button" class="icon-upload icon-large icon-border pull-left" data-toggle="modal" title="Import a CSV file"></a>
                     <% if wbs_activity_ratio.wbs_activity.is_defined? && is_master_instance? && wbs_activity_ratio.record_status != @local_status %>
                         <% unless wbs_activity_ratio.is_defined? %>
-                            <%= link_to('', "/wbs_activity_ratios/#{wbs_activity_ratio.id}/validate_ratio", confirm: 'Do you confirm ?', :title => I18n.t(:validate_title), :class => 'icn_check_in') %>
+                            <%= link_to('', "/wbs_activity_ratios/#{wbs_activity_ratio.id}/validate_ratio", confirm: 'Do you confirm ?', :title => I18n.t(:validate_title), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green') %>
                         <% end %>
                     <% end %>
                   </td>

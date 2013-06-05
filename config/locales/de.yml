@@ -239,7 +239,7 @@ de:
   template: "Template"
 
   admin: "Admin"
-  administration: "Administration"
+  administration: "Admin Settings"
   users: "Users"
   groups: "Groups"
   global_permission: "Global permissions"
@@ -337,7 +337,7 @@ de:
   new_activity_category: "New activity category"
 
   #Admin_settings
-  edit_admin_settings: "Edit admin settings"
+  edit_admin_settings: "Edit the admin settings \"%{value}\" ...."
   new_admin_settings: "New admin setting"
   key: "Key"
   value: "Value"
@@ -380,8 +380,7 @@ de:
   #groups
   global: "Global"
   associated_users: "Associated users"
-  associated_projects: "Associated projects"
-  edit_group: "Edit a group"
+  edit_group: "Edit the group \"%{value}\" ..."
   new_group: "New group"
 
   #Labor categories
@@ -416,7 +415,7 @@ de:
   current_link: "Current link"
   edit_link: "Edit a link"
   module_name: "Module name"
-  associable_pe_attributes: "Associable attributes"
+  associable_attributes: "Associable attributes"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associate Product-Element with current module project"
@@ -435,7 +434,7 @@ de:
   new_organization_labor_category: "New organization labor category"
 
   #Organization
-  organization: "Organization"
+  organizations: "Organization"
   edit_organization: "Edit an organization"
   new_organization: "New organization"
   inflation: "Inflation"
@@ -487,15 +486,15 @@ de:
   new_project_security_level: "New project security level"
 
   #projects
-  edit_project: "Edit project"
-  new_project: "New project"
+  edit_project: "Edit project \"%{value}\" ..."
+  new_project: "New project ..."
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
   button_add: "ADD"
   label_wbs_activity_ratio: "Ratio table"
   estimation_plan: "Estimation plan"
-  button_estimation_plan: "Edit estimation plan"
+  button_estimation_plan: "edit Estimation plan"
   securities: "Securities"
   calendar: "Calendar"
   resources: "Resources"
@@ -554,25 +553,25 @@ de:
   your_identifiants_message: "Your credentials are "
   not_active_message: "Your account is not yet active."
   cordialy_message: "Sincerely, "
-  projestimate_equipe_message: "The Projestimate team"
+  projestimate_equipe_message: "The ProjEstimate team"
   hello: "Hello"
 
   #users
-  identity: "Identity"
+  identity: "User's identity"
   first_name: "First name"
   last_name: "Last name"
   login_name: "Login name"
   email: "Email"
   initials: "Initials"
-  associated_groups: "Associated groups"
-  associated_organizations: "Associated organizations"
-  associated_projects: "Associated projects"
-  settings: "Settings"
-  authentication: "Authentication"
+  associated_groups: "User's Associated groups"
+  associated_organizations: "User's Associated organizations"
+  associated_projects: "User's Associated projects"
+  settings: "Preferences"
+  authentication: "Users's Authentication"
   password: "Password"
   password_confirmation: "Password Confirmation"
   auth_type: "User Authentication"
-  informations: "Information"
+  informations: "User's Information"
   user_status: "User status"
   created_at: "Created at"
   updated_at: "Updated at"
@@ -588,13 +587,13 @@ de:
   first_week: "First week of year"
   export_preferences: "Export preferences"
   execute_estimation: "Execute estimation process"
-  edit_user: "Edit an user"
-  new_user: "New user"
+  edit_user: "Edit user \"%{value}\" ..."
+  new_user: "New user ..."
   users: "Users"
   filters: "Filters"
 
   #wbs activities
-  edit_wbs_activity: "Edit a wbs activity"
+  edit_wbs_activity: "Editing the \"%{value}\" wbs activity ..."
   new_wbs_activity: "New wbs activity"
   sum_of_ratio_values: "Sum of ratio values :"
   one_activity_element: "One Activity-element"
@@ -640,14 +639,13 @@ de:
 
 
   #messages
-  status_custom: "Is needed only when Status = Custom"
   restoring: "Do you confirm restoring this record as defined ?"
   validation: "Do you confirm changes validation on this record?"
   global_settings_updated: "Global settings have been updated."
   attributes_settings_updated: "Attributes settings have been updated."
-  refers_to: "No projestimate modules has been installed. Please refer to"
+  refers_to: "No ProjEstimate modules has been installed. Please refer to"
   official_documentation: "Official documentation"
-  to_install_module: "to install projestimate modules."
+  to_install_module: "to install ProjEstimate modules."
   notice_no_estimation_plan_defined: "No estimating plan has been defined."
   select_module: "Select a module from the list. Changes are saved automatically."
   step: "Step"
@@ -673,6 +671,7 @@ de:
           yes_for_output_without_ratio: 'Yes for output without ratio'
           yes_for_input_output_with_ratio: 'Yes for input/output with ratio'
           yes_for_input_output_without_ratio: 'Yes for input/output without ratio'
+
 
   #Error, warning, notice messages
   warning_wbs_activity_ratio_elt_value_range: "Please, enter value between ]0 - 100]"
@@ -835,6 +834,7 @@ de:
   notice_module_project_successful_updated: "Module Project was successfully updated"
   notice_module_project_successful_created: "Module Project was successfully created"
   notice_attribute_module_successful_created: "Attribute module was successfully created."
+
   #mail
   mail_salutation: "Dear %{value},"
   mail_complimentary_close: "Sincerely,\nProjEstimate"
@@ -876,7 +876,6 @@ de:
   label_pbs_element_matrix: "Associate PBS elements with project modules"
   tooltip_attribute_rules: "Validation rules"
   error_invalid_date: "Invalid date time"
-  associable_attributes: "Associable attributes"
   no_mandatory: "No Mandatory"
   label_precision: "Precision"
   text_help_list_attribute: "(list of values ​​separated by semicolons)"

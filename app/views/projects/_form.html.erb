@@ -1,13 +1,3 @@
-<div id="content-header">
-  <% action_name = controller.action_name %>
-  <% if ['new', 'edit'].include?(action_name) %>
-      <h1><%= ("#{action_name}" == 'new') ? "#{I18n.t 'new_project'}" : "#{I18n.t 'edit_project'}: #{@project.title}" %></h1>
-  <% else %>
-      <h1><%= I18n.t(:new_project) %></h1>
-  <% end %>
-</div>
-
-
 <%= simple_form_for(@project) do |f| %>
     <%= f.error_notification %>
 
@@ -50,7 +40,7 @@
             });
         </script>
 
-        <%= f.input :organization_id, :label => "#{I18n.t 'organization'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xxlarge'} %>
 
         <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
@@ -63,6 +53,7 @@
         <div class="actions">
           <%= f.submit I18n.t('save'), :class => 'btn' %>
           <%= f.submit I18n.t('apply'), :class => 'btn' %>
+          <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
         </div>
 
 <% end %>

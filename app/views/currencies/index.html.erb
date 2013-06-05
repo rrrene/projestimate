@@ -8,35 +8,31 @@
     <th>Alias</th>
     <th><%= I18n.t(:description) %></th>
     <th><%= I18n.t(:record_status) %></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th><%= I18n.t(:actions) %></th>
   </tr>
 
-<% @currencies.each do |currency| %>
-  <tr>
-    <td><%= currency.name %></td>
-    <td><%= currency.alias %></td>
-    <td><%= currency.description %></td>
-    <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
-    <td><%= link_to '', edit_currency_path(currency), :class => 'icn_edit', :title => I18n.t('edit') %></td>
-    <td><%= link_to '', currency, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icn_trash', :title => I18n.t('delete') %></td>
-    <td>
-      <% if is_master_instance? && !currency.is_local_record? %>
-          <% if currency.is_retired? %>
-              <%= link_to(I18n.t('restore'), "currencies/#{currency.id}/restore_change", confirm: I18n.t('restoring'), :title => I18n.t('restore_title'))%>
-          <% else %>
-              <% unless currency.is_defined? %>
-                  <%= link_to(I18n.t('validate'), "currencies/#{currency.id}/validate_change", confirm: I18n.t('validation'), :title => I18n.t('validate_title'))%>
+  <% @currencies.each do |currency| %>
+      <tr>
+        <td><%= currency.name %></td>
+        <td><%= currency.alias %></td>
+        <td><%= currency.description %></td>
+        <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
+        <td><%= link_to '', edit_currency_path(currency), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+          <%= link_to '', currency, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+          <% if is_master_instance? && !currency.is_local_record? %>
+              <% if currency.is_retired? %>
+                  <%= link_to('', "currencies/#{currency.id}/restore_change", confirm: I18n.t('restoring'), :class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
+              <% else %>
+                  <% unless currency.is_defined? %>
+                      <%= link_to('', "currencies/#{currency.id}/validate_change", confirm: I18n.t('validation'), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
+                  <% end %>
               <% end %>
           <% end %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
+        </td>
+      </tr>
+  <% end %>
 </table>
 
-<br />
+<br/>
 
 <%= link_to I18n.t('new_currency'), new_currency_path, :class => 'btn' %>
