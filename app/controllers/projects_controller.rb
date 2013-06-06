@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
 
   def index
     set_page_title 'Projects'
-    @projects = Project.page(params[:page]).per_page(5)
+    @projects = Project.all
     respond_to do |format|
       format.html
       format.js {
