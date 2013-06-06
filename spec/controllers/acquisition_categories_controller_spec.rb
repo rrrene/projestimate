@@ -33,6 +33,7 @@ describe AcquisitionCategoriesController do
       post :create, @params
       response.should be_success
     end
+
     #it "renders the create template" do
     #  @params = { :name => "Breton", :locale => "br" }
     #  post :create, @params
@@ -59,6 +60,7 @@ describe AcquisitionCategoriesController do
     #    delete :destroy, @params
     #    response.should be_success
     #end
+
     it "redirects to the acquisition_category list" do
       @params = { :id => @acquisition_category.id }
       delete :destroy, @params
