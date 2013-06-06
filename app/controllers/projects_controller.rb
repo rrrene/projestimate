@@ -772,5 +772,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def choose_project
+    u = current_user
+    u.add_recent_project(params[:project_id])
+    session[:current_project_id] = params[:project_id]
+    redirect_to root_url
+  end
+
 
 end
