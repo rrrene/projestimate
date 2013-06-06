@@ -24,6 +24,9 @@ module PeWbsProjectsHelper
   ##========================================== FOR WBS PRODUCT ======================================================##
 
     def generate_wbs_product(pbs_project_element, project, tree, gap)
+
+      all_pbs_project_element =  pbs_project_element.children.sort_by(&:position)
+
       #Root is always display
       if !pbs_project_element.nil? && pbs_project_element.is_root?
         tree << "<ul >
@@ -33,7 +36,7 @@ module PeWbsProjectsHelper
       if pbs_project_element.has_children?
         gap = gap + 2
         tree << "<ul class='sortable' style='margin-left:#{gap}px; border-left: 1px solid black; padding-left: 8px;''>"
-        pbs_project_element.children.sort_by(&:position).each do |c|
+        all_pbs_project_element.each do |c|
           if c.work_element_type.alias == "folder"
             tree << wbs_folder_links(c, project)
           else
