@@ -319,15 +319,15 @@ en:
   new_project_area: "New project area"
 
   #Project categories
-  edit_project_category: "Edit a project category"
+  edit_project_category: "Edit the \"%{value}\" project category ..."
   new_project_category: "New project category"
 
   #Platform categories
-  edit_platform_category: "Edit a platform category"
+  edit_platform_category: "Edit the \"%{value}\" platform category ..."
   new_platform_category: "New platform category"
 
   #Acquisition categories
-  edit_acquisition_category: "Edit an acquisition category"
+  edit_acquisition_category: "Edit the \"%{value}\" acquisition category ..."
   new_acquisition_category: "New acquisition category"
   notice_acquisition_category_successful_created: "Acquisition category was successfully created."
   notice_acquisition_category_successful_destroyed: "Acquisition category was successfully deleted."
@@ -348,7 +348,7 @@ en:
   aggregation: "Aggregation"
   validation_options: "Validations and options"
   attributes_type: "Type"
-  edit_pe_attribute: "Edit an attribute"
+  edit_pe_attribute: "Edit the \"%{value}\" attribute ..."
   new_pe_attribute: "New attribute"
 
   #auth_method
@@ -357,7 +357,7 @@ en:
   certificate: "Certificate"
   base_dn: "Base DNS"
   user_name_attribute: "Username Attribute"
-  edit_auth_method: "Edit an authentication method"
+  edit_auth_method: "Edit the \"%{value}\" authentication method ..."
   new_auth_method: "New authentication method"
 
   #currencies
@@ -390,12 +390,12 @@ en:
   new_labor_category: "New labor category"
 
   #languages
-  edit_language: "Edit the \"%{value}\" language"
+  edit_language: "Edit the \"%{value}\" language ..."
   new_language: "New language"
   local: "Local"
 
   #master_settings
-  edit_master_setting: "Edit a master setting"
+  edit_master_setting: "Edit the \"%{value}\" master setting ..."
   new_master_setting: "New master setting"
 
   #estimation_values
@@ -432,12 +432,12 @@ en:
   currency: "Currency"
   hour_per_day: "Hour per day"
   days_per_year: "Days per year"
-  edit_organization_labor_category: "Edit an organization labor category"
+  edit_organization_labor_category: "Edit the \"%{value}\" organization labour category ..."
   new_organization_labor_category: "New organization labor category"
 
   #Organization
   organizations: "Organization"
-  edit_organization: "Edit an organization"
+  edit_organization: "Edit the \"%{value}\" organization ..."
   new_organization: "New organization"
   inflation: "Inflation"
   organizationals_labors_categories: "Organizational labors categories"
@@ -470,7 +470,7 @@ en:
   #permissions
   is_permission_project: "Permission project"
   object_associated: "Object associated"
-  edit_permission: "Edita permission"
+  edit_permission: "Edit the \"%{value}\" permission ..."
   new_permission: "New permission"
   permissions: "Permissions"
 
@@ -484,7 +484,7 @@ en:
   read_only: "Read only"
 
   #project_security_levels
-  edit_project_security_level: "Edit the \"%{value}\" project security level"
+  edit_project_security_level: "Edit the \"%{value}\" project security level ..."
   new_project_security_level: "New project security level"
 
   #projects
@@ -516,7 +516,7 @@ en:
   new_record_status: "New record status"
 
   #Reference_value
-  edit_reference_value: "Edit the \"%{value}\" reference value"
+  edit_reference_value: "Edit the \"%{value}\" reference value ..."
   new_reference_value: "New reference_value"
 
   #searches
@@ -636,7 +636,7 @@ en:
   author: "Author"
 
   #work element type
-  edit_work_element_type: "Edit a work element type"
+  edit_work_element_type: "Edit the \"%{value}\" work element type ..."
   new_work_element_type: "New work element type"
 
 
@@ -802,10 +802,11 @@ en:
   notice_version_successful_updated: "Version was successfully updated."
   notice_wbs_activity_element_import_successful: "Import successful."
   error_wbs_activity_failed_file_integrity: "Please verify file integrity. You use illegal character like carriage return or double quotes in your csv files."
+  notice_wbs_activity_successful_created: "WBS-Activity was successfully create."
   notice_wbs_activity_successful_deleted: "WBS-Activity was successfully deleted."
   notice_wbs_activity_successful_duplicated: "WBS-Activity was successfully duplicated"
   error_wbs_activity_failed_duplicate: "Duplication failed: Error happened on Wbs-Activity duplication,"
-  notice_wbs_activity_successful_updated: "Changes on record was successfully validated."
+  notice_wbs_activity_successful_updated: "Changes on WBS-Activity was successfully validated."
   error_wbs_activity_failed_update: "Changes validation failed:"
   notice_wbs_activity_element_successful_created: "Wbs activity element was successfully created."
   notice_wbs_activity_element_successful_updated: "Wbs activity element was successfully updated."
@@ -878,6 +879,7 @@ en:
   label_pbs_element_matrix: "Associate PBS elements with project modules"
   tooltip_attribute_rules: "Validation rules"
   error_invalid_date: "Invalid date time"
+  associable_attributes: "Associable attributes"
   no_mandatory: "No Mandatory"
   label_precision: "Precision"
   text_help_list_attribute: "(list of values ​​separated by semicolons)"

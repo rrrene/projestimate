@@ -1,5 +1,7 @@
 <div class="span12">
-  <h1><%= I18n.t(:global_permission) %></h1>
+  <h4 class="ui-widget">&nbsp;<i class="icon-reorder icon-large"></i>&nbsp;<b><%= I18n.t(:global_permission) %> </b></h4>
+  <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+  <br />
 
   <%= form_tag({:action=> 'set_rights', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
     <table class="table table-striped table-bordered table-condensed permissions">

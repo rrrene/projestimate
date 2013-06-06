@@ -21,7 +21,7 @@
         <th><%= I18n.t(:organizations) %></th>
         <th><%= I18n.t(:state) %></th>
         <th><%= I18n.t(:record_status) %></th>
-        <th class="action"><%= I18n.t(:actions) %></th>
+        <th class="action" style="width: 160px"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
 
@@ -32,7 +32,7 @@
             <td><%= wbs_activity.organization unless wbs_activity.organization.nil? %></td>
             <td><%= wbs_activity.state %></td>
             <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
-            <td class="text-centered action">
+            <td>
               <%= link_to '', edit_wbs_activity_path(wbs_activity), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit), confirm: (I18n.t(:text_master_force_edit) if wbs_activity.is_defined?) %>
               <%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_wbs_activity", :class => 'icon-copy icon-large icon-border pull-left', :title => 'Duplicate') %>
               <% unless wbs_activity.retired? %>

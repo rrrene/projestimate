@@ -65,13 +65,15 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
+
+    elements_to_up = pbs_project_element.siblings.where("position > ?", pbs_project_element.position ).all
+
     #Destroy the selected pbs_project_element
     pbs_project_element.destroy
 
-    #Reload position
-    @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each_with_index do |c,i|
-      c.position = i
-      c.save
+    elements_to_up.each do |element|
+      element.position = element.position - 1
+      element.save
     end
 
     render :partial => "pbs_project_elements/refresh_tree"
@@ -112,7 +114,8 @@ class PbsProjectElementsController < ApplicationController
       @pbs_project_element.name = "New pbs_project_element"
       @pbs_project_element.work_element_type_id = WorkElementType.find_by_alias("undefined").id
     end
-    @pbs_project_element.position = @pe_wbs_project.pbs_project_elements.map(&:position).max + 1
+
+    @pbs_project_element.position = @pbs_project_element.siblings.length + 1
     @pbs_project_element.save
 
     #Set current pbs_project_element
@@ -130,8 +133,11 @@ class PbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     component_a = PbsProjectElement.find(params[:pbs_project_element_id])
-    unless component_a.position == 1
-      component_b = PbsProjectElement.find_by_position_and_pe_wbs_project_id(component_a.position - 1, params[:pe_wbs_project_id])
+    component_b = component_a.siblings.all.select{|i| i.position == component_a.position - 1 }.first
+
+    if (component_a.parent.id == component_a.root.id and component_a.position == 1) or component_a.siblings.size == 1
+      puts "nothing"
+    else
       component_a.update_attribute("position", component_a.position - 1)
       component_b.update_attribute("position", component_b.position + 1)
     end
@@ -146,9 +152,11 @@ class PbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     component_a = PbsProjectElement.find(params[:pbs_project_element_id])
+    component_b = component_a.siblings.all.select{|i| i.position == component_a.position + 1 }.first
 
-    unless component_a.position == @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.map(&:position).max
-      component_b = PbsProjectElement.find_by_position(component_a.position + 1)
+    if component_b.nil? or component_a.siblings.size == 1
+      puts "nothing"
+    else
       component_a.update_attribute("position", component_a.position + 1)
       component_b.update_attribute("position", component_b.position - 1)
     end

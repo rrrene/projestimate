@@ -25,9 +25,9 @@
       <% @icons.each do |i| %>
           <tr>
             <td><%= i.name %></td>
-            <td class="action"><%= image_tag i.icon.url(:small) %></td>
+            <td><%= image_tag i.icon.url(:small) %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %> <%= i.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_peicon_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !i.is_local_record? %>

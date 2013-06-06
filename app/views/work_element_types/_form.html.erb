@@ -1,61 +1,69 @@
-<%= simple_form_for(@work_element_type) do |f| %>
-    <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:work_element_type) %> </a></li>
+  </ul>
+  <div id="tabs-1">
+    <%= simple_form_for(@work_element_type) do |f| %>
+        <%= f.error_notification %>
 
-    <div>
-      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
-      <%= f.input :alias %>
-      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+        <div>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :alias %>
+          <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-      <table>
-        <tr>
-          <td>
-            <%= f.association :record_status, :label => I18n.t('record_status'),
-                              :collection => @work_element_type.record_status_collection,
-                              :input_html => {:class => 'record_status'},
-                              :selected => (@work_element_type.is_defined_or_nil? ? @proposed_status.id : @work_element_type.record_status_id),
-                              :disabled => (true if @work_element_type.is_retired?) %>
-          </td>
-          <td>
-            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @work_element_type.is_custom?) %>
-          </td>
-        </tr>
-      </table>
-      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+          <table>
+            <tr>
+              <td>
+                <%= f.association :record_status, :label => I18n.t('record_status'),
+                                  :collection => @work_element_type.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@work_element_type.is_defined_or_nil? ? @proposed_status.id : @work_element_type.record_status_id),
+                                  :disabled => (true if @work_element_type.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @work_element_type.is_custom?) %>
+              </td>
+            </tr>
+          </table>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
-      <p>
-      <table>
-        <tr>
-          <td>
-            <div class="my_peicon">
-              <% if @work_element_type.peicon %>
-                  <%= image_tag @work_element_type.peicon.icon.url %>
-              <% else %>
-                  <%= I18n.t(:text_no_icon) %>
-              <% end %>
-            </div>
-          </td>
-          <td>&nbsp;&nbsp;</td>
-          <td>
-            <%= link_to I18n.t(:edit_icon), '#change_peicon', :'data-toggle' => 'modal' %>
-          </td>
-        </tr>
-      </table>
-      <%= f.input :peicon_id, :as => :hidden %>
+          <p>
+          <table>
+            <tr>
+              <td>
+                <div class="my_peicon">
+                  <% if @work_element_type.peicon %>
+                      <%= image_tag @work_element_type.peicon.icon.url %>
+                  <% else %>
+                      <%= I18n.t(:text_no_icon) %>
+                  <% end %>
+                </div>
+              </td>
+              <td>&nbsp;&nbsp;</td>
+              <td>
+                <%= link_to I18n.t(:edit_icon), '#change_peicon', :'data-toggle' => 'modal' %>
+              </td>
+            </tr>
+          </table>
+          <%= f.input :peicon_id, :as => :hidden %>
 
-    </div>
+        </div>
 
-    <div class="actions">
-      <% if can? :update, @work_element_type %>
-          <%= f.submit I18n.t (:save), :class => 'btn' %>
-          <%= f.submit I18n.t (:apply), :class => 'btn' %>
-      <% end %>
-    </div>
-<% end %>
-
-<div id="change_peicon" class=" modal hide fade">
-  <div class="modal-body">
-    <% @peicons.each do |i| %>
-        <%= link_to image_tag(i.icon.url), choose_icon_path(i), :remote => true %>
+        <div class="actions-tabs">
+          <% if can? :update, @work_element_type %>
+              <%= f.submit I18n.t (:save), :class => 'btn' %>
+              <%= f.submit I18n.t (:apply), :class => 'btn' %>
+              <%= link_to I18n.t('back'), work_element_types_path, :class => 'btn' %>
+          <% end %>
+        </div>
     <% end %>
+
+    <div id="change_peicon" class=" modal hide fade">
+      <div class="modal-body">
+        <% @peicons.each do |i| %>
+            <%= link_to image_tag(i.icon.url), choose_icon_path(i), :remote => true %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
