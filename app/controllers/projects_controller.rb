@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
 
   def index
     set_page_title 'Projects'
-    @projects = Project.page(params[:page]).per_page(5)
+    @projects = Project.all
     respond_to do |format|
       format.html
       format.js {
@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:notice_project_successful_created)}"
+          redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -579,7 +579,7 @@ class ProjectsController < ApplicationController
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
         inputs['module_project_id'.to_sym] = module_project.id
 
-        # Normally, the input data is commonly from the ExpertJudment Module on PBS (when running estimation on its product)
+        # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
@@ -662,11 +662,6 @@ class ProjectsController < ApplicationController
 
   def projects_global_params
     set_page_title 'Project global parameters'
-  end
-
-  def project_record_number
-    @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
-    render :partial => 'project_record_number'
   end
 
   def sort_column

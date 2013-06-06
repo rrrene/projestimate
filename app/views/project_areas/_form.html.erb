@@ -112,14 +112,13 @@
           <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
         </div>
-        <div class="actions">
+        <div class="actions-tabs">
           <% if can? :update, @project_area %>
               <%= f.submit I18n.t('save'), :class => 'btn' %>
               <%= f.submit I18n.t('apply'), :class => 'btn' %>
-              <%= link_to I18n.t('back'), project_area_path, :class => 'btn' %>
+              <%= link_to I18n.t('back'), projects_global_params_path, :class => 'btn' %>
           <% end %>
         </div>
-
     <% end %>
   </div>
 </div>

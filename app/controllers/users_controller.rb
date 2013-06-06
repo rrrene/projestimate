@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def index
     authorize! :edit_user_account_no_admin, User
     set_page_title 'Users'
-    @users = User.page(params[:page]).per_page(5).where(:user_status => 'active')
+    @users = User.all
 
 
     respond_to do |format|

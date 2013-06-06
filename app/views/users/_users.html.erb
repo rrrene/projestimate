@@ -7,7 +7,7 @@
     <th><%= I18n.t(:last_login) %></th>
     <th><%= I18n.t(:authentication) %></th>
     <th><%= I18n.t(:record_status) %></th>
-    <th class="action"><%= I18n.t(:actions) %></th>
+    <th class="action" style="width: 110px"><%= I18n.t(:actions) %></th>
   </tr>
   </thead>
   <tbody>
@@ -22,7 +22,7 @@
             <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>
             <td><%= user.auth_method %></td>
             <td><%= user.user_status %></td>
-            <td class="action" style="width: 106px">
+            <td>
               <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => 'Edit') +
                           link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate') +
                           link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => 'Find Use') +

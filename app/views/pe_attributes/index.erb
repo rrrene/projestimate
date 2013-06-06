@@ -36,7 +36,7 @@
                     <td><%= attribute.description %></td>
                     <td><%= attribute.attr_type.humanize %></td>
                     <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
-                    <td class="action">
+                    <td>
                       <%= link_to '', edit_pe_attribute_path(attribute), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
                       <%= link_to '', attribute, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 

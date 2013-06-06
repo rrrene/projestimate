@@ -39,16 +39,4 @@ class SearchesController < ApplicationController
     @results = @results.flatten
   end
 
-  def user_search
-    unless params[:states] == ""
-      @users = User.where(:user_status => params[:states]).search(params[:user_searches]).page(params[:page]).per_page(5)
-    else
-      @users = User.table_search(params[:user_searches]).page(params[:page]).per_page(5)
-    end
-  end
-
-  def project_search
-    @projects = Project.table_search(params[:project_searches]).page(params[:page]).per_page(5)
-  end
-
 end

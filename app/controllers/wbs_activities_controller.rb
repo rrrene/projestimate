@@ -42,7 +42,7 @@ class WbsActivitiesController < ApplicationController
   def refresh_ratio_elements
     @wbs_activity_ratio_elements = []
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
-    wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all #paginate(:page => params[:page], :per_page => 30)
+    wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(wbs_activity_elements_list)
 
     @wbs_activity_elements.each do |wbs|
@@ -61,7 +61,7 @@ class WbsActivitiesController < ApplicationController
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
 
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all#.paginate(:page => params[:page], :per_page => 30)
+    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
     @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
 
@@ -75,13 +75,12 @@ class WbsActivitiesController < ApplicationController
     else
       unless @wbs_activity.wbs_activity_ratios.empty?
         @wbs_activity_elements.each do |wbs|
-            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id).paginate(:page => params[:page], :per_page => 30)#all
+            @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => @wbs_activity.wbs_activity_ratios.first.id)
         end
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     end
 
-    #@wbs_activity_ratio_elements = @wbs_activity_ratio_elements.paginate(:page => params[:page], :per_page => 30)#.order('dotted_id asc')
   end
 
   def update
@@ -103,7 +102,7 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.update_attributes(params[:wbs_activity])
-      redirect_to redirect(wbs_activities_path)
+      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t (:notice_wbs_activity_successful_updated)}"
     else
       render :edit
     end
@@ -133,7 +132,7 @@ class WbsActivitiesController < ApplicationController
 
       @wbs_activity_element.save
 
-      redirect_to redirect(wbs_activities_path)
+      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t (:notice_wbs_activity_successful_added)}"
     else
       render :new
     end

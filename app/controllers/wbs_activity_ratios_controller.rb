@@ -56,12 +56,14 @@ class WbsActivityRatiosController < ApplicationController
     set_page_title 'Edit wbs-activity ratio'
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
     @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
+    @wbs_activity=@wbs_activity_ratio.wbs_activity
   end
 
 
   def update
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
     @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
+    @wbs_activity=@wbs_activity_ratio.wbs_activity
 
     unless is_master_instance?
       if @wbs_activity_ratio.is_local_record?
