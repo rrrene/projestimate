@@ -66,15 +66,9 @@ module EffortBalancing
 
     def get_note
       new_note = Hash.new
-
-      @wbs_project_element_root.children.each do |node|
-        # Sort node subtree by ancestry_depth
-        sorted_node_elements = node.subtree.order('ancestry_depth desc')
-        sorted_node_elements.each do |wbs_project_element|
-          wbs_project_element.children.each do |child|
-            new_note[wbs_project_element.id] = @note[wbs_project_element.id.to_s]
-          end
-        end
+      sorted_node_elements = @wbs_project_element_root.subtree.order('ancestry_depth desc')
+      sorted_node_elements.each do |wbs_project_element|
+        new_note[wbs_project_element.id] = @note[wbs_project_element.id.to_s]
       end
       new_note
     end

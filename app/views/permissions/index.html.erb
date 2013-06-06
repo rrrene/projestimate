@@ -16,6 +16,7 @@
       <thead>
       <tr>
         <th><%= I18n.t(:permissions) %></th>
+        <th><%= I18n.t(:is_permission_project) %></th>
         <th><%= I18n.t(:record_status) %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
@@ -24,6 +25,7 @@
       <% @permissions.each do |perm| %>
           <tr>
             <td><%= perm.name %></td>
+            <td><%= perm.is_permission_project %></td>
             <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
             <td class="action">
               <%= link_to '', edit_permission_path(perm), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
