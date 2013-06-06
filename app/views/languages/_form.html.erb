@@ -1,33 +1,40 @@
-<%= simple_form_for(@language) do |f| %>
-    <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:languages) %> </a></li>
+  </ul>
+  <div id="tabs-1">
+    <%= simple_form_for(@language) do |f| %>
+        <%= f.error_notification %>
 
-    <div>
-      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
-      <%= f.input :locale, :label => I18n.t('local') %>
+        <div>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :locale, :label => I18n.t('local') %>
 
-      <table>
-        <tr>
-          <td>
+          <table>
+            <tr>
+              <td>
 
-            <%= f.association :record_status, :label => I18n.t('record_status'),
-                              :collection => @language.record_status_collection,
-                              :input_html => {:class => 'record_status'},
-                              :selected => (@language.is_defined_or_nil? ? @proposed_status.id : @language.record_status_id),
-                              :disabled => (true if @language.is_retired?) %>
-          </td>
-          <td>
-            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @language.is_custom?) %>
-          </td>
-        </tr>
-      </table>
-      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
-    </div>
+                <%= f.association :record_status, :label => I18n.t('record_status'),
+                                  :collection => @language.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@language.is_defined_or_nil? ? @proposed_status.id : @language.record_status_id),
+                                  :disabled => (true if @language.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @language.is_custom?) %>
+              </td>
+            </tr>
+          </table>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+        </div>
 
-    <div class="actions">
-      <% if can? :update, @language %>
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
-          <%= f.submit I18n.t('apply'), :class => 'btn' %>
-      <% end %>
-    </div>
-<% end %>
-
+        <div class="actions">
+          <% if can? :update, @language %>
+              <%= f.submit I18n.t('save'), :class => 'btn' %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <%= link_to I18n.t('back'), languages_path, :class => 'btn' %>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+</div>

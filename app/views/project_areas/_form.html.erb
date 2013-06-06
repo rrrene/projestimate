@@ -1,68 +1,125 @@
-<%= simple_form_for(@project_area) do |f| %>
-    <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:project_areas) %> </a></li>
+  </ul>
 
-    <div>
-      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
-      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+  <div id="tabs-1">
+    <%= simple_form_for(@project_area) do |f| %>
+        <%= f.error_notification %>
 
-      <table>
-        <tr>
-          <td>
-            <%= f.association :record_status, :label => I18n.t('record_status'),
-                              :collection => @project_area.record_status_collection,
-                              :input_html => {:class => 'record_status'},
-                              :selected => (@project_area.is_defined_or_nil? ? @proposed_status.id : @project_area.record_status_id),
-                              :disabled => (true if @project_area.is_retired?) %>
-          </td>
-          <td>
-            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @project_area.is_custom?) %>
-          </td>
-      </table>
-      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+        <div>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-      <div>
-        <h3> <%= I18n.t(:activity_categories) %> : </h3>
-        <% @activity_categories.each do |ac| %>
-            <%= check_box_tag 'project_area[activity_category_ids][]', ac.id, @project_area.activity_categories.include?(ac) %>
-            <%= ac.name %>
-        <% end %>
-      </div>
-      <div>
-        <h3> <%= I18n.t(:acquisition_categories) %> : </h3>
-        <% @acquisition_categories.each do |ac| %>
-            <%= check_box_tag 'project_area[acquisition_category_ids][]', ac.id, @project_area.acquisition_categories.include?(ac) %>
-            <%= ac.name %>
-        <% end %>
-      </div>
-      <div>
-        <h3> <%= I18n.t(:labor_categories) %> : </h3>
-        <% @labor_categories.each do |ac| %>
-            <%= check_box_tag 'project_area[labor_category_ids][]', ac.id, @project_area.labor_categories.include?(ac) %>
-            <%= ac.name %>
-        <% end %>
-      </div>
-      <div>
-        <h3> <%= I18n.t(:platform_categories) %> : </h3>
-        <% @platform_categories.each do |ac| %>
-            <%= check_box_tag 'project_area[platform_category_ids][]', ac.id, @project_area.platform_categories.include?(ac) %>
-            <%= ac.name %>
-        <% end %>
-      </div>
-      <div>
-        <h3> <%= I18n.t(:project_categories) %> :</h3>
-        <% @project_categories.each do |ac| %>
-            <%= check_box_tag 'project_area[project_category_ids][]', ac.id, @project_area.project_categories.include?(ac) %>
-            <%= ac.name %>
-        <% end %>
-      </div>
-      <br/>
+          <div class="accordion" id="accordion1">
+            <div class="accordion-group accordion-caret">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                  <i class="icon-caret-down"></i>
+                  <b><%= I18n.t 'activity_categories' %></b>
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body in collapse">
+                <div class="accordion-inner">
+                  <% @activity_categories.each do |ac| %>
+                      <%= check_box_tag 'project_area[activity_category_ids][]', ac.id, @project_area.activity_categories.include?(ac) %>
+                      <%= ac.name %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
 
-      <div class="actions">
-        <% if can? :update, @project_area %>
-            <%= f.submit I18n.t('save'), :class => 'btn' %>
-            <%= f.submit I18n.t('apply'), :class => 'btn' %>
-        <% end %>
-      </div>
+            <div class="accordion-group accordion-caret">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  <i class="icon-caret-down"></i>
+                  <b><%= I18n.t 'acquisition_categories' %></b>
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body in collapse">
+                <div class="accordion-inner">
+                  <% @acquisition_categories.each do |ac| %>
+                      <%= check_box_tag 'project_area[acquisition_category_ids][]', ac.id, @project_area.acquisition_categories.include?(ac) %>
+                      <%= ac.name %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
 
-<% end %>
+            <div class="accordion-group accordion-caret">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+                  <i class="icon-caret-down"></i>
+                  <b><%= I18n.t 'labor_categories' %></b>
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body in collapse">
+                <div class="accordion-inner">
+                  <% @labor_categories.each do |ac| %>
+                      <%= check_box_tag 'project_area[labor_category_ids][]', ac.id, @project_area.labor_categories.include?(ac) %>
+                      <%= ac.name %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-group accordion-caret">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour">
+                  <i class="icon-caret-down"></i>
+                  <b><%= I18n.t 'platform_categories' %></b>
+                </a>
+              </div>
+              <div id="collapseFour" class="accordion-body in collapse">
+                <div class="accordion-inner">
+                  <% @platform_categories.each do |ac| %>
+                      <%= check_box_tag 'project_area[platform_category_ids][]', ac.id, @project_area.platform_categories.include?(ac) %>
+                      <%= ac.name %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group accordion-caret">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapseFive">
+                  <i class="icon-caret-down"></i>
+                  <b><%= I18n.t 'project_categories' %></b>
+                </a>
+              </div>
+              <div id="collapseFive" class="accordion-body in collapse">
+                <div class="accordion-inner">
+                  <% @project_categories.each do |ac| %>
+                      <%= check_box_tag 'project_area[project_category_ids][]', ac.id, @project_area.project_categories.include?(ac) %>
+                      <%= ac.name %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table>
+            <tr>
+              <td>
+                <%= f.association :record_status, :label => I18n.t('record_status'),
+                                  :collection => @project_area.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@project_area.is_defined_or_nil? ? @proposed_status.id : @project_area.record_status_id),
+                                  :disabled => (true if @project_area.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @project_area.is_custom?) %>
+              </td>
+          </table>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+
+        </div>
+        <div class="actions">
+          <% if can? :update, @project_area %>
+              <%= f.submit I18n.t('save'), :class => 'btn' %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <%= link_to I18n.t('back'), project_areas_path, :class => 'btn' %>
+          <% end %>
+        </div>
+
+    <% end %>
+  </div>
 </div>

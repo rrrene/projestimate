@@ -315,7 +315,7 @@ en-gb:
   project_area: "Project Area"
 
   #Project areas
-  edit_project_area: "Edit a project area"
+  edit_project_area: "Edit the \"%{value}\" project area ..."
   new_project_area: "New project area"
 
   #Project categories
@@ -348,7 +348,7 @@ en-gb:
   aggregation: "Aggregation"
   validation_options: "Validations and options"
   attributes_type: "Type"
-  edit_pe_attribute: "Edit an attribute"
+  edit_pe_attribute: "Edit the \"%{value}\" attribute ..."
   new_pe_attribute: "New attribute"
 
   #auth_method
@@ -386,11 +386,11 @@ en-gb:
   new_group: "New group"
 
   #Labor categories
-  edit_labor_category: "Edit a labour category"
+  edit_labor_category: "Edit the \"%{value}\" labour category ..."
   new_labor_category: "New labour category"
 
   #languages
-  edit_language: "Edit a language"
+  edit_language: "Edit the \"%{value}\" language"
   new_language: "New language"
   local: "Local"
 
@@ -450,7 +450,7 @@ en-gb:
   #peicons
   icon: "Icon"
   text_icon_message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
-  edit_icon: "Edit icon"
+  edit_icon: "Edit the \"%{value}\" icon ..."
   new_icon: "Add an icon"
   icons: "Icons"
   actions: "Actions"
@@ -470,7 +470,7 @@ en-gb:
   #permissions
   is_permission_project: "Permission project"
   object_associated: "Object associated"
-  edit_permission: "Edita permission"
+  edit_permission: "Edit the \"%{value}\" permission ..."
   new_permission: "New permission"
   permissions: "Permissions"
 
@@ -484,7 +484,7 @@ en-gb:
   read_only: "Read only"
 
   #project_security_levels
-  edit_project_security_level: "Edit a project security level"
+  edit_project_security_level: "Edit the \"%{value}\" project security level"
   new_project_security_level: "New project security level"
 
   #projects
@@ -512,11 +512,11 @@ en-gb:
   warning_need_check_box_confirmation: "You need to confirm project deletion with check-box"
 
   #Record_statuses
-  edit_record_status: "Edit record status"
+  edit_record_status: "Edit the \"%{value}\" record status ..."
   new_record_status: "New record status"
 
   #Reference_value
-  edit_reference_value: "Edit reference value"
+  edit_reference_value: "Edit the \"%{value}\" reference value"
   new_reference_value: "New reference_value"
 
   #searches

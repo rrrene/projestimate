@@ -1,23 +1,36 @@
-<div class="span12">
-  <%= simple_form_for(@project_security_level) do |f| %>
-    <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:project_securities) %> </a></li>
+  </ul>
 
-    <%= f.input :name, :label => I18n.t('name') %>
-    <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => { :rows => 3 } %>
+  <div id="tabs-1">
+    <%= simple_form_for(@project_security_level) do |f| %>
+        <%= f.error_notification %>
 
-    <%= f.association :record_status, :label => I18n.t('record_status'),
-                      :collection => @project_security_level.record_status_collection,
-                      :input_html => {:class => 'record_status'},
-                      :selected => (@project_security_level.is_defined_or_nil? ? @proposed_status.id : @project_security_level.record_status_id),
-                      :disabled => (true if @project_security_level.is_retired?) %><br />
+        <%= f.input :name, :label => I18n.t('name') %>
 
-    <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @project_security_level.is_custom?) %><br />
-
-    <div class="actions">
-      <% if can? :update, @project_security_level %>
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
-          <%= f.submit I18n.t('apply'), :class => 'btn' %>
-      <% end %>
-    </div>
-  <% end %>
+        <table>
+          <tr>
+            <td>
+              <%= f.association :record_status, :label => I18n.t('record_status'),
+                                :collection => @project_security_level.record_status_collection,
+                                :input_html => {:class => 'record_status'},
+                                :selected => (@project_security_level.is_defined_or_nil? ? @proposed_status.id : @project_security_level.record_status_id),
+                                :disabled => (true if @project_security_level.is_retired?) %>
+            </td>
+            <td>
+              <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @project_security_level.is_custom?) %>
+            </td>
+          </tr>
+        </table>
+        <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+        <div class="actions">
+          <% if can? :update, @project_security_level %>
+              <%= f.submit I18n.t('save'), :class => 'btn' %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <%= link_to I18n.t('back'), project_securities_path, :class => 'btn' %>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
 </div>
