@@ -27,7 +27,6 @@ module PeWbsProjectsHelper
 
       all_pbs_project_element =  pbs_project_element.children.sort_by(&:position)
 
-
       #Root is always display
       if !pbs_project_element.nil? && pbs_project_element.is_root?
         tree << "<ul >
@@ -59,7 +58,7 @@ module PeWbsProjectsHelper
           #{  image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
           #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
           #{  content_tag('span', '', :class => "#{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-          #{  link_to(c.link? ? (c.project_link.nil? ? '!! undefined link' : Project.find(c.project_link)) : c.position.to_s + c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => c.id, :project_id => @project.id}, :remote => true, :class => "", :confirm => ('You are going to modify a validated PBS, confirm to continue or abort to cancel ?' if c.is_validated) ) }
+          #{  link_to(c.link? ? (c.project_link.nil? ? '!! undefined link' : Project.find(c.project_link)) : c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => c.id, :project_id => @project.id}, :remote => true, :class => "", :confirm => ('You are going to modify a validated PBS, confirm to continue or abort to cancel ?' if c.is_validated) ) }
         </div>
         <div class='block_link'>
           #{ link_to "", edit_pbs_project_element_path(c, :project_id => @project.id), :remote => true, :class => 'bl icon-edit icon-large' if can? :edit_a_pbs_project_element, PbsProjectElement}
@@ -78,7 +77,7 @@ module PeWbsProjectsHelper
             #{ image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
             #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
             #{  content_tag('span', '', :class => "#{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-            #{ link_to(c.position.to_s + c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "") }
+            #{ link_to(c.name, { :controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "") }
           </div>
         </div>
         <div class='block_link'>

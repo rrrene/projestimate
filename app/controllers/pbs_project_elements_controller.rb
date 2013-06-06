@@ -65,16 +65,16 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
+
+    elements_to_up = pbs_project_element.siblings.where("position > ?", pbs_project_element.position ).all
+
     #Destroy the selected pbs_project_element
     pbs_project_element.destroy
 
-    #Reload position
-    #@project.root_component.subtree.each do |c|
-    #  c.children.each_with_index do |s, i|
-    #    c.position = i + 1
-    #    c.save
-    #  end
-    #end
+    elements_to_up.each do |element|
+      element.position = element.position - 1
+      element.save
+    end
 
     render :partial => "pbs_project_elements/refresh_tree"
   end
