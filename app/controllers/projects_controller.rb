@@ -368,14 +368,15 @@ class ProjectsController < ApplicationController
   def run_estimation
     @result = Array.new
     results = Hash.new
-    ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params, level, current_project)
-    end
-
     @module_projects = current_project.module_projects
-    @results = results
     @project = current_project
     @pbs_project_element = current_component
+
+    ['low', 'most_likely', 'high'].each do |level|
+      results[level.to_sym] = run_estimation_plan(params, level, @project)
+    end
+
+    @results = results
 
     #Save output values: only for current pbs_project_element
     @project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
