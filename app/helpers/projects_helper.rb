@@ -462,13 +462,13 @@ module ProjectsHelper
           module_project.estimation_values.where('in_out = ?', 'input').each do |est_val|
             if (est_val.in_out == 'input' and est_val.module_project.id == module_project.id)
               str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
-              level_estimation_values = Hash.new
+              level_estimation_values = nil #Hash.new
               level_estimation_values = est_val.send("string_data_#{level}")
 
               # For Wbs_Activity Complemention module, input data are from last executed module
               if module_project.pemodule.alias == 'wbs_activity_completion'
                 pbs_last_result = nil
-                unless last_estimation_result.nil?
+                unless last_estimation_result.nil? || last_estimation_result.empty?
                   level_last_result = last_estimation_result.send("string_data_#{level}")
                   ##puts "LEVEL_RESULT = #{level_last_result}"
                   pbs_last_result =  level_last_result[pbs_project_element.id]
