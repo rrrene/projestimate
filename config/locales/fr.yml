@@ -464,7 +464,7 @@ fr:
   label_compatibility: "Eléments du PBS compatible (pour les données d'entrées)"
   pe_attribute_name: "Nom de l'attribut"
   selected: "Sélectionné"
-  edit_pemodule: "Editer le module"
+  edit_pemodule: "Editer le module \"%{value}\" ..."
   new_pemodule: "Créer un module"
 
   #permissions
@@ -880,5 +880,15 @@ fr:
   no_mandatory: "Non obligatoire"
   label_precision: "Précision"
   text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"
-  select_page_size: "Nombre d'enregistrement par page"
-  select_page_number: "Selectionnez le numéro de page"
+  text_select_page_size: "nombre maximum de résultat par page"
+  text_select_page_number: "aller au numéro de page sélectionné"
+  text_first_page: "première page"
+  text_last_page: "dernière page"
+  text_next_page: "page suivante"
+  text_result_index: "index des résultats / nombre de résultat filtré (nombre total d'enregistrements)"
+  text_previous_page: "page précédente"
+  label_dashboard: "Tableau de bord du projet \"%{value}\""
+  label_estimation_modules: "Modules d'estimation"
+  label_input_data: "Formulaire des données d'entrée"
+  label_output_data: "Résultat des estimations"
+
