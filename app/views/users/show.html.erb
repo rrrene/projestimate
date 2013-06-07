@@ -1,17 +1,15 @@
 <div id="main">
   <% unless current_project.nil? or current_user.nil? %>
-    <div class="row">
-      <div id="content-header">
-        <h1>Dashboard -
-          <%= current_project.title %>
-          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
-        </h1>
-      </div>
-    </div>
 
-    <%= render 'dashboard_inner' %>
+      <div>
+        <h3>&nbsp;<%= I18n.t(:label_dashboard, :value => current_project.title) %>
+          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
+        </h3>
+      </div>
+
+      <%= render 'dashboard_inner' %>
   <% else %>
-    <div><%= load_admin_setting('welcome_message') %></div>
+      <div><%= load_admin_setting('welcome_message') %></div>
   <% end %>
 </div>
 

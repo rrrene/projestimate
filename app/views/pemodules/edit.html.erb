@@ -1,4 +1,4 @@
-<div class="span12">
-  <h3><%= I18n.t(:edit_pemodule) %> : <%= @pemodule.title %></h3>
+<h4 class="ui-widget">&nbsp;<i class="icon-pencil icon-large"></i>&nbsp;<b><%= I18n.t(:edit_pemodule, :value => @pemodule.title) %> </b></h4>
+<div class="module width_full">
   <%= render 'form' %>
 </div>
