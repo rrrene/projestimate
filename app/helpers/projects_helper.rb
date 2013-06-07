@@ -149,7 +149,8 @@ module ProjectsHelper
       if module_project.pemodule.alias == "wbs_activity_completion"
         current_wbs_consistency = true
         pbs_level_data_for_consistency.each do |level, level_value|
-          if !pbs_level_data_for_consistency.nil?
+          #if !pbs_level_data_for_consistency.nil?
+          if !level_value.nil?
             wbs_level_data = level_value[wbs_project_elt.id]
             wbs_level_data.nil? ? current_wbs_consistency_level = nil : current_wbs_consistency_level = wbs_level_data[:is_consistent]
             current_wbs_consistency = current_wbs_consistency && current_wbs_consistency_level
