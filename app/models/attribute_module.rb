@@ -46,6 +46,10 @@ class AttributeModule < ActiveRecord::Base
         return val.valid_integer?
       end
 
+      if val.blank?
+        return true
+      end
+
       unless val.is_numeric?
         #return false is value is not numeric
         return false
