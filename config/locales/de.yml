@@ -462,7 +462,7 @@ de:
   label_compatibility: "Compatible PBS element (for data input)"
   pe_attribute_name: "Attribute name"
   selected: "Selected"
-  edit_pemodule: "Edit module"
+  edit_pemodule: "Edit the \"%{value}\" module ..."
   new_pemodule: "New module"
 
   #permissions
@@ -881,6 +881,10 @@ de:
   no_mandatory: "No Mandatory"
   label_precision: "Precision"
   text_help_list_attribute: "(list of values ​​separated by semicolons)"
-  select_page_size: "Select page size"
+  text_select_page_size: "Select page size"
   select_page_number: "Select page number"
+  label_dashboard: "Dashboard for \"%{value}\""
+  label_estimation_modules: "Estimation Modules"
+  label_input_data: "Data input forms"
+  label_output_data: "Estimation results"
 
