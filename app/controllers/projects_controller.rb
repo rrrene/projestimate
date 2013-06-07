@@ -139,6 +139,7 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   def update
     set_page_title 'Edit project'
 

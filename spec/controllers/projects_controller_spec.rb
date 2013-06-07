@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe ProjectsController do
   before :each do
     @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
@@ -27,34 +28,61 @@ describe ProjectsController do
       assigns(:project)==(@project1)
     end
   end
+
   describe "New" do
     it "renders the new template" do
       get :new
       response.should render_template("new")
     end
-    #it "assigns a new attributes as @attribute" do
-    #  get :new
-    #  assigns(:ksloc_attribute).should be_a_new_record
-    #end
+
+    it "assigns a new attributes as @attribute" do
+      get :new, :project => {:title => 'New Projet', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
+      assigns(:project).should be_a_new_record
+    end
   end
-  describe "Create" do
+
+  describe "POST Create" do
     it "renders the create template" do
       get :new
       response.should render_template("new")
     end
   end
-  #describe "GET edit" do
-  #  it "assigns the requested project as @project" do
-  #    get :edit, {:id => @projects.to_param}
-  #    assigns(:project)==(@project1)
-  #  end
-  #end
-  #describe "PUT update" do
-  #end
-  #
-  #describe "POST create" do
-  #end
-  #
+
+  describe "GET edit" do
+    #login_as_admin
+    #@defined_status = FactoryGirl.build(:defined_status)
+    #it "assigns the requested project as @project" do
+    #  get :edit, {:id => @project.to_param}
+    #  assigns(:project)==(@project)
+    #end
+  end
+
+  describe "PUT update" do
+    before :each do
+      @new_project = FactoryGirl.create(:project, :title => "New project", :alias => "NewP")
+    end
+
+    #context "with valid params" do
+    #  it "located the requested project" do
+    #    put :update, id: @new_project, project: FactoryGirl.attributes_for(:project)
+    #    assigns(:project)==(@new_project)
+    #  end
+    #
+    #  it "updates the requested peAttribute" do
+    #    login_as_admin
+    #
+    #    put :update, id: @new_project.to_param, project: @new_project.attributes = {:title => "12345", :alias => "My_new_Alias"}
+    #    @new_project.title.should eq("12345")
+    #    @new_project.alias.should eq("My_new_Alias")
+    #  end
+    #
+    #  it "should redirect to the peAttribute_paths list" do
+    #    put :update, {id: @new_project.to_param}
+    #    response.should be_success
+    #  end
+    #end
+  end
+
   #describe "DELETE destroy" do
   #
   #  it "redirects to the project list" do
