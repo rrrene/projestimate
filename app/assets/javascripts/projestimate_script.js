@@ -62,7 +62,7 @@ $(document).ready(function() {
             $.ajax({
                 url:"/check_attribute_modules",
                 type: 'POST',
-                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&attr_id=" + this.className.split(/\s/)[1]
+                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&attr_id=" + this.className.split(/\s/)[2]
             })
         }
     ));

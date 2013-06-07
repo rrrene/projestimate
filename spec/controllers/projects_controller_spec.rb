@@ -62,25 +62,26 @@ describe ProjectsController do
       @new_project = FactoryGirl.create(:project, :title => "New project", :alias => "NewP")
     end
 
-    #context "with valid params" do
-    #  it "located the requested project" do
-    #    put :update, id: @new_project, project: FactoryGirl.attributes_for(:project)
-    #    assigns(:project)==(@new_project)
-    #  end
-    #
-    #  it "updates the requested peAttribute" do
-    #    login_as_admin
-    #
-    #    put :update, id: @new_project.to_param, project: @new_project.attributes = {:title => "12345", :alias => "My_new_Alias"}
-    #    @new_project.title.should eq("12345")
-    #    @new_project.alias.should eq("My_new_Alias")
-    #  end
-    #
-    #  it "should redirect to the peAttribute_paths list" do
-    #    put :update, {id: @new_project.to_param}
-    #    response.should be_success
-    #  end
-    #end
+    context "with valid params" do
+      #it "located the requested project" do
+      #  login_as_admin
+      #  put :update, id: @new_project, project: FactoryGirl.attributes_for(:project)
+      #  assigns(:project)==(@new_project)
+      #end
+      #
+      #it "updates the requested peAttribute" do
+      #  login_as_admin
+      #  put :update, id: @new_project.to_param, project: @new_project.attributes = {:title => "12345", :alias => "My_new_Alias"}
+      #  @new_project.title.should eq("12345")
+      #  @new_project.alias.should eq("My_new_Alias")
+      #end
+      #
+      #it "should redirect to the peAttribute_paths list" do
+      #  login_as_admin
+      #  put :update, {id: @new_project.to_param}
+      #  response.should be_success
+      #end
+    end
   end
 
   #describe "DELETE destroy" do

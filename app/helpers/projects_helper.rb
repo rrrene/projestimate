@@ -149,7 +149,8 @@ module ProjectsHelper
       if module_project.pemodule.alias == "wbs_activity_completion"
         current_wbs_consistency = true
         pbs_level_data_for_consistency.each do |level, level_value|
-          if !pbs_level_data_for_consistency.nil?
+          #if !pbs_level_data_for_consistency.nil?
+          if !level_value.nil?
             wbs_level_data = level_value[wbs_project_elt.id]
             wbs_level_data.nil? ? current_wbs_consistency_level = nil : current_wbs_consistency_level = wbs_level_data[:is_consistent]
             current_wbs_consistency = current_wbs_consistency && current_wbs_consistency_level
@@ -365,7 +366,7 @@ module ProjectsHelper
       res << '<tr>
                 <th></th>'
         module_project.previous.each_with_index do |est,i|
-          res << "<th>#{display_path(module_project)}</th>"
+          res << "<th>#{display_path([], module_project, i).reverse.join('<br>')}</th>"
         end
         module_project.estimation_values.each do |est_val|
           if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
@@ -461,7 +462,7 @@ module ProjectsHelper
           module_project.estimation_values.where('in_out = ?', 'input').each do |est_val|
             if (est_val.in_out == 'input' and est_val.module_project.id == module_project.id)
               str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
-              level_estimation_values = Hash.new
+              level_estimation_values = nil #Hash.new
               level_estimation_values = est_val.send("string_data_#{level}")
 
               # For Wbs_Activity Complemention module, input data are from last executed module
@@ -683,7 +684,12 @@ module ProjectsHelper
     "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong> <br> #{est_val.is_mandatory ? I18n.t(:mandatory) : I18n.t(:no_mandatory) }"
   end
 
-  def display_path(mp)
-    (mp.preceding & mp.previous).join('<br>')
+  def display_path(res, mp, i)
+    if mp.previous[i].nil?
+      res << ([mp] + mp.previous).flatten.reverse.join('<br>')
+    else
+      display_path(res, mp.previous[i], i)
+    end
+    res
   end
 end

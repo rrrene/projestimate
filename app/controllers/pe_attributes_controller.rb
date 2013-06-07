@@ -103,7 +103,7 @@ class PeAttributesController < ApplicationController
       test = params[:value]
       @level = params[:level]
       @est_val_id = params[:est_val_id]
-      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id].eql?
+      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id]
     end
   end
 end
