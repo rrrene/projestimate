@@ -890,3 +890,8 @@ fr:
   label_estimation_modules: "Modules d'estimation"
   label_input_data: "Formulaire des données d'entrée"
   label_output_data: "Résultat des estimations"
+  button_activate_user_account: "Activer le compte utilisateur"
+  button_find_use: "Trouver où il est utilisé et connaitre l'impact des modifications"
+  button_commit_project: "Promouvoir le projet dans son cycle de vie"
+  button_activate_project: "Activer le projet dans le tableau de bord"
+  button_duplicate_project: "Dupliquer le projet"

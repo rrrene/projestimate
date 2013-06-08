@@ -890,3 +890,8 @@ en-gb:
   label_estimation_modules: "Estimation Modules"
   label_input_data: "Data input forms"
   label_output_data: "Estimation results"
+  button_activate_user_account: "Activate user account"
+  button_find_use: "Find where it is used and know the impact of changes"
+  button_commit_project: "Promote the project into its life cycle"
+  button_activate_project: "Activate the project, to see it on dashboard"
+  button_duplicate_project: "Duplicate project"
