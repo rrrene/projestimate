@@ -417,7 +417,6 @@ fr:
   current_link: "Liens courant"
   edit_link: "Editer le liens"
   module_name: "Nom du module"
-  associable_pe_attributes: "Attributs associables"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
@@ -614,7 +613,7 @@ fr:
   ratios_elements: Élément des Ratios
 
   #wbs activity elements
-  edit_wbs_activity_element: "Editer un élément du wbs activités"
+  edit_wbs_activity_element: "Editer l'élément \"%{value}\" du wbs activités ..."
   new_wbs_activity_element: "Créer un nouvel élément du wbs activités"
   parent: "Parent"
 
@@ -684,7 +683,7 @@ fr:
   text_latest_masterData_repository_update: "Dernière mise à jour de la base Master :"
   text_download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
   text_please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"
-  edit_project_element: "Editer WBS-Project Element"
+  edit_project_element: "Editer l'élément \"%{value}\" du WBS-Activité ..."
   warning_activity_category_cannot_be_edited: "Cette catégorie d'activité ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
   notice_activity_category_successful_update: "Activity category a été mis à jour avec succès."
   warning_administration_setting_cant_be_edited: "Cette administration setting record ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
@@ -891,4 +890,8 @@ fr:
   label_estimation_modules: "Modules d'estimation"
   label_input_data: "Formulaire des données d'entrée"
   label_output_data: "Résultat des estimations"
-
+  button_activate_user_account: "Activer le compte utilisateur"
+  button_find_use: "Trouver où il est utilisé et connaitre l'impact des modifications"
+  button_commit_project: "Promouvoir le projet dans son cycle de vie"
+  button_activate_project: "Activer le projet dans le tableau de bord"
+  button_duplicate_project: "Dupliquer le projet"

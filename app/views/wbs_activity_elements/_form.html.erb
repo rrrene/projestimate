@@ -1,42 +1,44 @@
-<div class="span12">
-  <% action_name = controller.action_name %>
-  <% if %w(new edit).include?(action_name) %>
-      <h2><%= (action_name == "new")? I18n.t(:new_wbs_activity_element ) : I18n.t(:new_wbs_activity_element )%></h2>
-  <% end %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:wbs_activity_elements) %> </a></li>
+  </ul>
+  <div id="tabs-1">
 
-
-  <%= simple_form_for(@wbs_activity_element) do |f| %>
-      <%= f.error_notification %>
-
-        <%= f.input :name, :label => I18n.t("name"), :input_html => { :class => 'input-xxlarge' } %>
-
-        <%= f.input :wbs_activity_id, :as => :hidden, :label => "WBS-Activity", :input_html => { :value => @wbs_activity.id, :class => 'input-xxlarge' } %>
-
-        <%= f.input :parent_id, :label => I18n.t("parent"), :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => "Parent element", :selected => @selected_parent.nil? ? '' : @selected_parent.id,  :input_html => { :class => 'input-xxlarge' } %>
-
+    <%= simple_form_for(@wbs_activity_element) do |f| %>
+        <%= f.error_notification %>
+        <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :wbs_activity_id, :as => :hidden, :label => 'WBS-Activity', :input_html => {:value => @wbs_activity.id, :class => 'input-xxlarge'} %>
+        <%= f.input :parent_id, :label => I18n.t('parent'), :as => :select, :collection => @potential_parents.nil? ? [] : @potential_parents, :label => 'Parent element', :selected => @selected_parent.nil? ? '' : @selected_parent.id, :input_html => {:class => 'input-xxlarge'} %>
         <%= hidden_field_tag :selected_parent_id, params[:selected_parent_id] %>
-
-        <%= f.input :dotted_id, :label => "Outline", :input_html => { :class => 'input-xxlarge' }  %>
-
-        <%= f.input :description, :label => I18n.t("description"), :input_html => { :class => 'input-xxlarge', :rows => 4 } %>
+        <%= f.input :dotted_id, :label => 'Outline', :input_html => {:class => 'input-large'} %>
+        <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 3} %>
 
         <% if is_master_instance? %>
+            <table>
+              <tr>
+                <td>
+                  <%= f.association :record_status, :label => I18n.t('record_status'), :required => (is_master_instance? ? true : false),
+                                    :collection => wbs_record_statuses_collection,
+                                    :input_html => {:class => 'record_status'},
+                                    :selected => @selected_record_status,
+                                    :disabled => (true if @wbs_activity_element.is_retired?) %>
+                </td>
+                <td>
+                  <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @wbs_activity_element.is_custom?) %>
+                </td>
+              </tr>
+            </table>
+            <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
-          <%= f.input :change_comment, :label => I18n.t("change_comment"), :input_html => { :rows => 3 } %><br />
-
-          <%= f.association :record_status, :label => I18n.t("record_status"), :required => (is_master_instance? ? true : false),
-                            :collection => wbs_record_statuses_collection,
-                            :input_html => {:class => "record_status"},
-                            :selected => @selected_record_status,
-                            :disabled => (true if @wbs_activity_element.is_retired?) %><br />
-
-          <%= f.input :custom_value, :label => I18n.t("custom_value"), :input_html => {:class => "custom_value"}, :disabled => (true unless @wbs_activity_element.is_custom?) %><br />
         <% end %>
+        <div class="actions-tabs">
+          <%= f.submit I18n.t('save'), :class => 'btn' %>
+        </div>
 
-        <%= f.button :submit %>
-
-  <% end %>
+    <% end %>
+  </div>
 </div>
+
 
 
 

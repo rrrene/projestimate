@@ -1,6 +1,6 @@
 <%= form_tag "/searches/results", :class => "simple_form navbar-search pull-right" do %>
   <div class="input-prepend">
     <span class="add-on"><img src="/assets/icn_search.png" /></span>
-    <%= text_field_tag "search", "", :placeholder => "Search", :class => "search-input span5" %>
+    <%= text_field_tag "search", "", :placeholder => I18n.t(:quick_search) , :class => "search-input span5" %>
   </div>
 <% end %>
