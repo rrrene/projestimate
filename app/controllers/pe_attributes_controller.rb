@@ -111,10 +111,7 @@ class PeAttributesController < ApplicationController
   def find_use_attribute
     @pe_attribute = PeAttribute.find(params[:pe_attribute_id])
     @attribute_modules = AttributeModule.find_all_by_pe_attribute_id(@pe_attribute.id)
-
-    #respond_to do |format|
-    #  format.js { render :partial => 'pe_attributes/find_use_attribute_modules' }
-    #end
+    @attribute_organizations = AttributeOrganization.find_all_by_pe_attribute_id(@pe_attribute.id)
   end
 
 end

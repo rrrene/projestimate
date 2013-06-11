@@ -276,10 +276,14 @@ en:
   record_status: "Status"
   custom_value: "Custom value (if status=custom)"
   notice_no_module_use_current_attribute: "There is no module that use \"%{value}\" attribute"
+  notice_no_organization_use_current_attribute:  "There is no organization that use \"%{value}\" attribute"
   text_modules_using_current_attribute: "List of modules that use \"%{value}\" attribute"
   text_module_name: "Module name"
   text_attribute_specification_in_current_module: "How attribute is used in current module"
   text_use_as: "Use as"
+  text_organization_name: "Organization name"
+  text_attribute_specification_in_current_organization: "How attribute is used in current organization"
+
 
 
   wbs_activity_elements: "WBS-Activity Elements"
@@ -911,3 +915,4 @@ en:
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
+  tablesorter_date_format: "mmddyyyy"

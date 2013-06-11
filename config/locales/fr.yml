@@ -276,10 +276,14 @@ fr:
   record_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
   notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
+  notice_no_organization_use_current_attribute: "Aucune organisation n'utilise l'attribut \"%{value}\" "
   text_modules_using_current_attribute: "Liste des modules qui utilisent l'attribut \"%{value}\" "
   text_module_name: "Nom du module"
   text_attribute_specification_in_current_module: "Caractéristiques de l'attribut dans le module"
   text_use_as: "Utilisé en"
+  text_organization_name: "Nom de l'organisation"
+  text_attribute_specification_in_current_organization: "Caractéristiques de l'attribut dans l'organisation"
+
 
 
   wbs_activity_elements: "Eléments du WBS-Activités"
@@ -909,3 +913,4 @@ fr:
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
+  tablesorter_date_format: "ddmmyyyy"

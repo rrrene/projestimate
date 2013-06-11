@@ -22,7 +22,6 @@ class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
-
   helper_method :sort_column
   helper_method :sort_direction
 

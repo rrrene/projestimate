@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td><%= f.label "#{I18n.t 'start_date'}" %>
-                <%= f.text_field :start_date, :class => 'date-picker input-large',  :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t('date.formats.default')):  I18n.l(@project.start_date, :format => :default))  %>
+                <%= f.text_field :start_date, :class => 'date-picker input-large',  :value => I18n.l(@project.start_date, :format=>"%m/%d/%Y", :locale=>set_user_language)  %>
             </td>
 
             <script>
@@ -37,7 +37,8 @@
                         language: '<%= set_user_language %>',
                         autoclose: true,
                         todayHighlight: true,
-                        todayBtn: true
+                        todayBtn: true,
+                        format: 'mm-dd-yyyy'
                     });
                 });
             </script>
