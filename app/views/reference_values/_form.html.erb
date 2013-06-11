@@ -7,7 +7,7 @@
     <%= simple_form_for(@reference_value) do |f| %>
         <%= f.error_notification %>
 
-        <%= f.input :value, :label => I18n.t('value'), :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :value, :label => I18n.t('value'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
 
         <% if is_master_instance? %>
 

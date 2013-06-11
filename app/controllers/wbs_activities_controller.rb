@@ -222,9 +222,9 @@ class WbsActivitiesController < ApplicationController
     rescue ActiveRecord::RecordNotSaved => e
       flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
 
-    #rescue
-    #  flash[:error] = I18n.t(:error_wbs_activity_failed_duplicate) + "#{new_wbs_activity.errors.full_messages.to_sentence.to_s}"
-    #  redirect_to '/wbs_activities'
+    rescue
+      flash[:error] = I18n.t(:error_wbs_activity_failed_duplicate) + "#{new_wbs_activity.errors.full_messages.to_sentence.to_s}"
+      redirect_to '/wbs_activities'
     end
   end
 

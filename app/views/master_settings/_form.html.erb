@@ -7,7 +7,7 @@
         <%= f.error_notification %>
 
         <div>
-          <%= f.input :key, :label => I18n.t('key'), :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :key, :label => I18n.t('key'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
           <%= f.input :value, :label => I18n.t('value'), :input_html => {:class => 'input-xxlarge', :rows => 3} %>
 
           <table>

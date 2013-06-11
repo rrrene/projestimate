@@ -51,6 +51,7 @@ class WbsActivity < ActiveRecord::Base
   amoeba do
     enable
     include_field [:wbs_activity_elements, :wbs_activity_ratios]
+    ###exclude_field [:pe_wbs_projects, :pbs_project_elements]      #TODO verify
 
     customize(lambda { |original_wbs_activity, new_wbs_activity|
 
