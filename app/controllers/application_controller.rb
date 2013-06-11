@@ -156,9 +156,9 @@ class ApplicationController < ActionController::Base
 
   def set_return_to
     #session[:return_to] = request.referer
-    session[:anchor_value] ||= ""
-    session[:anchor_value] = params[:anchor_value]
+    session[:anchor_value] ||= params[:anchor_value]
     session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
+    session[:anchor_value] ||= ""
   end
 
   def previous_page
