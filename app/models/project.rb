@@ -43,8 +43,8 @@ class Project < ActiveRecord::Base
   serialize :included_wbs_activities, Array
 
   #serialize :ten_latest_projects
-  validates_presence_of :state
-  validates :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
+  #validates_presence_of :state
+  #validates :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
 
   searchable do
     text :title, :description, :alias
@@ -69,7 +69,7 @@ class Project < ActiveRecord::Base
 
   amoeba do
     enable
-    include_field [:pe_wbs_project, :pemodules, :groups, :users]
+    include_field [:pe_wbs_projects, :pemodules, :groups, :users]
 
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
@@ -78,7 +78,6 @@ class Project < ActiveRecord::Base
       original_project.copy_number = original_project.copy_number.to_i+1
     })
 
-    #prepend :title => "Copy of "
     propagate
   end
 

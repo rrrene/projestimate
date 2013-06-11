@@ -39,7 +39,7 @@ class WbsProjectElement < ActiveRecord::Base
     customize(lambda { |original_wbs_project_elt, new_wbs_project_elt|
       new_wbs_project_elt.name = "Copy_#{ original_wbs_project_elt.copy_number.to_i+1} of #{original_wbs_project_elt.name }"
       new_wbs_project_elt.copy_number = 0
-      original_wbs_project_elt.copy_number +=1
+      original_wbs_project_elt.copy_number = original_wbs_project_elt.copy_number.to_i+1
     })
 
     propagate

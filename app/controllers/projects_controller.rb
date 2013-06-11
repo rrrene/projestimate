@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_successful_created)}"
+          redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -602,7 +602,7 @@ class ProjectsController < ApplicationController
 
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
-    begin
+    #begin
       old_prj = Project.find(params[:project_id])
 
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
@@ -610,8 +610,9 @@ class ProjectsController < ApplicationController
       if new_prj.save
         old_prj.save #Original project copy number will be incremented to 1
 
-        #Managing the component tree
-        new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
+        #Managing the component tree : PBS
+        pe_wbs_product = new_prj.pe_wbs_projects.wbs_product.first
+        new_prj_components = pe_wbs_product.pbs_project_elements
 
         new_prj_components.each do |new_c|
           unless new_c.is_root?
@@ -633,12 +634,12 @@ class ProjectsController < ApplicationController
       #  new_mp.save
       #end
 
-      flash[:success] = I18n.t (:notice_project_successful_duplicated)
+      flash[:success] = I18n.t(:notice_project_successful_duplicated)
       redirect_to '/projects' and return
-    rescue
-      flash['Error'] = I18n.t (:error_project_duplication_failed)
-      redirect_to '/projects'
-    end
+    #rescue
+    #  flash['Error'] = I18n.t (:error_project_duplication_failed)
+    #  redirect_to '/projects'
+    #end
   end
 
   def commit
@@ -716,7 +717,7 @@ class ProjectsController < ApplicationController
 
         @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
         if @project.save
-          flash[:notice] = I18n.t (:notice_wbs_activity_successful_added)
+          flash[:notice] = I18n.t(:notice_wbs_activity_successful_added)
         else
           flash[:error] = "#{@project.errors.full_messages.to_sentence}"
         end
