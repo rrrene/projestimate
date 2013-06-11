@@ -73,7 +73,6 @@
       <div id="tabs-2">
         <%= form_tag('/update_selected_attributes', :method => 'get', :class => 'simple_form') do -%>
 
-
             <%= hidden_field_tag 'module_id', @pemodule.id %>
             <%= hidden_field_tag 'pemodule[pe_attribute_ids][]' %>
 
@@ -85,7 +84,7 @@
               </tr>
               <% @attributes.each do |attr| %>
                   <tr class="<%= cycle('even', 'odd') %>">
-                    <td><%= link_to attr.name, edit_pe_attribute_path(attr) unless attr.nil? %></td>
+                    <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :title => display_attribute_rule(attr) ) unless attr.nil? %></td>
                     <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
                     <td><%= attr.description %></td>
                   </tr>
