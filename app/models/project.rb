@@ -34,7 +34,6 @@ class Project < ActiveRecord::Base
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
 
-  #has_one :pe_wbs_project, :dependent => :destroy
   has_many :pe_wbs_projects, :dependent => :destroy
 
   has_and_belongs_to_many :groups
@@ -69,7 +68,7 @@ class Project < ActiveRecord::Base
 
   amoeba do
     enable
-    include_field [:pe_wbs_project, :pemodules, :groups, :users]
+    include_field [:pe_wbs_projects, :pemodules, :groups, :users]
 
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"

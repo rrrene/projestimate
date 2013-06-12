@@ -602,7 +602,7 @@ class ProjectsController < ApplicationController
 
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
-    begin
+    #begin
       old_prj = Project.find(params[:project_id])
 
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
@@ -627,18 +627,12 @@ class ProjectsController < ApplicationController
         #raise "#{RuntimeError}"
       end
 
-      #old_prj.module_projects.each do |mp|
-      #  new_mp = mp.dup
-      #  new_mp.project_id = new_prj.id
-      #  new_mp.save
-      #end
-
-      flash[:success] = I18n.t (:notice_project_successful_duplicated)
-      redirect_to '/projects' and return
-    rescue
-      flash['Error'] = I18n.t (:error_project_duplication_failed)
+    #  flash[:success] = I18n.t (:notice_project_successful_duplicated)
+    #  redirect_to '/projects' and return
+    #rescue
+    #  flash[:errors] = I18n.t (:error_project_duplication_failed)
       redirect_to '/projects'
-    end
+    #end
   end
 
   def commit
