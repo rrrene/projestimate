@@ -612,8 +612,10 @@ class ProjectsController < ApplicationController
 
         #Managing the component tree : PBS
         pe_wbs_product = new_prj.pe_wbs_projects.wbs_product.first
-        new_prj_components = pe_wbs_product.pbs_project_elements
+        pe_wbs_activity = new_prj.pe_wbs_projects.wbs_activity.first
 
+        # For PBS
+        new_prj_components = pe_wbs_product.pbs_project_elements
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
@@ -625,6 +627,30 @@ class ProjectsController < ApplicationController
             new_c.save
           end
         end
+
+        # For WBS
+        new_prj_wbs = pe_wbs_activity.wbs_project_elements
+        new_prj_wbs.each do |new_wbs|
+          unless new_wbs.is_root?
+            new_ancestor_ids_list = []
+            new_wbs.ancestor_ids.each do |ancestor_id|
+              ancestor_id = WbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_wbs.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_wbs.ancestry = new_ancestor_ids_list.join('/')
+            new_wbs.save
+          end
+        end
+
+        # For ModuleProject associations
+        old_prj.module_projects.group(:id).each do |old_mp|
+          new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
+          old_mp.associated_module_projects.each do |associated_mp|
+            new_associated_mp = ModuleProject.where("project_id = ? AND copy_id = ?", new_prj.id, associated_mp.id).first
+            new_mp.associated_module_projects <<  new_associated_mp
+          end
+        end
+
         #raise "#{RuntimeError}"
       end
 
