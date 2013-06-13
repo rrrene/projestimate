@@ -85,7 +85,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the next pemodule with link
   def next
     results = Array.new
-    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results = self.associated_module_projects #+self.inverse_associated_module_projects
     tmp_results.each do |r|
       if self.following.map(&:id).include?(r.id)
         results << r
@@ -97,7 +97,8 @@ class ModuleProject < ActiveRecord::Base
   #Return the previous pemodule with link
   def previous
     results = Array.new
-    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    #tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results = self.associated_module_projects
     tmp_results.each do |r|
       if self.preceding.map(&:id).include?(r.id)
         results << r
