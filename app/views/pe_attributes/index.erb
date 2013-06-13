@@ -65,9 +65,11 @@
     <table border="0" width="100%">
       <tr>
         <td>
-          <% @pemodules.each do |pemodule| %>
-              <%= pop_up("find_use_project_#{pemodule.id}", "#{project}'s relationships") do -%>
-                  <%= raw build_find_use_project_popup(project.id) %>
+          <% unless @pemodules.nil?%>
+              <% @pemodules.each do |pemodule| %>
+                  <%= pop_up("find_use_project_#{pemodule.id}", "#{project}'s relationships") do -%>
+                      <%= raw build_find_use_project_popup(project.id) %>
+                  <% end %>
               <% end %>
           <% end %>
         </td>
