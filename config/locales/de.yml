@@ -631,6 +631,9 @@ de:
   additional_description: "Additional description"
   exclude: "Exclude"
   author: "Author"
+  warning_wbs_not_complete: "\"%{value}\" is not complete : all values (low, most likely and high) must be set correctly."
+  warning_wbs_not_consistent: "Sum of children efforts are different from the node effort."
+  warning_caution: "Caution"
 
   #work element type
   edit_work_element_type: "Edit the \"%{value}\" work element type ..."

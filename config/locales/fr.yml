@@ -633,6 +633,9 @@ fr:
   additional_description: "Description supplémentaire"
   exclude: "Exclure"
   author: "Auteur"
+  warning_wbs_not_complete: "\"%{value}\" est imcomplet : toutes les valeurs (basse, vraisemblable et haute) doivent être correctement renseignées."
+  warning_wbs_not_consistent: "L effort au niveau du noeud est différent de la somme des efforts de ses fils."
+  warning_caution: "Attention"
 
   #work element type
   edit_work_element_type: "Edit le type d'élément de travail \"%{value}\" ..."

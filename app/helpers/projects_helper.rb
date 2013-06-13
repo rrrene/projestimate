@@ -140,7 +140,7 @@ module ProjectsHelper
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
       show_consistency_class = nil
       unless wbs_project_elt_consistency || module_project.pemodule.alias == "effort_breakdown"
-        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='#{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly'></span>"
+        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='<strong>#{I18n.t(:warning_caution)}</strong> </br>  #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)}'></span>"
       end
 
       #For wbs-activity-completion node consistency
@@ -157,9 +157,9 @@ module ProjectsHelper
             if !!current_wbs_consistency == false
               if show_consistency_class.nil?
                 completion_consistency = "icon-warning-sign not_consistent_class attribute_tooltip"
-                title = "Caution: sum of children efforts are different from the node effort"
+                title = I18n.t(:warning_caution) + " : " + I18n.t(:warning_wbs_not_consistent)
               else
-                show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='Caution: <br /> * #{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly. <br /> * Sum of children efforts are different from the node effort.'></span>"
+                show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title=' <strong>#{I18n.t(:warning_caution)}</strong> </br> * #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)} </br> * #{I18n.t(:warning_wbs_not_consistent)}'></span>"
               end
 
               break
