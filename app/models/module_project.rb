@@ -43,7 +43,6 @@ class ModuleProject < ActiveRecord::Base
 
   end
 
-
   #Return the common attributes (previous, next)
   def self.common_attributes(mp1, mp2)
     mp1.output_attributes & mp2.input_attributes
