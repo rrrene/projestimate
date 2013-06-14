@@ -108,13 +108,13 @@ class PeAttributesController < ApplicationController
   end
 
   #Find where attribute is using
-  def find_use
+  def find_use_attribute
     @pe_attribute = PeAttribute.find(params[:pe_attribute_id])
-    @pemodules = Pemodule.find_all_by_pe_attribute_id(@pe_attribute.id)
+    @attribute_modules = AttributeModule.find_all_by_pe_attribute_id(@pe_attribute.id)
 
-    respond_to do |format|
-      format.js { render :partial => 'projects/find_use' }
-    end
+    #respond_to do |format|
+    #  format.js { render :partial => 'pe_attributes/find_use_attribute_modules' }
+    #end
   end
 
 end

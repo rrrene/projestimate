@@ -273,6 +273,11 @@ fr:
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
   record_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
+  notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
+  text_modules_using_current_attribute: "Liste des modules qui utilisent l'attribut \"%{value}\" "
+  text_module_name: "Nom du module"
+  text_attribute_specification_in_current_module: "Caractéristiques de l'attribut dans le module"
+  text_use_as: "Utilisé en"
 
 
   wbs_activity_elements: "Eléments du WBS-Activités"

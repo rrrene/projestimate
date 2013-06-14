@@ -83,7 +83,7 @@ Projestimate::Application.routes.draw do
 
   resources :pe_attributes
   post 'check_attribute' => 'pe_attributes#check_attribute', :as => 'check_attribute'
-  get 'find_use' => 'pe_attributes#find_use', :as => 'find_use'
+  get 'find_use_attribute' => 'pe_attributes#find_use_attribute', :as => 'find_use_attribute'
 
   resources :project_categories
 
