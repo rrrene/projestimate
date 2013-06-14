@@ -22,6 +22,7 @@ class PemodulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
+  before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
 
   def index
     authorize! :manage_modules, Pemodule
@@ -160,7 +161,6 @@ class PemodulesController < ApplicationController
       end
     end
 
-    #redirect_to edit_pemodule_path(params[:module_id]), :notice => "#{I18n.t (:notice_pemodule_successful_updated)}"
     redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
   end
@@ -178,8 +178,12 @@ class PemodulesController < ApplicationController
     redirect_to pemodules_url, :notice => "#{I18n.t (:notice_pemodule_successful_deleted)}"
   end
 
+  def estimations_params
+    set_page_title 'Estimations parameters'
+  end
 
-  #################### Move functions ####################
+
+  #TODO: ####################  Move functions to module_projects_controller ####################
 
   def pemodules_up
     @project_module = ModuleProject.find(params[:module_id])
@@ -252,11 +256,6 @@ class PemodulesController < ApplicationController
     @project_module.update_attribute('position_x', @project_module.position_x.to_i + 1 )
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
-  end
-
-
-  def estimations_params
-    set_page_title 'Estimations parameters'
   end
 
 end

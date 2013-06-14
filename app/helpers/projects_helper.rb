@@ -199,7 +199,7 @@ module ProjectsHelper
     # Show the probable values
     res << "<tr><td><strong> #{pbs_project_element.name} Probable Value </strong> </td>"
     module_project.estimation_values.each do |est_val|
-      if (est_val.in_out == 'output' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
+      if (est_val.in_out == 'output' or est_val.in_out=='both') and est_val.module_project_id == module_project.id
         res << "<td colspan='3'>"
         level_probable_value = est_val.send('string_data_probable')
         if level_probable_value.nil? || level_probable_value[pbs_project_element.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id].nil? || level_probable_value[pbs_project_element.id][project_wbs_project_elt_root.id][:value].nil?
@@ -466,8 +466,7 @@ module ProjectsHelper
           res << '<td>'
           module_project.estimation_values.where('in_out = ?', 'input').each do |est_val|
             if (est_val.in_out == 'input' and est_val.module_project.id == module_project.id)
-              str = "#{est_val.pe_attribute.attribute_type}_data_#{level}"
-              level_estimation_values = nil #Hash.new
+              level_estimation_values = nil
               level_estimation_values = est_val.send("string_data_#{level}")
 
               # For Wbs_Activity Complemention module, input data are from last executed module
@@ -475,9 +474,7 @@ module ProjectsHelper
                 pbs_last_result = nil
                 unless last_estimation_result.nil? || last_estimation_result.empty?
                   level_last_result = last_estimation_result.send("string_data_#{level}")
-                  ##puts "LEVEL_RESULT = #{level_last_result}"
                   pbs_last_result =  level_last_result[pbs_project_element.id]
-                  ##puts "PBS_RESULT = #{pbs_last_result}"
                 end
 
                 if pbs_last_result.nil?
@@ -620,13 +617,14 @@ module ProjectsHelper
 
   #Display pemodule output depending attribute type.
   def display_value(value, estimation_value)
-    case estimation_value.pe_attribute.attr_type
+    est_val_pe_attribute = estimation_value.pe_attribute
+    case est_val_pe_attribute.attr_type
     when 'date'
       display_date(value)
     when 'float'
       begin
-        if estimation_value.pe_attribute.precision
-          value.round(estimation_value.pe_attribute.precision)
+        if est_val_pe_attribute.precision
+          value.round(est_val_pe_attribute.precision)
         else
           value.round(2)
         end

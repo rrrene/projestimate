@@ -247,6 +247,14 @@ class ApplicationController < ActionController::Base
     @local_status = RecordStatus.find_by_name("Local")
   end
 
+  #before filter only pemodules move fonctions
+  def project_locked?
+    if current_project.locked?
+      flash[:notice] = "Project locked."
+      redirect root_url
+    end
+  end
+
 
   #Rescue method
   #rescue_from ActionController::RoutingError do |exception|
