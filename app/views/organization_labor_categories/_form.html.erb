@@ -8,7 +8,7 @@
         <div>
           <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
           <br />
-          <%= f.input :name, :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
           <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
           <table>
             <tr>

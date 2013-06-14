@@ -63,7 +63,7 @@ class RecordStatusesController < ApplicationController
 
     unless @record_status.child_reference.nil?
       if @record_status.child_reference.is_proposed_or_custom?
-        flash[:warning] = I18n.t (:warning_record_status_cant_be_edit)
+        flash[:warning] = I18n.t(:warning_record_status_cant_be_edit)
         redirect_to record_statuses_path
       end
     end
@@ -76,7 +76,7 @@ class RecordStatusesController < ApplicationController
 
     respond_to do |format|
       if @record_status.save
-        format.html { redirect_to record_statuses_path, notice: "#{I18n.t (:notice_record_status_successful_created)}" }
+        format.html { redirect_to record_statuses_path, notice: "#{I18n.t(:notice_record_status_successful_created)}" }
         format.json { render json: @record_status, status: :created, location: @record_status }
       else
         format.html { render action: 'new' }

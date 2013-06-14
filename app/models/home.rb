@@ -39,7 +39,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'uuid'])
 
     puts '   - WBS Activity'
-    self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ['name', 'description', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ['name', 'description', 'uuid', 'state'])
 
     puts '   - WBS Activity Elements'
     self.update_records(ExternalMasterDatabase::ExternalWbsActivityElement, WbsActivityElement, ['name', 'description', 'dotted_id', 'uuid', 'is_root'])

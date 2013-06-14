@@ -102,7 +102,7 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.update_attributes(params[:wbs_activity])
-      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t (:notice_wbs_activity_successful_updated)}"
+      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_updated)}"
     else
       render :edit
     end
@@ -132,7 +132,7 @@ class WbsActivitiesController < ApplicationController
 
       @wbs_activity_element.save
 
-      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t (:notice_wbs_activity_successful_added)}"
+      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_added)}"
     else
       render :new
     end
@@ -155,12 +155,12 @@ class WbsActivitiesController < ApplicationController
             @wbs_activity.destroy
         end
       else
-        flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
+        flash[:warning] = I18n.t(:warning_master_record_cant_be_delete)
         redirect_to redirect(wbs_activities_path)  and return
       end
     end
 
-    flash[:notice] = I18n.t (:notice_wbs_activity_successful_deleted)
+    flash[:notice] = I18n.t(:notice_wbs_activity_successful_deleted)
     redirect_to wbs_activities_path
   end
 
@@ -217,13 +217,13 @@ class WbsActivitiesController < ApplicationController
         end
       end
 
-      redirect_to('/wbs_activities', :notice  =>  "#{I18n.t (:notice_wbs_activity_successful_duplicated)}") and return
+      redirect_to('/wbs_activities', :notice  =>  "#{I18n.t(:notice_wbs_activity_successful_duplicated)}") and return
 
     rescue ActiveRecord::RecordNotSaved => e
       flash[:error] = "#{new_wbs_activity.errors.full_messages.to_sentence}"
 
     rescue
-      flash[:error] = I18n.t (:error_wbs_activity_failed_duplicate)+' '+new_wbs_activity.errors.full_messages.to_sentence
+      flash[:error] = I18n.t(:error_wbs_activity_failed_duplicate) + "#{new_wbs_activity.errors.full_messages.to_sentence.to_s}"
       redirect_to '/wbs_activities'
     end
   end
@@ -274,9 +274,9 @@ class WbsActivitiesController < ApplicationController
             end
           end
 
-          flash[:notice] =I18n.t (:notice_wbs_activity_successful_updated)
+          flash[:notice] =I18n.t(:notice_wbs_activity_successful_updated)
         else
-          flash[:error] = I18n.t (:error_wbs_activity_failed_update)+ ' ' +wbs_activity_root_element.errors.full_messages.to_sentence+'.'
+          flash[:error] = I18n.t(:error_wbs_activity_failed_update)+ ' ' +wbs_activity_root_element.errors.full_messages.to_sentence+'.'
         end
       end
 
