@@ -140,7 +140,7 @@ module ProjectsHelper
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
       show_consistency_class = nil
       unless wbs_project_elt_consistency || module_project.pemodule.alias == "effort_breakdown"
-        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='#{wbs_project_elt.name} is not complete : all values (low, most likely and high) must be set correctly'></span>"
+        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='<strong>#{I18n.t(:warning_caution)}</strong> </br>  #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)}'></span>"
       end
 
       #For wbs-activity-completion node consistency
@@ -150,20 +150,25 @@ module ProjectsHelper
         current_wbs_consistency = true
         pbs_level_data_for_consistency.each do |level, level_value|
           #if !pbs_level_data_for_consistency.nil?
-          if !level_value.nil?
+          if !level_value.nil? && !level_value.empty?
             wbs_level_data = level_value[wbs_project_elt.id]
             wbs_level_data.nil? ? current_wbs_consistency_level = nil : current_wbs_consistency_level = wbs_level_data[:is_consistent]
             current_wbs_consistency = current_wbs_consistency && current_wbs_consistency_level
             if !!current_wbs_consistency == false
-              completion_consistency = "icon-warning-sign not_consistent_class attribute_tooltip"
-              title = "Caution: sum of children efforts are different from the node effort"
+              if show_consistency_class.nil?
+                completion_consistency = "icon-warning-sign not_consistent_class attribute_tooltip"
+                title = I18n.t(:warning_caution) + " : " + I18n.t(:warning_wbs_not_consistent)
+              else
+                show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title=' <strong>#{I18n.t(:warning_caution)}</strong> </br> * #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)} </br> * #{I18n.t(:warning_wbs_not_consistent)}'></span>"
+              end
+
               break
             end
           end
         end
       end
 
-      res << "<tr> <td> <span class='tree_element_in_out #{completion_consistency}' title='#{title}' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name} </span> </td>"
+      res << "<tr> <td> <span class='tree_element_in_out  #{completion_consistency}' title='#{title}' style='margin-left:#{wbs_project_elt.depth}em;'> #{show_consistency_class}  #{wbs_project_elt.name} </span> </td>"
 
       ['low', 'most_likely', 'high', 'probable'].each do |level|
         res << '<td>'
@@ -280,7 +285,7 @@ module ProjectsHelper
             effort_breakdown_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
 
             unless effort_breakdown_module.nil?
-              refer_module_potential_ids = module_project.associated_module_projects + module_project.inverse_associated_module_projects
+              refer_module_potential_ids = module_project.associated_module_projects ###+ module_project.inverse_associated_module_projects
               #unless refer_module.empty?
                 refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
                 refer_modules_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND  project_id =? AND pbs_project_elements.id = ?", effort_breakdown_module.id, current_project.id, pbs_project_element.id)

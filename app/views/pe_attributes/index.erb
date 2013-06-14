@@ -38,6 +38,7 @@
                     <td><%= attribute.record_status.name unless attribute.record_status.nil? %> <%= attribute.show_custom_value %></td>
                     <td>
                       <%= link_to '', edit_pe_attribute_path(attribute), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                      <%= link_to('', {:controller => 'pe_attributes', :action => 'find_use', :pe_attribute_id => attribute.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => I18n.t('button_find_use')) %>
                       <%= link_to '', attribute, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 
                       <% if is_master_instance? && !attribute.is_local_record? %>
@@ -60,6 +61,21 @@
 
       <% end %>
     </table>
+
+    <table border="0" width="100%">
+      <tr>
+        <td>
+          <% unless @pemodules.nil?%>
+              <% @pemodules.each do |pemodule| %>
+                  <%= pop_up("find_use_project_#{pemodule.id}", "#{project}'s relationships") do -%>
+                      <%= raw build_find_use_project_popup(project.id) %>
+                  <% end %>
+              <% end %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
   </div>
 </div>
 

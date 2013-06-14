@@ -24,17 +24,24 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :reference_value
 
   has_many :estimation_values
-
-  has_many :dependances, :class_name => "AssociatedModuleProject"
-  has_many :associated_module_projects, :through => :dependances, :source => :associated_module_project
-
-  has_many :inverse_dependances, :class_name => "AssociatedModuleProject", :foreign_key => "associated_module_project_id"
-  has_many :inverse_associated_module_projects, :through => :inverse_dependances, :source => :module_project
-
-
   has_and_belongs_to_many :pbs_project_elements
 
+  has_and_belongs_to_many :associated_module_projects, :class_name => "ModuleProject",
+           :join_table => "associated_module_projects",
+           :association_foreign_key => :associated_module_project_id,
+           :uniq => true
+
   default_scope :order => "position_x ASC, position_y ASC"
+
+  amoeba do
+    enable
+    include_field [:estimation_values, :pbs_project_elements]
+
+    customize(lambda { |original_module_project, new_module_project|
+      new_module_project.copy_id = original_module_project.id
+    })
+
+  end
 
   #Return the common attributes (previous, next)
   def self.common_attributes(mp1, mp2)
@@ -78,7 +85,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the next pemodule with link
   def next
     results = Array.new
-    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results = self.associated_module_projects #+self.inverse_associated_module_projects
     tmp_results.each do |r|
       if self.following.map(&:id).include?(r.id)
         results << r
@@ -90,7 +97,8 @@ class ModuleProject < ActiveRecord::Base
   #Return the previous pemodule with link
   def previous
     results = Array.new
-    tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    #tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
+    tmp_results = self.associated_module_projects
     tmp_results.each do |r|
       if self.preceding.map(&:id).include?(r.id)
         results << r

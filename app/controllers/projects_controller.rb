@@ -596,7 +596,7 @@ class ProjectsController < ApplicationController
 
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
-    #begin
+    begin
       old_prj = Project.find(params[:project_id])
 
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
@@ -606,8 +606,10 @@ class ProjectsController < ApplicationController
 
         #Managing the component tree : PBS
         pe_wbs_product = new_prj.pe_wbs_projects.wbs_product.first
-        new_prj_components = pe_wbs_product.pbs_project_elements
+        pe_wbs_activity = new_prj.pe_wbs_projects.wbs_activity.first
 
+        # For PBS
+        new_prj_components = pe_wbs_product.pbs_project_elements
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
@@ -616,25 +618,49 @@ class ProjectsController < ApplicationController
               new_ancestor_ids_list.push(ancestor_id)
             end
             new_c.ancestry = new_ancestor_ids_list.join('/')
+
+            # For PBS-Project-Element Links with modules
+            old_pbs = PbsProjectElement.find(new_c.copy_id)
+            new_c.module_projects = old_pbs.module_projects
+
             new_c.save
           end
         end
+
+        # For WBS
+        new_prj_wbs = pe_wbs_activity.wbs_project_elements
+        new_prj_wbs.each do |new_wbs|
+          unless new_wbs.is_root?
+            new_ancestor_ids_list = []
+            new_wbs.ancestor_ids.each do |ancestor_id|
+              ancestor_id = WbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_wbs.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_wbs.ancestry = new_ancestor_ids_list.join('/')
+            new_wbs.save
+          end
+        end
+
+        # For ModuleProject associations
+        old_prj.module_projects.group(:id).each do |old_mp|
+          new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
+          old_mp.associated_module_projects.each do |associated_mp|
+            new_associated_mp = ModuleProject.where("project_id = ? AND copy_id = ?", new_prj.id, associated_mp.id).first
+            new_mp.associated_module_projects <<  new_associated_mp
+          end
+        end
+
         #raise "#{RuntimeError}"
       end
 
-      #old_prj.module_projects.each do |mp|
-      #  new_mp = mp.dup
-      #  new_mp.project_id = new_prj.id
-      #  new_mp.save
-      #end
-
       flash[:success] = I18n.t(:notice_project_successful_duplicated)
       redirect_to '/projects' and return
-    #rescue
-    #  flash['Error'] = I18n.t (:error_project_duplication_failed)
-    #  redirect_to '/projects'
-    #end
+    rescue
+      flash['Error'] = I18n.t(:error_project_duplication_failed)
+      redirect_to '/projects'
+    end
   end
+
 
   def commit
     project = Project.find(params[:project_id])

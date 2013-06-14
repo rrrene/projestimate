@@ -106,4 +106,15 @@ class PeAttributesController < ApplicationController
       params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id]
     end
   end
+
+  #Find where attribute is using
+  def find_use
+    @pe_attribute = PeAttribute.find(params[:pe_attribute_id])
+    @pemodules = Pemodule.find_all_by_pe_attribute_id(@pe_attribute.id)
+
+    respond_to do |format|
+      format.js { render :partial => 'projects/find_use' }
+    end
+  end
+
 end
