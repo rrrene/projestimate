@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522084353) do
+ActiveRecord::Schema.define(:version => 20130614090812) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(:version => 20130522084353) do
     t.text     "scope"
     t.integer  "copy_number"
     t.text     "included_wbs_activities"
+    t.boolean  "is_locked"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
@@ -764,8 +765,8 @@ ActiveRecord::Schema.define(:version => 20130522084353) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

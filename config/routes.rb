@@ -24,12 +24,10 @@ Projestimate::Application.routes.draw do
   resources :wbs_project_elements
   match 'projects/:project_id/wbs_project_elements/:wbs_project_id/change_wbs_project_ratio' => 'wbs_project_elements#change_wbs_project_ratio', :as => 'change_wbs_project_ratio'
   match 'wbs_project_elements/update_wbs_project_ratio_value' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
-  #post 'wbs_project_elements' => 'wbs_project_elements#update_wbs_project_ratio_value', :as => 'update_wbs_project_ratio_value'
 
   resources :wbs_activity_ratios do
     collection { match 'wbs_activity_ratios/:wbs_activity_ratio_id/export' => 'wbs_activity_ratios#export', :as => 'export' }
     collection { match 'wbs_activity_ratios/import' => 'wbs_activity_ratios#import', :as => 'import' }
-    #collection { match 'wbs_activity_ratios/:ratio_id/validate_ratio' => 'wbs_activity_ratios#validate_ratio', :as => 'validate_ratio'}
   end
   match 'wbs_activity_ratios/:ratio_id/validate_ratio' => 'wbs_activity_ratios#validate_ratio', :as => 'validate_ratio'
   get 'refresh_ratio_elements' => 'wbs_activities#refresh_ratio_elements', :as => 'refresh_ratio_elements'
@@ -165,6 +163,8 @@ Projestimate::Application.routes.draw do
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
   match 'projects/:project_id/confirm_deletion' => 'projects#confirm_deletion', :as => :confirm_deletion
+
+  match 'projects/:project_id/locked_plan' => 'projects#locked_plan', :as => :locked_plan
 
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'

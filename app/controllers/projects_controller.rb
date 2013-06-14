@@ -383,6 +383,8 @@ class ProjectsController < ApplicationController
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|
+        est_val_attribute_alias = est_val.pe_attribute.alias
+        est_val_attribute_type = est_val.pe_attribute.attribute_type
         if est_val.in_out == 'output'
           out_result = Hash.new
           @results.each do |res|
@@ -391,12 +393,11 @@ class ProjectsController < ApplicationController
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
               ##level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
+              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{mp.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
                 level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, mp)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
@@ -408,18 +409,11 @@ class ProjectsController < ApplicationController
             # compute the probable value for each node
             probable_estimation_value = Hash.new
             probable_estimation_value = est_val.send('string_data_probable')
-            ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
 
-            #pbs_probable_est_value = probable_value(@results, est_val)
-            #if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-            #  probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
-            #else
-            #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
-            #end
-            if est_val.pe_attribute.attribute_type == 'numeric'
+            if est_val_attribute_type == 'numeric'
               probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
             else
-              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val.pe_attribute.alias}_#{est_val.module_project_id.to_s}".to_sym]
+              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
             end
 
             out_result['string_data_probable'] = probable_estimation_value
@@ -433,9 +427,9 @@ class ProjectsController < ApplicationController
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
             begin
-              pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][mp.id.to_s]
             rescue
-              pbs_level_form_input = params[est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[est_val_attribute_alias.to_sym][mp.id.to_s]
             end
 
             wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where('is_root = ?', true).first
@@ -782,5 +776,11 @@ class ProjectsController < ApplicationController
     redirect_to root_url
   end
 
+  def locked_plan
+    @project = Project.find(params[:project_id])
+    @project.locked? ? @project.is_locked = false : @project.is_locked = true
+    @project.save
+    redirect_to edit_project_path(@project, :anchor => 'tabs-4')
+  end
 
 end

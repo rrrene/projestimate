@@ -5,7 +5,9 @@
   <% unless module_projects.empty? %>
     <table class="table table-condensed table-bordered" style="width: auto;">
       <tr>
-        <th></th>
+        <th>
+          <h4><%= link_to "", locked_plan_path(current_project.id), :class => "icon-lock icon-large" %></h4>
+        </th>
         <% for x in 1..@module_positions_x.to_i do %>
             <th><h4><%= @alphabet[x-1] %></h4></th>
         <% end %>
@@ -30,14 +32,16 @@
                     <% end %>
                   <% end %>
 
-                  <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> ">
+                  <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
                       <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
                       <br>
-                      <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
-                      <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
-                      <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
-                      <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
-                      <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+                      <% unless current_project.locked? %>
+                        <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
+                        <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
+                        <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
+                        <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
+                        <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+                      <% end %>
                   </div>
 
                   <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
