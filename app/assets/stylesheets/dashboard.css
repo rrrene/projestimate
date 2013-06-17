@@ -109,6 +109,17 @@
     }
 }
 
+th.action {
+   width: 93px
+}
+
+div.actions {
+    margin:20px;
+}
+div.actions-tabs {
+    margin:0px;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
 	#header h1 {
 		top: 3px;
@@ -1087,4 +1098,4 @@ input[type="color"],
     border-radius: 4px;
 }
 
-.consistency_class{ color: #ff0000;}
+.not_consistent_class{ color: #ff0000;}

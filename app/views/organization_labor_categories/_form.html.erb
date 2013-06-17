@@ -1,28 +1,43 @@
-<%= simple_form_for(@organization_labor_category) do |f| %>
-   <div >
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:organizationals_labors_categories) %> </a></li>
+  </ul>
 
-    <%= f.input :organization_id %>
-
-    <%= f.input :labor_category_id %>
-
-    <%= f.input :level %>
-
-    <%= f.input :name %>
-
-    <%= f.input :description %>
-
-    <%= f.input :cost_per_hour %>
-
-    <%= f.input :base_year %>
-
-    <%= f.input :currency_id %>
-
-    <%= f.input :hour_per_day %>
-
-    <%= f.input :days_per_year %>
+  <div id="tabs-1">
+    <%= simple_form_for(@organization_labor_category) do |f| %>
+        <div>
+          <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+          <br />
+          <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
+          <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+          <table>
+            <tr>
+              <td><%= f.input :organization_id %></td>
+              <td><%= f.input :labor_category_id %></td>
+            </tr>
+            <tr>
+              <td><%= f.input :level %></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><%= f.input :cost_per_hour %></td>
+              <td><%= f.input :base_year %></td>
+            </tr>
+            <tr>
+              <td><%= f.input :currency_id %></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><%= f.input :hour_per_day %></td>
+              <td><%= f.input :days_per_year %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="actions-tabs">
+          <%= f.submit I18n.t('save'), :class => 'btn' %>
+          <%= f.submit I18n.t('apply'), :class => 'btn' %>
+          <%= link_to I18n.t('back'), organizationals_params_path, :class => 'btn' %>
+        </div>
+    <% end %>
   </div>
-  <div class="actions">
-    <%= f.submit I18n.t('save'), :class => 'btn' %>
-    <%= f.submit I18n.t('apply'), :class => 'btn' %>
-  </div>
-<% end %>
+</div>

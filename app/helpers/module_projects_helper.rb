@@ -104,7 +104,7 @@ module ModuleProjectsHelper
     end
 
     #computed_probable_value according to the attribute type
-    if estimation_value.pe_attribute.attr_type.eql?("integer")
+    if estimation_value.pe_attribute.attr_type.eql?("integer") &&  !computed_probable_value.nan?
       computed_probable_value = computed_probable_value.round
     end
 

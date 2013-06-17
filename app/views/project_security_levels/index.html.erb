@@ -25,7 +25,7 @@
           <tr>
             <td><%= project_security_level.name %></td>
             <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_project_security_level_path(project_security_level), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', project_security_level, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !project_security_level.is_local_record? %>

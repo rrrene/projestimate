@@ -234,9 +234,9 @@ fr:
   create_new_project: "Créer un nouveau projet"
 
   library: "Bibliothèque"
-  project_global_setting: "Paramètres du projet"
+  project_global_setting: "Paramètres projets"
   estimation_setting: "Estimation"
-  organization_setting: "Paramètres organisationnels"
+  organization_setting: "Organisations"
   wbs_activities: "WBS-Activities"
   template: "Modèle"
 
@@ -246,13 +246,13 @@ fr:
   groups: "Groupes"
   global_permission: "Permissions globales"
   project_securities: "Sécurités des projets"
-  auth_methods: "Méthodes d'authentifications"
+  auth_methods: "Authentifications"
   events: "Evènements"
 
   master: "Paramètres master"
-  project_global_parameters: "Paramètres globaux des projets"
+  project_global_parameters: "Paramètres projets"
   pe_attributes: "Attributs"
-  labor_categories: "Catégories de travailleurs"
+  labor_categories: "Travailleurs"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
   security_level: "Niveaux de sécurité"
@@ -273,6 +273,11 @@ fr:
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
   record_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
+  notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
+  text_modules_using_current_attribute: "Liste des modules qui utilisent l'attribut \"%{value}\" "
+  text_module_name: "Nom du module"
+  text_attribute_specification_in_current_module: "Caractéristiques de l'attribut dans le module"
+  text_use_as: "Utilisé en"
 
 
   wbs_activity_elements: "Eléments du WBS-Activités"
@@ -319,15 +324,15 @@ fr:
   new_project_area: "Créer un secteur de projet"
 
   #Project categories
-  edit_project_category: "Editer une catégorie de projet"
+  edit_project_category: "Editer la catégorie de projet \"%{value}\" ..."
   new_project_category: "Créer une catégorie de projet"
 
   #Platform categories
-  edit_platform_category: "Editer une catégorie de plateforme"
+  edit_platform_category: "Editer la catégorie de plateforme \"%{value}\" ..."
   new_platform_category: "Créer une catégorie de plateforme"
 
   #Acquisition categories
-  edit_acquisition_category: "Editer une catégorie d'acquisition"
+  edit_acquisition_category: "Editer la catégorie d'acquisition \"%{value}\" ..."
   new_acquisition_category: "Créer une catégorie d'acquisition"
   notice_acquisition_category_successful_created: "Une nouvelle catégorie d'activité a été créée avec succès."
   notice_acquisition_category_successful_destroyed: "Cette catégorie d'activité a été supprimée avec succès"
@@ -339,7 +344,7 @@ fr:
   new_activity_category: "Créer une catégorie d'activité"
 
   #Admin_settings
-  edit_admin_settings: "Editer le paramètre d'administrations \"%{value}\""
+  edit_admin_settings: "Editer le paramètre d'administrations \"%{value}\" ..."
   new_admin_settings: "Créer un nouveau paramètre d'administration"
   key: "Clé"
   value: "Valeur"
@@ -357,7 +362,7 @@ fr:
   certificate: "Certificat"
   base_dn: "Base DNS"
   user_name_attribute: "Nom d'utilisateur"
-  edit_auth_method: "Editer une méthode d'autentification"
+  edit_auth_method: "Editer la  méthode d'autentification \"%{value}\" ..."
   new_auth_method: "Créer une nouvelle méthode d'authentification"
 
   #currencies
@@ -390,12 +395,12 @@ fr:
   new_labor_category: "Créer une catégorie de travail"
 
   #languages
-  edit_language: "Editer le langage \"%{value}\""
+  edit_language: "Editer le langage \"%{value}\" ..."
   new_language: "Créer un nouveau langage"
   local: "Local"
 
   #master_settings
-  edit_master_setting: "Editer les paramètres maître"
+  edit_master_setting: "Editer les paramètres maître \"%{value}\" ..."
   new_master_setting: "Créer un nouveau paramètre maître"
 
   #estimation_values
@@ -417,7 +422,6 @@ fr:
   current_link: "Liens courant"
   edit_link: "Editer le liens"
   module_name: "Nom du module"
-  associable_pe_attributes: "Attributs associables"
   pe_module: "Pe-Module"
   position: "Position"
   associate_Product_element_module_project: "Associer un Product element avec un module du projet"
@@ -432,12 +436,12 @@ fr:
   currency: "Devise"
   hour_per_day: "Heures par jour"
   days_per_year: "Jours par année"
-  edit_organization_labor_category: "Editer la catégorie de travailleurs de l'organisation"
+  edit_organization_labor_category: "Editer la catégorie de travailleurs organisationnelle \"%{value}\" ..."
   new_organization_labor_category: "Créer une catégorie de travailleurs de l'organisation"
 
   #Organization
   organizations: "Organisations"
-  edit_organization: "Editer l'organisation"
+  edit_organization: "Editer l'organisation \"%{value}\" ..."
   new_organization: "Créer une organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Catégories de travailleurs des organisations"
@@ -464,7 +468,7 @@ fr:
   label_compatibility: "Eléments du PBS compatible (pour les données d'entrées)"
   pe_attribute_name: "Nom de l'attribut"
   selected: "Sélectionné"
-  edit_pemodule: "Editer le module"
+  edit_pemodule: "Editer le module \"%{value}\" ..."
   new_pemodule: "Créer un module"
 
   #permissions
@@ -516,7 +520,7 @@ fr:
   new_record_status: "Créer un nouveau statut d'enregistrement"
 
   #Reference_value
-  edit_reference_value: "Editer la valeur de référence \"%{value}\""
+  edit_reference_value: "Editer la valeur de référence \"%{value}\" ..."
   new_reference_value: "Créer une valeur de référence"
 
   #searches
@@ -614,7 +618,7 @@ fr:
   ratios_elements: Élément des Ratios
 
   #wbs activity elements
-  edit_wbs_activity_element: "Editer un élément du wbs activités"
+  edit_wbs_activity_element: "Editer l'élément \"%{value}\" du wbs activités ..."
   new_wbs_activity_element: "Créer un nouvel élément du wbs activités"
   parent: "Parent"
 
@@ -625,7 +629,7 @@ fr:
   set_of_reference_value: "Valeurs de références multiples"
 
   # wbs activity ratios
-  edit_wbs_activity_ratio: "Editer un wbs activités ratio"
+  edit_wbs_activity_ratio: "Editer le ratio \"%{value}\" du wbs activités \"%{value2}\" ..."
   new_wbs_activity_ratio: "Créer un nouveau WBS activités ratio"
 
   #wbs project elements
@@ -634,9 +638,12 @@ fr:
   additional_description: "Description supplémentaire"
   exclude: "Exclure"
   author: "Auteur"
+  warning_wbs_not_complete: "\"%{value}\" est imcomplet : toutes les valeurs (basse, vraisemblable et haute) doivent être correctement renseignées."
+  warning_wbs_not_consistent: "L effort au niveau du noeud est différent de la somme des efforts de ses fils."
+  warning_caution: "Attention"
 
   #work element type
-  edit_work_element_type: "Edit un type d'élément de travail"
+  edit_work_element_type: "Edit le type d'élément de travail \"%{value}\" ..."
   new_work_element_type: "Créer un nouveau type d'élément de travail"
 
 
@@ -684,7 +691,7 @@ fr:
   text_latest_masterData_repository_update: "Dernière mise à jour de la base Master :"
   text_download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
   text_please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"
-  edit_project_element: "Editer WBS-Project Element"
+  edit_project_element: "Editer l'élément \"%{value}\" du WBS-Activité ..."
   warning_activity_category_cannot_be_edited: "Cette catégorie d'activité ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
   notice_activity_category_successful_update: "Activity category a été mis à jour avec succès."
   warning_administration_setting_cant_be_edited: "Cette administration setting record ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
@@ -801,10 +808,11 @@ fr:
   notice_version_successful_updated: "La version a été mis à jour avec succès.."
   notice_wbs_activity_element_import_successful: "Import réussi."
   error_wbs_activity_failed_file_integrity: "Merci de bien vouloir vérifier l'intégrité des fichiers. Vous utilisez un caractère non autorisé comme un retour chariot ou des guillemets dans vos fichiers csv."
-  notice_wbs_activity_successful_deleted: "WBS-Activity a été supprimé avec succès."
-  notice_wbs_activity_successful_duplicated: "WBS-Activity a été dupliqué avec succès"
+  notice_wbs_activity_successful_created: "Le WBS-Activitées a été créé avec succès."
+  notice_wbs_activity_successful_deleted: "Le WBS-Activitées a été supprimé avec succès."
+  notice_wbs_activity_successful_duplicated: "Le WBS-Activitées a été dupliqué avec succès"
   error_wbs_activity_failed_duplicate: "La duplication a échouée: Une erreur est survenue lors de la duplication du WBS-Activity,"
-  notice_wbs_activity_successful_updated: "Les changements on été mis à jour avec succès."
+  notice_wbs_activity_successful_updated: "Les changements du WBS-Activitées ont été mis à jour avec succès."
   error_wbs_activity_failed_update: "Les changements n'ont pas été mis à jour."
   notice_wbs_activity_element_successful_created: "Wbs activity element a été créé avec succès."
   notice_wbs_activity_element_successful_updated: "Wbs activity element a été mis à jour avec succès.."
@@ -879,5 +887,19 @@ fr:
   no_mandatory: "Non obligatoire"
   label_precision: "Précision"
   text_help_list_attribute: "(liste de valeurs separées par des points-virgules)"
-  select_page_size: "Nombre d'enregistrement par page"
-  select_page_number: "Selectionnez le numéro de page"
+  text_select_page_size: "nombre maximum de résultat par page"
+  text_select_page_number: "aller au numéro de page sélectionné"
+  text_first_page: "première page"
+  text_last_page: "dernière page"
+  text_next_page: "page suivante"
+  text_result_index: "index des résultats / nombre de résultat filtré (nombre total d'enregistrements)"
+  text_previous_page: "page précédente"
+  label_dashboard: "Tableau de bord du projet \"%{value}\""
+  label_estimation_modules: "Modules d'estimation"
+  label_input_data: "Formulaire des données d'entrée"
+  label_output_data: "Résultat des estimations"
+  button_activate_user_account: "Activer le compte utilisateur"
+  button_find_use: "Trouver où il est utilisé et connaitre l'impact des modifications"
+  button_commit_project: "Promouvoir le projet dans son cycle de vie"
+  button_activate_project: "Activer le projet dans le tableau de bord"
+  button_duplicate_project: "Dupliquer le projet"

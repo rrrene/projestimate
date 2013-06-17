@@ -22,6 +22,7 @@ class PemodulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
+  before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
 
   def index
     authorize! :manage_modules, Pemodule
@@ -160,7 +161,6 @@ class PemodulesController < ApplicationController
       end
     end
 
-    #redirect_to edit_pemodule_path(params[:module_id]), :notice => "#{I18n.t (:notice_pemodule_successful_updated)}"
     redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
   end
@@ -178,54 +178,84 @@ class PemodulesController < ApplicationController
     redirect_to pemodules_url, :notice => "#{I18n.t (:notice_pemodule_successful_deleted)}"
   end
 
+  def estimations_params
+    set_page_title 'Estimations parameters'
+  end
 
-  #################### Move functions ####################
+
+  #TODO: ####################  Move functions to module_projects_controller ####################
+
   def pemodules_up
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     if @project_module.position_y > 1
-      @project_module.update_attribute('position_y', @project_module.position_y - 1)
+      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y.to_i-1).first
+      if current_pmodule
+        current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
+      end
+      @project_module.update_attribute('position_y', @project_module.position_y.to_i - 1)
+
+      #Remove existing links between modules (for impacted modules only)
+      ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
     end
 
     @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
-
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
+
 
   def pemodules_down
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @project_module.update_attribute('position_y', @project_module.position_y + 1 )
+
+    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y+1).first
+    if current_pmodule
+      current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
+    end
+
+    @project_module.update_attribute('position_y', @project_module.position_y.to_i + 1 )
+
+    #Remove existing links between modules (for impacted modules only)
+    ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
+
 
   def pemodules_left
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    if @project_module.position_x > 1
-      @project_module.update_attribute('position_x', @project_module.position_x - 1 )
+    if @project_module.position_x.to_i > 1
+      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i-1, @project_module.position_y).first
+      if current_pmodule
+        current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
+      end
+
+      @project_module.update_attribute('position_x', @project_module.position_x.to_i - 1 )
     end
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
+
 
   def pemodules_right
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @project_module.update_attribute('position_x', @project_module.position_x + 1 )
+
+    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i+1, @project_module.position_y.to_i).first
+    if current_pmodule
+      current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
+    end
+
+    @project_module.update_attribute('position_x', @project_module.position_x.to_i + 1 )
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
-  end
-
-  def estimations_params
-    set_page_title 'Estimations parameters'
   end
 
 end

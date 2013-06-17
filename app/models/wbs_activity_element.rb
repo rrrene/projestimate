@@ -32,9 +32,6 @@ class WbsActivityElement < ActiveRecord::Base
 
   has_many :wbs_project_elements
 
-  #for Estimation purpose
-  ##has_many :ej_estimation_values
-
   #default_scope order("id asc")
   #default_scope order("dotted_id asc")
   scope :is_ok_for_validation, lambda { |de, re| where('record_status_id <> ? and record_status_id <> ?', de, re) }
@@ -48,7 +45,7 @@ class WbsActivityElement < ActiveRecord::Base
   amoeba do
     enable
 
-    exclude_field [:wbs_activity_ratio_elements]
+    exclude_field [:wbs_activity_ratio_elements]        #TODO verify for wbs_project_elements exclusion
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
       new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id

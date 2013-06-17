@@ -58,6 +58,16 @@
         </div>
 
         <div id="tabs-3">
+          <table border="0" width="100%">
+            <tr>
+              <td style="text-align:right;">
+                <% if enable_update_in_local? %>
+                    <%= link_to I18n.t(:new_wbs_activity_ratio), new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => 'btn' %>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+
           <table class="table table-striped table-bordered table-condensed">
             <tr>
               <th><%= I18n.t(:name) %></th>
@@ -115,9 +125,6 @@
 
             <% end %>
           </table>
-          <% if enable_update_in_local? %>
-              <%= link_to I18n.t(:new_wbs_activity_ratio), new_wbs_activity_ratio_path(:activity_id => @wbs_activity.id), :class => 'btn' %>
-          <% end %>
         </div>
 
         <div id="tabs-4">

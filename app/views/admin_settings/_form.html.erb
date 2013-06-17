@@ -7,7 +7,7 @@
     <%= simple_form_for(@admin_setting) do |f| %>
         <%= f.error_notification %>
 
-        <%= f.input :key, :label => I18n.t('key'), :input_html => {:disabled => (!is_master_instance? && !@admin_setting.new_record?)} %>
+        <%= f.input :key, :label => I18n.t('key'), :input_html => {:disabled => (!is_master_instance? && !@admin_setting.new_record?), :autofocus => (controller.action_name == 'new')} %>
 
         <%= f.input :value, :label => I18n.t('value'), :input_html => {:class => 'input-xxlarge', :rows => 5} unless (@admin_setting.key=='session_maximum_lifetime' || @admin_setting.key=='session_inactivity_timeout') || @admin_setting.key=='password_min_length' %>
 
@@ -33,7 +33,7 @@
         </table>
         <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2, :disabled => (!is_master_instance? && @admin_setting)} %>
 
-        <div class="actions">
+        <div class="actions-tabs">
           <% if can? :update, @admin_setting %>
               <%= f.submit I18n.t('save'), :class => 'btn' %>
               <%= f.submit I18n.t('apply'), :class => 'btn' %>

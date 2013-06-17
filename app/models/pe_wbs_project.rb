@@ -31,7 +31,17 @@ class PeWbsProject < ActiveRecord::Base
   scope :wbs_activity, where(:wbs_type => "Activity")
 
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :project_id, :presence => true
+  validates_associated :project
+
+  #validate :project_id_exists
+  def project_id_exists
+    begin
+      Project.find(self.project_id)
+    rescue ActiveRecord::RecordNotFound
+      errors.add(:project_id, "project_id foreign key must exist")
+      false
+    end
+  end
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
@@ -39,7 +49,7 @@ class PeWbsProject < ActiveRecord::Base
     include_field [:pbs_project_elements, :wbs_project_elements]
 
     customize(lambda { |original_pe_wbs, new_pe_wbs|
-      new_pe_wbs.name = "PE-WBS Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{new_pe_wbs.project.title }"          #"Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
+      new_pe_wbs.name = "Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{original_pe_wbs.name }"
     })
 
     propagate

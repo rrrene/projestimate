@@ -2,7 +2,7 @@
   <%= simple_form_for(@currency) do |f| %>
       <%= f.error_notification %>
 
-      <%= f.input :name, :label => I18n.t('name')  %>
+      <%= f.input :name, :label => I18n.t('name'), :input_html => {:autofocus => (controller.action_name == 'new')}  %>
       <%= f.input :alias %>
       <%= f.input :description, :label => I18n.t('description') , :input_html => {:rows => 4} %> <br />
 

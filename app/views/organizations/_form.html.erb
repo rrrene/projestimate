@@ -1,12 +1,19 @@
-<div class="span12">
-  <%= simple_form_for(@organization) do |f| %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:organizations) %> </a></li>
+  </ul>
 
-    <%= f.input :name , :label => I18n.t('name')%><br />
-    <%= f.input :description, :label => I18n.t('description') %>
+  <div id="tabs-1">
+    <%= simple_form_for(@organization) do |f| %>
 
-    <div class="actions">
-      <%= f.submit I18n.t('save'), :class => 'btn' %>
-      <%= f.submit I18n.t('apply'), :class => 'btn' %>
-    </div>
-<% end %>
+        <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
+        <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+
+        <div class="actions-tabs">
+          <%= f.submit I18n.t('save'), :class => 'btn' %>
+          <%= f.submit I18n.t('apply'), :class => 'btn' %>
+          <%= link_to I18n.t('back'), organizationals_params_path, :class => 'btn' %>
+        </div>
+    <% end %>
+  </div>
 </div>

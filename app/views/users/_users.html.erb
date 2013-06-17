@@ -7,7 +7,7 @@
     <th><%= I18n.t(:last_login) %></th>
     <th><%= I18n.t(:authentication) %></th>
     <th><%= I18n.t(:record_status) %></th>
-    <th class="action"><%= I18n.t(:actions) %></th>
+    <th class="action" style="width: 110px"><%= I18n.t(:actions) %></th>
   </tr>
   </thead>
   <tbody>
@@ -22,38 +22,19 @@
             <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>
             <td><%= user.auth_method %></td>
             <td><%= user.user_status %></td>
-            <td class="action" style="width: 106px">
-              <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => 'Edit') +
-                          link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate') +
-                          link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => 'Find Use') +
+            <td>
+              <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
+                          link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('button_activate_user_account')) +
+                          link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => I18n.t('button_find_use')) +
                           link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete'))
               %>
             </td>
           </tr>
       <% end %>
 
-     </tbody>
-      <tfoot>
-      <th colspan="8" class="pager form-horizontal">
-        <button type="button" class="btn first"><i class="icon-step-backward"></i></button>
-        <button type="button" class="btn prev"><i class="icon-arrow-left"></i></button>
-        <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
-        <button type="button" class="btn next"><i class="icon-arrow-right"></i></button>
-        <button type="button" class="btn last"><i class="icon-step-forward"></i></button>
-        <select class="pagesize input-mini" title= "<%=I18n.t(:select_page_size)%>" >
-          <option value="5">5</option>
-          <option selected="selected" value="10">10</option>
-          <option value="20">25</option>
-          <option value="30">50</option>
-          <option value="40">100</option>
-        </select>
-        <select class="pagenum input-mini" title="<%=I18n.t(:select_page_number)%>"></select>
-      </th>
-      </tfoot>
-
-      </tr>
+      <%= render :partial => 'layouts/footer_table' %>
 
   <% end %>
-
+  </tbody>
 </table>
 

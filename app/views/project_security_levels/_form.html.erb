@@ -7,7 +7,7 @@
     <%= simple_form_for(@project_security_level) do |f| %>
         <%= f.error_notification %>
 
-        <%= f.input :name, :label => I18n.t('name') %>
+        <%= f.input :name, :label => I18n.t('name'), :input_html => {:autofocus => (controller.action_name == 'new')} %>
 
         <table>
           <tr>

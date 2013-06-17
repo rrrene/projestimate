@@ -20,7 +20,7 @@ $(document).ready(function() {
         $('.spiner').show();
     });
 
-     $('ul li').hover(
+     $('.widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
         },
@@ -62,7 +62,7 @@ $(document).ready(function() {
             $.ajax({
                 url:"/check_attribute_modules",
                 type: 'POST',
-                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&attr_id=" + this.className.split(/\s/)[1]
+                data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&attr_id=" + this.className.split(/\s/)[2]
             })
         }
     ));
@@ -177,11 +177,9 @@ $(document).ready(function() {
        var selection = $('#project_default_wbs_activity_ratio').val();
        if(selection == ""){
            $("#add_activity_and_ratio_to_project").attr("disabled", true);
-           //$("#add_activity_and_ratio_to_project").css('color', 'red');
        }
        else{
            $("#add_activity_and_ratio_to_project").removeAttr("disabled");
-           //$(".btn").css('background-color', 'blue');
        }
     });
 
@@ -215,6 +213,20 @@ $(document).ready(function() {
         document.getElementById(high_level).value = first_value;
         return false;
     });
+
+    //Find use Attribute in Module: which module is using such attribute
+    //ADD selected WBS-Activity to Project
+    $("#find_use_pe_attribute").click(function(){
+        $.ajax({
+            url:"/find_use_attribute",
+            method: 'GET',
+            data: {
+                pe_attribute_id: $(this).data("pe_attribute_id")
+            }
+        });
+        return false;
+    });
+
 
     $('html, body').animate({ scrollTop: 0 });
 

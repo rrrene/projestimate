@@ -29,7 +29,7 @@ module SearchesHelper
 
   def display_update(res, params=[])
     unless res.updated_at.nil?
-      "Last update #{res.updated_at.strftime("%d %m %Y")}"
+      "#{I18n.t(:text_latest_update)} #{I18n.l(res.updated_at)}"
     end
   end
 end

@@ -103,7 +103,18 @@ class PeAttributesController < ApplicationController
       test = params[:value]
       @level = params[:level]
       @est_val_id = params[:est_val_id]
-      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id].eql?
+      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id]
     end
   end
+
+  #Find where attribute is using
+  def find_use_attribute
+    @pe_attribute = PeAttribute.find(params[:pe_attribute_id])
+    @attribute_modules = AttributeModule.find_all_by_pe_attribute_id(@pe_attribute.id)
+
+    #respond_to do |format|
+    #  format.js { render :partial => 'pe_attributes/find_use_attribute_modules' }
+    #end
+  end
+
 end

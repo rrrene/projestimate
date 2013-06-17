@@ -15,19 +15,21 @@
         <% end %>
       </ul>
 
-
-      <div id="tabs-1">
+       <div id="tabs-1">
 
         <%= f.input :title, :label => "#{I18n.t 'name'}", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
 
-        <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 6} %>
+        <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-        <%= f.input :alias, :input_html => {:class => 'input-xxlarge'} %>
+        <table>
+          <tr>
+            <td><%= f.input :alias, :input_html => {:class => 'input-xlarge'} %></td>
+          <td><%= f.input :state, :label => "#{I18n.t 'state'}", :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
+            </tr>
+<tr>
 
-        <%= f.input :state, :label => "#{I18n.t 'state'}", :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-xxlarge'} %>
-
-        <%= f.label "#{I18n.t 'start_date'}" %>
-        <%= f.text_field :start_date, :class => 'date-picker input-xxlarge', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@project.start_date)) %>
+        <td><%= f.label "#{I18n.t 'start_date'}" %>
+        <%= f.text_field :start_date, :class => 'date-picker input-large', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@project.start_date)) %></td>
 
         <script>
             $(document).ready(function () {
@@ -40,8 +42,8 @@
             });
         </script>
 
-        <%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xxlarge'} %>
-
+        <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
+        </tr></table>
         <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
         <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'} %>
@@ -96,26 +98,31 @@
 
     <div id="tabs-4">
       <% if controller.controller_name == 'projects' %>
-        <table style="width: 100%" border=0>
-          <tr>
-            <td>
-              <%= I18n.t(:label_add_a_module_to_project) %>
-              <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ?', @defined_status.id).all.map { |i| [i.title, i.id] }), :prompt => '' %>
-            </td>
-            <td class="pull-right">
-              <%= I18n.t(:label_filter_on_pbs_element) %>
-              <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
-            </td>
-          <tr>
-            <td>
-              <%= hidden_field_tag 'project_id', @project.id %>
-              <%= link_to I18n.t(:button_build_estimation_path), module_projects_matrix_path(@project.id), :class => 'btn' %>
-              <%= link_to I18n.t(:button_configure_module_pbs_element), pbs_element_matrix_path(@project.id), :class => 'btn' %>
-            </td>
-            <td></td>
-          </tr>
-        </table>
-      <% end %> <br>
+        <% unless current_project.locked? %>
+
+          <table style="width: 100%" border=0>
+            <tr>
+              <td>
+                <%= I18n.t(:label_add_a_module_to_project) %>
+                <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ?', @defined_status.id).all.map { |i| [i.title, i.id] }), :prompt => '' %>
+              </td>
+              <td class="pull-right">
+                <%= I18n.t(:label_filter_on_pbs_element) %>
+                <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
+              </td>
+            <tr>
+              <td>
+                <%= hidden_field_tag 'project_id', @project.id %>
+                <%= link_to I18n.t(:button_build_estimation_path), module_projects_matrix_path(@project.id), :class => 'btn' %>
+                <%= link_to I18n.t(:button_configure_module_pbs_element), pbs_element_matrix_path(@project.id), :class => 'btn' %>
+              </td>
+              <td></td>
+            </tr>
+          </table>
+        <% end %>
+      <% end %>
+
+      <br>
 
       <div class="module_box"  style=" width: auto; overflow-x:auto;">
         <%= render :partial => 'estimation_plan', :locals => { :module_projects => @project.module_projects } %>
@@ -162,18 +169,18 @@
         <% end %>
       </table>
     </div>
+
+
+    <div id="tabs-6">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+    <div id="tabs-7">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+    <div id="tabs-8">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
 <% end %>
-
-<div id="tabs-6">
-  <div style="clear: both"></div>
-</div>
-
-<div id="tabs-7">
-  <div style="clear: both"></div>
-</div>
-
-<div id="tabs-8">
-  <div style="clear: both"></div>
-</div>
-
 </div>

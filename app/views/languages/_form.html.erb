@@ -7,13 +7,12 @@
         <%= f.error_notification %>
 
         <div>
-          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
           <%= f.input :locale, :label => I18n.t('local') %>
 
           <table>
             <tr>
               <td>
-
                 <%= f.association :record_status, :label => I18n.t('record_status'),
                                   :collection => @language.record_status_collection,
                                   :input_html => {:class => 'record_status'},

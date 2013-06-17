@@ -24,7 +24,7 @@
           <tr>
             <td><%= r.value %></td>
             <td><%= r.record_status.name unless r.record_status.nil? %> <%= r.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_reference_value_path(r), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', r, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !r.is_local_record? %>

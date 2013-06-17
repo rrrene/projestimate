@@ -1,10 +1,10 @@
-<h4 class="ui-widgetd">&nbsp;<i class="icon-list icon-large"></i>&nbsp;<b><%= I18n.t(:project_global_setting) %> </b></h4>
+<h4 class="ui-widget">&nbsp;<i class="icon-reorder icon-large"></i>&nbsp;<b><%= I18n.t(:project_global_setting) %> </b></h4>
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t('project_areas') %></a></li>
-    <li><a href="#tabs-2"><%= I18n.t('project_categories') %></a></li>
-    <li><a href="#tabs-3"><%= I18n.t('platform_categories') %></a></li>
-    <li><a href="#tabs-4"><%= I18n.t('acquisition_categories') %></a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:project_areas) %></a></li>
+    <li><a href="#tabs-2"><%= I18n.t(:project_categories) %></a></li>
+    <li><a href="#tabs-3"><%= I18n.t(:platform_categories) %></a></li>
+    <li><a href="#tabs-4"><%= I18n.t(:acquisition_categories) %></a></li>
   </ul>
 
   <div id="tabs-1">
@@ -18,19 +18,22 @@
     </table>
 
     <table class="table tablesorterPager table-striped table-bordered table-condensed">
+      <thead>
       <tr>
         <th><%= I18n.t('name') %></th>
         <th><%= I18n.t('description') %></th>
         <th><%= I18n.t('record_status') %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
+      </thead>
 
+      <tbody>
       <% ProjectArea.all.each do |i| %>
           <tr>
             <td><%= i.name %></td>
             <td><%= i.description %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_project_area_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !i.is_local_record? %>
@@ -45,8 +48,8 @@
             </td>
           </tr>
       <% end %>
-
       <%= render :partial => 'layouts/footer_table' %>
+      </tbody>
     </table>
   </div>
 
@@ -61,19 +64,22 @@
     </table>
 
     <table class="table tablesorterPager table-striped table-bordered table-condensed">
+      <thead>
       <tr>
         <th><%= I18n.t('name') %></th>
         <th><%= I18n.t('description') %></th>
         <th><%= I18n.t('record_status') %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
+      </thead>
 
+      <tbody>
       <% ProjectCategory.all.each do |i| %>
           <tr>
             <td><%= i.name %></td>
             <td><%= i.description %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-            <td class="action">
+            <td >
               <%= link_to '', edit_project_category_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 
@@ -91,6 +97,7 @@
       <% end %>
 
       <%= render :partial => 'layouts/footer_table' %>
+      </tbody>
     </table>
   </div>
 
@@ -105,19 +112,22 @@
     </table>
 
     <table class="table tablesorterPager table-striped table-bordered table-condensed">
+      <thead>
       <tr>
         <th><%= I18n.t('name') %></th>
         <th><%= I18n.t('description') %></th>
         <th><%= I18n.t('record_status') %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
+      </thead>
 
+      <tbody>
       <% PlatformCategory.all.each do |i| %>
           <tr>
             <td><%= i.name %></td>
             <td><%= i.description %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_platform_category_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 
@@ -135,6 +145,7 @@
       <% end %>
 
       <%= render :partial => 'layouts/footer_table' %>
+      </tbody>
     </table>
   </div>
 
@@ -149,19 +160,22 @@
     </table>
 
     <table class="table tablesorterPager table-striped table-bordered table-condensed">
+      <thead>
       <tr>
         <th><%= I18n.t('name') %></th>
         <th><%= I18n.t('description') %></th>
         <th><%= I18n.t('record_status') %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
+      </thead>
 
+      <tbody>
       <% AcquisitionCategory.all.each do |i| %>
           <tr>
             <td><%= i.name %></td>
             <td><%= i.description %></td>
             <td><%= i.record_status.name unless i.record_status.nil? %><%= i.show_custom_value %></td>
-            <td class="action">
+            <td>
               <%= link_to '', edit_acquisition_category_path(i), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% if is_master_instance? && !i.is_local_record? %>
@@ -178,6 +192,7 @@
       <% end %>
 
       <%= render :partial => 'layouts/footer_table' %>
+      </tbody>
     </table>
   </div>
 </div>

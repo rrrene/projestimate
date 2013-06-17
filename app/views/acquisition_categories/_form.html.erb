@@ -1,32 +1,40 @@
-<%= simple_form_for(@acquisition_category) do |f| %>
-    <%= f.error_notification %>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:acquisition_category) %> </a></li>
+  </ul>
 
-    <div>
-      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge'} %>
+  <div id="tabs-1">
+    <%= simple_form_for(@acquisition_category) do |f| %>
+        <%= f.error_notification %>
 
-      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-      <table>
-        <tr>
-          <td>
-            <%= f.association :record_status, :label => I18n.t('record_status'),
-                              :collection => @acquisition_category.record_status_collection,
-                              :input_html => {:class => 'record_status'},
-                              :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
-                              :disabled => (true if @acquisition_category.is_retired?) %>
-          </td>
-          <td>
-            <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @acquisition_category.is_custom?) %>
-          </td>
-        </tr>
-      </table>
-      <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
-    </div>
+        <div>
+          <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
 
-    <div class="actions">
-      <% if can? :update, @acquisition_category %>
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
-          <%= f.submit I18n.t('apply'), :class => 'btn' %>
-      <% end %>
-    </div>
-<% end %>
+          <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+          <table>
+            <tr>
+              <td>
+                <%= f.association :record_status, :label => I18n.t('record_status'),
+                                  :collection => @acquisition_category.record_status_collection,
+                                  :input_html => {:class => 'record_status'},
+                                  :selected => (@acquisition_category.is_defined_or_nil? ? @proposed_status.id : @acquisition_category.record_status_id),
+                                  :disabled => (true if @acquisition_category.is_retired?) %>
+              </td>
+              <td>
+                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @acquisition_category.is_custom?) %>
+              </td>
+            </tr>
+          </table>
+          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
+        </div>
 
+        <div class="actions-tabs">
+          <% if can? :update, @acquisition_category %>
+              <%= f.submit I18n.t('save'), :class => 'btn' %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <%= link_to I18n.t('back'), projects_global_params_path, :class => 'btn' %>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+</div>

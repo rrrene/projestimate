@@ -30,16 +30,17 @@ class WbsProjectElement < ActiveRecord::Base
 
   scope :elements_root, where(:is_root => true)
 
-  validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
+  validates :name, :presence => true, :uniqueness => {:scope => [:pe_wbs_project_id,:ancestry], :case_sensitive => false}
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
 
     customize(lambda { |original_wbs_project_elt, new_wbs_project_elt|
-      new_wbs_project_elt.name = "Copy_#{ original_wbs_project_elt.copy_number.to_i+1} of #{original_wbs_project_elt.name }"
+      ###new_wbs_project_elt.name = "Copy_#{ original_wbs_project_elt.copy_number.to_i+1} of #{original_wbs_project_elt.name }"    TODO: remove this line
+      new_wbs_project_elt.copy_id = original_wbs_project_elt.id
       new_wbs_project_elt.copy_number = 0
-      original_wbs_project_elt.copy_number +=1
+      original_wbs_project_elt.copy_number = original_wbs_project_elt.copy_number.to_i+1
     })
 
     propagate

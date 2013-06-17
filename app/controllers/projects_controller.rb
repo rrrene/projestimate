@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t (:notice_project_successful_created)}"
+          redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -138,6 +138,7 @@ class ProjectsController < ApplicationController
       end
     end
   end
+
 
   def update
     set_page_title 'Edit project'
@@ -367,20 +368,23 @@ class ProjectsController < ApplicationController
   def run_estimation
     @result = Array.new
     results = Hash.new
-    ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params, level, current_project)
-    end
-
     @module_projects = current_project.module_projects
-    @results = results
     @project = current_project
     @pbs_project_element = current_component
+
+    ['low', 'most_likely', 'high'].each do |level|
+      results[level.to_sym] = run_estimation_plan(params, level, @project)
+    end
+
+    @results = results
 
     #Save output values: only for current pbs_project_element
     @project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = mp.estimation_values
       current_pbs_estimations.each do |est_val|
+        est_val_attribute_alias = est_val.pe_attribute.alias
+        est_val_attribute_type = est_val.pe_attribute.attribute_type
         if est_val.in_out == 'output'
           out_result = Hash.new
           @results.each do |res|
@@ -389,12 +393,11 @@ class ProjectsController < ApplicationController
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
               ##level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
+              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{mp.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                ###level_estimation_value[@pbs_project_element.id]  =  set_element_consistency(level_estimation_value_without_consistency, mp)
                 level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, mp)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
@@ -406,18 +409,11 @@ class ProjectsController < ApplicationController
             # compute the probable value for each node
             probable_estimation_value = Hash.new
             probable_estimation_value = est_val.send('string_data_probable')
-            ##probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
 
-            #pbs_probable_est_value = probable_value(@results, est_val)
-            #if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-            #  probable_estimation_value[@pbs_project_element.id] =  set_element_consistency(pbs_probable_est_value, mp)
-            #else
-            #  probable_estimation_value[@pbs_project_element.id] = pbs_probable_est_value
-            #end
-            if est_val.pe_attribute.attribute_type == 'numeric'
+            if est_val_attribute_type == 'numeric'
               probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
             else
-              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val.pe_attribute.alias}_#{est_val.module_project_id.to_s}".to_sym]
+              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
             end
 
             out_result['string_data_probable'] = probable_estimation_value
@@ -431,9 +427,9 @@ class ProjectsController < ApplicationController
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
             begin
-              pbs_level_form_input = params[level][est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][mp.id.to_s]
             rescue
-              pbs_level_form_input = params[est_val.pe_attribute.alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[est_val_attribute_alias.to_sym][mp.id.to_s]
             end
 
             wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where('is_root = ?', true).first
@@ -579,7 +575,7 @@ class ProjectsController < ApplicationController
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
         inputs['module_project_id'.to_sym] = module_project.id
 
-        # Normally, the input data is commonly from the ExpertJudment Module on PBS (when running estimation on its product)
+        # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
         cm = current_module.send(:new, inputs)
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
@@ -608,9 +604,12 @@ class ProjectsController < ApplicationController
       if new_prj.save
         old_prj.save #Original project copy number will be incremented to 1
 
-        #Managing the component tree
-        new_prj_components = new_prj.pe_wbs_project.pbs_project_elements
+        #Managing the component tree : PBS
+        pe_wbs_product = new_prj.pe_wbs_projects.wbs_product.first
+        pe_wbs_activity = new_prj.pe_wbs_projects.wbs_activity.first
 
+        # For PBS
+        new_prj_components = pe_wbs_product.pbs_project_elements
         new_prj_components.each do |new_c|
           unless new_c.is_root?
             new_ancestor_ids_list = []
@@ -619,25 +618,49 @@ class ProjectsController < ApplicationController
               new_ancestor_ids_list.push(ancestor_id)
             end
             new_c.ancestry = new_ancestor_ids_list.join('/')
+
+            # For PBS-Project-Element Links with modules
+            old_pbs = PbsProjectElement.find(new_c.copy_id)
+            new_c.module_projects = old_pbs.module_projects
+
             new_c.save
           end
         end
+
+        # For WBS
+        new_prj_wbs = pe_wbs_activity.wbs_project_elements
+        new_prj_wbs.each do |new_wbs|
+          unless new_wbs.is_root?
+            new_ancestor_ids_list = []
+            new_wbs.ancestor_ids.each do |ancestor_id|
+              ancestor_id = WbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_wbs.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_wbs.ancestry = new_ancestor_ids_list.join('/')
+            new_wbs.save
+          end
+        end
+
+        # For ModuleProject associations
+        old_prj.module_projects.group(:id).each do |old_mp|
+          new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
+          old_mp.associated_module_projects.each do |associated_mp|
+            new_associated_mp = ModuleProject.where("project_id = ? AND copy_id = ?", new_prj.id, associated_mp.id).first
+            new_mp.associated_module_projects <<  new_associated_mp
+          end
+        end
+
         #raise "#{RuntimeError}"
       end
 
-      #old_prj.module_projects.each do |mp|
-      #  new_mp = mp.dup
-      #  new_mp.project_id = new_prj.id
-      #  new_mp.save
-      #end
-
-      flash[:success] = I18n.t (:notice_project_successful_duplicated)
+      flash[:success] = I18n.t(:notice_project_successful_duplicated)
       redirect_to '/projects' and return
     rescue
-      flash['Error'] = I18n.t (:error_project_duplication_failed)
+      flash['Error'] = I18n.t(:error_project_duplication_failed)
       redirect_to '/projects'
     end
   end
+
 
   def commit
     project = Project.find(params[:project_id])
@@ -662,11 +685,6 @@ class ProjectsController < ApplicationController
 
   def projects_global_params
     set_page_title 'Project global parameters'
-  end
-
-  def project_record_number
-    @projects = Project.page(params[:page]).per_page(params[:nb].to_i || 1)
-    render :partial => 'project_record_number'
   end
 
   def sort_column
@@ -719,7 +737,7 @@ class ProjectsController < ApplicationController
 
         @project.included_wbs_activities.push(wbs_project_element.wbs_activity_id)
         if @project.save
-          flash[:notice] = I18n.t (:notice_wbs_activity_successful_added)
+          flash[:notice] = I18n.t(:notice_wbs_activity_successful_added)
         else
           flash[:error] = "#{@project.errors.full_messages.to_sentence}"
         end
@@ -777,5 +795,18 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def choose_project
+    u = current_user
+    u.add_recent_project(params[:project_id])
+    session[:current_project_id] = params[:project_id]
+    redirect_to root_url
+  end
+
+  def locked_plan
+    @project = Project.find(params[:project_id])
+    @project.locked? ? @project.is_locked = false : @project.is_locked = true
+    @project.save
+    redirect_to edit_project_path(@project, :anchor => 'tabs-4')
+  end
 
 end
