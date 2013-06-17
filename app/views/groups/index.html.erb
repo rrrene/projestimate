@@ -12,14 +12,16 @@
       </tr>
     </table>
 
-    <table class="table tablesorterPager table-striped table-bordered table-condensed">
+    <table class="table table-bordered tablesorterPager table-striped table-condensed">
       <tr>
         <th><%= I18n.t(:name) %></th>
         <th><%= I18n.t(:description) %></th>
         <th><%= I18n.t(:record_status) %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
-
+      <% if @groups.empty? %>
+          <p style="text-align:center;"> <%= I18n.t('empty') %></p>
+      <% else %>
       <% @groups.each do |group| %>
           <tr>
             <td><%= group.name %></td>
@@ -40,8 +42,10 @@
             </td>
           </tr>
       <% end %>
-      <%= render :partial => 'layouts/footer_table' %>
+            <%= render :partial => 'layouts/footer_table' %>
+      <% end%>
     </table>
 
   </div>
 </div>
+

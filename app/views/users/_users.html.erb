@@ -1,36 +1,33 @@
 <table class="table tablesorterPager table-striped table-bordered table-condensed">
-<thead>
-    <tr>
-      <th><%= I18n.t(:first_name ) %></th>
-      <th><%= I18n.t(:last_name ) %></th>
-      <th><%= I18n.t(:login_name ) %></th>
-      <th><%= I18n.t(:email ) %></th>
-      <th><%= I18n.t(:last_login ) %></th>
-      <th><%= I18n.t(:authentication ) %></th>
-      <th><%= I18n.t(:record_status ) %></th>
-      <th class="action"><%= I18n.t(:actions ) %></th>
-    </tr>
-    </thead>
+  <thead>
+  <tr>
+    <th><%= I18n.t(:last_name) %> &ndash; <%= I18n.t(:first_name) %>  </th>
+    <th><%= I18n.t(:login_name) %></th>
+    <th><%= I18n.t(:email) %></th>
+    <th><%= I18n.t(:last_login) %></th>
+    <th><%= I18n.t(:authentication) %></th>
+    <th><%= I18n.t(:record_status) %></th>
+    <th class="action"><%= I18n.t(:actions) %></th>
+  </tr>
+  </thead>
   <tbody>
   <% if @users.empty? %>
       <p style="text-align:center;"> <%= I18n.t('empty') %></p>
   <% else %>
       <% @users.each do |user| %>
           <tr>
-            <td><%= user.first_name %>
-            <td><%= user.last_name %>
-            <td><%= user.login_name %>
-            <td><%= user.email %>
-            <td><%= I18n.l(user.last_login) unless user.last_login.nil? %>
-            <td><%= user.auth_method %>
-            <td><%= user.user_status %>
+            <td><%= user.last_name %> &ndash; <%= user.first_name %>  </td>
+            <td><%= user.login_name %></td>
+            <td><%= user.email %></td>
+            <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>
+            <td><%= user.auth_method %></td>
+            <td><%= user.user_status %></td>
             <td class="action" style="width: 106px">
-              <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => 'Edit')  +
-                          link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate')  +
-                          link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id }, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => 'Find Use') +
-                          link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title =>I18n.t('delete'))
+              <%= link_to(' ', "users/#{user.id}/edit", :class => 'icon-pencil icon-large icon-border pull-left', :title => 'Edit') +
+                          link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => 'Activate') +
+                          link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => 'Find Use') +
+                          link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete'))
               %>
-
             </td>
           </tr>
       <% end %>
@@ -57,5 +54,6 @@
       </tr>
 
   <% end %>
+
 </table>
 

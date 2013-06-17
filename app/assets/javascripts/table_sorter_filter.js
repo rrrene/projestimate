@@ -86,9 +86,10 @@ $(document).ready(function() {
                 // the widgetOptions.uitheme is no longer required to be set
                 theme : "bootstrap",
                 widthFixed: true,
-
+                sortList: [[0,0]],
                 headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-
+                debug: true,
+                dateFormat       : 'ddmmyyyy',
                 // widget code contained in the jquery.tablesorter.widgets.js file
                 // use the zebra stripe widget if you plan on hiding any rows (filter widget)
 
