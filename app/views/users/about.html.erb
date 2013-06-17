@@ -14,18 +14,20 @@
 </p>
 
 <p>
+  <%=I18n.t(:text_latest_update)%> <%= @latest_local_update.nil? ? 'None' : I18n.l(@latest_local_update) %>    <br />
+</p>
+<p>
+  <%=I18n.t(:text_latest_masterData_repository_update)%> <%= @latest_repo_update.nil? ? 'None' : I18n.l(@latest_repo_update) %>
 </p>
 
+Other informations :
+<ul style="list-style-type: none">
+  <li>Ruby version <span class="label label-info"> <%= RUBY_VERSION %> (x86_64-linux) </span></li>
+  <li>Rails version <span class="label label-info"> <%= Rails.version %> </span> </li>
+  <li> Environment <span class="label label-info"> <%= Rails.env %> </span> </li>
+  <li>Database adapter <span class="label label-info"> <%= ActiveRecord::Base.configurations[Rails.env]['adapter'] %></li>
+</ul>
 
-<%# cache('about_page') do %>
-  <span>
-    <p>
-      <%=I18n.t(:text_latest_update)%> <%= @latest_local_update.nil? ? 'None' : I18n.l(@latest_local_update) %>    <br />
-    </p>
-    <p>
-      <%=I18n.t(:text_latest_masterData_repository_update)%> <%= @latest_repo_update.nil? ? 'None' : I18n.l(@latest_repo_update) %>
-    </p>
-    <%= link_to I18n.t(:text_download_master_data), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => 'btn', :disable_with => I18n.t(:text_please_wait), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
-    <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
-  </span>
-<%# end %>
+
+<%= link_to I18n.t(:text_download_master_data), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => 'btn', :disable_with => I18n.t(:text_please_wait), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
+<%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
