@@ -20,7 +20,7 @@ $(document).ready(function() {
         $('.spiner').show();
     });
 
-     $('.widget-content ul li').hover(
+     $('.component_tree ul li, .widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
         },
