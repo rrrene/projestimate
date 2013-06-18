@@ -10,6 +10,9 @@
   </tr>
   </thead>
   <tbody>
+  <% if @projects.empty? %>
+      <p style="text-align:center;"> <%= I18n.t('empty') %></p>
+  <% else %>
   <% @projects.each do |project| %>
       <tr>
         <td><%= project.title %></td>
@@ -37,6 +40,7 @@
   <% end %>
 
   <%= render :partial => 'layouts/footer_table' %>
+  <%end%>
   </tbody>
 </table>
 
@@ -51,3 +55,7 @@
     </td>
   </tr>
 </table>
+
+<script>
+    <%= render :partial => 'layouts/sort_date.js.erb'%>
+</script>
