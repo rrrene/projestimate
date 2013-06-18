@@ -35,7 +35,7 @@ $(document).ready(function() {
         $('.spiner').show();
     });
 
-     $('ul li').hover(
+     $('.component_tree ul li, .widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
         },
