@@ -1,4 +1,4 @@
-class CreateAttributeOrganizations0 < ActiveRecord::Migration
+class CreateAttributeOrganizations < ActiveRecord::Migration
   def change
     create_table :attribute_organizations do |t|
       t.integer :pe_attribute_id
