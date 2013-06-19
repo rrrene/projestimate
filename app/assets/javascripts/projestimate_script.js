@@ -16,9 +16,24 @@
 
 $(document).ready(function() {
 
-    $(".accordion").on("show hide", function (e) {
-        $(e.target).siblings(".accordion-heading").find(".accordion-toggle i").toggleClass("icon-caret-down icon-caret-right",200);
+//    $('.accordion').collapse({
+//        toggle: false
+//    }).on('show',function (e) {
+//            $(e.target).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right",200);
+//      }).on('hide', function (e) {
+//            $(e.target).parent().find(".icon-caret-right").removeClass("icon-caret-right").addClass("icon-caret-down",200);
+//        });
+
+
+    $(".accordion").on("show", function (e) {
+       $(e.target).parent().find(".icon-caret-right").removeClass("icon-caret-right").addClass("icon-caret-down");
     });
+
+
+    $(".accordion").on("hide", function (e) {
+        $(e.target).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right");
+    });
+
 
     $('.tabs').tabs({
         select: function(event, ui) {

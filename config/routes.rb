@@ -157,6 +157,9 @@ Projestimate::Application.routes.draw do
   get 'select_pbs_project_elements' => 'projects#select_pbs_project_elements', :as => 'select_pbs_project_elements'
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
+  post 'update_project_security_level_group' => 'projects#update_project_security_level_group',  :as => 'update_project_security_level_group'
+  post 'update_project_security_level' => 'projects#update_project_security_level',  :as => 'update_project_security_level'
+
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'
   get 'refresh_wbs_activity_ratios' => 'projects#refresh_wbs_activity_ratios',   :as => 'refresh_wbs_activity_ratios'
   get 'generate_wbs_project_elt_tree' => 'projects#generate_wbs_project_elt_tree', :as => 'generate_wbs_project_elt_tree'
