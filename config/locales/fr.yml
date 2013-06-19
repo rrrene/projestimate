@@ -907,3 +907,4 @@ fr:
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
   label_environment: "Environnement"
+  notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès"
