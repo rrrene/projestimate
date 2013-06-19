@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614090812) do
+ActiveRecord::Schema.define(:version => 20130619075413) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -113,6 +113,14 @@ ActiveRecord::Schema.define(:version => 20130614090812) do
   add_index "attribute_modules", ["record_status_id"], :name => "index_attribute_modules_on_record_status_id"
   add_index "attribute_modules", ["reference_id"], :name => "index_attribute_modules_on_parent_id"
   add_index "attribute_modules", ["uuid"], :name => "index_attribute_modules_on_uuid", :unique => true
+
+  create_table "attribute_organizations", :force => true do |t|
+    t.integer  "pe_attribute_id"
+    t.integer  "organization_id"
+    t.boolean  "is_mandatory"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
@@ -653,7 +661,6 @@ ActiveRecord::Schema.define(:version => 20130614090812) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -768,8 +775,8 @@ ActiveRecord::Schema.define(:version => 20130614090812) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

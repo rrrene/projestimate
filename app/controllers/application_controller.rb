@@ -143,9 +143,10 @@ class ApplicationController < ActionController::Base
       url
     end
   end
+
   def redirect_save(url, anchor)
     begin
-        (params[:commit] == "#{I18n.t "save"}" or params[:commit] == "Save") ? url: anchor
+      (params[:commit] == "#{I18n.t "save"}" or params[:commit] == "Save") ? url: anchor
     rescue
       url
     end
