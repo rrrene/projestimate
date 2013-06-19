@@ -24,7 +24,7 @@ class AttributeOrganizationsController < ApplicationController
 
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => params[:organization_id]})
 
-    redirect_to redirect_save("/organizationals_params"), :notice => "#{I18n.t (:notice_attribute_organization_successful_updated)}"
+    redirect_to redirect("/organizationals_params"), :notice => "#{I18n.t (:notice_attribute_organization_successful_updated)}"
   end
 
   def update_attribute_organizations_settings
