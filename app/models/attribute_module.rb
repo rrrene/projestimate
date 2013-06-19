@@ -29,7 +29,6 @@ class AttributeModule < ActiveRecord::Base
   belongs_to :pemodule
   belongs_to :pe_attribute, :class_name => "PeAttribute", :foreign_key => "pe_attribute_id"
 
-  #TODO? validates :pemodule_id, :pe_attribute_id, :presence => true
   validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
   validates_presence_of :pe_attribute_id
   validates :custom_value, :presence => true, :if => :is_custom?

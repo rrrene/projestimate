@@ -26,8 +26,12 @@ class PeAttribute < ActiveRecord::Base
 
   serialize :options, Array
 
+  has_many :attribute_organizations, :dependent => :destroy
+  has_many :organizations, :through => :attribute_organizations
+
   has_many :attribute_modules, :dependent => :destroy
   has_many :pemodules, :through => :attribute_modules
+
   has_many :estimation_values
 
   belongs_to :record_status
