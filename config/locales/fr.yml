@@ -232,6 +232,8 @@ fr:
   home: "Accueil"
   all_projects: "Tous les projets"
   create_new_project: "Créer un nouveau projet"
+  label_user_security_resume: "Gestion des droits utilisateurs du projet"
+  label_group_security_resume: "Gestion des groupes du projet"
 
   library: "Bibliothèque"
   project_global_setting: "Paramètres projets"

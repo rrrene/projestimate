@@ -120,6 +120,7 @@ class ProjectsController < ApplicationController
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
+
     @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
     @wbs_activity_ratios = []
@@ -182,16 +183,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def destroy_save
-    @project = Project.find(params[:id])
-    @project.destroy
-
-    current_user.delete_recent_project(@project.id)
-    session[:current_project_id] = current_user.projects.first
-    redirect_to session[:return_to]
-  end
-
-
   def destroy
     @project = Project.find(params[:id])
     case params[:commit]
@@ -242,6 +233,7 @@ class ProjectsController < ApplicationController
 
   #Load specific security depending of user selected (last tabs on project editing page)
   def load_security_for_selected_user
+    set_page_title 'Project securities'
     @user = User.find(params[:user_id])
     @project = Project.find(params[:project_id])
     @prj_scrt = ProjectSecurity.find_by_user_id_and_project_id(@user.id, @project.id)
@@ -257,6 +249,7 @@ class ProjectsController < ApplicationController
 
   #Load specific security depending of user selected (last tabs on project editing page)
   def load_security_for_selected_group
+    set_page_title 'Project securities'
     @group = Group.find(params[:group_id])
     @project = Project.find(params[:project_id])
     @prj_scrt = ProjectSecurity.find_by_group_id_and_project_id(@group.id, @project.id)
@@ -272,6 +265,8 @@ class ProjectsController < ApplicationController
 
   #Updates the security according to the previous users
   def update_project_security_level
+    set_page_title 'Project securities'
+    @project = Project.find(params[:project_id])
     @user = User.find(params[:user_id].to_i)
     @prj_scrt = ProjectSecurity.find_by_user_id_and_project_id(@user.id, current_project.id)
     @prj_scrt.update_attribute('project_security_level_id', params[:project_security_level])
@@ -279,11 +274,12 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js { render :partial => 'projects/run_estimation' }
     end
-
   end
 
   #Updates the security according to the previous users
   def update_project_security_level_group
+    set_page_title 'Project securities'
+    @project = Project.find(params[:project_id])
     @group = Group.find(params[:group_id].to_i)
     @prj_scrt = ProjectSecurity.find_by_group_id_and_project_id(@group.id, current_project.id)
     @prj_scrt.update_attribute('project_security_level_id', params[:project_security_level])
