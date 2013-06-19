@@ -145,6 +145,7 @@ class PemodulesController < ApplicationController
       attribute = AttributeModule.first(:conditions => conditions)
       attribute.update_attribute('in_out', params[:in_out][i])
       attribute.update_attribute('is_mandatory', params[:is_mandatory][i])
+      attribute.update_attribute('display_order', params[:display_order][i])
       attribute.update_attribute('description', params[:description][i])
       attribute.update_attribute('custom_attribute', params[:custom_attribute][i])
 
