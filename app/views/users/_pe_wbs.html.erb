@@ -1,5 +1,35 @@
 <div class="component_tree" id="project_wbs_product_section">
-  <% unless @project.nil? || @project.pe_wbs_projects.wbs_product.first.nil? %>
-    <%=raw generate_wbs_product(@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.last.root, @project, '', 5) %>
-  <% end %>
+
+    <ul class="nav nav-tabs" id="pbs_wbs">
+      <li class="active"><a href="#pbs"><%= I18n.t(:wbs_product) %></a></li>
+      <li><a href="#wbs"><%= I18n.t(:wbs_activity) %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="pbs">
+        <% unless @project.nil? || @project.pe_wbs_projects.wbs_product.first.nil? %>
+          <%=raw generate_wbs_product(@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.last.root, @project, '', 5) %>
+        <% end %>
+      </div>
+
+      <div class="tab-pane" id="wbs">
+        <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
+          <%=raw generate_wbs_project_elt_tree(@pe_wbs_project_activity.wbs_project_elements.elements_root.first, '', @show_hidden) %>
+        <% end %>
+      </div>
+    </div>
+
+  <script>
+    $(document).ready(function() {
+      $(function () {
+        $('#pbs_wbs a:first').tab('show');
+      })
+      $('#pbs_wbs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      })
+    });
+  </script>
+
 </div>
