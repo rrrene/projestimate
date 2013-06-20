@@ -25,23 +25,6 @@
 
           <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-          <table>
-            <tr>
-              <td>
-                <%= f.association :record_status, :label => I18n.t('record_status'), :label => 'Status',
-                                  :collection => @pemodule.record_status_collection,
-                                  :input_html => {:class => 'record_status'},
-                                  :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
-                                  :disabled => (true if @pemodule.is_retired?) %>
-              </td>
-              <td>
-                <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @pemodule.is_custom?) %>
-              </td>
-            </tr>
-          </table>
-
-          <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
-
           <%= f.label I18n.t('label_compatibility') %>
           <table style="margin-left:20px">
             <% @wets.each do |wet| %>
@@ -54,11 +37,29 @@
                   <% end %>
                 </tr>
             <% end %>
-          </table><br />
+          </table>
+          <br/>
 
           <%= f.input :with_activities, :input_html => {:style => 'margin-left:0px'}, :label => I18n.t(:label_module_with_activities), :as => :radio_buttons, collection: [:no, :yes_for_input, :yes_for_output_with_ratio, :yes_for_output_without_ratio, :yes_for_input_output_with_ratio, :yes_for_input_output_without_ratio] %>
         </div>
-        <br/>
+
+        <hr class="bs-docs-separator">
+        <table>
+          <tr>
+            <td>
+              <%= f.association :record_status, :label => I18n.t('record_status'), :label => 'Status',
+                                :collection => @pemodule.record_status_collection,
+                                :input_html => {:class => 'record_status'},
+                                :selected => (@pemodule.is_defined_or_nil? ? @proposed_status.id : @pemodule.record_status_id),
+                                :disabled => (true if @pemodule.is_retired?) %>
+            </td>
+            <td>
+              <%= f.input :custom_value, :label => I18n.t('custom_value'), :input_html => {:class => 'custom_value'}, :disabled => (true unless @pemodule.is_custom?) %>
+            </td>
+          </tr>
+        </table>
+
+        <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
 
         <%= submit_tag I18n.t('save'), :class => 'btn' %>
         <%= submit_tag I18n.t('apply'), :class => 'btn' %>
@@ -83,9 +84,9 @@
                 <th><%= I18n.t(:description) %></th>
               </tr>
               <% @attributes.each do |attr| %>
-                  <% @pemodule.pe_attributes.include?(attr) ? module_attr=@pemodule.attribute_modules.where("pe_attribute_id=?",attr).first : module_attr=nil %>
+                  <% @pemodule.pe_attributes.include?(attr) ? module_attr=@pemodule.attribute_modules.where('pe_attribute_id=?', attr).first : module_attr=nil %>
                   <tr class="<%= cycle('even', 'odd') %>">
-                    <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => "color:green;", :title => display_attribute_rule(attr, module_attr) ) unless attr.nil? %></td>
+                    <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(attr, module_attr)) unless attr.nil? %></td>
                     <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
                     <td><%= attr.description %></td>
                   </tr>
@@ -93,18 +94,19 @@
             </table>
             <%= submit_tag I18n.t('save'), :class => 'btn' %>
             <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+            <%= link_to I18n.t('back'), pemodules_path, :class => 'btn' %>
             <span class="on_success_attr"></span>
         <% end -%>
       </div>
 
       <div id="tabs-3">
         <%= form_tag('/set_attributes_module', :method => 'POST', :class => 'simple_form') do -%>
-            <%= hidden_field_tag :current_tab, "", :class => "current_tab" %>
+            <%= hidden_field_tag :current_tab, '', :class => 'current_tab' %>
 
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     $('.tabs').tabs({
-                        select: function(event, ui) {
+                        select: function (event, ui) {
                             var index_tab = ui.index + 1;
                             $(".current_tab").val("tabs-" + index_tab);
                         }
@@ -117,6 +119,7 @@
             </div>
             <%= submit_tag I18n.t('save'), :class => 'btn' %>
             <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+            <%= link_to I18n.t('back'), pemodules_path, :class => 'btn' %>
             <span class="on_success_attr_set"></span>
         <% end -%>
       </div>
