@@ -34,7 +34,7 @@
       <div class="collapse in" id="collapseActivity">
         <div class="widget-content">
           <div class="overflow">
-            <%= render 'module_projects/widget_estimation_plan', :locals => {:project => @project} %>
+            <%= render 'module_projects/estimation_plan_min', :locals => {:module_projects => @project.module_projects} %>
           </div>
         </div>
       </div>

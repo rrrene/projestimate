@@ -139,7 +139,7 @@ Projestimate::Application.routes.draw do
   resources :pe_wbs_projects
 
   resources :projects
-  get 'add_module' => 'projects#add_module'
+  get 'append_pemodule' => 'projects#append_pemodule'
   get 'select_categories' => 'projects#select_categories', :as => 'select_categories'
   post 'run_estimation' => 'projects#run_estimation', :as => 'run_estimation'
   get 'load_security_for_selected_user' => 'projects#load_security_for_selected_user', :as => 'load_security_for_selected_user'

@@ -3,10 +3,10 @@
   <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
   <% unless module_projects.empty? %>
-    <table class="table table-condensed table-bordered" style="width: auto;">
+    <table class="table table-condensed table-bordered table-estimation" >
       <tr>
         <th>
-          <h4><%= link_to "", locked_plan_path(current_project.id), :class => "icon-lock icon-large" %></h4>
+          <h4><%= link_to "", locked_plan_path(current_project.id), :class => "#{ @project.locked? ? 'icon-lock' : 'icon-unlock' } icon-large", :title => "#{ @project.locked? ? 'Unlock estimation plan' : 'Lock estimation plan' }" %></h4>
         </th>
         <% for x in 1..@module_positions_x.to_i do %>
             <th><h4><%= @alphabet[x-1] %></h4></th>
@@ -15,12 +15,12 @@
 
         <% for y in 1..@module_positions do %>
           <tr>
-            <td class="line_number" style="max-width: 40px; vertical-align: middle;">
-                <h4 style="text-align: center;"><%= y %></h4>
+            <td class="line_number">
+                <h4 class="text-center"><%= y %></h4>
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
-              <td class="module_bloc_size" style="vertical-align: middle; height: 130px; width: 160px;">
+              <td class="module_bloc_size" >
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
                 <% unless pmod.nil? %>
@@ -32,8 +32,8 @@
                     <% end %>
                   <% end %>
 
-                  <div class="<%= pbs_class %> module_window  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                      <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}" %>
+                  <div class="<%= pbs_class %> module_project  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
+                      <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "attribute_tooltip" %>
                       <br>
                       <% unless current_project.locked? %>
                         <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
@@ -44,7 +44,7 @@
                       <% end %>
                   </div>
 
-                  <%= render :partial => 'projects/estimation_paths', :locals => { :pmod => pmod } %>
+                  <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>
                 <% end %>
               </td>
             <% end %>
