@@ -290,8 +290,8 @@ class ProjectsController < ApplicationController
 
   end
 
-  #Allow o add a module to a estimation process
-  def add_module
+  #Allow o add or append a pemodule to a estimation process
+  def append_pemodule
     @project = Project.find(params[:project_id])
 
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''

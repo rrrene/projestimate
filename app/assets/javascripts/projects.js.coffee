@@ -2,7 +2,7 @@ jQuery ->
   $("#select_module").on 'change', ->
     unless $("#select_module").val() is ""
       $.ajax
-        url: "/add_module"
+        url: "/append_pemodule"
         method: "get"
         data:
           module_selected: $(this).val()
