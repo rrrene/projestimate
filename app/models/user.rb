@@ -18,6 +18,8 @@
 #
 ########################################################################
 
+require 'net/ldap'
+
 # User of the application. User has many projects, groups, permissions and project securities. User have one language
 class User < ActiveRecord::Base
   include AASM
