@@ -26,7 +26,7 @@ class PbsProjectElementsController < ApplicationController
     set_page_title("Editing #{@pbs_project_element.name}")
 
     @project = Project.find(params[:project_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
     @pbs_wbs_activity_ratios = []
 
@@ -37,7 +37,7 @@ class PbsProjectElementsController < ApplicationController
 
     #Select folders which could be a parent of a pbs_project_element
     #a pbs_project_element cannot be its own parent
-    @folder_components = @project.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{ |i| i.work_element_type.alias == "folder" }
+    @folder_components = @project.pe_wbs_projects.products_wbs.first.pbs_project_elements.select{ |i| i.work_element_type.alias == "folder" }
   end
 
   def update

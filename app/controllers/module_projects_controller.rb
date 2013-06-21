@@ -132,10 +132,16 @@ class ModuleProjectsController < ApplicationController
 
     if params[:commit] == I18n.t('apply')
       flash[:notice] = I18n.t (:notice_module_project_successful_updated)
-      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => 'tabs-3'))  #redirect_to :back
+      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => 'tabs-3'))
     else
       redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
     end
+  end
+
+  def activate_module_project
+    session[:module_project_id] = params[:module_project_id]
+    module_project = ModuleProject.find(params[:module_project_id])
+    redirect_to root_url
   end
 
 end

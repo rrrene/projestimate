@@ -29,7 +29,14 @@
             <i class="icon-list"></i>
           </span>
         </a>
-        <h5><%= I18n.t(:wbs_activity) %></h5>
+        <h5><%= I18n.t(:estimation_plan) %> - <%= current_module_project.nil? ? 'Aucun module de projets sélectionné' : current_module_project %></h5>
+
+        <div class="buttons">
+          <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
+            <%= I18n.t(:button_estimation_plan) %>
+          </a>
+        </div>
+
       </div>
       <div class="collapse in" id="collapseActivity">
         <div class="widget-content">

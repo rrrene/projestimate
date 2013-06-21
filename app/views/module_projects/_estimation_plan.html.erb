@@ -6,7 +6,7 @@
     <table class="table table-condensed table-bordered table-estimation" >
       <tr>
         <th>
-          <h4><%= link_to "", locked_plan_path(current_project.id), :class => "#{ @project.locked? ? 'icon-lock' : 'icon-unlock' } icon-large", :title => "#{ @project.locked? ? 'Unlock estimation plan' : 'Lock estimation plan' }" %></h4>
+          <h4><%= link_to "", locked_plan_path(@project.id), :class => "#{ @project.locked? ? 'icon-lock' : 'icon-unlock' } icon-large", :title => "#{ @project.locked? ? 'Unlock estimation plan' : 'Lock estimation plan' }" %></h4>
         </th>
         <% for x in 1..@module_positions_x.to_i do %>
             <th><h4><%= @alphabet[x-1] %></h4></th>
@@ -32,15 +32,18 @@
                     <% end %>
                   <% end %>
 
-                  <div class="<%= pbs_class %> module_project  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                      <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "attribute_tooltip" %>
+                  <div class="<%= pbs_class %> module_project <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
+                      <%= link_to pmod.pemodule.title, "#" %>
                       <br>
-                      <% unless current_project.locked? %>
+                      <% unless @project.locked? %>
                         <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
                         <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
-                        <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
                         <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
                         <%= link_to '', pemodules_right_path(pmod.id), :class => 'icon-arrow-right' %>
+                        <%= link_to '', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
+                        <%= link_to '', edit_module_project_path(pmod.id), :class => "icon-edit" %>
+                        <%= link_to '', pmod, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-trash' %>
+
                       <% end %>
                   </div>
 

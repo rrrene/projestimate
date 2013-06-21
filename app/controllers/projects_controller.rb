@@ -121,8 +121,8 @@ class ProjectsController < ApplicationController
 
     @project = Project.find(params[:id])
 
-    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_activity_ratios = []
 
     # Get the max X and Y positions of modules
@@ -144,8 +144,8 @@ class ProjectsController < ApplicationController
   def update
     set_page_title 'Edit project'
 
-    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_activity_elements = []
 
     @project.users.each do |u|
@@ -177,7 +177,7 @@ class ProjectsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     if @project.update_attributes(params[:project])
-      redirect_to redirect(projects_url), notice: "#{I18n.t (:notice_project_successful_updated)}"
+      redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
       render(:edit)
     end
@@ -317,7 +317,7 @@ class ProjectsController < ApplicationController
 
       #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
       # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
-      #@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |c|
+      #@project.pe_wbs_projects.products_wbs.first.pbs_project_elements.each do |c|
       my_module_project.pemodule.attribute_modules.each do |am|
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
@@ -430,7 +430,7 @@ class ProjectsController < ApplicationController
               pbs_level_form_input = params[est_val_attribute_alias.to_sym][mp.id.to_s]
             end
 
-            wbs_root = mp.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.where('is_root = ?', true).first
+            wbs_root = mp.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
             if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
               unless mp.pemodule.alias == 'effort_balancing'
                 level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
@@ -603,8 +603,8 @@ class ProjectsController < ApplicationController
         old_prj.save #Original project copy number will be incremented to 1
 
         #Managing the component tree : PBS
-        pe_wbs_product = new_prj.pe_wbs_projects.wbs_product.first
-        pe_wbs_activity = new_prj.pe_wbs_projects.wbs_activity.first
+        pe_wbs_product = new_prj.pe_wbs_projects.products_wbs.first
+        pe_wbs_activity = new_prj.pe_wbs_projects.activities_wbs.first
 
         # For PBS
         new_prj_components = pe_wbs_product.pbs_project_elements
@@ -701,7 +701,7 @@ class ProjectsController < ApplicationController
   #Add/Import a WBS-Activity template from Library to Project
   def add_wbs_activity_to_project
     @project = Project.find(params[:project_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_project_elements_root = @project.wbs_project_element_root
 
     selected_wbs_activity_elt = WbsActivityElement.find(params[:wbs_activity_element])
@@ -778,7 +778,7 @@ class ProjectsController < ApplicationController
 
   def refresh_wbs_project_elements
     @project = Project.find(params[:project_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @show_hidden = params[:show_hidden]
   end
 
