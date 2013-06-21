@@ -99,7 +99,7 @@
 
     <div id="tabs-4">
       <% if controller.controller_name == 'projects' %>
-        <% unless current_project.locked? %>
+        <% unless @project.locked? %>
 
           <table style="width: 100%" border=0>
             <tr>

@@ -33,9 +33,9 @@
                   <% end %>
 
                   <div class="<%= pbs_class %> module_project <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                      <%= link_to pmod.pemodule.title, activate_module_project_path(pmod) %>
+                      <%= link_to pmod.pemodule.title, "#" %>
                       <br>
-                      <% unless current_project.locked? %>
+                      <% unless @project.locked? %>
                         <%= link_to '', pemodules_left_path(pmod.id), :class => 'icon-arrow-left' %>
                         <%= link_to '', pemodules_up_path(pmod.id), :class => 'icon-arrow-up' %>
                         <%= link_to '', pemodules_down_path(pmod.id), :class => 'icon-arrow-down' %>
