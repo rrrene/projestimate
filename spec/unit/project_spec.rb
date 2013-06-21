@@ -109,7 +109,7 @@ describe Project do
     pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
 
     #pe_wbs_project.project.should eql(project1)
-    project.pe_wbs_projects.wbs_product.first.project_id.should eql(project.id)
+    project.pe_wbs_projects.products_wbs.first.project_id.should eql(project.id)
   end
 
   it "should be the project root pbs_project_element" do
@@ -143,7 +143,7 @@ describe Project do
     #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_folder)
     #project.pe_wbs_project.pbs_project_elements << FactoryGirl.create(:pbs_project_element_link)
 
-    project.pe_wbs_projects.wbs_product.first.pbs_project_elements.each do |pc|
+    project.pe_wbs_projects.products_wbs.first.pbs_project_elements.each do |pc|
       pc.work_element_type.name.should eql("Folder")
     end
   end
@@ -151,7 +151,7 @@ describe Project do
   it "should return an array of folder" do
     project = FactoryGirl.create(:project)
     pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
-    project.folders.should eql(project.pe_wbs_projects.wbs_product.first.pbs_project_elements.select{|i| i.folder? })
+    project.folders.should eql(project.pe_wbs_projects.products_wbs.first.pbs_project_elements.select{|i| i.folder? })
   end
 
   it "should return table search" do

@@ -33,7 +33,7 @@
         </tr>
         <% @attributes.each do |attr| %>
           <tr class="<%= cycle('even', 'odd') %>">
-            <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :title => display_attribute_rule(attr) ) unless attr.nil? %></td>
+            <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => "color:green", :title => display_attribute_rule(attr) ) unless attr.nil? %></td>
             <td><%= check_box_tag 'organization[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
             <td><%= attr.description %></td>
           </tr>
