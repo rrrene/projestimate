@@ -22,8 +22,9 @@
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
                 <% unless pmod.nil? %>
-                  <div class=" module_project_min  <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                      <%= link_to pmod.pemodule.title, edit_module_project_path(pmod.id), :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "attribute_tooltip" %>
+                  <div class=" module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
+                    <%= link_to pmod.pemodule.title, activate_module_project_path(pmod) %>
+                    <%= link_to ' ', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
                   </div>
 
                   <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>

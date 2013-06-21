@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :current_project
   helper_method :current_component
+  helper_method :current_module_project
   helper_method :load_master_setting
   helper_method :load_admin_setting
   helper_method :get_record_statuses
@@ -203,6 +204,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_module_project
+    if current_project.module_projects.map(&:id).include?(session[:module_project_id].to_i)
+      session[:module_project_id].nil? ?
+          nil : ModuleProject.find(session[:module_project_id])
+    else
+      session[:module_project_id] = nil
+      return nil
+    end
+
+  end
+
   def load_master_setting(args)
     ms = MasterSetting.find_by_key(args)
     unless ms.nil?
@@ -259,19 +271,6 @@ class ApplicationController < ActionController::Base
       redirect root_url
     end
   end
-
-
-  #Rescue method
-  #rescue_from ActionController::RoutingError do |exception|
-  #  flash[:error] = "Error 404 Not Found"
-  #  redirect_to root_url
-  #end
-
-  #if Rails.env == "production"
-  #  rescue_from Exception do |exception|
-  #    flash[:error] = "Something went wrong :  #{exception.message)
-  #  end
-  #end
 
   def set_locale_from_browser
 

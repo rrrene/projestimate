@@ -29,7 +29,7 @@
             <i class="icon-list"></i>
           </span>
         </a>
-        <h5><%= I18n.t(:estimation_plan) %></h5>
+        <h5><%= I18n.t(:estimation_plan) %> - <%= current_module_project.nil? ? 'Aucun module de projets sélectionné' : current_module_project %></h5>
       </div>
       <div class="collapse in" id="collapseActivity">
         <div class="widget-content">
