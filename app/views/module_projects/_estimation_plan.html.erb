@@ -6,7 +6,7 @@
     <table class="table table-condensed table-bordered table-estimation" >
       <tr>
         <th>
-          <h4><%= link_to "", locked_plan_path(current_project.id), :class => "#{ @project.locked? ? 'icon-lock' : 'icon-unlock' } icon-large", :title => "#{ @project.locked? ? 'Unlock estimation plan' : 'Lock estimation plan' }" %></h4>
+          <h4><%= link_to "", locked_plan_path(@project.id), :class => "#{ @project.locked? ? 'icon-lock' : 'icon-unlock' } icon-large", :title => "#{ @project.locked? ? 'Unlock estimation plan' : 'Lock estimation plan' }" %></h4>
         </th>
         <% for x in 1..@module_positions_x.to_i do %>
             <th><h4><%= @alphabet[x-1] %></h4></th>
