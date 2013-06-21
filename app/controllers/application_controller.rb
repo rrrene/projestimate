@@ -21,12 +21,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = I18n.t (:error_access_denied)
+    flash[:error] = I18n.t(:error_access_denied)
     redirect_to root_url
   end
 
   rescue_from Errno::ECONNREFUSED do |error|
-    flash[:error] = I18n.t (:error_connection_refused)
+    flash[:error] = I18n.t(:error_connection_refused)
   end
 
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance
@@ -138,6 +138,7 @@ class ApplicationController < ActionController::Base
 
   def redirect(url)
     begin
+      test = session[:return_to]
       (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
     rescue
       url
@@ -153,8 +154,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_return_to
-    session[:return_to] = request.referer
-    session[:anchor] = request.referer
+    #session[:return_to] = request.referer
+    session[:anchor_value] ||= ""
+    session[:anchor_value] = params[:anchor_value]
+    session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
   end
 
   def previous_page
