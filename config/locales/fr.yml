@@ -797,7 +797,7 @@ fr:
   warning_invalid_username_password: "Nom d'utilisateur ou mot de passe incorrect."
   notice_session_password_reset_instruction: "Les instructions de réinitialisation de mot de passe vous ont été envoyés."
   warning_session_account_not_active: "Ce compte n'est pas actif"
-  error_account_ldap_association: "Your account is associated with the corporate directory/LDAP. Please contact your system administrator to know your ids."
+  error_account_ldap_association: "Votre compte est associé à un annuaire d'entreprise LDAP. Contacter votre administrateur système pour connaître vos identifiants."
   warning_session_bad_username: "Nous n'avons pas de compte utilisant ce nom de login ou ce courriel"
   application: "Application"
   notice_translation_successful_added: "Traduction ajoutée"
