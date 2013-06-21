@@ -24,26 +24,27 @@
         <table>
           <tr>
             <td><%= f.input :alias, :input_html => {:class => 'input-xlarge'} %></td>
-          <td><%= f.input :state, :label => "#{I18n.t 'state'}", :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
-            </tr>
-<tr>
+            <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
+          </tr>
+          <tr>
+            <td><%= f.label "#{I18n.t 'start_date'}" %>
+                <%= f.text_field :start_date, :class => 'date-picker input-large',  :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t('date.formats.default')):  I18n.l(@project.start_date, :format => :default))  %>
+            </td>
 
-        <td><%= f.label "#{I18n.t 'start_date'}" %>
-        <%= f.text_field :start_date, :class => 'date-picker input-large', :value => (@project.start_date.nil? ? Time.now.strftime(I18n.t 'date.formats.default') : I18n.l(@project.start_date)) %></td>
-
-        <script>
-            $(document).ready(function () {
-                $(".date-picker").datepicker({
-                    language: '<%= set_user_language %>',
-                    autoclose: true,
-                    todayHighlight: true,
-                    todayBtn: true
+            <script>
+                $(document).ready(function () {
+                    $(".date-picker").datepicker({
+                        language: '<%= set_user_language %>',
+                        autoclose: true,
+                        todayHighlight: true,
+                        todayBtn: true
+                    });
                 });
-            });
-        </script>
+            </script>
 
-        <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
-        </tr></table>
+            <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
+          </tr>
+        </table>
         <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
         <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'} %>
@@ -188,7 +189,7 @@
                         <tr>
                           <td><%= group.name %>
                             <% ProjectSecurityLevel.all.each do |prj_level| %>
-                              <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+                              <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level_id == prj_level.id))) %> </td>
                           <% end %>
                         </tr>
                     <% end %>

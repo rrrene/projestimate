@@ -96,11 +96,11 @@ class Project < ActiveRecord::Base
 
   #Return the root pbs_project_element of the pe-wbs-project and consequently of the project.
   def root_component
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_product.first.nil?
+    self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.products_wbs.first.nil?
   end
 
   def wbs_project_element_root
-    self.pe_wbs_projects.wbs_activity.first.wbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_activity.first.nil?
+    self.pe_wbs_projects.activities_wbs.first.wbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.activities_wbs.first.nil?
   end
 
   #Override
@@ -115,7 +115,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
+    self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
   end
 
   def self.table_search(search)

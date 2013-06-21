@@ -74,7 +74,7 @@ module EffortBreakdown
       project = @module_project.project
 
       # Project pe_wbs_activity
-      pe_wbs_activity = @module_project.project.pe_wbs_projects.wbs_activity.first
+      pe_wbs_activity = @module_project.project.pe_wbs_projects.activities_wbs.first
 
       # Get the wbs_project_element which contain the wbs_activity_ratio
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
@@ -141,7 +141,7 @@ module EffortBreakdown
       project = @module_project.project
 
       # Project pe_wbs_activity
-      pe_wbs_activity = @module_project.project.pe_wbs_projects.wbs_activity.first
+      pe_wbs_activity = @module_project.project.pe_wbs_projects.activities_wbs.first
 
       # Get the wbs_project_element which contain the wbs_activity_ratio
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
@@ -200,7 +200,7 @@ module EffortBreakdown
       project = @module_project.project
 
       # Project pe_wbs_activity
-      pe_wbs_activity = @module_project.project.pe_wbs_projects.wbs_activity.first
+      pe_wbs_activity = @module_project.project.pe_wbs_projects.activities_wbs.first
 
       # Get the wbs_project_element which contain the wbs_activity_ratio
       project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first

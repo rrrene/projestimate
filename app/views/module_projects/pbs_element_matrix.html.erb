@@ -18,7 +18,7 @@
           <% end %>
         </tr>
 
-        <% for element in @project.pe_wbs_projects.wbs_product.first.pbs_project_elements %>
+        <% for element in @project.pe_wbs_projects.products_wbs.first.pbs_project_elements %>
             <tr>
               <td>
                 <% unless element.is_root? %>

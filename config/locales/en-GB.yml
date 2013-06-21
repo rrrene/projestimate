@@ -406,7 +406,7 @@ en-gb:
   new_master_setting: "New master setting"
 
   #estimation_values
-  in_out: "In/Out"
+  in_out: "In / Out"
   input: "Input"
   output: "Output"
   both: "Input and Output"
@@ -907,3 +907,5 @@ en-gb:
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
   label_environment: "Environment"
+  notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
+  display_order: "Display order"

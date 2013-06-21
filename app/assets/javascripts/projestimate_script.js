@@ -39,6 +39,9 @@ $(document).ready(function() {
         select: function(event, ui) {
             var index_tab = ui.index + 1;
             $(".current_tab").val("tabs-" + index_tab);
+
+            var re = /#/;
+            window.location.hash = ui.tab.hash.replace(re, "#");
         }
     });
 
@@ -257,7 +260,6 @@ $(document).ready(function() {
         });
         return false;
     });
-
 
     $('html, body').animate({ scrollTop: 0 });
 

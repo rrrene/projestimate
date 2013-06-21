@@ -42,6 +42,7 @@ module Projestimate
     config.autoload_paths += Dir["#{config.root}/vendor/gems/sample_model/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/sandbox/lib"]
     config.autoload_paths += Dir["#{config.root}/vendor/gems/effort_balancing/lib"]
+    config.autoload_paths += Dir["#{config.root}/vendor/gems/capitalization/lib"]
 
     config.autoload_paths += %W(#{config.root}/vendor/gems/cocomo_basic/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/expert_judgment/lib)
@@ -51,6 +52,7 @@ module Projestimate
     config.autoload_paths += %W(#{config.root}/vendor/gems/sandbox/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/app)
+    config.autoload_paths += %W(#{config.root}/vendor/gems/capitalization/lib)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

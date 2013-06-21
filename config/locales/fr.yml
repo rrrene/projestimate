@@ -406,7 +406,7 @@ fr:
   new_master_setting: "Créer un nouveau paramètre maître"
 
   #estimation_values
-  in_out: "Entrée/Sortie"
+  in_out: "Entrée / Sortie"
   input: "Entrée"
   output: "Sortie"
   both: "Entrée et Sortie"
@@ -907,3 +907,5 @@ fr:
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
   label_environment: "Environnement"
+  notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
+  display_order: "Ordre d'affichage"

@@ -35,7 +35,7 @@ module EffortBalancing
     def set_wbs_project_element_root(elem)
       @pbs_project_element = PbsProjectElement.find(elem[:pbs_project_element_id])
       current_project = @pbs_project_element.pe_wbs_project.project
-      pe_wbs_project_activity = current_project.pe_wbs_projects.wbs_activity.first
+      pe_wbs_project_activity = current_project.pe_wbs_projects.activities_wbs.first
       @wbs_project_element_root = pe_wbs_project_activity.wbs_project_elements.where('is_root = ?', true).first
     end
 
