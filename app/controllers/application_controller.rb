@@ -139,9 +139,6 @@ class ApplicationController < ActionController::Base
   def redirect(url)
     begin
       (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
-       if params[:commit] == "#{I18n.t'apply'}"
-         session[:current_page]
-       end
     rescue
       url
     end
@@ -157,7 +154,7 @@ class ApplicationController < ActionController::Base
 
   def set_return_to
     session[:return_to] = request.referer
-    session[:current_page] = request.env["HTTP_HOST"]
+    session[:anchor] = request.referer
   end
 
   def previous_page
