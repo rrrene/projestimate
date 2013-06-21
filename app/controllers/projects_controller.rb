@@ -290,8 +290,8 @@ class ProjectsController < ApplicationController
 
   end
 
-  #Allow o add a module to a estimation process
-  def add_module
+  #Allow o add or append a pemodule to a estimation process
+  def append_pemodule
     @project = Project.find(params[:project_id])
 
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
@@ -326,6 +326,7 @@ class ProjectsController < ApplicationController
                                          :in_out => in_out,
                                          :is_mandatory => am.is_mandatory,
                                          :description => am.description,
+                                         :display_order => am.display_order,
                                          :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
                                          :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
                                          :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
@@ -337,6 +338,7 @@ class ProjectsController < ApplicationController
                                        :module_project_id => my_module_project.id,
                                        :in_out => am.in_out,
                                        :is_mandatory => am.is_mandatory,
+                                       :display_order => am.display_order,
                                        :description => am.description,
                                        :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
                                        :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},

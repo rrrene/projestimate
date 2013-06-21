@@ -2,7 +2,7 @@
   <ul>
     <li><a href="#tabs-1"><%= I18n.t(:organizations) %> </a></li>
     <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
-    <li><a href="#tabs-3"><%= I18n.t(:settings) %> </a></li>
+    <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %> </a></li>
   </ul>
 
   <div id="tabs-1">
@@ -22,54 +22,54 @@
   <div id="tabs-2">
     <%= form_tag('/update_selected_attribute_organizations', :method => 'POST', :class => 'simple_form') do -%>
 
-      <%= hidden_field_tag 'organization_id', @organization.id %>
-      <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
+        <%= hidden_field_tag 'organization_id', @organization.id %>
+        <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
 
-      <table class="table table-striped">
-        <tr>
-          <th><%= I18n.t(:pe_attribute_name) %></th>
-          <th><%= I18n.t(:selected) %></th>
-          <th><%= I18n.t(:description) %></th>
-        </tr>
-        <% @attributes.each do |attr| %>
-          <tr class="<%= cycle('even', 'odd') %>">
-            <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => "color:green", :title => display_attribute_rule(attr) ) unless attr.nil? %></td>
-            <td><%= check_box_tag 'organization[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
-            <td><%= attr.description %></td>
+        <table class="table table-striped table-bordered table-condensed">
+          <tr>
+            <th><%= I18n.t(:pe_attribute_name) %></th>
+            <th><%= I18n.t(:selected) %></th>
+            <th><%= I18n.t(:description) %></th>
           </tr>
-        <% end %>
-      </table>
-      <%= submit_tag I18n.t('save'), :class => 'btn' %>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-      <span class="on_success_attr"></span>
+          <% @attributes.each do |attr| %>
+              <tr class="<%= cycle('even', 'odd') %>">
+                <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(attr)) unless attr.nil? %></td>
+                <td><%= check_box_tag 'organization[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
+                <td><%= attr.description %></td>
+              </tr>
+          <% end %>
+        </table>
+        <%= submit_tag I18n.t('save'), :class => 'btn' %>
+        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <span class="on_success_attr"></span>
     <% end -%>
   </div>
 
   <div id="tabs-3">
     <%= form_tag('/update_attribute_organizations_settings', :method => 'POST', :class => 'simple_form') do -%>
 
-      <%= hidden_field_tag 'organization_id', @organization.id %>
-      <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
+        <%= hidden_field_tag 'organization_id', @organization.id %>
+        <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
 
-      <table class="table table-striped">
+        <table class="table table-striped table-bordered table-condensed">
 
-        <tr>
-          <th style="text-align:left"><%= I18n.t(:name) %></th>
-          <th style="text-align:left"><%= I18n.t(:description) %></th>
-        </tr>
-
-        <% @attribute_settings.each_with_index do |ao, i| %>
-          <%= hidden_field_tag 'attributes[]', ao.pe_attribute_id %>
           <tr>
-            <td class="span3"><%= link_to ao.pe_attribute.nil? ? '-' : ao.pe_attribute.name, '#' , :class => 'attribute_tooltip', :title => display_attribute_rule(ao.pe_attribute) %></td>
-            <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => ao.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :class => 'input-small' %></td>
+            <th style="text-align:left"><%= I18n.t(:name) %></th>
+            <th style="text-align:left"><%= I18n.t(:mandatory) %></th>
           </tr>
-        <% end %>
-      </table>
 
-      <%= submit_tag I18n.t('save'), :class => 'btn' %>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-      <span class="on_success_attr"></span>
+          <% @attribute_settings.each_with_index do |ao, i| %>
+              <%= hidden_field_tag 'attributes[]', ao.pe_attribute_id %>
+              <tr>
+                <td class="span3"><%= link_to ao.pe_attribute.nil? ? '-' : ao.pe_attribute.name, '#', :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(ao.pe_attribute) %></td>
+                <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => ao.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :class => 'input-small' %></td>
+              </tr>
+          <% end %>
+        </table>
+
+        <%= submit_tag I18n.t('save'), :class => 'btn' %>
+        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <span class="on_success_attr"></span>
     <% end -%>
   </div>
 </div>

@@ -1,33 +1,54 @@
-<h2><%= link_to 'ProjEstimate', 'http://projestimate.org/' %></h2>
-<p>
-  Version : 0.10.0-Beta.1+<%= COMMIT_VERSION %>  (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
-</p>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:about) %> </a></li>
+  </ul>
 
-<p>
-  Copyright © 2012-2013 <%= link_to 'Spirula', 'http://Spirula.fr' %>
-</p>
+  <div id="tabs-1">
 
-<p>
-  <%=I18n.t('text_projestimate_open_source')%> <%= link_to 'GNU AGPL-v3', 'http://www.gnu.org/licenses/agpl-3.0.html' %>
-  <br>
-  <%=I18n.t('text_projestimate_open_source_references')%>
-</p>
+    <h2><%= link_to 'ProjEstimate', 'http://projestimate.org/' %></h2>
 
-<p>
-  <%=I18n.t(:text_latest_update)%> <%= @latest_local_update.nil? ? 'None' : I18n.l(@latest_local_update) %>    <br />
-</p>
-<p>
-  <%=I18n.t(:text_latest_masterData_repository_update)%> <%= @latest_repo_update.nil? ? 'None' : I18n.l(@latest_repo_update) %>
-</p>
+    <h4>Copyright © 2012-2013 <%= link_to 'Spirula', 'http://Spirula.fr' %></h4>
 
-Other informations :
-<ul style="list-style-type: none">
-  <li>Ruby version <span class="label label-info"> <%= RUBY_VERSION %> (<%= RUBY_PLATFORM %>) </span></li>
-  <li>Rails version <span class="label label-info"> <%= Rails.version %> </span> </li>
-  <li> Environment <span class="label label-info"> <%= Rails.env %> </span> </li>
-  <li>Database adapter <span class="label label-info"> <%= ActiveRecord::Base.configurations[Rails.env]['adapter'] %></li>
-</ul>
+    <p>
+      <%= I18n.t('text_projestimate_open_source') %> <%= link_to 'GNU AGPL-v3', 'http://www.gnu.org/licenses/agpl-3.0.html' %>
+    </p>
+
+    <p>
+      <%= I18n.t('text_projestimate_open_source_references') %>
+    </p>
+
+    <hr class="bs-docs-separator">
+
+    <dl class="dl-horizontal">
+      <dt style='width: 250px; padding: 0 15px; '><%= I18n.t(:text_latest_update) %> </dt>
+      <dd>
+        <span class="label label-info"><%= @latest_local_update.nil? ? 'None' : I18n.l(@latest_local_update) %> </span>
+      </dd>
+      <dt style='width: 250px;padding: 0 15px; '><%= I18n.t(:text_latest_masterData_repository_update) %></dt>
+      <dd>
+        <span class="label label-info"> <%= @latest_repo_update.nil? ? 'None' : I18n.l(@latest_repo_update) %>  </span>
+      </dd>
+    </dl>
 
 
-<%= link_to I18n.t(:text_download_master_data), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => 'btn', :disable_with => I18n.t(:text_please_wait), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
-<%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
+    <%= link_to I18n.t(:text_download_master_data), update_install_path(:latest_local_update => @latest_local_update, :latest_repo_update => @latest_repo_update), :class => 'btn', :disable_with => I18n.t(:text_please_wait), :disabled => is_master_instance?, :onclick => "$('#spiner').toggle();" %>
+    <%= image_tag '/assets/ajax-loader.gif', :id => 'spiner', :class => 'hide' %>
+
+    <hr class="bs-docs-separator">
+    <h4> <%= I18n.t('label_environment') %> : </h4>
+    <dl class="dl-horizontal">
+      <dt>ProjEstimate version</dt>
+      <dd><span class="label label-info">0.10.0-Beta.1+<%= COMMIT_VERSION %> </span>
+        (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
+      </dd>
+      <dt>Ruby version</dt>
+      <dd><span class="label label-info"><%= RUBY_ENGINE %> <%= RUBY_VERSION %>p<%= RUBY_PATCHLEVEL %> [<%= RUBY_PLATFORM %>] </span></dd>
+      <dt>Rails version</dt>
+      <dd><span class="label label-info"> <%= Rails.version %> </span></dd>
+      <dt>Environment</dt>
+      <dd><span class="label label-info"> <%= Rails.env %> </span></dd>
+      <dt>Database adapter</dt>
+      <dd><span class="label label-info"> <%= ActiveRecord::Base.configurations[Rails.env]['adapter'] %> </span></dd>
+    </dl>
+  </div>
+</div>
