@@ -8,8 +8,8 @@
     <div class="tab-content">
 
       <div class="tab-pane active" id="pbs">
-        <% unless @project.nil? || @project.pe_wbs_projects.wbs_product.first.nil? %>
-          <%=raw generate_wbs_product(@project.pe_wbs_projects.wbs_product.first.pbs_project_elements.last.root, @project, '', 5) %>
+        <% unless @project.nil? || @project.pe_wbs_projects.products_wbs.first.nil? %>
+          <%=raw generate_wbs_product(@project.pe_wbs_projects.products_wbs.first.pbs_project_elements.last.root, @project, '', 5) %>
         <% end %>
       </div>
 
