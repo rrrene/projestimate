@@ -903,3 +903,4 @@ fr:
   button_commit_project: "Promouvoir le projet dans son cycle de vie"
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
+  tablesorter_date_format: "ddmmyyyy"

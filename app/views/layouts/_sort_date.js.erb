@@ -7,7 +7,7 @@ $("table")
         sortList: [[0,0]],
         headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
 debug: true,
-dateFormat       : '<%= current_user.locale=="fr" ? "ddmmyyyy" : "mmddyyyy" %>',
+dateFormat       : '<%= I18n.t(:tablesorter_date_format) %>',
 // widget code contained in the jquery.tablesorter.widgets.js file
 // use the zebra stripe widget if you plan on hiding any rows (filter widget)
 

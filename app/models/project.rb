@@ -33,7 +33,6 @@ class Project < ActiveRecord::Base
   has_many :events
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
-
   has_many :pe_wbs_projects, :dependent => :destroy
 
   has_and_belongs_to_many :groups

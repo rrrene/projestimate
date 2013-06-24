@@ -905,3 +905,4 @@ en:
   button_commit_project: "Promote the project into its life cycle"
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
+  tablesorter_date_format: "mmddyyyy"

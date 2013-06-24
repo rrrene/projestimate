@@ -228,6 +228,17 @@ $(document).ready(function() {
     });
 
 
+    $("#find_use_projects").click(function(){
+        $.ajax({
+            url:"/find_use_project",
+            method: 'GET',
+            data: {
+                project_id: $(this).data("project_id")
+            }
+        });
+        return false;
+    });
+
     $('html, body').animate({ scrollTop: 0 });
 
 });

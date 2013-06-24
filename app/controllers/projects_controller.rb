@@ -675,12 +675,31 @@ class ProjectsController < ApplicationController
     redirect_to '/projects'
   end
 
-  def find_use
+  def find_use_project
     @project = Project.find(params[:project_id])
-    @related_projects = Project.find(params[:project_id])
-    respond_to do |format|
-      format.js { render :partial => 'projects/find_use' }
+    unless @project.nil?
+      @related_pe_wbs_project= @project.pe_wbs_projects.wbs_product
+
+      @related_pbs_projects = PbsProjectElement.find_all_by_pe_wbs_project_id(@related_pe_wbs_project)
+
+      @related_projects = []
+      unless @related_pbs_projects.empty?
+       @related_pbs_projects.each do |pbs|
+            unless pbs.project_link.nil?
+              @related_projects << Project.find_by_id(pbs.project_link)
+            end
+       end
+      end
     end
+
+
+
+
+
+    #respond_to do |format|
+    #  format.js { render :partial => 'projects/find_use' }
+    #end
+   puts "toto"
   end
 
   def projects_global_params
