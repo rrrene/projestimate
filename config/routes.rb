@@ -73,6 +73,7 @@ Projestimate::Application.routes.draw do
   match 'module_projects/associate_modules_projects' => 'module_projects#associate_modules_projects', :as => 'associate_modules_projects'
   match 'module_projects/associate_module_project_to_ratios' => 'module_projects#associate_module_project_to_ratios', :as => 'associate_module_project_to_ratios'
   post 'module_projects/associate'
+  match 'module_projects/:module_project_id/activate_module_project' => 'module_projects#activate_module_project', :as => 'activate_module_project'
 
   resources :languages
 
@@ -139,7 +140,7 @@ Projestimate::Application.routes.draw do
   resources :pe_wbs_projects
 
   resources :projects
-  get 'add_module' => 'projects#add_module'
+  get 'append_pemodule' => 'projects#append_pemodule'
   get 'select_categories' => 'projects#select_categories', :as => 'select_categories'
   post 'run_estimation' => 'projects#run_estimation', :as => 'run_estimation'
   get 'load_security_for_selected_user' => 'projects#load_security_for_selected_user', :as => 'load_security_for_selected_user'
@@ -157,6 +158,9 @@ Projestimate::Application.routes.draw do
   get 'select_pbs_project_elements' => 'projects#select_pbs_project_elements', :as => 'select_pbs_project_elements'
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
+  post 'update_project_security_level_group' => 'projects#update_project_security_level_group',  :as => 'update_project_security_level_group'
+  post 'update_project_security_level' => 'projects#update_project_security_level',  :as => 'update_project_security_level'
+
   get 'refresh_wbs_project_elements' => 'projects#refresh_wbs_project_elements', :as => 'refresh_wbs_project_elements'
   get 'refresh_wbs_activity_ratios' => 'projects#refresh_wbs_activity_ratios',   :as => 'refresh_wbs_activity_ratios'
   get 'generate_wbs_project_elt_tree' => 'projects#generate_wbs_project_elt_tree', :as => 'generate_wbs_project_elt_tree'
@@ -195,6 +199,9 @@ Projestimate::Application.routes.draw do
 
   resources :translations
   get 'load_translations' => 'translations#load_translations', :as => 'load_translations'
+
+  post 'update_selected_attribute_organizations' => 'attribute_organizations#update_selected_attribute_organizations'
+  post 'update_attribute_organizations_settings' => 'attribute_organizations#update_attribute_organizations_settings'
 
   post 'save_cocomo_basic' => 'cocomo_basics#save_cocomo_basic', :as => 'EstimationControllers/save_cocomo_basic'
 

@@ -29,12 +29,19 @@
             <i class="icon-list"></i>
           </span>
         </a>
-        <h5><%= I18n.t(:wbs_activity) %></h5>
+        <h5><%= I18n.t(:estimation_plan) %> - <%= current_module_project.nil? ? 'Aucun module de projets sélectionné' : current_module_project %></h5>
+
+        <div class="buttons">
+          <a href="<%= edit_project_path(current_project.id, :anchor => 'tabs-4') %>" class="btn btn-mini btn-info">
+            <%= I18n.t(:button_estimation_plan) %>
+          </a>
+        </div>
+
       </div>
       <div class="collapse in" id="collapseActivity">
         <div class="widget-content">
           <div class="overflow">
-            <%= render :partial => 'projects/generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+            <%= render 'module_projects/estimation_plan_min', :locals => {:module_projects => @project.module_projects} %>
           </div>
         </div>
       </div>
@@ -45,7 +52,7 @@
 <%= form_tag({:controller => 'projects', :action => 'run_estimation', :pbs_project_element_id => current_component.id}, :remote => true, :class => 'simple_form') do -%>
 
   <div class="row-fluid">
-    <div class="span6">
+    <div class="span6 input">
       <div class="widget-box">
         <div class="widget-title"><span class="icon">
           <i class="icon-align-left"></i>
@@ -64,7 +71,7 @@
       </div>
     </div>
 
-    <div class="span6">
+    <div class="span6 output">
       <div class="widget-box">
         <div class="widget-title">
           <span class="icon">
@@ -105,15 +112,6 @@
   </div>
 <% end %>
 
-
-<div class="row-fluid">
-  <div class="span12">
-    <div class="widget-box">
-      <%= render 'module_projects/widget_estimation_plan', :locals => {:project => @project} %>
-    </div>
-  </div>
-</div>
-
 <script>
     $(document).ready(function () {
         $(".date-picker").datepicker({
@@ -128,6 +126,7 @@
                 data: "value=" + this.value + "&level=" + this.className.split(/\s/)[1] + "&est_val_id=" + this.className.split(/\s/)[2]
             })
         });
+
     });
 </script>
 

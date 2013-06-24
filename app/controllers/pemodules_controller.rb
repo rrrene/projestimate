@@ -134,8 +134,6 @@ class PemodulesController < ApplicationController
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
     #redirect_to edit_pemodule_path(params[:module_id], :anchor => 'tabs-2')
     redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
-
-
   end
 
   #Update attribute settings (3th tabs)
@@ -147,6 +145,7 @@ class PemodulesController < ApplicationController
       attribute = AttributeModule.first(:conditions => conditions)
       attribute.update_attribute('in_out', params[:in_out][i])
       attribute.update_attribute('is_mandatory', params[:is_mandatory][i])
+      attribute.update_attribute('display_order', params[:display_order][i])
       attribute.update_attribute('description', params[:description][i])
       attribute.update_attribute('custom_attribute', params[:custom_attribute][i])
 

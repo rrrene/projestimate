@@ -54,7 +54,7 @@ module ProjectsHelper
     res
   end
 
-
+  # Methdods that display estimation results
   def display_results_without_activities(module_project)
     res = String.new
     pbs_project_element = @pbs_project_element || current_project.root_component
@@ -69,7 +69,7 @@ module ProjectsHelper
                     end
         res << '</tr>'
 
-    module_project.estimation_values.where('in_out = ?', 'output').each do |estimation_value|
+    module_project.estimation_values.where('in_out = ?', 'output').order('display_order ASC').each do |estimation_value|
       res << "<tr><td><span class='attribute_tooltip tree_element_in_out' title='#{estimation_value.pe_attribute.description} #{display_rule(estimation_value)}'>#{estimation_value.pe_attribute.name}</span></td>"
 
       ['low', 'most_likely', 'high', 'probable'].each do |level|
@@ -97,7 +97,7 @@ module ProjectsHelper
     res = String.new
     pbs_project_element = @pbs_project_element || current_project.root_component
 
-    pe_wbs_activity = module_project.project.pe_wbs_projects.wbs_activity.first
+    pe_wbs_activity = module_project.project.pe_wbs_projects.activities_wbs.first
     project_wbs_project_elt_root = pe_wbs_activity.wbs_project_elements.elements_root.first
 
     pemodule = Pemodule.find(module_project.pemodule.id)
@@ -110,7 +110,7 @@ module ProjectsHelper
     probable_est_value_for_consistency = nil
     pbs_level_data_for_consistency = Hash.new
 
-    module_project.estimation_values.each do |mpa|
+    module_project.estimation_values.order('display_order ASC').each do |mpa|
       if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
         probable_est_value_for_consistency = mpa.send("string_data_probable")
         res << "<th colspan='4'><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}'>#{mpa.pe_attribute.name}</span></th>"
@@ -134,7 +134,7 @@ module ProjectsHelper
               end
     res << '</tr>'
 
-    module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+    module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
 
       pbs_probable_for_consistency = probable_est_value_for_consistency.nil? ? nil : probable_est_value_for_consistency[pbs_project_element.id]
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
@@ -235,7 +235,7 @@ module ProjectsHelper
 
       res << '</tr>'
 
-      module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+      module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
         res << "<tr>
                     <td>
                       <span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
@@ -300,7 +300,7 @@ module ProjectsHelper
                   else
                     last_estimation_result = last_estimation_results
 
-                    pe_wbs_project_activity = current_project.pe_wbs_projects.wbs_activity.first
+                    pe_wbs_project_activity = current_project.pe_wbs_projects.activities_wbs.first
                     project_wbs_root = pe_wbs_project_activity.wbs_project_elements.where("is_added_wbs_root = ?", true).first
 
                     # Get all complement children
@@ -336,10 +336,8 @@ module ProjectsHelper
                       end
                       last_estimation_result = new_created_estimation_value
                     end
-                    ##last_estimation_result = last_estimation_results
                   end
                 end
-              #end
             end
             res << display_inputs_with_activities(module_project, last_estimation_result)
 
@@ -357,6 +355,11 @@ module ProjectsHelper
       end
     end
     res
+  end
+
+  # Function that display Capitalization Method input
+  def display_capitalisation_input
+    pbs_project_element = @pbs_project_element || current_project.root_component
   end
 
   #Display the Effort Balancing Input
@@ -381,7 +384,7 @@ module ProjectsHelper
 
       res << '</tr>'
 
-        module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+        module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
           res << "<tr>
                     <td>
                       <span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
@@ -442,7 +445,7 @@ module ProjectsHelper
       res << "<table class='table table-condensed table-bordered'>"
       res << '<tr>
                 <th></th>'
-      module_project.estimation_values.each do |mpa|
+      module_project.estimation_values.order('display_order ASC').each do |mpa|
         if (mpa.in_out == 'output' or mpa.in_out=='both') and mpa.module_project.id == module_project.id
           res << "<th colspan=4><span class='attribute_tooltip' title='#{mpa.pe_attribute.description} #{display_rule(mpa)}' rel='tooltip'>#{mpa.pe_attribute.name}</span></th>"
         end
@@ -456,7 +459,7 @@ module ProjectsHelper
                 end
       res << '</tr>'
 
-      module_project.project.pe_wbs_projects.wbs_activity.first.wbs_project_elements.each do |wbs_project_elt|
+      module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
         pe_attribute_alias = nil
         level_parameter = ''
         readonly_option = false
@@ -558,7 +561,7 @@ module ProjectsHelper
                           res << "<th>#{level.humanize}</th>"
                         end
                       res << '</tr>'
-            module_project.estimation_values.each do |est_val|
+            module_project.estimation_values.order('display_order ASC').each do |est_val|
               if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
                 res << '<tr>'
                 res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val.pe_attribute.description} #{display_rule(est_val)}'>#{est_val.pe_attribute.name}</span></td>"

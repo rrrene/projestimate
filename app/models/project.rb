@@ -33,6 +33,8 @@ class Project < ActiveRecord::Base
   has_many :events
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
+  has_many :project_securities
+
   has_many :pe_wbs_projects, :dependent => :destroy
 
   has_and_belongs_to_many :groups
@@ -67,7 +69,7 @@ class Project < ActiveRecord::Base
 
   amoeba do
     enable
-    include_field [:pe_wbs_projects, :module_projects, :groups, :users]
+    include_field [:pe_wbs_projects, :module_projects, :groups, :users, :project_securities]
 
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
@@ -94,11 +96,11 @@ class Project < ActiveRecord::Base
 
   #Return the root pbs_project_element of the pe-wbs-project and consequently of the project.
   def root_component
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_product.first.nil?
+    self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.products_wbs.first.nil?
   end
 
   def wbs_project_element_root
-    self.pe_wbs_projects.wbs_activity.first.wbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.wbs_activity.first.nil?
+    self.pe_wbs_projects.activities_wbs.first.wbs_project_elements.select { |i| i.is_root = true }.first unless self.pe_wbs_projects.activities_wbs.first.nil?
   end
 
   #Override
@@ -113,7 +115,7 @@ class Project < ActiveRecord::Base
 
   #Return folders list of a projects
   def folders
-    self.pe_wbs_projects.wbs_product.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
+    self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
   end
 
   def self.table_search(search)

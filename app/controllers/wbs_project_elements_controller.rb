@@ -63,8 +63,8 @@ class WbsProjectElementsController < ApplicationController
 
     @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @project = Project.find(params[:project_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     respond_to do |format|
@@ -79,8 +79,8 @@ class WbsProjectElementsController < ApplicationController
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
     @project = Project.find(params[:project_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
 
 
     if @wbs_project_element.is_root
@@ -101,8 +101,8 @@ class WbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
     @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
 
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-    @pe_wbs_project_product =  @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @pe_wbs_project_product =  @project.pe_wbs_projects.products_wbs.first
     @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     if @wbs_project_element.save
@@ -120,8 +120,8 @@ class WbsProjectElementsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
-    @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first
-    @pe_wbs_project_product = @project.pe_wbs_projects.wbs_product.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
 
     respond_to do |format|

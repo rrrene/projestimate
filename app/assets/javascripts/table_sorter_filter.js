@@ -1,3 +1,7 @@
+/*
+ * ProjEstimate code overload for Table Sorted
+ */
+
 $(document).ready(function() {
     $(function table_sorter_filter() {
 

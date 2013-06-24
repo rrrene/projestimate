@@ -34,6 +34,8 @@ class OrganizationsController < ApplicationController
     set_page_title 'Organizations'
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
+    @attributes = PeAttribute.all
+    @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
   end
 
   def create

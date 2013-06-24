@@ -56,6 +56,7 @@ class UsersController < ApplicationController
   def new
     authorize! :edit_user_account_no_admin, User
     set_page_title 'New user'
+
     @user = User.new( :auth_type => AuthMethod.first.id,
                       :user_status => 'active')
   end
@@ -77,7 +78,6 @@ class UsersController < ApplicationController
       else
         render 'new'
       end
-
     #end
   end
 
@@ -104,10 +104,11 @@ class UsersController < ApplicationController
     #  end
     #end
 
+    puts "current_tab = #{params[:current_tab]}"
     if @user.update_attributes(params[:user])
-      #redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}" )
+      redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
 
-      redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
+      #redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
     else
       render(:edit)
     end
@@ -117,6 +118,8 @@ class UsersController < ApplicationController
   #Dashboard of the application
   def show
     set_page_title 'Dashboard'
+    session[:anchor_value] = params[:anchor_value]
+
     if current_user
       if params[:project_id]
         session[:current_project_id] = params[:project_id]
@@ -135,7 +138,7 @@ class UsersController < ApplicationController
       if @project
         @module_projects ||= @project.module_projects
       end
-      @pe_wbs_project_activity = @project.pe_wbs_projects.wbs_activity.first unless @project.nil?
+      @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first unless @project.nil?
       @show_hidden = 'true'
 
       if @project
