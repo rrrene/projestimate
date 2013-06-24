@@ -29,10 +29,20 @@ $(document).ready(function() {
     $('.tabs').tabs({
         select: function(event, ui) {
             var index_tab = ui.index + 1;
+            var anchor_value = "";
             $(".current_tab").val("tabs-" + index_tab);
 
             var re = /#/;
             window.location.hash = ui.tab.hash.replace(re, "#");
+            anchor_value = ui.tab.hash;
+
+            $.ajax({
+                url:"/",
+                method: 'GET',
+                data: {
+                    anchor_value: anchor_value
+                }
+            });
         }
     });
 
@@ -251,7 +261,6 @@ $(document).ready(function() {
         });
         return false;
     });
-
 
 
     $('html, body').animate({ scrollTop: 0 });
