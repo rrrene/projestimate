@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe AttributeOrganizationController do
+describe AttributeOrganizationsController do
 
 end
