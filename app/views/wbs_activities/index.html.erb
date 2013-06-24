@@ -33,7 +33,7 @@
             <td><%= wbs_activity.state %></td>
             <td><%= wbs_activity.record_status.name unless wbs_activity.record_status.nil? %><%= wbs_activity.show_custom_value %></td>
             <td>
-              <%= link_to '', edit_wbs_activity_path(wbs_activity), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit), confirm: (I18n.t(:text_master_force_edit) if wbs_activity.is_defined?) %>
+              <%= link_to '', edit_wbs_activity_path(wbs_activity, :anchor => "tabs-1"), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit), confirm: (I18n.t(:text_master_force_edit) if wbs_activity.is_defined?) %>
               <%= link_to('', "wbs_activities/#{wbs_activity.id}/duplicate_wbs_activity", :class => 'icon-copy icon-large icon-border pull-left', :title => 'Duplicate') %>
               <% unless wbs_activity.retired? %>
                   <%= link_to '', wbs_activity, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t(:delete) %>

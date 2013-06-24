@@ -911,3 +911,4 @@ en:
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
+  notice_successfully_deleted: "%{value} was successfully deleted"

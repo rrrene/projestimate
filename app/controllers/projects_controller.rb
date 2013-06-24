@@ -193,7 +193,7 @@ class ProjectsController < ApplicationController
           session[:current_project_id] = current_user.projects.first
 
           #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => 'Project was successfully deleted'
+          redirect_to projects_path, :notice => I18n.t(:notice_successfully_deleted, :value => "Project")
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'

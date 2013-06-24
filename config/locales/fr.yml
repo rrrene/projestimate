@@ -909,3 +909,4 @@ fr:
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
+  notice_successfully_deleted: "%{value} a été supprimé avec succès"
