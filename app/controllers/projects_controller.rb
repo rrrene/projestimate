@@ -674,30 +674,27 @@ class ProjectsController < ApplicationController
   end
 
   def find_use_project
+    @relations = Array.new
     @project = Project.find(params[:project_id])
+    related_projects = Array.new
+
     unless @project.nil?
-      @related_pe_wbs_project= @project.pe_wbs_projects.wbs_product
-
-      @related_pbs_projects = PbsProjectElement.find_all_by_pe_wbs_project_id(@related_pe_wbs_project)
-
-      @related_projects = []
-      unless @related_pbs_projects.empty?
-       @related_pbs_projects.each do |pbs|
-            unless pbs.project_link.nil?
-              @related_projects << Project.find_by_id(pbs.project_link)
-            end
-       end
+      related_pe_wbs_project= @project.pe_wbs_projects.products_wbs
+      related_pbs_projects = PbsProjectElement.where(:pe_wbs_project_id => related_pe_wbs_project)
+      unless related_pe_wbs_project.empty?
+        related_pbs_projects.each do |pbs|
+          unless pbs.project_link.nil? or pbs.project_link.blank?
+            project = Project.find_by_id(pbs.project_link)
+            related_projects << @project
+          end
+        end
       end
     end
 
+    related_users = @project.users
+    related_groups = @project.groups
 
-
-
-
-    #respond_to do |format|
-    #  format.js { render :partial => 'projects/find_use' }
-    #end
-   puts "toto"
+    @relations = related_projects + related_users + related_groups
   end
 
   def projects_global_params

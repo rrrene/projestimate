@@ -189,10 +189,7 @@ class UsersController < ApplicationController
 
   def find_use_user
     @user = User.find(params[:user_id])
-
-    respond_to do |format|
-      format.js { render :partial => 'users/find_use.js' }
-    end
+    @relations = @user.projects
   end
 
   def about
