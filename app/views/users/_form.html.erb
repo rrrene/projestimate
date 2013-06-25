@@ -53,7 +53,7 @@
               <div class="accordion-inner">
                 <table>
                   <tr>
-                    <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all, :selected => 'Application' %></td>
+                    <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all %></td>
                   </tr>
                   <tr>
                     <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge'} %></td>
