@@ -914,3 +914,7 @@ en-gb:
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
   tablesorter_date_format: 'ddmmyyyy'
+  text_project_name: Used subproject
+  text_project_name_inverse: Subproject that are used
+  text_user_name: Associated users
+  text_group_name: Associated groups

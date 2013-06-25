@@ -190,7 +190,7 @@ class UsersController < ApplicationController
 
   def find_use_user
     @user = User.find(params[:user_id])
-    @relations = @user.projects
+    @related_projects = @user.projects
   end
 
   def about

@@ -913,4 +913,8 @@ fr:
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
   tablesorter_date_format: 'ddmmyyyy'
-
+  notice_no_organization_use_current_attribute: There is no organization that use "%{value}"
+  text_project_name: Used subproject
+  text_project_name_inverse: Subproject that are used
+  text_user_name: Associated users
+  text_group_name: Associated groups
