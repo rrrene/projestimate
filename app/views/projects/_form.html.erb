@@ -27,8 +27,8 @@
             <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
           </tr>
           <tr>
-            <td><%= f.label "#{I18n.t 'start_date'}" %>
-                <%= f.text_field :start_date, :class => 'date-picker input-large',  :value => I18n.l(@project.start_date, :format=>"%m/%d/%Y", :locale=>set_user_language)  %>
+            <td>
+                <%= f.input :start_date, :as => :string, :input_html => { :class => 'date-picker', :value => @project.start_date.nil? ? '' : I18n.l(@project.start_date) } %>
             </td>
 
             <script>
@@ -37,8 +37,7 @@
                         language: '<%= set_user_language %>',
                         autoclose: true,
                         todayHighlight: true,
-                        todayBtn: true,
-                        format: 'mm-dd-yyyy'
+                        todayBtn: true
                     });
                 });
             </script>

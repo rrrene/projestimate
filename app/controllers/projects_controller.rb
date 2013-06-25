@@ -176,6 +176,11 @@ class ProjectsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     if @project.update_attributes(params[:project])
+
+      date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+      @project.start_date = date
+      @project.save
+
       redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
       render(:edit)
