@@ -106,6 +106,7 @@ class UsersController < ApplicationController
 
     puts "current_tab = #{params[:current_tab]}"
     if @user.update_attributes(params[:user])
+      set_user_language
       redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
 
       #redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
@@ -195,7 +196,6 @@ class UsersController < ApplicationController
   def about
     set_page_title 'About'
     latest_record_version = Version.last.nil? ? Version.create(:comment => "No update data has been save") : Version.last
-
     @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
     @latest_local_update =  latest_record_version.local_latest_update
     Rails.cache.write('latest_update', @latest_local_update)
