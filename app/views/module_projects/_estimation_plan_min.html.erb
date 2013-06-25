@@ -20,7 +20,10 @@
             <% for x in 1..@module_positions_x.to_i do %>
               <td>
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
-                <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
+
+                <% if current_module_project %>
+                  <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
+                <% end %>
 
                 <% unless pmod.nil? %>
                   <div class="<%= select_pemodule %> module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
