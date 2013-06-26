@@ -95,6 +95,34 @@ class ProjectsController < ApplicationController
             redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
+          #Get the capitalization module
+          @capitalization_module = Pemodule.find_by_alias("capitalize")
+
+          #When creating project, we need to create module_projects for created capitalization
+          unless @capitalization_module.nil?
+            unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
+              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id)
+              if  cap_module_project.save
+                #Create the corresponding EstimationValues
+                @capitalization_module.attribute_modules.each do |am|
+                  ['input', 'output'].each do |in_out|
+                    mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                           :module_project_id => cap_module_project.id,
+                           :in_out => in_out,
+                           :is_mandatory => am.is_mandatory,
+                           :description => am.description,
+                           :display_order => am.display_order,
+                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                           :custom_attribute => am.custom_attribute,
+                           :project_value => am.project_value)
+                  end
+                end
+              end
+            end
+          end
+
           if current_user.groups.map(&:code_group).include? ('super_admin')
             current_user.project_ids = current_user.project_ids.push(@project.id)
             current_user.save
@@ -322,29 +350,29 @@ class ProjectsController < ApplicationController
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
             mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                                         :module_project_id => my_module_project.id,
-                                         :in_out => in_out,
-                                         :is_mandatory => am.is_mandatory,
-                                         :description => am.description,
-                                         :display_order => am.display_order,
-                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                                         :custom_attribute => am.custom_attribute,
-                                         :project_value => am.project_value)
+                     :module_project_id => my_module_project.id,
+                     :in_out => in_out,
+                     :is_mandatory => am.is_mandatory,
+                     :description => am.description,
+                     :display_order => am.display_order,
+                     :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                     :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                     :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                     :custom_attribute => am.custom_attribute,
+                     :project_value => am.project_value)
           end
         else
           mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                                       :module_project_id => my_module_project.id,
-                                       :in_out => am.in_out,
-                                       :is_mandatory => am.is_mandatory,
-                                       :display_order => am.display_order,
-                                       :description => am.description,
-                                       :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                                       :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                                       :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                                       :custom_attribute => am.custom_attribute,
-                                       :project_value => am.project_value)
+                     :module_project_id => my_module_project.id,
+                     :in_out => am.in_out,
+                     :is_mandatory => am.is_mandatory,
+                     :display_order => am.display_order,
+                     :description => am.description,
+                     :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                     :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                     :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                     :custom_attribute => am.custom_attribute,
+                     :project_value => am.project_value)
         end
       end
       #end
@@ -555,6 +583,12 @@ class ProjectsController < ApplicationController
     @result_hash = Hash.new
     inputs = Hash.new
 
+    #Capitalization module
+    #if current_user.organizations.include?(project.organization)
+    #  #pe_attributes
+    #end
+
+    #For others modules
     project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
       module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
@@ -563,7 +597,6 @@ class ProjectsController < ApplicationController
           else
             inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][module_project.id.to_s]
           end
-
         end
 
         current_pbs_project_elt = current_component
@@ -572,6 +605,7 @@ class ProjectsController < ApplicationController
         #Need to add input for pbs_project_element and module_project
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
         inputs['module_project_id'.to_sym] = module_project.id
+        inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
 
         # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
         cm = current_module.send(:new, inputs)
@@ -689,11 +723,6 @@ class ProjectsController < ApplicationController
        end
       end
     end
-
-
-
-
-
     #respond_to do |format|
     #  format.js { render :partial => 'projects/find_use' }
     #end

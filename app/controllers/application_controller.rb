@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
   helper_method :get_record_statuses
   helper_method :set_locale_from_browser
   helper_method :set_user_language
+  helper_method :capitalization_module
 
   before_filter :set_user_time_zone
   before_filter :set_user_language
@@ -47,6 +48,7 @@ class ApplicationController < ActionController::Base
   before_filter :previous_page
   before_filter :session_expiration
   before_filter :update_activity_time
+  before_filter :capitalization_module
 
   def session_expiration
     unless load_admin_setting("session_maximum_lifetime").nil? && load_admin_setting("session_inactivity_timeout").nil?
@@ -211,6 +213,15 @@ class ApplicationController < ActionController::Base
     else
       session[:module_project_id] = nil
       return nil
+    end
+  end
+
+  def capitalization_module
+    @capitalization_module ||= Pemodule.find_by_alias("capitalization")
+    begin
+      @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, current_project.id).first
+    rescue
+      @capitalization_module_project = nil
     end
 
   end

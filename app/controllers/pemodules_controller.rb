@@ -77,20 +77,20 @@ class PemodulesController < ApplicationController
     @pemodule.compliant_component_type = params[:compliant_wet]
 
     #if @pemodule.save#(:validate => false)
+    params[:pemodule][:alias] = params[:pemodule][:alias].downcase
     if @pemodule.update_attributes(params[:pemodule])
       flash[:notice] =  I18n.t (:notice_pemodule_successful_updated)
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
     end
-    #redirect_to redirect(edit_pemodule_path(@pemodule))
-    redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule, :anchor=>'tabs-1')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
-
-    #redirect_to redirect(pemodules_url)
+    redirect_to redirect(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    #redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule, :anchor=>'tabs-1')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
 
   def create
     @pemodule = Pemodule.new(params[:pemodule])
+    @pemodule.alias =  params[:pemodule][:alias].downcase
 
     @pemodule.compliant_component_type = params[:compliant_wet]
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
@@ -121,7 +121,12 @@ class PemodulesController < ApplicationController
 
     #Attribute module record_status is according to the Pemodule record_status
     attributes_ids.each do |g|
-      @pemodule.attribute_modules.create(:pe_attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
+      #For Capitalization module : all attributes are input/output (both)
+      if @pemodule.alias == "Capitalization"
+        @pemodule.attribute_modules.create(:pe_attribute_id => g, :in_out => "both", :record_status_id => @pemodule.record_status_id) unless g.blank?
+      else
+        @pemodule.attribute_modules.create(:pe_attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
+      end
     end
     @pemodule.pe_attributes(force_reload = true)
 
@@ -132,8 +137,8 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    #redirect_to edit_pemodule_path(params[:module_id], :anchor => 'tabs-2')
-    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    #redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
   #Update attribute settings (3th tabs)

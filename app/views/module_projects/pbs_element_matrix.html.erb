@@ -11,7 +11,7 @@
               <th style="text-align:center; min-width: 70px;">
                 <%= mp.pemodule.title %>
                 <p>
-                  (<%= @alphabetical[mp.position_x-1] %>;<%= mp.position_y %>)&nbsp;
+                  (<%= @alphabetical[mp.position_x.to_i-1] %>;<%= mp.position_y.to_i %>)&nbsp;
                   <%= link_to '', '', :id => "cols_select_all_#{mp.id}", 'data-mp_id' => mp.id, 'data-rows_or_cols' => 'cols', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
                 </p>
               </th>

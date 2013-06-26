@@ -20,11 +20,24 @@
 require 'capitalization/version'
 
 module Capitalization
-  attr_accessor :project_id, :pbs_project_element_id
 
-  # Output result
-  def get_capitalization_value(elem)
+  class Capitalization
+    attr_accessor :project_id, :pbs_project_element_id, :pe_attribute_alias, :module_input_data, :output_result
+
+    def initialize(module_input_data)
+      @module_input_data = module_input_data
+      puts "module_input_data = #{@module_input_data}"
+      @pe_attribute_alias = module_input_data[:pe_attribute_alias]
+
+      module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym].to_f
+      test = "get_#{@pe_attribute_alias}".to_sym
+
+      (class << self; self; end).class_eval do
+        define_method("get_#{module_input_data[:pe_attribute_alias]}".to_sym) do
+          @output_result
+        end
+      end
+    end
 
   end
-
 end
