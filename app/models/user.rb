@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
   has_many :change_on_activity_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
   has_many :change_on_attributes, :foreign_key => 'owner_id', :class_name => 'PeAttribute'
-  has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'PeAttributeModule'
+  has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'AttributeModule'
   has_many :change_on_currencies, :foreign_key => 'owner_id', :class_name => 'Currency'
   has_many :change_on_event_types, :foreign_key => 'owner_id', :class_name => 'EventType'
   has_many :change_on_labor_categories, :foreign_key => 'owner_id', :class_name => 'LaborCategory'
