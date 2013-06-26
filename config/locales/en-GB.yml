@@ -275,19 +275,15 @@ en-gb:
   change_comment: "Comment (explain and justify your change request)"
   record_status: "Status"
   custom_value: "Custom value (if status=custom)"
-  notice_no_module_use_current_attribute: "There is no module that use \"%{value}\" attribute"
-  notice_no_organization_use_current_attribute:  "There is no organization that use \"%{value}\" attribute"
-  text_modules_using_current_attribute: "List of modules that use \"%{value}\" attribute"
-  text_module_name: "Module name"
-  text_attribute_specification_in_current_module: "How attribute is used in current module"
+  notice_no_module_use_current_attribute: "There is no module using the \"%{value}\" attribute"
+  text_modules_using_current_attribute: "List of objects that use the \"%{value}\" attribute"
+  text_module_name: "Modules"
+  text_attribute_specification_in_current_module: "How attribute is used in this module"
   text_use_as: "Use as"
-  text_organization_name: "Organization name"
-  text_attribute_specification_in_current_organization: "How attribute is used in current organization"
-
-
+  text_organization_name: "Organisations"
+  text_attribute_specification_in_current_organization: "How attribute is used in current organisation"
 
   wbs_activity_elements: "WBS-Activity Elements"
-
 
   #CRUD
   save: "Save"
@@ -500,7 +496,7 @@ en-gb:
   #projects
   edit_project: "Edit project \"%{value}\" ..."
   new_project: "New project ..."
-  wbs_product: "WBS Product}"
+  wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
   button_add: "ADD"
@@ -749,11 +745,11 @@ en-gb:
   notice_master_settings_successful_deleted: "Master setting was successfully deleted."
   notice_module_project_successful_created: "Module project was successfully created."
   notice_module_project_successful_updated: "Module project was successfully updated."
-  notice_organization_labor_successful_created: "Organization labor category was successfully created."
-  notice_organization_labor_successful_updated: "Organization labor category was successfully updated."
-  notice_organization_successful_created: "Organization was successfully created."
-  notice_organization_successful_updated: "Organization was successfully updated."
-  notice_organization_successful_deleted: "Organization was successfully deleted."
+  notice_organization_labor_successful_created: "Organisation labor category was successfully created."
+  notice_organization_labor_successful_updated: "Organisation labor category was successfully updated."
+  notice_organization_successful_created: "Organisation was successfully created."
+  notice_organization_successful_updated: "Organisation was successfully updated."
+  notice_organization_successful_deleted: "Organisation was successfully deleted."
   warning_reset_password_expired: "Reset process expired."
   notice_password_successful_reset: "Your password has been reset successfully. A confirmation email have been sent."
   error_pbs_project_element_failed_update: "Please verify pbs_project_elements value"
@@ -849,6 +845,7 @@ en-gb:
   notice_module_project_successful_updated: "Module Project was successfully updated"
   notice_module_project_successful_created: "Module Project was successfully created"
   notice_attribute_module_successful_created: "Attribute module was successfully created."
+
   #mail
   mail_salutation: "Dear %{value},"
   mail_complimentary_close: "Sincerely,\nProjEstimate"
@@ -911,10 +908,11 @@ en-gb:
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
   label_environment: "Environment"
-  notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
+  notice_attribute_organization_successful_updated: "Organisational attribute was successfully updated."
   display_order: "Display order"
-  tablesorter_date_format: 'ddmmyyyy'
-  text_project_name: Used subproject
-  text_project_name_inverse: Subproject that are used
-  text_user_name: Associated users
-  text_group_name: Associated groups
+  tablesorter_date_format: "ddmmyyyy"
+  notice_no_organization_use_current_attribute: "There is no organisation using the \"%{value}\" attribute"
+  text_project_name: "Used subproject"
+  text_project_name_inverse: "Subproject that are used"
+  text_user_name: "Associated users"
+  text_group_name: "Associated groups"

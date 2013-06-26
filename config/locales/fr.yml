@@ -276,17 +276,14 @@ fr:
   record_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
   notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
-  text_modules_using_current_attribute: "Liste des modules qui utilisent l'attribut \"%{value}\" "
-  text_module_name: "Nom du module"
+  text_modules_using_current_attribute: "Liste des objets qui utilisent l'attribut \"%{value}\" "
+  text_module_name: "Modules"
   text_attribute_specification_in_current_module: "Caractéristiques de l'attribut dans le module"
   text_use_as: "Utilisé en"
-  text_organization_name: "Nom de l'organisation"
+  text_organization_name: "Organisations"
   text_attribute_specification_in_current_organization: "Caractéristiques de l'attribut dans l'organisation"
 
-
-
   wbs_activity_elements: "Eléments du WBS-Activités"
-
 
   #CRUD
   save: "Sauvegarder"
@@ -848,6 +845,7 @@ fr:
   notice_module_project_successful_updated: "Module Project a été mis à jour avec succès"
   notice_module_project_successful_created: "Module Project a été créé avec succès"
   notice_attribute_module_successful_created: "L'attribut du module a été créé avec succès"
+
   #mail
   mail_salutation: "Bonjour %{value},"
   mail_complimentary_close: "Bien à vous,\nProjEstimate"
@@ -912,9 +910,9 @@ fr:
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
-  tablesorter_date_format: 'ddmmyyyy'
-  notice_no_organization_use_current_attribute: There is no organization that use "%{value}"
-  text_project_name: Used subproject
-  text_project_name_inverse: Subproject that are used
-  text_user_name: Associated users
-  text_group_name: Associated groups
+  tablesorter_date_format: "ddmmyyyy"
+  notice_no_organization_use_current_attribute: "Il n'existe aucune organisation qui utilise l'attribut \"%{value}\""
+  text_project_name: "Sous-projet"
+  text_project_name_inverse: "Subproject that are used"
+  text_user_name: "Utilisateurs associés"
+  text_group_name: "Groupes associés"
