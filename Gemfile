@@ -55,9 +55,9 @@ gem 'cancan'
 gem 'ancestry'
 
 # Optional gem for LDAP authentication
-group :ldap do
+#group :ldap do
   gem 'net-ldap', '~> 0.3.1'
-end
+#end
 
 #Pagination library for Rails 3
 gem 'will_paginate'

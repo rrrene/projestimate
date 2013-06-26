@@ -278,6 +278,9 @@ de:
   text_module_name: "Module name"
   text_attribute_specification_in_current_module: "How attribute is used in current module"
   text_use_as: "Use as"
+  text_organization_name: "Organization name"
+  text_attribute_specification_in_current_organization: "How attribute is used in current organization"
+
 
 
 
@@ -911,5 +914,9 @@ de:
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
-  notice_successfully_deleted: "%{value} was successfully deleted"
-  tablesorter_date_format: "ddmmyyyy"
+  tablesorter_date_format: 'ddmmyyyy'
+  notice_no_organization_use_current_attribute: There is no organization that use "%{value}"
+  text_project_name: Used subproject
+  text_project_name_inverse: Subproject that are used
+  text_user_name: Associated users
+  text_group_name: Associated groups

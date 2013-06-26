@@ -53,12 +53,34 @@
               <div class="accordion-inner">
                 <table>
                   <tr>
-                    <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all, :selected => 'Application' %></td>
+                    <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all %></td>
                   </tr>
-                  <tr>
-                    <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge'} %></td>
-                    <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge'} %></td>
+                  <tr class="password_row">
+
+                      <% if @user.auth_method.name == "Application" %>
+                        <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled=>false} %></td>
+                        <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled=>false} %></td>
+                      <% else %>
+                        <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled=>true} %></td>
+                        <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled=>true} %></td>
+                      <% end %>
+
                   </tr>
+                  <script type="text/javascript">
+                      $(document).ready(function() {
+
+                          $('#user_auth_type').change(function() {
+                              if( $('.password_row input').is(':disabled'))
+                              {
+                                $('.password_row input').prop("disabled", false);
+                              }
+                              else
+                              {
+                                  $('.password_row input').prop("disabled", true);
+                              }
+                          });
+                      });
+                  </script>
                 </table>
               </div>
             </div>
