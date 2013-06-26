@@ -22,7 +22,6 @@ class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
-
   helper_method :sort_column
   helper_method :sort_direction
 
@@ -205,6 +204,11 @@ class ProjectsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     if @project.update_attributes(params[:project])
+
+      date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+      @project.start_date = date
+      @project.save
+
       redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
       render(:edit)
@@ -583,12 +587,6 @@ class ProjectsController < ApplicationController
     @result_hash = Hash.new
     inputs = Hash.new
 
-    #Capitalization module
-    #if current_user.organizations.include?(project.organization)
-    #  #pe_attributes
-    #end
-
-    #For others modules
     project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
       module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
@@ -709,24 +707,29 @@ class ProjectsController < ApplicationController
 
   def find_use_project
     @project = Project.find(params[:project_id])
+    @related_projects = Array.new
+    @related_projects_inverse = Array.new
+
     unless @project.nil?
-      @related_pe_wbs_project= @project.pe_wbs_projects.wbs_product
-
-      @related_pbs_projects = PbsProjectElement.find_all_by_pe_wbs_project_id(@related_pe_wbs_project)
-
-      @related_projects = []
-      unless @related_pbs_projects.empty?
-       @related_pbs_projects.each do |pbs|
-            unless pbs.project_link.nil?
-              @related_projects << Project.find_by_id(pbs.project_link)
-            end
-       end
+      related_pe_wbs_project = @project.pe_wbs_projects.products_wbs
+      related_pbs_projects = PbsProjectElement.where(:pe_wbs_project_id => related_pe_wbs_project)
+      unless related_pe_wbs_project.empty?
+        related_pbs_projects.each do |pbs|
+          unless pbs.project_link.nil? or pbs.project_link.blank?
+            p = Project.find_by_id(pbs.project_link)
+            @related_projects << p
+          end
+        end
       end
     end
-    #respond_to do |format|
-    #  format.js { render :partial => 'projects/find_use' }
-    #end
-   puts "toto"
+
+    related_pbs_project_elements = PbsProjectElement.where("project_link IN (?)",  [params[:project_id]]).all
+    related_pbs_project_elements.each do |i|
+      @related_projects_inverse << i.pe_wbs_project.project
+    end
+
+    @related_users = @project.users
+    @related_groups = @project.groups
   end
 
   def projects_global_params

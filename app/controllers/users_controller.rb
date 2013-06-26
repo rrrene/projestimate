@@ -95,6 +95,7 @@ class UsersController < ApplicationController
     params[:user][:project_ids] ||= []
     @user = User.find(params[:id])
 
+
     #Checking password length
     #user_pass_length = params[:user][:password].length
     #if !params[:user][:password].blank?
@@ -105,7 +106,12 @@ class UsersController < ApplicationController
     #end
 
     puts "current_tab = #{params[:current_tab]}"
+    if params[:user][:auth_type]!="Application"
+      params[:user].delete :password
+      params[:user].delete :password_confirmation
+    end
     if @user.update_attributes(params[:user])
+      set_user_language
       redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
 
       #redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
@@ -189,16 +195,12 @@ class UsersController < ApplicationController
 
   def find_use_user
     @user = User.find(params[:user_id])
-
-    respond_to do |format|
-      format.js { render :partial => 'users/find_use.js' }
-    end
+    @related_projects = @user.projects
   end
 
   def about
     set_page_title 'About'
     latest_record_version = Version.last.nil? ? Version.create(:comment => "No update data has been save") : Version.last
-
     @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
     @latest_local_update =  latest_record_version.local_latest_update
     Rails.cache.write('latest_update', @latest_local_update)

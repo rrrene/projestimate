@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
   has_many :change_on_activity_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
   has_many :change_on_attributes, :foreign_key => 'owner_id', :class_name => 'PeAttribute'
-  has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'PeAttributeModule'
+  has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'AttributeModule'
   has_many :change_on_currencies, :foreign_key => 'owner_id', :class_name => 'Currency'
   has_many :change_on_event_types, :foreign_key => 'owner_id', :class_name => 'EventType'
   has_many :change_on_labor_categories, :foreign_key => 'owner_id', :class_name => 'LaborCategory'
@@ -70,8 +70,8 @@ class User < ActiveRecord::Base
   validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
   validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i}, :uniqueness => {case_sensitive: false}
 
-  validates :password, :presence => {:on => :create}, :confirmation => true
-  validates :password_confirmation, :presence => {:on => :create}
+  validates :password, :presence => {:on => :create}, :confirmation => true, :if => 'auth_method_application'
+  validates :password_confirmation, :presence => {:on => :create}, :if => 'auth_method_application'
   validate :password_length, :on => :create, :if => 'password.present?'
 
   #AASM
@@ -105,6 +105,10 @@ class User < ActiveRecord::Base
   scope :exists, lambda { |login|
     where('email >= ? OR login_name < ?', login, login)
   }
+
+  def auth_method_application
+     self.auth_method.name=="Application"
+  end
 
   #Check password minimum length value
   def password_length
@@ -266,7 +270,12 @@ class User < ActiveRecord::Base
   end
 
   def locale
-    self.language.locale.downcase
+    begin
+      self.language.locale.downcase
+    rescue
+      :en
+    end
+
   end
 
 end

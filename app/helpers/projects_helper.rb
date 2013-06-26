@@ -140,7 +140,7 @@ module ProjectsHelper
       wbs_project_elt_consistency = (pbs_probable_for_consistency.nil? || pbs_probable_for_consistency[wbs_project_elt.id].nil?) ? false : pbs_probable_for_consistency[wbs_project_elt.id][:is_consistent]
       show_consistency_class = nil
       unless wbs_project_elt_consistency || module_project.pemodule.alias == "effort_breakdown"
-        show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title='<strong>#{I18n.t(:warning_caution)}</strong> </br>  #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)}'></span>"
+        show_consistency_class = "<span class='icon-warning-sign not_consistent attribute_tooltip' title='<strong>#{I18n.t(:warning_caution)}</strong> </br>  #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)}'></span>"
       end
 
       #For wbs-activity-completion node consistency
@@ -156,10 +156,10 @@ module ProjectsHelper
             current_wbs_consistency = current_wbs_consistency && current_wbs_consistency_level
             if !!current_wbs_consistency == false
               if show_consistency_class.nil?
-                completion_consistency = "icon-warning-sign not_consistent_class attribute_tooltip"
+                completion_consistency = "icon-warning-sign not_consistent attribute_tooltip"
                 title = I18n.t(:warning_caution) + " : " + I18n.t(:warning_wbs_not_consistent)
               else
-                show_consistency_class = "<span class='icon-warning-sign not_consistent_class attribute_tooltip' title=' <strong>#{I18n.t(:warning_caution)}</strong> </br> * #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)} </br> * #{I18n.t(:warning_wbs_not_consistent)}'></span>"
+                show_consistency_class = "<span class='icon-warning-sign not_consistent attribute_tooltip' title=' <strong>#{I18n.t(:warning_caution)}</strong> </br> * #{I18n.t(:warning_wbs_not_complete, :value => wbs_project_elt.name)} </br> * #{I18n.t(:warning_wbs_not_consistent)}'></span>"
               end
 
               break

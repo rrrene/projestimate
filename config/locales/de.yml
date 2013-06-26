@@ -267,23 +267,23 @@ de:
   services: "Services"
   about: "About"
 
+
+
   #attributes
   name: "Name"
   description: "Description"
   change_comment: "Comment (explain and justify your change request)"
   record_status: "Status"
   custom_value: "Custom value (if status=custom)"
-  notice_no_module_use_current_attribute: "There is no module that use \"%{value}\" attribute"
-  text_modules_using_current_attribute: "List of modules that use \"%{value}\" attribute"
-  text_module_name: "Module name"
-  text_attribute_specification_in_current_module: "How attribute is used in current module"
+  notice_no_module_use_current_attribute: "There is no module using the \"%{value}\" attribute"
+  text_modules_using_current_attribute: "List of objects that use the \"%{value}\" attribute"
+  text_module_name: "Modules"
+  text_attribute_specification_in_current_module: "How attribute is used in this module"
   text_use_as: "Use as"
-
-
-
+  text_organization_name: "Organizations"
+  text_attribute_specification_in_current_organization: "How attribute is used in current organization"
 
   wbs_activity_elements: "WBS-Activity Elements"
-
 
   #CRUD
   save: "Save"
@@ -683,7 +683,6 @@ de:
           yes_for_input_output_with_ratio: 'Yes for input/output with ratio'
           yes_for_input_output_without_ratio: 'Yes for input/output without ratio'
 
-
   #Error, warning, notice messages
   warning_wbs_activity_ratio_elt_value_range: "Please, enter value between ]0 - 100]"
   text_master_force_edit: "We don't provide any workflow to modify this table, if you continue you will be editing the 'defined' record itself. Please confirm you accept to continue"
@@ -911,4 +910,9 @@ de:
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
-  notice_successfully_deleted: "%{value} was successfully deleted"
+  tablesorter_date_format: "ddmmyyyy"
+  notice_no_organization_use_current_attribute: "There is no organization using the \"%{value}\" attribute"
+  text_project_name: "Used subproject"
+  text_project_name_inverse: "Subproject that are used"
+  text_user_name: "Associated users"
+  text_group_name: "Associated groups"

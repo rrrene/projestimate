@@ -17,21 +17,27 @@
         <% for y in 1..@module_positions do %>
           <tr>
             <td class="line_number">
-                <h6 class="text-center"><%= y %></h6>
+              <h6 class="text-center"><%= y %></h6>
             </td>
 
             <% for x in 1..@module_positions_x.to_i do %>
               <td>
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
+                <% unless current_module_project.nil? or pmod.nil? %>
+                  <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
+                <% end %>
+
                 <% unless pmod.nil? %>
-                  <div class=" module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
+                  <div class="<%= select_pemodule %> module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
                     <%= link_to pmod.pemodule.title, activate_module_project_path(pmod) %>
                     <%= link_to ' ', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
                   </div>
-
                   <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>
                 <% end %>
+
+                <% select_pemodule = '' %>
+
               </td>
             <% end %>
           </tr>
