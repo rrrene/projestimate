@@ -21,7 +21,7 @@
               <td>
                 <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
 
-                <% unless current_module_project.nil? %>
+                <% unless current_module_project.nil? or pmod.nil? %>
                   <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
                 <% end %>
 
