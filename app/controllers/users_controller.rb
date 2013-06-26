@@ -95,6 +95,7 @@ class UsersController < ApplicationController
     params[:user][:project_ids] ||= []
     @user = User.find(params[:id])
 
+
     #Checking password length
     #user_pass_length = params[:user][:password].length
     #if !params[:user][:password].blank?
@@ -105,6 +106,10 @@ class UsersController < ApplicationController
     #end
 
     puts "current_tab = #{params[:current_tab]}"
+    if params[:user][:auth_type]!="Application"
+      params[:user].delete :password
+      params[:user].delete :password_confirmation
+    end
     if @user.update_attributes(params[:user])
       set_user_language
       redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
