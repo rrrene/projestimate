@@ -148,21 +148,14 @@ class PemodulesController < ApplicationController
     selected_attributes.each_with_index do |attr, i|
       conditions = {:pe_attribute_id => attr.to_i, :pemodule_id => params[:module_id]}
       attribute = AttributeModule.first(:conditions => conditions)
-      attribute.update_attribute('in_out', params[:in_out][i])
-      attribute.update_attribute('is_mandatory', params[:is_mandatory][i])
-      attribute.update_attribute('display_order', params[:display_order][i])
-      attribute.update_attribute('description', params[:description][i])
-      attribute.update_attribute('custom_attribute', params[:custom_attribute][i])
-
-      attribute.update_attribute('default_low', params[:default_low][i])
-      attribute.update_attribute('default_most_likely', params[:default_most_likely][i])
-      attribute.update_attribute('default_high', params[:default_high][i])
-
-      if params[:custom_attribute][i] == 'user'
-        attribute.update_attribute('project_value', nil)
-      else
-        attribute.update_attribute('project_value', params[:project_value][i])
+      project_value = nil
+      unless params[:custom_attribute][i] == 'user'
+        project_value = params[:project_value][i]
       end
+
+      attribute.update_attributes(:in_out =>  params[:in_out][i], :is_mandatory => params[:is_mandatory][i], :display_order => params[:display_order][i],
+                                  :description => params[:description][i], :custom_attribute => params[:custom_attribute][i], :default_low =>  params[:default_low][i],
+                                  :default_most_likely =>  params[:default_most_likely][i], :default_high =>  params[:default_high][i], :project_value => project_value)
     end
 
     redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
