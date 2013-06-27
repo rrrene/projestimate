@@ -4,7 +4,7 @@ class AttributeOrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:organization_id])
     #Get the Capitalization module
-    @capitalization_module = Pemodule.find_by_alias("capitalize")
+    @capitalization_module = Pemodule.find_by_alias("capitalization")
 
     attributes_ids = params[:organization][:pe_attribute_ids]
     puts "Attribute_ids_1 = #{attributes_ids}"
