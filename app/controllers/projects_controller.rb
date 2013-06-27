@@ -95,12 +95,12 @@ class ProjectsController < ApplicationController
           end
 
           #Get the capitalization module
-          @capitalization_module = Pemodule.find_by_alias("capitalize")
+          @capitalization_module = Pemodule.find_by_alias("capitalization")
 
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
             unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
-              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id)
+              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
               if  cap_module_project.save
                 #Create the corresponding EstimationValues
                 @capitalization_module.attribute_modules.each do |am|

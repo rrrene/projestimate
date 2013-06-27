@@ -719,3 +719,15 @@ input[type="color"],
 .not_consistent{
     color: #ff0000;
 }
+
+/* override the font-awesome.css*/
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('fontawesome-webfont.eot');
+    src: url('fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fontawesome-webfont.woff') format('woff'),
+         url('fontawesome-webfont.ttf') format('truetype'),
+         url('fontawesome-webfont.svg#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

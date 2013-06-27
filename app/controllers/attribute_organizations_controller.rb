@@ -3,6 +3,8 @@ class AttributeOrganizationsController < ApplicationController
   def update_selected_attribute_organizations
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:organization_id])
+    #Get the Capitalization module
+    @capitalization_module = Pemodule.find_by_alias("capitalization")
     # Get the Capitalization module. It is set in the ApplicationController : @capitalization_module = Pemodule.find_by_alias("capitalize")
 
     attributes_ids = params[:organization][:pe_attribute_ids]
