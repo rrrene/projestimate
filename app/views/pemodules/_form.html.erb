@@ -102,6 +102,7 @@
       <div id="tabs-3">
         <%= form_tag('/set_attributes_module', :method => 'POST', :class => 'simple_form') do -%>
             <%= hidden_field_tag :current_tab, '', :class => 'current_tab' %>
+            <%= hidden_field_tag 'pemodule[pe_attribute_ids][]' %>
 
             <script>
                 $(document).ready(function () {

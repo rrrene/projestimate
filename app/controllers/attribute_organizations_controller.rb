@@ -3,36 +3,26 @@ class AttributeOrganizationsController < ApplicationController
   def update_selected_attribute_organizations
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:organization_id])
-    #Get the Capitalization module
-    @capitalization_module = Pemodule.find_by_alias("capitalize")
+    # Get the Capitalization module. It is set in the ApplicationController : @capitalization_module = Pemodule.find_by_alias("capitalize")
 
     attributes_ids = params[:organization][:pe_attribute_ids]
-    puts "Attribute_ids_1 = #{attributes_ids}"
 
     @organization.attribute_organizations.each do |m|
       m.destroy unless attributes_ids.include?(m.pe_attribute_id.to_s)
       attributes_ids.delete(m.pe_attribute_id.to_s)
     end
 
-    puts "Attribute_ids_2 = #{attributes_ids}"
-
     attributes_ids.each do |g|
       @organization.attribute_organizations.create(:pe_attribute_id => g.to_i) unless g.blank?
     end
     @organization.pe_attributes(force_reload = true)
 
-    puts "Attribute_ids_3 = #{attributes_ids}"
 
     if @organization.save
       unless @capitalization_module.nil?
         organization_attributes = @organization.pe_attribute_ids
-        #puts "Organization_attributes = #{organization_attributes}"
-
         capitalization_attributes = @capitalization_module.pe_attribute_ids
-        #puts "Capitalization_attributes = #{capitalization_attributes}"
-
         non_selected_attribute_ids =  capitalization_attributes - organization_attributes
-        #puts "Non_selected_attribute_ids = #{non_selected_attribute_ids}"
 
         unless non_selected_attribute_ids.empty?
           non_selected_attribute_ids.each do |id_to_delete|

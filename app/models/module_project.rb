@@ -24,6 +24,7 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :reference_value
 
   has_many :estimation_values, :dependent => :destroy
+
   has_and_belongs_to_many :pbs_project_elements
 
   has_and_belongs_to_many :associated_module_projects, :class_name => "ModuleProject",
