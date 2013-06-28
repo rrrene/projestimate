@@ -62,11 +62,11 @@ class GroupsController < ApplicationController
       if @group.is_local_record?
         @group.record_status = @local_status
         @enable_update_in_local = true
-        ##flash[:notice] = "testons"
+        ##flash[:notice] = "testing"
       else
         @enable_update_in_local = false
-      #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
-      #  redirect_to redirect(groups_path)
+        #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
+        #  redirect_to redirect(groups_path)
       end
     end
 
@@ -107,7 +107,9 @@ class GroupsController < ApplicationController
       @group = current_group
     end
 
-    unless is_master_instance?
+    if is_master_instance?
+      @enable_update_in_local = true
+    else
       if @group.is_local_record?
         @enable_update_in_local = true
         @group.custom_value = 'Locally edited'
@@ -137,7 +139,7 @@ class GroupsController < ApplicationController
         @group.destroy
       else
         flash[:error] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect(groups_path)  and return
+        redirect_to redirect(groups_path) and return
       end
     end
 
@@ -163,7 +165,6 @@ class GroupsController < ApplicationController
       end
     end
   end
-
 
 
   def associated_users

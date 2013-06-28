@@ -87,7 +87,7 @@
                   <% @pemodule.pe_attributes.include?(attr) ? module_attr=@pemodule.attribute_modules.where('pe_attribute_id=?', attr).first : module_attr=nil %>
                   <tr class="<%= cycle('even', 'odd') %>">
                     <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(attr, module_attr)) unless attr.nil? %></td>
-                    <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
+                    <td><%= check_box_tag 'pemodule[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id), :disabled => @pemodule == @capitalization_module %>
                     <td><%= attr.description %></td>
                   </tr>
               <% end %>
@@ -102,6 +102,7 @@
       <div id="tabs-3">
         <%= form_tag('/set_attributes_module', :method => 'POST', :class => 'simple_form') do -%>
             <%= hidden_field_tag :current_tab, '', :class => 'current_tab' %>
+            <%= hidden_field_tag 'pemodule[pe_attribute_ids][]' %>
 
             <script>
                 $(document).ready(function () {
