@@ -60,8 +60,7 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
-    }
+    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @attributes = PeAttribute.all
 
     @pemodule = nil
