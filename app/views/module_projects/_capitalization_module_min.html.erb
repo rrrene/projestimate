@@ -1,10 +1,10 @@
 <% unless @capitalization_module_project.nil? %>
   <tr>
     <td class="line_number">
-      <h4 class="text-center">0</h4>
+      <h6 class="text-center">0</h6>
     </td>
     <td colspan="<%= @module_positions_x %>">
-      <div class="<%=  %> module_project <%= "#{@capitalization_module.alias}_#{@capitalization_module_project.position_x}_#{@capitalization_module_project.position_y}" %> text-center">
+      <div class="<%=  %> module_project_min <%= "#{@capitalization_module.alias}_#{@capitalization_module_project.position_x}_#{@capitalization_module_project.position_y}" %> text-center">
         <%= link_to @capitalization_module.title, "#" %>
 
         <% unless @project.locked? %>
