@@ -70,6 +70,11 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
 
+    if @project.start_date.nil? or @project.start_date.blank?
+      @project.start_date = Time.now.to_date
+      @project.save
+    end
+
     begin
       @project.transaction do
         if @project.save
@@ -205,8 +210,13 @@ class ProjectsController < ApplicationController
 
     if @project.update_attributes(params[:project])
 
-      date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
-      @project.start_date = date
+      begin
+        date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+        @project.start_date = date
+      rescue
+        @project.start_date = Time.now.to_date
+      end
+
       @project.save
 
       redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_updated)}"
