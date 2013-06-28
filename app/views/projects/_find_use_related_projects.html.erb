@@ -1,5 +1,6 @@
 <% if @related_projects.nil? || @related_projects.empty? %>
-  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_no_module_use_current_attribute, :value => @project)}" %></div><br>
+  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_project_finduse_no_project, :value => @project)}" %> </div><br>
+
 <% else %>
   <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
     <tr>
@@ -17,7 +18,7 @@
 
 <% if @related_projects_inverse.nil? || @related_projects_inverse.empty? %>
   <div class="alert alert-info" colspan="2">
-    <%=raw "#{I18n.t(:notice_no_module_use_current_attribute, :value => @project)}" %>
+    <%=raw "#{I18n.t(:notice_project_finduse_no_parent_project, :value => @project)}" %>
   </div>
   <br>
 <% else %>
@@ -36,7 +37,7 @@
 <% end %>
 
 <% if @related_users.empty? %>
-  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_no_organization_use_current_attribute, :value => @project)}" %></div>  <br>
+  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_project_finduse_no_user, :value => @project)}" %></div>  <br>
 <% else %>
   <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
     <tr>
@@ -53,7 +54,7 @@
 <% end %>
 
 <% if @related_groups.empty? %>
-  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_no_organization_use_current_attribute, :value => @project)}" %></div> <br>
+  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_project_finduse_no_group, :value => @project)}" %></div> <br>
 <% else %>
   <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
     <tr>
@@ -68,4 +69,3 @@
     <% end %>
   </table>
 <% end %>
-

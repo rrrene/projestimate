@@ -292,4 +292,9 @@ class PemodulesController < ApplicationController
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
+  def find_use_pemodule
+    @pemodule = Pemodule.find(params[:pemodule_id])
+    @related_projects = ModuleProject.find_all_by_pemodule_id(@pemodule.id)
+  end
+
 end
