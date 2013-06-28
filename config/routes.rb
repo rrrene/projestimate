@@ -126,6 +126,7 @@ Projestimate::Application.routes.draw do
   get 'update_selected_attributes' => 'pemodules#update_selected_attributes'
   post 'set_attributes_module' => 'pemodules#set_attributes_module'
   get 'estimations_params' => 'pemodules#estimations_params', :as => 'estimations_params'
+  get 'find_use_pemodule' => 'pemodules#find_use_pemodule', :as => 'find_use_pemodule'
 
   resources :groups
   get 'associated_user' => 'groups#associated_user', :as => 'associated_user'

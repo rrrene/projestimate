@@ -1,9 +1,10 @@
 <% if @related_projects.nil? || @related_projects.empty? %>
-  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_no_module_use_current_attribute, :value => @project)}" %></div>
+  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_user_finduse_no_project, :value => @user)}" %></div>
+    <br>
 <% else %>
   <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
     <tr>
-      <th><%= I18n.t(:text_project_name) %></th>
+      <th><%= I18n.t(:text_associated_project) %></th>
     </tr>
     <% @related_projects.each do |project| %>
       <tr>
