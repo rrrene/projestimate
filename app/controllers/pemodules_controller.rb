@@ -83,7 +83,6 @@ class PemodulesController < ApplicationController
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
     end
     redirect_to redirect(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
-    #redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule, :anchor=>'tabs-1')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
 
@@ -140,6 +139,7 @@ class PemodulesController < ApplicationController
     #redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
+
   #Update attribute settings (3th tabs)
   def set_attributes_module
     authorize! :manage_modules, Pemodule
@@ -149,7 +149,7 @@ class PemodulesController < ApplicationController
     selected_attributes = params[:attributes]
     selected_attributes.each_with_index do |attr, i|
       conditions = {:pe_attribute_id => attr.to_i, :pemodule_id => params[:module_id]}
-      attribute = AttributeModule.first(:conditions => conditions)
+      attribute_module = AttributeModule.first(:conditions => conditions)
 
 
       project_value = nil
@@ -157,7 +157,7 @@ class PemodulesController < ApplicationController
         project_value = params[:project_value][i]
       end
 
-      attribute.update_attributes(:in_out =>  params[:in_out][i], :is_mandatory => params[:is_mandatory][i], :display_order => params[:display_order][i],
+      attribute_module.update_attributes(:in_out =>  params[:in_out][i], :is_mandatory => params[:is_mandatory][i], :display_order => params[:display_order][i],
                                   :description => params[:description][i], :custom_attribute => params[:custom_attribute][i], :default_low =>  params[:default_low][i],
                                   :default_most_likely =>  params[:default_most_likely][i], :default_high =>  params[:default_high][i], :project_value => project_value)
     end
