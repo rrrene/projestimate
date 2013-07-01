@@ -119,8 +119,17 @@ class ModuleProjectsController < ApplicationController
     #re-set positions
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    position_x = @module_project.position_x
+
     #...finally, destroy object module_project
     @module_project.destroy
+
+    #Update column module_projects link with capitalization module
+    unless @capitalization_module_project.nil?
+      mp = @project.module_projects.where("position_x = ?", position_x).order("position_y ASC").first
+      mp.update_attribute('associated_module_project_ids', @capitalization_module_project.id) unless mp.nil?
+    end
+  else
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
