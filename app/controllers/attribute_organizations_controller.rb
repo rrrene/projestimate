@@ -43,13 +43,13 @@ class AttributeOrganizationsController < ApplicationController
                        :module_project_id => module_project.id,
                        :in_out => in_out,
                        :is_mandatory => attr_org.is_mandatory,
-                       :description => attr_org.description,
-                       :display_order => attr_org.display_order,
-                       :string_data_low => {:pe_attribute_name => attr_org.pe_attribute.name, :default_low => attr_org.default_low},
-                       :string_data_most_likely => {:pe_attribute_name => attr_org.pe_attribute.name, :default_most_likely => attr_org.default_most_likely},
-                       :string_data_high => {:pe_attribute_name => attr_org.pe_attribute.name, :default_high => attr_org.default_high},
-                       :custom_attribute => attr_org.custom_attribute,
-                       :project_value => attr_org.project_value)
+                       :description => attr_org.pe_attribute.description,
+                       #:display_order => attr_org.display_order,
+                       :string_data_low => {:pe_attribute_name => attr_org.pe_attribute.name, :default_low => ""},
+                       :string_data_most_likely => {:pe_attribute_name => attr_org.pe_attribute.name, :default_most_likely => ""},
+                       :string_data_high => {:pe_attribute_name => attr_org.pe_attribute.name, :default_high => ""})
+                       #:custom_attribute => attr_org.custom_attribute,
+                       #:project_value => attr_org.project_value)
             end
           end
         end

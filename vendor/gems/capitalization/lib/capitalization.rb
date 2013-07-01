@@ -29,12 +29,13 @@ module Capitalization
       puts "module_input_data = #{@module_input_data}"
       @pe_attribute_alias = module_input_data[:pe_attribute_alias]
 
-      module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym].to_f
+      module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym]
       test = "get_#{@pe_attribute_alias}".to_sym
 
       (class << self; self; end).class_eval do
         define_method("get_#{module_input_data[:pe_attribute_alias]}".to_sym) do
           @output_result
+          puts "test"
         end
       end
     end
