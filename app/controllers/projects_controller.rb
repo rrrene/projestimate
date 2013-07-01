@@ -339,6 +339,7 @@ class ProjectsController < ApplicationController
   #Allow o add or append a pemodule to a estimation process
   def append_pemodule
     @project = Project.find(params[:project_id])
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
@@ -395,8 +396,7 @@ class ProjectsController < ApplicationController
 
       #Link capitalization module to other modules
       unless @capitalization_module.nil?
-        capitalization_mod_proj = @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
-        my_module_project.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless capitalization_mod_proj.nil?
+        my_module_project.update_attribute('associated_module_project_ids', @capitalization_module_project.id) unless @capitalization_module_project.nil?
       end
     end
   end

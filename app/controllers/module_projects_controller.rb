@@ -28,6 +28,7 @@ class ModuleProjectsController < ApplicationController
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
   end
 
   def associate
@@ -51,6 +52,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
     @module_projects = @project.module_projects
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @module_projects.find_by_pemodule_id(@capitalization_module.id)
     @references_values = ReferenceValue.all
 
     # Get the max X and Y positions of modules
@@ -85,6 +87,7 @@ class ModuleProjectsController < ApplicationController
     # Get the project's max X and Y positions of modules
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
@@ -115,7 +118,7 @@ class ModuleProjectsController < ApplicationController
 
     #re-set positions
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
     #...finally, destroy object module_project
     @module_project.destroy
 
