@@ -39,7 +39,6 @@ module Capitalization
 
       (class << self; self; end).class_eval do
         define_method("get_#{module_input_data[:pe_attribute_alias]}".to_sym) do
-          puts "OUTPUT_RESULT = #{@output_result}"
           @output_result
         end
       end
