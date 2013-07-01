@@ -219,12 +219,6 @@ class ApplicationController < ActionController::Base
 
   def capitalization_module
     @capitalization_module ||= Pemodule.find_by_alias("capitalization")
-    begin
-      @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, current_project.id).first
-    rescue
-      @capitalization_module_project = nil
-    end
-
   end
 
   def load_master_setting(args)

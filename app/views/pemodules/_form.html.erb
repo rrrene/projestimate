@@ -1,8 +1,8 @@
 <div class="tabs">
 
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:project_global_parameters) %></a></li>
-    <% unless @pemodule.is_typed %>
+    <li><a href="#tabs-1"><%= I18n.t(:pemodule_global_parameters) %></a></li>
+    <% unless @pemodule.is_typed || @pemodule.alias.eql?(@capitalization_module.alias) %>
         <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %></a></li>
         <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %></a></li>
     <% end %>
@@ -69,7 +69,7 @@
     <% end -%>
   </div>
 
-  <% unless @pemodule.is_typed %>
+  <% unless @pemodule.is_typed || @pemodule.alias.eql?(@capitalization_module.alias) %>
 
       <div id="tabs-2">
         <%= form_tag('/update_selected_attributes', :method => 'get', :class => 'simple_form') do -%>

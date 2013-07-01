@@ -253,6 +253,7 @@ fr:
 
   master: "Paramètres master"
   project_global_parameters: "Paramètres projets"
+  pemodule_global_parameters: "Paramètres modules"
   pe_attributes: "Attributs"
   labor_categories: "Travailleurs"
   projestimate_module: "Modules"

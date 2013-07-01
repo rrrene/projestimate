@@ -157,42 +157,10 @@ class PemodulesController < ApplicationController
         project_value = params[:project_value][i]
       end
 
-      attribute_module.update_attributes(:in_out =>  params[:in_out][i], :is_mandatory => params[:is_mandatory][i], :display_order => params[:display_order][i],
+      attribute_module.update_attributes(:in_out => params[:in_out][i], :is_mandatory => params[:is_mandatory][i], :display_order => params[:display_order][i],
                                   :description => params[:description][i], :custom_attribute => params[:custom_attribute][i], :default_low =>  params[:default_low][i],
                                   :default_most_likely =>  params[:default_most_likely][i], :default_high =>  params[:default_high][i], :project_value => project_value)
     end
-
-
-    #If new Attributes are added or deleted : the Estimation_value table need to be updated
-    #my_module_project.pemodule.attribute_modules.each do |am|
-    #  if am.in_out == 'both'
-    #    ['input', 'output'].each do |in_out|
-    #      mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-    #                                   :module_project_id => my_module_project.id,
-    #                                   :in_out => in_out,
-    #                                   :is_mandatory => am.is_mandatory,
-    #                                   :description => am.description,
-    #                                   :display_order => am.display_order,
-    #                                   :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-    #                                   :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-    #                                   :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-    #                                   :custom_attribute => am.custom_attribute,
-    #                                   :project_value => am.project_value)
-    #    end
-    #  else
-    #    mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-    #                                 :module_project_id => my_module_project.id,
-    #                                 :in_out => am.in_out,
-    #                                 :is_mandatory => am.is_mandatory,
-    #                                 :display_order => am.display_order,
-    #                                 :description => am.description,
-    #                                 :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-    #                                 :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-    #                                 :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-    #                                 :custom_attribute => am.custom_attribute,
-    #                                 :project_value => am.project_value)
-    #  end
-    #end
 
     redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
@@ -218,6 +186,33 @@ class PemodulesController < ApplicationController
 
   #TODO: ####################  Move functions to module_projects_controller ####################
 
+  def update_link_between_modules(project, module_project, last_position_x=nil)
+    return if @capitalization_module.nil?
+    capitalization_mod_proj = project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    unless capitalization_mod_proj.nil?
+      #We have to get first module in each col
+      if last_position_x.nil?
+        mp = project.module_projects.where("position_x = ?", module_project.position_x).order("position_y ASC").first
+        mp.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless mp.nil?
+      else
+        positions_x = [last_position_x, module_project.position_x]
+        positions_x.each do |pos_x|
+          mps = project.module_projects.where("position_x = ?", pos_x).order("position_y ASC")
+          mps.each do |mp|
+            #Delete association for the Capitalization module
+            #cap_associated_mp = mp.associated_module_projects.where("associated_module_project_id = ?", capitalization_mod_proj.id)
+            #cap_associated_mp.destroy
+            ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{mp.id} AND associated_module_project_id = #{capitalization_mod_proj.id}")
+          end
+
+          first_mp = mps.first
+          first_mp.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless first_mp.nil?
+        end
+      end
+
+    end
+  end
+
   def pemodules_up
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
@@ -230,8 +225,11 @@ class PemodulesController < ApplicationController
       @project_module.update_attribute('position_y', @project_module.position_y.to_i - 1)
 
       #Remove existing links between modules (for impacted modules only)
-      ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
+      ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id}")
     end
+
+    #Update column module_projects link with capitalization module
+    update_link_between_modules(@project, @project_module)
 
     @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
@@ -254,6 +252,9 @@ class PemodulesController < ApplicationController
     #Remove existing links between modules (for impacted modules only)
     ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id} ")
 
+    #Update column module_projects link with capitalization module
+    update_link_between_modules(@project, @project_module)
+
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
@@ -261,6 +262,7 @@ class PemodulesController < ApplicationController
   def pemodules_left
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
+    last_position_x = nil
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     if @project_module.position_x.to_i > 1
@@ -268,9 +270,13 @@ class PemodulesController < ApplicationController
       if current_pmodule
         current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
       end
+      last_position_x = @project_module.position_x
 
       @project_module.update_attribute('position_x', @project_module.position_x.to_i - 1 )
     end
+
+    update_link_between_modules(@project, @project_module, last_position_x)
+
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
@@ -278,6 +284,7 @@ class PemodulesController < ApplicationController
   def pemodules_right
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
+    last_position_x = nil
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
 
@@ -285,8 +292,11 @@ class PemodulesController < ApplicationController
     if current_pmodule
       current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
     end
+    last_position_x = @project_module.position_x
 
     @project_module.update_attribute('position_x', @project_module.position_x.to_i + 1 )
+
+    update_link_between_modules(@project, @project_module, last_position_x)
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
