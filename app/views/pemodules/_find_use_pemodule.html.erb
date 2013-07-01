@@ -1,0 +1,16 @@
+<% if @related_projects.nil? || @related_projects.empty? %>
+    <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_pemodule_finduse_no_project, :value => @pemodule)}" %></div><br>
+<% else %>
+    <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
+      <tr>
+        <th><%= I18n.t(:text_associated_project) %></th>
+      </tr>
+      <% @related_projects.each do |module_project| %>
+          <tr>
+            <td>
+              <span class='attribute_tooltip' title="<%= module_project.project.description %>"><%= raw link_to("#{module_project.project.title}", edit_project_path(module_project.project)) %> </span>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>

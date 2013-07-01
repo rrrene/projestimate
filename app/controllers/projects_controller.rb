@@ -70,6 +70,11 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
 
+    if @project.start_date.nil? or @project.start_date.blank?
+      @project.start_date = Time.now.to_date
+      @project.save
+    end
+
     begin
       @project.transaction do
         if @project.save
@@ -209,8 +214,13 @@ class ProjectsController < ApplicationController
 
     if @project.update_attributes(params[:project])
 
-      date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
-      @project.start_date = date
+      begin
+        date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+        @project.start_date = date
+      rescue
+        @project.start_date = Time.now.to_date
+      end
+
       @project.save
 
       redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_updated)}"
@@ -405,16 +415,14 @@ class ProjectsController < ApplicationController
   #Run estimation process
   def run_estimation
     @result = Array.new
-    results = Hash.new
     @module_projects = current_project.module_projects
     @project = current_project
     @pbs_project_element = current_component
+    @results = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
-      results[level.to_sym] = run_estimation_plan(params, level, @project)
+      @results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
-
-    @results = results
 
     #Save output values: only for current pbs_project_element
     @project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
