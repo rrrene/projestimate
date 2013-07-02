@@ -212,8 +212,8 @@ class ApplicationController < ActionController::Base
       session[:module_project_id].nil? ?
           nil : ModuleProject.find(session[:module_project_id])
     else
-      session[:module_project_id] = nil
-      return nil
+      session[:module_project_id] = capitalization_module.id
+      capitalization_module.id
     end
   end
 
