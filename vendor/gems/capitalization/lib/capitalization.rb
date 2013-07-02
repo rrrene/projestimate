@@ -18,6 +18,7 @@
 #
 ########################################################################
 require 'capitalization/version'
+require 'date'
 
 module Capitalization
 
@@ -29,8 +30,12 @@ module Capitalization
       puts "module_input_data = #{@module_input_data}"
       @pe_attribute_alias = module_input_data[:pe_attribute_alias]
 
-      module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym].to_f
-      test = "get_#{@pe_attribute_alias}".to_sym
+      module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym]
+      if @output_result.valid_integer?
+        @output_result = @output_result.to_i
+      elsif @output_result.valid_float?
+        @output_result = @output_result.to_f
+      end
 
       (class << self; self; end).class_eval do
         define_method("get_#{module_input_data[:pe_attribute_alias]}".to_sym) do

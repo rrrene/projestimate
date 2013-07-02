@@ -143,6 +143,8 @@ class UsersController < ApplicationController
       @pemodules ||= Pemodule.all
       if @project
         @module_projects ||= @project.module_projects
+        #Get the capitalization module_project
+        @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, @project.id).first  unless @capitalization_module.nil?
       end
       @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first unless @project.nil?
       @show_hidden = 'true'

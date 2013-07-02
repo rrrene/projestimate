@@ -254,6 +254,7 @@ en-gb:
 
   master: "Master parameters"
   project_global_parameters: "Project global parameters"
+  pemodule_global_parameters: "Module global parameters"
   pe_attributes: "Attributes"
   labor_categories: "Labour categories"
   projestimate_module: "Modules"

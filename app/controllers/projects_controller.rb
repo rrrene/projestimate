@@ -107,20 +107,22 @@ class ProjectsController < ApplicationController
             unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
               cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
               if  cap_module_project.save
+                cap_module_project.save
                 #Create the corresponding EstimationValues
-                @capitalization_module.attribute_modules.each do |am|
+                #@capitalization_module.attribute_modules.each do |am|
+                @project.organization.attribute_organizations.each do |am|
                   ['input', 'output'].each do |in_out|
                     mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
                            :module_project_id => cap_module_project.id,
                            :in_out => in_out,
                            :is_mandatory => am.is_mandatory,
-                           :description => am.description,
-                           :display_order => am.display_order,
-                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                           :custom_attribute => am.custom_attribute,
-                           :project_value => am.project_value)
+                           :description => am.pe_attribute.description,
+                           :display_order => nil,
+                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
+                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
+                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
+                           #:custom_attribute => am.custom_attribute,
+                           #:project_value => am.project_value)
                   end
                 end
               end
@@ -152,6 +154,7 @@ class ProjectsController < ApplicationController
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
@@ -179,6 +182,7 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_activity_elements = []
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     @project.users.each do |u|
       ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
@@ -335,6 +339,7 @@ class ProjectsController < ApplicationController
   #Allow o add or append a pemodule to a estimation process
   def append_pemodule
     @project = Project.find(params[:project_id])
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
@@ -359,7 +364,6 @@ class ProjectsController < ApplicationController
 
       #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
       # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
-      #@project.pe_wbs_projects.products_wbs.first.pbs_project_elements.each do |c|
       my_module_project.pemodule.attribute_modules.each do |am|
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
@@ -389,7 +393,11 @@ class ProjectsController < ApplicationController
                      :project_value => am.project_value)
         end
       end
-      #end
+
+      #Link capitalization module to other modules
+      unless @capitalization_module.nil?
+        my_module_project.update_attribute('associated_module_project_ids', @capitalization_module_project.id) unless @capitalization_module_project.nil?
+      end
     end
   end
 
