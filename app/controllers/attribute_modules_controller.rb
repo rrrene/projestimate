@@ -46,11 +46,12 @@ class AttributeModulesController < ApplicationController
   end
 
   def check_attribute_modules
-    @attr = AttributeModule.find(params[:attr_id])
-    @is_valid = @attr.is_validate(params[:value])
-    @level = params[:level]
-    @est_val_id = params[:est_val_id]
-
+    unless params[:attr_id].eql?("undefined") || params[:attr_id].nil?
+      @attr = AttributeModule.find(params[:attr_id])
+      @is_valid = @attr.is_validate(params[:value])
+      @level = params[:level]
+      @est_val_id = params[:est_val_id]
+    end
   end
 
 end

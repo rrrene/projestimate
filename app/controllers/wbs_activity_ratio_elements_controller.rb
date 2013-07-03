@@ -36,16 +36,16 @@ class WbsActivityRatioElementsController < ApplicationController
   def save_values
     #set ratio values
     ratio_values = params[:ratio_values]
-    ratio_values.each do |i|
-      w = WbsActivityRatioElement.find(i.first)
+    ratio_values.each do |key, value|
+      w = WbsActivityRatioElement.find(key)
       #if w.wbs_activity_ratio.is_All_Activity_Elements?
-      unless i.last.blank?
-        if i.last.to_f <=0 or i.last.to_f>100
+      unless value.blank?
+        if value.to_f <=0 or value.to_f>100
           flash.now[:warning] = I18n.t(:warning_wbs_activity_ratio_elt_value_range)
         end
       end
 
-      w.ratio_value = i.last
+      w.ratio_value = value
 
       w.save(:validate => false)
     end

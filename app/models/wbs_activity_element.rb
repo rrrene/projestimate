@@ -22,7 +22,7 @@
 class WbsActivityElement < ActiveRecord::Base
   include MasterDataHelper
 
-  has_ancestry
+  has_ancestry :cache_depth => true
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
@@ -45,11 +45,12 @@ class WbsActivityElement < ActiveRecord::Base
   amoeba do
     enable
 
-    exclude_field [:wbs_activity_ratio_elements]        #TODO verify for wbs_project_elements exclusion
+    exclude_field [:wbs_activity_ratio_elements]      #TODO verify for wbs_project_elements exclusion
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
-      new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
 
+      new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
+      new_wbs_activity_elt.uuid = UUIDTools::UUID.random_create.to_s
       if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
         new_wbs_activity_elt.record_status_id = RecordStatus.find_by_name('Proposed').id
       else
@@ -57,6 +58,7 @@ class WbsActivityElement < ActiveRecord::Base
       end
     })
 
+    propagate
   end
 
 

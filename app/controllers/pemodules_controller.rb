@@ -192,6 +192,11 @@ class PemodulesController < ApplicationController
     unless capitalization_mod_proj.nil?
       #We have to get first module in each col
       if last_position_x.nil?
+        mps = project.module_projects.where("position_x = ?", module_project.position_x)
+        mps.each do |mp|
+          ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{mp.id} AND associated_module_project_id = #{capitalization_mod_proj.id}")
+        end
+
         mp = project.module_projects.where("position_x = ?", module_project.position_x).order("position_y ASC").first
         mp.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless mp.nil?
       else
@@ -204,7 +209,6 @@ class PemodulesController < ApplicationController
             #cap_associated_mp.destroy
             ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{mp.id} AND associated_module_project_id = #{capitalization_mod_proj.id}")
           end
-
           first_mp = mps.first
           first_mp.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless first_mp.nil?
         end
@@ -224,14 +228,15 @@ class PemodulesController < ApplicationController
       end
       @project_module.update_attribute('position_y', @project_module.position_y.to_i - 1)
 
+      @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
+
       #Remove existing links between modules (for impacted modules only)
       ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{@project_module.id} OR associated_module_project_id = #{@project_module.id}")
+
+      #Update column module_projects link with capitalization module
+      update_link_between_modules(@project, @project_module)
     end
 
-    #Update column module_projects link with capitalization module
-    update_link_between_modules(@project, @project_module)
-
-    @module_positions = ModuleProject.where(:project_id => @project.id).all.map(&:position_y).uniq.max || 1
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
@@ -275,6 +280,7 @@ class PemodulesController < ApplicationController
       @project_module.update_attribute('position_x', @project_module.position_x.to_i - 1 )
     end
 
+    #Update Current module_project links
     update_link_between_modules(@project, @project_module, last_position_x)
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')

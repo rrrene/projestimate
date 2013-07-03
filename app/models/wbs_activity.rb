@@ -37,6 +37,7 @@ class WbsActivity < ActiveRecord::Base
   has_many :wbs_activity_elements, :dependent => :destroy
   #has_many :wbs_project_elements, :through => :wbs_activity_elements
   has_many :wbs_activity_ratios, :dependent => :destroy
+
   has_many :pe_wbs_projects
   has_many :pbs_project_elements
 
@@ -50,13 +51,10 @@ class WbsActivity < ActiveRecord::Base
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
-    include_field [:wbs_activity_elements, :wbs_activity_ratios]
-    ###exclude_field [:pe_wbs_projects, :pbs_project_elements]      #TODO verify
+    include_field [:wbs_activity_ratios]
 
     customize(lambda { |original_wbs_activity, new_wbs_activity|
-
       new_wbs_activity.name = "Copy_#{ original_wbs_activity.copy_number.to_i+1} of #{original_wbs_activity.name}"
-
       new_wbs_activity.copy_number = 0
       original_wbs_activity.copy_number = original_wbs_activity.copy_number.to_i+1
     })
