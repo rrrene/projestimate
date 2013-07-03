@@ -70,6 +70,9 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
 
+    @project.is_locked = false
+    @project.save
+
     if @project.start_date.nil? or @project.start_date.blank?
       @project.start_date = Time.now.to_date
       @project.save
@@ -414,14 +417,13 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation
-    @result = Array.new
     @module_projects = current_project.module_projects
     @project = current_project
     @pbs_project_element = current_component
-    @results = Hash.new
+    @my_results = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
-      @results[level.to_sym] = run_estimation_plan(params, level, @project)
+      @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
 
     #Save output values: only for current pbs_project_element
@@ -433,12 +435,12 @@ class ProjectsController < ApplicationController
         est_val_attribute_type = est_val.pe_attribute.attribute_type
         if est_val.in_out == 'output'
           out_result = Hash.new
-          @results.each do |res|
+          @my_results.each do |res|
             ['low', 'most_likely', 'high'].each do |level|
               # We don't have to replace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
+              level_estimation_value_without_consistency = @my_results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
@@ -624,9 +626,9 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
           begin
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+            return @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
+            return @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
             puts e.message
           end
         end
