@@ -75,7 +75,7 @@ class ModuleProjectsController < ApplicationController
     @project = @module_project.project
 
     @module_project.estimation_values.each_with_index do |est_val, j|
-      corresponding_am = AttributeModule.where("pemodule_id =? and pe_attribute_id = ?", @module_project.pemodule.id, est_val.pe_attribute.id).first
+      corresponding_am = AttributeModule.where('pemodule_id =? and pe_attribute_id = ?', @module_project.pemodule.id, est_val.pe_attribute.id).first
       unless corresponding_am.is_mandatory
         est_val.update_attribute('is_mandatory', params["is_mandatory_#{est_val.id}_#{est_val.in_out}"])
       end
@@ -106,7 +106,7 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute('associated_module_project_ids', params[:module_projects][mp.id.to_s])
     end
-    redirect_to redirect(edit_project_path(@project.id, :anchor => "tabs-4")), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
 
@@ -124,7 +124,7 @@ class ModuleProjectsController < ApplicationController
 
     #Update column module_projects link with capitalization module
     unless @capitalization_module_project.nil?
-      mp = @project.module_projects.where("position_x = ?", position_x).order("position_y ASC").first
+      mp = @project.module_projects.where('position_x = ?', position_x).order('position_y ASC').first
       mp.update_attribute('associated_module_project_ids', @capitalization_module_project.id) unless mp.nil?
     end
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
