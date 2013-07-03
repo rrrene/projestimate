@@ -600,37 +600,36 @@ class ProjectsController < ApplicationController
     inputs = Hash.new
 
     #project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
-      current_module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
-        if est_val.in_out == 'input' or est_val.in_out=='both'
-          if current_module_project.pemodule.alias == 'effort_balancing'
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][current_module_project.id.to_s]
-          else
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][current_module_project.id.to_s]
-          end
-        end
-
-        current_pbs_project_elt = current_component
-        current_module = "#{current_module_project.pemodule.alias.camelcase.constantize}::#{current_module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
-
-        #Need to add input for pbs_project_element and module_project
-        inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
-        inputs['module_project_id'.to_sym] = current_module_project.id
-        inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
-
-        # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
-        cm = current_module.send(:new, inputs)
-
-        if est_val.in_out == 'output' or est_val.in_out=='both'
-          begin
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
-            puts "test"
-          rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
-            puts e.message
-          end
+    current_module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+      if est_val.in_out == 'input' or est_val.in_out=='both'
+        if current_module_project.pemodule.alias == 'effort_balancing'
+          inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][current_module_project.id.to_s]
+        else
+          inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][current_module_project.id.to_s]
         end
       end
-    #end
+
+      current_pbs_project_elt = current_component
+      current_module = "#{current_module_project.pemodule.alias.camelcase.constantize}::#{current_module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
+
+      #Need to add input for pbs_project_element and module_project
+      inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
+      inputs['module_project_id'.to_sym] = current_module_project.id
+      inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
+
+      # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
+      cm = current_module.send(:new, inputs)
+
+      if est_val.in_out == 'output' or est_val.in_out=='both'
+        begin
+          @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+        rescue Exception => e
+          @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
+          puts e.message
+        end
+        return @result_hash
+      end
+    end
   end
 
 

@@ -280,6 +280,7 @@ class PemodulesController < ApplicationController
       @project_module.update_attribute('position_x', @project_module.position_x.to_i - 1 )
     end
 
+    #Update Current module_project links
     update_link_between_modules(@project, @project_module, last_position_x)
 
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
