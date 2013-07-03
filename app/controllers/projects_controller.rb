@@ -547,7 +547,7 @@ class ProjectsController < ApplicationController
   end
 
 
-  # After estimation, need to know if node value are consistent or not for WBS-Completion module
+  # After estimation, need to know if node value are consistent or not for WBS-Completion modules
   def set_wbs_completion_node_consistency(estimation_result, wbs_project_element)
     consistency = true
     estimation_result_without_null_value = []
