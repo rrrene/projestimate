@@ -104,26 +104,24 @@ class ProjectsController < ApplicationController
 
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
-            unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
-              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-              if  cap_module_project.save
-                cap_module_project.save
-                #Create the corresponding EstimationValues
-                #@capitalization_module.attribute_modules.each do |am|
-                @project.organization.attribute_organizations.each do |am|
-                  ['input', 'output'].each do |in_out|
-                    mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                           :module_project_id => cap_module_project.id,
-                           :in_out => in_out,
-                           :is_mandatory => am.is_mandatory,
-                           :description => am.pe_attribute.description,
-                           :display_order => nil,
-                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
-                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
-                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
-                           #:custom_attribute => am.custom_attribute,
-                           #:project_value => am.project_value)
-                  end
+            cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+            if  cap_module_project.save
+              cap_module_project.save
+              #Create the corresponding EstimationValues
+              #@capitalization_module.attribute_modules.each do |am|
+              @project.organization.attribute_organizations.each do |am|
+                ['input', 'output'].each do |in_out|
+                  mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                         :module_project_id => cap_module_project.id,
+                         :in_out => in_out,
+                         :is_mandatory => am.is_mandatory,
+                         :description => am.pe_attribute.description,
+                         :display_order => nil,
+                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
+                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
+                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
+                         #:custom_attribute => am.custom_attribute,
+                         #:project_value => am.project_value)
                 end
               end
             end
@@ -414,7 +412,6 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation
-    @result = Array.new
     @module_projects = current_project.module_projects
     @project = current_project
     @pbs_project_element = current_component
@@ -439,6 +436,7 @@ class ProjectsController < ApplicationController
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
               level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
+              puts "hello"
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
@@ -625,6 +623,7 @@ class ProjectsController < ApplicationController
         if est_val.in_out == 'output' or est_val.in_out=='both'
           begin
             @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+            puts "test"
           rescue Exception => e
             @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
             puts e.message

@@ -47,9 +47,9 @@ class EstimationValue < ActiveRecord::Base
     end
   end
 
-  def to_s
-    self.pe_attribute.name
-  end
+  #def to_s
+  #  self.pe_attribute.name
+  #end
 
   # Verify if params val is validate
   def is_validate(val)
