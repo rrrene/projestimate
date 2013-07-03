@@ -438,7 +438,7 @@ class ProjectsController < ApplicationController
               # We don't have to replace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id}"]
+              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
@@ -598,7 +598,6 @@ class ProjectsController < ApplicationController
 
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, level, project)
-    @result_array = Array.new
     @result_hash = Hash.new
     inputs = Hash.new
 
