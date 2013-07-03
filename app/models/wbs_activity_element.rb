@@ -22,7 +22,7 @@
 class WbsActivityElement < ActiveRecord::Base
   include MasterDataHelper
 
-  has_ancestry
+  has_ancestry :cache_depth => true
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
@@ -36,20 +36,22 @@ class WbsActivityElement < ActiveRecord::Base
   #default_scope order("dotted_id asc")
   scope :is_ok_for_validation, lambda { |de, re| where('record_status_id <> ? and record_status_id <> ?', de, re) }
   scope :elements_root, where(:is_root => true)
-
-  validates :name, :presence => true, :uniqueness => {:scope => [:wbs_activity_id, :ancestry, :record_status_id], :case_sensitive => false}
-  validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :custom_value, :presence => true, :if => :is_custom?
+  #
+  #validates :name, :presence => true, :uniqueness => {:scope => [:wbs_activity_id, :ancestry, :record_status_id], :case_sensitive => false}
+  #validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+  #validates :custom_value, :presence => true, :if => :is_custom?
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable
 
-    exclude_field [:wbs_activity_ratio_elements]        #TODO verify for wbs_project_elements exclusion
+    ##exclude_field [:wbs_activity_ratio_elements]        #TODO verify for wbs_project_elements exclusion
+    include_field [:wbs_activity_ratio_elements]        #TODO verify for wbs_project_elements exclusion
 
     customize(lambda { |original_wbs_activity_elt, new_wbs_activity_elt|
-      new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
 
+      new_wbs_activity_elt.copy_id = original_wbs_activity_elt.id
+      new_wbs_activity_elt.uuid = UUIDTools::UUID.random_create.to_s
       if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
         new_wbs_activity_elt.record_status_id = RecordStatus.find_by_name('Proposed').id
       else
@@ -57,6 +59,7 @@ class WbsActivityElement < ActiveRecord::Base
       end
     })
 
+    propagate
   end
 
 

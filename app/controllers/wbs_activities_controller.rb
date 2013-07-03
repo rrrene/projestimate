@@ -167,6 +167,9 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_wbs_activity
+    #Update ancestry depth caching
+    WbsActivityElement.rebuild_depth_cache!
+
     begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -190,26 +193,22 @@ class WbsActivitiesController < ApplicationController
           end
 
           #Managing the component tree
-          new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
+          old_wbs_activity_elements = old_wbs_activity.wbs_activity_elements.order('ancestry_depth asc')
+          old_wbs_activity_elements.each do |old_elt|
+            new_elt = old_elt.amoeba_dup
+            new_elt.wbs_activity_id = new_wbs_activity.id
+            new_elt.save(:validate => false)
 
-          new_wbs_activity_elements.each do |new_elt|
             unless new_elt.is_root?
               new_ancestor_ids_list = []
               new_elt.ancestor_ids.each do |ancestor_id|
-                ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
+                #ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
+                ancestor = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id)
+                ancestor_id = ancestor.id
                 new_ancestor_ids_list.push(ancestor_id)
               end
               new_elt.ancestry = new_ancestor_ids_list.join('/')
-              new_elt.save
-            end
-          end
-
-          new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
-          new_wbs_activity_ratios.each do |act_ratio|
-            act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
-              wbs_activity_elt = WbsActivityElement.where('copy_id = ? and wbs_activity_id = ?', act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
-              act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
-              act_ratio_elt.save
+              new_elt.save(:validate => false)
             end
           end
         else

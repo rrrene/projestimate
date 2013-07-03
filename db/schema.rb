@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619141207) do
+ActiveRecord::Schema.define(:version => 20130702124320) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -663,6 +663,7 @@ ActiveRecord::Schema.define(:version => 20130619141207) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -769,8 +770,9 @@ ActiveRecord::Schema.define(:version => 20130619141207) do
     t.string   "name"
     t.text     "description"
     t.string   "ancestry"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.integer  "ancestry_depth",   :default => 0
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "record_status_id"
     t.string   "custom_value"
     t.integer  "owner_id"

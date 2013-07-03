@@ -40,7 +40,6 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute('pbs_project_element_ids', params[:pbs_project_elements][mp.id.to_s])
     end
-
     redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-4'))
   end
 
@@ -129,8 +128,6 @@ class ModuleProjectsController < ApplicationController
       mp = @project.module_projects.where("position_x = ?", position_x).order("position_y ASC").first
       mp.update_attribute('associated_module_project_ids', @capitalization_module_project.id) unless mp.nil?
     end
-  else
-
     redirect_to edit_project_path(@project.id, :anchor => 'tabs-4')
   end
 
