@@ -61,15 +61,15 @@ class WbsActivitiesController < ApplicationController
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
 
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all
+    @wbs_activity_elements_list = @wbs_activity.wbs_activity_elements
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
-    @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
+    @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
 
     @wbs_activity_ratio_elements = []
     @total = 0
     if params[:Ratio]
       @wbs_activity_elements.each do |wbs|
-        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio]).all
+        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio])
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     else
@@ -192,6 +192,14 @@ class WbsActivitiesController < ApplicationController
             ratio.save
           end
 
+          #get new WBS Ratio elements
+          new_wbs_activity_ratio_elts = []
+          new_wbs_activity.wbs_activity_ratios.each do |ratio|
+            ratio.wbs_activity_ratio_elements.each do |ratio_elt|
+              new_wbs_activity_ratio_elts << ratio_elt
+            end
+          end
+
           #Managing the component tree
           old_wbs_activity_elements = old_wbs_activity.wbs_activity_elements.order('ancestry_depth asc')
           old_wbs_activity_elements.each do |old_elt|
@@ -208,7 +216,13 @@ class WbsActivitiesController < ApplicationController
                 new_ancestor_ids_list.push(ancestor_id)
               end
               new_elt.ancestry = new_ancestor_ids_list.join('/')
+
+              corresponding_ratio_elts = new_wbs_activity_ratio_elts.select { |ratio_elt| ratio_elt.wbs_activity_element_id == new_elt.copy_id }
+
               new_elt.save(:validate => false)
+              corresponding_ratio_elts.each do |ratio_elt|
+                ratio_elt.update_attribute("wbs_activity_element_id", new_elt.id)
+              end
             end
           end
         else

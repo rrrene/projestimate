@@ -20,7 +20,6 @@
 
 class ModuleProjectsController < ApplicationController
 
-
   def pbs_element_matrix
     set_page_title 'Associate PBS-element'
     @project = Project.find(params[:project_id])
