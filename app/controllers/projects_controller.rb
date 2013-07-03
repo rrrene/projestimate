@@ -425,9 +425,9 @@ class ProjectsController < ApplicationController
     end
 
     #Save output values: only for current pbs_project_element
-    @project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
+    #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
       # get the estimation_value for the current_pbs_project_element
-      current_pbs_estimations = mp.estimation_values
+      current_pbs_estimations = current_module_project.estimation_values
       current_pbs_estimations.each do |est_val|
         est_val_attribute_alias = est_val.pe_attribute.alias
         est_val_attribute_type = est_val.pe_attribute.attribute_type
@@ -438,13 +438,12 @@ class ProjectsController < ApplicationController
               # We don't have to replace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              ##level_estimation_value[@pbs_project_element.id] = @results[level.to_sym]["#{est_val.pe_attribute.alias}_#{mp.id.to_s}".to_sym]
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{mp.id.to_s}".to_sym]
+              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
-              if mp.pemodule.yes_for_output_with_ratio? || mp.pemodule.yes_for_output_without_ratio? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
+              if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
                 psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, mp)
+                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, current_module_project)
               else
                 level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
               end
@@ -473,14 +472,14 @@ class ProjectsController < ApplicationController
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
             begin
-              pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][current_module_project.id.to_s]
             rescue
-              pbs_level_form_input = params[est_val_attribute_alias.to_sym][mp.id.to_s]
+              pbs_level_form_input = params[est_val_attribute_alias.to_sym][current_module_project.id.to_s]
             end
 
-            wbs_root = mp.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
-            if mp.pemodule.yes_for_input? || mp.pemodule.yes_for_input_output_with_ratio? || mp.pemodule.yes_for_input_output_without_ratio?
-              unless mp.pemodule.alias == 'effort_balancing'
+            wbs_root = current_module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
+            if current_module_project.pemodule.yes_for_input? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+              unless current_module_project.pemodule.alias == 'effort_balancing'
                 level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
               end
             else
@@ -493,7 +492,7 @@ class ProjectsController < ApplicationController
           est_val.update_attributes(in_result)
         end
       end
-    end
+    #end
 
     respond_to do |format|
       format.js { render :partial => 'pbs_project_elements/refresh' }
@@ -599,26 +598,25 @@ class ProjectsController < ApplicationController
 
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, level, project)
-    @result_array = Array.new
     @result_hash = Hash.new
     inputs = Hash.new
 
-    project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
-      module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+    #project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
+      current_module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
         if est_val.in_out == 'input' or est_val.in_out=='both'
-          if module_project.pemodule.alias == 'effort_balancing'
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][module_project.id.to_s]
+          if current_module_project.pemodule.alias == 'effort_balancing'
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][current_module_project.id.to_s]
           else
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][module_project.id.to_s]
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][current_module_project.id.to_s]
           end
         end
 
         current_pbs_project_elt = current_component
-        current_module = "#{module_project.pemodule.alias.camelcase.constantize}::#{module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
+        current_module = "#{current_module_project.pemodule.alias.camelcase.constantize}::#{current_module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
 
         #Need to add input for pbs_project_element and module_project
         inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
-        inputs['module_project_id'.to_sym] = module_project.id
+        inputs['module_project_id'.to_sym] = current_module_project.id
         inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
 
         # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
@@ -626,17 +624,14 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
           begin
-            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{module_project.id}".to_sym] = nil
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
             puts e.message
           end
         end
       end
-    end
-
-    puts "RESULT_HASH [#{level}] = #{@result_hash}" #Ex: RESULT_HASH = {:effort_man_hour=>{"337"=>18000.0, "338"=>12000.0}}
-    @result_hash
+    #end
   end
 
 

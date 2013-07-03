@@ -504,6 +504,9 @@ class Home < ActiveRecord::Base
     Project.create(:title => 'Sample project', :description => 'This is a sample project for demonstration purpose', :alias => 'sample project', :state => 'preliminary', :start_date => Time.now.strftime('%Y/%m/%d'), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id => AcquisitionCategory.first.id)
     project = Project.first
 
+    capitalization = Pemodule.find_by_alias("capitalization")
+    ModuleProject.create(:pemodule_id => capitalization.id, :project_id => project.id, :position_x => 0, :position_y => 0)
+
     #New default Pe-Wbs-Project
     pe_wbs_project_product = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
     pe_wbs_project_activity = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')

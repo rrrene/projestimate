@@ -38,18 +38,18 @@ module ProjectsHelper
     res = String.new
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
-      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
-        if module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio? || module_project.pemodule.yes_for_input_output_without_ratio?
-          if module_project.pemodule.alias == 'effort_balancing'
-            res << display_effort_balancing_output(module_project)
+      #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
+        if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+          if current_module_project.pemodule.alias == 'effort_balancing'
+            res << display_effort_balancing_output(current_module_project)
           else
-            res << display_results_with_activities(module_project)
+            res << display_results_with_activities(current_module_project)
           end
         else
-          res << display_results_without_activities(module_project)
+          res << display_results_without_activities(current_module_project)
         end
         res
-      end
+      #end
     end
     res
   end
@@ -272,14 +272,14 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-      current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
-        current_project = module_project.project
+      #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
+        current_project = current_module_project.project
 
         ##if module_project.pemodule.with_activities
-        if module_project.pemodule.yes_for_input? || module_project.pemodule.yes_for_input_output_without_ratio? || module_project.pemodule.yes_for_input_output_with_ratio?
+        if current_module_project.pemodule.yes_for_input? || current_module_project.pemodule.yes_for_input_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio?
 
           # For WBS-ACTIVITY-COMPLETION MODULE
-          if module_project.pemodule.alias == "wbs_activity_completion"
+          if current_module_project.pemodule.alias == "wbs_activity_completion"
             @defined_status = RecordStatus.find_by_name("Defined")
             last_estimation_result = nil
             effort_breakdown_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
@@ -308,7 +308,7 @@ module ProjectsHelper
 
                     # This will be completed only if WBS has one or more not coming from library
                     unless complement_children_ids.empty?
-                      current_mp_est_value = module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
+                      current_mp_est_value = current_module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
                       ##new_created_estimation_value = EstimationValue.new
                       new_created_estimation_value = last_estimation_results
 
@@ -339,20 +339,20 @@ module ProjectsHelper
                   end
                 end
             end
-            res << display_inputs_with_activities(module_project, last_estimation_result)
+            res << display_inputs_with_activities(current_module_project, last_estimation_result)
 
             # For Effort balancing module
-          elsif module_project.pemodule.alias == 'effort_balancing'
-            res << display_effort_balancing_input(module_project, last_estimation_result)
+          elsif current_module_project.pemodule.alias == 'effort_balancing'
+            res << display_effort_balancing_input(current_module_project, last_estimation_result)
             # For others module with Activities
           else
-            res << display_inputs_with_activities(module_project)
+            res << display_inputs_with_activities(current_module_project)
           end
           # For others modules that don't use WSB-Activities values in input
-        elsif module_project.pemodule.no? || module_project.pemodule.no? || module_project.pemodule.yes_for_output_with_ratio? || module_project.pemodule.yes_for_output_without_ratio?
-          res << display_inputs_without_activities(module_project)
+        elsif current_module_project.pemodule.no? || current_module_project.pemodule.no? || current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio?
+          res << display_inputs_without_activities(current_module_project)
         end
-      end
+      #end
     end
     res
   end
