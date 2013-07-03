@@ -212,8 +212,12 @@ class ApplicationController < ActionController::Base
       session[:module_project_id].nil? ?
           nil : ModuleProject.find(session[:module_project_id])
     else
-      session[:module_project_id] = capitalization_module.id
-      capitalization_module.id
+      begin
+        pemodule = Pemodule.find_by_alias("capitalization")
+        ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
+      rescue
+        current_project.module_projects.first
+      end
     end
   end
 
