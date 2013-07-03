@@ -208,12 +208,18 @@ class ApplicationController < ActionController::Base
   end
 
   def current_module_project
+    pemodule = Pemodule.find_by_alias("capitalization")
+    default_current_module_project = ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
+
     if current_project.module_projects.map(&:id).include?(session[:module_project_id].to_i)
-      session[:module_project_id].nil? ?
-          nil : ModuleProject.find(session[:module_project_id])
+      session[:module_project_id].nil? ? default_current_module_project : ModuleProject.find(session[:module_project_id])
     else
-      session[:module_project_id] = nil
-      return nil
+      begin
+        pemodule = Pemodule.find_by_alias("capitalization")
+        ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
+      rescue
+        current_project.module_projects.first
+      end
     end
   end
 

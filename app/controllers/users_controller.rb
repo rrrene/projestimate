@@ -67,18 +67,11 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.group_ids = Group.find_by_name('Everyone').id
 
-    #Checking password length
-    user_pass_length = params[:user][:password].length
-    #if user_pass_length < good_password_length
-    #  flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
-    #  render "new" and return
-    #else
       if @user.save
         redirect_to redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
       else
         render 'new'
       end
-    #end
   end
 
   def edit
@@ -95,16 +88,6 @@ class UsersController < ApplicationController
     params[:user][:project_ids] ||= []
     @user = User.find(params[:id])
 
-
-    #Checking password length
-    #user_pass_length = params[:user][:password].length
-    #if !params[:user][:password].blank?
-    #  if user_pass_length < good_password_length
-    #    flash[:error] = "password is too short (minimum is #{good_password_length} characters)"
-    #    render(:edit) and return
-    #  end
-    #end
-
     puts "current_tab = #{params[:current_tab]}"
     if params[:user][:auth_type]!="Application"
       params[:user].delete :password
@@ -113,8 +96,6 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       set_user_language
       redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
-
-      #redirect_to redirect_save(users_path, edit_user_path(@user.id, :anchor=>params[:current_tab])), :notice => "#{I18n.t (:notice_account_successful_updated)}"
     else
       render(:edit)
     end
@@ -150,7 +131,6 @@ class UsersController < ApplicationController
       @show_hidden = 'true'
 
       if @project
-        @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
         @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
         @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
       end

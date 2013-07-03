@@ -84,11 +84,14 @@ class PbsProjectElementsController < ApplicationController
     session[:pbs_project_element_id] = params[:pbs_id]
 
     @user = current_user
-    @project = current_project.nil? ? Project.find(params[:project_id]) : current_project    #@project = current_project
+    @project = current_project.nil? ? Project.find(params[:project_id]) : current_project
     @module_projects = @project.module_projects
     @pbs_project_element = current_component
 
+    # Get the max X and Y positions of modules
     @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
     @results = nil
 
     render :partial => "pbs_project_elements/refresh"

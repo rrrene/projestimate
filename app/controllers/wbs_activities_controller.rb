@@ -61,15 +61,15 @@ class WbsActivitiesController < ApplicationController
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
 
-    @wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity.id).all
+    @wbs_activity_elements_list = @wbs_activity.wbs_activity_elements
     @wbs_activity_elements = WbsActivityElement.sort_by_ancestry(@wbs_activity_elements_list)
-    @wbs_activity_ratios = WbsActivityRatio.where(:wbs_activity_id => @wbs_activity.id)
+    @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
 
     @wbs_activity_ratio_elements = []
     @total = 0
     if params[:Ratio]
       @wbs_activity_elements.each do |wbs|
-        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio]).all
+        @wbs_activity_ratio_elements += wbs.wbs_activity_ratio_elements.where(:wbs_activity_ratio_id => params[:Ratio])
         @total = @wbs_activity_ratio_elements.reject{|i| i.ratio_value.nil? or i.ratio_value.blank? }.compact.sum(&:ratio_value)
       end
     else
@@ -167,6 +167,9 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_wbs_activity
+    #Update ancestry depth caching
+    WbsActivityElement.rebuild_depth_cache!
+
     begin
       old_wbs_activity = WbsActivity.find(params[:wbs_activity_id])
       new_wbs_activity = old_wbs_activity.amoeba_dup   #amoeba gem is configured in WbsActivity class model
@@ -189,27 +192,37 @@ class WbsActivitiesController < ApplicationController
             ratio.save
           end
 
-          #Managing the component tree
-          new_wbs_activity_elements = new_wbs_activity.wbs_activity_elements
-
-          new_wbs_activity_elements.each do |new_elt|
-            unless new_elt.is_root?
-              new_ancestor_ids_list = []
-              new_elt.ancestor_ids.each do |ancestor_id|
-                ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
-                new_ancestor_ids_list.push(ancestor_id)
-              end
-              new_elt.ancestry = new_ancestor_ids_list.join('/')
-              new_elt.save
+          #get new WBS Ratio elements
+          new_wbs_activity_ratio_elts = []
+          new_wbs_activity.wbs_activity_ratios.each do |ratio|
+            ratio.wbs_activity_ratio_elements.each do |ratio_elt|
+              new_wbs_activity_ratio_elts << ratio_elt
             end
           end
 
-          new_wbs_activity_ratios = new_wbs_activity.wbs_activity_ratios
-          new_wbs_activity_ratios.each do |act_ratio|
-            act_ratio.wbs_activity_ratio_elements.each do |act_ratio_elt|
-              wbs_activity_elt = WbsActivityElement.where('copy_id = ? and wbs_activity_id = ?', act_ratio_elt.wbs_activity_element_id, act_ratio_elt.wbs_activity_ratio.wbs_activity_id).first
-              act_ratio_elt.wbs_activity_element_id = wbs_activity_elt.id
-              act_ratio_elt.save
+          #Managing the component tree
+          old_wbs_activity_elements = old_wbs_activity.wbs_activity_elements.order('ancestry_depth asc')
+          old_wbs_activity_elements.each do |old_elt|
+            new_elt = old_elt.amoeba_dup
+            new_elt.wbs_activity_id = new_wbs_activity.id
+            new_elt.save(:validate => false)
+
+            unless new_elt.is_root?
+              new_ancestor_ids_list = []
+              new_elt.ancestor_ids.each do |ancestor_id|
+                #ancestor_id = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id).id
+                ancestor = WbsActivityElement.find_by_wbs_activity_id_and_copy_id(new_elt.wbs_activity_id, ancestor_id)
+                ancestor_id = ancestor.id
+                new_ancestor_ids_list.push(ancestor_id)
+              end
+              new_elt.ancestry = new_ancestor_ids_list.join('/')
+
+              corresponding_ratio_elts = new_wbs_activity_ratio_elts.select { |ratio_elt| ratio_elt.wbs_activity_element_id == new_elt.copy_id }
+
+              new_elt.save(:validate => false)
+              corresponding_ratio_elts.each do |ratio_elt|
+                ratio_elt.update_attribute("wbs_activity_element_id", new_elt.id)
+              end
             end
           end
         else
