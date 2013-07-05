@@ -458,9 +458,9 @@ class ProjectsController < ApplicationController
             probable_estimation_value = est_val.send('string_data_probable')
 
             if est_val_attribute_type == 'numeric'
-              probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+              probable_estimation_value[@pbs_project_element.id] = probable_value(@my_results, est_val)
             else
-              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
+              probable_estimation_value[@pbs_project_element.id] = @my_results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
             end
 
             out_result['string_data_probable'] = probable_estimation_value
@@ -626,13 +626,14 @@ class ProjectsController < ApplicationController
 
         if est_val.in_out == 'output' or est_val.in_out=='both'
           begin
-            return @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
           rescue Exception => e
-            return @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
             puts e.message
           end
         end
       end
+    @result_hash
     #end
   end
 
