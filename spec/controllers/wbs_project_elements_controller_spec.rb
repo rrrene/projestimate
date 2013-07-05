@@ -21,11 +21,11 @@ require 'spec_helper'
 describe WbsProjectElementsController do
 
   before :each do
-    login_as_admin
+    #login_as_admin
 
     @project = FactoryGirl.create(:project)
     @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => "Activity", :project => @project)
-    @wbs_project_element = FactoryGirl.create(:wbs_project_element, :is_root => true, :pe_wbs_project => @pe_wbs_project)
+    @wbs_project_element = FactoryGirl.create(:wbs_project_element, :is_root => true, :pe_wbs_project => @pe_wbs_project, author: @user)
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -42,60 +42,50 @@ describe WbsProjectElementsController do
     {}
   end
 
-  #describe "GET index for Test" do
-  #  it "index" do
-  #    get :index
-  #    @wbs_project_element.should be_a_kind_of(WbsProjectElement)
-  #    @wbs_project_element.should_not be_nil
-  #    assigns[:wbs_project_element].should_not be_blank
-  #  end
-  #end
+  describe "GET index for Test" do
 
-  #describe "GET index" do
-  #  it "assigns all wbs_project_elements as @wbs_project_elements" do
-  #    get :index
-  #    #expect(response).to be_success
-  #    #expect(response.status).to eq(200)
-  #
-  #    response.should render_template("index")
-  #
-  #    #assigns(:wbs_project_elements).should eq([@wbs_project_element])
-  #
-  #    #@wbs_project_elements = FactoryGirl.create_list(:wbs_project_element, 10)
-  #    #
-  #    #assigns(:wbs_project_elements).should_not be_nil #include(@wbs_project_element)
-  #  end
-  #end
+    it "index" do
+      get :index
+      @wbs_project_element.should be_a_kind_of(WbsProjectElement)
+      @wbs_project_element.should_not be_nil
+      expect(response).to be_success
+      expect(response.status).to eq(200)
+      response.should render_template("index")
+      #assigns(:wbs_project_elements).should eq([@wbs_project_element])
+    end
+  end
 
   describe "GET show" do
     it "assigns the requested wbs_project_element as @wbs_project_element" do
       get :show, {:id => @wbs_project_element.to_param}
-      assigns[wbs_project_element].should eq(@wbs_project_element)
+      assigns[:wbs_project_element].should eq(@wbs_project_element)
     end
   end
 
-  #describe "GET new" do
-  #  it "assigns a new wbs_project_element as @wbs_project_element" do
-  #    get :new, {:project_id => @project.id}
-  #    assigns(:wbs_project_element).should be_a_new(WbsProjectElement)
-  #  end
-  #end
-  #
-  #describe "GET edit" do
-  #  it "assigns the requested wbs_project_element as @wbs_project_element" do
-  #    get :edit, {:id => @wbs_project_element.to_param, :project_id => @project.id}
-  #    assigns(:wbs_project_element).should eq(@wbs_project_element)
-  #  end
-  #end
-  #
-  #describe "POST create" do
-  #  describe "with valid params" do
-  #    it "creates a new WbsProjectElement" do
-  #      expect {
-  #        post :create, {:id => @wbs_project_element, :project_id => @project.id, :wbs_project_element => FactoryGirl.attributes_for(:wbs_project_element, :is_root => true)}
-  #      }.to change(WbsProjectElement, :count).by(1)
-  #    end
-  #
+  describe "GET new" do
+    it "assigns a new wbs_project_element as @wbs_project_element" do
+      get :new, {:project_id => @project.id}
+      assigns(:wbs_project_element).should be_a_new(WbsProjectElement)
+    end
+  end
+
+  describe "GET edit" do
+    it "assigns the requested wbs_project_element as @wbs_project_element" do
+      get :edit, {:id => @wbs_project_element.to_param, :project_id => @project.id}
+      assigns(:wbs_project_element).should eq(@wbs_project_element)
+    end
+  end
+
+  describe "POST create" do
+
+    describe "with valid params" do
+      #it "creates a new WbsProjectElement" do
+      #  current_user = @user
+      #  expect {
+      #    post :create, {:id => @wbs_project_element, :project_id => @project.id, :wbs_project_element => FactoryGirl.attributes_for(:wbs_project_element, :is_root => true)}
+      #  }.to change(WbsProjectElement, :count).by(1)
+      #end
+
   #    it "assigns a newly created wbs_project_element as @wbs_project_element" do
   #      post :create, {:id => @wbs_project_element, :project_id => @project.id, :wbs_project_element => FactoryGirl.attributes_for(:wbs_project_element, :is_root => true)}
   #      assigns(:wbs_project_element).should be_a(WbsProjectElement)
@@ -106,8 +96,8 @@ describe WbsProjectElementsController do
   #      post :create, {:id => @wbs_project_element, :project_id => @project.id, :wbs_project_element => FactoryGirl.attributes_for(:wbs_project_element, :is_root => true)}
   #      response.should redirect_to(edit_project_path(@project, :anchor => "tabs-3"))
   #    end
-  #  end
-  #
+    end
+  end
 
 
   #==============================================================================================================================================

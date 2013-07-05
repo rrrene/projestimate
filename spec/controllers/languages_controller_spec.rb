@@ -3,7 +3,7 @@ require 'spec_helper'
 describe LanguagesController do
 
   before :each do
-    login_as_admin
+    #login_as_admin
 
     @language = FactoryGirl.create(:language)
     @params = { :id => @language.id }

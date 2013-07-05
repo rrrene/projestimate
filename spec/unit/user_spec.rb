@@ -101,8 +101,10 @@ describe User do
 
   # This can happen at the Console: because when password_confirmation is 'nil', Rails doesn't run validation
   it "should not be valid when password confirmation is nil" do
-    @admin.password_confirmation = nil
-    @admin.should_not be_valid
+    if @admin.auth_method?
+      @admin.password_confirmation = nil
+      @admin.should_not be_valid if @admin.auth_method.name.include?("Application")
+    end
   end
 
   describe "when password doesn't match confirmation" do

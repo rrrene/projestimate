@@ -46,7 +46,7 @@ describe PeAttributesController do
     end
 
     it "should create record with success" do
-      login_as_admin
+      #login_as_admin
       post :create, :cost_attribute => { :name => "KSLOC1", :alias=>"KSLOC1", :uuid => "1111", :description=>"test"}, :options => ["integer", ">=", "0"]  # FactoryGirl.attributes_for(:cost_attribute)
       response.should be_success
     end
