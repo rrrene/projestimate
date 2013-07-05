@@ -21,7 +21,7 @@ describe ModuleProject do
     @mp6 = ModuleProject.create(:project_id => @project.id, :position_y => 6, :pemodule => @pemodule)
 
     AssociatedModuleProject.create(:associated_module_project_id => @mp5.id, :module_project_id => @mp6.id)
-    AssociatedModuleProject.create(:associated_module_project_id => @mp5.id, :module_project_id => @mp4.id)
+    AssociatedModuleProject.create(:associated_module_project_id => @mp4.id, :module_project_id => @mp5.id)
     AssociatedModuleProject.create(:associated_module_project_id => @mp3.id, :module_project_id => @mp1.id)
     AssociatedModuleProject.create(:associated_module_project_id => @mp3.id, :module_project_id => @mp2.id)
   end
