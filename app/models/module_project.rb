@@ -29,6 +29,7 @@ class ModuleProject < ActiveRecord::Base
 
   has_and_belongs_to_many :associated_module_projects, :class_name => "ModuleProject",
            :join_table => "associated_module_projects",
+           :foreign_key => 'module_project_id',
            :association_foreign_key => :associated_module_project_id,
            :uniq => true
 
