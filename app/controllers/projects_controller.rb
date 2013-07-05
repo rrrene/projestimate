@@ -70,6 +70,9 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
 
+    @project.is_locked = false
+    @project.save
+
     if @project.start_date.nil? or @project.start_date.blank?
       @project.start_date = Time.now.to_date
       @project.save
@@ -104,24 +107,26 @@ class ProjectsController < ApplicationController
 
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
-            cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-            if  cap_module_project.save
-              cap_module_project.save
-              #Create the corresponding EstimationValues
-              #@capitalization_module.attribute_modules.each do |am|
-              @project.organization.attribute_organizations.each do |am|
-                ['input', 'output'].each do |in_out|
-                  mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                         :module_project_id => cap_module_project.id,
-                         :in_out => in_out,
-                         :is_mandatory => am.is_mandatory,
-                         :description => am.pe_attribute.description,
-                         :display_order => nil,
-                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
-                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
-                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
-                         #:custom_attribute => am.custom_attribute,
-                         #:project_value => am.project_value)
+            unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
+              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+              if  cap_module_project.save
+                cap_module_project.save
+                #Create the corresponding EstimationValues
+                #@capitalization_module.attribute_modules.each do |am|
+                @project.organization.attribute_organizations.each do |am|
+                  ['input', 'output'].each do |in_out|
+                    mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                           :module_project_id => cap_module_project.id,
+                           :in_out => in_out,
+                           :is_mandatory => am.is_mandatory,
+                           :description => am.pe_attribute.description,
+                           :display_order => nil,
+                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
+                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
+                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
+                           #:custom_attribute => am.custom_attribute,
+                           #:project_value => am.project_value)
+                  end
                 end
               end
             end
@@ -237,7 +242,7 @@ class ProjectsController < ApplicationController
           session[:current_project_id] = current_user.projects.first
 
           #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => "Project")
+          redirect_to projects_path, :notice => I18n.t(:notice_successfully_deleted, :value => "Project")
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
@@ -415,10 +420,10 @@ class ProjectsController < ApplicationController
     @module_projects = current_project.module_projects
     @project = current_project
     @pbs_project_element = current_component
-    @results = Hash.new
+    @my_results = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
-      @results[level.to_sym] = run_estimation_plan(params, level, @project)
+      @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
 
     #Save output values: only for current pbs_project_element
@@ -430,13 +435,12 @@ class ProjectsController < ApplicationController
         est_val_attribute_type = est_val.pe_attribute.attribute_type
         if est_val.in_out == 'output'
           out_result = Hash.new
-          @results.each do |res|
+          @my_results.each do |res|
             ['low', 'most_likely', 'high'].each do |level|
               # We don't have to replace the value, but we need to update them
               level_estimation_value = Hash.new
               level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value_without_consistency = @results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
-              puts "hello"
+              level_estimation_value_without_consistency = @my_results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
 
               # In case when module use the wbs_project_element, the is_consistent need to be set
               if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
@@ -454,9 +458,9 @@ class ProjectsController < ApplicationController
             probable_estimation_value = est_val.send('string_data_probable')
 
             if est_val_attribute_type == 'numeric'
-              probable_estimation_value[@pbs_project_element.id] = probable_value(@results, est_val)
+              probable_estimation_value[@pbs_project_element.id] = probable_value(@my_results, est_val)
             else
-              probable_estimation_value[@pbs_project_element.id] = @results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
+              probable_estimation_value[@pbs_project_element.id] = @my_results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
             end
 
             out_result['string_data_probable'] = probable_estimation_value
@@ -600,37 +604,36 @@ class ProjectsController < ApplicationController
     inputs = Hash.new
 
     #project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
-    current_module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
-      if est_val.in_out == 'input' or est_val.in_out=='both'
-        if current_module_project.pemodule.alias == 'effort_balancing'
-          inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][current_module_project.id.to_s]
-        else
-          inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][current_module_project.id.to_s]
+      current_module_project.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+        if est_val.in_out == 'input' or est_val.in_out=='both'
+          if current_module_project.pemodule.alias == 'effort_balancing'
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias][current_module_project.id.to_s]
+          else
+            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias][current_module_project.id.to_s]
+          end
+        end
+
+        current_pbs_project_elt = current_component
+        current_module = "#{current_module_project.pemodule.alias.camelcase.constantize}::#{current_module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
+
+        #Need to add input for pbs_project_element and module_project
+        inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
+        inputs['module_project_id'.to_sym] = current_module_project.id
+        inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
+
+        # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
+        cm = current_module.send(:new, inputs)
+
+        if est_val.in_out == 'output' or est_val.in_out=='both'
+          begin
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+          rescue Exception => e
+            @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
+            puts e.message
+          end
         end
       end
-
-      current_pbs_project_elt = current_component
-      current_module = "#{current_module_project.pemodule.alias.camelcase.constantize}::#{current_module_project.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
-
-      #Need to add input for pbs_project_element and module_project
-      inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
-      inputs['module_project_id'.to_sym] = current_module_project.id
-      inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
-
-      # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
-      cm = current_module.send(:new, inputs)
-
-      if est_val.in_out == 'output' or est_val.in_out=='both'
-        begin
-          @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
-        rescue Exception => e
-          @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
-          puts e.message
-        end
-      end
-    end
     @result_hash
-    puts "test"
   end
 
 

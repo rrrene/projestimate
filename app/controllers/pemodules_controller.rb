@@ -44,8 +44,7 @@ class PemodulesController < ApplicationController
   def edit
     authorize! :manage_modules, Pemodule
     set_page_title 'Edit Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
-    }
+    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
     @attributes = PeAttribute.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
@@ -54,7 +53,6 @@ class PemodulesController < ApplicationController
       if @pemodule.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_pemodule_cant_be_edit)
         redirect_to pemodules_path
-
       end
     end
   end
@@ -182,9 +180,6 @@ class PemodulesController < ApplicationController
   def estimations_params
     set_page_title 'Estimations parameters'
   end
-
-
-  #TODO: ####################  Move functions to module_projects_controller ####################
 
   def update_link_between_modules(project, module_project, last_position_x=nil)
     return if @capitalization_module.nil?
