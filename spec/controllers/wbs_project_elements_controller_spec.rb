@@ -21,7 +21,7 @@ require 'spec_helper'
 describe WbsProjectElementsController do
 
   before :each do
-    @user = login_as_admin
+    login_as_admin
 
     @project = FactoryGirl.create(:project)
     @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => "Activity", :project => @project)
@@ -47,7 +47,7 @@ describe WbsProjectElementsController do
   #    get :index
   #    @wbs_project_element.should be_a_kind_of(WbsProjectElement)
   #    @wbs_project_element.should_not be_nil
-  #    @user.should_not be_nil
+  #    assigns[:wbs_project_element].should_not be_blank
   #  end
   #end
 
@@ -70,7 +70,7 @@ describe WbsProjectElementsController do
   describe "GET show" do
     it "assigns the requested wbs_project_element as @wbs_project_element" do
       get :show, {:id => @wbs_project_element.to_param}
-      assigns(:wbs_project_element).should eq(@wbs_project_element)
+      assigns[wbs_project_element].should eq(@wbs_project_element)
     end
   end
 
