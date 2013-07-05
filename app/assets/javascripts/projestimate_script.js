@@ -350,17 +350,6 @@ $(document).ready(function() {
 
     $(".input").resizable({
         alsoResizeReverse: ".output",
-        handles: "e, w"
-    });
-
-    $(".output").resizable({
-        alsoResizeReverse: ".input",
-        handles: "e, w"
-    });
-
-    $(".estimation_plan").resizable({
-        alsoResizeReverse: ".pbs",
-        handles: "e, w"
     });
 
     $(".pbs").resizable({
