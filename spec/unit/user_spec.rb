@@ -90,27 +90,36 @@ describe User do
   end
 
   it "should not be valid without password"  do
-    @user.password = ''
-    @user.should_not be_valid
+    if @user.auth_method
+      @user.password = ''
+      @user.should_not be_valid if @user.auth_method.name.include?("Application")
+    end
   end
 
   it "should not be valid without password_confirmation"  do
-    @user.password_confirmation=''
-    @user.should_not be_valid
+    if @user.auth_method
+      @user.password_confirmation=''
+      @user.should_not be_valid  if @user.auth_method.name.include?("Application")
+    end
   end
 
   # This can happen at the Console: because when password_confirmation is 'nil', Rails doesn't run validation
   it "should not be valid when password confirmation is nil" do
-    @admin.password_confirmation = nil
-    @admin.should_not be_valid
+    if @admin.auth_method
+      @admin.password_confirmation = nil
+      @admin.should_not be_valid if @admin.auth_method.name.include?("Application")
+    end
   end
 
   describe "when password doesn't match confirmation" do
     before { @user.password_confirmation= "changed_pass" }
     it "should not be valid" do
-      @user.should_not be_valid
+      if @user.auth_method
+        @user.should_not be_valid if @user.auth_method.name.include?("Application")
+      end
     end
   end
+
   #it "sends a e-mail" do
   #  @user.send_password_reset()
   #  ActionMailer::Base.deliveries.last.to.should == [@user.email]

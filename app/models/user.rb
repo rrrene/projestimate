@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   belongs_to :auth_method, :foreign_key => 'auth_type', :touch => true
 
   has_many :project_securities
-  has_many :authors, :foreign_key => 'author_id', :class_name => 'WbsProjectElement'
+  has_many :wbs_project_elements, :foreign_key => 'author_id' ###has_many :authors, :foreign_key => 'author_id', :class_name => 'WbsProjectElement'
 
   #Master and Special Data Tables
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
 
   validates :password, :presence => {:on => :create}, :confirmation => true, :if => 'auth_method_application'
   validates :password_confirmation, :presence => {:on => :create}, :if => 'auth_method_application'
-  validate :password_length, :on => :create, :if => 'password.present?'
+  validate  :password_length, :on => :create, :if => 'password.present?'
 
   #AASM
   aasm :column => :user_status do
@@ -107,7 +107,11 @@ class User < ActiveRecord::Base
   }
 
   def auth_method_application
-     self.auth_method.name=="Application"
+    begin
+     self.auth_method.name == "Application"
+    rescue
+      false
+    end
   end
 
   #Check password minimum length value

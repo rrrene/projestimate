@@ -634,7 +634,6 @@ class ProjectsController < ApplicationController
         end
       end
     @result_hash
-    #end
   end
 
 

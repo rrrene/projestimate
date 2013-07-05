@@ -15,7 +15,7 @@ describe SearchesHelper do
   end
 
   it "should display description" do
-    display_update(@ksloc_attribute).should == "Last update #{@ksloc_attribute.updated_at.strftime("%d %m %Y")}"
+    display_update(@ksloc_attribute).should ==  "#{I18n.t(:text_latest_update)} #{I18n.l(@ksloc_attribute.updated_at)}"
   end
 
 end
