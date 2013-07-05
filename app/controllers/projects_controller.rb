@@ -627,9 +627,10 @@ class ProjectsController < ApplicationController
           @result_hash["#{est_val.pe_attribute.alias}_#{current_module_project.id}".to_sym] = nil
           puts e.message
         end
-        return @result_hash
       end
     end
+    @result_hash
+    puts "test"
   end
 
 

@@ -107,7 +107,7 @@ class User < ActiveRecord::Base
   }
 
   def auth_method_application
-     self.auth_method.name=="Application"
+     self.auth_method.name == "Application"
   end
 
   #Check password minimum length value
