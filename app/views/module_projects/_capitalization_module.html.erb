@@ -9,7 +9,6 @@
 
         <% unless @project.locked? %>
           <%= link_to '', '#', :title => "#{@capitalization_module.title}: \n #{@capitalization_module.description}", :class => "icon-info attribute_tooltip" %>
-          <%= link_to '', edit_module_project_path(@capitalization_module_project.id), :class => "icon-edit" %>
         <% end %>
       </div>
     </td>
