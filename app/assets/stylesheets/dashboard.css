@@ -3,9 +3,8 @@ body {
 }
 
 th.action {
-   width: 93px
+   width: 93px;
 }
-
 div.actions {
     margin:20px;
 }

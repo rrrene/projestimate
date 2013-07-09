@@ -99,11 +99,10 @@ $(document).ready(function() {
 
                 widgets: [ 'uitheme', 'zebra', 'filter'],
                 widgetOptions : {
-
+                    filter_cssFilter   : 'tablesorter-filter',
                     zebra : ["even", "odd"],
-
-                    // reset filters button
-                    filter_reset : ".reset"
+                    // jQuery selector string of an element used to reset the filters
+                    filter_reset : '.reset'
                 }
 
             })
