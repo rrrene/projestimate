@@ -52,12 +52,6 @@ class ProjectsController < ApplicationController
   def index
     set_page_title 'Projects'
     @projects = Project.all
-    respond_to do |format|
-      format.html
-      format.js {
-        render :partial => 'project_record_number'
-      }
-    end
   end
 
   def new
@@ -869,6 +863,10 @@ class ProjectsController < ApplicationController
     @project.locked? ? @project.is_locked = false : @project.is_locked = true
     @project.save
     redirect_to edit_project_path(@project, :anchor => 'tabs-4')
+  end
+
+  def projects_from
+    @projects = Project.where(:is_model => true)
   end
 
 end

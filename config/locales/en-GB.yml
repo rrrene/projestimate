@@ -498,6 +498,7 @@ en-gb:
   #projects
   edit_project: "Edit project \"%{value}\" ..."
   new_project: "New project ..."
+  new_project_from: "Create project from ..."
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
@@ -518,6 +519,7 @@ en-gb:
   global_properties: "Global properties"
   text_confirm_project_deletion: "Are you SURE you want to delete this project and all related data ?"
   warning_need_check_box_confirmation: "You need to confirm project deletion with check-box"
+  is_model: "Model project"
 
   #Record_statuses
   edit_record_status: "Edit the \"%{value}\" record status ..."

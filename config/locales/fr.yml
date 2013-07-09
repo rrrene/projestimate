@@ -498,6 +498,7 @@ fr:
   #projects
   edit_project: "Editer le projet \"%{value}\" ..."
   new_project: "Créer un nouveau projet ..."
+  new_project_from: "Créer un projet à partir ..."
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
   available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
@@ -518,6 +519,7 @@ fr:
   global_properties: "Propriétés globales"
   text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
+  is_model: "Projet de référence"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."

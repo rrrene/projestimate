@@ -45,7 +45,9 @@
             <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
           </tr>
         </table>
-        <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :is_model, :label => I18n.t('is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %>
+
+         <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
         <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'} %>
 
