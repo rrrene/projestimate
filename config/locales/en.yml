@@ -519,7 +519,7 @@ en:
   global_properties: "Global properties"
   text_confirm_project_deletion: "Are you SURE you want to delete this project and all related data ?"
   warning_need_check_box_confirmation: "You need to confirm project deletion with check-box"
-  is_model: "Model project"
+  label_project_is_model: "Is a project template"
 
   #Record_statuses
   edit_record_status: "Edit the \"%{value}\" record status ..."

@@ -299,7 +299,7 @@ fr:
   update: "Mettre à jour"
   empty: "Aucun"
   are_you_sur: "Etes-vous sûr ?"
-  back: "Annuler"
+  back: "Retour"
   restore_title: "Restaurer les changements"
   validate_title: "Valider les changements"
   previous: "< Précédent "
@@ -519,7 +519,7 @@ fr:
   global_properties: "Propriétés globales"
   text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
-  is_model: "Projet de référence"
+  label_project_is_model: "Est un modèle de projet"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."
