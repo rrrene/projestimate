@@ -1,4 +1,4 @@
-$(".project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
+$("#project_wbs_product_section .tab-pane.active").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 
 $(".input_data").html("<%=raw j(display_input) %>");
 
