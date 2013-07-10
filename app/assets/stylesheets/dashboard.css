@@ -1,14 +1,6 @@
 body {
     font-size: 12px;
 }
-/*.myContent {*/
-    /*width: 100px;*/
-    /*height: 100px;*/
-    /*margin: 0;*/
-    /*padding: 10px;*/
-    /*float: left;*/
-    /*color: #FFFFFF;*/
-/*}*/
 th.action {
    width: 93px;
 }
@@ -127,7 +119,6 @@ div.actions-tabs {
 
 #content {
     background: none repeat scroll 0 0 #eeeeee;
-    /*margin-left: 192px;*/
     border-left: 1px solid #red;
     min-height: 1000px;
 }
@@ -554,10 +545,6 @@ ul{
 
 .inner-well{
     margin: 10px;
-}
-
-.nav-list {
-    max-width: 160px;
 }
 
 .nav-list > li > a, .nav-list .nav-header {
