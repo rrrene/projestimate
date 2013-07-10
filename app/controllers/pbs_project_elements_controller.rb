@@ -93,7 +93,6 @@ class PbsProjectElementsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
     @results = nil
-
     render :partial => "pbs_project_elements/refresh"
   end
 

@@ -7,7 +7,7 @@
   <title><%= @page_title ? @page_title : controller.action_name %></title>
 
   <%= stylesheet_link_tag 'application' %>
-  <%= javascript_include_tag 'application', 'projestimate_script', 'warn_text','jquery.tablesorter', 'jquery.tablesorter.widgets.js' %>
+  <%= javascript_include_tag 'application', 'projestimate_script' %>
 
   <%= javascript_heads %>
   <%= csrf_meta_tag %>
@@ -23,7 +23,6 @@
         <div class="pull-left">
           <%= link_to(content_tag(:div, '', :class => 'logoEstimate'), '/dashboard') %>
         </div>
-
         <div style="margin-top:16px;">
           <%= render 'layouts/search_input' %>
         </div>
@@ -35,6 +34,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <div class="container">
+
       <%= render 'layouts/user_account' %>
       <div id="notifications">
         <%= render 'layouts/notifications' %>
@@ -44,21 +44,26 @@
   </div>
 </div>
 
-<div class="the-sidebar">
-  <div class="sidebar-nav">
+
+<div class="row-fluid">
+  <div id="sidebar" class="span2">
     <%= render 'layouts/sidebar_menu' %>
   </div>
-</div>
 
-<div id="content">
-  <div class="">
-    <div class="row-fluid">
-      <div class="span12">
-        <%= yield %>
-      </div>
+  <div id="mycontent" class="span10">
+    <div id="content">
+      <%= yield %>
     </div>
   </div>
 </div>
 
 </body>
 </html>
+<script type="text/javascript">
+    $("#toggle_button").click(function(){
+      $('#sidebar').toggle();
+      $('#mycontent').toggleClass("span10");
+      $("#toggle_button > i").toggleClass("icon-angle-right");
+      $("#toggle_button > i").toggleClass("icon-angle-down");
+    });
+</script>

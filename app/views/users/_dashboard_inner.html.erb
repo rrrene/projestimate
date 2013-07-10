@@ -70,7 +70,6 @@
 
         <div class="collapse in" id="collapseIn">
           <div class="widget-content tab-content">
-
             <div class="span6">
               <div class="input">
                 <div class="input_data">
@@ -78,11 +77,10 @@
                 </div>
               </div>
             </div>
-
             <div class="span6">
               <div class="output">
                 <div class="output_data">
-                  <%= raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results %>
+                    <%= raw display_results.blank? ? "#{ content_tag(:div, I18n.t(:notice_no_estimation_saved), :class => 'alert alert-info')}" : display_results %>
                 </div>
               </div>
             </div>
