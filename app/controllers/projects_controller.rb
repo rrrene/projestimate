@@ -205,6 +205,9 @@ class ProjectsController < ApplicationController
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
 
+    #Get the project Organization before update
+    project_organization = @project.organization
+
     if @project.update_attributes(params[:project])
 
       begin
@@ -212,6 +215,65 @@ class ProjectsController < ApplicationController
         @project.start_date = date
       rescue
         @project.start_date = Time.now.to_date
+      end
+
+      # Capitalization Module
+      unless @capitalization_module.nil?
+        # Get the project capitalization module_project or create if it doesn't exist
+        cap_module_project = @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+        if cap_module_project.nil?
+          cap_module_project = @project.module_projects.create(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+        end
+
+        # Create the project capitalization module estimation_values if project organization has changed and not nil
+        if project_organization.nil? && !@project.organization.nil?
+
+          #Create the corresponding EstimationValues
+          unless @project.organization.attribute_organizations.nil?
+            @project.organization.attribute_organizations.each do |am|
+              ['input', 'output'].each do |in_out|
+                mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                         :module_project_id => cap_module_project.id,
+                         :in_out => in_out,
+                         :is_mandatory => am.is_mandatory,
+                         :description => am.pe_attribute.description,
+                         :display_order => nil,
+                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+              end
+            end
+          end
+
+        # When project organization exists
+        elsif !project_organization.nil?
+
+          # project's organization is deleted and none one is selected
+          if @project.organization.nil?
+            cap_module_project.estimation_values.delete_all
+          end
+
+          # Project's organization has changed
+          if !@project.organization.nil? && project_organization != @project.organization
+            # Delete all last estimation values for this organization on this project
+            cap_module_project.estimation_values.delete_all
+
+            # Create estimation_values for the new selected organization
+            @project.organization.attribute_organizations.each do |am|
+              ['input', 'output'].each do |in_out|
+                mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                         :module_project_id => cap_module_project.id,
+                         :in_out => in_out,
+                         :is_mandatory => am.is_mandatory,
+                         :description => am.pe_attribute.description,
+                         :display_order => nil,
+                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+              end
+            end
+          end
+        end
       end
 
       @project.save

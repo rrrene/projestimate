@@ -31,10 +31,12 @@ module Capitalization
       @pe_attribute_alias = module_input_data[:pe_attribute_alias]
 
       module_input_data["#{@pe_attribute_alias}".to_sym].blank? ? @output_result = nil : @output_result = module_input_data["#{@pe_attribute_alias}".to_sym]
-      if @output_result.valid_integer?
-        @output_result = @output_result.to_i
-      elsif @output_result.valid_float?
-        @output_result = @output_result.to_f
+      unless @output_result.nil?
+        if @output_result.valid_integer?
+          @output_result = @output_result.to_i
+        elsif @output_result.valid_float?
+          @output_result = @output_result.to_f
+        end
       end
 
       (class << self; self; end).class_eval do
