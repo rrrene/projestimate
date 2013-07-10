@@ -53,7 +53,7 @@ module PeWbsProjectsHelper
     end
 
     def wbs_navigation_links(c)
-      "<li class='#{ c.id == (current_component.nil? ? nil : current_component.id) ? "selected" : '' }' >
+      "<li class='#{ c.id == current_component.id ? "selected_pbs" : '' }' >
         <div class='block_label'>
           #{  image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
           #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
@@ -71,7 +71,7 @@ module PeWbsProjectsHelper
 
 
     def wbs_folder_links(c, project)
-      "<li class='#{ c.id == current_component.id ? 'selected' : '' }' >
+      "<li class='#{ c.id == current_component.id ? 'selected_pbs' : '' }' >
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
@@ -93,7 +93,7 @@ module PeWbsProjectsHelper
     end
 
     def wbs_root_links(pbs_project_element, project)
-      "<li class='#{ pbs_project_element.id == (current_component.nil? ? nil : current_component.id) ? 'selected' : '' }'>
+      "<li class='#{ pbs_project_element.id == current_component.id ? 'selected_pbs' : '' }'>
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }

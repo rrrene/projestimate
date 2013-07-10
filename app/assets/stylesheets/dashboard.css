@@ -19,6 +19,10 @@ div.actions-tabs {
     margin:0px;
 }
 
+.overflow{
+    overflow-y: auto;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
 	#header h1 {
 		top: 3px;
@@ -159,6 +163,15 @@ div.actions-tabs {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
     border-bottom: 1px solid #CDCDCD;
     height: 36px;
+
+
+
+}
+
+.widget-title{
+    overflow: hidden;
+    -o-text-overflow: ellipsis; /* pour Opera 9 */
+    text-overflow: ellipsis;
 }
 .widget-title .nav-tabs {
     border-bottom: 0 none;
@@ -391,13 +404,10 @@ body {
 
 .component_tree{
     max-height: 653px;
+    max-width: 800px;
     color: #666;
     overflow-y: auto;
     clear: both;
-}
-
-.overflow{
-    overflow-y: auto;
 }
 
 ul{
@@ -680,6 +690,7 @@ input[type="color"],
     opacity: 0;
     filter: alpha(opacity=0);
     visibility: visible;
+    z-index: 99999;
 }
 
 .tooltip.in {
@@ -688,25 +699,8 @@ input[type="color"],
 }
 
 .tooltip.top {
-    z-index: 9999;
-
     padding: 0px;
     margin-top: 0px;
-}
-
-.tooltip.right {
-    padding: 0px;
-    margin-left: 0px;
-}
-
-.tooltip.bottom {
-    padding: 0px;
-    margin-top: 0px;
-}
-
-.tooltip.left {
-    padding: 0px;
-    margin-left: 0px;
 }
 
 
@@ -725,6 +719,10 @@ input[type="color"],
 
 .not_consistent{
     color: #ff0000;
+}
+
+.selected_pbs{
+    font-weight: bold;
 }
 
 /* override the font-awesome.css*/

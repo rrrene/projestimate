@@ -20,6 +20,7 @@
   </div>
 
   <div id="tabs-2">
+    <!-- Method in AttributeOrganizationsController -->
     <%= form_tag('/update_selected_attribute_organizations', :method => 'POST', :class => 'simple_form') do -%>
 
         <%= hidden_field_tag 'organization_id', @organization.id %>
@@ -46,6 +47,7 @@
   </div>
 
   <div id="tabs-3">
+    <!-- Method in AttributeOrganizationsController -->
     <%= form_tag('/update_attribute_organizations_settings', :method => 'POST', :class => 'simple_form') do -%>
 
         <%= hidden_field_tag 'organization_id', @organization.id %>

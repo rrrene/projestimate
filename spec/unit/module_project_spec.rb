@@ -20,14 +20,26 @@ describe ModuleProject do
     @mp5 = ModuleProject.create(:project_id => @project.id, :position_y => 5, :pemodule => @pemodule)
     @mp6 = ModuleProject.create(:project_id => @project.id, :position_y => 6, :pemodule => @pemodule)
 
+    @mp7 = ModuleProject.create(:project_id => @project.id, :position_y => 7, :pemodule => @pemodule)
+    @mp8 = ModuleProject.create(:project_id => @project.id, :position_y => 8, :pemodule => @pemodule)
+
     AssociatedModuleProject.create(:associated_module_project_id => @mp5.id, :module_project_id => @mp6.id)
     AssociatedModuleProject.create(:associated_module_project_id => @mp5.id, :module_project_id => @mp4.id)
     AssociatedModuleProject.create(:associated_module_project_id => @mp3.id, :module_project_id => @mp1.id)
     AssociatedModuleProject.create(:associated_module_project_id => @mp3.id, :module_project_id => @mp2.id)
 
-    AssociatedModuleProject.create(:associated_module_project_id => @mp4.id, :module_project_id => @mp5.id)
-    AssociatedModuleProject.create(:associated_module_project_id => @mp1.id, :module_project_id => @mp3.id)
-    AssociatedModuleProject.create(:associated_module_project_id => @mp2.id, :module_project_id => @mp3.id)
+    #AssociatedModuleProject.create(:associated_module_project_id => @mp4.id, :module_project_id => @mp5.id)
+    #AssociatedModuleProject.create(:associated_module_project_id => @mp1.id, :module_project_id => @mp3.id)
+    #AssociatedModuleProject.create(:associated_module_project_id => @mp2.id, :module_project_id => @mp3.id)
+
+    AssociatedModuleProject.create(:associated_module_project_id => @mp7.id, :module_project_id => @mp8.id)
+  end
+
+  it "should feet for bidirectional relation" do
+    @mp8.previous().include?(@mp7).should be_true
+    @mp8.preceding().include?(@mp7).should be_true
+    @mp7.following().include?(@mp8).should be_true
+    @mp7.next().include?(@mp8).should be_true
   end
 
   it "should have a valid module" do
@@ -87,7 +99,7 @@ describe ModuleProject do
   end
 
   it "should not be a string" do
-    @mp2.pemodule.title=1
+    @mp2.pemodule.title = 1
     @mp2.to_s.should_not be_instance_of(String)
   end
 

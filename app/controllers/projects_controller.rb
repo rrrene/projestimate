@@ -52,12 +52,6 @@ class ProjectsController < ApplicationController
   def index
     set_page_title 'Projects'
     @projects = Project.all
-    respond_to do |format|
-      format.html
-      format.js {
-        render :partial => 'project_record_number'
-      }
-    end
   end
 
   def new
@@ -102,17 +96,13 @@ class ProjectsController < ApplicationController
             redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
-          #Get the capitalization module
-          @capitalization_module = Pemodule.find_by_alias("capitalization")
-
+          #Get the capitalization module from ApplicationController
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
-            unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
-              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-              if  cap_module_project.save
-                cap_module_project.save
-                #Create the corresponding EstimationValues
-                #@capitalization_module.attribute_modules.each do |am|
+            cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+            if cap_module_project.save
+              #Create the corresponding EstimationValues
+              unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
                 @project.organization.attribute_organizations.each do |am|
                   ['input', 'output'].each do |in_out|
                     mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
@@ -121,9 +111,9 @@ class ProjectsController < ApplicationController
                            :is_mandatory => am.is_mandatory,
                            :description => am.pe_attribute.description,
                            :display_order => nil,
-                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
-                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
-                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
+                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
                            #:custom_attribute => am.custom_attribute,
                            #:project_value => am.project_value)
                   end
@@ -137,7 +127,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_created)}"
+          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -242,7 +232,7 @@ class ProjectsController < ApplicationController
           session[:current_project_id] = current_user.projects.first
 
           #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => I18n.t(:notice_successfully_deleted, :value => "Project")
+          redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => 'Project')
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
@@ -688,7 +678,7 @@ class ProjectsController < ApplicationController
         old_prj.module_projects.group(:id).each do |old_mp|
           new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
           old_mp.associated_module_projects.each do |associated_mp|
-            new_associated_mp = ModuleProject.where("project_id = ? AND copy_id = ?", new_prj.id, associated_mp.id).first
+            new_associated_mp = ModuleProject.where('project_id = ? AND copy_id = ?', new_prj.id, associated_mp.id).first
             new_mp.associated_module_projects <<  new_associated_mp
           end
         end
@@ -736,7 +726,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    related_pbs_project_elements = PbsProjectElement.where("project_link IN (?)",  [params[:project_id]]).all
+    related_pbs_project_elements = PbsProjectElement.where('project_link IN (?)',  [params[:project_id]]).all
     related_pbs_project_elements.each do |i|
       @related_projects_inverse << i.pe_wbs_project.project
     end
@@ -869,6 +859,10 @@ class ProjectsController < ApplicationController
     @project.locked? ? @project.is_locked = false : @project.is_locked = true
     @project.save
     redirect_to edit_project_path(@project, :anchor => 'tabs-4')
+  end
+
+  def projects_from
+    @projects = Project.where(:is_model => true)
   end
 
 end
