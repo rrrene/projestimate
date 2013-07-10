@@ -50,23 +50,15 @@
 
 
 <div class="row-fluid">
-    <div class="myContent" class="span2">
-      <div class="the-sidebar">
+    <div class="myContent span2">
         <div class="sidebar-nav">
           <%= render 'layouts/sidebar_menu' %>
         </div>
-      </div>
     </div>
 
       <div id="myButton" class="span10">
         <div id="content">
-          <div class="">
-            <div class="row-fluid">
-              <div class="span12">
                 <%= yield %>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 </div>
@@ -85,12 +77,12 @@
             function resize() {
                 if ($('#myButton').attr('class')=="span10"){
                     $(".span10").removeClass("span10").addClass("span12");
-                    $('#content').css("margin-left","20px");
+//                    $('#content').css("margin-left","20px");
                 }
                 else
                 {
                     $(".span12").removeClass("span12").addClass("span10");
-                    $('#content').css("margin-left","192px");
+//                    $('#content').css("margin-left","192px");
                     /*margin-left: 192px;*/
                 }
 

@@ -1,14 +1,14 @@
 body {
     font-size: 12px;
 }
-.myContent {
-    width: 100px;
-    height: 100px;
-    margin: 0;
-    padding: 10px;
-    float: left;
-    color: #FFFFFF;
-}
+/*.myContent {*/
+    /*width: 100px;*/
+    /*height: 100px;*/
+    /*margin: 0;*/
+    /*padding: 10px;*/
+    /*float: left;*/
+    /*color: #FFFFFF;*/
+/*}*/
 th.action {
    width: 93px;
 }
@@ -109,9 +109,8 @@ div.actions-tabs {
 @media (min-width: 768px) and (max-width: 1280px) {
 	[class*="span"], .row-fluid [class*="span"] {
 		display: block;
-		float: none;
+		float: left;
 		margin-left: 0;
-		width: auto;
 	}
 }
 @media (max-width: 1280px) {
@@ -128,7 +127,7 @@ div.actions-tabs {
 
 #content {
     background: none repeat scroll 0 0 #eeeeee;
-    margin-left: 192px;
+    /*margin-left: 192px;*/
     border-left: 1px solid #red;
     min-height: 1000px;
 }
@@ -376,10 +375,6 @@ body {
 
 .login_pw{
     width: 275px;
-}
-
-.the-sidebar {
-    position: absolute;
 }
 
 .the-container {
