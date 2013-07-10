@@ -1,11 +1,11 @@
 class AttributeOrganizationsController < ApplicationController
 
+  # Update the Organization attributes
   def update_selected_attribute_organizations
     authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:organization_id])
     @organization_projects = @organization.projects
     # Get the Capitalization module. It is set in the ApplicationController : @capitalization_module = Pemodule.find_by_alias("capitalization")
-
     attributes_ids = params[:organization][:pe_attribute_ids]
 
     @organization.attribute_organizations.each do |m|
@@ -20,11 +20,9 @@ class AttributeOrganizationsController < ApplicationController
             end
           end
         end
-
         #Delete the attribute_organization
         m.destroy
       end
-
       attributes_ids.delete(m.pe_attribute_id.to_s)
     end
 
@@ -33,7 +31,6 @@ class AttributeOrganizationsController < ApplicationController
       #Update de Capitalization's estimation_values
       unless @capitalization_module.nil?
         attr_org = @organization.attribute_organizations.where("pe_attribute_id = ?", g).first
-
         @organization_projects.each do |project|
           module_project = project.module_projects.where("pemodule_id = ?", @capitalization_module.id).first
           unless module_project.nil?
@@ -55,9 +52,7 @@ class AttributeOrganizationsController < ApplicationController
         end
       end
     end
-
     @organization.pe_attributes(force_reload = true)
-
 
     if @organization.save
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
@@ -66,20 +61,32 @@ class AttributeOrganizationsController < ApplicationController
     end
 
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => params[:organization_id]})
-
     redirect_to redirect("/organizationals_params"), :notice => "#{I18n.t (:notice_attribute_organization_successful_updated)}"
   end
 
+  # Update the Organizational attribute parameters
   def update_attribute_organizations_settings
     authorize! :manage_organizations, Organization
+    current_organization = Organization.find(params[:organization_id])
+    organization_projects = current_organization.projects
+
     selected_attributes = params[:attributes]
     selected_attributes.each_with_index do |attr, i|
       attribute = AttributeOrganization.first(:conditions => {:pe_attribute_id => attr.to_i, :organization_id => params[:organization_id]})
-      #Get Capitalization corresponding attribute_module
-      cap_attribute_module = @capitalization_module.attribute_modules.find_by_pe_attribute_id(attr.to_i)
-
       attribute.update_attribute('is_mandatory', params[:is_mandatory][i])
-      cap_attribute_module.update_attribute('is_mandatory', params[:is_mandatory][i])  unless cap_attribute_module.nil?
+
+      unless @capitalization_module.nil?
+        #Get Capitalization corresponding EstimationValues for each project of this organization
+        organization_projects.each do |project|
+          cap_module_project = project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+          unless cap_module_project.nil?
+            cap_estimation_values = cap_module_project.estimation_values.where("pe_attribute_id = ?", attr.to_i)
+            cap_estimation_values.each do |est_val|
+              est_val.update_attribute("is_mandatory", params[:is_mandatory][i])
+            end
+          end
+        end
+      end
     end
     redirect_to redirect("/organizationals_params"), :notice => "#{I18n.t (:notice_attribute_organization_successful_updated)}"
   end

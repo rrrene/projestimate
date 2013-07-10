@@ -18,12 +18,11 @@
        <div id="tabs-1">
 
         <%= f.input :title, :label => "#{I18n.t 'name'}", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
-
         <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-
+        <%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %>
         <table>
           <tr>
-            <td><%= f.input :alias, :input_html => {:class => 'input-xlarge'} %></td>
+            <td><%= f.input :alias, :input_html => {:class => 'input-large'} %></td>
             <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
           </tr>
           <tr>
@@ -45,7 +44,7 @@
             <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
           </tr>
         </table>
-        <%= f.input :is_model, :label => I18n.t('is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %>
+
 
          <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
@@ -106,7 +105,7 @@
             <tr>
               <td>
                 <%= I18n.t(:label_add_a_module_to_project) %>
-                <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ? AND alias <> ?', @defined_status.id, "capitalization").all.map { |i| [i.title, i.id] }), :prompt => '' %>
+                <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ? AND alias <> ?', @defined_status.id, 'capitalization').all.map { |i| [i.title, i.id] }), :prompt => '' %>
               </td>
               <td class="pull-right">
                 <%= I18n.t(:label_filter_on_pbs_element) %>

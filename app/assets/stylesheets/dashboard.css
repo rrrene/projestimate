@@ -1,7 +1,14 @@
 body {
     font-size: 12px;
 }
-
+.myContent {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    padding: 10px;
+    float: left;
+    color: #FFFFFF;
+}
 th.action {
    width: 93px;
 }

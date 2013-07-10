@@ -96,17 +96,13 @@ class ProjectsController < ApplicationController
             redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
           end
 
-          #Get the capitalization module
-          @capitalization_module = Pemodule.find_by_alias('capitalization')
-
+          #Get the capitalization module from ApplicationController
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
-            unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
-              cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-              if  cap_module_project.save
-                cap_module_project.save
-                #Create the corresponding EstimationValues
-                #@capitalization_module.attribute_modules.each do |am|
+            cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+            if cap_module_project.save
+              #Create the corresponding EstimationValues
+              unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
                 @project.organization.attribute_organizations.each do |am|
                   ['input', 'output'].each do |in_out|
                     mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
