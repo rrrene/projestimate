@@ -52,12 +52,6 @@ class ProjectsController < ApplicationController
   def index
     set_page_title 'Projects'
     @projects = Project.all
-    respond_to do |format|
-      format.html
-      format.js {
-        render :partial => 'project_record_number'
-      }
-    end
   end
 
   def new
@@ -117,9 +111,9 @@ class ProjectsController < ApplicationController
                            :is_mandatory => am.is_mandatory,
                            :description => am.pe_attribute.description,
                            :display_order => nil,
-                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ""},
-                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ""},
-                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ""})
+                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
                            #:custom_attribute => am.custom_attribute,
                            #:project_value => am.project_value)
                   end
@@ -133,7 +127,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect(projects_url), notice: "#{I18n.t(:notice_project_successful_created)}"
+          redirect_to redirect(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -238,7 +232,7 @@ class ProjectsController < ApplicationController
           session[:current_project_id] = current_user.projects.first
 
           #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => I18n.t(:notice_successfully_deleted, :value => "Project")
+          redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => 'Project')
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
@@ -417,21 +411,10 @@ class ProjectsController < ApplicationController
     @project = current_project
     @pbs_project_element = current_component
     @my_results = Hash.new
-    @set_attributes = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
       @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
-
-    #Get all module_projects from the current_module_project
-    current_next_module_projects = current_module_project.following.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
-    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| mp1.position_y <=> mp2.position_y}
-
-    #Get all required attributes for each module
-    current_next_compatible_module_projects.each do |mp|
-    end
-
-    puts "test ça"
 
     #Save output values: only for current pbs_project_element
     #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
@@ -695,7 +678,7 @@ class ProjectsController < ApplicationController
         old_prj.module_projects.group(:id).each do |old_mp|
           new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
           old_mp.associated_module_projects.each do |associated_mp|
-            new_associated_mp = ModuleProject.where("project_id = ? AND copy_id = ?", new_prj.id, associated_mp.id).first
+            new_associated_mp = ModuleProject.where('project_id = ? AND copy_id = ?', new_prj.id, associated_mp.id).first
             new_mp.associated_module_projects <<  new_associated_mp
           end
         end
@@ -743,7 +726,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    related_pbs_project_elements = PbsProjectElement.where("project_link IN (?)",  [params[:project_id]]).all
+    related_pbs_project_elements = PbsProjectElement.where('project_link IN (?)',  [params[:project_id]]).all
     related_pbs_project_elements.each do |i|
       @related_projects_inverse << i.pe_wbs_project.project
     end
@@ -876,6 +859,10 @@ class ProjectsController < ApplicationController
     @project.locked? ? @project.is_locked = false : @project.is_locked = true
     @project.save
     redirect_to edit_project_path(@project, :anchor => 'tabs-4')
+  end
+
+  def projects_from
+    @projects = Project.where(:is_model => true)
   end
 
 end

@@ -172,6 +172,8 @@ Projestimate::Application.routes.draw do
 
   match 'projects/:project_id/locked_plan' => 'projects#locked_plan', :as => :locked_plan
 
+  get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
+
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'
   get 'sign_up' => 'users#new', :as => 'sign_up'

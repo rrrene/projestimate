@@ -5,6 +5,7 @@
 .tablesorter-bootstrap {
 	width: 100%;
 }
+
 .tablesorter-bootstrap .tablesorter-header,
 .tablesorter-bootstrap tfoot th,
 .tablesorter-bootstrap tfoot td {
@@ -25,6 +26,7 @@
 	-webkit-box-shadow: inset 0 1px 0 white;
 	-moz-box-shadow: inset 0 1px 0 #ffffff;
 	box-shadow: inset 0 1px 0 white;
+
 }
 
 .tablesorter-bootstrap .tablesorter-header {
@@ -92,6 +94,7 @@ caption {
 	-o-transition: height 0.1s ease;
 	transition: height 0.1s ease;
 }
+
 .tablesorter-bootstrap .tablesorter-filter-row .tablesorter-filter.disabled {
 	background: #eee;
 	cursor: not-allowed;

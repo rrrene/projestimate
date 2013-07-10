@@ -1,0 +1,58 @@
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:projects) %></a></li>
+  </ul>
+  <div id="tabs-1">
+    <table border="0" width="100%">
+      <tr>
+        <td colspan=2 style="text-align:right;">
+          <%= link_to I18n.t('back'), :back, :class => 'btn' %>
+        </td>
+      </tr>
+    </table>
+
+    <div id="projects">
+      <table class="table tablesorterPager table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th style="width: 100px">Alias</th>
+          <th style="width: 100px"  class="filter-select"><%= I18n.t(:record_status) %></th>
+          <th style="width: 120px"><%= I18n.t(:start_date) %></th>
+          <th class="filter-select"><%= I18n.t(:organizations) %></th>
+          <th class="action" style="width: 165px"><%= I18n.t(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @projects.empty? %>
+          <p style="text-align:center;"> <%= I18n.t('empty') %></p>
+        <% else %>
+          <% @projects.each do |project| %>
+            <tr>
+              <td><%= project.title %></td>
+              <td><%= project.alias %></td>
+              <td><%= project.state %></td>
+              <td><%= I18n.l(project.start_date)  unless project.start_date.nil? %></td>
+              <td><%= project.organization %></td>
+              <td>
+                <%=
+                  link_to('', edit_project_path(project, :anchor => "tabs-1"), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
+                  link_to('', {:controller => 'projects', :action => 'find_use_project', :project_id => project.id}, :remote => true, "data-project_id" => project.id, :class => 'icon-info icon-large icon-border pull-left',:id => 'find_use_projects', :title => I18n.t('button_find_use')) +
+                  link_to('', "projects/#{project.id}/duplicate", :class => 'icon-copy icon-large icon-border pull-left', :title => I18n.t('button_duplicate_project'))
+                %>
+              </td>
+            </tr>
+          <% end %>
+
+          <%= render :partial => 'layouts/footer_table' %>
+        <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  <%= render :partial => 'layouts/sort_date.js.erb'%>
+</script>
