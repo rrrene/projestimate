@@ -27,11 +27,12 @@ class ModuleProject < ActiveRecord::Base
 
   has_and_belongs_to_many :pbs_project_elements
 
-  has_and_belongs_to_many :associated_module_projects, :class_name => "ModuleProject",
-                          :join_table => "associated_module_projects",
-                          :foreign_key => "module_project_id",
-                          :association_foreign_key => :associated_module_project_id,
-                          :uniq => true
+  has_many :first_module_projects, :class_name => "AssociatedModuleProject", :foreign_key => "module_project_id"
+  has_many :associated_module_projects, :through => :first_module_projects
+
+  has_many :second_module_projects, :class_name => "AssociatedModuleProject", :foreign_key => "associated_module_project_id"
+  has_many :inverse_associated_module_projects, :through => :second_module_projects, :source => :module_project
+
 
   default_scope :order => "position_x ASC, position_y ASC"
 
@@ -42,7 +43,6 @@ class ModuleProject < ActiveRecord::Base
     customize(lambda { |original_module_project, new_module_project|
       new_module_project.copy_id = original_module_project.id
     })
-
   end
 
   #Return the common attributes (previous, next)
@@ -85,7 +85,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the next pemodule with link
   def next
     results = Array.new
-    tmp_results = self.associated_module_projects #+self.inverse_associated_module_projects
+    tmp_results = self.associated_module_projects + self.inverse_associated_module_projects
     tmp_results.each do |r|
       if self.following.map(&:id).include?(r.id)
         results << r
@@ -97,8 +97,7 @@ class ModuleProject < ActiveRecord::Base
   #Return the previous pemodule with link
   def previous
     results = Array.new
-    #tmp_results = (self.inverse_associated_module_projects + self.associated_module_projects)
-    tmp_results = self.associated_module_projects
+    tmp_results = self.associated_module_projects + self.inverse_associated_module_projects
     tmp_results.each do |r|
       if self.preceding.map(&:id).include?(r.id)
         results << r

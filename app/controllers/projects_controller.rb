@@ -417,10 +417,21 @@ class ProjectsController < ApplicationController
     @project = current_project
     @pbs_project_element = current_component
     @my_results = Hash.new
+    @set_attributes = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
       @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
+
+    #Get all module_projects from the current_module_project
+    current_next_module_projects = current_module_project.following.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
+    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| mp1.position_y <=> mp2.position_y}
+
+    #Get all required attributes for each module
+    current_next_compatible_module_projects.each do |mp|
+    end
+
+    puts "test ça"
 
     #Save output values: only for current pbs_project_element
     #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
