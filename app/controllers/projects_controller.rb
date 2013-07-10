@@ -411,6 +411,7 @@ class ProjectsController < ApplicationController
     @project = current_project
     @pbs_project_element = current_component
     @my_results = Hash.new
+    @set_attributes = Hash.new
 
     ['low', 'most_likely', 'high'].each do |level|
       @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
@@ -418,72 +419,196 @@ class ProjectsController < ApplicationController
 
     #Save output values: only for current pbs_project_element
     #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
-      # get the estimation_value for the current_pbs_project_element
-      current_pbs_estimations = current_module_project.estimation_values
-      current_pbs_estimations.each do |est_val|
-        est_val_attribute_alias = est_val.pe_attribute.alias
-        est_val_attribute_type = est_val.pe_attribute.attribute_type
-        if est_val.in_out == 'output'
-          out_result = Hash.new
-          @my_results.each do |res|
-            ['low', 'most_likely', 'high'].each do |level|
-              # We don't have to replace the value, but we need to update them
-              level_estimation_value = Hash.new
-              level_estimation_value = est_val.send("string_data_#{level}")
-              level_estimation_value_without_consistency = @my_results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
-
-              # In case when module use the wbs_project_element, the is_consistent need to be set
-              if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
-                psb_level_estimation = level_estimation_value[@pbs_project_element.id]
-                level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, current_module_project)
-              else
-                level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
-              end
-
-              out_result["string_data_#{level}"] = level_estimation_value
-            end
-
-            # compute the probable value for each node
-            probable_estimation_value = Hash.new
-            probable_estimation_value = est_val.send('string_data_probable')
-
-            if est_val_attribute_type == 'numeric'
-              probable_estimation_value[@pbs_project_element.id] = probable_value(@my_results, est_val)
-            else
-              probable_estimation_value[@pbs_project_element.id] = @my_results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
-            end
-
-            out_result['string_data_probable'] = probable_estimation_value
-          end
-
-          est_val.update_attributes(out_result)
-
-        elsif est_val.in_out == 'input'
-          in_result = Hash.new
+    # get the estimation_value for the current_pbs_project_element
+    current_pbs_estimations = current_module_project.estimation_values
+    current_pbs_estimations.each do |est_val|
+      est_val_attribute_alias = est_val.pe_attribute.alias
+      est_val_attribute_type = est_val.pe_attribute.attribute_type
+      if est_val.in_out == 'output'
+        out_result = Hash.new
+        @my_results.each do |res|
           ['low', 'most_likely', 'high'].each do |level|
+            # We don't have to replace the value, but we need to update them
             level_estimation_value = Hash.new
             level_estimation_value = est_val.send("string_data_#{level}")
-            begin
-              pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][current_module_project.id.to_s]
-            rescue
-              pbs_level_form_input = params[est_val_attribute_alias.to_sym][current_module_project.id.to_s]
-            end
+            level_estimation_value_without_consistency = @my_results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
 
-            wbs_root = current_module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
-            if current_module_project.pemodule.yes_for_input? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
-              unless current_module_project.pemodule.alias == 'effort_balancing'
-                level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
-              end
+            # In case when module use the wbs_project_element, the is_consistent need to be set
+            if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+              psb_level_estimation = level_estimation_value[@pbs_project_element.id]
+              level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, current_module_project)
             else
-              level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
+              level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
             end
 
-            in_result["string_data_#{level}"] = level_estimation_value
-
+            out_result["string_data_#{level}"] = level_estimation_value
           end
-          est_val.update_attributes(in_result)
+
+          # compute the probable value for each node
+          probable_estimation_value = Hash.new
+          probable_estimation_value = est_val.send('string_data_probable')
+
+          if est_val_attribute_type == 'numeric'
+            probable_estimation_value[@pbs_project_element.id] = probable_value(@my_results, est_val)
+          else
+            probable_estimation_value[@pbs_project_element.id] = @my_results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
+          end
+
+          out_result['string_data_probable'] = probable_estimation_value
         end
+
+        est_val.update_attributes(out_result)
+
+      elsif est_val.in_out == 'input'
+        in_result = Hash.new
+        ['low', 'most_likely', 'high'].each do |level|
+          level_estimation_value = Hash.new
+          level_estimation_value = est_val.send("string_data_#{level}")
+          begin
+            pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][current_module_project.id.to_s]
+          rescue
+            pbs_level_form_input = params[est_val_attribute_alias.to_sym][current_module_project.id.to_s]
+          end
+
+          wbs_root = current_module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
+          if current_module_project.pemodule.yes_for_input? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+            unless current_module_project.pemodule.alias == 'effort_balancing'
+              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+            end
+          else
+            level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
+          end
+
+          in_result["string_data_#{level}"] = level_estimation_value
+
+        end
+        est_val.update_attributes(in_result)
       end
+    end
+
+    #Need to execute other module_projects if all required input attributes are present
+
+    #Get all module_projects from the current_module_project
+    current_next_module_projects = current_module_project.following.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
+    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| mp1.position_y <=> mp2.position_y}
+
+    #Get all required attributes for each module (where )
+    current_next_compatible_module_projects.each do |module_project|
+      required_input_attributes = Array.new
+      input_attribute_modules = module_project.pemodule.attribute_modules.where('in_out IN (?) AND is_mandatory = ?', %w(input both), true)
+      input_attribute_modules.each do |attr_module|
+        required_input_attributes << attr_module.pe_attribute
+      end
+
+      #Re-initializa the current module_project
+      ###current_module_project = module_project
+    end
+
+    puts "test ça"
+    #end
+
+    respond_to do |format|
+      format.js { render :partial => 'pbs_project_elements/refresh' }
+    end
+  end
+
+
+  #Run estimation process
+  def run_estimation_SAVE
+    @module_projects = current_project.module_projects
+    @project = current_project
+    @pbs_project_element = current_component
+    @my_results = Hash.new
+    @set_attributes = Hash.new
+
+    ['low', 'most_likely', 'high'].each do |level|
+      @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
+    end
+
+    #Get all module_projects from the current_module_project
+    current_next_module_projects = current_module_project.following.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
+    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| mp1.position_y <=> mp2.position_y}
+
+    #Get all required attributes for each module (where )
+    current_next_compatible_module_projects.each do |module_project|
+      required_input_attributes = Array.new
+      input_attribute_modules = module_project.pemodule.attribute_modules.where('in_out IN (?) AND is_mandatory = ?', %w(input both), true)
+      input_attribute_modules.each do |attr_module|
+        required_input_attributes << attr_module.pe_attribute
+      end
+
+    end
+
+    puts "test ça"
+
+    #Save output values: only for current pbs_project_element
+    #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
+    # get the estimation_value for the current_pbs_project_element
+    current_pbs_estimations = current_module_project.estimation_values
+    current_pbs_estimations.each do |est_val|
+      est_val_attribute_alias = est_val.pe_attribute.alias
+      est_val_attribute_type = est_val.pe_attribute.attribute_type
+      if est_val.in_out == 'output'
+        out_result = Hash.new
+        @my_results.each do |res|
+          ['low', 'most_likely', 'high'].each do |level|
+            # We don't have to replace the value, but we need to update them
+            level_estimation_value = Hash.new
+            level_estimation_value = est_val.send("string_data_#{level}")
+            level_estimation_value_without_consistency = @my_results[level.to_sym]["#{est_val_attribute_alias}_#{current_module_project.id.to_s}".to_sym]
+
+            # In case when module use the wbs_project_element, the is_consistent need to be set
+            if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+              psb_level_estimation = level_estimation_value[@pbs_project_element.id]
+              level_estimation_value[@pbs_project_element.id] = set_element_value_with_activities(level_estimation_value_without_consistency, current_module_project)
+            else
+              level_estimation_value[@pbs_project_element.id] = level_estimation_value_without_consistency
+            end
+
+            out_result["string_data_#{level}"] = level_estimation_value
+          end
+
+          # compute the probable value for each node
+          probable_estimation_value = Hash.new
+          probable_estimation_value = est_val.send('string_data_probable')
+
+          if est_val_attribute_type == 'numeric'
+            probable_estimation_value[@pbs_project_element.id] = probable_value(@my_results, est_val)
+          else
+            probable_estimation_value[@pbs_project_element.id] = @my_results[:most_likely]["#{est_val_attribute_alias}_#{est_val.module_project_id.to_s}".to_sym]
+          end
+
+          out_result['string_data_probable'] = probable_estimation_value
+        end
+
+        est_val.update_attributes(out_result)
+
+      elsif est_val.in_out == 'input'
+        in_result = Hash.new
+        ['low', 'most_likely', 'high'].each do |level|
+          level_estimation_value = Hash.new
+          level_estimation_value = est_val.send("string_data_#{level}")
+          begin
+            pbs_level_form_input = params[level][est_val_attribute_alias.to_sym][current_module_project.id.to_s]
+          rescue
+            pbs_level_form_input = params[est_val_attribute_alias.to_sym][current_module_project.id.to_s]
+          end
+
+          wbs_root = current_module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
+          if current_module_project.pemodule.yes_for_input? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+            unless current_module_project.pemodule.alias == 'effort_balancing'
+              level_estimation_value[@pbs_project_element.id] = compute_tree_node_estimation_value(wbs_root, pbs_level_form_input)
+            end
+          else
+            level_estimation_value[@pbs_project_element.id] = pbs_level_form_input
+          end
+
+          in_result["string_data_#{level}"] = level_estimation_value
+
+        end
+        est_val.update_attributes(in_result)
+      end
+    end
     #end
 
     respond_to do |format|
