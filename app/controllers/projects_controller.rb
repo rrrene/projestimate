@@ -420,8 +420,7 @@ class ProjectsController < ApplicationController
       @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
 
-    #Save output values: only for current pbs_project_element
-    #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
+      #Save output values: only for current pbs_project_element
       # get the estimation_value for the current_pbs_project_element
       current_pbs_estimations = current_module_project.estimation_values
       current_pbs_estimations.each do |est_val|
@@ -488,7 +487,6 @@ class ProjectsController < ApplicationController
           est_val.update_attributes(in_result)
         end
       end
-    #end
 
     respond_to do |format|
       format.js { render :partial => 'pbs_project_elements/refresh' }
