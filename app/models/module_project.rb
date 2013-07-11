@@ -119,7 +119,7 @@ class ModuleProject < ActiveRecord::Base
   end
 
   def to_s
-    self.pemodule.title.humanize
+    self.pemodule.title.to_s.humanize
   end
 
   def is_One_Activity_Element?
