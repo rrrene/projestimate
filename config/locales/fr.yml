@@ -931,3 +931,4 @@ fr:
   notice_project_finduse_no_user: "Il n'existe aucun utilisateur associé au projet \"%{value}\""
   notice_project_finduse_no_group: "Il n'existe aucun groupe associé au projet \"%{value}\""
   notice_no_active_module: "Aucun module de projets sélectionné"
+  title_hide_show_menu: "Cacher/Afficher le menu"
