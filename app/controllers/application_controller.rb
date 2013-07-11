@@ -208,7 +208,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_module_project
-    pemodule = Pemodule.find_by_alias("capitalization")
+    @defined_record_status = RecordStatus.where("name = ?", "Defined").last
+    pemodule = Pemodule.find_by_alias_and_record_status_id("capitalization", @defined_record_status)
     default_current_module_project = ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
 
     if current_project.module_projects.map(&:id).include?(session[:module_project_id].to_i)
