@@ -41,7 +41,7 @@
                 });
             </script>
 
-            <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations, :input_html => {:class => 'input-xlarge'} %></td>
+            <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations.map{|i| [i.name, i.id] } + [["{empty}"]], :input_html => {:class => 'input-xlarge'} %></td>
           </tr>
         </table>
 

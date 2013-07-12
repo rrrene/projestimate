@@ -38,12 +38,16 @@ module DataValidationHelper
       parent_record = @record.parent_reference
 
       ##get all has many relations et for each...
-      #@record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
-      #  @record.parent_reference.send(associated_class_name).each do |obj|
-      #    obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
-      #    obj.save
-      #  end
-      #end
+      @record.transaction do
+        @record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
+          unless associated_class_name == EstimationValue
+            @record.parent_reference.send(associated_class_name).each do |obj|
+              obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
+              obj.save
+            end
+          end
+        end
+      end
 
       #If record parent is nil (for new created record)...only status is going to change
       if parent_record.nil?

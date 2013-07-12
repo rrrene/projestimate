@@ -32,7 +32,7 @@ class ProjectArea < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  belongs_to :project
+  has_many :projects
 
   validates_presence_of :description, :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
