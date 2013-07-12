@@ -467,20 +467,117 @@ class ProjectsController < ApplicationController
     @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
   end
 
+
+  def read_tree_nodes(current_node)
+    ordered_list_of_nodes = Array.new
+    next_nodes = current_node.next.sort{|node1, node2| (node1.position_y <=> node2.position_y) && (node1.position_x <=> node2.position_x)}.uniq
+    ordered_list_of_nodes = ordered_list_of_nodes + next_nodes
+    ordered_list_of_nodes.uniq
+
+    next_nodes.each do |n|
+      read_tree_nodes(n)
+    end
+  end
+
+
+  def test(current_module_project, output_data)
+    f = Hash.new
+    s = current_module_project
+
+    #BFS(graphe G, sommet s):
+    #    {
+    #        f = CreerFile();
+    #Marquer(s);
+    #Enfiler(f, s);
+    #TANT-QUE NON FileVide(f) FAIRE
+    #x = Défiler(f);
+    #Afficher(x)
+    #TANT-QUE ExisteFils(x) FAIRE
+    #z = FilsSuivant(x);
+    #SI NonMarqué(z) ALORS
+    #Marquer(z);
+    #Enfiler(f, z);
+    #FIN-SI
+    #FIN-TANT-QUE
+    #FIN-TANT-QUE
+    #}
+  end
+
   #Run estimation process
   def run_estimation
     @module_projects = current_project.module_projects
     @project = current_project
     @pbs_project_element = current_component
     @my_results = Hash.new
+    @last_estimation_results = Hash.new
     @set_attributes = Hash.new
+    set_attributes_name_list = Hash.new
 
+    # Execution of the first/current module-project
     ['low', 'most_likely', 'high'].each do |level|
       @my_results[level.to_sym] = run_estimation_plan(params, level, @project)
     end
 
-    #Save output values: only for current pbs_project_element
-    #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
+    #Save output values: only for current pbs_project_element and for current module-project
+    save_estimation_result(current_module_project, @my_results)
+
+
+    # Need to execute other module_projects if all required input attributes are present
+    # Get all module_projects from the current_module_project
+    current_next_module_projects = current_module_project.next.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
+    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| (mp1.position_y <=> mp2.position_y) && (mp1.position_x <=> mp2.position_x)}
+
+    #Get all required attributes for each module (where )
+    current_next_compatible_module_projects.each do |module_project|
+      @module_project_results = Hash.new
+      required_input_attributes = Array.new
+      input_attribute_modules = module_project.pemodule.attribute_modules.where('in_out IN (?) AND is_mandatory = ?', %w(input both), true)
+      input_attribute_modules.each do |attr_module|
+        required_input_attributes << attr_module.pe_attribute.name
+      end
+
+      # Re-initializa the current module_project
+      # @my_results is like that {:low => {:complexity_467 => 'organic', :ksloc_467 => 10}, :most_likely => {:complexity_467 => 'organic', :ksloc_467 => 10}, :hight => {:complexity_467 => 'organic', :ksloc_467 => 10}}
+      last_module_project = current_module_project
+      current_module_project = module_project
+
+      ['low', 'most_likely', 'high'].each do |level|
+        new_level_result_for_params = Hash.new
+        level_result = @my_results[level.to_sym]
+
+        level_result.each do |key, value|
+          attribute_alias = key.to_s.split("_#{last_module_project.id}").first
+          new_level_result_for_params[attribute_alias.to_sym] = { "#{current_module_project.id}".to_sym => value }
+
+          # Attribute is only added to the set_attributes_name_list if it's present
+          set_attributes_name_list[level.to_sym] << attribute_alias
+        end
+        @set_attributes[level.to_sym] = new_level_result_for_params
+
+        # Need to verify that all required attributes for this module are present and set with good value
+        # If all required attributes are present
+        if (required_input_attributes & set_attributes_name_list[level.to_sym]) == required_input_attributes
+          @module_project_results[level.to_sym] = run_estimation_plan(params, level, @project)
+        end
+      end
+
+      #Save output values: only for current pbs_project_element : call of the save_estimation_result function
+      save_estimation_result(module_project, @module_project_results)
+    end
+
+    puts "test ça"
+
+    respond_to do |format|
+      format.js { render :partial => 'pbs_project_elements/refresh' }
+    end
+  end
+
+
+  # Function that save current module_project estimation result in DB
+  #Save output values: only for current pbs_project_element
+  def save_estimation_result(current_module_project, output_data)
+    @pbs_project_element = current_component
+
     # get the estimation_value for the current_pbs_project_element
     current_pbs_estimations = current_module_project.estimation_values
     current_pbs_estimations.each do |est_val|
@@ -523,6 +620,7 @@ class ProjectsController < ApplicationController
 
       elsif est_val.in_out == 'input'
         in_result = Hash.new
+
         ['low', 'most_likely', 'high'].each do |level|
           level_estimation_value = Hash.new
           level_estimation_value = est_val.send("string_data_#{level}")
@@ -546,31 +644,6 @@ class ProjectsController < ApplicationController
         end
         est_val.update_attributes(in_result)
       end
-    end
-
-    #Need to execute other module_projects if all required input attributes are present
-
-    #Get all module_projects from the current_module_project
-    current_next_module_projects = current_module_project.following.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }
-    current_next_compatible_module_projects = current_next_module_projects.sort{ |mp1, mp2| mp1.position_y <=> mp2.position_y}
-
-    #Get all required attributes for each module (where )
-    current_next_compatible_module_projects.each do |module_project|
-      required_input_attributes = Array.new
-      input_attribute_modules = module_project.pemodule.attribute_modules.where('in_out IN (?) AND is_mandatory = ?', %w(input both), true)
-      input_attribute_modules.each do |attr_module|
-        required_input_attributes << attr_module.pe_attribute
-      end
-
-      #Re-initializa the current module_project
-      ###current_module_project = module_project
-    end
-
-    puts "test ça"
-    #end
-
-    respond_to do |format|
-      format.js { render :partial => 'pbs_project_elements/refresh' }
     end
   end
 
@@ -598,7 +671,6 @@ class ProjectsController < ApplicationController
       input_attribute_modules.each do |attr_module|
         required_input_attributes << attr_module.pe_attribute
       end
-
     end
 
     puts "test ça"
@@ -746,6 +818,7 @@ class ProjectsController < ApplicationController
   end
 
 
+  # TODO: Verify if it still being used ... Unless DELETE function from code
   # After estimation, need to know if node value are consistent or not
   def set_element_consistency(estimation_result, module_project)
     result_with_consistency = Hash.new
