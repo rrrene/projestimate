@@ -29,7 +29,7 @@ namespace :projestimate do
        1- Delete all data then reinstall default data -- Press 1 \n
        2- Reinstall default data and keep old data (recommended) -- Press 2 \n
        3- Do nothing and quit the prompt -- Press 3 or Ctrl + C \n
-    \n"
+          \n"
 
     i = true
     while i do
@@ -65,319 +65,366 @@ end
 private
 def load_data!
   #begin
-    
+
   puts ' Creating Master Parameters ...'
 
-    # Version
-    puts '   - Version table'
-    Version.create :comment => 'No update data has been save'
+  # Version
+  puts '   - Version table'
+  Version.create :comment => 'No update data has been save'
 
-    #RecordStatus
-    record_status = Array.new
-    record_status = [
-        ['Proposed', 'TBD'],
-        ['InReview', 'TBD'],
-        ['Draft', 'TBD'],
-        ['Defined', 'TBD'],
-        ['Retired', 'TBD'],
-        ['Custom', 'TBD'],
-        ['Local', 'TBD']
-    ]
-    record_status.each do |i|
-      RecordStatus.create(:name => i[0], :description => i[1] )
-    end
+  #RecordStatus
+  record_status = Array.new
+  record_status = [
+      ['Proposed', 'TBD'],
+      ['InReview', 'TBD'],
+      ['Draft', 'TBD'],
+      ['Defined', 'TBD'],
+      ['Retired', 'TBD'],
+      ['Custom', 'TBD'],
+      ['Local', 'TBD']
+  ]
+  record_status.each do |i|
+    RecordStatus.create(:name => i[0], :description => i[1])
+  end
 
-    #Find correct record status id
-    rsid = RecordStatus.find_by_name('Defined').id
+  #Find correct record status id
+  rsid = RecordStatus.find_by_name('Defined').id
 
-    puts '   - Record Status'
-    #Update record status to "Defined"
-    record_statuses = RecordStatus.all
-    record_statuses.each do |rs|
-      rs.update_attribute(:record_status_id, rsid)
-    end
+  puts '   - Record Status'
+  #Update record status to "Defined"
+  record_statuses = RecordStatus.all
+  record_statuses.each do |rs|
+    rs.update_attribute(:record_status_id, rsid)
+  end
 
-    puts '   - Master setting'
-    #Create master/admin setting
-    MasterSetting.create(:key => 'url_wiki', :value => 'http://projestimate.org/projects/pe/wiki', :record_status_id => rsid)
-    MasterSetting.create(:key => 'url_service', :value => 'http://projestimate.org/projects/pe/wiki/Community_Services', :record_status_id => rsid)
+  puts '   - Master setting'
+  #Create master/admin setting
+  MasterSetting.create(:key => 'url_wiki', :value => 'http://projestimate.org/projects/pe/wiki', :record_status_id => rsid)
+  MasterSetting.create(:key => 'url_service', :value => 'http://projestimate.org/projects/pe/wiki/Community_Services', :record_status_id => rsid)
 
-    puts '   - Project areas'
-    #Default project area
-    ProjectArea.create(:name => 'SW Project', :description => 'Software', :record_status_id => rsid)
-    pjarea=ProjectArea.first
+  puts '   - Project areas'
+  #Default project area
+  ProjectArea.create(:name => 'SW Project', :description => 'Software', :record_status_id => rsid)
+  pjarea=ProjectArea.first
 
-    puts '   - Project categories'
-    ProjectCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
-    #pjcategory=ProjectCategory.first
-    ProjectCategory.create(:name => 'Multimedia', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Network Management', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Office Automation', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Relational Database', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Report Generation', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'System & Device Utilities', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Transaction Processing', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Robotics', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Simulation', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Software Development Tools', :description => 'TBD', :record_status_id => rsid)
-    ProjectCategory.create(:name => 'Workflow', :description => 'TBD', :record_status_id => rsid)
+  puts '   - Project categories'
+  ProjectCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
+  #pjcategory=ProjectCategory.first
+  ProjectCategory.create(:name => 'Multimedia', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Network Management', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Office Automation', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Relational Database', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Report Generation', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'System & Device Utilities', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Transaction Processing', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Robotics', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Simulation', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Software Development Tools', :description => 'TBD', :record_status_id => rsid)
+  ProjectCategory.create(:name => 'Workflow', :description => 'TBD', :record_status_id => rsid)
 
-    puts '   - Platform categories'
-    PlatformCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
-    #plcategory=PlatformCategory.first
-    PlatformCategory.create(:name => 'Client-Server', :description => 'TBD', :record_status_id => rsid)
-    PlatformCategory.create(:name => 'Mobile Ground-Based', :description => 'TBD', :record_status_id => rsid)
-    PlatformCategory.create(:name => 'Server', :description => 'TBD', :record_status_id => rsid)
-    PlatformCategory.create(:name => 'Telecommunications', :description => 'TBD', :record_status_id => rsid)
-    PlatformCategory.create(:name => 'Web Based Development', :description => 'TBD', :record_status_id => rsid)
-    
-    puts '   - Acquisition categories'
-    #Default acquisition category
-      acquisition_category = Array.new
-      acquisition_category = [
-        ['Unknown', 'TBD'],
-        ['New Development', 'TBD'],
-        ['Enhancement', 'TBD'],
-        ['Re-development', 'TBD'],
-        ['POC', 'TBD'],
-        ['Purchased', 'TBD'],
-        ['Porting', 'TBD'],
-        ['Other', 'TBD']
-      ]
+  puts '   - Platform categories'
+  PlatformCategory.create(:name => 'Unknown', :description => 'TBD', :record_status_id => rsid)
+  #plcategory=PlatformCategory.first
+  PlatformCategory.create(:name => 'Client-Server', :description => 'TBD', :record_status_id => rsid)
+  PlatformCategory.create(:name => 'Mobile Ground-Based', :description => 'TBD', :record_status_id => rsid)
+  PlatformCategory.create(:name => 'Server', :description => 'TBD', :record_status_id => rsid)
+  PlatformCategory.create(:name => 'Telecommunications', :description => 'TBD', :record_status_id => rsid)
+  PlatformCategory.create(:name => 'Web Based Development', :description => 'TBD', :record_status_id => rsid)
 
-      acquisition_category.each do |i|
-        AcquisitionCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
-      end
-      #accategory=AcquisitionCategory.first
-      
-    puts '   - Attributes'
-      attributes = [
-      ['KSLOC', 'ksloc', 'Kilo (1000) Source Lines Of Code.', 'float', ['float','>=', '0'], 'sum'],
-      ['Cost', 'cost', 'Cost of a product, a service or a process in local currency', 'float', ['float','>=', '0'], 'sum'],
-      ['Delay', 'delay', 'Time allowed for the completion of something in number of days', 'float', ['float','>=', '0'], 'average'],
-      ['Staffing', 'staffing', 'Staff required to accomplish a task in number of people', 'integer', ['integer','>=', '0'], 'sum'],
-      ['Staffing complexity', 'staffing_complexity', "A rating of the project's inherent difficulty in terms of the rate at which staff are added to a project.", 'float', ['float','>=', '0'], 'average'],
-      ['Effective technology', 'effective_technology', 'A composite metric that captures factors relating to the efficiency or productivity with which development can be carried out.', 'float', ['float','>=', '0'], 'average'],
+  puts '   - Acquisition categories'
+  #Default acquisition category
+  acquisition_category = Array.new
+  acquisition_category = [
+      ['Unknown', 'TBD'],
+      ['New Development', 'TBD'],
+      ['Enhancement', 'TBD'],
+      ['Re-development', 'TBD'],
+      ['POC', 'TBD'],
+      ['Purchased', 'TBD'],
+      ['Porting', 'TBD'],
+      ['Other', 'TBD']
+  ]
+
+  acquisition_category.each do |i|
+    AcquisitionCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
+  end
+  #accategory=AcquisitionCategory.first
+
+  puts '   - Attributes'
+  attributes = [
+      ['KSLOC', 'ksloc', 'Kilo (1000) Source Lines Of Code.', 'float', ['float', '>=', '0'], 'sum'],
+      ['Cost', 'cost', 'Cost of a product, a service or a process in local currency', 'float', ['float', '>=', '0'], 'sum'],
+      ['Delay', 'delay', 'Time allowed for the completion of something in number of days', 'float', ['float', '>=', '0'], 'average'],
+      ['Staffing', 'staffing', 'Staff required to accomplish a task in number of people', 'integer', ['integer', '>=', '0'], 'sum'],
+      ['Staffing complexity', 'staffing_complexity', "A rating of the project's inherent difficulty in terms of the rate at which staff are added to a project.", 'float', ['float', '>=', '0'], 'average'],
+      ['Effective technology', 'effective_technology', 'A composite metric that captures factors relating to the efficiency or productivity with which development can be carried out.', 'float', ['float', '>=', '0'], 'average'],
       ['End date', 'end_date', 'End date for a task, a pbs_project_element. Dependent of delay.', 'date', ['date'], 'maxi'],
-      ['Effort Man Hour', 'effort_man_hour', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour.', 'float', ['float','>=', '0'], 'average'],
-      ['Effort Man Month', 'effort_man_month', 'A man-month or person-month is the amount of work performed by an average worker in one Month.', 'float', ['float','>=', '0'], 'average'],
-      ['Duration', 'duration', 'Duration of a task in hour', 'float', ['float','>=', '0'], 'average'],
-      ['Complexity', 'complexity', 'classes of software projects (for COCOMO modules) - Organic projects: "small" teams with "good" experience working with "less than rigid" requirements - Semi-detached projects: "medium" teams with mixed experience working with a mix of rigid and less than rigid requirements - Embedded projects: developed within a set of "tight" constraints. It is also combination of organic and semi-detached projects.(hardware, software, operational, ...)', 'list', ['list','','Organic;Semi-detached;Embedded'], 'average'],
-    ]
+      ['Effort Man Hour', 'effort_man_hour', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour.', 'float', ['float', '>=', '0'], 'average'],
+      ['Effort Man Month', 'effort_man_month', 'A man-month or person-month is the amount of work performed by an average worker in one Month.', 'float', ['float', '>=', '0'], 'average'],
+      ['Duration', 'duration', 'Duration of a task in hour', 'float', ['float', '>=', '0'], 'average'],
+      ['Complexity', 'complexity', 'classes of software projects (for COCOMO modules) - Organic projects: "small" teams with "good" experience working with "less than rigid" requirements - Semi-detached projects: "medium" teams with mixed experience working with a mix of rigid and less than rigid requirements - Embedded projects: developed within a set of "tight" constraints. It is also combination of organic and semi-detached projects.(hardware, software, operational, ...)', 'list', ['list', '', 'Organic;Semi-detached;Embedded'], 'average'],
+      ['Schedule', 'schedule', 'Schedule in calendar months', 'integer', ['integer', '>=', '0'], 'sum'],
+      ['Defects', 'defects', 'Defects', 'integer', ['integer', '>=', '0'], 'sum'],
+      ['Total Effort', 'total_effort', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour for all activities.', 'float', ['float', '>=', '0'], 'average'],
+      ['Methodology', 'methodology', 'Methodology M 1-5 1=none/CMMI Level 1 to 5-CMMI Level 5', 'integer', ['between', '0;5'], 'sum'],
+      ['Note', 'note', 'A text note, for annotation, comment etc.', 'text', ['text']],
+      ['Platform Maturity', 'platform_maturity', 'Platform Maturity - 1 ou 2', 'integer', ['integer']],
+      ['Real-time Constraint', 'real_time_constraint', '1=not real time/desktop with no constraints - 10=mission critical/ssafety critical real time system', 'integer', ['integer']],
+      ['Sandbox Date', 'date_sandbox', 'Sample Date attribute for testing purpose', 'date', ['date']],
+      ['Sandbox Description', 'description_sandbox', 'Sample text attribute for testing purpose', 'text', ['text']],
+      ['Sandbox Float', 'float_sandbox', 'Sample Float attribute for testing purpose', 'float', ['float']],
+      ['Sandbox Integer', 'integer_sandbox', 'Sample Integer attribute for testing purpose', 'integer', ['integer']],
+      ['Sandbox List', 'list_sandbox', 'Sample List attribute for testing purpose', 'list', ['list', 'Un;Deux;Troix;Quatre;Cinq;Six;Sept']],
+  ]
 
-    attributes.each do |i|
-      PeAttribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
-    end
 
-    puts '   - Projestimate Icons'
+  attributes.each do |i|
+    PeAttribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
+  end
 
-    folder = Peicon.create(:name => 'Folder', :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
-    link = Peicon.create(:name => 'Link', :icon => File.new("#{Rails.root}/public/link.png", 'r'), :record_status_id => rsid)
-    undefined = Peicon.create(:name => 'Undefined', :icon => File.new("#{Rails.root}/public/undefined.png", 'r'), :record_status_id => rsid)
-    default = Peicon.create(:name => 'Default', :icon => File.new("#{Rails.root}/public/default.png", 'r'), :record_status_id => rsid)
+  puts '   - Modules'
+  modules=[
+      ['capitalization', 'capitalization', 'The Capitalization module.', 'no',]
+  ]
 
-    puts '   - WBS structure'
-    #Create first work element type (type of a pbs_project_element)
-    WorkElementType.create(:name => 'Folder', :alias => 'folder', :peicon_id => folder.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Link', :alias => 'link', :peicon_id => link.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Undefined', :alias => 'undefined', :peicon_id => undefined.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Developed Software', :alias => 'DevSW', :peicon_id => default.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Purchased Software', :alias => '$SW', :peicon_id => default.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Purchased Hardware', :alias => '$HW', :peicon_id => default.id, :record_status_id => rsid)
-    WorkElementType.create(:name => 'Purchased Miscellaneous', :alias => '$SMisc', :peicon_id => default.id, :record_status_id => rsid)
+  modules.each do |i|
+    Pemodule.create(:title => i[0], :alias => i[1], :description => i[2], :with_activities => 'no', :record_status_id => rsid)
+  end
 
-    wet = WorkElementType.first
-           
-    puts '   - Currencies'
-    # First need to fix Currency.delete_all 
-    Currency.create(:name => 'Euro', :alias => 'EUR', :description => 'TBD')
-    Currency.create(:name => 'US Dollar', :alias => 'USD', :description => 'TBD')
-    Currency.create(:name => 'British Pound', :alias => 'GBP', :description => 'TBD')
-    
-    puts '   - Language...'
-    #Create default language
-    Language.create(:name => 'English (United States)', :locale => 'en', :record_status_id => rsid)
-    Language.create(:name => 'Français (France)', :locale => 'fr', :record_status_id => rsid)
-    Language.create(:name => 'English (British)', :locale => 'en-gb', :record_status_id => rsid)
-    Language.create(:name => 'Deutsch (Deutschland)', :locale => 'de', :record_status_id => rsid)
+  # Get the Capitalization Module
+  capitalization_module = Pemodule.find_by_alias_and_record_status_id("capitalization", rsid)
+
+  puts '   - Projestimate Icons'
+
+  folder = Peicon.create(:name => 'Folder', :icon => File.new("#{Rails.root}/public/folder.png"), :record_status_id => rsid)
+  link = Peicon.create(:name => 'Link', :icon => File.new("#{Rails.root}/public/link.png", 'r'), :record_status_id => rsid)
+  undefined = Peicon.create(:name => 'Undefined', :icon => File.new("#{Rails.root}/public/undefined.png", 'r'), :record_status_id => rsid)
+  default = Peicon.create(:name => 'Default', :icon => File.new("#{Rails.root}/public/default.png", 'r'), :record_status_id => rsid)
+
+  puts '   - WBS structure'
+  #Create first work element type (type of a pbs_project_element)
+  WorkElementType.create(:name => 'Folder', :alias => 'folder', :peicon_id => folder.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Link', :alias => 'link', :peicon_id => link.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Undefined', :alias => 'undefined', :peicon_id => undefined.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Developed Software', :alias => 'DevSW', :peicon_id => default.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Purchased Software', :alias => '$SW', :peicon_id => default.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Purchased Hardware', :alias => '$HW', :peicon_id => default.id, :record_status_id => rsid)
+  WorkElementType.create(:name => 'Purchased Miscellaneous', :alias => '$SMisc', :peicon_id => default.id, :record_status_id => rsid)
+
+  wet = WorkElementType.first
+
+  puts '   - Currencies'
+  # First need to fix Currency.delete_all
+  Currency.create(:name => 'Euro', :alias => 'EUR', :description => 'TBD')
+  Currency.create(:name => 'US Dollar', :alias => 'USD', :description => 'TBD')
+  Currency.create(:name => 'British Pound', :alias => 'GBP', :description => 'TBD')
+
+  puts '   - Language...'
+  #Create default language
+  Language.create(:name => 'English (United States)', :locale => 'en', :record_status_id => rsid)
+  Language.create(:name => 'Français (France)', :locale => 'fr', :record_status_id => rsid)
+  Language.create(:name => 'English (British)', :locale => 'en-gb', :record_status_id => rsid)
+  Language.create(:name => 'Deutsch (Deutschland)', :locale => 'de', :record_status_id => rsid)
 
   puts ' Creating Admin Parameters ...'
-    
-    puts '   - Admin setting'
+
+  puts '   - Admin setting'
   AdminSetting.create(:key => 'welcome_message', :value => 'Welcome aboard !', :record_status_id => rsid)
-    AdminSetting.create(:key => 'notifications_email', :value => 'AdminEmail@domaine.com', :record_status_id => rsid)
-    AdminSetting.create(:key => 'password_min_length', :value => '4', :record_status_id => rsid)
-    as = AdminSetting.new(:key => 'custom_status_to_consider', :value => nil, :record_status_id => rsid, :uuid => UUIDTools::UUID.random_create.to_s)
-    as.save(:validate => false)
+  AdminSetting.create(:key => 'notifications_email', :value => 'AdminEmail@domaine.com', :record_status_id => rsid)
+  AdminSetting.create(:key => 'password_min_length', :value => '4', :record_status_id => rsid)
+  as = AdminSetting.new(:key => 'custom_status_to_consider', :value => nil, :record_status_id => rsid, :uuid => UUIDTools::UUID.random_create.to_s)
+  as.save(:validate => false)
 
-    puts '   - Auth Method'
-    AuthMethod.create(:name => 'Application', :server_name => 'Not necessary', :port => 0, :base_dn => 'Not necessary', :certificate => 'false', :record_status_id => rsid)
-    
-    puts '   - Admin user'
-    #Create first user
-    user = User.new(:first_name => 'Administrator', :last_name => 'Projestimate', :login_name => 'admin', :initials => 'ad', :email => 'youremail@yourcompany.net', :auth_type => AuthMethod.first.id, :user_status => 'active', :language_id => Language.first.id, :time_zone => 'GMT')
-    user.password = user.password_confirmation = 'projestimate'
-    user.save
-    
-    puts '   - Default groups'
-    #Create default groups
-    Group.create(:name => 'MasterAdmin', :record_status_id => rsid)
-    Group.create(:name => 'Admin', :record_status_id => rsid)
-    Group.create(:name => 'Everyone', :record_status_id => rsid)
-    #Associated default user with group MasterAdmin
-    user.group_ids = [Group.first.id]
-    user.save
+  puts '   - Auth Method'
+  AuthMethod.create(:name => 'Application', :server_name => 'Not necessary', :port => 0, :base_dn => 'Not necessary', :certificate => 'false', :record_status_id => rsid)
 
-    puts '   - Labor categories'
-    #Default labor category
-      array_labor_category = Array.new
-      array_labor_category = [
-        ['Director', 'TBD'],
-        ['Manager', 'TBD'],
-        ['Program Manager', 'TBD'],
-        ['Administrator', 'TBD'],
-        ['Project Manager', 'TBD'],
-        ['Team leader', 'TBD'],
-        ['Consultant', 'TBD'],
-        ['Analyst', 'TBD'],
-        ['System Analyst', 'TBD'],
-        ['Architect', 'TBD'],
-        ['Computer Programmer', 'TBD'],
-        ['Trainer', 'TBD'],
-        ['Technician', 'TBD'],
-        ['Operator', 'TBD'],
-        ['Support Agent', 'TBD'],
-        ['Document writer', 'TBD'],
-        ['Test Agent', 'TBD']
-      ]
+  puts '   - Admin user'
+  #Create first user
+  user = User.new(:first_name => 'Administrator', :last_name => 'Projestimate', :login_name => 'admin', :initials => 'ad', :email => 'youremail@yourcompany.net', :auth_type => AuthMethod.first.id, :user_status => 'active', :language_id => Language.first.id, :time_zone => 'GMT')
+  user.password = user.password_confirmation = 'projestimate'
+  user.save
 
-      array_labor_category.each do |i|
-        LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
-      end
-      #laborcategory=LaborCategory.first
+  puts '   - Default groups'
+  #Create default groups
+  Group.create(:name => 'MasterAdmin', :record_status_id => rsid)
+  Group.create(:name => 'Admin', :record_status_id => rsid)
+  Group.create(:name => 'Everyone', :record_status_id => rsid)
+  #Associated default user with group MasterAdmin
+  user.group_ids = [Group.first.id]
+  user.save
 
-    puts '   - Activity categories'
-    #Default actitity category
-    array_activity_category =  Array.new
-    array_activity_category = [
-              ['Acquisition activities', 'Acquisition', 'Acquisition covers the activities involved in initiating a project'],
-              ['Supply activities', 'Supply', 'Supply covers the activities involved to develop a project management plan'],
-              ['Development / Define Functional requirements', 'Requirements', 'Gather the functional requirements, or demands, for the product that is to be created.'],
-              ['Development / Create High level Design', 'Design', 'A basic layout of the product is created. This means the setup of different modules and how they communicate with each other. This design does not contain very much detail about the modules.'],
-              ['Development / Create Module design', 'Detailed design', 'The different modules present in the High level design are designed separately. The modules are designed in as much detail as possible'],
-              ['Development / Coding', 'Coding', 'The code is created according to the high level design and the module design.'],
-              ['Development / Module test', 'Module test', 'The different modules are tested for correct functioning. If this is the case the project can move to the next activity, else the project returns to the module design phase to correct any errors.'],
-              ['Development / Integration test', 'Integration test', 'The communication between modules is tested for correct functioning. If this is the case the project can move to the next activity, else the project falls back to the high level design to correct any errors.'],
-              ['Development / System test', 'System test', 'This test checks whether all functional requirements are present in the product. If this is the case the product is completed and the product is ready to be transferred to the customer. Else the project falls back to the software requirements activity and the functional requirements have to be adjusted.'],
-              ['Operation', 'Operation', 'The operation and maintenance phases occur simultaneously, the operation-phase consists of activities like assisting users in working with the created software product.'],
-              ['Maintenance', 'Maintenance', 'The maintenance-phase consists of maintenance-tasks to keep the product up and running. The maintenance includes any general enhancements, changes and additions, which might be required by the end-users. These defects and deficiencies are usually documented by the developing organization to enable future solutions and known issues addressing in any future maintenance releases. There is no disposal phase'],
-              ['Documentation', 'TBD', 'TBD'],
-              ['Configuration Management', 'TBD', 'TBD'],
-              ['Quality management', 'TBD', 'TBD'],
-              ['Management', 'TBD', 'TBD'],
-              ['Training', 'TBD', 'TBD'],
-              ['Distribution', 'TBD', 'TBD'],
-              ['Other', 'TBD', 'TBD']
-            ]
-      array_activity_category.each do |i|
-        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid)
-      end
-    
+  puts '   - Labor categories'
+  #Default labor category
+  array_labor_category = Array.new
+  array_labor_category = [
+      ['Director', 'TBD'],
+      ['Manager', 'TBD'],
+      ['Program Manager', 'TBD'],
+      ['Administrator', 'TBD'],
+      ['Project Manager', 'TBD'],
+      ['Team leader', 'TBD'],
+      ['Consultant', 'TBD'],
+      ['Analyst', 'TBD'],
+      ['System Analyst', 'TBD'],
+      ['Architect', 'TBD'],
+      ['Computer Programmer', 'TBD'],
+      ['Trainer', 'TBD'],
+      ['Technician', 'TBD'],
+      ['Operator', 'TBD'],
+      ['Support Agent', 'TBD'],
+      ['Document writer', 'TBD'],
+      ['Test Agent', 'TBD']
+  ]
+
+  array_labor_category.each do |i|
+    LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
+  end
+  #laborcategory=LaborCategory.first
+
+  puts '   - Activity categories'
+  #Default actitity category
+  array_activity_category = Array.new
+  array_activity_category = [
+      ['Acquisition activities', 'Acquisition', 'Acquisition covers the activities involved in initiating a project'],
+      ['Supply activities', 'Supply', 'Supply covers the activities involved to develop a project management plan'],
+      ['Development / Define Functional requirements', 'Requirements', 'Gather the functional requirements, or demands, for the product that is to be created.'],
+      ['Development / Create High level Design', 'Design', 'A basic layout of the product is created. This means the setup of different modules and how they communicate with each other. This design does not contain very much detail about the modules.'],
+      ['Development / Create Module design', 'Detailed design', 'The different modules present in the High level design are designed separately. The modules are designed in as much detail as possible'],
+      ['Development / Coding', 'Coding', 'The code is created according to the high level design and the module design.'],
+      ['Development / Module test', 'Module test', 'The different modules are tested for correct functioning. If this is the case the project can move to the next activity, else the project returns to the module design phase to correct any errors.'],
+      ['Development / Integration test', 'Integration test', 'The communication between modules is tested for correct functioning. If this is the case the project can move to the next activity, else the project falls back to the high level design to correct any errors.'],
+      ['Development / System test', 'System test', 'This test checks whether all functional requirements are present in the product. If this is the case the product is completed and the product is ready to be transferred to the customer. Else the project falls back to the software requirements activity and the functional requirements have to be adjusted.'],
+      ['Operation', 'Operation', 'The operation and maintenance phases occur simultaneously, the operation-phase consists of activities like assisting users in working with the created software product.'],
+      ['Maintenance', 'Maintenance', 'The maintenance-phase consists of maintenance-tasks to keep the product up and running. The maintenance includes any general enhancements, changes and additions, which might be required by the end-users. These defects and deficiencies are usually documented by the developing organization to enable future solutions and known issues addressing in any future maintenance releases. There is no disposal phase'],
+      ['Documentation', 'TBD', 'TBD'],
+      ['Configuration Management', 'TBD', 'TBD'],
+      ['Quality management', 'TBD', 'TBD'],
+      ['Management', 'TBD', 'TBD'],
+      ['Training', 'TBD', 'TBD'],
+      ['Distribution', 'TBD', 'TBD'],
+      ['Other', 'TBD', 'TBD']
+  ]
+  array_activity_category.each do |i|
+    ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid)
+  end
+
   puts ' Creating organizations...'
-    Organization.create(:name => 'YourOrganization', :description => 'This must be update to match your organization')
-    organization = Organization.first
-    Organization.create(:name => 'Other', :description => 'This could be used to group users that are not members of any organization')
+  Organization.create(:name => 'YourOrganization', :description => 'This must be update to match your organization')
+  organization = Organization.first
+  Organization.create(:name => 'Other', :description => 'This could be used to group users that are not members of any organization')
 
-    #puts "   - Inflation"
-    #Inflation.create(:organization_id => organization.id, :year => Time.now.strftime("%Y"), :labor_inflation => "1.0", :material_inflation => "1.0", :description => "TBD" )
-    
-    #puts "   - Organization Labor Category"
-    #OrganizationLaborCategory.create(:labor_category_id => laborcategory, :organization_id => organisation, :name=laborcategory.name)    
-    
+  #puts "   - Inflation"
+  #Inflation.create(:organization_id => organization.id, :year => Time.now.strftime("%Y"), :labor_inflation => "1.0", :material_inflation => "1.0", :description => "TBD" )
+
+  #puts "   - Organization Labor Category"
+  #OrganizationLaborCategory.create(:labor_category_id => laborcategory, :organization_id => organisation, :name=laborcategory.name)
+
   puts ' Creating Samples data ...'
 
-    puts '   - Demo project'
-    #Create default project
-    Project.create(:title => 'Sample project', :description => 'This is a sample project for demonstration purpose', :alias => 'sample project', :state => 'preliminary', :start_date => Time.now.strftime('%Y/%m/%d'), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id =>  AcquisitionCategory.first.id)
-    project = Project.first
-    #Associated default user with sample project     
-    user.project_ids = [project.id]
-    user.save
-    #Create default Pe-wbs-Project associated with previous project
-    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
-    pe_wbs_project = PeWbsProject.first
-    #Create root pbs_project_element
-    PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => 'Root folder')
-    #pbs_project_element = PbsProjectElement.first
-    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
-    pe_wbs_project = PeWbsProject.last
-    #Create root pbs_project_element
-    WbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :description => 'WBS-Activity Root Element', :name => "Root Element - #{project.title} WBS-Activity)")
-    #wbs_project_element = wbsProjectElement.first
-
-    puts 'Create project security level...'
-    #Default project Security Level
-    project_security_level = ['FullControl', 'Define', 'Modify', 'Comment', 'ReadOnly']
-    project_security_level.each do |i|
-      ProjectSecurityLevel.create(:name => i, :record_status_id => rsid)
+  puts '   - Demo project'
+  #Create default project
+  Project.create(:title => 'Sample project', :description => 'This is a sample project for demonstration purpose', :alias => 'sample project', :state => 'preliminary', :start_date => Time.now.strftime('%Y/%m/%d'), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id => AcquisitionCategory.first.id)
+  project = Project.first
+  #Associated default user with sample project
+  user.project_ids = [project.id]
+  user.save
+  #Create default Pe-wbs-Project associated with previous project
+  PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
+  pe_wbs_project = PeWbsProject.first
+  #Create root pbs_project_element
+  PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => 'Root folder')
+  #pbs_project_element = PbsProjectElement.first
+  PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
+  pe_wbs_project = PeWbsProject.last
+  #Create root pbs_project_element
+  WbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :description => 'WBS-Activity Root Element', :name => "Root Element - #{project.title} WBS-Activity)")
+  #wbs_project_element = wbsProjectElement.first
+  #create the capitalization project module
+  unless capitalization_module.nil?
+    cap_module_project = project.module_projects.build(:pemodule_id => capitalization_module.id, :position_x => 0, :position_y => 0)
+    if cap_module_project.save
+      #Create the corresponding EstimationValues
+      unless project.organization.nil? || project.organization.attribute_organizations.nil?
+        project.organization.attribute_organizations.each do |am|
+          ['input', 'output'].each do |in_out|
+            mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                         :module_project_id => cap_module_project.id,
+                                         :in_out => in_out,
+                                         :is_mandatory => am.is_mandatory,
+                                         :description => am.pe_attribute.description,
+                                         :display_order => nil,
+                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+          end
+        end
+      end
     end
+  end
 
-    puts 'Create global permissions...'
-    #Default permissions
-    permissions= [ ['edit_own_profile', 'Edit your own profile', false],
-                   ['validate_user_account', 'Validate user accounts', false],
-                   ['edit_user_account_no_admin', 'Editing user accounts (except Admin and MasterAdmin accounts)', false],
-                   ['edit_account_super_admin', 'Editing Admin and MasterAdmin accounts', false],
-                   ['edit_account_admin', 'Editing Admin accounts (but not MasterAdmin accounts)', false],
-                   ['edit_groups', 'Editing groups', false],
-                   ['manage_permissions', 'Manage (all) permissions', true],
-                   ['manage_specific_permissions', 'Manage project permissions', false],
-                   ['manage_project_area', 'Manage Project Area', false],
-                   ['manage_currency', 'Manage Currency', false],
-                   ['manage_organizations', 'Manage Organizations', false],
-                   ['manage_labor_categories', 'Manage Labor Categories', false],
-                   ['manage_event_types', 'Manage Event types', true],
-                   ['manage_project_categories', 'Manage Project Categories', false],
-                   ['manage_platform_categories', 'Manage Platform Categories', false],
-                   ['manage_acquisition_categories', 'Manage Acquisition Categories', false],
-                   ['manage_wet', 'Manage Work Element Types', false],
-                   ['manage_attributes', 'Manage Attributes', false],
-                   ['manage_modules', 'Manage Modules', false],
-                   ['manage_activity_categories', 'Manage Activity Categories', false],
-                   ['manage_help_messages', 'Manage Help message', false],
-                   ['edit_languages', 'Manage languages of the application', false],
-                   ['access_to_admin', 'Access to administration page', false],
-                   ['create_new_project', 'Create new project', false],
-                   ['delete_a_project', 'Delete project', true],
-                   ['edit_a_project', 'Edit project', true],
-                   ['access_to_a_project', 'Access to project', true],
-                   ['list_project', 'View the list of Project (project index)', true],
-                   ['add_a_pbs_project_element', 'Add a PbsProjectElement', true],
-                   ['delete_a_pbs_project_element', 'Delete PbsProjectElement', true],
-                   ['move_a_pbs_project_element', 'Move PbsProjectElement', true],
-                   ['edit_a_pbs_project_element', 'Edit PbsProjectElement', true],
-                   ['access_to_a_pbs_project_element', 'Access PbsProjectElement', true],
-                   ['add_a_module_to_a_process', 'Add Module to project estimation process', true],
-                   ['delete_a_module_project', 'Delete a project module', true],
-                   ['move_a_module_project', 'Move a project module', true],
-                   ['edit_a_module_project', 'Edit a project module', true],
-                   ['run_estimation_process', 'Run an estimation process', true],
-                   ['access_to_a_module', 'Access Modules', true],
-                   ['add_an_attribute', 'Add attribute', true],
-                   ['delete_an_attribute', 'Delete Attribute', true],
-                   ['edit_an_attribute', 'Edit Attribute', true],
-                   ['access_to_attributes', 'Access to Attributes', true],
-                   ['edit_own_profile_security', 'Edit profile security', false]
-                  ]
+  puts ' Create project security level...'
+  #Default project Security Level
+  project_security_level = ['FullControl', 'Define', 'Modify', 'Comment', 'ReadOnly']
+  project_security_level.each do |i|
+    ProjectSecurityLevel.create(:name => i, :record_status_id => rsid)
+  end
 
-    permissions.each do |i|
-      Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
-    end
+  puts ' Create global permissions...'
+  #Default permissions
+  permissions= [['edit_own_profile', 'Edit your own profile', false],
+                ['validate_user_account', 'Validate user accounts', false],
+                ['edit_user_account_no_admin', 'Editing user accounts (except Admin and MasterAdmin accounts)', false],
+                ['edit_account_super_admin', 'Editing Admin and MasterAdmin accounts', false],
+                ['edit_account_admin', 'Editing Admin accounts (but not MasterAdmin accounts)', false],
+                ['edit_groups', 'Editing groups', false],
+                ['manage_permissions', 'Manage (all) permissions', true],
+                ['manage_specific_permissions', 'Manage project permissions', false],
+                ['manage_project_area', 'Manage Project Area', false],
+                ['manage_currency', 'Manage Currency', false],
+                ['manage_organizations', 'Manage Organizations', false],
+                ['manage_labor_categories', 'Manage Labor Categories', false],
+                ['manage_event_types', 'Manage Event types', true],
+                ['manage_project_categories', 'Manage Project Categories', false],
+                ['manage_platform_categories', 'Manage Platform Categories', false],
+                ['manage_acquisition_categories', 'Manage Acquisition Categories', false],
+                ['manage_wet', 'Manage Work Element Types', false],
+                ['manage_attributes', 'Manage Attributes', false],
+                ['manage_modules', 'Manage Modules', false],
+                ['manage_activity_categories', 'Manage Activity Categories', false],
+                ['manage_help_messages', 'Manage Help message', false],
+                ['edit_languages', 'Manage languages of the application', false],
+                ['access_to_admin', 'Access to administration page', false],
+                ['create_new_project', 'Create new project', false],
+                ['delete_a_project', 'Delete project', true],
+                ['edit_a_project', 'Edit project', true],
+                ['access_to_a_project', 'Access to project', true],
+                ['list_project', 'View the list of Project (project index)', true],
+                ['add_a_pbs_project_element', 'Add a PbsProjectElement', true],
+                ['delete_a_pbs_project_element', 'Delete PbsProjectElement', true],
+                ['move_a_pbs_project_element', 'Move PbsProjectElement', true],
+                ['edit_a_pbs_project_element', 'Edit PbsProjectElement', true],
+                ['access_to_a_pbs_project_element', 'Access PbsProjectElement', true],
+                ['add_a_module_to_a_process', 'Add Module to project estimation process', true],
+                ['delete_a_module_project', 'Delete a project module', true],
+                ['move_a_module_project', 'Move a project module', true],
+                ['edit_a_module_project', 'Edit a project module', true],
+                ['run_estimation_process', 'Run an estimation process', true],
+                ['access_to_a_module', 'Access Modules', true],
+                ['add_an_attribute', 'Add attribute', true],
+                ['delete_an_attribute', 'Delete Attribute', true],
+                ['edit_an_attribute', 'Edit Attribute', true],
+                ['access_to_attributes', 'Access to Attributes', true],
+                ['edit_own_profile_security', 'Edit profile security', false]
+  ]
+
+  permissions.each do |i|
+    Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
+  end
 
   reference_values = [
-    ['One Activity-element'],
-    ['All Activity-elements'],
-    ['A set of activity-elements'],
+      ['One Activity-element'],
+      ['All Activity-elements'],
+      ['A set of activity-elements'],
   ]
   reference_values.each do |i|
     ReferenceValue.create(:value => i[0], :record_status_id => rsid)
