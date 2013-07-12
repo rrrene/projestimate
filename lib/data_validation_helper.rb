@@ -39,8 +39,8 @@ module DataValidationHelper
 
       ##get all has many relations et for each...
       @record.transaction do
-        unless @record.class == PeAttribute
-          @record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
+        @record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
+          unless associated_class_name == EstimationValue
             @record.parent_reference.send(associated_class_name).each do |obj|
               obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
               obj.save
