@@ -289,7 +289,9 @@ fr:
 
   #CRUD
   save: "Sauvegarder"
+  save_and_edit: "Sauvegarder et éditer"
   apply: "Appliquer"
+  save_and_create: "Sauvegarder et créer un autre"
   edit: "Editer"
   delete: "Supprimer"
   cancel: "Annuler"
