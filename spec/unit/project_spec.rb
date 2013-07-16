@@ -159,6 +159,11 @@ describe Project do
     Project::table_search("").should be_an_instance_of(ActiveRecord::Relation)
   end
 
+  it "should return encoding" do
+    Project::encoding.should eql(['Big5', 'CP874', 'CP932', 'CP949', 'gb18030', 'ISO-8859-1', 'ISO-8859-13', 'ISO-8859-15', 'ISO-8859-2', 'ISO-8859-8', 'ISO-8859-9', 'UTF-8', 'Windows-874'])
+    Project::encoding.should be_an_instance_of(Array)
+  end
+
   #it " should duplicate project" do
   #  @project = FactoryGirl.create(:project)
   #  @project4=@project.amoeba_dup
