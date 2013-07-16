@@ -289,7 +289,9 @@ fr:
 
   #CRUD
   save: "Sauvegarder"
+  save_and_edit: "Sauvegarder et éditer"
   apply: "Appliquer"
+  save_and_create: "Sauvegarder et créer un autre"
   edit: "Editer"
   delete: "Supprimer"
   cancel: "Annuler"
@@ -497,8 +499,8 @@ fr:
 
   #projects
   edit_project: "Editer le projet \"%{value}\" ..."
-  new_project: "Créer un nouveau projet ..."
-  new_project_from: "Créer un projet à partir ..."
+  new_project: "Créer un projet"
+  new_project_from: "Créer un projet à partir d'un modèle"
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
   available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
@@ -520,6 +522,7 @@ fr:
   text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
   label_project_is_model: "Est un modèle de projet"
+  is_model: "Modèle"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."
@@ -911,6 +914,7 @@ fr:
   button_commit_project: "Promouvoir le projet dans son cycle de vie"
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
+  button_duplicate_model: "Créer le projet sur la base de ce modèle"
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
