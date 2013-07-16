@@ -361,7 +361,7 @@ de:
   edit_pe_attribute: "Edit the \"%{value}\" attribute ..."
   edit_attribute_category: "Edit the \"%{value}\" category ..."
   new_pe_attribute: "New attribute"
-  new_attribute_category: "New category"
+  new_attribute_category: "New attribute category"
 
   #auth_method
   server_name: "Server name"
