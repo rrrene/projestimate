@@ -19,6 +19,8 @@
 
           <%= f.input :aggregation, :label => I18n.t('aggregation'), :as => :select, :collection => PeAttribute::type_aggregation %>
 
+          <%= f.input :attribute_category_id, :label => I18n.t('attribute_category'), :as => :select, :collection => @attribute_categories %>
+
           <%= f.input :attr_type, :label => I18n.t('validation_options') do %>
               <% if @attribute.options.empty? %>
                   <%= select_tag 'options[]', options_for_select(PeAttribute::type_values), :onchange => 'select_value_options(this.value);', :prompt => I18n.t('helpers.select.prompt') %>
@@ -70,7 +72,7 @@
           <% if can? :update, @attribute %>
               <%= f.submit I18n.t('save'), :class => 'btn' %>
               <%= f.submit I18n.t('apply'), :class => 'btn' %>
-              <%= link_to I18n.t('back'), pe_attributes_path, :class => 'btn' %>
+              <%= link_to I18n.t('back'), pe_attribute_path, :class => 'btn' %>
           <% end %>
         </div>
 

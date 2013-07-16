@@ -75,7 +75,6 @@ class Project < ActiveRecord::Base
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
       new_project.alias = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.alias}"
       new_project.copy_number = 0
-      new_project.is_model = false
       original_project.copy_number = original_project.copy_number.to_i+1
     })
 

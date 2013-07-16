@@ -336,6 +336,9 @@ class Home < ActiveRecord::Base
     puts '   - Attribute...'
     self.create_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ['name', 'alias', 'description', 'attr_type', 'aggregation', 'options', 'uuid'])
 
+    puts '   - Attribute Category'
+    self.create_records(ExternalMasterDatabase::ExternalAttributeCategory, AttributeCategory, ['name', 'alias','uuid'])
+
     puts '   - Attribute Module'
     self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'uuid'])
 

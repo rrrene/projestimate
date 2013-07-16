@@ -93,8 +93,7 @@ module PeWbsProjectsHelper
     end
 
     def wbs_root_links(pbs_project_element, project)
-
-     "<li class='#{ pbs_project_element == current_component ? 'selected_pbs' : '' }'>
+      "<li class='#{ pbs_project_element.id == current_component.id ? 'selected_pbs' : '' }'>
         <div class='block_label'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }

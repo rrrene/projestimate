@@ -256,6 +256,7 @@ fr:
   project_global_parameters: "Paramètres projets"
   pemodule_global_parameters: "Paramètres modules"
   pe_attributes: "Attributs"
+  attribute_categories: "Catégories des attributs"
   labor_categories: "Travailleurs"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
@@ -289,9 +290,7 @@ fr:
 
   #CRUD
   save: "Sauvegarder"
-  save_and_edit: "Sauvegarder et éditer"
   apply: "Appliquer"
-  save_and_create: "Sauvegarder et créer un autre"
   edit: "Editer"
   delete: "Supprimer"
   cancel: "Annuler"
@@ -360,7 +359,9 @@ fr:
   validation_options: "Validations et options"
   attributes_type: "Type"
   edit_pe_attribute: "Editer l'attribut \"%{value}\" ..."
+  edit_attribute_category: "Editer la catégorie \"%{value}\" ..."
   new_pe_attribute: "Créer un nouvel attribut"
+  new_attribute_category: "Créer une nouvelle catègorie d'attribut"
 
   #auth_method
   server_name: "Nom du serveur"
@@ -473,6 +474,7 @@ fr:
   attributes_settings: "Paramètres des attributs"
   label_compatibility: "Eléments du PBS compatible (pour les données d'entrées)"
   pe_attribute_name: "Nom de l'attribut"
+  attribute_category_name: "Nom de la catégorie"
   selected: "Sélectionné"
   edit_pemodule: "Editer le module \"%{value}\" ..."
   new_pemodule: "Créer un module"
@@ -499,8 +501,8 @@ fr:
 
   #projects
   edit_project: "Editer le projet \"%{value}\" ..."
-  new_project: "Créer un projet"
-  new_project_from: "Créer un projet à partir d'un modèle"
+  new_project: "Créer un nouveau projet ..."
+  new_project_from: "Créer un projet à partir ..."
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
   available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
@@ -522,7 +524,6 @@ fr:
   text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
   label_project_is_model: "Est un modèle de projet"
-  is_model: "Modèle"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."
@@ -914,7 +915,6 @@ fr:
   button_commit_project: "Promouvoir le projet dans son cycle de vie"
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
-  button_duplicate_model: "Créer le projet sur la base de ce modèle"
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"
@@ -935,4 +935,3 @@ fr:
   notice_project_finduse_no_user: "Il n'existe aucun utilisateur associé au projet \"%{value}\""
   notice_project_finduse_no_group: "Il n'existe aucun groupe associé au projet \"%{value}\""
   notice_no_active_module: "Aucun module de projets sélectionné"
-  title_hide_show_menu: "Cacher/Afficher le menu"

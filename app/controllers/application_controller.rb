@@ -139,14 +139,7 @@ class ApplicationController < ActionController::Base
       session[:remember_address] = "/dashboard"
     end
   end
-  def redirect_apply(url)
-    begin
-      test = session[:return_to]
-      (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : session[:return_to]
-    rescue
-      url
-    end
-  end
+
   def redirect(url)
     begin
       test = session[:return_to]

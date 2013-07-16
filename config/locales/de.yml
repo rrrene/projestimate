@@ -254,6 +254,7 @@ de:
   project_global_parameters: "Project global parameters"
   pemodule_global_parameters: "Module global parameters"
   pe_attributes: "Attributes"
+  attribute_categories: "Attributes categories"
   labor_categories: "Labor categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
@@ -289,9 +290,7 @@ de:
 
   #CRUD
   save: "Save"
-  save_and_edit: "Save and edit"
   apply: "Apply"
-  save_and_create: "Save and create a new one"
   edit: "Edit"
   delete: "Delete"
   cancel: "Cancel"
@@ -360,7 +359,9 @@ de:
   validation_options: "Validations and options"
   attributes_type: "Type"
   edit_pe_attribute: "Edit the \"%{value}\" attribute ..."
+  edit_attribute_category: "Edit the \"%{value}\" category ..."
   new_pe_attribute: "New attribute"
+  new_attribute_category: "New category"
 
   #auth_method
   server_name: "Server name"
@@ -473,6 +474,7 @@ de:
   attributes_settings: "Attributes settings"
   label_compatibility: "Compatible PBS element (for data input)"
   pe_attribute_name: "Attribute name"
+  attribute_category_name: "Category name"
   selected: "Selected"
   edit_pemodule: "Edit the \"%{value}\" module ..."
   new_pemodule: "New module"
@@ -499,8 +501,8 @@ de:
 
   #projects
   edit_project: "Edit project \"%{value}\" ..."
-  new_project: "New project"
-  new_project_from: "New project from template"
+  new_project: "New project ..."
+  new_project_from: "Create project from ..."
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
@@ -522,7 +524,6 @@ de:
   text_confirm_project_deletion: "Are you SURE you want to delete this project and all related data ?"
   warning_need_check_box_confirmation: "You need to confirm project deletion with check-box"
   label_project_is_model: "Is a project template"
-  is_model: "Template"
 
   #Record_statuses
   edit_record_status: "Edit the \"%{value}\" record status ..."
@@ -914,7 +915,6 @@ de:
   button_commit_project: "Promote the project into its life cycle"
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
-  button_duplicate_model: "Create project from this template"
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organizational attribute was successfully updated."
   display_order: "Display order"
@@ -935,4 +935,3 @@ de:
   notice_project_finduse_no_user: "There is no user associated to the \"%{value}\" project"
   notice_project_finduse_no_group: "There is no group associated to the \"%{value}\" project"
   notice_no_active_module: "No selected project module"
-  title_hide_show_menu: "Hide/Show menu"

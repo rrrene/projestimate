@@ -60,10 +60,7 @@
                 <i class="icon-align-left"></i>
               </span>
           </a>
-          <div class="header_data">
-            <h5><%= current_component %> - <%= current_module_project %></h5>
-
-          </div>
+          <h5><%= current_component %> - <%= current_module_project %></h5>
 
           <div class="buttons">
             <%= select_tag 'pbs_list', options_for_select(current_project.root_component.subtree.map { |i| [i.name, i.id] }, :selected => current_component.id), :class => 'pull-right', :prompt => 'Product Quick Access' %>

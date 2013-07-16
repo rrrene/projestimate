@@ -98,6 +98,11 @@ describe ModuleProject do
     @mp2.compatible_with('Tata').should be_false
   end
 
+  it "should not be a string" do
+    @mp2.pemodule.title = 1
+    @mp2.to_s.should_not be_instance_of(String)
+  end
+
   it "should a string" do
     @mp2.to_s.should be_an_instance_of(String)
   end

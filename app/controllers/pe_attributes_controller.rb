@@ -29,16 +29,20 @@ class PeAttributesController < ApplicationController
     @attributes = PeAttribute.all
   end
 
+
+
   def new
     authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.new
+    @attribute_categories = AttributeCategory.all
   end
 
   def edit
     authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.find(params[:id])
+    @attribute_categories = AttributeCategory.all
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?
@@ -88,7 +92,7 @@ class PeAttributesController < ApplicationController
     authorize! :manage_attributes, PeAttribute
     @attribute = PeAttribute.find(params[:id])
     if @attribute.is_defined? || @attribute.is_custom?
-      #logical deletion: delete don't have to suppress records anymore on defined record
+      #logical deletion: delete don't have to suppress cds anymore on defined record
       @attribute.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
       @attribute.destroy

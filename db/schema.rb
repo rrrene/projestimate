@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702124320) do
+ActiveRecord::Schema.define(:version => 20130711123524) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -85,6 +85,20 @@ ActiveRecord::Schema.define(:version => 20130702124320) do
   create_table "associated_module_projects", :id => false, :force => true do |t|
     t.integer "associated_module_project_id"
     t.integer "module_project_id"
+  end
+
+  create_table "attribute_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "alias"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "uuid"
+    t.integer  "record_status_id"
+    t.string   "custom_value"
+    t.integer  "owner_id"
+    t.text     "change_comment"
+    t.integer  "reference_id"
+    t.string   "reference_uuid"
   end
 
   create_table "attribute_modules", :force => true do |t|
@@ -422,6 +436,7 @@ ActiveRecord::Schema.define(:version => 20130702124320) do
     t.integer  "precision"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "attribute_category_id"
   end
 
   add_index "pe_attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
