@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
 #Pemodule can be commun(sum, average) or typed(cocomo, pnr...)
 class Pemodule < ActiveRecord::Base
   include AASM
-  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   #Project has many module, module has many project
   has_many :module_projects, :dependent => :destroy
@@ -31,7 +31,7 @@ class Pemodule < ActiveRecord::Base
 
   #Pemodule has many attribute, attribute has many pemodule
   has_many :attribute_modules, :dependent => :destroy
-  has_many :pe_attributes,  :source => :pe_attribute, :through => :attribute_modules
+  has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_modules
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
@@ -44,7 +44,7 @@ class Pemodule < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
 
   #ASSM needs
-  aasm :column => :with_activities do  # defaults to aasm_state
+  aasm :column => :with_activities do # defaults to aasm_state
     state :no, :initial => true
     state :yes_for_input
     state :yes_for_output_with_ratio
@@ -60,8 +60,8 @@ class Pemodule < ActiveRecord::Base
     #include_field [:attribute_modules, :pe_attributes]      #TODO Review relations
     #exclude_field [:projects, :module_projects]             #TODO Review relations
 
-    include_field [:attribute_modules]      #TODO Review relations
-    exclude_field [:projects, :module_projects]             #TODO Review relations
+    include_field [:attribute_modules] #TODO Review relations
+    exclude_field [:projects, :module_projects] #TODO Review relations
 
     customize(lambda { |original_record, new_record|
       new_record.reference_uuid = original_record.uuid

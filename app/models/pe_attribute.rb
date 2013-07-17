@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
 #Global attributes of project. Ex : size, cost, result, date etc...
 #Those attributes are used into AttributeModule
 class PeAttribute < ActiveRecord::Base
-  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   serialize :options, Array
 
@@ -39,8 +39,8 @@ class PeAttribute < ActiveRecord::Base
   belongs_to :attribute_category
 
   validates_presence_of :description, :attr_type, :record_status
-  validates :uuid, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates :name, :alias, :presence => true,  :uniqueness => { :scope => :record_status_id, :case_sensitive => false }
+  validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
+  validates :name, :alias, :presence => true, :uniqueness => {:scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
   ##Enable the amoeba gem for deep copy/clone (dup with associations)
@@ -75,22 +75,22 @@ class PeAttribute < ActiveRecord::Base
   #Type of the aggregation
   #Not finished
   def self.type_aggregation
-    [["Moyenne", "average" ] ,["Somme", "sum"], ["Maximum", "maxi" ]]
+    [["Moyenne", "average"], ["Somme", "sum"], ["Maximum", "maxi"]]
   end
 
   def self.type_values
-    [["Integer", "integer" ] ,["Float", "float"], ["Date", "date" ], ["Text", "text" ], ["List", "list" ]]
+    [["Integer", "integer"], ["Float", "float"], ["Date", "date"], ["Text", "text"], ["List", "list"]]
   end
 
   def self.value_options
     [
-     ["Greater than or equal to", ">=" ],
-     ["Greater than", ">" ],
-     ["Lower than or equal to", "<=" ],
-     ["Lower than", "<" ],
-     ["Equal to", "=="],
-     ["Not equal to", "!="],
-     ["Between", "between"]
+        ["Greater than or equal to", ">="],
+        ["Greater than", ">"],
+        ["Lower than or equal to", "<="],
+        ["Lower than", "<"],
+        ["Equal to", "=="],
+        ["Not equal to", "!="],
+        ["Between", "between"]
     ]
   end
 
@@ -117,7 +117,7 @@ class PeAttribute < ActiveRecord::Base
     end
   end
 
-    #return the data type
+  #return the data type
   def explicit_data_type
     case self.attr_type
       when "integer"

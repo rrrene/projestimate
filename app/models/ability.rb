@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -38,27 +38,27 @@ class Ability
     #    can perm[0].to_sym, perm[1]
     #  end
 
-      #Specfic project security loading
-      #prj_scrt = ProjectSecurity.find_by_user_id(user.id)
-      #unless prj_scrt.nil?
-      #  specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
-      #  for perm in specific_permissions_array
-      #    can perm[0].to_sym, perm[1]
-      #  end
-      #end
-      #
+    #Specfic project security loading
+    #prj_scrt = ProjectSecurity.find_by_user_id(user.id)
+    #unless prj_scrt.nil?
+    #  specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+    #  for perm in specific_permissions_array
+    #    can perm[0].to_sym, perm[1]
+    #  end
+    #end
+    #
 
-      #user.group_for_project_securities.each do |grp|
-      #  prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
-      #  unless prj_scrt.nil?
-      #    specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
-      #    for perm in specific_permissions_array
-      #      can perm[0].to_sym, perm[1]
-      #    end
-      #  end
-      #end
+    #user.group_for_project_securities.each do |grp|
+    #  prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
+    #  unless prj_scrt.nil?
+    #    specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+    #    for perm in specific_permissions_array
+    #      can perm[0].to_sym, perm[1]
+    #    end
+    #  end
+    #end
 
-      #can :manage_attributes, PeAttribute
+    #can :manage_attributes, PeAttribute
 
     #end
   end

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,15 +21,15 @@
 module EstimationValuesHelper
 
   #def generate_chart
-    #array = Array.new
-    #current_project.module_projects.each do |mp|
-    #  a = Array.new
-    #  mp.estimation_values.each do |est_val|
-    #    a << est_val.string_data_low[current_component.id]
-    #  end
-    #  array << a
-    #end
-    #array
+  #array = Array.new
+  #current_project.module_projects.each do |mp|
+  #  a = Array.new
+  #  mp.estimation_values.each do |est_val|
+  #    a << est_val.string_data_low[current_component.id]
+  #  end
+  #  array << a
+  #end
+  #array
   #end
 
 end

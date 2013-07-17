@@ -463,6 +463,7 @@ en-gb:
   text_icon_message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
   edit_icon: "Edit the \"%{value}\" icon ..."
   new_icon: "Add an icon"
+  choose_icon: "Choose / Change icon"
   icons: "Icons"
   actions: "Actions"
 
