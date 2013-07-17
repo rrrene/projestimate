@@ -262,6 +262,7 @@ en-gb:
   work_element: "Work elements"
   security_level: "Securities levels"
   languages: "Languages"
+  label_language: "Language"
   translations: "Translations"
   community: "Community"
   reference_values: "Reference values"
@@ -277,7 +278,8 @@ en-gb:
   category: "Category"
   description: "Description"
   change_comment: "Comment (explain and justify your change request)"
-  record_status: "Status"
+  record_status: "Record Status"
+  label_object_status: "Status"
   custom_value: "Custom value (if status=custom)"
   notice_no_module_use_current_attribute: "There is no module using the \"%{value}\" attribute"
   text_finduse_attribute: "List of objects that use the \"%{value}\" attribute"
@@ -395,7 +397,7 @@ en-gb:
 
   #groups
   global: "Global"
-  associated_users: "Associated users"
+  text_group_associated_users: "Associated users (users member of the group)"
   edit_group: "Edit the group \"%{value}\" ..."
   new_group: "New group"
 
@@ -454,6 +456,7 @@ en-gb:
   new_organization: "New organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Organisational labours categories"
+  text_organization_attributes: "Attributes on which the organisation intends to capitalize (its will be automatically added to the 'capitalization' module)"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -583,9 +586,10 @@ en-gb:
   login_name: "Login name"
   email: "Email"
   initials: "Initials"
-  associated_groups: "User's Associated groups"
-  associated_organizations: "User's Associated organisations"
-  associated_projects: "Associated projects"
+  text_user_associated_groups: "User's Associated groups (groups the user is a member)"
+  text_user_associated_organizations: "User's Associated organisations (organisations to which the user is a member)"
+  text_group_associated_projects: "Associated projects (projects in which the group has access)"
+  text_user_associated_projects: "Associated projects (projects in which the user has access)"
   settings: "Preferences"
   authentication: "Users's Authentication"
   password: "Password"
