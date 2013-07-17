@@ -29,8 +29,6 @@ class PeAttributesController < ApplicationController
     @attributes = PeAttribute.all
   end
 
-
-
   def new
     authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"

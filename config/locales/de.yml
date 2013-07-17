@@ -274,6 +274,7 @@ de:
 
   #attributes
   name: "Name"
+  category: "Category"
   description: "Description"
   change_comment: "Comment (explain and justify your change request)"
   record_status: "Status"

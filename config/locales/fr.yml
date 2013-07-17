@@ -274,6 +274,7 @@ fr:
 
   #attributes
   name: "Nom"
+  category: "Catégorie"
   description: "Description"
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
   record_status: "Statut"
