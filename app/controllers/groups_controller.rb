@@ -29,13 +29,13 @@ class GroupsController < ApplicationController
   helper_method :user_organizations_projects
 
   def index
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     set_page_title 'Groups'
     @groups = Group.all
   end
 
   def new
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     set_page_title 'New group'
     @group = Group.new
     @users = User.all
@@ -44,7 +44,7 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     set_page_title 'Edit group'
     @group = Group.find(params[:id])
     @users = User.all
@@ -73,7 +73,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     @users = User.all
     @projects = Project.all
     @group = Group.new(params[:group])
@@ -94,7 +94,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     @users = User.all
     @projects = Project.all
     @group = nil
@@ -127,7 +127,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
 
     @group = Group.find(params[:id])
     if is_master_instance?
@@ -151,7 +151,7 @@ class GroupsController < ApplicationController
   end
 
   def enable_update_in_local?
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
 
     if is_master_instance?
       true
@@ -173,17 +173,17 @@ class GroupsController < ApplicationController
 
 
   def associated_users
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     @group = Group.find(params[:id])
   end
 
   def associated_projects
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
     @group = Group.find(params[:id])
   end
 
   def user_organizations_users
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
 
     users = []
     organizations = current_user.organizations
@@ -194,7 +194,7 @@ class GroupsController < ApplicationController
   end
 
   def user_organizations_projects
-    authorize! :manage_users, Group
+    authorize! :manage_groups, Group
 
     projects = []
     organizations = current_user.organizations
