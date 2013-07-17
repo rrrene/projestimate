@@ -25,6 +25,7 @@ class PermissionsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage_global_permissions, Permission
     set_page_title 'Permissions'
     @permissions = Permission.all
 
