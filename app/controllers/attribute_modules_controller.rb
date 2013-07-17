@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -26,11 +26,11 @@ class AttributeModulesController < ApplicationController
   def create
     @attribute_module = AttributeModule.new(params[:attribute_module])
 
-      if @attribute_module.save
-        redirect_to attribute_modules_path, notice: "#{I18n.t(:notice_attribute_module_successful_created)}"
-      else
-        render action: "new"
-      end
+    if @attribute_module.save
+      redirect_to attribute_modules_path, notice: "#{I18n.t(:notice_attribute_module_successful_created)}"
+    else
+      render action: "new"
+    end
   end
 
   def destroy

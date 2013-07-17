@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 #Master Data
 #WorkElementType has many pbs_project_elements and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
 class WorkElementType < ActiveRecord::Base
-  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :pbs_project_elements, :dependent => :destroy
 

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,20 +22,20 @@ class ProjectObserver < ActiveRecord::Observer
   observe Project
 
   #def after_create(project)
-    #New default wbs
-    #pe_wbs_project = PeWbsProject.new(:project => project)
-    #pe_wbs_project.save
+  #New default wbs
+  #pe_wbs_project = PeWbsProject.new(:project => project)
+  #pe_wbs_project.save
 
-    #New root pbs_project_element
-    #pbs_project_element = PbsProjectElement.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
-    #pbs_project_element.save
+  #New root pbs_project_element
+  #pbs_project_element = PbsProjectElement.new(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => default_work_element_type.id, :position => 0, :name => "Root folder")
+  #pbs_project_element.save
   #end
 
   #def before_destroy(project)
-    #project.users.each do |user|
-    #  user.ten_latest_projects.delete(project.id)
-    #  user.save
-    #end
+  #project.users.each do |user|
+  #  user.ten_latest_projects.delete(project.id)
+  #  user.save
+  #end
   #end
 
   #private

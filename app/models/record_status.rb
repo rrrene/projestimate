@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@
 
 #Master Data
 class RecordStatus < ActiveRecord::Base
-  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   #attr_accessible :description, :name, :change_comment, :record_status_id, :custom_value
 
@@ -52,7 +52,7 @@ class RecordStatus < ActiveRecord::Base
 
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  validates :description, :presence => true      #:record_status,
+  validates :description, :presence => true #:record_status,
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?

@@ -23,7 +23,7 @@
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
       </thead>
-
+      <tbody>
       <% @work_element_types.each do |work_element_type| %>
           <tr>
             <td><%= work_element_type.name %></td>
@@ -36,15 +36,16 @@
               <%= link_to '', work_element_type, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
 
               <% if work_element_type.is_retired? %>
-                  <%= link_to('', "work_element_types/#{work_element_type.id}/restore_change", confirm: I18n.t(:restoring),:class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t(:restore_title)) %>
+                  <%= link_to('', "work_element_types/#{work_element_type.id}/restore_change", confirm: I18n.t(:restoring), :class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t(:restore_title)) %>
               <% else %>
                   <% unless work_element_type.is_defined? %>
-                      <%= link_to('', "work_element_types/#{work_element_type.id}/validate_change", confirm: I18n.t(:validation),:class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t(:validate_title)) %>
+                      <%= link_to('', "work_element_types/#{work_element_type.id}/validate_change", confirm: I18n.t(:validation), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t(:validate_title)) %>
                   <% end %>
               <% end %>
             </td>
           </tr>
       <% end %>
+      </tbody>
       <%= render :partial => 'layouts/footer_table' %>
     </table>
   </div>

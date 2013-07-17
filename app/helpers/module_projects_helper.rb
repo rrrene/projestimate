@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -47,23 +47,23 @@ module ModuleProjectsHelper
           maximum = high_estimation_value[wbs_project_elt_id]
 
           # Get the number of not null value
-          hash_data_probable[wbs_project_elt_id] =  compute_probable_value(minimum, most_likely, maximum, estimation_value)
+          hash_data_probable[wbs_project_elt_id] = compute_probable_value(minimum, most_likely, maximum, estimation_value)
         end
       end
 
       hash_data_probable
 
-    # Probable is only calculated for PBS
+      # Probable is only calculated for PBS
     else
       probable_result = compute_probable_value(min_estimation_value, most_likely_estimation_value, high_estimation_value, estimation_value)
-      data_probable =  probable_result[:value]
+      data_probable = probable_result[:value]
     end
   end
 
   #Function that compute the probable value according to the number of nut null value
   def compute_probable_value(minimum, most_likely, maximum, estimation_value)
     # Get the number of not null value
-    input_data = { :min => minimum, :ml => most_likely, :max => maximum }
+    input_data = {:min => minimum, :ml => most_likely, :max => maximum}
     not_integer_or_float = Array.new
     sum_of_not_null = 0.0
     computed_probable_value = 0.0
@@ -77,7 +77,7 @@ module ModuleProjectsHelper
         if key.to_s.eql?("ml")
           number_of_not_null = number_of_not_null+4
         else
-        number_of_not_null = number_of_not_null+1
+          number_of_not_null = number_of_not_null+1
         end
       else
         not_integer_or_float << "#{key.to_s}"
@@ -104,7 +104,7 @@ module ModuleProjectsHelper
     end
 
     #computed_probable_value according to the attribute type
-    if estimation_value.pe_attribute.attr_type.eql?("integer") &&  !computed_probable_value.nan?
+    if estimation_value.pe_attribute.attr_type.eql?("integer") && !computed_probable_value.nan?
       computed_probable_value = computed_probable_value.round
     end
 
