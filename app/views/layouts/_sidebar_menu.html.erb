@@ -9,25 +9,29 @@
   <li><a href="<%= new_project_path %>"><i class="icon-plus icon-large icon-border pull-left"></i><%=  I18n.t('create_new_project') %> </a></li>
 </ul>
 
-<ul class="nav nav-list">
-  <li class="nav-header"><h5>LIBRARY</h5></li>
-  <li><a href="/projects_global_params"><i class="icon-tasks icon-large icon-border pull-left"></i><%= I18n.t(:project_global_setting) %></a></li>
-  <!--<li><a href="/estimations_params"> <i class="icon-signal icon-large icon-border pull-left"></i><%#= I18n.t(:estimation_setting) %></a></li>-->
-  <li><a href="/organizationals_params"> <i class="icon-globe icon-large icon-border pull-left"></i><%= I18n.t(:organization_setting) %></a></li>
-  <li><a href="<%= wbs_activities_path%>"> <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:wbs_activities) %></a></li>
-  <!--<li><a href="#"><i class="icon-circle icon-large icon-border pull-left"></i>Template</a></li>-->
-</ul>
+<% if can? :access_library_menu, User %>
+  <ul class="nav nav-list">
+    <li class="nav-header"><h5>LIBRARY</h5></li>
+    <% if can? :access_project_global_settings, User %>
+      <li><a href="/projects_global_params"><i class="icon-tasks icon-large icon-border pull-left"></i><%= I18n.t(:project_global_setting) %></a></li>
+    <% end %>
+    <li><a href="/organizationals_params"> <i class="icon-globe icon-large icon-border pull-left"></i><%= I18n.t(:organization_setting) %></a></li>
+    <li><a href="<%= wbs_activities_path%>"> <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:wbs_activities) %></a></li>
+  </ul>
+<% end %>
 
-<ul class="nav nav-list">
-  <li class="nav-header"><h5>ADMIN</h5></li>
-  <li><a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %></a></li>
-  <li><a href="<%= users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %></a></li>
-  <li><a href="<%= groups_path %>"> <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
-  <li><a href="/globals_permissions"> <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
-  <li><a href="<%= project_securities_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
-  <li><a href="<%= auth_methods_path %>"> <i class="icon-signin icon-large icon-border pull-left"></i><%= I18n.t(:auth_methods) %></a></li>
-  <li><a href="<%= events_path %>"> <i class="icon-calendar icon-large icon-border pull-left"></i><%= I18n.t(:events) %></a></li>
-</ul>
+<% if can? :access_menu_admin, User %>
+  <ul class="nav nav-list">
+    <li class="nav-header"><h5>ADMIN</h5></li>
+    <li><a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %></a></li>
+    <li><a href="<%= users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %></a></li>
+    <li><a href="<%= groups_path %>"> <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
+    <li><a href="/globals_permissions"> <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
+    <li><a href="<%= project_securities_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
+    <li><a href="<%= auth_methods_path %>"> <i class="icon-signin icon-large icon-border pull-left"></i><%= I18n.t(:auth_methods) %></a></li>
+    <li><a href="<%= events_path %>"> <i class="icon-calendar icon-large icon-border pull-left"></i><%= I18n.t(:events) %></a></li>
+  </ul>
+<% end %>
 
 <% if is_master_instance?  %>
   <ul class="nav nav-list">

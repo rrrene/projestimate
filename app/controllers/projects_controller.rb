@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
+
   helper_method :sort_column
   helper_method :sort_direction
 
@@ -55,11 +56,13 @@ class ProjectsController < ApplicationController
   end
 
   def new
+    authorize! :create_project_from_scratch, Project
     set_page_title 'New project'
   end
 
   #Create a new project
   def create
+    authorize! :create_project_from_scratch, Project
     set_page_title 'Create project'
     @project = Project.new(params[:project])
     @wbs_activity_elements = []
@@ -565,8 +568,6 @@ class ProjectsController < ApplicationController
       #Re-initializa the current module_project
       ###current_module_project = module_project
     end
-
-    puts "test ça"
     #end
 
     respond_to do |format|
@@ -600,8 +601,6 @@ class ProjectsController < ApplicationController
       end
 
     end
-
-    puts "test ça"
 
     #Save output values: only for current pbs_project_element
     #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
@@ -1049,6 +1048,7 @@ class ProjectsController < ApplicationController
   end
 
   def projects_from
+    authorize! :create_project_from_template, Project
     @projects = Project.where(:is_model => true)
   end
 

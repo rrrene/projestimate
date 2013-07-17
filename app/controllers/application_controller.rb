@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
-    redirect_to root_url
+    redirect_to edit_user_path(current_user)
   end
 
   rescue_from Errno::ECONNREFUSED do |error|

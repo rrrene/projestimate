@@ -34,7 +34,8 @@ class PermissionsController < ApplicationController
   end
 
   def globals_permissions
-    authorize! :manage_permissions, Permission
+    authorize! :manage_global_permissions, Permission
+
     set_page_title 'Globals Permissions'
     @permissions = Permission.all.select{|i| !i.is_permission_project }
     @groups = Group.all
@@ -45,14 +46,13 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    authorize! :manage_permissions, Permission
+    authorize! :manage_global_permissions, Permission
+
     set_page_title 'Permissions'
     @permission = Permission.new
   end
 
-  # GET /permissions/1/edit
   def edit
-    authorize! :manage_permissions, Permission
     set_page_title 'Permissions'
     @permission = Permission.find(params[:id])
 
@@ -64,8 +64,6 @@ class PermissionsController < ApplicationController
     end
   end
 
-  # POST /permissions
-  # POST /permissions.json
   def create
     @permission = Permission.new(params[:permission])
 
@@ -78,9 +76,9 @@ class PermissionsController < ApplicationController
     end
   end
 
-  # PUT /permissions/1
-  # PUT /permissions/1.json
   def update
+    authorize! :manage_global_permissions, Permission
+
     @permission = nil
     current_permission = Permission.find(params[:id])
     if current_permission.is_defined?
@@ -97,9 +95,10 @@ class PermissionsController < ApplicationController
     end
   end
 
-  # DELETE /permissions/1
-  # DELETE /permissions/1.json
+
   def destroy
+    authorize! :manage_global_permissions, Permission
+
     @permission = Permission.find(params[:id])
     if @permission.is_defined? || @permission.is_custom?
       @permission.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
@@ -115,7 +114,8 @@ class PermissionsController < ApplicationController
 
   #Set all global rights
   def set_rights
-    authorize! :manage_permissions, Permission
+    authorize! :manage_global_permissions, Group
+
     @groups = Group.all
     @permissions = Permission.all
 
@@ -129,9 +129,7 @@ class PermissionsController < ApplicationController
 
   end
 
-  #Set all project security rights
   def set_rights_project_security
-    authorize! :manage_specific_permissions, Permission
     @project_security_levels = ProjectSecurityLevel.all
     @permissions = Permission.all
 
