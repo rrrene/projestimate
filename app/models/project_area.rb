@@ -21,7 +21,7 @@
 #Master Data
 #ProjectArea management
 class ProjectArea < ActiveRecord::Base
-  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
 
   has_and_belongs_to_many :activity_categories
   has_and_belongs_to_many :labor_categories
@@ -32,7 +32,7 @@ class ProjectArea < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
 
-  belongs_to :project
+  has_many :projects
 
   validates_presence_of :description, :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
