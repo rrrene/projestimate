@@ -22,7 +22,6 @@
 class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
-
   before_filter :load_data, :only => [:update, :edit, :new, :create]
 
   def load_data
@@ -40,21 +39,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    authorize! :edit_user_account_no_admin, User
+    authorize! :manage_users, User
     set_page_title 'Users'
     @users = User.all
-
-
-    respond_to do |format|
-      format.html
-      format.js {
-        render 'user_record_number.js'
-      }
-    end
   end
   
   def new
-    authorize! :edit_user_account_no_admin, User
+    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new( :auth_type => AuthMethod.first.id,
@@ -62,6 +53,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new(params[:user])
@@ -75,6 +67,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    authorize! :manage_users, User
     set_page_title 'Edit user'
     @user = User.find(params[:id])
   end
@@ -82,6 +75,7 @@ class UsersController < ApplicationController
 
   #Update user
   def update
+    authorize! :manage_users, User
     set_page_title 'Edit user'
 
     params[:user][:group_ids] ||= []
@@ -169,6 +163,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    authorize! :manage_users, User
     @user = User.find(params[:id])
     @user.destroy
 
@@ -189,6 +184,7 @@ class UsersController < ApplicationController
   end
 
   def activate
+    authorize! :manage_users, User
     @user = User.find(params[:id])
     unless @user.active?
       @user.user_status = 'active'
