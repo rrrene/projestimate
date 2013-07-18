@@ -262,6 +262,7 @@ fr:
   work_element: "Eléments de travail"
   security_level: "Niveaux de sécurité"
   languages: "Langues"
+  label_language: "Langue"
   translations: "Traductions"
   community: "Communauté"
   reference_values: "Valeurs de référence"
@@ -277,7 +278,8 @@ fr:
   category: "Catégorie"
   description: "Description"
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
-  record_status: "Statut"
+  record_status: "Statut de l'enregistrement"
+  label_object_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
   notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
   text_finduse_attribute: "Liste des objets qui utilisent l'attribut \"%{value}\" "
@@ -395,7 +397,7 @@ fr:
 
   #groups
   global: "Global"
-  associated_users: "Utilisateurs associés"
+  text_group_associated_users: "Utilisateurs associés (utilisateurs membres du groupe)"
   edit_group: "Editer le groupe \"%{value}\" ... "
   new_group: "Créer un nouveau groupe ... "
 
@@ -454,6 +456,7 @@ fr:
   new_organization: "Créer une organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Catégories de travailleurs des organisations"
+  text_organization_attributes: "Attribus sur lesquels l'organisation souhaite capitalier (ils seront automatiquement ajoutés au module 'Capitalisation')"
 
   #Pbs_project_elements
   ancestry: "Ancêtre"
@@ -517,7 +520,7 @@ fr:
   calendar: "Calendrier"
   resources: "Ressources"
   analyse: "Analyse"
-  state: "Statut"
+  state: "Etat"
   hidden_element: "Afficher l'élément caché"
   associate_pbs_element: "PBS-element associé"
   user_securities_resume: "Résumé des sécurités de l'utilisateur"
@@ -583,9 +586,10 @@ fr:
   login_name: "Id de connexion"
   email: "Courriel"
   initials: "Initiales"
-  associated_groups: "Groupes associés"
-  associated_organizations: "Organisations associées"
-  associated_projects: "Projets associés"
+  text_user_associated_groups: "Groupes associés (groupes dont l'utilisateur est membre)"
+  text_user_associated_organizations: "Organisations associées (organisations auxquels appartient l'utilisateur)"
+  text_group_associated_projects: "Projets associés (projets auxquels le groupe a accès)"
+  text_user_associated_projects: "Projets associés (projets auxquels l'utilisateur a accès)"
   settings: "Préférences"
   authentication: "Authentification de l'utilisateur"
   password: "Mot de passe"
