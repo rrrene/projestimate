@@ -1,12 +1,13 @@
 <table class="table tablesorterPager table-striped table-bordered table-condensed">
   <thead>
   <tr>
-    <th><%= I18n.t(:last_name) %> &ndash; <%= I18n.t(:first_name) %>  </th>
+    <th><%= I18n.t(:last_name) %></th>
+    <th><%= I18n.t(:first_name) %></th>
     <th><%= I18n.t(:login_name) %></th>
     <th><%= I18n.t(:email) %></th>
     <th><%= I18n.t(:last_login) %></th>
     <th class="filter-select"><%= I18n.t(:authentication) %></th>
-    <th class="filter-select"><%= I18n.t(:record_status) %></th>
+    <th class="filter-select" data-value="active"><%= I18n.t(:label_object_status) %></th>
     <th class="action" style="width: 110px"><%= I18n.t(:actions) %></th>
   </tr>
   </thead>
@@ -16,7 +17,8 @@
   <% else %>
       <% @users.each do |user| %>
           <tr>
-            <td><%= user.last_name %> &ndash; <%= user.first_name %>  </td>
+            <td><%= user.last_name %></td>
+            <td><%= user.first_name %></td>
             <td><%= user.login_name %></td>
             <td><%= user.email %></td>
             <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,15 +20,15 @@
 
 #Master Data
 class Peicon < ActiveRecord::Base
-  include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   attr_accessible :name, :icon, :record_status_id
 
-  has_attached_file :icon, :styles => { :small => "16x16" }
+  has_attached_file :icon, :styles => {:small => "16x16"}
 
   validates_attachment :icon, :presence => true,
-                       :content_type => { :content_type => "image/png" },
-                       :size => { :in => 0..10.kilobytes }
+                       :content_type => {:content_type => "image/png"},
+                       :size => {:in => 0..10.kilobytes}
 
   has_many :work_element_types, :dependent => :destroy
 

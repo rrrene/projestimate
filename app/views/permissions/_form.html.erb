@@ -11,7 +11,7 @@
 
       <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-      <%= f.input :is_permission_project, :label => I18n.t('is_permission_project'), :input_html => {:class => 'input-small'}, :as => :select, :collection => [true, false] %>
+      <%= f.input :is_permission_project, :label => I18n.t('is_permission_project'), :input_html => {:class => 'input-small'}, :as => :boolean %>
 
       <%= f.input :object_associated, :label => I18n.t('object_associated'), :input_html => {:class => 'input-xxlarge'}, :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == 'SchemaMigration' } %>
 
@@ -31,12 +31,10 @@
         </table>
               <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
       <div class="actions">
-        <% if can? :update, @permission %>
-            <%= f.submit I18n.t('save'), :class => 'btn' %>
-            <%= f.submit I18n.t('apply'), :class => 'btn' %>
-            <%= link_to I18n.t('back'), permissions_path, :class => 'btn' %>
-        <% end %>
-    </div>
+        <%= f.submit I18n.t('save'), :class => 'btn' %>
+        <%= f.submit I18n.t('apply'), :class => 'btn' %>
+        <%= link_to I18n.t('back'), permissions_path, :class => 'btn' %>
+      </div>
   <% end %>
 </div>
 </div>

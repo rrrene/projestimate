@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,12 +24,12 @@ class Organization < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :wbs_activities, :dependent => :destroy
   has_many :attribute_organizations, :dependent => :destroy
-  has_many :pe_attributes,  :source => :pe_attribute, :through => :attribute_organizations
+  has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_organizations
 
   has_many :projects
 
   #validates_presence_of :name
-  validates :name, :presence => true, :uniqueness => { :case_sensitive => false }
+  validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
 
   #Override
   def to_s

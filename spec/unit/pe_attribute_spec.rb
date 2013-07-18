@@ -107,4 +107,8 @@ describe PeAttribute do
   specify "should return :name + ' - ' + :description.truncate(20)" do
     @attribute.to_s.should eql(@attribute.name + ' - ' + @attribute.description.truncate(20) )
   end
+
+  it "should return an attribute list" do
+
+  end
 end

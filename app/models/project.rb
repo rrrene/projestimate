@@ -2,7 +2,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -75,6 +75,7 @@ class Project < ActiveRecord::Base
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
       new_project.alias = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.alias}"
       new_project.copy_number = 0
+      new_project.is_model = false
       original_project.copy_number = original_project.copy_number.to_i+1
     })
 

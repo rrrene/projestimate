@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
   include WbsActivityElementsHelper
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
+
   helper_method :sort_column
   helper_method :sort_direction
 
@@ -55,11 +56,13 @@ class ProjectsController < ApplicationController
   end
 
   def new
+    authorize! :create_project_from_scratch, Project
     set_page_title 'New project'
   end
 
   #Create a new project
   def create
+    authorize! :create_project_from_scratch, Project
     set_page_title 'Create project'
     @project = Project.new(params[:project])
     @wbs_activity_elements = []

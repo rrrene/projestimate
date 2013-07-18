@@ -1,3 +1,23 @@
+#########################################################################
+#
+# ProjEstimate, Open Source project estimation web application
+# Copyright (c) 2013 Spirula (http://www.spirula.fr)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
 class AttributeOrganizationsController < ApplicationController
 
   # Update the Organization attributes
@@ -15,7 +35,7 @@ class AttributeOrganizationsController < ApplicationController
           @organization_projects.each do |project|
             project_cap_module_projects = project.module_projects.where("pemodule_id = ?", @capitalization_module.id)
             project_cap_module_projects.each do |module_project|
-              project_est_values = module_project.estimation_values.where("pe_attribute_id = ?",  m.pe_attribute_id)
+              project_est_values = module_project.estimation_values.where("pe_attribute_id = ?", m.pe_attribute_id)
               project_est_values.destroy_all
             end
           end
@@ -37,16 +57,16 @@ class AttributeOrganizationsController < ApplicationController
             #Create corresponding Estimation_value
             ['input', 'output'].each do |in_out|
               mpa = EstimationValue.create(:pe_attribute_id => g.to_i,
-                       :module_project_id => module_project.id,
-                       :in_out => in_out,
-                       :is_mandatory => attr_org.is_mandatory,
-                       :description => attr_org.pe_attribute.description,
-                       #:display_order => attr_org.display_order,
-                       :string_data_low => {:pe_attribute_name => attr_org.pe_attribute.name, :default_low => ""},
-                       :string_data_most_likely => {:pe_attribute_name => attr_org.pe_attribute.name, :default_most_likely => ""},
-                       :string_data_high => {:pe_attribute_name => attr_org.pe_attribute.name, :default_high => ""})
-                       #:custom_attribute => attr_org.custom_attribute,
-                       #:project_value => attr_org.project_value)
+                                           :module_project_id => module_project.id,
+                                           :in_out => in_out,
+                                           :is_mandatory => attr_org.is_mandatory,
+                                           :description => attr_org.pe_attribute.description,
+                                           #:display_order => attr_org.display_order,
+                                           :string_data_low => {:pe_attribute_name => attr_org.pe_attribute.name, :default_low => ""},
+                                           :string_data_most_likely => {:pe_attribute_name => attr_org.pe_attribute.name, :default_most_likely => ""},
+                                           :string_data_high => {:pe_attribute_name => attr_org.pe_attribute.name, :default_high => ""})
+              #:custom_attribute => attr_org.custom_attribute,
+              #:project_value => attr_org.project_value)
             end
           end
         end

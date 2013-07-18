@@ -24,10 +24,6 @@ class OrganizationsController < ApplicationController
     authorize! :manage_organizations, Organization
     set_page_title 'Organizations'
     @organization = Organization.new
-
-    respond_to do |format|
-      format.html # _new.html.erb
-    end
   end
 
   def edit

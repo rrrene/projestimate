@@ -2,7 +2,7 @@
 ##########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -39,16 +39,16 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
       #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
-        if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
-          if current_module_project.pemodule.alias == 'effort_balancing'
-            res << display_effort_balancing_output(current_module_project)
-          else
-            res << display_results_with_activities(current_module_project)
-          end
+      if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
+        if current_module_project.pemodule.alias == 'effort_balancing'
+          res << display_effort_balancing_output(current_module_project)
         else
-          res << display_results_without_activities(current_module_project)
+          res << display_results_with_activities(current_module_project)
         end
-        res
+      else
+        res << display_results_without_activities(current_module_project)
+      end
+      res
       #end
     end
     res
@@ -64,10 +64,10 @@ module ProjectsHelper
     res << "<table class='table table-condensed table-bordered'>
                  <tr>
                    <th></th>"
-                    ['low', 'most_likely', 'high', 'probable'].each do |level|
-                      res << "<th>#{level.humanize}</th>"
-                    end
-        res << '</tr>'
+    ['low', 'most_likely', 'high', 'probable'].each do |level|
+      res << "<th>#{level.humanize}</th>"
+    end
+    res << '</tr>'
 
     module_project.estimation_values.where('in_out = ?', 'output').order('display_order ASC').each do |est_val|
       est_val_pe_attribute = est_val.pe_attribute
@@ -130,9 +130,9 @@ module ProjectsHelper
     # We are showing for each PBS and/or ACTIVITY the (low, most_likely, high) values
     res << '<tr>
               <th></th>'
-              ['low', 'most_likely', 'high', 'probable'].each do |level|
-                res << "<th>#{level.humanize}</th>"
-              end
+    ['low', 'most_likely', 'high', 'probable'].each do |level|
+      res << "<th>#{level.humanize}</th>"
+    end
     res << '</tr>'
 
     module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
@@ -192,9 +192,9 @@ module ProjectsHelper
     #Show the global result of the PBS
     res << '<tr>
               <td><strong>  </strong></td>'
-      ['low', 'most_likely', 'high', 'probable'].each do |level|
-        res << '<td></td>'
-      end
+    ['low', 'most_likely', 'high', 'probable'].each do |level|
+      res << '<td></td>'
+    end
     res << '</tr>'
 
     # Show the probable values
@@ -241,7 +241,7 @@ module ProjectsHelper
                     <td>
                       <span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
         res << '</td>'
-        module_project.estimation_values.select{|i| i.in_out == 'output' or i.in_out=='both'}.each do |est_val|
+        module_project.estimation_values.select { |i| i.in_out == 'output' or i.in_out=='both' }.each do |est_val|
           level_estimation_values = Hash.new
           level_estimation_values = est_val.send("string_data_probable")
 
@@ -273,87 +273,87 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-        #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
-        current_project = current_module_project.project
-        current_module_project_pemodule = current_module_project.pemodule
+      #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
+      current_project = current_module_project.project
+      current_module_project_pemodule = current_module_project.pemodule
 
-        ##if module_project.pemodule.with_activities
-        if current_module_project_pemodule.yes_for_input? || current_module_project_pemodule.yes_for_input_output_without_ratio? || current_module_project_pemodule.yes_for_input_output_with_ratio?
+      ##if module_project.pemodule.with_activities
+      if current_module_project_pemodule.yes_for_input? || current_module_project_pemodule.yes_for_input_output_without_ratio? || current_module_project_pemodule.yes_for_input_output_with_ratio?
 
-          # For WBS-ACTIVITY-COMPLETION MODULE
-          if current_module_project_pemodule.alias == "wbs_activity_completion"
-            @defined_status = RecordStatus.find_by_name("Defined")
-            last_estimation_result = nil
-            effort_breakdown_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
+        # For WBS-ACTIVITY-COMPLETION MODULE
+        if current_module_project_pemodule.alias == "wbs_activity_completion"
+          @defined_status = RecordStatus.find_by_name("Defined")
+          last_estimation_result = nil
+          effort_breakdown_module = Pemodule.where("alias = ? AND record_status_id = ?", "effort_breakdown", @defined_status.id).first
 
-            unless effort_breakdown_module.nil?
-              refer_module_potential_ids = module_project.associated_module_projects ###+ module_project.inverse_associated_module_projects
-              #unless refer_module.empty?
-                refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
-                refer_modules_project =  ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND  project_id =? AND pbs_project_elements.id = ?", effort_breakdown_module.id, current_project.id, pbs_project_element.id)
-                refer_module_project = refer_modules_project.where(["module_project_id IN (?)", refer_module_potential_ids]).last
+          unless effort_breakdown_module.nil?
+            refer_module_potential_ids = module_project.associated_module_projects ###+ module_project.inverse_associated_module_projects
+                                                                                   #unless refer_module.empty?
+            refer_attribute = PeAttribute.where("alias = ? AND record_status_id = ?", "effort_man_hour", @defined_status.id).first
+            refer_modules_project = ModuleProject.joins(:project, :pbs_project_elements).where("pemodule_id = ? AND  project_id =? AND pbs_project_elements.id = ?", effort_breakdown_module.id, current_project.id, pbs_project_element.id)
+            refer_module_project = refer_modules_project.where(["module_project_id IN (?)", refer_module_potential_ids]).last
 
-                unless refer_module_project.nil?
-                  # Get the estimation_value corresponding to the linked Effort_breakdown module (if there is one)
-                  last_estimation_results = EstimationValue.where('in_out = ? AND pe_attribute_id = ? AND module_project_id = ?', 'output', refer_attribute.id, refer_module_project.id).first
+            unless refer_module_project.nil?
+              # Get the estimation_value corresponding to the linked Effort_breakdown module (if there is one)
+              last_estimation_results = EstimationValue.where('in_out = ? AND pe_attribute_id = ? AND module_project_id = ?', 'output', refer_attribute.id, refer_module_project.id).first
 
-                  if last_estimation_results.nil?
-                    last_estimation_result = Hash.new
-                  else
-                    last_estimation_result = last_estimation_results
+              if last_estimation_results.nil?
+                last_estimation_result = Hash.new
+              else
+                last_estimation_result = last_estimation_results
 
-                    pe_wbs_project_activity = current_project.pe_wbs_projects.activities_wbs.first
-                    project_wbs_root = pe_wbs_project_activity.wbs_project_elements.where("is_added_wbs_root = ?", true).first
+                pe_wbs_project_activity = current_project.pe_wbs_projects.activities_wbs.first
+                project_wbs_root = pe_wbs_project_activity.wbs_project_elements.where("is_added_wbs_root = ?", true).first
 
-                    # Get all complement children
-                    complement_children_ids = project_wbs_root.get_all_complement_children
+                # Get all complement children
+                complement_children_ids = project_wbs_root.get_all_complement_children
 
-                    # This will be completed only if WBS has one or more not coming from library
-                    unless complement_children_ids.empty?
-                      current_mp_est_value = current_module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
-                      ##new_created_estimation_value = EstimationValue.new
-                      new_created_estimation_value = last_estimation_results
+                # This will be completed only if WBS has one or more not coming from library
+                unless complement_children_ids.empty?
+                  current_mp_est_value = current_module_project.estimation_values.where("pe_attribute_id = ? AND in_out = ?", refer_attribute.id, "output").last
+                  ##new_created_estimation_value = EstimationValue.new
+                  new_created_estimation_value = last_estimation_results
 
-                      ['low', 'most_likely', 'high'].each do |level|
+                  ['low', 'most_likely', 'high'].each do |level|
 
-                        new_created_estimation_value_level =  new_created_estimation_value.send("string_data_#{level}")
+                    new_created_estimation_value_level = new_created_estimation_value.send("string_data_#{level}")
 
-                        level_current_mp_est_val = current_mp_est_value.send("string_data_#{level}")
+                    level_current_mp_est_val = current_mp_est_value.send("string_data_#{level}")
 
-                        if !level_current_mp_est_val.nil? || !level_current_mp_est_val.empty?
+                    if !level_current_mp_est_val.nil? || !level_current_mp_est_val.empty?
 
-                          pbs_level_value = level_current_mp_est_val[pbs_project_element.id]
+                      pbs_level_value = level_current_mp_est_val[pbs_project_element.id]
 
-                          unless pbs_level_value.nil?
-                            complement_children_ids.each do |complement_child_id|
-                              #new_created_estimation_value_level[pbs_project_element.id] << complement_child_id
-                              if !pbs_level_value[complement_child_id].nil? && !level_current_mp_est_val[pbs_project_element.id][complement_child_id].nil?
-                                new_created_estimation_value_level[pbs_project_element.id][complement_child_id] = {:value => level_current_mp_est_val[pbs_project_element.id][complement_child_id][:value]}
-                              end
-                            end
-                            new_created_estimation_value.send("string_data_#{level}=".to_sym, new_created_estimation_value_level)
+                      unless pbs_level_value.nil?
+                        complement_children_ids.each do |complement_child_id|
+                          #new_created_estimation_value_level[pbs_project_element.id] << complement_child_id
+                          if !pbs_level_value[complement_child_id].nil? && !level_current_mp_est_val[pbs_project_element.id][complement_child_id].nil?
+                            new_created_estimation_value_level[pbs_project_element.id][complement_child_id] = {:value => level_current_mp_est_val[pbs_project_element.id][complement_child_id][:value]}
                           end
                         end
-
+                        new_created_estimation_value.send("string_data_#{level}=".to_sym, new_created_estimation_value_level)
                       end
-                      last_estimation_result = new_created_estimation_value
                     end
-                  end
-                end
-            end
-            res << display_inputs_with_activities(current_module_project, last_estimation_result)
 
-            # For Effort balancing module
-          elsif current_module_project_pemodule.alias == 'effort_balancing'
-            res << display_effort_balancing_input(current_module_project, last_estimation_result)
-            # For others module with Activities
-          else
-            res << display_inputs_with_activities(current_module_project)
+                  end
+                  last_estimation_result = new_created_estimation_value
+                end
+              end
+            end
           end
-          # For others modules that don't use WSB-Activities values in input
-        elsif current_module_project_pemodule.no? || current_module_project_pemodule.yes_for_output_with_ratio? || current_module_project_pemodule.yes_for_output_without_ratio?
-          res << display_inputs_without_activities(current_module_project)
+          res << display_inputs_with_activities(current_module_project, last_estimation_result)
+
+          # For Effort balancing module
+        elsif current_module_project_pemodule.alias == 'effort_balancing'
+          res << display_effort_balancing_input(current_module_project, last_estimation_result)
+          # For others module with Activities
+        else
+          res << display_inputs_with_activities(current_module_project)
         end
+        # For others modules that don't use WSB-Activities values in input
+      elsif current_module_project_pemodule.no? || current_module_project_pemodule.yes_for_output_with_ratio? || current_module_project_pemodule.yes_for_output_without_ratio?
+        res << display_inputs_without_activities(current_module_project)
+      end
       #end
     end
     res
@@ -375,62 +375,62 @@ module ProjectsHelper
 
       res << '<tr>
                 <th></th>'
-        module_project.previous.each_with_index do |est,i|
-          res << "<th>#{display_path([], module_project, i).reverse.join('<br>')}</th>"
+      module_project.previous.each_with_index do |est, i|
+        res << "<th>#{display_path([], module_project, i).reverse.join('<br>')}</th>"
+      end
+      module_project.estimation_values.each do |est_val|
+        if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
+          res << "<th><span class='attribute_tooltip' title='#{est_val.pe_attribute.description} #{display_rule(est_val)}' rel='tooltip'>#{est_val.pe_attribute.name}</span></th>"
         end
-        module_project.estimation_values.each do |est_val|
-          if (est_val.in_out == 'input' or est_val.in_out=='both') and est_val.module_project.id == module_project.id
-            res << "<th><span class='attribute_tooltip' title='#{est_val.pe_attribute.description} #{display_rule(est_val)}' rel='tooltip'>#{est_val.pe_attribute.name}</span></th>"
-          end
-        end
+      end
 
       res << '</tr>'
 
-        module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
-          res << "<tr>
+      module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
+        res << "<tr>
                     <td>
                       <span class='tree_element_in_out' style='margin-left:#{wbs_project_elt.depth}em;'>#{wbs_project_elt.name}</span></td>"
-          res << '</td>'
-          module_project.previous.each do |mp|
-            level = "probable"
-            #value of output attributes of previous pemodule_projects
-            mp.estimation_values.select{|i| i.in_out == 'output'}.each do |est_val|
-              level_estimation_values = Hash.new
-              level_estimation_values = est_val.send("string_data_probable")
+        res << '</td>'
+        module_project.previous.each do |mp|
+          level = "probable"
+          #value of output attributes of previous pemodule_projects
+          mp.estimation_values.select { |i| i.in_out == 'output' }.each do |est_val|
+            level_estimation_values = Hash.new
+            level_estimation_values = est_val.send("string_data_probable")
 
-                res << '<td>'
-                  if level_estimation_values[pbs_project_element.id]
-                    res << text_field_tag("", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value] ,
-                                          :readonly => true, :class => "input-small #{level} #{est_val.id}",
-                                          "data-est_val_id" => est_val.id)
-                  else
-                    res << '-'
-                  end
-                res << '</td>'
-              end
-          end
-
-          module_project.estimation_values.select{|i| i.in_out == 'output'}.each do |est_val|
             res << '<td>'
-              level_estimation_values = Hash.new
-              level_estimation_values = est_val.send("string_data_most_likely")
-
-            if level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
-              res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
-                                       nil,
-                                       :class => "input-small #{est_val.id}",
-                                       "data-est_val_id" => est_val.id}"
+            if level_estimation_values[pbs_project_element.id]
+              res << text_field_tag("", level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value],
+                                    :readonly => true, :class => "input-small #{level} #{est_val.id}",
+                                    "data-est_val_id" => est_val.id)
             else
-              res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
-                                       level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value],
-                                       :class => "input-small #{est_val.id}",
-                                       "data-est_val_id" => est_val.id}"
+              res << '-'
             end
             res << '</td>'
           end
-
-          res << '</tr>'
         end
+
+        module_project.estimation_values.select { |i| i.in_out == 'output' }.each do |est_val|
+          res << '<td>'
+          level_estimation_values = Hash.new
+          level_estimation_values = est_val.send("string_data_most_likely")
+
+          if level_estimation_values[pbs_project_element.id].nil? or level_estimation_values[pbs_project_element.id][wbs_project_elt.id].blank?
+            res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
+                                     nil,
+                                     :class => "input-small #{est_val.id}",
+                                     "data-est_val_id" => est_val.id}"
+          else
+            res << "#{text_field_tag "[#{est_val.pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
+                                     level_estimation_values[pbs_project_element.id][wbs_project_elt.id][:value],
+                                     :class => "input-small #{est_val.id}",
+                                     "data-est_val_id" => est_val.id}"
+          end
+          res << '</td>'
+        end
+
+        res << '</tr>'
+      end
       res << '</table>'
     end
 
@@ -458,9 +458,9 @@ module ProjectsHelper
 
       res << '<tr>
                 <th></th>'
-                ['low', '', 'most_likely', 'high'].each do |level|
-                  res << "<th>#{level.humanize}</th>"
-                end
+      ['low', '', 'most_likely', 'high'].each do |level|
+        res << "<th>#{level.humanize}</th>"
+      end
       res << '</tr>'
 
       module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.each do |wbs_project_elt|
@@ -483,7 +483,7 @@ module ProjectsHelper
                 pbs_last_result = nil
                 unless last_estimation_result.nil? || last_estimation_result.empty?
                   level_last_result = last_estimation_result.send("string_data_#{level}")
-                  pbs_last_result =  level_last_result[pbs_project_element.id]
+                  pbs_last_result = level_last_result[pbs_project_element.id]
                 end
 
                 if pbs_last_result.nil?
@@ -519,16 +519,16 @@ module ProjectsHelper
 
                 if wbs_project_elt.is_root? || wbs_project_elt.has_children?
                   res << "#{ text_field_tag "[#{level}][#{est_val_pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
-                                            nullity_condition ?  nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id],
+                                            nullity_condition ? nil : level_estimation_values[pbs_project_element.id][wbs_project_elt.id],
                                             :readonly => readonly_option, :class => "input-small #{level}  #{est_val.id} #{wbs_project_elt.id}",
                                             "data-est_val_id" => est_val.id, "data-wbs_project_elt_id" => wbs_project_elt.id }"
                 else
                   res << "#{ text_field_tag "[#{level}][#{est_val_pe_attribute.alias.to_sym}][#{module_project.id.to_s}][#{wbs_project_elt.id.to_s}]",
-                                            nullity_condition ?  level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id][wbs_project_elt.id],
+                                            nullity_condition ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id][wbs_project_elt.id],
                                             :readonly => readonly_option, :class => "input-small #{level}  #{est_val.id} #{wbs_project_elt.id}",
                                             "data-est_val_id" => est_val.id, "data-wbs_project_elt_id" => wbs_project_elt.id }"
                 end
-               end
+              end
 
             end
             pe_attribute_alias = est_val_pe_attribute.alias
@@ -545,10 +545,10 @@ module ProjectsHelper
             res << '</td>'
           end
         end
-       res << '</tr>'
-     end
-        res << '</table>'
+        res << '</tr>'
       end
+      res << '</table>'
+    end
     res
   end
 
@@ -559,36 +559,36 @@ module ProjectsHelper
     res = String.new
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
-        res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
-          res << "<table class='table table-condensed table-bordered'>
+      res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
+      res << "<table class='table table-condensed table-bordered'>
                       <tr>
                         <th></th>"
-                        ['low', '', 'most_likely', 'high'].each do |level|
-                          res << "<th>#{level.humanize}</th>"
-                        end
-                      res << '</tr>'
-            module_project.estimation_values.order('display_order ASC').each do |est_val|
-              est_val_pe_attribute = est_val.pe_attribute
-              est_val_in_out = est_val.in_out
-              if (est_val_in_out == 'input' or est_val_in_out == 'both') and est_val.module_project.id == module_project.id
-                res << '<tr>'
-                res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val_pe_attribute.description} #{display_rule(est_val)}'>#{est_val_pe_attribute.name}</span></td>"
-                level_estimation_values = Hash.new
-                ['low', 'most_likely', 'high'].each do |level|
-                level_estimation_values = est_val.send("string_data_#{level}")
-                  res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
-                  if level == 'low'
-                    input_id = "_#{est_val_pe_attribute.alias}_#{module_project.id}"
-                    res << '<td>'
-                      res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
-                    res << '</td>'
-                  end
-                end
-              end
-              res << '</tr>'
-            end
-          res << '</table>'
+      ['low', '', 'most_likely', 'high'].each do |level|
+        res << "<th>#{level.humanize}</th>"
       end
+      res << '</tr>'
+      module_project.estimation_values.order('display_order ASC').each do |est_val|
+        est_val_pe_attribute = est_val.pe_attribute
+        est_val_in_out = est_val.in_out
+        if (est_val_in_out == 'input' or est_val_in_out == 'both') and est_val.module_project.id == module_project.id
+          res << '<tr>'
+          res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val_pe_attribute.description} #{display_rule(est_val)}'>#{est_val_pe_attribute.name}</span></td>"
+          level_estimation_values = Hash.new
+          ['low', 'most_likely', 'high'].each do |level|
+            level_estimation_values = est_val.send("string_data_#{level}")
+            res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
+            if level == 'low'
+              input_id = "_#{est_val_pe_attribute.alias}_#{module_project.id}"
+              res << '<td>'
+              res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
+              res << '</td>'
+            end
+          end
+        end
+        res << '</tr>'
+      end
+      res << '</table>'
+    end
     res
   end
 
@@ -628,23 +628,22 @@ module ProjectsHelper
   end
 
 
-
   #Display pemodule output depending attribute type.
   def display_value(value, estimation_value)
     est_val_pe_attribute = estimation_value.pe_attribute
     case est_val_pe_attribute.attr_type
-    when 'date'
-      display_date(value)
-    when 'float'
-      begin
-        if est_val_pe_attribute.precision
-          value.round(est_val_pe_attribute.precision)
-        else
-          value.round(2)
+      when 'date'
+        display_date(value)
+      when 'float'
+        begin
+          if est_val_pe_attribute.precision
+            value.round(est_val_pe_attribute.precision)
+          else
+            value.round(2)
+          end
+        rescue
+          value
         end
-      rescue
-        value
-      end
       when 'integer'
         begin
           value.to_i
@@ -671,7 +670,8 @@ module ProjectsHelper
 
   #Display text field tag depending of estimation plan.
   #Some pemodules can take previous and computed values
-  def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)     4
+  def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
+    4
 
     est_val_pe_attribute = est_val.pe_attribute
 

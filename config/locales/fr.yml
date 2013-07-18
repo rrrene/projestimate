@@ -256,11 +256,13 @@ fr:
   project_global_parameters: "Paramètres projets"
   pemodule_global_parameters: "Paramètres modules"
   pe_attributes: "Attributs"
+  attribute_categories: "Catégories des attributs"
   labor_categories: "Travailleurs"
   projestimate_module: "Modules"
   work_element: "Eléments de travail"
   security_level: "Niveaux de sécurité"
   languages: "Langues"
+  label_language: "Langue"
   translations: "Traductions"
   community: "Communauté"
   reference_values: "Valeurs de référence"
@@ -273,9 +275,11 @@ fr:
 
   #attributes
   name: "Nom"
+  category: "Catégorie"
   description: "Description"
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
-  record_status: "Statut"
+  record_status: "Statut de l'enregistrement"
+  label_object_status: "Statut"
   custom_value: "Valeur personnalisée (si statut = custom)"
   notice_no_module_use_current_attribute: "Aucun module n'utilise l'attribut \"%{value}\" "
   text_finduse_attribute: "Liste des objets qui utilisent l'attribut \"%{value}\" "
@@ -290,6 +294,7 @@ fr:
   #CRUD
   save: "Sauvegarder"
   apply: "Appliquer"
+  save_and_create: "Sauvegarder et créer un autre"
   edit: "Editer"
   delete: "Supprimer"
   cancel: "Annuler"
@@ -358,7 +363,9 @@ fr:
   validation_options: "Validations et options"
   attributes_type: "Type"
   edit_pe_attribute: "Editer l'attribut \"%{value}\" ..."
+  edit_attribute_category: "Editer la catégorie \"%{value}\" ..."
   new_pe_attribute: "Créer un nouvel attribut"
+  new_attribute_category: "Créer une nouvelle catègorie d'attribut"
 
   #auth_method
   server_name: "Nom du serveur"
@@ -390,7 +397,7 @@ fr:
 
   #groups
   global: "Global"
-  associated_users: "Utilisateurs associés"
+  text_group_associated_users: "Utilisateurs associés (utilisateurs membres du groupe)"
   edit_group: "Editer le groupe \"%{value}\" ... "
   new_group: "Créer un nouveau groupe ... "
 
@@ -449,6 +456,7 @@ fr:
   new_organization: "Créer une organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Catégories de travailleurs des organisations"
+  text_organization_attributes: "Attribus sur lesquels l'organisation souhaite capitalier (ils seront automatiquement ajoutés au module 'Capitalisation')"
 
   #Pbs_project_elements
   ancestry: "Ancêtre"
@@ -459,6 +467,7 @@ fr:
   icon: "Icône"
   text_icon_message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
   edit_icon: "Editer l'icône \"%{value}\" ..."
+  choose_icon: "Choisir / Changer l'icône ..."
   new_icon: "Ajouter un icône"
   icons: "Icônes"
   actions: "Actions"
@@ -471,6 +480,7 @@ fr:
   attributes_settings: "Paramètres des attributs"
   label_compatibility: "Eléments du PBS compatible (pour les données d'entrées)"
   pe_attribute_name: "Nom de l'attribut"
+  attribute_category_name: "Nom de la catégorie"
   selected: "Sélectionné"
   edit_pemodule: "Editer le module \"%{value}\" ..."
   new_pemodule: "Créer un module"
@@ -497,8 +507,8 @@ fr:
 
   #projects
   edit_project: "Editer le projet \"%{value}\" ..."
-  new_project: "Créer un nouveau projet ..."
-  new_project_from: "Créer un projet à partir ..."
+  new_project: "Créer un projet"
+  new_project_from: "Créer un projet à partir d'un modèle"
   wbs_product: "WBS Produit"
   wbs_activity: "WBS Activité"
   available_wbs_activity: "WBS-Activité disponibles dans la bibliothèque, avec leurs tables de ratio associées\n(La table de ratio selectionnée sera utilisée comme table de ratio par défaut)"
@@ -510,7 +520,7 @@ fr:
   calendar: "Calendrier"
   resources: "Ressources"
   analyse: "Analyse"
-  state: "Statut"
+  state: "Etat"
   hidden_element: "Afficher l'élément caché"
   associate_pbs_element: "PBS-element associé"
   user_securities_resume: "Résumé des sécurités de l'utilisateur"
@@ -520,6 +530,7 @@ fr:
   text_confirm_project_deletion: "Ëtes-vous Sûr de vouloir supprimer ce projet et les données dépendantes ?"
   warning_need_check_box_confirmation: "Vous devez confirmer la suppression du projet avec la case à cocher"
   label_project_is_model: "Est un modèle de projet"
+  is_model: "Modèle"
 
   #Record_statuses
   edit_record_status: "Editer le statut d'enregistrement \"%{value}\" ..."
@@ -575,9 +586,10 @@ fr:
   login_name: "Id de connexion"
   email: "Courriel"
   initials: "Initiales"
-  associated_groups: "Groupes associés"
-  associated_organizations: "Organisations associées"
-  associated_projects: "Projets associés"
+  text_user_associated_groups: "Groupes associés (groupes dont l'utilisateur est membre)"
+  text_user_associated_organizations: "Organisations associées (organisations auxquels appartient l'utilisateur)"
+  text_group_associated_projects: "Projets associés (projets auxquels le groupe a accès)"
+  text_user_associated_projects: "Projets associés (projets auxquels l'utilisateur a accès)"
   settings: "Préférences"
   authentication: "Authentification de l'utilisateur"
   password: "Mot de passe"
@@ -911,6 +923,7 @@ fr:
   button_commit_project: "Promouvoir le projet dans son cycle de vie"
   button_activate_project: "Activer le projet dans le tableau de bord"
   button_duplicate_project: "Dupliquer le projet"
+  button_duplicate_model: "Créer le projet sur la base de ce modèle"
   label_environment: "Environnement"
   notice_attribute_organization_successful_updated: "L'attribut organisationnelle a été mis à jour avec succès."
   display_order: "Ordre d'affichage"

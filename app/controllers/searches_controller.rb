@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@ class SearchesController < ApplicationController
   #Display search result
   def results
     if params[:search].class == Array
-      classes = params[:search][:classes].map{ |i| String::keep_clean_space(i).camelcase.constantize }
+      classes = params[:search][:classes].map { |i| String::keep_clean_space(i).camelcase.constantize }
     else
       classes = [PeAttribute, ProjectArea, PlatformCategory, ProjectCategory, WorkElementType, PbsProjectElement, Project, Pemodule]
     end
@@ -31,8 +31,8 @@ class SearchesController < ApplicationController
     @results = Array.new
     classes.each do |class_name|
       @res = class_name.search do
-              fulltext params[:search]
-             end
+        fulltext params[:search]
+      end
 
       @results << @res.results
     end

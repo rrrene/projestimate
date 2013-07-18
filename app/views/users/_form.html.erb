@@ -127,7 +127,7 @@
       </div>
 
       <div id="tabs-2">
-        <b><%= I18n.t(:associated_groups) %></b>
+        <b><%= I18n.t(:text_user_associated_groups) %></b>
         <br/><br/>
 
         <div class="field_checkbox">
@@ -143,7 +143,7 @@
       </div>
 
       <div id="tabs-3">
-        <b><%= I18n.t(:associated_organizations) %></b>
+        <b><%= I18n.t(:text_user_associated_organizations) %></b>
         <br/><br/>
 
         <div class="field_checkbox">
@@ -159,7 +159,7 @@
       </div>
 
       <div id="tabs-4">
-        <b><%= I18n.t(:associated_projects) %></b>
+        <b><%= I18n.t(:text_user_associated_projects) %></b>
         <br/><br/>
 
         <div class="field_checkbox">
@@ -179,7 +179,7 @@
       <div id="tabs-5">
         <table>
           <tr>
-            <td><%= f.input :language_id, :label => I18n.t('languages'), :as => :select, :collection => Language.all.map { |i| [i.name, i.id] }.sort, include_blank: '(auto)', :selected => @user.language_id %></td>
+            <td><%= f.input :language_id, :label => I18n.t('label_language'), :as => :select, :collection => Language.all.map { |i| [i.name, i.id] }.sort, include_blank: '(auto)', :selected => @user.language_id %></td>
             <td><%= f.input :time_zone, :label => I18n.t('time_zone'), :input_html => {:class => 'input-xlarge'}, :as => :select, :collection => ActiveSupport::TimeZone.all.map { |i| [i.to_s, i.name] }, :include_blank => false, :selected => @user.time_zone || 'GMT' %></td>
           </tr>
           <!--

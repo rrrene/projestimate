@@ -163,11 +163,35 @@ def load_data!
       ['Effort Man Month', 'effort_man_month', 'A man-month or person-month is the amount of work performed by an average worker in one Month.', 'float', ['float','>=', '0'], 'average'],
       ['Duration', 'duration', 'Duration of a task in hour', 'float', ['float','>=', '0'], 'average'],
       ['Complexity', 'complexity', 'classes of software projects (for COCOMO modules) - Organic projects: "small" teams with "good" experience working with "less than rigid" requirements - Semi-detached projects: "medium" teams with mixed experience working with a mix of rigid and less than rigid requirements - Embedded projects: developed within a set of "tight" constraints. It is also combination of organic and semi-detached projects.(hardware, software, operational, ...)', 'list', ['list','','Organic;Semi-detached;Embedded'], 'average'],
+      ['Schedule', 'schedule', 'Schedule in calendar months', 'integer', ['integer', '>=', '0'], 'sum'],
+      ['Defects', 'defects', 'Defects', 'integer', ['integer', '>=', '0'], 'sum'],
+      ['Total Effort', 'total_effort', 'A man-hour or person-hour is the amount of work performed by an average worker in one hour for all activities.', 'float', ['float', '>=', '0'], 'average'],
+      ['Methodology', 'methodology', 'Methodology M 1-5 1=none/CMMI Level 1 to 5-CMMI Level 5', 'integer', ['between', '0;5'], 'sum'],
+      ['Note', 'note', 'A text note, for annotation, comment etc.', 'text', ['text']],
+      ['Platform Maturity', 'platform_maturity', 'Platform Maturity - 1 ou 2', 'integer', ['integer']],
+      ['Real-time Constraint', 'real_time_constraint', '1=not real time/desktop with no constraints - 10=mission critical/ssafety critical real time system', 'integer', ['integer']],
+      ['Sandbox Date', 'date_sandbox', 'Sample Date attribute for testing purpose', 'date', ['date']],
+      ['Sandbox Description', 'description_sandbox', 'Sample text attribute for testing purpose', 'text', ['text']],
+      ['Sandbox Float', 'float_sandbox', 'Sample Float attribute for testing purpose', 'float', ['float']],
+      ['Sandbox Integer', 'integer_sandbox', 'Sample Integer attribute for testing purpose', 'integer', ['integer']],
+      ['Sandbox List', 'list_sandbox', 'Sample List attribute for testing purpose', 'list', ['list', 'Un;Deux;Troix;Quatre;Cinq;Six;Sept']],
     ]
 
     attributes.each do |i|
       PeAttribute.create(:name => i[0], :alias => i[1], :description => i[2], :attr_type => i[3], :options => i[4], :aggregation => i[5], :record_status_id => rsid)
     end
+
+  puts '   - Modules'
+  modules=[
+      ['capitalization', 'capitalization', 'The Capitalization module.', 'no',]
+  ]
+
+  modules.each do |i|
+    Pemodule.create(:title => i[0], :alias => i[1], :description => i[2], :with_activities => 'no', :record_status_id => rsid)
+  end
+
+  # Get the Capitalization Module
+  capitalization_module = Pemodule.find_by_alias_and_record_status_id("capitalization", rsid)
 
     puts '   - Projestimate Icons'
 
@@ -314,6 +338,28 @@ def load_data!
     #Create root pbs_project_element
     WbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :description => 'WBS-Activity Root Element', :name => "Root Element - #{project.title} WBS-Activity)")
     #wbs_project_element = wbsProjectElement.first
+  #create the capitalization project module
+  unless capitalization_module.nil?
+    cap_module_project = project.module_projects.build(:pemodule_id => capitalization_module.id, :position_x => 0, :position_y => 0)
+    if cap_module_project.save
+      #Create the corresponding EstimationValues
+      unless project.organization.nil? || project.organization.attribute_organizations.nil?
+        project.organization.attribute_organizations.each do |am|
+          ['input', 'output'].each do |in_out|
+            mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                         :module_project_id => cap_module_project.id,
+                                         :in_out => in_out,
+                                         :is_mandatory => am.is_mandatory,
+                                         :description => am.pe_attribute.description,
+                                         :display_order => nil,
+                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+          end
+        end
+      end
+    end
+  end
 
     puts 'Create project security level...'
     #Default project Security Level

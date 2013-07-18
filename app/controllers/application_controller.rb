@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
-    redirect_to root_url
+    redirect_to edit_user_path(current_user)
   end
 
   rescue_from Errno::ECONNREFUSED do |error|
@@ -139,7 +139,14 @@ class ApplicationController < ActionController::Base
       session[:remember_address] = "/dashboard"
     end
   end
-
+  def redirect_apply(url)
+    begin
+      test = session[:return_to]
+      (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : session[:return_to]
+    rescue
+      url
+    end
+  end
   def redirect(url)
     begin
       test = session[:return_to]

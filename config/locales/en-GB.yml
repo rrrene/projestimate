@@ -256,11 +256,13 @@ en-gb:
   project_global_parameters: "Project global parameters"
   pemodule_global_parameters: "Module global parameters"
   pe_attributes: "Attributes"
+  attribute_categories: "Attributes categories"
   labor_categories: "Labour categories"
   projestimate_module: "Modules"
   work_element: "Work elements"
   security_level: "Securities levels"
   languages: "Languages"
+  label_language: "Language"
   translations: "Translations"
   community: "Community"
   reference_values: "Reference values"
@@ -273,9 +275,11 @@ en-gb:
 
   #attributes
   name: "Name"
+  category: "Category"
   description: "Description"
   change_comment: "Comment (explain and justify your change request)"
-  record_status: "Status"
+  record_status: "Record Status"
+  label_object_status: "Status"
   custom_value: "Custom value (if status=custom)"
   notice_no_module_use_current_attribute: "There is no module using the \"%{value}\" attribute"
   text_finduse_attribute: "List of objects that use the \"%{value}\" attribute"
@@ -290,6 +294,7 @@ en-gb:
   #CRUD
   save: "Save"
   apply: "Apply"
+  save_and_create: "Save and create a new one"
   edit: "Edit"
   delete: "Delete"
   cancel: "Cancel"
@@ -358,7 +363,9 @@ en-gb:
   validation_options: "Validations and options"
   attributes_type: "Type"
   edit_pe_attribute: "Edit the \"%{value}\" attribute ..."
+  edit_attribute_category: "Edit the \"%{value}\" category ..."
   new_pe_attribute: "New attribute"
+  new_attribute_category: "New attribute category"
 
   #auth_method
   server_name: "Server name"
@@ -390,7 +397,7 @@ en-gb:
 
   #groups
   global: "Global"
-  associated_users: "Associated users"
+  text_group_associated_users: "Associated users (users member of the group)"
   edit_group: "Edit the group \"%{value}\" ..."
   new_group: "New group"
 
@@ -449,6 +456,7 @@ en-gb:
   new_organization: "New organisation"
   inflation: "Inflation"
   organizationals_labors_categories: "Organisational labours categories"
+  text_organization_attributes: "Attributes on which the organisation intends to capitalize (its will be automatically added to the 'capitalization' module)"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -460,6 +468,7 @@ en-gb:
   text_icon_message: "You can upload any PNG image file smaller than 10 kilobytes from your hard drive.We will automatically resize large images to 16x16 pixels."
   edit_icon: "Edit the \"%{value}\" icon ..."
   new_icon: "Add an icon"
+  choose_icon: "Choose / Change icon"
   icons: "Icons"
   actions: "Actions"
 
@@ -471,6 +480,7 @@ en-gb:
   attributes_settings: "Attributes settings"
   label_compatibility: "Compatible PBS element (for data input)"
   pe_attribute_name: "Attribute name"
+  attribute_category_name: "Category name"
   selected: "Selected"
   edit_pemodule: "Edit the \"%{value}\" module ..."
   new_pemodule: "New module"
@@ -497,8 +507,8 @@ en-gb:
 
   #projects
   edit_project: "Edit project \"%{value}\" ..."
-  new_project: "New project ..."
-  new_project_from: "Create project from ..."
+  new_project: "New project"
+  new_project_from: "New project from template"
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
@@ -520,6 +530,7 @@ en-gb:
   text_confirm_project_deletion: "Are you SURE you want to delete this project and all related data ?"
   warning_need_check_box_confirmation: "You need to confirm project deletion with check-box"
   label_project_is_model: "Is a project template"
+  is_model: "Template"
 
   #Record_statuses
   edit_record_status: "Edit the \"%{value}\" record status ..."
@@ -575,9 +586,10 @@ en-gb:
   login_name: "Login name"
   email: "Email"
   initials: "Initials"
-  associated_groups: "User's Associated groups"
-  associated_organizations: "User's Associated organisations"
-  associated_projects: "Associated projects"
+  text_user_associated_groups: "User's Associated groups (groups the user is a member)"
+  text_user_associated_organizations: "User's Associated organisations (organisations to which the user is a member)"
+  text_group_associated_projects: "Associated projects (projects in which the group has access)"
+  text_user_associated_projects: "Associated projects (projects in which the user has access)"
   settings: "Preferences"
   authentication: "Users's Authentication"
   password: "Password"
@@ -911,6 +923,7 @@ en-gb:
   button_commit_project: "Promote the project into its life cycle"
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
+  button_duplicate_model: "Create project from this template"
   label_environment: "Environment"
   notice_attribute_organization_successful_updated: "Organisational attribute was successfully updated."
   display_order: "Display order"

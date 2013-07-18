@@ -18,6 +18,9 @@
 #
 ########################################################################
 Projestimate::Application.routes.draw do
+  resources :attribute_categories
+
+
   resources :versions
 
   resources :reference_values
