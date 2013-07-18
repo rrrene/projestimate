@@ -95,8 +95,7 @@ class PemodulesController < ApplicationController
     @attribute_settings = []
 
     if @pemodule.save
-      redirect_to redirect(pemodules_url)
-
+      redirect_to redirect_apply(edit_pemodule_path(@pemodule))
     else
       render :new
     end

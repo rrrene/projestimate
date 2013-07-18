@@ -55,7 +55,9 @@
         <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => {:class => 'input-xxlarge'} %>
 
         <div class="actions-tabs">
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
+          <% if action_name == 'edit'%>
+              <%= f.submit I18n.t(:save), :class => 'btn' %>
+          <% end %>
           <%= f.submit I18n.t('apply'), :class => 'btn' %>
           <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
         </div>
