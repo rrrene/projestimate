@@ -24,16 +24,22 @@ class PeiconsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage_projestimate_icons, Peicon
+
     set_page_title 'Icons libraries'
     @icons = Peicon.all
   end
 
   def new
+    authorize! :manage_projestimate_icons, Peicon
+
     set_page_title 'Icons libraries'
     @icon = Peicon.new
   end
 
   def edit
+    authorize! :manage_projestimate_icons, Peicon
+
     set_page_title 'Icons libraries'
     @icon = Peicon.find(params[:id])
 
@@ -46,6 +52,8 @@ class PeiconsController < ApplicationController
   end
 
   def create
+    authorize! :manage_projestimate_icons, Peicon
+
     set_page_title 'Icons libraries'
     @icon = Peicon.new(params[:peicon])
     if @icon.save
@@ -57,6 +65,8 @@ class PeiconsController < ApplicationController
   end
 
   def update
+    authorize! :manage_projestimate_icons, Peicon
+
     set_page_title 'Icons libraries'
     @icon = nil
     current_icon = Peicon.find(params[:id])
@@ -75,15 +85,9 @@ class PeiconsController < ApplicationController
     end
   end
 
-  #def destroy_SAVE
-  #  @peicon = Peicon.find(params[:id])
-  #  @peicon.icon = nil
-  #  @peicon.save
-  #  @peicon.destroy
-  #  redirect_to peicons_path
-  #end
-
   def destroy
+    authorize! :manage_projestimate_icons, Peicon
+
     @peicon = Peicon.find(params[:id])
     if @peicon.is_defined? || @peicon.is_custom?
       #logical deletion: delete don't have to suppress records anymore
@@ -98,6 +102,8 @@ class PeiconsController < ApplicationController
   end
 
   def choose_icon
+    authorize! :manage_projestimate_icons, Peicon
+
     @peicon = Peicon.find(params[:id])
   end
 end

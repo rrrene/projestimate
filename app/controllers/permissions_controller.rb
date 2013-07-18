@@ -35,7 +35,6 @@ class PermissionsController < ApplicationController
   end
 
   def globals_permissions
-    authorize! :manage_global_permissions, Permission
 
     set_page_title 'Globals Permissions'
     @permissions = Permission.all.select{|i| !i.is_permission_project }
@@ -54,6 +53,8 @@ class PermissionsController < ApplicationController
   end
 
   def edit
+    authorize! :manage_global_permissions, Permission
+
     set_page_title 'Permissions'
     @permission = Permission.find(params[:id])
 
@@ -115,7 +116,6 @@ class PermissionsController < ApplicationController
 
   #Set all global rights
   def set_rights
-    authorize! :manage_global_permissions, Group
 
     @groups = Group.all
     @permissions = Permission.all

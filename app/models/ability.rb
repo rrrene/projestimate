@@ -26,7 +26,7 @@ class Ability
   def initialize(user)
 #    Uncomment in order to authorize everybody to manage all the app
 
-    can :manage, :all
+    #can :manage, :all
     cannot :update, :all, :record_status => {:name => "Retired"}
 
     #Load user groups permissions

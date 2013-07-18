@@ -99,6 +99,11 @@ module ExternalMasterDatabase
     serialize :options, Array
   end
 
+  class ExternalAttributeCategory < ActiveRecord::Base
+    establish_connection HOST
+    include ExternalInclude
+  end
+
   class ExternalAttributeModule < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
