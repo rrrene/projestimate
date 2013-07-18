@@ -559,12 +559,10 @@ class ProjectsController < ApplicationController
         level_result.each do |key, value|
           attribute_alias = key.to_s.split("_#{start_module_project.id}").first
           set_attributes[level.to_sym][attribute_alias.to_sym] = value      #{ "#{current_module_project.id}".to_sym => value }
-
-          # Attribute is only added to the set_attributes_name_list if it's present
-          #set_attributes_name_list[level.to_sym] << attribute_alias
         end
 
-        # Update the set_attributes_name_list with the last one
+        # Update the set_attributes_name_list with the last one,
+        # Attribute is only added to the set_attributes_name_list if it's present
         set_attributes[level.to_sym].keys.each { |key| set_attributes_name_list[level.to_sym] << key.to_s }
 
         # Need to verify that all required attributes for this module are present
@@ -590,7 +588,7 @@ class ProjectsController < ApplicationController
     puts "test ça"
 
     respond_to do |format|
-      format.js { render :partial => 'pbs_project_elements/refresh'} and return
+      format.js { render :partial => 'pbs_project_elements/refresh'}
     end
   end
 

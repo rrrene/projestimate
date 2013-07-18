@@ -48,7 +48,10 @@ class SessionsController < ApplicationController
         else
           session[:current_project_id] = user.projects.first.id
         end
-        redirect_to session[:return_to] || '/dashboard', :flash => { :notice => "#{I18n.t (:text_welcome)} "+ user.name }
+        ####redirect_to session[:return_to] || '/dashboard', :flash => { :notice => "#{I18n.t (:text_welcome)} "+ user.name }
+        #return_to_url = request.query_parameters["return_to"]
+        redirect_to params["return_to_url"].nil? ? '/dashboard' : params["return_to_url"], :flash => { :notice => "#{I18n.t (:text_welcome)} "+ user.name }
+
       else #user.suspended? || user.blacklisted?
         redirect_to '/dashboard', :flash => { :warning => "#{I18n.t (:warning_account_black_listed)}" }
       end
@@ -60,8 +63,7 @@ class SessionsController < ApplicationController
   #Logout
   def destroy
     session[:current_user_id] = nil
-    redirect_to root_url
-    #redirect_to root_url(:test => CGI.encode(session[:return_to]))
+    redirect_to root_url(:return_to => session[:return_to])
   end
 
   #Login
