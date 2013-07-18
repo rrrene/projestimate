@@ -24,9 +24,8 @@ class RecordStatusesController < ApplicationController
 
   before_filter :get_record_statuses
 
-  # GET /record_statuses
-  # GET /record_statuses.json
   def index
+    authorize! :manage_status, RecordStatus
     @record_statuses = RecordStatus.all
 
     respond_to do |format|
@@ -35,9 +34,8 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # GET /record_statuses/1
-  # GET /record_statuses/1.json
   def show
+    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
 
     respond_to do |format|
@@ -46,9 +44,8 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # GET /record_statuses/new
-  # GET /record_statuses/new.json
   def new
+    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.new
 
     respond_to do |format|
@@ -59,6 +56,7 @@ class RecordStatusesController < ApplicationController
 
   # GET /record_statuses/1/edit
   def edit
+    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
 
     unless @record_status.child_reference.nil?
@@ -72,6 +70,7 @@ class RecordStatusesController < ApplicationController
   # POST /record_statuses
   # POST /record_statuses.json
   def create
+    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.new(params[:record_status])
 
     respond_to do |format|
@@ -85,9 +84,8 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # PUT /record_statuses/1
-  # PUT /record_statuses/1.json
   def update
+    authorize! :manage_status, RecordStatus
     @record_status = nil
     current_record_status = RecordStatus.find(params[:id])
     if current_record_status.is_defined?
@@ -108,9 +106,8 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # DELETE /record_statuses/1
-  # DELETE /record_statuses/1.json
   def destroy
+    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
     if @record_status.is_defined? || @record_status.is_custom?
       #logical deletion: delete don't have to suppress records anymore

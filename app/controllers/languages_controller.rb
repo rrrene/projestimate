@@ -24,19 +24,19 @@ class LanguagesController < ApplicationController
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
   def index
-    authorize! :edit_languages, Language
+    authorize! :manage_languages, Language
     set_page_title 'Languages'
     @languages = Language.all
   end
 
   def new
-    authorize! :edit_languages, Language
+    authorize! :manage_languages, Language
     set_page_title 'Add a language'
     @language = Language.new
   end
 
   def edit
-    authorize! :edit_languages, Language
+    authorize! :manage_languages, Language
     set_page_title 'Edit language'
     @language = Language.find(params[:id])
 
@@ -49,7 +49,7 @@ class LanguagesController < ApplicationController
   end
 
   def create
-    authorize! :edit_languages, Language
+    authorize! :manage_languages, Language
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
@@ -60,7 +60,7 @@ class LanguagesController < ApplicationController
   end
 
   def update
-    authorize! :edit_languages, Language, :message => "#{I18n.t (:error_update_retired_language)}"
+    authorize! :manage_languages, Language, :message => "#{I18n.t (:error_update_retired_language)}"
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
@@ -81,7 +81,7 @@ class LanguagesController < ApplicationController
   # Destroy method on Master table is not going to delete  definitively the record
   #It is only going to change ths record status : logical deletion
   def destroy
-    authorize! :edit_languages, Language
+    authorize! :manage_languages, Language
     @language = Language.find(params[:id])
     if @language.is_defined? || @language.is_custom?
       #logical deletion  delete don't have to suppress records anymore on Defined record

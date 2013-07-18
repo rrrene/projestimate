@@ -24,6 +24,8 @@ class UsersController < ApplicationController
   before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
   before_filter :load_data, :only => [:update, :edit, :new, :create]
 
+  skip_authorize_resource :only => :edit
+
   def load_data
     if params[:id]
       @user = User.find(params[:id])
@@ -67,7 +69,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    authorize! :manage_users, User
     set_page_title 'Edit user'
     @user = User.find(params[:id])
   end
@@ -75,7 +76,6 @@ class UsersController < ApplicationController
 
   #Update user
   def update
-    authorize! :manage_users, User
     set_page_title 'Edit user'
 
     params[:user][:group_ids] ||= []

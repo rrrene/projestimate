@@ -90,7 +90,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ['name', 'server_name', 'port', 'base_dn', 'certificate', 'uuid'])
 
     puts '   - Default groups'
-    self.update_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'for_global_permission', 'for_project_security', 'uuid'])
 
     puts '   - Labor categories'
     self.update_records(ExternalMasterDatabase::ExternalLaborCategory, LaborCategory, ['name', 'description', 'uuid'])
@@ -102,7 +102,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'uuid'])
 
     puts 'Create global permissions...'
-    self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'is_permission_project', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
 
     #Update the latest update date information
     latest_saved_record = Version.last
@@ -487,7 +487,7 @@ class Home < ActiveRecord::Base
 
     puts '   - Default groups'
     #Create default groups
-    self.create_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'for_global_permission', 'for_project_security', 'uuid'])
 
     #Associated default user with group MasterAdmin
     user.group_ids = [Group.first.id]
@@ -540,7 +540,7 @@ class Home < ActiveRecord::Base
     self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'uuid'])
 
     puts '   - Create global permissions...'
-    self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'is_permission_project', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
 
     puts "\n\n"
     puts '   - Default data was successfully loaded. Enjoy !'

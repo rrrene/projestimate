@@ -23,9 +23,9 @@ class MasterSettingsController < ApplicationController
 
   before_filter :get_record_statuses
 
-  # GET /master_settings
-  # GET /master_settings.json
   def index
+    authorize! :manage_master_parameters, MasterSetting
+
     set_page_title 'Projestimate Global Parameters'
     @master_settings = MasterSetting.all
 
@@ -35,9 +35,9 @@ class MasterSettingsController < ApplicationController
     end
   end
 
-  # GET /master_settings/new
-  # GET /master_settings/new.json
   def new
+    authorize! :manage_master_parameters, MasterSetting
+
     set_page_title 'Projestimate Global Parameters'
     @master_setting = MasterSetting.new
 
@@ -47,8 +47,9 @@ class MasterSettingsController < ApplicationController
     end
   end
 
-  # GET /master_settings/1/edit
   def edit
+    authorize! :manage_master_parameters, MasterSetting
+
     set_page_title 'Projestimate Global Parameters'
     @master_setting = MasterSetting.find(params[:id])
 
@@ -60,9 +61,9 @@ class MasterSettingsController < ApplicationController
     end
   end
 
-  # POST /master_settings
-  # POST /master_settings.json
   def create
+    authorize! :manage_master_parameters, MasterSetting
+
     @master_setting = MasterSetting.new(params[:master_setting])
 
     if @master_setting.save
@@ -72,9 +73,9 @@ class MasterSettingsController < ApplicationController
     end
   end
 
-  # PUT /master_settings/1
-  # PUT /master_settings/1.json
   def update
+    authorize! :manage_master_parameters, MasterSetting
+
     @master_setting = nil
     current_master_setting = MasterSetting.find(params[:id])
     if current_master_setting.is_defined?
@@ -91,9 +92,9 @@ class MasterSettingsController < ApplicationController
     end
   end
 
-  # DELETE /master_settings/1
-  # DELETE /master_settings/1.json
   def destroy
+    authorize! :manage_master_parameters, MasterSetting
+
     @master_setting = MasterSetting.find(params[:id])
     if @master_setting.is_defined? || @master_setting.is_custom?
       #logical deletion: delete don't have to suppress records anymore
