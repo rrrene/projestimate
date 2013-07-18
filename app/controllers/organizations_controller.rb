@@ -39,7 +39,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(params[:organization])
 
     if @organization.save
-      redirect_to redirect('/organizationals_params'), notice: "#{I18n.t (:notice_organization_successful_created)}"
+        redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
     else
       render action: 'new'
     end

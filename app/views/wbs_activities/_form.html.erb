@@ -43,10 +43,13 @@
               <%= f.input :change_comment, :label => I18n.t('change_comment'), :input_html => {:class => 'input-xxlarge', :rows => 2} %>
               <br/>
           <% end %>
-          <% if action_name == 'edit'%>
-              <%= f.submit I18n.t(:save), :class => 'btn' %>
+
+          <% if (action_name == 'new' || action_name=="create")%>
+              <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <% elsif (action_name == 'edit' || action_name=="update")%>
+              <%= submit_tag I18n.t('save'), :class => 'btn' %>
+              <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <% end %>
-              <%= f.submit I18n.t(:apply), :class => 'btn' %>
           <%= link_to I18n.t('back'), wbs_activities_path, :class => 'btn' %>
       <% end %>
     </div>
