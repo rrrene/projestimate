@@ -62,7 +62,7 @@ class UsersController < ApplicationController
       if @user.save
         redirect_to redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
       else
-        render 'new'
+        render(:new)
       end
   end
 
