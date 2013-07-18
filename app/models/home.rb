@@ -68,6 +68,9 @@ class Home < ActiveRecord::Base
     puts '   - Attribute...'
     self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ['name', 'alias', 'description', 'attr_type', 'aggregation', 'options', 'uuid'])
 
+    puts '   - Attribute Category'
+    self.update_records(ExternalMasterDatabase::ExternalAttributeCategory, AttributeCategory, ['name', 'alias','uuid'])
+
     puts '   - Projestimate Icons'
     self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
 
