@@ -53,11 +53,6 @@ class AttributeCategoriesController < ApplicationController
     authorize! :manage_attributes, AttributeCategory
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @attribute_category }
-    end
   end
 
   # GET /attribute_categories/1/edit
@@ -74,14 +69,11 @@ class AttributeCategoriesController < ApplicationController
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new(params[:attribute_category])
 
-    respond_to do |format|
-      if @attribute_category.save
-        format.html { redirect_to attribute_categories_path, notice: 'Attribute category was successfully created.' }
-        format.json { render json: @attribute_category, status: :created, location: @attribute_category }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @attribute_category.errors, status: :unprocessable_entity }
-      end
+    if @attribute_category.save
+      flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
+      redirect_to redirect(attribute_categories_path)
+    else
+      render action: "edit"
     end
   end
 
@@ -90,14 +82,12 @@ class AttributeCategoriesController < ApplicationController
   def update
     @attribute_category = AttributeCategory.find(params[:id])
 
-    respond_to do |format|
-      if @attribute_category.update_attributes(params[:attribute_category])
-        format.html { redirect_to attribute_categories_path, notice: 'Attribute category was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @attribute_category.errors, status: :unprocessable_entity }
-      end
+    if @attribute_category.update_attributes(params[:attribute_category])
+      flash[:notice] = I18n.t (:notice_attribute_category_successful_updated)
+      redirect_to redirect(attribute_categories_path)
+    else
+      flash[:error] = I18n.t (:error_attribute_category_failed_update)
+      render action: 'edit'
     end
   end
 

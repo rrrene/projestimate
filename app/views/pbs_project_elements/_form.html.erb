@@ -35,7 +35,9 @@
           <td><%= f.input :is_validated, :label => I18n.t(:label_is_validated) %></td>
         </tr>
       </table>
-
+      <div class="modal-footer-left">
       <%= f.submit I18n.t('save'), :class => 'btn' %>
+      <button type="button" class="btn" data-dismiss="modal" aria-hidden="true"><%=I18n.t(:close)%></button>
+      </div>
   <% end %>
 </div>

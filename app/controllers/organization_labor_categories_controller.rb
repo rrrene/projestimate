@@ -42,7 +42,7 @@ class OrganizationLaborCategoriesController < ApplicationController
 
     respond_to do |format|
       if @organization_labor_category.save
-        format.html { redirect_to '/organizationals_params', notice: "#{I18n.t (:notice_organization_labor_successful_created)}" }
+        format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_created)}" }
       else
         format.html { render action: 'new' }
       end
@@ -54,7 +54,7 @@ class OrganizationLaborCategoriesController < ApplicationController
 
     respond_to do |format|
       if @organization_labor_category.update_attributes(params[:organization_labor_category])
-        format.html { redirect_to '/organizationals_params', notice: "#{I18n.t (:notice_organization_labor_successful_updated)}"}
+        format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_updated)}"}
       else
         format.html { render action: 'edit' }
       end

@@ -75,8 +75,8 @@ class LaborCategoriesController < ApplicationController
     end
 
     if @labor_category.update_attributes(params[:labor_category])
-      flash[:notice] = I18n.t (:notice_notice_labor_category_successful_updated)
-      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:notice_notice_labor_category_successful_updated)}"
+      flash[:notice] = I18n.t (:notice_labor_category_successful_updated)
+      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:notice_labor_category_successful_updated)}"
     else
       render action: 'edit'
     end

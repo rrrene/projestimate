@@ -87,7 +87,7 @@ class GroupsController < ApplicationController
     end
 
     if @group.save
-      redirect_to redirect(groups_path)
+      redirect_to redirect_apply(edit_group_path(@group))
     else
       render action: 'new'
     end
