@@ -39,11 +39,14 @@
           <% end %>
 
           <div class="actions-tabs">
-            <% if can? :update, @auth_method %>
-                <%= f.submit I18n.t('save'), :class => 'btn' %>
-                <%= f.submit I18n.t('save_and_create'), :class => 'btn' %>
+                <% if action_name == 'new' %>
+                    <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
+                    <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                <% elsif action_name == 'edit' %>
+                    <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                    <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+                <% end %>
                 <%= link_to I18n.t('back'), auth_methods_path, :class => 'btn' %>
-            <% end %>
           </div>
     <% end %>
     </div>

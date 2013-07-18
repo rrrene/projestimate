@@ -734,6 +734,7 @@ de:
   notice_event_type_successful_updated: "Event type was successfully updated."
   notice_event_type_successful_deleted: "Event type was successfully deleted."
   notice_event_successful_updated: "Event was successfully updated."
+  notice_event_successful_created: "Event was successfully created."
   warning_group_cant_be_edit: "This Group can't be edited, because the previous changes have not yet been validated."
   notice_group_successful_deleted: "Group was successfully deleted."
   notice_group_successful_updated: "Group was successfully updated."
@@ -946,3 +947,5 @@ de:
   notice_no_active_module: "No selected project module"
   title_hide_show_menu: "Hide/Show menu"
   notice_attribute_category_successful_created: "Attribute category was successfully created"
+  notice_attribute_category_successful_updated: "Attribute category was succesfully updated"
+  error_attribute_category_failed_update: "An error has occurred during the update."

@@ -82,14 +82,12 @@ class AttributeCategoriesController < ApplicationController
   def update
     @attribute_category = AttributeCategory.find(params[:id])
 
-    respond_to do |format|
-      if @attribute_category.update_attributes(params[:attribute_category])
-        format.html { redirect_to attribute_categories_path, notice: 'Attribute category was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @attribute_category.errors, status: :unprocessable_entity }
-      end
+    if @attribute_category.update_attributes(params[:attribute_category])
+      flash[:notice] = I18n.t (:notice_attribute_category_successful_updated)
+      redirect_to redirect(attribute_categories_path)
+    else
+      flash[:error] = I18n.t (:error_attribute_category_failed_update)
+      render action: 'edit'
     end
   end
 

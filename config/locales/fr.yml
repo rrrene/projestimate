@@ -734,6 +734,7 @@ fr:
   notice_event_type_successful_updated: "Le type d'événement a été correctement mis à jour."
   notice_event_type_successful_deleted: "Le type d'événement a été supprimé avec succès."
   notice_event_successful_updated: "L'événement a bien été mis à jour."
+  notice_event_successful_created: "L'événement a bien été crée."
   warning_group_cant_be_edit: "Ce groupe ne peut pas être modifié, car les modifications précédentes n'ont pas encore été validées."
   notice_group_successful_deleted: "Le groupe a été supprimé avec succès."
   notice_group_successful_updated: "Le groupe a bien été mis à jour avec succès"
@@ -946,3 +947,5 @@ fr:
   notice_no_active_module: "Aucun module de projets sélectionné"
   title_hide_show_menu: "Cacher/Afficher le menu"
   notice_attribute_category_successful_created: "Attribute category a été crée avec succès"
+  notice_attribute_category_successful_updated: "Attribute category a été mis à jour avec succès"
+  error_attribute_category_failed_update: "Une erreur s'est produite lors de la mise à jour."
