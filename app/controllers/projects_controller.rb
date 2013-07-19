@@ -146,7 +146,6 @@ class ProjectsController < ApplicationController
 
   #Edit a selected project
   def edit
-    authorize! :edit_a_project, Project
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
@@ -970,7 +969,7 @@ class ProjectsController < ApplicationController
       end
 
       flash[:success] = I18n.t(:notice_project_successful_duplicated)
-      redirect_to '/projects' and return
+      redirect_to edit_project_path(new_prj) and return
     rescue
       flash['Error'] = I18n.t(:error_project_duplication_failed)
       redirect_to '/projects'
