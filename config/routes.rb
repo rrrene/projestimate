@@ -176,7 +176,6 @@ Projestimate::Application.routes.draw do
   match 'projects/:project_id/locked_plan' => 'projects#locked_plan', :as => :locked_plan
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
-  match 'module_projects/:project_id/test_me' => 'module_projects#test_me', :as => 'test_me'
 
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'
