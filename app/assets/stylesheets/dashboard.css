@@ -718,3 +718,11 @@ input[type="color"],
     font-weight: normal;
     font-style: normal;
 }
+
+
+.myEndpointClass{
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: auto;
+}

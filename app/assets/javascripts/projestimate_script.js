@@ -25,9 +25,19 @@ $(document).ready(function() {
         $(e.target).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right");
     });
 
+    $(window).resize(function() {
+        jsPlumb.repaintEverything();
+    });
+
 
     $('.tabs').tabs({
         select: function(event, ui) {
+
+            // Objects available in the function context:
+            //  ui.tab     // anchor element of the selected (clicked) tab
+            //  ui.panel   // element, that contains the selected/clicked tab contents
+            //  ui.index   // zero-based index of the selected (clicked) tab
+
             var index_tab = ui.index + 1;
             var anchor_value = "";
             $(".current_tab").val("tabs-" + index_tab);
@@ -42,9 +52,19 @@ $(document).ready(function() {
                 data: {
                     anchor_value: anchor_value
                 }
+
             });
         }
     });
+
+
+    $(".tabs").tabs({
+        show: function (event, ui) {
+            var index = $(ui.tab).parent().index();
+            jsPlumb.repaintEverything();
+        }
+    });
+
 
     $('.attribute_tooltip').tooltip({'html' : true });
 

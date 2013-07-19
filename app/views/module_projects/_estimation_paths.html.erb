@@ -1,34 +1,35 @@
 <script>
-  $(document).ready(function() {
-    jsPlumb.ready(function() {
-      <% pmod.associated_module_projects.each do |amp| %>
-          <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
-          jsPlumb.setRenderMode(jsPlumb.SVG);
-          jsPlumb.importDefaults({
-            Connector:"Straight",
-            //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-            PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-            Endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
-            EndpointStyle:{ fillStyle:"#ffa500" },
-            Anchor:"AutoDefault"
-          });
+    $(document).ready(function() {
+         jsPlumb.ready(function() {
+            <% pmod.associated_module_projects.each do |amp| %>
+                <% if pmod.associated_module_projects.map(&:id).include?(amp.id) %>
+                    jsPlumb.setRenderMode(jsPlumb.SVG);
+                    jsPlumb.importDefaults({
+                        Connector:"Straight",
+                        //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+                        PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+                        Endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
+                        EndpointStyle:{ fillStyle:"#ffa500" },
+                        //Anchor:"AutoDefault"
+                        Anchor:"Continuous"
+                    });
 
-          var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"));
-          var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias %>_<%= pmod.position_x %>_<%= pmod.position_y %>"));
+                    var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"));
+                    var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias %>_<%= pmod.position_x %>_<%= pmod.position_y %>"));
 
-          e0.setEnabled(false);
-          e1.setEnabled(false);
+                    e0.setEnabled(false);
+                    e1.setEnabled(false);
 
-          jsPlumb.connect({
-            source:e0,
-            target:e1,
-            endpoint:"Rectangle",
-            connector:[ "Straight" ]
-          });
-          <% end %>
-      <% end %>
+                    jsPlumb.connect({
+                        source:e0,
+                        target:e1,
+                        endpoint:"Rectangle",
+                        connector:[ "Straight" ]
+                    });
+                <% end %>
+            <% end %>
+        });
+        e0 = null;
+        e1 = null;
     });
-    e0 = null;
-    e1 = null;
-  });
 </script>
