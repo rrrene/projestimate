@@ -14,8 +14,10 @@
         <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
         <div class="actions-tabs">
-          <%= f.submit I18n.t('save'), :class => 'btn' %>
-          <%= f.submit I18n.t('save_and_create'), :class => 'btn' %>
+          <% if action_name == 'edit' %>
+              <%= submit_tag I18n.t('save'), :class => 'btn' %>
+          <% end %>
+          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <%= link_to I18n.t('back'), organizationals_params_path, :class => 'btn' %>
         </div>
     <% end %>

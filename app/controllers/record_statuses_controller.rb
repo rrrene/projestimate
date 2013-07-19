@@ -73,14 +73,10 @@ class RecordStatusesController < ApplicationController
     authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.new(params[:record_status])
 
-    respond_to do |format|
-      if @record_status.save
-        format.html { redirect_to record_statuses_path, notice: "#{I18n.t(:notice_record_status_successful_created)}" }
-        format.json { render json: @record_status, status: :created, location: @record_status }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @record_status.errors, status: :unprocessable_entity }
-      end
+    if @record_status.save
+      redirect_to redirect(record_statuses_path), notice: "#{I18n.t (:notice_record_status_successful_created)}"
+    else
+      render action: 'new'
     end
   end
 
@@ -95,15 +91,13 @@ class RecordStatusesController < ApplicationController
       @record_status = current_record_status
     end
 
-    respond_to do |format|
-      if @record_status.update_attributes(params[:record_status])
-        format.html { redirect_to record_statuses_path, notice: "#{I18n.t (:notice_record_status_successful_updated)}" }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @record_status.errors, status: :unprocessable_entity }
-      end
+    if @record_status.update_attributes(params[:record_status])
+      redirect_to redirect(record_statuses_path), notice: "#{I18n.t (:notice_record_status_successful_updated)}"
+    else
+      flash[:error] = "#{I18n.t (:error_record_status_failed_update)}"
+      render action: 'edit'
     end
+
   end
 
   def destroy
