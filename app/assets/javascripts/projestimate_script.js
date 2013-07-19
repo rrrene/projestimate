@@ -31,8 +31,13 @@ $(document).ready(function() {
 
 
     $('.tabs').tabs({
-        select: function(event, ui) {
 
+        show: function (event, ui) {
+            var index = $(ui.tab).parent().index();
+            jsPlumb.repaintEverything();
+        },
+
+        select: function(event, ui) {
             // Objects available in the function context:
             //  ui.tab     // anchor element of the selected (clicked) tab
             //  ui.panel   // element, that contains the selected/clicked tab contents
@@ -54,14 +59,6 @@ $(document).ready(function() {
                 }
 
             });
-        }
-    });
-
-
-    $(".tabs").tabs({
-        show: function (event, ui) {
-            var index = $(ui.tab).parent().index();
-            jsPlumb.repaintEverything();
         }
     });
 
