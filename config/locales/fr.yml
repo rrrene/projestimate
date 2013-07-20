@@ -949,3 +949,4 @@ fr:
   notice_attribute_category_successful_created: "Attribute category a été crée avec succès"
   notice_attribute_category_successful_updated: "Attribute category a été mis à jour avec succès"
   error_attribute_category_failed_update: "Une erreur s'est produite lors de la mise à jour."
+  text_create_project_from_template: "Depuis la liste ci-dessous, cliquez sur l'icone de copie du modèle souhaité pour créer un projet sur la base de ce modèle."
