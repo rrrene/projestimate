@@ -487,7 +487,7 @@ fr:
 
   #permissions
   is_permission_project: "Permission du projet"
-  object_associated: "Objet associé"
+  label_associated_object: "Objet associé"
   edit_permission: "Editer la permission \"%{value}\" ..."
   new_permission: "Créer une nouvelle permission"
   permissions: "Permissions"
