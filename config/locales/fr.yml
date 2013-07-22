@@ -726,6 +726,8 @@ fr:
   warning_master_record_cant_be_edit: "Master record ne peut pas être édité, il est nécessaire pour le bon fonctionnement de l'application"
   warning_master_record_cant_be_delete: "Master record ne peut pas être supprimé, il est nécessaire pour le bon fonctionnement de l'application"
   notice_auth_method_successful_deleted: "La méthode d'authentification a été supprimé avec succès."
+  notice_auth_method_successful_updated: "La méthode d'authentification a été mise à jour avec succès."
+  notice_auth_method_successful_created: "La méthode d'authentification a été créée avec succès."
   warning_currency_cant_be_edit: "Cette monnaie ne peut être modifié, les modifications précédentes n'ont pas encore été validé."
   notice_currency_successful_updated: "La monnaie a été correctement mise à jour."
   notice_currency_successful_deleted: "La monnaie a été supprimée avec succès."
