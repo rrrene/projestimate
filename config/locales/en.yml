@@ -954,3 +954,5 @@ en:
   notice_attribute_category_successful_updated: "Attribute category was successfully updated"
   error_attribute_category_failed_update: "An error has occurred during the update."
   text_create_project_from_template: "From the list below, click on the Copy icon of the desired template to create a project based on it."
+  notice_pe_attribute_successful_created: "Attribute successfully created."
+  notice_pe_attribute_successful_updated: "Attribute successfully updated."
