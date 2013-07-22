@@ -766,6 +766,7 @@ de:
   notice_module_project_successful_updated: "Module project was successfully updated."
   notice_organization_labor_successful_created: "Organization labor category was successfully created."
   notice_organization_labor_successful_updated: "Organization labor category was successfully updated."
+  notice_organization_labor_successful_deleted: "Organization labor category was successfully deleted."
   notice_organization_successful_created: "Organization was successfully created."
   notice_organization_successful_updated: "Organization was successfully updated."
   notice_organization_successful_deleted: "Organization was successfully deleted."

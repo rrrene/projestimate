@@ -40,25 +40,27 @@ class OrganizationLaborCategoriesController < ApplicationController
   def create
     @organization_labor_category = OrganizationLaborCategory.new(params[:organization_labor_category])
 
-    respond_to do |format|
-      if @organization_labor_category.save
-        format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_created)}" }
-      else
-        format.html { render action: 'new' }
-      end
+
+    if @organization_labor_category.save
+      flash[:notice] = I18n.t (:notice_organization_labor_successful_created)
+      redirect_to redirect_save('/organizationals_params#tabs-3', new_organization_labor_category_path())
+    else
+       render action: 'new'
     end
+
   end
 
   def update
     @organization_labor_category = OrganizationLaborCategory.find(params[:id])
 
-    respond_to do |format|
-      if @organization_labor_category.update_attributes(params[:organization_labor_category])
-        format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_updated)}"}
-      else
-        format.html { render action: 'edit' }
-      end
+
+    if @organization_labor_category.update_attributes(params[:organization_labor_category])
+      flash[:notice] = I18n.t (:notice_organization_labor_successful_updated)
+      redirect_to redirect_save('/organizationals_params#tabs-3', edit_organization_labor_category_path(@organization_labor_category))
+    else
+      render action: 'edit'
     end
+
   end
 
   def destroy
@@ -66,8 +68,7 @@ class OrganizationLaborCategoriesController < ApplicationController
     @organization_labor_category.destroy
 
     respond_to do |format|
-      format.html { redirect_to organization_labor_categories_url }
-      format.json { head :ok }
+      format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_deleted)}"}
     end
   end
 end
