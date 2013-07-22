@@ -23,12 +23,31 @@
 <% if can? :access_menu_admin, User %>
     <ul class="nav nav-list">
       <li class="nav-header"><h5>ADMIN</h5></li>
-      <li><a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %></a></li>
-      <li><a href="<%= users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %></a></li>
-      <li><a href="<%= groups_path %>"> <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
-      <li><a href="/globals_permissions"> <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
-      <li><a href="<%= project_securities_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
-      <li><a href="<%= auth_methods_path %>"> <i class="icon-signin icon-large icon-border pull-left"></i><%= I18n.t(:auth_methods) %></a></li>
+
+      <% if can? :manage_admin_settings, AdminSetting %>
+        <li><a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %></a></li>
+      <% end %>
+
+      <% if can? :manage_users, User %>
+        <li><a href="<%= users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %></a></li>
+      <% end %>
+
+      <% if can? :manage_groups, Group %>
+        <li><a href="<%= groups_path %>"> <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
+      <% end %>
+
+      <% if can? :manage_global_permissions, Permission %>
+        <li><a href="/globals_permissions"> <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
+      <% end %>
+
+      <% if can? :manage_project_securities, ProjectSecurity %>
+        <li><a href="<%= project_securities_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
+      <% end %>
+
+      <% if can? :manage_authentication_methods, AuthMethod %>
+        <li><a href="<%= auth_methods_path %>"> <i class="icon-signin icon-large icon-border pull-left"></i><%= I18n.t(:auth_methods) %></a></li>
+      <% end %>
+
       <li><a href="<%= events_path %>"> <i class="icon-calendar icon-large icon-border pull-left"></i><%= I18n.t(:events) %></a></li>
     </ul>
 <% end %>
@@ -36,20 +55,49 @@
 <% if is_master_instance?  %>
   <ul class="nav nav-list">
     <li class="nav-header"><h5>MASTER</h5></li>
-    <li><a href="<%= master_settings_path %>"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
+    <% if can? :manage_master_parameters, MasterSetting %>
+      <li><a href="<%= master_settings_path %>"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
+    <% end %>
+
     <li><a href="/projects_global_params"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:project_global_parameters) %></a></li>
-    <li><a href="<%= pe_attributes_path %>"> <i class="icon-list-ol icon-large icon-border pull-left"></i><%= I18n.t(:pe_attributes) %></a></li>
-    <li><a href="<%= attribute_categories_path %>"> <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
-    <li><a href="<%= pemodules_path %>"> <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
+
+    <% if can? :manage_attributes, PeAttribute %>
+      <li><a href="<%= pe_attributes_path %>"> <i class="icon-list-ol icon-large icon-border pull-left"></i><%= I18n.t(:pe_attributes) %></a></li>
+      <li><a href="<%= attribute_categories_path %>"> <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
+    <% end %>
+
+    <% if can? :manage_attributes, PeAttribute %>
+      <li><a href="<%= pemodules_path %>"> <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
+    <% end %>
+
     <li><a href="<%= labor_categories_path %>"> <i class="icon-user-md icon-large icon-border pull-left"></i><%= I18n.t(:labor_categories) %></a></li>
-    <li><a href="<%= work_element_types_path %>"> <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:work_element) %></a></li>
-    <li><a href="<%= peicons_path %>"> <i class="icon-paper-clip icon-large icon-border pull-left"></i>Projestimate Icons</a></li>
-    <li><a href="<%= project_security_levels_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:security_level) %></a></li>
-    <li><a href="<%= permissions_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
-    <li><a href="<%= languages_path %>"> <i class="icon-comments icon-large icon-border pull-left"></i><%= I18n.t(:languages) %></a></li>
+
+    <% if can? :manage_work_element_type, WorkElementType %>
+      <li><a href="<%= work_element_types_path %>"> <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:work_element) %></a></li>
+    <% end %>
+
+    <% if can? :manage_projestimate_icons, Peicon %>
+      <li><a href="<%= peicons_path %>"> <i class="icon-paper-clip icon-large icon-border pull-left"></i>Projestimate Icons</a></li>
+    <% end %>
+
+    <% if can? :manage_securities_level, ProjectSecurityLevel %>
+      <li><a href="<%= project_security_levels_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:security_level) %></a></li>
+    <% end %>
+
+    <% if can? :manage_global_permissions, Permission %>
+      <li><a href="<%= permissions_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
+    <% end %>
+
+    <% if can? :manage_languages, Language %>
+      <li><a href="<%= languages_path %>"> <i class="icon-comments icon-large icon-border pull-left"></i><%= I18n.t(:languages) %></a></li>
+    <% end %>
+
     <li><a href="/translations"> <i class="icon-comments-alt icon-large icon-border pull-left"></i><%= I18n.t(:translations) %></a></li>
     <!--<li><a href="#"> <i class="icon-github-alt icon-large"></i><%= I18n.t(:community) %></a></li>-->
     <li><a href="<%= record_statuses_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:record_status) %></a></li>
-    <li><a href="<%= reference_values_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:reference_values) %></a></li>
+
+    <% if can? :manage_reference_values, ReferenceValue %>
+      <li><a href="<%= reference_values_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:reference_values) %></a></li>
+    <% end %>
   </ul>
 <% end %>

@@ -8,8 +8,13 @@
     <table border="0" width="100%">
       <tr>
         <td colspan=2 style="text-align:right;">
-          <%= link_to I18n.t('new_project_from'), projects_from_path, :class => 'btn' %>
-          <%= link_to I18n.t('new_project'), new_project_path, :class => 'btn' %>
+          <% if can? :create_project_from_template, Project %>
+            <%= link_to I18n.t('new_project_from'), projects_from_path, :class => 'btn' %>
+          <% end %>
+
+          <% if can? :create_project_from_scratch, Project %>
+            <%= link_to I18n.t('new_project'), new_project_path, :class => 'btn' %>
+          <% end %>
         </td>
       </tr>
     </table>
