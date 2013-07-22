@@ -486,8 +486,8 @@ en-gb:
   new_pemodule: "New module"
 
   #permissions
-  is_permission_project: "Permission project"
-  label_associated_object: "Object associated"
+  is_permission_project: "Is a project Permission"
+  label_associated_object: "Associated Object"
   edit_permission: "Edit the \"%{value}\" permission ..."
   new_permission: "New permission"
   permissions: "Permissions"
@@ -812,6 +812,7 @@ en-gb:
   notice_record_status_successful_created: "Record status was successfully created."
   notice_record_status_successful_updated: "Record status was successfully updated."
   notice_reference_value_successful_deleted: "Reference value was successfully deleted."
+  error_record_status_failed_update: "Error: Failed to save the Record Status."
   text_welcome: "Welcome"
   warning_account_black_listed: "Your account is black-listed"
   warning_invalid_username_password: "Invalid user name or password"
