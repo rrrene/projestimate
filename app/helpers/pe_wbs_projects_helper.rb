@@ -99,7 +99,7 @@ module PeWbsProjectsHelper
             #{ image_tag pbs_project_element.work_element_type.peicon.nil? ? '' : pbs_project_element.work_element_type.peicon.icon.url(:small) }
             #{  content_tag('span', '', :class => "#{ pbs_project_element.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
             #{  content_tag('span', '', :class => "#{ pbs_project_element.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-            #{ link_to(pbs_project_element.name + ' - Product Breakdown Structure', {:controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => pbs_project_element.id, :project_id => @project.id}, :remote => true, :class => " ") }
+            #{ link_to(pbs_project_element.name, {:controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => pbs_project_element.id, :project_id => @project.id}, :remote => true, :class => " ") }
           </div>
         </div>
         <div class='block_link'>
