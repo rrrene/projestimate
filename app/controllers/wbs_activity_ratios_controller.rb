@@ -102,7 +102,7 @@ class WbsActivityRatiosController < ApplicationController
                                            :uuid => UUIDTools::UUID.random_create.to_s)
         ware.save(:validate => false)
       end
-      redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => 'tabs-3'))
+      redirect_to redirect_save(edit_wbs_activity_path(params[:activity_id], :anchor => 'tabs-3'), new_wbs_activity_ratio_path())
     else
       render :new
     end

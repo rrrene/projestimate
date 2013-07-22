@@ -147,6 +147,14 @@ class ApplicationController < ActionController::Base
       url
     end
   end
+  def redirect_apply(url, anchor)
+    begin
+      test = session[:return_to]
+      (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : anchor
+    rescue
+      url
+    end
+  end
   def redirect(url)
     begin
       test = session[:return_to]

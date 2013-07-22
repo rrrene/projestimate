@@ -77,10 +77,12 @@ class PemodulesController < ApplicationController
     params[:pemodule][:alias] = params[:pemodule][:alias].downcase
     if @pemodule.update_attributes(params[:pemodule])
       flash[:notice] =  I18n.t (:notice_pemodule_successful_updated)
+      redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule)), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
+      render action: 'edit'
     end
-    redirect_to redirect(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+
   end
 
 
@@ -95,9 +97,9 @@ class PemodulesController < ApplicationController
     @attribute_settings = []
 
     if @pemodule.save
-      redirect_to redirect_apply(edit_pemodule_path(@pemodule))
+      redirect_to redirect_apply(edit_pemodule_path(@pemodule), new_pemodule_path())
     else
-      render :new
+      render action: 'new'
     end
   end
 

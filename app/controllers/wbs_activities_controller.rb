@@ -132,7 +132,7 @@ class WbsActivitiesController < ApplicationController
 
       @wbs_activity_element.save
 
-      redirect_to redirect_apply(edit_wbs_activity_path(@wbs_activity)), :notice => "#{I18n.t(:notice_wbs_activity_successful_added)}"
+      redirect_to redirect_apply(edit_wbs_activity_path(@wbs_activity), wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_added)}"
     else
       render :new
     end

@@ -45,7 +45,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.save
       flash[:notice] = I18n.t (:notice_platform_category_successful_created)
-      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
+      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'), new_platform_category_path())
     else
       render action: 'new'
     end
@@ -63,7 +63,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.update_attributes(params[:platform_category])
       flash[:notice] = I18n.t (:notice_platform_category_successful_updated)
-      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
+      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'), edit_platform_category_path(@platform_category))
     else
       render action: 'edit'
     end
