@@ -495,16 +495,16 @@ ul{
     margin-right:auto;
 }
 
-.selected_module_project, .highlight{
-    background: #f0f9ff; /* Old browsers */
-    background: -moz-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f9ff), color-stop(47%,#cbebff), color-stop(100%,#a1dbff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=0 ); /* IE6-9 */
-}
+/*.selected_module_project, .highlight{*/
+    /*background: #f0f9ff; *//* Old browsers */
+    /*background: -moz-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%); *//* FF3.6+ */
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f9ff), color-stop(47%,#cbebff), color-stop(100%,#a1dbff)); *//* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); *//* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); *//* Opera 11.10+ */
+    /*background: -ms-linear-gradient(top, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); *//* IE10+ */
+    /*background: linear-gradient(to bottom, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%); *//* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=0 ); *//* IE6-9 */
+/*}*/
 
 .unselected_module_project{
     background-color: #fafafa;
@@ -703,9 +703,18 @@ input[type="color"],
     color: #ff0000;
 }
 
-.selected_pbs{
-    font-weight: bold;
+div.block_label.selected_pbs  {
+    width: 100%;
 }
+
+.selected_module_project, .selected_module_project a, .highlight, .selected_pbs{
+    background-color: #e1e1e8;
+    color: black;
+}
+.selected_pbs a{
+    color: #000000;
+}
+
 
 /* override the font-awesome.css*/
 @font-face {

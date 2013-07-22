@@ -53,8 +53,8 @@ module PeWbsProjectsHelper
   end
 
   def wbs_navigation_links(c)
-    "<li class='#{ c.id == current_component.id ? "selected_pbs" : '' }' >
-        <div class='block_label'>
+    "<li class='' >
+        <div class='block_label #{ c == current_component ? "selected_pbs" : '' }'>
           #{  image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
     #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
     #{  content_tag('span', '', :class => "#{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
@@ -71,13 +71,13 @@ module PeWbsProjectsHelper
 
 
   def wbs_folder_links(c, project)
-    "<li class='#{ c.id == current_component.id ? 'selected_pbs' : '' }' >
-        <div class='block_label'>
+    "<li class='' >
+        <div class='block_label #{ c.id == current_component.id ? 'selected_pbs' : '' }'>
           <div onClick='toggle_folder(this);' >
             #{ image_tag c.work_element_type.peicon.nil? ? '' : c.work_element_type.peicon.icon.url(:small)}
     #{  content_tag('span', '', :class => "#{ c.is_completed ? 'icon-star' : 'icon-star-empty' } ") }
     #{  content_tag('span', '', :class => "#{ c.is_validated ? 'icon-circle' : 'icon-circle-blank' } ") }
-    #{ link_to(c.name, {:controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :id => c.id}, :remote => true, :class => "") }
+    #{ link_to(c.name, {:controller => 'pbs_project_elements', :action => 'selected_pbs_project_element', :pbs_id => c.id}, :remote => true, :class => "") }
           </div>
         </div>
         <div class='block_link'>
