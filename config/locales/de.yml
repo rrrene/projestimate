@@ -726,6 +726,8 @@ de:
   warning_master_record_cant_be_edit: "Master record can not be edited, it is required for the proper functioning of the application"
   warning_master_record_cant_be_delete: "Master record can not be deleted, it is required for the proper functioning of the application"
   notice_auth_method_successful_deleted: "Authentication method was successfully deleted."
+  notice_auth_method_successful_updated: "Authentication method was successfully updated."
+  notice_auth_method_successful_created: "Authentication method was successfully created."
   warning_currency_cant_be_edit: "This currency can not be edited, previous changes have not yet been validated."
   notice_currency_successful_updated: "Currency was successfully updated."
   notice_currency_successful_deleted: "Currency was successfully deleted."

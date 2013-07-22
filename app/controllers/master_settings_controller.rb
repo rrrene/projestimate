@@ -67,8 +67,9 @@ class MasterSettingsController < ApplicationController
     @master_setting = MasterSetting.new(params[:master_setting])
 
     if @master_setting.save
-      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:notice_master_settings_successful_created)}"
-    else
+      flash[:notice] = I18n.t (:notice_master_settings_successful_created)
+      redirect_to redirect_save(master_settings_path, new_master_setting_path())
+       else
       render action: 'new'
     end
   end
@@ -86,7 +87,8 @@ class MasterSettingsController < ApplicationController
     end
 
     if @master_setting.update_attributes(params[:master_setting])
-      redirect_to redirect(master_settings_path), notice: "#{I18n.t (:notice_master_settings_successful_updated)}"
+      flash[:notice] = I18n.t (:notice_master_settings_successful_updated)
+      redirect_to redirect_save(master_settings_path, edit_master_setting_path(@master_setting))
     else
       render action: 'edit'
     end
