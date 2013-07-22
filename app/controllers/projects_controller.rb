@@ -310,6 +310,7 @@ class ProjectsController < ApplicationController
 
 
   def confirm_deletion
+    authorize! :delete_project, Project
     @project = Project.find(params[:project_id])
   end
 
