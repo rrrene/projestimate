@@ -1,6 +1,6 @@
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:administration) %> </a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:global_permission) %> </a></li>
   </ul>
 
   <div id="tabs-1">
@@ -13,7 +13,7 @@
 
       <%= f.input :is_permission_project, :label => I18n.t('is_permission_project'), :input_html => {:class => 'input-small'}, :as => :boolean %>
 
-      <%= f.input :object_associated, :label => I18n.t('object_associated'), :input_html => {:class => 'input-xxlarge'}, :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == 'SchemaMigration' } %>
+      <%= f.input :object_associated, :label => I18n.t('label_associated_object'), :input_html => {:class => 'input-xxlarge'}, :as => :select, :collection => ActiveRecord::Base.connection.tables.map{|t| t.classify }.compact.reject{|j| j == 'SchemaMigration' } %>
 
         <table>
           <tr>

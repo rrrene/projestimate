@@ -24,7 +24,7 @@ class AttributeCategoriesController < ApplicationController
                                # GET /attribute_categories
                                # GET /attribute_categories.json
   def index
-    authorize! :manage_attributes, AttributeCategory
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_categories = AttributeCategory.all
 
@@ -37,7 +37,7 @@ class AttributeCategoriesController < ApplicationController
   # GET /attribute_categories/1
   # GET /attribute_categories/1.json
   def show
-    authorize! :manage_attributes, AttributeCategory
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.find(params[:id])
 
@@ -50,14 +50,14 @@ class AttributeCategoriesController < ApplicationController
   # GET /attribute_categories/new
   # GET /attribute_categories/new.json
   def new
-    authorize! :manage_attributes, AttributeCategory
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new
   end
 
   # GET /attribute_categories/1/edit
   def edit
-    authorize! :manage_attributes, AttributeCategory
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.find(params[:id])
   end
@@ -65,13 +65,13 @@ class AttributeCategoriesController < ApplicationController
   # POST /attribute_categories
   # POST /attribute_categories.json
   def create
-    authorize! :manage_attributes, AttributeCategory
+    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new(params[:attribute_category])
 
     if @attribute_category.save
       flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
-      redirect_to redirect(attribute_categories_path)
+      redirect_to redirect_save(attribute_categories_path, new_attribute_category_path())
     else
       render action: "edit"
     end
@@ -84,7 +84,7 @@ class AttributeCategoriesController < ApplicationController
 
     if @attribute_category.update_attributes(params[:attribute_category])
       flash[:notice] = I18n.t (:notice_attribute_category_successful_updated)
-      redirect_to redirect(attribute_categories_path)
+      redirect_to redirect_save(attribute_categories_path, edit_attribute_category_path(@attribute_category))
     else
       flash[:error] = I18n.t (:error_attribute_category_failed_update)
       render action: 'edit'

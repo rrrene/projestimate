@@ -80,7 +80,8 @@ class AuthMethodsController < ApplicationController
     end
 
     if @auth_method.update_attributes(params[:auth_method])
-      redirect_to redirect(auth_methods_path)
+      flash[:notice] = I18n.t (:notice_auth_method_successful_updated)
+      redirect_to redirect_save(auth_methods_path, edit_auth_method_path(@auth_method))
     else
       render action: 'edit'
     end
@@ -99,7 +100,8 @@ class AuthMethodsController < ApplicationController
     end
 
     if @auth_method.save
-      redirect_to redirect(auth_methods_path)
+      flash[:notice] = I18n.t (:notice_auth_method_successful_created)
+      redirect_to redirect_save(auth_methods_path, new_auth_method_path())
     else
       render(:new)
     end
