@@ -12,7 +12,7 @@ $(".component_name").html("<%=raw @current_component %>");
 $('.component_tree > ul li').hover(
     function () {
       $(this.children).css('display', 'inline');
-      $('div.block_label.selected_pbs').css('width', '80%');
+      $('div.block_label.selected_pbs').css('width', 'inherit');
     },
     function () {
      $('.block_link').hide();

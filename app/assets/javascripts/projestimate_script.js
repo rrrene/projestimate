@@ -75,7 +75,7 @@ $(document).ready(function() {
      $('.component_tree ul li, .widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
-          $('div.block_label.selected_pbs').css('width', '80%');
+          $('div.block_label.selected_pbs').css('width', 'inherit');
         },
         function () {
          $('.block_link').hide();
@@ -4684,7 +4684,7 @@ function refresh_me(data){
             $('ul li').hover(
                 function () {
                     $(this.children).css('display', 'block');
-                    $('div.block_label.selected_pbs').css('width', '80%');
+                    $('div.block_label.selected_pbs').css('width', 'inherit');
                 },
                 function () {
                     $('.block_link').hide();
