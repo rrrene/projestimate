@@ -3,9 +3,11 @@ $("#project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.r
 $('.component_tree ul li').hover(
         function () {
             $(this.children).css('display', 'block');
+            $('div.block_label.selected_pbs').css('width', 'inherit');
         },
         function () {
             $('.block_link').hide();
+            $('div.block_label.selected_pbs').css('width', '100%');
         }
 );
 

@@ -112,8 +112,6 @@ class UsersController < ApplicationController
         User.first.update_attribute(:ten_latest_projects, tlp.uniq)
       end
 
-      session[:pbs_project_element_id] = nil
-
       @user = current_user
       @project = current_project
       @pemodules ||= Pemodule.all

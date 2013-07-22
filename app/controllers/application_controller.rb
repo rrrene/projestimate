@@ -206,21 +206,24 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Get the selected Pbs_Project_Element
   def current_component
     begin
       if current_project
-        session[:pbs_project_element_id].blank? ? current_project.root_component : PbsProjectElement.find(session[:pbs_project_element_id])
+        PbsProjectElement.find(session[:pbs_project_element_id])
       end
     rescue
-      session[:pbs_project_element_id] = nil
+      @component = current_project.root_component
     end
   end
+
 
   def current_wbs_project_element
     if current_project
       session[:wbs_project_element_id].nil? ? current_project.wbs_project_element_root : WbsProjectElement.find(session[:wbs_project_element_id])
     end
   end
+
 
   def current_module_project
     @defined_record_status = RecordStatus.where("name = ?", "Defined").last

@@ -85,7 +85,7 @@
     <% end %>
 
     <% if can? :manage_global_permissions, Permission %>
-      <li><a href="<%= permissions_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
+      <li><a href="<%= permissions_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:all_permissions) %></a></li>
     <% end %>
 
     <% if can? :manage_languages, Language %>
