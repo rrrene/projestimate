@@ -766,6 +766,7 @@ fr:
   notice_module_project_successful_updated: "Module project a été mis à jour avec succès."
   notice_organization_labor_successful_created: "Organization labor category a été créé avec succès."
   notice_organization_labor_successful_updated: "Organization labor category a été mis à jour avec succès."
+  notice_organization_labor_successful_deleted: "Organization labor category a été supprimé avec succès.."
   notice_organization_successful_created: "Organization a été créé avec succès."
   notice_organization_successful_updated: "Organization a été mis à jour avec succès."
   notice_organization_successful_deleted: "Organization a été supprimé avec succès."
