@@ -767,6 +767,7 @@ fr:
   notice_module_project_successful_updated: "Module project a été mis à jour avec succès."
   notice_organization_labor_successful_created: "Organization labor category a été créé avec succès."
   notice_organization_labor_successful_updated: "Organization labor category a été mis à jour avec succès."
+  notice_organization_labor_successful_deleted: "Organization labor category a été supprimé avec succès.."
   notice_organization_successful_created: "Organization a été créé avec succès."
   notice_organization_successful_updated: "Organization a été mis à jour avec succès."
   notice_organization_successful_deleted: "Organization a été supprimé avec succès."
@@ -954,3 +955,5 @@ fr:
   notice_attribute_category_successful_updated: "Attribute category a été mis à jour avec succès"
   error_attribute_category_failed_update: "Une erreur s'est produite lors de la mise à jour."
   text_create_project_from_template: "Depuis la liste ci-dessous, cliquez sur l'icone de copie du modèle souhaité pour créer un projet sur la base de ce modèle."
+  notice_pe_attribute_successful_created: "Attribut créé avec succès."
+  notice_pe_attribute_successful_updated: "Attribut mis à jour avec succès."
