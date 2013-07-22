@@ -57,7 +57,7 @@ class LaborCategoriesController < ApplicationController
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
       flash[:notice] = I18n.t (:notice_labor_category_successful_created)
-      redirect_to redirect(labor_categories_path)
+      redirect_to redirect_save(labor_categories_path, new_labor_category_path())
     else
       render action: 'new'
     end
@@ -76,7 +76,7 @@ class LaborCategoriesController < ApplicationController
 
     if @labor_category.update_attributes(params[:labor_category])
       flash[:notice] = I18n.t (:notice_labor_category_successful_updated)
-      redirect_to redirect(labor_categories_path), :notice => "#{I18n.t (:notice_labor_category_successful_updated)}"
+      redirect_to redirect_save(labor_categories_path, edit_labor_category_path(@labor_category))
     else
       render action: 'edit'
     end

@@ -38,7 +38,8 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     if @event.save
-      redirect_to redirect(events_path), notice: "#{I18n.t (:notice_event_successful_created)}"
+      flash[:notice] = I18n.t (:notice_event_successful_created)
+      redirect_to redirect_save(events_path, new_event_path())
     else
       render action: 'new'
     end
@@ -48,8 +49,9 @@ class EventsController < ApplicationController
     @event = nil
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
-      redirect_to redirect(events_path), notice: "#{I18n.t (:notice_event_successful_updated)}"
-    else
+      flash[:notice] = I18n.t (:notice_event_successful_updated)
+      redirect_to redirect_save(events_path, edit_event_path(@event))
+     else
       render action: 'edit'
     end
 

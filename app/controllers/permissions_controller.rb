@@ -125,7 +125,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_notice_permission_successful_saved)}" }
+      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
     end
 
   end
@@ -139,7 +139,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to project_securities_path, :notice => "#{I18n.t (:notice_notice_permission_successful_saved)}" }
+      format.html { redirect_to project_securities_path, :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
     end
 
   end
