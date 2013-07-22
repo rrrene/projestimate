@@ -8,9 +8,11 @@ $('.component_tree > ul li').hover(
 
     function () {
       $(this.children).css('display', 'inline');
+        $('div.block_label.selected_pbs').css('width', '80%');
     },
 
     function () {
      $('.block_link').hide();
+     $('div.block_label.selected_pbs').css('width', '100%');
     }
 );
