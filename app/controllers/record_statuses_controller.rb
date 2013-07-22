@@ -74,7 +74,7 @@ class RecordStatusesController < ApplicationController
     @record_status = RecordStatus.new(params[:record_status])
 
     if @record_status.save
-      redirect_to redirect(record_statuses_path), notice: "#{I18n.t (:notice_record_status_successful_created)}"
+      redirect_to redirect_save(record_statuses_path, new_record_status_path()), notice: "#{I18n.t (:notice_record_status_successful_created)}"
     else
       render action: 'new'
     end
@@ -92,7 +92,7 @@ class RecordStatusesController < ApplicationController
     end
 
     if @record_status.update_attributes(params[:record_status])
-      redirect_to redirect(record_statuses_path), notice: "#{I18n.t (:notice_record_status_successful_updated)}"
+      redirect_to redirect_save(record_statuses_path, edit_record_status_path(@record_status)), notice: "#{I18n.t (:notice_record_status_successful_updated)}"
     else
       flash[:error] = "#{I18n.t (:error_record_status_failed_update)}"
       render action: 'edit'

@@ -46,7 +46,7 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.save
-      redirect_to redirect(reference_values_path)
+      redirect_to redirect_save(reference_values_path, new_reference_value_path())
     else
       render action: 'new'
     end
@@ -70,7 +70,7 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.update_attributes(params[:reference_value])
-      redirect_to redirect(reference_values_path)
+      redirect_to redirect_save(reference_values_path, edit_reference_value_path(@reference_value))
     else
       render :edit
     end

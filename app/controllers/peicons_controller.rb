@@ -57,7 +57,7 @@ class PeiconsController < ApplicationController
     set_page_title 'Icons libraries'
     @icon = Peicon.new(params[:peicon])
     if @icon.save
-      redirect_to redirect(peicons_path)
+      redirect_to redirect_save(peicons_path, new_peicon_path())
     else
       flash[:error] = I18n.t(:icons) + "#{ @icon.errors.values.flatten.join(" I18n.t ('support.array.two_words_connector') ")}"
       render :new
@@ -78,7 +78,7 @@ class PeiconsController < ApplicationController
     end
 
     if @icon.update_attributes(params[:peicon])
-      redirect_to redirect(peicons_path)
+      redirect_to redirect_save(peicons_path, edit_peicon_path(@peicon))
     else
       flash[:error] = I18n.t(:icons) + "#{ @icon.errors.values.flatten.join(" I18n.t ('support.array.two_words_connector') ")}"
       render :edit

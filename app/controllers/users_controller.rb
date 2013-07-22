@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     @user.group_ids = Group.find_by_name('Everyone').id
 
       if @user.save
-        redirect_to redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
+        redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor=>"tabs-1")), :notice => "#{I18n.t (:notice_account_successful_created)}"
       else
         render(:new)
       end
@@ -89,7 +89,8 @@ class UsersController < ApplicationController
     end
     if @user.update_attributes(params[:user])
       set_user_language
-      redirect_to(redirect(users_path), :notice => "#{I18n.t (:notice_account_successful_updated)}")
+      flash[:warning] = I18n.t (:notice_account_successful_updated)
+      redirect_to redirect(users_path)
     else
       render(:edit)
     end

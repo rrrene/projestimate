@@ -55,7 +55,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.save
       flash[:notice] = I18n.t (:notice_project_area_successful_created)
-      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
+      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'), new_project_area_path())
     else
        render action: 'new'
     end
@@ -73,7 +73,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = I18n.t (:notice_project_area_successful_updated)
-      redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
+      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'), edit_project_area_path(@project_area))
     else
       render action: 'edit'
     end
