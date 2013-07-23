@@ -54,6 +54,7 @@ class WbsActivityRatiosController < ApplicationController
 
   def edit
     set_page_title 'Edit wbs-activity ratio'
+    @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
     @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     @wbs_activity=@wbs_activity_ratio.wbs_activity
@@ -72,14 +73,16 @@ class WbsActivityRatiosController < ApplicationController
     end
 
     if @wbs_activity_ratio.update_attributes(params[:wbs_activity_ratio])
-      redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => 'tabs-3'))
+      redirect_to redirect_save(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => 'tabs-3'), edit_wbs_activity_ratio_path(@wbs_activity_ratio,:activity_id=>@wbs_activity_ratio.wbs_activity_id))
     else
+      @activity_id = @wbs_activity_ratio.wbs_activity_id
       render :edit
     end
   end
 
   def new
     set_page_title 'New wbs-activity ratio'
+    @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.new
     @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
@@ -102,8 +105,9 @@ class WbsActivityRatiosController < ApplicationController
                                            :uuid => UUIDTools::UUID.random_create.to_s)
         ware.save(:validate => false)
       end
-      redirect_to redirect_save(edit_wbs_activity_path(params[:activity_id], :anchor => 'tabs-3'), new_wbs_activity_ratio_path())
+      redirect_to redirect_save(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity_id, :anchor => 'tabs-3'), new_wbs_activity_ratio_path(:activity_id=>@wbs_activity_ratio.wbs_activity_id))
     else
+      @activity_id = @wbs_activity_ratio.wbs_activity_id
       render :new
     end
   end
@@ -123,12 +127,12 @@ class WbsActivityRatiosController < ApplicationController
         @wbs_activity_ratio.destroy
       else
         flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect(groups_path)  and return
+        redirect_to redirect_save(groups_path)  and return
       end
     end
 
     flash[:notice] = I18n.t (:notice_wbs_activity_successful_deleted)
-    redirect_to redirect(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => 'tabs-3'))
+    redirect_to redirect_save(edit_wbs_activity_path(@wbs_activity_ratio.wbs_activity, :anchor => 'tabs-3'))
   end
 
   def validate_ratio

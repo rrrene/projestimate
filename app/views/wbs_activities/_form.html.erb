@@ -72,13 +72,15 @@
             </tr>
           </table>
 
-          <table class="table table-striped table-bordered table-condensed">
-            <tr>
-              <th><%= I18n.t(:name) %></th>
-              <th><%= I18n.t(:description) %></th>
-              <th class="filter-select"><%= I18n.t(:record_status) %></th>
-              <th colspan=5>Actions</th>
-            </tr>
+          <table class="table tablesorterPager table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                  <th><%= I18n.t(:name) %></th>
+                  <th><%= I18n.t(:description) %></th>
+                  <th class="filter-select"><%= I18n.t(:record_status) %></th>
+                  <th class="action" colspan=5>Actions</th>
+                </tr>
+            </thead>
             <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
                 <tr>
                   <td><%= wbs_activity_ratio.name %></td>
@@ -128,6 +130,7 @@
                 </div>
 
             <% end %>
+            <%= render :partial => 'layouts/footer_table' %>
           </table>
         </div>
 

@@ -35,7 +35,7 @@ class ProjectCategoriesController < ApplicationController
     unless @project_category.child_reference.nil?
       if @project_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_project_categories_cant_be_edit)
-        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-2'))
+        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-2'))
       end
     end
   end

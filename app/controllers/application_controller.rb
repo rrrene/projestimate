@@ -140,36 +140,26 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_apply(url)
+  def redirect_apply(url, anchor=nil)
     begin
-      test = session[:return_to]
-      (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : session[:return_to]
+      if anchor.nil?
+        (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : session[:return_to]
+      else
+        (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : anchor
+      end
+
     rescue
       url
     end
   end
 
-  def redirect_apply(url, anchor)
+  def redirect_save(url, anchor=nil)
     begin
-      test = session[:return_to]
-      (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : anchor
-    rescue
-      url
-    end
-  end
-
-  def redirect(url)
-    begin
-      test = session[:return_to]
-      (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
-    rescue
-      url
-    end
-  end
-
-  def redirect_save(url, anchor)
-    begin
-      (params[:commit] == "#{I18n.t "save"}" or params[:commit] == "Save") ? url: anchor
+      if anchor.nil?
+        (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
+      else
+        (params[:commit] == "#{I18n.t "save"}" or params[:commit] == "Save") ? url: anchor
+      end
     rescue
       url
     end
@@ -303,7 +293,7 @@ class ApplicationController < ActionController::Base
   def project_locked?
     if current_project.locked?
       flash[:notice] = "Project locked."
-      redirect root_url
+      redirect_save(root_url)
     end
   end
 
