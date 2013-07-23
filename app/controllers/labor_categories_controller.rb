@@ -47,7 +47,7 @@ class LaborCategoriesController < ApplicationController
     unless @labor_category.child_reference.nil?
       if @labor_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_labor_category_cant_be_edit)
-        redirect_to redirect(labor_categories_path)
+        redirect_to redirect_save(labor_categories_path)
       end
     end
   end

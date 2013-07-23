@@ -133,7 +133,7 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    redirect_to redirect(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect_save(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
     #redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 

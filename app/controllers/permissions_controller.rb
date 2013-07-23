@@ -72,7 +72,7 @@ class PermissionsController < ApplicationController
     @groups = Group.all
 
     if @permission.save
-      redirect_to redirect(permissions_path), notice: "#{I18n.t (:notice_permission_successful_created)}"
+      redirect_to redirect_save(permissions_path), notice: "#{I18n.t (:notice_permission_successful_created)}"
     else
       render action: 'new'
     end
@@ -91,7 +91,7 @@ class PermissionsController < ApplicationController
     end
 
     if @permission.update_attributes(params[:permission])
-      redirect_to redirect('/globals_permissions'), notice: "#{I18n.t (:notice_function_successful_updated)}"
+      redirect_to redirect_save('/globals_permissions'), notice: "#{I18n.t (:notice_function_successful_updated)}"
     else
       render action: 'edit'
     end

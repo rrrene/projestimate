@@ -35,7 +35,7 @@ class PlatformCategoriesController < ApplicationController
     unless @platform_category.child_reference.nil?
       if @platform_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_platform_category_cant_be_edit)
-        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
+        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'))
       end
     end
   end

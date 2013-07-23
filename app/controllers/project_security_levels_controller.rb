@@ -51,7 +51,7 @@ class ProjectSecurityLevelsController < ApplicationController
     @project_security_level = ProjectSecurityLevel.new(params[:project_security_level])
 
     if @project_security_level.save
-      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_created)}"
+      redirect_to redirect_save(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_created)}"
     else
       render action: 'new'
     end
@@ -69,7 +69,7 @@ class ProjectSecurityLevelsController < ApplicationController
     end
 
     if @project_security_level.update_attributes(params[:project_security_level])
-      redirect_to redirect(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_updated)}"
+      redirect_to redirect_save(project_security_levels_url), notice: "#{I18n.t (:notice_project_securities_level_successful_updated)}"
     else
       render action: 'edit'
     end

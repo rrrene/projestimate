@@ -39,7 +39,7 @@ class ModuleProjectsController < ApplicationController
     @module_projects.each do |mp|
       mp.update_attribute('pbs_project_element_ids', params[:pbs_project_elements][mp.id.to_s])
     end
-    redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-4'))
+    redirect_to redirect_save(edit_project_path(@project, :anchor => 'tabs-4'))
   end
 
   def index
@@ -64,7 +64,7 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.new(params[:module_project])
 
     if @module_project.save
-      redirect_to redirect(@module_project), notice: "#{I18n.t (:notice_module_project_successful_created)}"
+      redirect_to redirect_save(@module_project), notice: "#{I18n.t (:notice_module_project_successful_created)}"
     else
       render action: 'new'
     end
@@ -87,7 +87,7 @@ class ModuleProjectsController < ApplicationController
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
-    redirect_to redirect(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect_save(edit_module_project_path(@module_project)), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
   def module_projects_matrix
@@ -107,7 +107,7 @@ class ModuleProjectsController < ApplicationController
       mp.update_attribute('associated_module_project_ids', params[:module_projects][mp.id.to_s])
 
     end
-    redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect_save(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
 
@@ -143,17 +143,16 @@ class ModuleProjectsController < ApplicationController
 
     if params[:commit] == I18n.t('apply')
       flash[:notice] = I18n.t (:notice_module_project_successful_updated)
-      redirect_to redirect(edit_module_project_path(@module_project.id, :anchor => 'tabs-3'))
+      redirect_to redirect_save(edit_module_project_path(@module_project.id, :anchor => 'tabs-3'))
     else
-      redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
+      redirect_to redirect_save(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
     end
   end
 
+  # Function to activate the current/selected module_project
   def activate_module_project
     session[:module_project_id] = params[:module_project_id]
     @project = current_project
-    #redirect_to root_url
-
     @module_projects ||= @project.module_projects
     @pbs_project_element = current_component
 

@@ -37,7 +37,7 @@ class PeWbsProjectsController < ApplicationController
   #    if @pe_wbs_project.save
   #      pbs_project_element.save
   #
-  #      redirect_to redirect(@pe_wbs_project.projects_path), notice: 'Project and Elements were successfully created.'
+  #      redirect_to redirect_save(@pe_wbs_project.projects_path), notice: 'Project and Elements were successfully created.'
   #    else
   #      render action: "new"
   #    end

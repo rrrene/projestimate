@@ -44,7 +44,7 @@ class ProjectAreasController < ApplicationController
     unless @project_area.child_reference.nil?
       if @project_area.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_project_area_cant_be_edit)
-        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
+        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'))
       end
     end
   end

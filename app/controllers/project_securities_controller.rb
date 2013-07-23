@@ -49,7 +49,7 @@ class ProjectSecuritiesController < ApplicationController
 
     if @project_security.save
       @project_security.update_attribute('project_security_level', params[:project_security_level])
-      redirect_to redirect(project_securities_url), notice: "#{I18n.t (:notice_project_securities_successful_created)}"
+      redirect_to redirect_save(project_securities_url), notice: "#{I18n.t (:notice_project_securities_successful_created)}"
     else
       render action: 'new'
     end
@@ -74,7 +74,7 @@ class ProjectSecuritiesController < ApplicationController
     @project_security = ProjectSecurity.find(params[:id])
     @project_security.destroy
 
-    redirect_to redirect(project_securities_url)
+    redirect_to redirect_save(project_securities_url)
   end
 
   #Selected users depending of selected project
