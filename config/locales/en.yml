@@ -248,7 +248,7 @@ en:
   user: "User"
   groups: "Groups"
   global_permission: "Global permissions"
-  all_permissions: "All permissions"
+  all_permissions: "Permissions"
   project_securities: "Project securities"
   auth_methods: "Authentication methods"
   events: "Events"
@@ -487,7 +487,7 @@ en:
   new_pemodule: "New module"
 
   #permissions
-  is_permission_project: "Is a project Permission"
+  is_permission_project: "Is a project permission"
   label_associated_object: "Associated Object"
   edit_permission: "Edit the \"%{value}\" permission ..."
   new_permission: "New permission"
@@ -957,3 +957,4 @@ en:
   text_create_project_from_template: "From the list below, click on the Copy icon of the desired template to create a project based on it."
   notice_pe_attribute_successful_created: "Attribute successfully created."
   notice_pe_attribute_successful_updated: "Attribute successfully updated."
+  text_index_permissions_guidance: "List all permissions (global and project)"
