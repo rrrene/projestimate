@@ -26,7 +26,6 @@ module MasterDataHelper
 
       scope :defined, -> { where(record_status_id: RecordStatus.find_by_name("Defined")) }
 
-
       ##Enable the amoeba gem for deep copy/clone (dup with associations)
       amoeba do
         enable
