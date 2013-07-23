@@ -149,11 +149,10 @@ class ModuleProjectsController < ApplicationController
     end
   end
 
+  # Function to activate the current/selected module_project
   def activate_module_project
     session[:module_project_id] = params[:module_project_id]
     @project = current_project
-    #redirect_to root_url
-
     @module_projects ||= @project.module_projects
     @pbs_project_element = current_component
 
