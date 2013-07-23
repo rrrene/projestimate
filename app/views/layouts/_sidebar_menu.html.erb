@@ -1,5 +1,5 @@
 <ul class="nav nav-list" xmlns="http://www.w3.org/1999/html">
-  <li class="nav-header"><h5><%= I18n.t(:projects) %></h5></li>
+  <li class="nav-header"><h5><%= I18n.t(:label_menu_projects) %></h5></li>
   <li><%= render 'layouts/recent_project' %>  </li>
   <li><a href="/dashboard"><i class="icon-home icon-large icon-border pull-left"></i><%=  I18n.t('home') %></a></li>
   <% if current_project %>
@@ -11,7 +11,7 @@
 
 <% if can? :access_library_menu, User %>
     <ul class="nav nav-list">
-      <li class="nav-header"><h5>LIBRARY</h5></li>
+      <li class="nav-header"><h5><%= I18n.t(:label_menu_library) %></h5></li>
       <% if can? :access_project_global_settings, User %>
           <li><a href="/projects_global_params"><i class="icon-tasks icon-large icon-border pull-left"></i><%= I18n.t(:project_global_setting) %></a></li>
       <% end %>
@@ -22,7 +22,7 @@
 
 <% if can? :access_menu_admin, User %>
     <ul class="nav nav-list">
-      <li class="nav-header"><h5>ADMIN</h5></li>
+      <li class="nav-header"><h5><%= I18n.t(:label_menu_admin) %></h5></li>
 
       <% if can? :manage_admin_settings, AdminSetting %>
         <li><a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %></a></li>
@@ -54,7 +54,7 @@
 
 <% if is_master_instance?  %>
   <ul class="nav nav-list">
-    <li class="nav-header"><h5>MASTER</h5></li>
+    <li class="nav-header"><h5><%= I18n.t(:label_menu_master_admin) %></h5></li>
     <% if can? :manage_master_parameters, MasterSetting %>
       <li><a href="<%= master_settings_path %>"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
     <% end %>
