@@ -30,7 +30,7 @@
 
                 <% unless pmod.nil? %>
                   <div class="<%= select_pemodule %> module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                    <%= link_to pmod.pemodule.title, activate_module_project_path(pmod) %>
+                    <%= link_to pmod.pemodule.title, activate_module_project_path(pmod), :remote => true %>
                     <%= link_to ' ', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
                   </div>
                   <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>

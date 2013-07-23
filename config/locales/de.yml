@@ -226,6 +226,7 @@ de:
       
  #  Menu
   projects: "Projects"
+  label_menu_projects: "Projects"
   project: "Project"
   recent_project: "Recent projects"
   home: "Home"
@@ -234,24 +235,25 @@ de:
   label_user_security_resume: "User securities resume"
   label_group_security_resume: "Group securities resume"
 
-  library: "Library"
+  label_menu_library: "Library"
   project_global_setting: "Project global settings"
   estimation_setting: "Estimation settings"
   organization_setting: "Organizational setting"
   wbs_activities: "WBS-Activities"
   template: "Template"
 
-  admin: "Admin"
+  label_menu_admin: "Admin"
   administration: "Admin Settings"
   user: "User"
   groups: "Groups"
   global_permission: "Global permissions"
-  all_permissions: "All permissions"
+  all_permissions: "Permissions"
   project_securities: "Project securities"
   auth_methods: "Authentication methods"
   events: "Events"
 
   master: "Master parameters"
+  label_menu_master_admin: "Master Admin"
   project_global_parameters: "Project global parameters"
   pemodule_global_parameters: "Module global parameters"
   pe_attributes: "Attributes"
@@ -487,7 +489,7 @@ de:
   new_pemodule: "New module"
 
   #permissions
-  is_permission_project: "Is a project Permission"
+  is_permission_project: "Is a project permission"
   label_associated_object: "Associated Object"
   edit_permission: "Edit the \"%{value}\" permission ..."
   new_permission: "New permission"
@@ -767,6 +769,7 @@ de:
   notice_module_project_successful_updated: "Module project was successfully updated."
   notice_organization_labor_successful_created: "Organization labor category was successfully created."
   notice_organization_labor_successful_updated: "Organization labor category was successfully updated."
+  notice_organization_labor_successful_deleted: "Organization labor category was successfully deleted."
   notice_organization_successful_created: "Organization was successfully created."
   notice_organization_successful_updated: "Organization was successfully updated."
   notice_organization_successful_deleted: "Organization was successfully deleted."
@@ -954,3 +957,6 @@ de:
   notice_attribute_category_successful_updated: "Attribute category was successfully updated"
   error_attribute_category_failed_update: "An error has occurred during the update."
   text_create_project_from_template: "From the list below, click on the Copy icon of the desired template to create a project based on it."
+  notice_pe_attribute_successful_created: "Attribute successfully created."
+  notice_pe_attribute_successful_updated: "Attribute successfully updated."
+  text_index_permissions_guidance: "List all permissions (global and project)"

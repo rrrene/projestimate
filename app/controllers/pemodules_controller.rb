@@ -46,7 +46,7 @@ class PemodulesController < ApplicationController
     set_page_title 'Edit Modules'
     @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
 
     unless @pemodule.child_reference.nil?

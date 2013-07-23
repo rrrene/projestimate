@@ -201,10 +201,10 @@ class ApplicationController < ActionController::Base
 
   # Get the selected Pbs_Project_Element
   def current_component
+    return if current_project.nil?
+
     begin
-      if current_project
         PbsProjectElement.find(session[:pbs_project_element_id])
-      end
     rescue
       @component = current_project.root_component
     end

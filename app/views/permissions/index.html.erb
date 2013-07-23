@@ -6,6 +6,7 @@
   <div id="tabs-1">
     <table border="0" width="100%">
       <tr>
+        <td><b><%= I18n.t(:text_index_permissions_guidance)%></b></td>
         <td style="text-align:right;">
           <%= link_to I18n.t('new_permission'), new_permission_path, :class => 'btn' %>
         </td>
@@ -16,6 +17,7 @@
       <thead>
       <tr>
         <th><%= I18n.t(:permissions) %></th>
+        <th>Alias</th>
         <th class="filter-select"><%= I18n.t(:is_permission_project) %></th>
         <th class="filter-select"><%= I18n.t('label_associated_object') %></th>
         <th class="filter-select"><%= I18n.t(:record_status) %></th>
@@ -25,6 +27,7 @@
 
       <% @permissions.each do |perm| %>
           <tr>
+            <td><%= perm.description %></td>
             <td><%= perm.name %></td>
             <td><%= perm.is_permission_project %></td>
             <td><%= perm.object_associated %></td>
