@@ -579,17 +579,17 @@ class ProjectsController < ApplicationController
       #Run the estimation until there is one module_project that doesn't has all required attributes
       catch (:done) do
         # Run estimation plan for the current module_project
-        throw :done if !at_least_one_all_required_attr
+        throw :done if !at_least_one_all_required_attr   and return
 
         run_estimation(module_project, rest_of_module_projects, set_attributes, input_data_params)
       end
     end
 
-    puts "test ça"
-
     respond_to do |format|
-      format.js { render :partial => 'pbs_project_elements/refresh'}
+      format.html { render '/users/show' }
+      #format.js { render :partial => 'pbs_project_elements/refresh' and return}
     end
+
   end
 
 
