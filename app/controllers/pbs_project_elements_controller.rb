@@ -79,6 +79,7 @@ class PbsProjectElementsController < ApplicationController
     render :partial => "pbs_project_elements/refresh_tree"
   end
 
+
   #Select the current pbs_project_element and refresh the partial
   def selected_pbs_project_element
     session[:pbs_project_element_id] = params[:pbs_id]
@@ -87,6 +88,9 @@ class PbsProjectElementsController < ApplicationController
     @project = current_project.nil? ? Project.find(params[:project_id]) : current_project
     @module_projects = @project.module_projects
     @pbs_project_element = current_component
+
+    #Get the capitalization module_project
+    @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, @project.id).first  unless @capitalization_module.nil?
 
     # Get the max X and Y positions of modules
     @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1

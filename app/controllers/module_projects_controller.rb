@@ -152,7 +152,23 @@ class ModuleProjectsController < ApplicationController
   def activate_module_project
     session[:module_project_id] = params[:module_project_id]
     @project = current_project
-    redirect_to root_url
+    #redirect_to root_url
+
+    @module_projects ||= @project.module_projects
+    @pbs_project_element = current_component
+
+    #Get the capitalization module_project
+    @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, @project.id).first  unless @capitalization_module.nil?
+
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
+
+    @results = nil
+
+    respond_to do |format|
+      format.js { render :partial => "module_projects/refresh_selected_module_data"}
+    end
   end
 
 end

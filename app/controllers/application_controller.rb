@@ -139,6 +139,7 @@ class ApplicationController < ActionController::Base
       session[:remember_address] = "/dashboard"
     end
   end
+
   def redirect_apply(url)
     begin
       test = session[:return_to]
@@ -147,6 +148,7 @@ class ApplicationController < ActionController::Base
       url
     end
   end
+
   def redirect_apply(url, anchor)
     begin
       test = session[:return_to]
@@ -155,6 +157,7 @@ class ApplicationController < ActionController::Base
       url
     end
   end
+
   def redirect(url)
     begin
       test = session[:return_to]
@@ -208,10 +211,10 @@ class ApplicationController < ActionController::Base
 
   # Get the selected Pbs_Project_Element
   def current_component
+    return if current_project.nil?
+
     begin
-      if current_project
         PbsProjectElement.find(session[:pbs_project_element_id])
-      end
     rescue
       @component = current_project.root_component
     end
