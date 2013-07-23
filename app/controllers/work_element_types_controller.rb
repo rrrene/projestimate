@@ -60,7 +60,7 @@ class WorkElementTypesController < ApplicationController
     @work_element_type.peicon_id = peicon.nil? ? nil : peicon.id
 
     if @work_element_type.save
-      redirect_to redirect(work_element_types_path)
+      redirect_to redirect_save(work_element_types_path, new_work_element_type_path())
     else
       render action: 'new'
     end
@@ -81,7 +81,7 @@ class WorkElementTypesController < ApplicationController
 
     if @work_element_type.update_attributes(params[:work_element_type])
       flash[:notice] =  I18n.t (:notice_work_element_type_successful_updated)
-      redirect_to redirect(work_element_types_path)
+      redirect_to redirect_save(work_element_types_path, edit_work_element_type_path(@work_element_type))
     else
       render action: 'edit'
     end

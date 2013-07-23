@@ -246,6 +246,7 @@ de:
   user: "User"
   groups: "Groups"
   global_permission: "Global permissions"
+  all_permissions: "All permissions"
   project_securities: "Project securities"
   auth_methods: "Authentication methods"
   events: "Events"

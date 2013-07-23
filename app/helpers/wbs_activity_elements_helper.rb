@@ -118,7 +118,7 @@ module WbsActivityElementsHelper
   def show_element_name(element)
     if element.attributes.has_key? 'record_status_id'
       if element.is_root?
-        "<span class='#{ element.record_status.to_s }'>Root element - #{element.name} </span>"
+        "<span class='#{ element.record_status.to_s }'>#{element.name} </span>"
       else
         "<span class='#{ element.record_status.to_s }'> #{element.name} </span>"
       end
@@ -126,7 +126,7 @@ module WbsActivityElementsHelper
     else
       if element.is_root?
         #"<span class=''>#{element.pe_wbs_project.name} WBS-Activity</span>"
-        "<span class=''>#{@project.title} WBS-Activity : Activity breakdown Structure </span>"
+        "<span class=''>#{@project.title} WBS-Activity </span>"
       else
         if element.wbs_activity_element.nil? && element.wbs_activity.nil?
           "<span class=''> * #{element.name} </span>"

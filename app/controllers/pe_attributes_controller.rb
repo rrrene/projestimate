@@ -85,6 +85,8 @@ class PeAttributesController < ApplicationController
       else
         render action: "edit"
       end
+    else
+      render action: "edit"
     end
   end
 

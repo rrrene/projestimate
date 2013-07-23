@@ -514,21 +514,21 @@ class Home < ActiveRecord::Base
     ModuleProject.create(:pemodule_id => capitalization.id, :project_id => project.id, :position_x => 0, :position_y => 0)
 
     #New default Pe-Wbs-Project
-    pe_wbs_project_product = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
-    pe_wbs_project_activity = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
+    pe_wbs_project_product = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Producte", :wbs_type => 'Product')
+    pe_wbs_project_activity = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Activity", :wbs_type => 'Activity')
 
     folder = WorkElementType.find_by_alias('folder')
 
     if pe_wbs_project_product.save
       ##New root Pbs-Project-Element
-      pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "Root Element - #{project.title} WBS-Product", :is_root => true, :work_element_type_id => folder.id, :position => 0)
+      pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{project.title} - WBS-Product", :is_root => true, :work_element_type_id => folder.id, :position => 0)
       pbs_project_element.save
       pe_wbs_project_product.save
     end
 
     if pe_wbs_project_activity.save
       ##New Root Wbs-Project-Element
-      wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "Root Element - #{project.title} WBS-Activity", :is_root => true, :description => 'WBS-Activity Root Element', :author_id => user.id)
+      wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "#{project.title} - WBS-Activity", :is_root => true, :description => 'WBS-Activity Root Element', :author_id => user.id)
       wbs_project_element.save
     end
 

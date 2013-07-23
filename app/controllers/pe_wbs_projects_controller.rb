@@ -29,9 +29,9 @@ class PeWbsProjectsController < ApplicationController
   #  @pe_wbs_project = PeWbsProject.new(params[:pe_wbs_project])
   #
   #  #New root Pbs-Project-Element
-  #  pbs_project_element = @pe_wbs_project.pbs_project_elements.build(:name => "WBS-Product - Product Breakdown Structure", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+  #  pbs_project_element = @pe_wbs_project.pbs_project_elements.build(:name => "WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
   #
-  #  wbs_activity = @pe_wbs_project.wbs_project_elements.build(:name => "WBS-Activity - Activity breakdown Structure", :description => "WBS-Activity Root Element")
+  #  wbs_activity = @pe_wbs_project.wbs_project_elements.build(:name => "WBS-Activity", :description => "WBS-Activity Root Element")
   #
   #  @pe_wbs_project.transaction do
   #    if @pe_wbs_project.save

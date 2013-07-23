@@ -328,12 +328,12 @@ def load_data!
     user.project_ids = [project.id]
     user.save
     #Create default Pe-wbs-Project associated with previous project
-    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Product - Product Breakdown Structure", :wbs_type => 'Product')
+    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Product", :wbs_type => 'Product')
     pe_wbs_project = PeWbsProject.first
     #Create root pbs_project_element
     PbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :work_element_type_id => wet.id, :position => 0, :name => 'Root folder')
     #pbs_project_element = PbsProjectElement.first
-    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Activity - Activity breakdown Structure", :wbs_type => 'Activity')
+    PeWbsProject.create(:project_id => project.id, :name => "#{project.title} WBS-Activity", :wbs_type => 'Activity')
     pe_wbs_project = PeWbsProject.last
     #Create root pbs_project_element
     WbsProjectElement.create(:is_root => true, :pe_wbs_project_id => pe_wbs_project.id, :description => 'WBS-Activity Root Element', :name => "Root Element - #{project.title} WBS-Activity)")

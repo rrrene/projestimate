@@ -248,6 +248,7 @@ fr:
   user: "Utilisateur"
   groups: "Groupes"
   global_permission: "Permissions globales"
+  all_permissions: "All permissions"
   project_securities: "Sécurités des projets"
   auth_methods: "Authentifications"
   events: "Evènements"
