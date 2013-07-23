@@ -178,13 +178,14 @@ class ProjectsController < ApplicationController
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_activity_elements = []
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    @wbs_activity_ratios = []
 
     @project.users.each do |u|
       ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
       if ps
         ps.project_security_level_id = params["user_securities_#{u.id}"]
         ps.save
-      else
+      elsif !params["user_securities_#{u.id}"].blank?
         ProjectSecurity.create(:user_id => u.id,
                                :project_id => @project.id,
                                :project_security_level_id => params["user_securities_#{u.id}"])
@@ -192,11 +193,11 @@ class ProjectsController < ApplicationController
     end
 
     @project.groups.each do |gpe|
-      ps = ProjectSecurity.find_by_group_id_and_project_id(gpe.id, @project.id)
+      ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id)
       if ps
         ps.project_security_level_id = params["group_securities_#{gpe.id}"]
         ps.save
-      else
+      elsif !params["group_securities_#{gpe.id}"].blank?
         ProjectSecurity.create(:group_id => gpe.id,
                                :project_id => @project.id,
                                :project_security_level_id => params["group_securities_#{gpe.id}"])
@@ -695,8 +696,6 @@ class ProjectsController < ApplicationController
         required_input_attributes << attr_module.pe_attribute
       end
     end
-
-    puts "test ça"
 
     #Save output values: only for current pbs_project_element
     #@project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(@pbs_project_element.id) }.each do |mp|
