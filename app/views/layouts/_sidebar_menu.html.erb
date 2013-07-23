@@ -59,8 +59,6 @@
       <li><a href="<%= master_settings_path %>"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
     <% end %>
 
-    <li><a href="/projects_global_params"> <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:project_global_parameters) %></a></li>
-
     <% if can? :manage_attributes, PeAttribute %>
       <li><a href="<%= pe_attributes_path %>"> <i class="icon-list-ol icon-large icon-border pull-left"></i><%= I18n.t(:pe_attributes) %></a></li>
       <li><a href="<%= attribute_categories_path %>"> <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
