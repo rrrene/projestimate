@@ -123,7 +123,7 @@ class AuthMethodsController < ApplicationController
         @auth_method.destroy
       else
         flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect(auth_methods_path)  and return
+        redirect_to redirect_save(auth_methods_path)  and return
       end
     end
 

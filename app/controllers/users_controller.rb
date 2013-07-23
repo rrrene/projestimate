@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       set_user_language
       flash[:warning] = I18n.t (:notice_account_successful_updated)
-      redirect_to redirect(users_path)
+      redirect_to redirect_save(users_path)
     else
       render(:edit)
     end

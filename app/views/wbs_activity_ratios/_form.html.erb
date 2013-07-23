@@ -6,10 +6,9 @@
   <div id="tabs-1">
     <%= simple_form_for(@wbs_activity_ratio) do |f| %>
         <%= f.error_notification %>
-
         <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
         <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-        <%= f.input :wbs_activity_id, :label => 'WBS Activity', :as => :hidden, :input_html => {:class => 'input-xxlarge', :rows => 5, :value => params[:activity_id]} %>
+        <%= f.input :wbs_activity_id, :label => 'WBS Activity', :as => :hidden, :input_html => {:class => 'input-xxlarge', :rows => 5, :value => @activity_id} %>
         <% if is_master_instance? %>
 
             <table>
@@ -39,7 +38,8 @@
               <%= submit_tag I18n.t('save'), :class => 'btn' %>
               <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <% end %>
-          <%= link_to I18n.t('back'), edit_wbs_activity_path(params[:activity_id], :anchor => "tabs-3"), :class => 'btn' %>
+          <% params[:activity_id].nil? ? @activity_id=@wbs_activity_ratio.wbs_activity_id : @activity_id=params[:activity_id] %>
+          <%= link_to I18n.t('back'), edit_wbs_activity_path(@activity_id , :anchor => "tabs-3"), :class => 'btn' %>
         </div>
     <% end %>
   </div>

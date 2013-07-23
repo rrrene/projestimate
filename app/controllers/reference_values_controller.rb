@@ -90,7 +90,7 @@ class ReferenceValuesController < ApplicationController
         @reference_value.destroy
       else
         flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect(reference_values_path)  and return
+        redirect_to redirect_save(reference_values_path)  and return
       end
     end
 

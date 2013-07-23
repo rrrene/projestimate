@@ -50,7 +50,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
-      redirect_to redirect('/organizationals_params')
+      redirect_to redirect_save('/organizationals_params', edit_organization_path(@organization))
     else
       render action: 'edit'
     end

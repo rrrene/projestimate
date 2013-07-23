@@ -68,7 +68,7 @@ class OrganizationLaborCategoriesController < ApplicationController
     @organization_labor_category.destroy
 
     respond_to do |format|
-      format.html { redirect_to redirect('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_deleted)}"}
+      format.html { redirect_to redirect_save('/organizationals_params#tabs-3'), notice: "#{I18n.t (:notice_organization_labor_successful_deleted)}"}
     end
   end
 end
