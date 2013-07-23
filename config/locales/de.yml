@@ -226,6 +226,7 @@ de:
       
  #  Menu
   projects: "Projects"
+  label_menu_projects: "Projects"
   project: "Project"
   recent_project: "Recent projects"
   home: "Home"
@@ -234,14 +235,14 @@ de:
   label_user_security_resume: "User securities resume"
   label_group_security_resume: "Group securities resume"
 
-  library: "Library"
+  label_menu_library: "Library"
   project_global_setting: "Project global settings"
   estimation_setting: "Estimation settings"
   organization_setting: "Organizational setting"
   wbs_activities: "WBS-Activities"
   template: "Template"
 
-  admin: "Admin"
+  label_menu_admin: "Admin"
   administration: "Admin Settings"
   user: "User"
   groups: "Groups"
@@ -252,6 +253,7 @@ de:
   events: "Events"
 
   master: "Master parameters"
+  label_menu_master_admin: "Master Admin"
   project_global_parameters: "Project global parameters"
   pemodule_global_parameters: "Module global parameters"
   pe_attributes: "Attributes"

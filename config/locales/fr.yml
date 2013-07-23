@@ -228,6 +228,7 @@ fr:
       
   #  Menu
   projects: "Projets"
+  label_menu_projects: "Projets"
   project: "Projet"
   recent_project: "Projets récents"
   home: "Accueil"
@@ -236,14 +237,14 @@ fr:
   label_user_security_resume: "Gestion des droits utilisateurs du projet"
   label_group_security_resume: "Gestion des groupes du projet"
 
-  library: "Bibliothèque"
+  label_menu_library: "Bibliothèque"
   project_global_setting: "Paramètres projets"
   estimation_setting: "Estimation"
   organization_setting: "Organisations"
   wbs_activities: "WBS-Activities"
   template: "Modèle"
 
-  admin: "Administrateur"
+  label_menu_admin: "Admin"
   administration: "Paramètres d'admin"
   user: "Utilisateur"
   groups: "Groupes"
@@ -254,6 +255,7 @@ fr:
   events: "Evènements"
 
   master: "Paramètres master"
+  label_menu_master_admin: "Master Admin"
   project_global_parameters: "Paramètres projets"
   pemodule_global_parameters: "Paramètres modules"
   pe_attributes: "Attributs"
