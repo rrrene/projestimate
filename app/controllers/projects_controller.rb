@@ -281,7 +281,7 @@ class ProjectsController < ApplicationController
 
       @project.save
 
-      redirect_to redirect_save(project_path), notice: "#{I18n.t(:notice_project_successful_updated)}"
+      redirect_to redirect_save(projects_path), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
       @wbs_activity_ratios=WbsActivityRatio.all
       render :action => 'edit'
