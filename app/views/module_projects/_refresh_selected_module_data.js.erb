@@ -9,7 +9,7 @@ $(".output_data").html("<%=raw j(sanitize(display_results, :tags => %w(table tr 
 
 $(".component_name").html("<%=raw @current_component %>");
 
-$('.component_tree > ul li').hover(
+$('.component_tree ul li').hover(
         function () {
             $(this.children).css('display', 'inline');
         },

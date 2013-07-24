@@ -71,6 +71,7 @@ $(document).ready(function() {
         $('.spiner').show();
     });
 
+
      $('.component_tree ul li, .widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
@@ -80,6 +81,16 @@ $(document).ready(function() {
 
         }
       );
+
+    $('.block_label, div.block_link').hover(
+        function () {
+            $('div.block_label.selected_pbs').css('width', 'inherit');
+        },
+        function () {
+            $('div.block_label.selected_pbs').css('width', '100%');
+        }
+    );
+
 
     $("#component_work_element_type_id").change(function(){
       if(this.value == "2"){
@@ -445,14 +456,6 @@ $(document).ready(function() {
     });
 
 
-    $(".input").resizable({
-        alsoResizeReverse: ".output",
-    });
-
-    $(".pbs").resizable({
-        alsoResizeReverse: ".estimation_plan"
-    });
-
     $(".ui-resizable-handle").css("background-image", 'none');
 
 
@@ -559,7 +562,19 @@ $(function table_sorter_filter() {
                 filter_cssFilter   : 'tablesorter-filter',
                 zebra : ["even", "odd"],
                 // jQuery selector string of an element used to reset the filters
-                filter_reset : '.reset'
+                filter_reset : '.reset',
+                filter_functions : {
+                    1 : {
+                        "A - D" : function(e, n, f, i) { return /^[A-D]/.test(e); },
+                        "E - H" : function(e, n, f, i) { return /^[E-H]/.test(e); },
+                        "I - L" : function(e, n, f, i) { return /^[I-L]/.test(e); },
+                        "M - P" : function(e, n, f, i) { return /^[M-P]/.test(e); },
+                        "Q - T" : function(e, n, f, i) { return /^[Q-T]/.test(e); },
+                        "U - X" : function(e, n, f, i) { return /^[U-X]/.test(e); },
+                        "Y - Z" : function(e, n, f, i) { return /^[Y-Z]/.test(e); }
+                    },
+
+                }
             }
 
         })
