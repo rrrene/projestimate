@@ -86,7 +86,7 @@
       <li><a href="<%= permissions_path %>"> <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:all_permissions) %></a></li>
     <% end %>
 
-    <% if can? :manage_languages, Language %>
+    <% if can? :create_and_edit_language, Language %>
       <li><a href="<%= languages_path %>"> <i class="icon-comments icon-large icon-border pull-left"></i><%= I18n.t(:languages) %></a></li>
     <% end %>
 
