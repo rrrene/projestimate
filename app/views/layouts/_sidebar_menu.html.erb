@@ -64,7 +64,7 @@
       <li><a href="<%= attribute_categories_path %>"> <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
     <% end %>
 
-    <% if can? :manage_attributes, PeAttribute %>
+    <% if can? :manage_modules, Pemodule %>
       <li><a href="<%= pemodules_path %>"> <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
     <% end %>
 
@@ -92,7 +92,9 @@
 
     <li><a href="/translations"> <i class="icon-comments-alt icon-large icon-border pull-left"></i><%= I18n.t(:translations) %></a></li>
     <!--<li><a href="#"> <i class="icon-github-alt icon-large"></i><%= I18n.t(:community) %></a></li>-->
-    <li><a href="<%= record_statuses_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:record_status) %></a></li>
+    <% if can? :manage_status, RecordStatus %>
+        <li><a href="<%= record_statuses_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:record_status) %></a></li>
+    <% end %>
 
     <% if can? :manage_reference_values, ReferenceValue %>
       <li><a href="<%= reference_values_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:reference_values) %></a></li>
