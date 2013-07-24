@@ -82,11 +82,14 @@ class UsersController < ApplicationController
     params[:user][:project_ids] ||= []
     @user = User.find(params[:id])
 
-    puts "current_tab = #{params[:current_tab]}"
-    if params[:user][:auth_type]!="Application"
+    # Get the Application authType
+    application_auth_type = AuthMethod.where("name = ? AND record_status_id =?", "Application", @defined_record_status.id).first
+
+    if application_auth_type && params[:user][:auth_type].to_i != application_auth_type.id
       params[:user].delete :password
       params[:user].delete :password_confirmation
     end
+
     if @user.update_attributes(params[:user])
       set_user_language
       flash[:warning] = I18n.t (:notice_account_successful_updated)
