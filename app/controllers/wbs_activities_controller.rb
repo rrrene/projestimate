@@ -102,7 +102,7 @@ class WbsActivitiesController < ApplicationController
     end
 
     if @wbs_activity.update_attributes(params[:wbs_activity])
-      redirect_to redirect_save(wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_updated)}"
+      redirect_to redirect(wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_updated)}"
     else
       render :edit
     end
@@ -132,7 +132,7 @@ class WbsActivitiesController < ApplicationController
 
       @wbs_activity_element.save
 
-      redirect_to redirect_apply(edit_wbs_activity_path(@wbs_activity), wbs_activities_path), :notice => "#{I18n.t(:notice_wbs_activity_successful_added)}"
+      redirect_to redirect_apply(edit_wbs_activity_path(@wbs_activity)), :notice => "#{I18n.t(:notice_wbs_activity_successful_added)}"
     else
       render :new
     end
@@ -156,7 +156,7 @@ class WbsActivitiesController < ApplicationController
         end
       else
         flash[:warning] = I18n.t(:warning_master_record_cant_be_delete)
-        redirect_to redirect_save(wbs_activities_path)  and return
+        redirect_to redirect(wbs_activities_path)  and return
       end
     end
 

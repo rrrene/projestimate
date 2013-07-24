@@ -59,7 +59,7 @@ class CurrenciesController < ApplicationController
     authorize! :manage_currency, Currency
     @currency = Currency.new(params[:currency])
     @currency.save
-    redirect_to redirect_save(currencies_url)
+    redirect_to redirect(currencies_url)
   end
 
   # PUT /currencies/1
@@ -76,7 +76,7 @@ class CurrenciesController < ApplicationController
     end
 
     if @currency.update_attributes(params[:currency])
-      redirect_to redirect_save(currencies_url), notice: "#{I18n.t (:notice_currency_successful_updated)}"
+      redirect_to redirect(currencies_url), notice: "#{I18n.t (:notice_currency_successful_updated)}"
     else
       render action: 'edit'
     end

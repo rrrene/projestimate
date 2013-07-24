@@ -62,7 +62,7 @@ class AdminSettingsController < ApplicationController
 
     if @admin_setting.save
       flash[:notice] = I18n.t (:notice_administration_setting_successful_created)
-      redirect_to redirect_save(admin_settings_path, new_admin_setting_path())
+      redirect_to redirect_apply(nil,new_admin_setting_path(),admin_settings_path)
     else
       render action: 'new'
     end
@@ -86,7 +86,7 @@ class AdminSettingsController < ApplicationController
 
     if @admin_setting.update_attributes(params[:admin_setting])
       flash[:notice] = I18n.t (:notice_administration_setting_successful_updated)
-      redirect_to redirect_save(admin_settings_path, edit_admin_setting_path(@admin_setting))
+      redirect_to redirect_apply(edit_admin_setting_path(@admin_setting),nil,admin_settings_path)
     else
       flash[:error] = I18n.t (:error_administration_setting_failed_update)
       render action: 'edit'

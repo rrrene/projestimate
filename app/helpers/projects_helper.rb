@@ -570,7 +570,7 @@ module ProjectsHelper
       module_project.estimation_values.order('display_order ASC').each do |est_val|
         est_val_pe_attribute = est_val.pe_attribute
         est_val_in_out = est_val.in_out
-        if (est_val_in_out == 'input' or est_val_in_out == 'both') and est_val.module_project.id == module_project.id
+        if (est_val_in_out == 'input' or est_val_in_out == 'both') and (est_val.module_project.id == module_project.id) and est_val_pe_attribute
           res << '<tr>'
           res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val_pe_attribute.description} #{display_rule(est_val)}'>#{est_val_pe_attribute.name}</span></td>"
           level_estimation_values = Hash.new

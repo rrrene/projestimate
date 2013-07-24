@@ -35,7 +35,7 @@ class ProjectCategoriesController < ApplicationController
     unless @project_category.child_reference.nil?
       if @project_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_project_categories_cant_be_edit)
-        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-2'))
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-2'))
       end
     end
   end
@@ -45,7 +45,7 @@ class ProjectCategoriesController < ApplicationController
 
     if @project_category.save
       flash[:notice] = I18n.t (:notice_project_categories_successful_created)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-2'), new_project_category_path())
+      redirect_to redirect_apply(nil,new_project_category_path(),  projects_global_params_path(:anchor => 'tabs-2') )
     else
       render action: 'new'
     end
@@ -63,7 +63,7 @@ class ProjectCategoriesController < ApplicationController
 
     if @project_category.update_attributes(params[:project_category])
       flash[:notice] = I18n.t (:notice_project_categories_successful_updated)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-2'), edit_project_category_path(@project_category))
+      redirect_to redirect_apply(edit_project_category_path(@project_category), nil, projects_global_params_path(:anchor => 'tabs-2'), )
     else
       render action: 'edit'
     end

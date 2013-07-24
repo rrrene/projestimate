@@ -130,7 +130,7 @@ class ProjectsController < ApplicationController
             current_user.save
           end
 
-          redirect_to redirect_apply(edit_project_path(@project), projects_path()), notice: "#{I18n.t(:notice_project_successful_created)}"
+          redirect_to redirect_apply(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
@@ -281,7 +281,7 @@ class ProjectsController < ApplicationController
 
       @project.save
 
-      redirect_to redirect_save(projects_path), notice: "#{I18n.t(:notice_project_successful_updated)}"
+      redirect_to redirect_apply(edit_project_path(@project, :anchor=>session[:anchor]), nil, projects_path ), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
       @wbs_activity_ratios=WbsActivityRatio.all
       render :action => 'edit'

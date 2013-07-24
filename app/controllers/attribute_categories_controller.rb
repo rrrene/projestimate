@@ -71,7 +71,7 @@ class AttributeCategoriesController < ApplicationController
 
     if @attribute_category.save
       flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
-      redirect_to redirect_save(attribute_categories_path, new_attribute_category_path())
+      redirect_to redirect_apply(nil, new_attribute_category_path(),attribute_categories_path)
     else
       render action: "edit"
     end
@@ -84,7 +84,7 @@ class AttributeCategoriesController < ApplicationController
 
     if @attribute_category.update_attributes(params[:attribute_category])
       flash[:notice] = I18n.t (:notice_attribute_category_successful_updated)
-      redirect_to redirect_save(attribute_categories_path, edit_attribute_category_path(@attribute_category))
+      redirect_to redirect_apply(edit_attribute_category_path(@attribute_category), nil,attribute_categories_path)
     else
       flash[:error] = I18n.t (:error_attribute_category_failed_update)
       render action: 'edit'

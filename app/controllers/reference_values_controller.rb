@@ -50,7 +50,7 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.save
-      redirect_to redirect_save(reference_values_path, new_reference_value_path())
+      redirect_to redirect_apply(nil, new_reference_value_path(), reference_values_path, )
     else
       render action: 'new'
     end
@@ -75,7 +75,7 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.update_attributes(params[:reference_value])
-      redirect_to redirect_save(reference_values_path, edit_reference_value_path(@reference_value))
+      redirect_to redirect_apply(edit_reference_value_path(@reference_value),nil,reference_values_path )
     else
       render :edit
     end
@@ -96,7 +96,7 @@ class ReferenceValuesController < ApplicationController
         @reference_value.destroy
       else
         flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect_save(reference_values_path)  and return
+        redirect_to redirect(reference_values_path)  and return
       end
     end
 

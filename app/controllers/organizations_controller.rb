@@ -39,7 +39,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(params[:organization])
 
     if @organization.save
-        redirect_to redirect_apply(edit_organization_path(@organization), organizations_path), notice: "#{I18n.t (:notice_organization_successful_created)}"
+        redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
     else
       render action: 'new'
     end
@@ -50,7 +50,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
-      redirect_to redirect_save('/organizationals_params', edit_organization_path(@organization))
+      redirect_to redirect_apply(edit_organization_path(@organization), nil,'/organizationals_params' )
     else
       render action: 'edit'
     end

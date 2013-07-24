@@ -71,6 +71,7 @@ $(document).ready(function() {
         $('.spiner').show();
     });
 
+
      $('.component_tree ul li, .widget-content ul li').hover(
         function () {
           $(this.children).css('display', 'block');
@@ -80,6 +81,16 @@ $(document).ready(function() {
 
         }
       );
+
+    $('.block_label, div.block_link').hover(
+        function () {
+            $('div.block_label.selected_pbs').css('width', 'inherit');
+        },
+        function () {
+            $('div.block_label.selected_pbs').css('width', '100%');
+        }
+    );
+
 
     $("#component_work_element_type_id").change(function(){
       if(this.value == "2"){

@@ -66,7 +66,7 @@ class GroupsController < ApplicationController
       else
         @enable_update_in_local = false
         #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
-        #  redirect_to redirect_save(groups_path)
+        #  redirect_to redirect(groups_path)
       end
     end
 
@@ -87,7 +87,7 @@ class GroupsController < ApplicationController
     end
 
     if @group.save
-      redirect_to redirect_apply(edit_group_path(@group))
+      redirect_to redirect_apply(edit_group_path(@group, :anchor=>session[:anchor]), new_group_path(), groups_path())
     else
       render action: 'new'
     end
@@ -120,7 +120,7 @@ class GroupsController < ApplicationController
     end
 
     if @group.update_attributes(params[:group])
-      redirect_to redirect_save(groups_path), :notice => "#{I18n.t (:notice_group_successful_updated)}"
+      redirect_to redirect(groups_path), :notice => "#{I18n.t (:notice_group_successful_updated)}"
     else
       render action: 'edit'
     end
@@ -142,7 +142,7 @@ class GroupsController < ApplicationController
         @group.destroy
       else
         flash[:error] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect_save(groups_path) and return
+        redirect_to redirect(groups_path) and return
       end
     end
 

@@ -77,7 +77,7 @@ class PemodulesController < ApplicationController
     params[:pemodule][:alias] = params[:pemodule][:alias].downcase
     if @pemodule.update_attributes(params[:pemodule])
       flash[:notice] =  I18n.t (:notice_pemodule_successful_updated)
-      redirect_to redirect_save(pemodules_path, edit_pemodule_path(@pemodule)), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+      redirect_to redirect_apply(edit_pemodule_path(@pemodule, :anchor=>session[:anchor]), nil, pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
     else
       flash[:error] = "#{@pemodule.errors.full_messages.to_sentence}"
       render action: 'edit'
@@ -97,7 +97,7 @@ class PemodulesController < ApplicationController
     @attribute_settings = []
 
     if @pemodule.save
-      redirect_to redirect_apply(edit_pemodule_path(@pemodule), new_pemodule_path())
+      redirect_to redirect_apply(edit_pemodule_path(@pemodule), new_pemodule_path(), pemodules_path)
     else
       render action: 'new'
     end
@@ -133,8 +133,8 @@ class PemodulesController < ApplicationController
     end
 
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => params[:module_id]})
-    redirect_to redirect_save(pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
-    #redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect_apply(edit_pemodule_path(@pemodule, :anchor=>'tabs-2'), nil, pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    #redirect_to redirect(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-2')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
   end
 
 
@@ -158,7 +158,7 @@ class PemodulesController < ApplicationController
                                   :description => params[:description][i], :custom_attribute => params[:custom_attribute][i], :default_low =>  params[:default_low][i],
                                   :default_most_likely =>  params[:default_most_likely][i], :default_high =>  params[:default_high][i], :project_value => project_value)
     end
-    redirect_to redirect_save(pemodules_path, edit_pemodule_path(params[:module_id], :anchor=>'tabs-3')), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
+    redirect_to redirect_apply(edit_pemodule_path(params[:module_id], :anchor=>session[:anchor]), nil, pemodules_path), :notice => "#{I18n.t (:notice_module_project_successful_updated)}"
 
   end
 
