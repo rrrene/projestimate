@@ -24,19 +24,21 @@ class LanguagesController < ApplicationController
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
   def index
-    authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Languages'
     @languages = Language.all
   end
 
   def new
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Add a language'
     @language = Language.new
   end
 
   def edit
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Edit language'
     @language = Language.find(params[:id])
 
@@ -50,6 +52,7 @@ class LanguagesController < ApplicationController
 
   def create
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
@@ -62,6 +65,7 @@ class LanguagesController < ApplicationController
 
   def update
     authorize! :manage_languages, Language, :message => "#{I18n.t (:error_update_retired_language)}"
+    authorize! :create_and_edit_language, Language
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
