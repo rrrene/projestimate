@@ -64,7 +64,7 @@
       <li><a href="<%= attribute_categories_path %>"> <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
     <% end %>
 
-    <% if can? :manage_modules, PeAttribute %>
+    <% if can? :manage_modules, Pemodule %>
       <li><a href="<%= pemodules_path %>"> <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
     <% end %>
 
