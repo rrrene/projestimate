@@ -589,10 +589,10 @@ class ProjectsController < ApplicationController
       end
     end
 
+    #flash.now[:notice] = "All estimation's modules were successfully executed"
     #respond_to do |format|
     #  format.js { render :partial => 'pbs_project_elements/refresh'}
     #end
-
   end
 
 
