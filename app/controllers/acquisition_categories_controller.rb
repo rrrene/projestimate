@@ -37,7 +37,7 @@ class AcquisitionCategoriesController < ApplicationController
     unless @acquisition_category.child_reference.nil?
       if @acquisition_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_acquisition_category_cannot_be_updated)
-        redirect_to redirect_save(projects_global_params_path(:anchor => "tabs-4"))
+        redirect_to redirect(projects_global_params_path(:anchor => "tabs-4"))
       end
     end
   end
@@ -47,7 +47,7 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = I18n.t (:notice_acquisition_category_successful_created)
-      redirect_to redirect_save("/projects_global_params#tabs-4", new_acquisition_category_path())
+      redirect_to redirect_apply(nil,new_acquisition_category_path(),"/projects_global_params#tabs-4")
     else
       render action: "edit"
     end
@@ -66,8 +66,7 @@ class AcquisitionCategoriesController < ApplicationController
 
     if @acquisition_category.update_attributes(params[:acquisition_category])
       flash[:notice] = I18n.t (:notice_acquisition_category_successful_updated)
-      #redirect_to redirect_save(projects_global_params_path(:anchor => "tabs-4"))
-      redirect_to redirect_save("/projects_global_params#tabs-4", edit_acquisition_category_path(@acquisition_category))
+      redirect_to redirect_apply(edit_acquisition_category_path(@acquisition_category),nil,"/projects_global_params#tabs-4")
     else
       render action: "edit"
     end

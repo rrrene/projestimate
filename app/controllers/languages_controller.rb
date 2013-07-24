@@ -54,7 +54,7 @@ class LanguagesController < ApplicationController
     @language.record_status = @proposed_status
     if @language.save
       flash[:notice] = I18n.t (:notice_language_successful_created)
-      redirect_to redirect_save(languages_path, new_language_path())
+      redirect_to redirect_apply(nil, new_language_path(), languages_path)
       else
       render action: 'new'
     end
@@ -73,7 +73,7 @@ class LanguagesController < ApplicationController
 
     if @language.update_attributes(params[:language])
       flash[:notice] = I18n.t (:notice_language_successful_updated)
-      redirect_to redirect_save(languages_path, edit_language_path(@language))
+      redirect_to redirect_apply(edit_language_path(@language), nil, languages_path)
       else
       flash[:error] = "#{I18n.t (:error_language_failed_update)}"+"#{@language.errors.full_messages.to_sentence}"
       render action: 'edit'

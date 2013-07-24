@@ -107,7 +107,7 @@ class WbsProjectElementsController < ApplicationController
 
     if @wbs_project_element.save
       @wbs_project_element.update_can_get_new_child
-     redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
+     redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-3')), notice: "#{I18n.t (:notice_wbs_project_element_successful_created)}"
     else
       render action: 'new'
     end
@@ -126,7 +126,7 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       if @wbs_project_element.update_attributes(params[:wbs_project_element])
-        format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), notice: "#{I18n.t (:notice_wbs_project_element_successful_updated)}"}
+        format.html { redirect_to redirect(edit_project_path(@project, :anchor => 'tabs-3')), notice: "#{I18n.t (:notice_wbs_project_element_successful_updated)}"}
         format.json { head :no_content }
       else
         flash[:error] = @wbs_project_element.errors.full_messages.to_sentence

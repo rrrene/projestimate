@@ -39,7 +39,7 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     if @event.save
       flash[:notice] = I18n.t (:notice_event_successful_created)
-      redirect_to redirect_save(events_path, new_event_path())
+      redirect_to redirect_apply(nil, new_event_path(), events_path)
     else
       render action: 'new'
     end
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = I18n.t (:notice_event_successful_updated)
-      redirect_to redirect_save(events_path, edit_event_path(@event))
+      redirect_to redirect_apply(edit_event_path(@event), nil, events_path )
      else
       render action: 'edit'
     end

@@ -44,7 +44,7 @@ class ProjectAreasController < ApplicationController
     unless @project_area.child_reference.nil?
       if @project_area.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_project_area_cant_be_edit)
-        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'))
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-1'))
       end
     end
   end
@@ -55,7 +55,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.save
       flash[:notice] = I18n.t (:notice_project_area_successful_created)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'), new_project_area_path())
+      redirect_to redirect_apply(nil,new_project_area_path(), projects_global_params_path(:anchor => 'tabs-1') )
     else
        render action: 'new'
     end
@@ -73,7 +73,7 @@ class ProjectAreasController < ApplicationController
 
     if @project_area.update_attributes(params[:project_area])
       flash[:notice] = I18n.t (:notice_project_area_successful_updated)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-1'), edit_project_area_path(@project_area))
+      redirect_to redirect_apply(edit_project_area_path(@project_area), nil, projects_global_params_path(:anchor => 'tabs-1') )
     else
       render action: 'edit'
     end
