@@ -19,6 +19,7 @@
 ########################################################################
 
 class ModuleProjectsController < ApplicationController
+  load_and_authorize_resource
 
   def pbs_element_matrix
     set_page_title 'Associate PBS-element'

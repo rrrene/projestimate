@@ -24,21 +24,21 @@ class PeiconsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_projestimate_icons, Peicon
+    authorize! :create_and_edit_projestimate_icons, Peicon
 
     set_page_title 'Icons libraries'
     @icons = Peicon.all
   end
 
   def new
-    authorize! :manage_projestimate_icons, Peicon
+    authorize! :create_and_edit_projestimate_icons, Peicon
 
     set_page_title 'Icons libraries'
     @icon = Peicon.new
   end
 
   def edit
-    authorize! :manage_projestimate_icons, Peicon
+    authorize! :create_and_edit_projestimate_icons, Peicon
 
     set_page_title 'Icons libraries'
     @icon = Peicon.find(params[:id])
@@ -52,7 +52,7 @@ class PeiconsController < ApplicationController
   end
 
   def create
-    authorize! :manage_projestimate_icons, Peicon
+    authorize! :create_and_edit_projestimate_icons, Peicon
 
     set_page_title 'Icons libraries'
     @icon = Peicon.new(params[:peicon])
@@ -65,7 +65,7 @@ class PeiconsController < ApplicationController
   end
 
   def update
-    authorize! :manage_projestimate_icons, Peicon
+    authorize! :create_and_edit_projestimate_icons, Peicon
 
     set_page_title 'Icons libraries'
     @icon = nil

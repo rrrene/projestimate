@@ -19,6 +19,7 @@
 ########################################################################
 
 class EstimationValuesController < ApplicationController
+  load_and_authorize_resource
 
   def edit
     set_page_title 'Edit Module Project Attribute'

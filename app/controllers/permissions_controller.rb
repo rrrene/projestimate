@@ -25,7 +25,6 @@ class PermissionsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_global_permissions, Permission
     set_page_title 'Permissions'
     @permissions = Permission.all
 
@@ -35,7 +34,6 @@ class PermissionsController < ApplicationController
   end
 
   def globals_permissions
-
     set_page_title 'Globals Permissions'
     @permissions = Permission.all.select{|i| !i.is_permission_project }
     @groups = Group.all
@@ -46,15 +44,11 @@ class PermissionsController < ApplicationController
   end
 
   def new
-    authorize! :manage_global_permissions, Permission
-
     set_page_title 'Permissions'
     @permission = Permission.new
   end
 
   def edit
-    authorize! :manage_global_permissions, Permission
-
     set_page_title 'Permissions'
     @permission = Permission.find(params[:id])
 
@@ -71,6 +65,8 @@ class PermissionsController < ApplicationController
 
     @groups = Group.all
 
+    @permission.name = params[:permission][:name].underscore.gsub(" ", "_")
+
     if @permission.save
       redirect_to redirect_apply(nil, new_permission_path(), permissions_path), notice: "#{I18n.t (:notice_permission_successful_created)}"
     else
@@ -79,8 +75,6 @@ class PermissionsController < ApplicationController
   end
 
   def update
-    authorize! :manage_global_permissions, Permission
-
     @permission = nil
     current_permission = Permission.find(params[:id])
     if current_permission.is_defined?
@@ -99,8 +93,6 @@ class PermissionsController < ApplicationController
 
 
   def destroy
-    authorize! :manage_global_permissions, Permission
-
     @permission = Permission.find(params[:id])
     if @permission.is_defined? || @permission.is_custom?
       @permission.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)

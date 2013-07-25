@@ -20,6 +20,7 @@
 
 class AdminSettingsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
+  load_and_authorize_resource
 
   before_filter :get_record_statuses
 

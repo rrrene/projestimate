@@ -19,6 +19,7 @@
 ########################################################################
 
 class AttributeOrganizationsController < ApplicationController
+  load_and_authorize_resource
 
   # Update the Organization attributes
   def update_selected_attribute_organizations

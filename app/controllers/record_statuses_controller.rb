@@ -21,11 +21,11 @@
 
 class RecordStatusesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
+  load_and_authorize_resource
 
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_status, RecordStatus
     @record_statuses = RecordStatus.all
 
     respond_to do |format|
@@ -35,7 +35,6 @@ class RecordStatusesController < ApplicationController
   end
 
   def show
-    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
 
     respond_to do |format|
@@ -45,7 +44,6 @@ class RecordStatusesController < ApplicationController
   end
 
   def new
-    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.new
 
     respond_to do |format|
@@ -54,9 +52,7 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # GET /record_statuses/1/edit
   def edit
-    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
 
     unless @record_status.child_reference.nil?
@@ -67,10 +63,8 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-  # POST /record_statuses
-  # POST /record_statuses.json
+
   def create
-    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.new(params[:record_status])
 
     if @record_status.save
@@ -81,7 +75,6 @@ class RecordStatusesController < ApplicationController
   end
 
   def update
-    authorize! :manage_status, RecordStatus
     @record_status = nil
     current_record_status = RecordStatus.find(params[:id])
     if current_record_status.is_defined?
@@ -101,7 +94,6 @@ class RecordStatusesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_status, RecordStatus
     @record_status = RecordStatus.find(params[:id])
     if @record_status.is_defined? || @record_status.is_custom?
       #logical deletion: delete don't have to suppress records anymore

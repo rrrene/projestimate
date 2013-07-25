@@ -19,6 +19,7 @@
 ########################################################################
 #
 class AttributeCategoriesController < ApplicationController
+  load_and_authorize_resource
   include DataValidationHelper #Module for master data changes validation
   before_filter :get_record_statuses
                                # GET /attribute_categories

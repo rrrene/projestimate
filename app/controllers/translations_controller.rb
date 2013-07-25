@@ -19,6 +19,7 @@
 ########################################################################
 
 class TranslationsController < ApplicationController
+  load_and_authorize_resource
 
   #Listing translations pages
   def index

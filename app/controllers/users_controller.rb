@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
   before_filter :load_data, :only => [:update, :edit, :new, :create]
 
-  skip_authorize_resource :only => :edit
+  load_and_authorize_resource :except => [:edit, :show]
 
   def load_data
     if params[:id]

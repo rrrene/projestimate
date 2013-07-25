@@ -22,6 +22,7 @@ class AcquisitionCategoriesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
+  load_and_authorize_resource
 
   def new
     authorize! :manage_acquisition_categories, AcquisitionCategory
