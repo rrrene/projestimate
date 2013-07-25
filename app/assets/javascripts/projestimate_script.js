@@ -564,15 +564,6 @@ $(function table_sorter_filter() {
                 // jQuery selector string of an element used to reset the filters
                 filter_reset : '.reset',
                 filter_functions : {
-                    1 : {
-                        "A - D" : function(e, n, f, i) { return /^[A-D]/.test(e); },
-                        "E - H" : function(e, n, f, i) { return /^[E-H]/.test(e); },
-                        "I - L" : function(e, n, f, i) { return /^[I-L]/.test(e); },
-                        "M - P" : function(e, n, f, i) { return /^[M-P]/.test(e); },
-                        "Q - T" : function(e, n, f, i) { return /^[Q-T]/.test(e); },
-                        "U - X" : function(e, n, f, i) { return /^[U-X]/.test(e); },
-                        "Y - Z" : function(e, n, f, i) { return /^[Y-Z]/.test(e); }
-                    },
 
                 }
             }
