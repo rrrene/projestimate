@@ -57,6 +57,19 @@ class RecordStatus < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
 
+  amoeba do
+    enable
+
+    recognize [:belongs_to]
+
+    customize(lambda { |original_record, new_record|
+      new_record.reference_uuid = original_record.uuid
+      new_record.reference_id = original_record.id
+      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+    })
+  end
+
+
   def to_s
     name
   end
