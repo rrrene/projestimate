@@ -219,7 +219,7 @@ class ApplicationController < ActionController::Base
 
 
   def current_module_project
-    @defined_record_status = RecordStatus.where("name = ?", "Defined").last
+    @defined_record_status = RecordStatus.find_by_name("Defined")
     pemodule = Pemodule.find_by_alias_and_record_status_id("capitalization", @defined_record_status)
     default_current_module_project = ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
 
