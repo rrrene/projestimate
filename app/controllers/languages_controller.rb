@@ -24,19 +24,21 @@ class LanguagesController < ApplicationController
   before_filter :get_record_statuses#, :only => %w[index create show edit update destroy validate_change]
 
   def index
-    authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Languages'
     @languages = Language.all
   end
 
   def new
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Add a language'
     @language = Language.new
   end
 
   def edit
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     set_page_title 'Edit language'
     @language = Language.find(params[:id])
 
@@ -50,11 +52,12 @@ class LanguagesController < ApplicationController
 
   def create
     authorize! :manage_languages, Language
+    authorize! :create_and_edit_language, Language
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
       flash[:notice] = I18n.t (:notice_language_successful_created)
-      redirect_to redirect_save(languages_path, new_language_path())
+      redirect_to redirect_apply(nil, new_language_path(), languages_path)
       else
       render action: 'new'
     end
@@ -62,6 +65,7 @@ class LanguagesController < ApplicationController
 
   def update
     authorize! :manage_languages, Language, :message => "#{I18n.t (:error_update_retired_language)}"
+    authorize! :create_and_edit_language, Language
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
@@ -73,7 +77,7 @@ class LanguagesController < ApplicationController
 
     if @language.update_attributes(params[:language])
       flash[:notice] = I18n.t (:notice_language_successful_updated)
-      redirect_to redirect_save(languages_path, edit_language_path(@language))
+      redirect_to redirect_apply(edit_language_path(@language), nil, languages_path)
       else
       flash[:error] = "#{I18n.t (:error_language_failed_update)}"+"#{@language.errors.full_messages.to_sentence}"
       render action: 'edit'

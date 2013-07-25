@@ -59,7 +59,7 @@ class PeAttributesController < ApplicationController
 
     if @attribute.save
       flash[:notice] = I18n.t (:notice_pe_attribute_successful_created)
-      redirect_to redirect_save(pe_attributes_path, new_pe_attribute_path())
+      redirect_to redirect_apply(nil,new_pe_attribute_path(),  pe_attributes_path)
     else
       render action: "new"
     end
@@ -81,7 +81,7 @@ class PeAttributesController < ApplicationController
       @attribute.attr_type = params[:options][0]
       if @attribute.save
         flash[:notice] = I18n.t (:notice_pe_attribute_successful_updated)
-        redirect_to redirect_save(pe_attributes_path, edit_pe_attribute_path(@attribute))
+        redirect_to redirect_apply(edit_pe_attribute_path(@attribute), nil, pe_attributes_path)
       else
         render action: "edit"
       end

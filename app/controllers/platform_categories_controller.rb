@@ -35,7 +35,7 @@ class PlatformCategoriesController < ApplicationController
     unless @platform_category.child_reference.nil?
       if @platform_category.child_reference.is_proposed_or_custom?
         flash[:warning] = I18n.t (:warning_platform_category_cant_be_edit)
-        redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'))
+        redirect_to redirect(projects_global_params_path(:anchor => 'tabs-3'))
       end
     end
   end
@@ -45,7 +45,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.save
       flash[:notice] = I18n.t (:notice_platform_category_successful_created)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'), new_platform_category_path())
+      redirect_to redirect_apply(nil, new_platform_category_path(), projects_global_params_path(:anchor => 'tabs-3'))
     else
       render action: 'new'
     end
@@ -63,7 +63,7 @@ class PlatformCategoriesController < ApplicationController
 
     if @platform_category.update_attributes(params[:platform_category])
       flash[:notice] = I18n.t (:notice_platform_category_successful_updated)
-      redirect_to redirect_save(projects_global_params_path(:anchor => 'tabs-3'), edit_platform_category_path(@platform_category))
+      redirect_to redirect_apply(edit_platform_category_path(@platform_category), nil, projects_global_params_path(:anchor => 'tabs-3'))
     else
       render action: 'edit'
     end

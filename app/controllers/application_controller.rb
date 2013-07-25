@@ -140,14 +140,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_apply(url, anchor=nil)
+  def redirect_apply(edit=nil, new=nil, index=nil)
     begin
-      if anchor.nil?
-        (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : session[:return_to]
-      else
-        (params[:commit] == "#{I18n.t"apply"}"  or params[:commit] == "Apply") ? url : anchor
-      end
 
+      if (params[:commit] == "#{I18n.t"save"}")
+        index
+      elsif (params[:commit] == "#{I18n.t"save_and_create"}")
+        new
+      elsif (params[:commit] == "#{I18n.t"apply"}")
+        edit
+      else
+        session[:return_to]
+      end
     rescue
       url
     end
@@ -165,11 +169,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect(url)
+    begin
+        (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
+    rescue
+      url
+    end
+  end
+
   def set_return_to
     #session[:return_to] = request.referer
     session[:anchor_value] ||= params[:anchor_value]
     session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
     session[:anchor_value] ||= ""
+    session[:anchor] = session[:anchor_value].to_s.split('#')[1]
   end
 
   def previous_page

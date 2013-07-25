@@ -24,18 +24,22 @@ class ReferenceValuesController < ApplicationController
   before_filter :get_record_statuses
 
   def index
+    manage :manage_reference_values, ReferenceValue
     @reference_values = ReferenceValue.all
   end
 
   def edit
+    manage :manage_reference_values, ReferenceValue
     @reference_value = ReferenceValue.find(params[:id])
   end
 
   def new
+    manage :manage_reference_values, ReferenceValue
     @reference_value = ReferenceValue.new
   end
 
   def create
+    manage :manage_reference_values, ReferenceValue
     @reference_value = ReferenceValue.new(params[:reference_value])
 
     #If we are on local instance, Status is set to "Local"
@@ -46,13 +50,14 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.save
-      redirect_to redirect_save(reference_values_path, new_reference_value_path())
+      redirect_to redirect_apply(nil, new_reference_value_path(), reference_values_path, )
     else
       render action: 'new'
     end
   end
 
   def update
+    manage :manage_reference_values, ReferenceValue
     @reference_value = nil
     current_reference_value = ReferenceValue.find(params[:id])
 
@@ -70,14 +75,15 @@ class ReferenceValuesController < ApplicationController
     end
 
     if @reference_value.update_attributes(params[:reference_value])
-      redirect_to redirect_save(reference_values_path, edit_reference_value_path(@reference_value))
+      redirect_to redirect_apply(edit_reference_value_path(@reference_value),nil,reference_values_path )
     else
       render :edit
     end
   end
 
   def destroy
-  @reference_value = ReferenceValue.find(params[:id])
+    manage :manage_reference_values, ReferenceValue
+    @reference_value = ReferenceValue.find(params[:id])
     if is_master_instance?
       if @reference_value.is_defined? || @reference_value.is_custom?
         #logical deletion: delete don't have to suppress records anymore on defined record
@@ -90,7 +96,7 @@ class ReferenceValuesController < ApplicationController
         @reference_value.destroy
       else
         flash[:warning] = I18n.t (:warning_master_record_cant_be_delete)
-        redirect_to redirect_save(reference_values_path)  and return
+        redirect_to redirect(reference_values_path)  and return
       end
     end
 

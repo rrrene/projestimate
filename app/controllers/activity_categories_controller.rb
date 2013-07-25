@@ -64,7 +64,7 @@ class ActivityCategoriesController < ApplicationController
 
     if @activity_category.update_attributes(params[:activity_category])
       flash[:notice] = I18n.t (:notice_activity_category_successful_update)
-      redirect_to redirect_save('/projects_global_params#tabs-4')
+      redirect_to redirect('/projects_global_params#tabs-4')
     else
       render action: 'edit'
     end
@@ -80,6 +80,6 @@ class ActivityCategoriesController < ApplicationController
       @activity_category.destroy
     end
 
-    redirect_to redirect_save(activity_categories_url)
+    redirect_to redirect(activity_categories_url)
   end
 end
