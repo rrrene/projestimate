@@ -20,6 +20,7 @@
 
 #encoding: utf-8
 class PasswordResetsController < ApplicationController
+  load_and_authorize_resource
   layout 'login'
 
   #Edit the new password, checks token validity

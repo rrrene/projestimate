@@ -19,7 +19,7 @@
 ########################################################################
 
 class PbsProjectElementsController < ApplicationController
-
+  load_and_authorize_resource
 
   def edit
     @pbs_project_element = PbsProjectElement.find(params[:id])

@@ -19,6 +19,7 @@
 ########################################################################
 
 class ProjectSecuritiesController < ApplicationController
+  load_and_authorize_resource
 
   def index
     authorize! :manage_project_securities, ProjectSecurity

@@ -19,6 +19,7 @@
 ########################################################################
 
 class WbsProjectElementsController < ApplicationController
+  load_and_authorize_resource
   helper_method :disabled_if_from_library
 
   def disabled_if_from_library

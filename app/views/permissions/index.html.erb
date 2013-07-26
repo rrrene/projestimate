@@ -30,7 +30,7 @@
             <td><%= perm.description %></td>
             <td><%= perm.name %></td>
             <td><%= perm.is_permission_project %></td>
-            <td><%= perm.object_associated %></td>
+            <td><%= perm.object_associated.blank? ? 'All' : perm.object_associated %></td>
             <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
             <td>
               <%= link_to '', edit_permission_path(perm), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>

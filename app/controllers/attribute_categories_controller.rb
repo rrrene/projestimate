@@ -19,6 +19,7 @@
 ########################################################################
 #
 class AttributeCategoriesController < ApplicationController
+  load_and_authorize_resource
   include DataValidationHelper #Module for master data changes validation
   before_filter :get_record_statuses
                                # GET /attribute_categories
@@ -31,19 +32,6 @@ class AttributeCategoriesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @attribute_categories }
-    end
-  end
-
-  # GET /attribute_categories/1
-  # GET /attribute_categories/1.json
-  def show
-    authorize! :manage_attributes, PeAttribute
-    set_page_title "Attributes Categories"
-    @attribute_category = AttributeCategory.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @attribute_category }
     end
   end
 

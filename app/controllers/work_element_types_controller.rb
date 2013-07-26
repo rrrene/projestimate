@@ -23,6 +23,8 @@ class WorkElementTypesController < ApplicationController
 
   before_filter :get_record_statuses
 
+  load_and_authorize_resource
+
   def index
     authorize! :manage_work_element_type, WorkElementType
     set_page_title 'Work Element Type'

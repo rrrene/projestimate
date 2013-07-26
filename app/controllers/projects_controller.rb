@@ -23,6 +23,8 @@ class ProjectsController < ApplicationController
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
 
+  load_and_authorize_resource
+
   helper_method :sort_column
   helper_method :sort_direction
 

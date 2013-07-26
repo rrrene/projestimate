@@ -23,6 +23,8 @@ require 'will_paginate/array'
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
+  load_and_authorize_resource
+
   helper_method :wbs_record_statuses_collection
   helper_method :enable_update_in_local?
 

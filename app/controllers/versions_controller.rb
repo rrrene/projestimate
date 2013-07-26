@@ -19,6 +19,7 @@
 ########################################################################
 
 class VersionsController < ApplicationController
+  load_and_authorize_resource
   # GET /versions
   # GET /versions.json
   def index
