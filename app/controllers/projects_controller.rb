@@ -580,13 +580,12 @@ class ProjectsController < ApplicationController
       #Run the estimation until there is one module_project that doesn't has all required attributes
       catch (:done) do
         throw :done if !at_least_one_all_required_attr
-
         # Run estimation plan for the current module_project
         run_estimation(module_project, pbs_project_element_id, rest_of_module_projects, set_attributes)
       end
     end
 
-    #flash.now[:notice] = "All estimation's modules were successfully executed"
+    #flash.now[:notice] = "Finish to execute estimation"
     #respond_to do |format|
     #  format.js { render :partial => 'pbs_project_elements/refresh'}
     #end

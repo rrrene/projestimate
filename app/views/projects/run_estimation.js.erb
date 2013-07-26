@@ -1,6 +1,11 @@
 //Get the current_component first
 <% @current_component = current_component %>
 
+$('#notifications').html("<%=raw j "<div class='alert alert-success pull-left'>
+                                        <button type='button' class='close' data-dismiss='alert'>x</button>
+                                        #{I18n.t(:notice_end_of_estimation_execution)}
+                                    </div>" %>");
+
 $("#project_wbs_product_section .tab-pane.active").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 
 $(".input_data").html("<%=raw j(display_input) %>");
