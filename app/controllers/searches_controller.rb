@@ -19,7 +19,6 @@
 ########################################################################
 
 class SearchesController < ApplicationController
-  load_and_authorize_resource
 
   #Display search result
   def results
