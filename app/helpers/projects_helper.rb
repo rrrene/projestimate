@@ -38,18 +38,19 @@ module ProjectsHelper
     res = String.new
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
-      #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
-      if current_module_project.pemodule.yes_for_output_with_ratio? || current_module_project.pemodule.yes_for_output_without_ratio? || current_module_project.pemodule.yes_for_input_output_with_ratio? || current_module_project.pemodule.yes_for_input_output_without_ratio?
-        if current_module_project.pemodule.alias == 'effort_balancing'
-          res << display_effort_balancing_output(current_module_project)
+      #get the current module_project
+      module_project_to_display = current_module_project
+
+      if module_project_to_display.pemodule.yes_for_output_with_ratio? || module_project_to_display.pemodule.yes_for_output_without_ratio? || module_project_to_display.pemodule.yes_for_input_output_with_ratio? || module_project_to_display.pemodule.yes_for_input_output_without_ratio?
+        if module_project_to_display.pemodule.alias == 'effort_balancing'
+          res << display_effort_balancing_output(module_project_to_display)
         else
-          res << display_results_with_activities(current_module_project)
+          res << display_results_with_activities(module_project_to_display)
         end
       else
-        res << display_results_without_activities(current_module_project)
+        res << display_results_without_activities(module_project_to_display)
       end
       res
-      #end
     end
     res
   end
@@ -273,7 +274,6 @@ module ProjectsHelper
     unless current_project.nil?
       pbs_project_element = @pbs_project_element || current_project.root_component
 
-      #current_project.module_projects.select{|i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }.each do |module_project|
       current_project = current_module_project.project
       current_module_project_pemodule = current_module_project.pemodule
 
@@ -354,7 +354,6 @@ module ProjectsHelper
       elsif current_module_project_pemodule.no? || current_module_project_pemodule.yes_for_output_with_ratio? || current_module_project_pemodule.yes_for_output_without_ratio?
         res << display_inputs_without_activities(current_module_project)
       end
-      #end
     end
     res
   end
@@ -557,6 +556,7 @@ module ProjectsHelper
   def display_inputs_without_activities(module_project)
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
+
     if module_project.compatible_with(current_component.work_element_type.alias) || current_component
       pemodule = Pemodule.find(module_project.pemodule.id)
       res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
