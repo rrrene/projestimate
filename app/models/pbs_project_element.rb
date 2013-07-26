@@ -54,12 +54,12 @@ class PbsProjectElement < ActiveRecord::Base
   #Generate an method folder?, link?, etc...
   #Usage: component1.folder?
   #Return a boolean.
-  #types_wet = WorkElementType::work_element_type_list
-  #types_wet.each do |type|
-  #  define_method("#{type}?") do
-  #    (self.work_element_type.alias == type) ? true : false
-  #  end
-  #end
+  types_wet = WorkElementType::work_element_type_list
+  types_wet.each do |type|
+    define_method("#{type}?") do
+      (self.work_element_type.alias == type) ? true : false
+    end
+  end
 
   #Override
   def to_s
