@@ -671,11 +671,10 @@ module ProjectsHelper
   #Display text field tag depending of estimation plan.
   #Some pemodules can take previous and computed values
   def display_text_field_tag(level, est_val, module_project, level_estimation_values, pbs_project_element)
-    4
 
     est_val_pe_attribute = est_val.pe_attribute
 
-    if module_project.previous.empty?
+    if module_project.previous.empty? || !est_val["string_data_#{level}"][pbs_project_element.id].nil?
       text_field_tag "[#{level}][#{est_val_pe_attribute.alias.to_sym}][#{module_project.id}]",
                      level_estimation_values[pbs_project_element.id].nil? ? level_estimation_values["default_#{level}".to_sym] : level_estimation_values[pbs_project_element.id],
                      :class => "input-small #{level} #{est_val.id}",

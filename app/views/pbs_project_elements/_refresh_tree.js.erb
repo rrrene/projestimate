@@ -9,6 +9,16 @@ $('.component_tree ul li').hover(
         }
 );
 
+
+$('.block_label, div.block_link').hover(
+    function () {
+        $('div.block_label.selected_pbs').css('width', 'inherit');
+    },
+    function () {
+        $('div.block_label.selected_pbs').css('width', '100%');
+    }
+);
+
 $('#edit_component').modal('hide');
 
 $(".date-picker").datepicker({

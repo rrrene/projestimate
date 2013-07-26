@@ -488,8 +488,7 @@ class ProjectsController < ApplicationController
   # This function list the next module_projects according to the given (starting_node) module_project
   # compatibility between the module_projects with the current_component is verified
   # Then return the module_projects like Tree Breadth
-  def crawl_module_project(starting_node)
-    pbs_project_element = current_component
+  def crawl_module_project(starting_node, pbs_project_element)
     list = []
     items=[starting_node]
     until items.empty?
@@ -508,29 +507,29 @@ class ProjectsController < ApplicationController
 
 
   #Run estimation process
-  def run_estimation(start_module_project = nil, rest_of_module_projects = nil, set_attributes = nil, input_data_params = nil)
+  def run_estimation(start_module_project = nil, pbs_project_element_id = nil,  rest_of_module_projects = nil, set_attributes = nil)
     @project = current_project
-    @pbs_project_element = current_component
     @my_results = Hash.new
     @last_estimation_results = Hash.new
-    set_attributes_name_list = { :low => [], :high => [], :most_likely => [] }
+    set_attributes_name_list = { 'low' => [], 'high' => [], 'most_likely' => [] }
 
     if start_module_project.nil?
+      pbs_project_element = current_component
+      pbs_project_element_id = pbs_project_element.id
       start_module_project = current_module_project
-      rest_of_module_projects = crawl_module_project(current_module_project)
-      start_mp_params = params
+      rest_of_module_projects = crawl_module_project(current_module_project, pbs_project_element)
+      set_attributes = {'low' => {}, 'most_likely' => {}, 'high' => {} }
+
       ['low', 'most_likely', 'high'].each do |level|
-        start_mp_params[level].each do |key, hash|
-          start_mp_params[level][key] = hash[current_module_project.id.to_s]
+        params[level].each do |key, hash|
+          set_attributes[level][key] = hash[current_module_project.id.to_s]
         end
       end
-      input_data_params = start_mp_params
-      set_attributes = {:low => {}, :most_likely => {}, :high => {} }
     end
 
     # Execution of the first/current module-project
     ['low', 'most_likely', 'high'].each do |level|
-      @my_results[level.to_sym] = run_estimation_plan(input_data_params, level, @project, start_module_project)
+      @my_results[level.to_sym] = run_estimation_plan(set_attributes[level], pbs_project_element_id, level, @project, start_module_project)
     end
 
     #Save output values: only for current pbs_project_element and for current module-project
@@ -540,7 +539,7 @@ class ProjectsController < ApplicationController
     # Get all required attributes for each module (where)
     # Get all module_projects from the current_module_project : crawl_module_project(start_module_project)
     until rest_of_module_projects.empty?
-      module_project = rest_of_module_projects.shift     ###  crawl_module_project(current_module_project).each do |module_project|
+      module_project = rest_of_module_projects.shift
 
       @module_project_results = Hash.new
       required_input_attributes = Array.new
@@ -560,19 +559,16 @@ class ProjectsController < ApplicationController
 
         level_result.each do |key, value|
           attribute_alias = key.to_s.split("_#{start_module_project.id}").first
-          set_attributes[level.to_sym][attribute_alias.to_sym] = value      #{ "#{current_module_project.id}".to_sym => value }
+          set_attributes[level][attribute_alias] = value
         end
 
         # Update the set_attributes_name_list with the last one,
         # Attribute is only added to the set_attributes_name_list if it's present
-        set_attributes[level.to_sym].keys.each { |key| set_attributes_name_list[level.to_sym] << key.to_s }
-
-        #Update the input_data_params
-        input_data_params[level] = set_attributes[level.to_sym]
+        set_attributes[level].keys.each { |key| set_attributes_name_list[level] << key }
 
         # Need to verify that all required attributes for this module are present
         # If all required attributes are present
-        get_all_required_attributes << ((required_input_attributes & set_attributes_name_list[level.to_sym]) == required_input_attributes)
+        get_all_required_attributes << ((required_input_attributes & set_attributes_name_list[level]) == required_input_attributes)
       end
 
       at_least_one_all_required_attr = nil
@@ -586,7 +582,7 @@ class ProjectsController < ApplicationController
         throw :done if !at_least_one_all_required_attr
 
         # Run estimation plan for the current module_project
-        run_estimation(module_project, rest_of_module_projects, set_attributes, input_data_params)
+        run_estimation(module_project, pbs_project_element_id, rest_of_module_projects, set_attributes)
       end
     end
 
@@ -641,7 +637,6 @@ class ProjectsController < ApplicationController
         end
 
         est_val.update_attributes(out_result)
-
       elsif est_val.in_out == 'input'
         in_result = Hash.new
 
@@ -649,11 +644,9 @@ class ProjectsController < ApplicationController
           level_estimation_value = Hash.new
           level_estimation_value = est_val.send("string_data_#{level}")
           begin
-            start_module_project == current_module_project ? pbs_level_form_input = params[level][est_val_attribute_alias]
-                                                           : pbs_level_form_input = input_attributes[level.to_sym][est_val_attribute_alias.to_sym]#[start_module_project.id.to_s]
+            pbs_level_form_input =  input_attributes[level][est_val_attribute_alias]
           rescue
-            start_module_project == current_module_project ? pbs_level_form_input = params[est_val_attribute_alias]
-                                                           : pbs_level_form_input = input_attributes[est_val_attribute_alias.to_sym]
+            pbs_level_form_input = input_attributes[est_val_attribute_alias.to_sym]
           end
 
           wbs_root = start_module_project.project.pe_wbs_projects.activities_wbs.first.wbs_project_elements.where('is_root = ?', true).first
@@ -772,40 +765,34 @@ class ProjectsController < ApplicationController
 
 
   # This estimation plan method is called for each component
-  def run_estimation_plan(input_data, level, project, current_mp_to_execute)
+  def run_estimation_plan(input_data, pbs_project_element_id, level, project, current_mp_to_execute)
     @result_hash = Hash.new
     inputs = Hash.new
+    #Need to add input for pbs_project_element and module_project
+    inputs['pbs_project_element_id'.to_sym] = pbs_project_element_id
+    inputs['module_project_id'.to_sym] = current_mp_to_execute.id
 
-    #project.module_projects.select { |i| i.pbs_project_elements.map(&:id).include?(current_component.id) }.each do |module_project|
-      current_mp_to_execute.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
-        if est_val.in_out == 'input' or est_val.in_out=='both'
-          if current_mp_to_execute.pemodule.alias == 'effort_balancing'
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias]#[current_mp_to_execute.id.to_s]
-          else
-            inputs[est_val.pe_attribute.alias.to_sym] = input_data[level][est_val.pe_attribute.alias]#[current_mp_to_execute.id.to_s]
-          end
-        end
+    current_mp_to_execute.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+      if est_val.in_out == 'input' or est_val.in_out=='both'
+        inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias]#[current_mp_to_execute.id.to_s]
+      end
 
-        current_pbs_project_elt = current_component
-        current_module = "#{current_mp_to_execute.pemodule.alias.camelcase.constantize}::#{current_mp_to_execute.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
+      current_module = "#{current_mp_to_execute.pemodule.alias.camelcase.constantize}::#{current_mp_to_execute.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
 
-        #Need to add input for pbs_project_element and module_project
-        inputs['pbs_project_element_id'.to_sym] = current_pbs_project_elt.id
-        inputs['module_project_id'.to_sym] = current_mp_to_execute.id
-        inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
+      inputs['pe_attribute_alias'.to_sym] = est_val.pe_attribute.alias
 
-        # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
-        cm = current_module.send(:new, inputs)
+      # Normally, the input data is commonly from the Expert Judgment Module on PBS (when running estimation on its product)
+      cm = current_module.send(:new, inputs)
 
-        if est_val.in_out == 'output' or est_val.in_out=='both'
-          begin
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
-          rescue Exception => e
-            @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = nil
-            puts e.message
-          end
+      if est_val.in_out == 'output' or est_val.in_out=='both'
+        begin
+          @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}")
+        rescue Exception => e
+          @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = nil
+          puts e.message
         end
       end
+    end
     @result_hash
   end
 
