@@ -6,20 +6,17 @@
                     jsPlumb.setRenderMode(jsPlumb.SVG);
                     jsPlumb.importDefaults({
                         Connector:"Straight",
-                        //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-                        PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-                        //Endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
+                        PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  }, //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
                         EndpointStyle:{ fillStyle:"#ffa500"}
-                        //,Anchor:"AutoDefault"
                     });
 
                     var anEndpointSource = {
-                     endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ], //endpoint: "Rectangle", //endpoint: "Dot",
+                     endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
                      isSource: true,
                      isTarget: false,
                      maxConnections: 1,
 
-                     anchors:["BottomCenter"] //anchor: [1, 0, 1, 0]
+                     anchors:["BottomCenter"]
                     };
 
                     var anEndpointDestination = {
@@ -28,7 +25,7 @@
                      isTarget: true,
                      maxConnections: 1,
 
-                     anchors:["TopCenter"]//anchor: [0, 1, -1, 0]
+                     anchors:["TopCenter"]
                     };
 
                     var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"), anEndpointSource);
