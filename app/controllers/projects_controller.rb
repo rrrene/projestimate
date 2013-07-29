@@ -535,7 +535,7 @@ class ProjectsController < ApplicationController
     end
 
     #Save output values: only for current pbs_project_element and for current module-project
-    save_estimation_result(start_module_project, set_attributes, @my_results)
+    save_estimation_results(start_module_project, set_attributes, @my_results)
 
     # Need to execute other module_projects if all required input attributes are present
     # Get all required attributes for each module (where)
@@ -561,6 +561,12 @@ class ProjectsController < ApplicationController
 
         level_result.each do |key, value|
           attribute_alias = key.to_s.split("_#{start_module_project.id}").first
+
+          # For modules with activities
+          if start_module_project.pemodule.yes_for_output_with_ratio? || start_module_project.pemodule.yes_for_output_without_ratio? || start_module_project.pemodule.yes_for_input_output_with_ratio? || start_module_project.pemodule.yes_for_input_output_without_ratio?
+            value = value.inject({}){ |wbs_value,(k,v)| wbs_value[k.to_s] = v; wbs_value }
+          end
+
           set_attributes[level][attribute_alias] = value
         end
 
@@ -596,7 +602,7 @@ class ProjectsController < ApplicationController
 
   # Function that save current module_project estimation result in DB
   #Save output values: only for current pbs_project_element
-  def save_estimation_result(start_module_project, input_attributes, output_data)
+  def save_estimation_results(start_module_project, input_attributes, output_data)
     @pbs_project_element = current_component
 
     # get the estimation_value for the current_pbs_project_element

@@ -427,7 +427,6 @@ module ProjectsHelper
           end
           res << '</td>'
         end
-
         res << '</tr>'
       end
       res << '</table>'
