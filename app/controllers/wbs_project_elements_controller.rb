@@ -54,7 +54,7 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-n
+
   def new
     @wbs_project_element = WbsProjectElement.new
 

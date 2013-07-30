@@ -171,6 +171,7 @@ module MasterDataHelper
         else
           @record_statuses = RecordStatus.where("name <> ?", "Defined")
         end
+        #Return only the "Defined" records
         @record_statuses = @record_statuses.defined
       rescue
         []

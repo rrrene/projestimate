@@ -2,4 +2,5 @@
     *= require_tree .
     *= require_self
     *= require font-awesome/font-awesome
+    *= require _font-awesome
 */
