@@ -26,13 +26,11 @@ class LaborCategoriesController < ApplicationController
 
   def index
     set_page_title 'Labors Categories'
-    authorize! :manage_labor_categories, LaborCategory
     @labor_categories = LaborCategory.all
   end
 
   def new
     set_page_title 'Labors Categories'
-    authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new
 
     respond_to do |format|
@@ -42,7 +40,6 @@ class LaborCategoriesController < ApplicationController
 
   def edit
     set_page_title 'Labors Categories'
-    authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
 
     unless @labor_category.child_reference.nil?
@@ -54,7 +51,6 @@ class LaborCategoriesController < ApplicationController
   end
 
   def create
-    authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
       flash[:notice] = I18n.t (:notice_labor_category_successful_created)
@@ -65,7 +61,6 @@ class LaborCategoriesController < ApplicationController
   end
 
   def update
-    authorize! :manage_labor_categories, LaborCategory
     @labor_category = nil
     current_labor_category = LaborCategory.find(params[:id])
     if current_labor_category.is_defined?
@@ -84,7 +79,6 @@ class LaborCategoriesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_labor_categories, LaborCategory
     @labor_category = LaborCategory.find(params[:id])
     if @labor_category.is_defined? || @labor_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore

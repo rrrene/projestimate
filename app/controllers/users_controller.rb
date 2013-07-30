@@ -41,13 +41,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    authorize! :manage_users, User
     set_page_title 'Users'
     @users = User.all
   end
   
   def new
-    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new( :auth_type => AuthMethod.first.id,
@@ -55,7 +53,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new(params[:user])
@@ -164,7 +161,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_users, User
     @user = User.find(params[:id])
     @user.destroy
 
@@ -185,7 +181,6 @@ class UsersController < ApplicationController
   end
 
   def activate
-    authorize! :manage_users, User
     @user = User.find(params[:id])
     unless @user.active?
       @user.user_status = 'active'

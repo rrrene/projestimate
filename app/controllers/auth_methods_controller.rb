@@ -25,14 +25,11 @@ class AuthMethodsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_authentication_methods, AuthMethod
     set_page_title 'Authentications Method'
     @auth_methods = AuthMethod.all.reject{|i| i.name == 'Application' }
   end
 
   def edit
-    authorize! :manage_authentication_methods, AuthMethod
-
     @auth_method = AuthMethod.find(params[:id])
     set_page_title "Edit #{@auth_method.name}"
 
@@ -54,15 +51,11 @@ class AuthMethodsController < ApplicationController
   end
 
   def new
-    authorize! :manage_authentication_methods, AuthMethod
-
     set_page_title 'New authentication method'
     @auth_method = AuthMethod.new
   end
 
   def update
-    authorize! :manage_authentication_methods, AuthMethod
-
     set_page_title 'Authentications Method'
     @auth_method = nil
     current_auth_method = AuthMethod.find(params[:id])
@@ -89,8 +82,6 @@ class AuthMethodsController < ApplicationController
   end
 
   def create
-    authorize! :manage_authentication_methods, AuthMethod
-
     set_page_title 'Authentications Method'
     @auth_method = AuthMethod.new(params[:auth_method])
     #If we are on local instance, Status is set to "Local"
@@ -109,8 +100,6 @@ class AuthMethodsController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_authentication_methods, AuthMethod
-
     @auth_method = AuthMethod.find(params[:id])
     if is_master_instance?
       if @auth_method.is_defined? || @auth_method.is_custom?

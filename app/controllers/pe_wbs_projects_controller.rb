@@ -20,5 +20,4 @@
 
 #encoding: utf-8
 class PeWbsProjectsController < ApplicationController
-  load_and_authorize_resource
 end

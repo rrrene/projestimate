@@ -26,14 +26,12 @@ class PemodulesController < ApplicationController
   before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
 
   def index
-    authorize! :manage_modules, Pemodule
     set_page_title 'Modules'
     @pemodules = Pemodule.all
     @attributes = PeAttribute.defined.all
   end
 
   def new
-    authorize! :manage_modules, Pemodule
     set_page_title 'New Modules'
     @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
@@ -43,7 +41,6 @@ class PemodulesController < ApplicationController
   end
 
   def edit
-    authorize! :manage_modules, Pemodule
     set_page_title 'Edit Modules'
     @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
@@ -106,7 +103,6 @@ class PemodulesController < ApplicationController
 
   #Update attribute of the pemodule selected (2nd tabs)
   def update_selected_attributes
-    authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:module_id])
 
     attributes_ids = params[:pemodule][:pe_attribute_ids]
@@ -141,8 +137,6 @@ class PemodulesController < ApplicationController
 
   #Update attribute settings (3th tabs)
   def set_attributes_module
-    authorize! :manage_modules, Pemodule
-
     @pemodule = Pemodule.find(params[:module_id])
 
     selected_attributes = params[:attributes]
@@ -164,7 +158,6 @@ class PemodulesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])
     if @pemodule.is_defined? || @pemodule.is_custom?
       #logical deletion: delete don't have to suppress records anymore

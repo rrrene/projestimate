@@ -19,26 +19,23 @@
 ########################################################################
 
 class PeAttributesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:find_use_attribute, :check_attribute]
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attributes = PeAttribute.all
   end
 
   def new
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.new
     @attribute_categories = AttributeCategory.defined.all
   end
 
   def edit
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.find(params[:id])
     @attribute_categories = AttributeCategory.defined.all
@@ -52,7 +49,6 @@ class PeAttributesController < ApplicationController
   end
 
   def create
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.new(params[:pe_attribute])
     @attribute.options = params[:options]
@@ -68,7 +64,6 @@ class PeAttributesController < ApplicationController
 
   def update
     set_page_title "Attributes"
-    authorize! :manage_attributes, PeAttribute
     @attribute = nil
     current_attribute = PeAttribute.find(params[:id])
     if current_attribute.is_defined?
@@ -92,7 +87,6 @@ class PeAttributesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_attributes, PeAttribute
     @attribute = PeAttribute.find(params[:id])
     if @attribute.is_defined? || @attribute.is_custom?
       #logical deletion: delete don't have to suppress cds anymore on defined record

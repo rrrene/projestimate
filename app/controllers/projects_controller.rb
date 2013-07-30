@@ -507,6 +507,7 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation(start_module_project = nil, pbs_project_element_id = nil,  rest_of_module_projects = nil, set_attributes = nil)
+    authorize! :execute_estimation_plan, ModuleProject
     @project = current_project
     @my_results = Hash.new
     @last_estimation_results = Hash.new
@@ -1036,6 +1037,7 @@ class ProjectsController < ApplicationController
   end
 
   def projects_from
+    authorize! :create_project_from_template, Project
     @projects = Project.where(:is_model => true)
   end
 

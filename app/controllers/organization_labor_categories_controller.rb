@@ -19,7 +19,6 @@
 ########################################################################
 
 class OrganizationLaborCategoriesController < ApplicationController
-  load_and_authorize_resource
 
   def index
     @organization_labor_categories = OrganizationLaborCategory.all
