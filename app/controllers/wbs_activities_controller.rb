@@ -245,16 +245,16 @@ class WbsActivitiesController < ApplicationController
   def wbs_record_statuses_collection
     if @wbs_activity.new_record?
       if is_master_instance?
-        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Proposed')
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Proposed').defined
       else
-        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Local')
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Local').defined
       end
     else
       @wbs_record_status_collection = []
       if @wbs_activity.is_defined?
-        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Defined')
+        @wbs_record_status_collection = RecordStatus.where('name = ?', 'Defined').defined
       else
-        @wbs_record_status_collection = RecordStatus.where('name <> ?', 'Defined')
+        @wbs_record_status_collection = RecordStatus.where('name <> ?', 'Defined').defined
       end
     end
   end

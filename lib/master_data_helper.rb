@@ -160,7 +160,7 @@ module MasterDataHelper
 
     #Show record status collection list according to current_user permission
     def record_status_collection
-      @record_statuses = RecordStatus.defined.all
+      @record_statuses = RecordStatus
       begin
         if self.new_record?
           if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
@@ -171,7 +171,7 @@ module MasterDataHelper
         else
           @record_statuses = RecordStatus.where("name <> ?", "Defined")
         end
-
+        @record_statuses = @record_statuses.defined
       rescue
         []
       end
