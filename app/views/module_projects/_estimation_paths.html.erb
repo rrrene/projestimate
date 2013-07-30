@@ -6,15 +6,30 @@
                     jsPlumb.setRenderMode(jsPlumb.SVG);
                     jsPlumb.importDefaults({
                         Connector:"Straight",
-                        //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-                        PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
-                        Endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
-                        EndpointStyle:{ fillStyle:"#ffa500"},
-                        Anchor:"Continuous" //Anchor:"AutoDefault"
+                        PaintStyle:{ lineWidth:1, strokeStyle:"#ffa500", "dashstyle":"2 4"  }, //PaintStyle:{ lineWidth:3, strokeStyle:"#ffa500", "dashstyle":"2 4"  },
+                        EndpointStyle:{ fillStyle:"#ffa500"}
                     });
 
-                    var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"));
-                    var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias %>_<%= pmod.position_x %>_<%= pmod.position_y %>"));
+                    var anEndpointSource = {
+                     endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
+                     isSource: true,
+                     isTarget: false,
+                     maxConnections: 1,
+
+                     anchors:["BottomCenter"]
+                    };
+
+                    var anEndpointDestination = {
+                     endpoint:[ "Rectangle", { radius:4, width:4, height:4 } ],
+                     isSource: false,
+                     isTarget: true,
+                     maxConnections: 1,
+
+                     anchors:["TopCenter"]
+                    };
+
+                    var e0 = jsPlumb.addEndpoint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"), anEndpointSource);
+                    var e1 = jsPlumb.addEndpoint($(".<%= pmod.pemodule.alias %>_<%= pmod.position_x %>_<%= pmod.position_y %>"), anEndpointDestination);
 
                     e0.setEnabled(false);
                     e1.setEnabled(false);
@@ -23,12 +38,12 @@
                         source:e0,
                         target:e1,
                         endpoint:"Rectangle",
-                        connector:["Straight"],
-                        anchors:["BottomCenter", "TopCenter"]
-                        //,anchors:[[0.5, 1, 0, 1], [0.5, 0, 0,-1] ]
+                        connector:["Straight"]
                     });
                 <% end %>
             <% end %>
+
+             jsPlumb.repaintEverything();
         });
         e0 = null;
         e1 = null;
