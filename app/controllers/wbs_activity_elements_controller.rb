@@ -30,7 +30,6 @@ class WbsActivityElementsController < ApplicationController
   def new
     set_page_title 'WBS-Activity elements'
     @wbs_activity_element = WbsActivityElement.new
-    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
@@ -45,7 +44,6 @@ class WbsActivityElementsController < ApplicationController
   def edit
     set_page_title 'WBS-Activity elements'
     @wbs_activity_element = WbsActivityElement.find(params[:id])
-    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
@@ -69,7 +67,6 @@ class WbsActivityElementsController < ApplicationController
 
   def create
     @wbs_activity_element = WbsActivityElement.new(params[:wbs_activity_element])
-    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     @selected_parent ||= WbsActivityElement.find(params[:wbs_activity_element][:parent_id])
     @selected_record_status = RecordStatus.where('id = ? ', @selected_parent.record_status_id).first
@@ -105,7 +102,6 @@ class WbsActivityElementsController < ApplicationController
 
   def update
     @wbs_activity_element = WbsActivityElement.find(params[:id])
-    #@wbs_record_status_collection = wbs_record_statuses_collection
 
     @wbs_activity ||= WbsActivity.find_by_id(params[:wbs_activity_element][:wbs_activity_id])
     @potential_parents = @wbs_activity.wbs_activity_elements if @wbs_activity
@@ -132,7 +128,6 @@ class WbsActivityElementsController < ApplicationController
   def destroy
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
-    #@wbs_activity_element.destroy
     if is_master_instance?
       if @wbs_activity_element.is_defined? || @wbs_activity_element.is_custom?
         #logical deletion  delete don't have to suppress records anymore on Defined record
@@ -151,7 +146,6 @@ class WbsActivityElementsController < ApplicationController
     redirect_to edit_wbs_activity_path(@wbs_activity_element.wbs_activity, :anchor => 'tabs-2')
   end
 
-
   def show
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
@@ -162,34 +156,8 @@ class WbsActivityElementsController < ApplicationController
     end
   end
 
-  #def wbs_record_statuses_collection
-  #  @wbs_record_status_collection = []
-  #
-  #  if @wbs_activity_element.new_record?
-  #    if @wbs_activity_element.is_root
-  #      if is_master_instance?
-  #        @wbs_record_status_collection = RecordStatus.where("name = ?", "Proposed")
-  #      else
-  #        @wbs_record_status_collection = RecordStatus.where("name = ?", "Local")
-  #      end
-  #    else
-  #      element_parent = WbsActivityElement.find(params[:selected_parent_id])
-  #      @wbs_record_status_collection = RecordStatus.where("id =? ", element_parent.record_status_id)
-  #    end
-  #  else
-  #    if @wbs_activity_element.is_defined?
-  #      @wbs_record_status_collection = RecordStatus.where("name = ?", "Defined")
-  #    else
-  #      @wbs_record_status_collection = RecordStatus.where("name <> ?", "Defined")
-  #    end
-  #  end
-  #  @wbs_record_status_collection
-  #end
-
-
   def wbs_record_statuses_collection
     @wbs_record_status_collection = []
-    #if self.action_name == "new"
     if @wbs_activity_element.new_record?
       unless params[:selected_parent_id].blank?
         element_parent = WbsActivityElement.find(params[:selected_parent_id])
@@ -216,20 +184,6 @@ class WbsActivityElementsController < ApplicationController
         @wbs_record_status_collection = RecordStatus.where('name <> ? ', 'Defined')
       end
     end
-
   end
-
-
-  ##get the right selected record_status
-  #def selected_record_status
-  #  @selected_record_status = nil
-  #  if @wbs_activity_element.new_record?
-  #    element_parent = WbsActivityElement.find(params[:selected_parent_id])
-  #    @selected_record_status = RecordStatus.where("id = ? ", element_parent.record_status_id).first
-  #  else
-  #    @selected_record_status = RecordStatus.where("id = ? ", @wbs_activity_element.record_status_id).first
-  #  end
-  #  @selected_record_status
-  #end
 
 end
