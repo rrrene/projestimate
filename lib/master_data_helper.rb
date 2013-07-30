@@ -25,6 +25,8 @@ module MasterDataHelper
       scope :corresponding_local_record, lambda { |guid, loc| where("uuid = ? AND record_status_id <> ? AND (custom_value IS NULL OR custom_value <> ?)", guid, loc, "Locally edited") }
 
       scope :defined, -> { where(record_status_id: RecordStatus.find_by_name("Defined")) }
+      scope :local, -> { where(record_status_id: RecordStatus.find_by_name("Local")) }
+      scope :defined_or_local, -> { defined + local }
 
       ##Enable the amoeba gem for deep copy/clone (dup with associations)
       amoeba do

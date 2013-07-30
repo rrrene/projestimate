@@ -29,6 +29,12 @@ $(document).ready(function() {
         jsPlumb.repaintEverything();
     });
 
+    $('.module_box').add('.estimation_plan_min').scroll(
+        function(){
+            jsPlumb.repaintEverything();
+        }
+    );
+
 
     $('.tabs').tabs({
 
@@ -312,6 +318,13 @@ $(document).ready(function() {
                     module_selected: $(this).val(),
                     project_id: $("#project_id").val(),
                     pbs_project_element_id: $("#select_pbs_project_elements").val()
+                },
+                success: function(data) {
+                    //return alert("success");
+                    //jsPlumb.repaintEverything();
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    return alert("Error! :" + textStatus + ";" + errorThrown );
                 }
             });
         }

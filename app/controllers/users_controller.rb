@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     end
     @projects = Project.all
     @organizations = Organization.all
-    @groups = Group.all
+    @groups = Group.defined_or_local
     @project_users = @user.projects
     @org_users = @user.organizations
     @project_groups = @user.groups

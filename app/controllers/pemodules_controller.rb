@@ -29,7 +29,7 @@ class PemodulesController < ApplicationController
     authorize! :manage_modules, Pemodule
     set_page_title 'Modules'
     @pemodules = Pemodule.all
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
   end
 
   def new
@@ -38,7 +38,7 @@ class PemodulesController < ApplicationController
     @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @pemodule = Pemodule.new
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
     @attribute_settings = []
   end
 
@@ -60,7 +60,7 @@ class PemodulesController < ApplicationController
 
   def update
     @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
 
     @pemodule = nil
     current_pemodule = Pemodule.find(params[:id])
@@ -94,7 +94,7 @@ class PemodulesController < ApplicationController
     @pemodule.compliant_component_type = params[:compliant_wet]
     @wets = WorkElementType.all.reject{|i| i.alias == 'link'
     }
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
     @attribute_settings = []
 
     if @pemodule.save
