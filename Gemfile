@@ -63,7 +63,7 @@ gem 'ancestry'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 #Adding the 2 following gems solve the fontAwesome icon error with Firefox
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '2.3.2.1'
 gem 'font-awesome-sass-rails'
 
 #Searching
