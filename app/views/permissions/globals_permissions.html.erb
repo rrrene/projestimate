@@ -13,18 +13,27 @@
         <% end %>
       </tr>
 
-        <% for perm in @permissions %>
-          <% tr_class = cycle('even','odd') %>
-          <tr class="<%= tr_class %>">
-            <td><%= link_to perm.description, edit_permission_path(perm) %></td>
-            <% @groups.each do |group| %>
-              <td style="text-align: center;">
-                <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}")%>
-              </td>
-            <% end %>
-          </tr>
+        <% @permissions_classes.each do |cla| %>
+          <% for perm in @permissions %>
+            <% tr_class = cycle('even','odd') %>
+            <tr class="<%= tr_class %>">
+              <% if perm.object_associated.to_s == cla %>
+                <td>
+                  <%= link_to perm.description, edit_permission_path(perm) %>
+                </td>
+
+                <% @groups.each do |group| %>
+                  <td style="text-align: center;">
+                    <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}")%>
+                  </td>
+                <% end %>
+
+              <% end %>
+            </tr>
+          <% end %>
         <% end %>
       </table>
+
     <%= submit_tag I18n.t('apply'), :class => 'btn' %>
     <% end %>
 </div>

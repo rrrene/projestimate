@@ -22,21 +22,18 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def new
-    authorize! :manage_organizations, Organization
     set_page_title 'Organizations'
     @organization = Organization.new
   end
 
   def edit
     set_page_title 'Organizations'
-    authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
   end
 
   def create
-    authorize! :manage_organizations, Organization
     @organization = Organization.new(params[:organization])
 
     if @organization.save
@@ -47,7 +44,6 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
@@ -58,7 +54,6 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_organizations, Organization
     @organization = Organization.find(params[:id])
     @organization.destroy
     flash[:notice] = I18n.t (:notice_organization_successful_deleted)

@@ -32,7 +32,7 @@
             link_to('', {:controller => 'projects', :action => 'find_use_project', :project_id => project.id}, :remote => true, 'data-project_id' => project.id, :class => 'icon-info icon-large icon-border pull-left',:id => 'find_use_projects', :title => I18n.t('button_find_use')) +
             commit +
             link_to('', "projects/#{project.id}/duplicate", :class => 'icon-copy icon-large icon-border pull-left', :title => I18n.t('button_duplicate_project')) +
-            link_to('', "projects/#{project.id}/confirm_deletion", :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete'))
+            (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project)
           %>
         </td>
       </tr>

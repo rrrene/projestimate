@@ -22,8 +22,6 @@ class WbsActivityElementsController < ApplicationController
   include PeWbsHelper
   include DataValidationHelper #Module for master data changes validation
 
-  load_and_authorize_resource
-
   helper_method :wbs_record_statuses_collection
   helper_method :selected_record_status
 

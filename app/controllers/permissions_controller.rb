@@ -35,7 +35,9 @@ class PermissionsController < ApplicationController
 
   def globals_permissions
     set_page_title 'Globals Permissions'
-    @permissions = Permission.all.select{|i| !i.is_permission_project }
+    @permissions = Permission.order("object_associated").all.select{|i| !i.is_permission_project }
+    @permissions_classes = @permissions.map(&:object_associated).uniq
+
     @groups = Group.all
 
     respond_to do |format|
