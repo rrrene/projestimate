@@ -38,12 +38,12 @@ class ProjectsController < ApplicationController
       @project = Project.new :state => 'preliminary'
     end
     @user = @project.users.first
-    @project_areas = ProjectArea.defined_or_local
-    @platform_categories = PlatformCategory.defined_or_local
-    @acquisition_categories = AcquisitionCategory.defined_or_local
-    @project_categories = ProjectCategory.defined_or_local
+    @project_areas = ProjectArea.defined
+    @platform_categories = PlatformCategory.defined
+    @acquisition_categories = AcquisitionCategory.defined
+    @project_categories = ProjectCategory.defined
 
-    @pemodules ||= Pemodule.all
+    @pemodules ||= Pemodule.defined
     @project_modules = @project.pemodules
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
@@ -120,8 +120,6 @@ class ProjectsController < ApplicationController
                            :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
                            :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
                            :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
-                           #:custom_attribute => am.custom_attribute,
-                           #:project_value => am.project_value)
                   end
                 end
               end
@@ -201,9 +199,7 @@ class ProjectsController < ApplicationController
         ps.project_security_level_id = params["group_securities_#{gpe.id}"]
         ps.save
       elsif !params["group_securities_#{gpe.id}"].blank?
-        ProjectSecurity.create(:group_id => gpe.id,
-                               :project_id => @project.id,
-                               :project_security_level_id => params["group_securities_#{gpe.id}"])
+        ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
       end
     end
 
@@ -326,10 +322,10 @@ class ProjectsController < ApplicationController
       @project_area = ProjectArea.find_by_name(params[:project_area_selected])
     end
 
-    @project_areas = ProjectArea.defined_or_local
-    @platform_categories = PlatformCategory.defined_or_local
-    @acquisition_categories = AcquisitionCategory.defined_or_local
-    @project_categories = ProjectCategory.defined_or_local
+    @project_areas = ProjectArea.defined
+    @platform_categories = PlatformCategory.defined
+    @acquisition_categories = AcquisitionCategory.defined
+    @project_categories = ProjectCategory.defined
   end
 
   #Change selected project ("Jump to a project" select box)
@@ -411,8 +407,8 @@ class ProjectsController < ApplicationController
     end
 
     unless params[:module_selected].nil? || @project.nil?
-      @array_modules = Pemodule.defined_or_local
-      @pemodules ||= Pemodule.defined_or_local
+      @array_modules = Pemodule.defined
+      @pemodules ||= Pemodule.defined
 
       #Max pos or 1
       @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1

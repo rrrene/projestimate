@@ -35,7 +35,7 @@ class PemodulesController < ApplicationController
   def new
     authorize! :manage_modules, Pemodule
     set_page_title 'New Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @pemodule = Pemodule.new
     @attributes = PeAttribute.defined.all
@@ -45,7 +45,7 @@ class PemodulesController < ApplicationController
   def edit
     authorize! :manage_modules, Pemodule
     set_page_title 'Edit Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
@@ -59,7 +59,7 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @attributes = PeAttribute.defined.all
 
     @pemodule = nil
@@ -92,7 +92,7 @@ class PemodulesController < ApplicationController
     @pemodule.alias =  params[:pemodule][:alias].downcase
 
     @pemodule.compliant_component_type = params[:compliant_wet]
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link'
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link'
     }
     @attributes = PeAttribute.defined.all
     @attribute_settings = []

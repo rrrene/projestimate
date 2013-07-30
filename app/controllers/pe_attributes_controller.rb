@@ -34,14 +34,14 @@ class PeAttributesController < ApplicationController
     authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.new
-    @attribute_categories = AttributeCategory.all
+    @attribute_categories = AttributeCategory.defined.all
   end
 
   def edit
     authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes"
     @attribute = PeAttribute.find(params[:id])
-    @attribute_categories = AttributeCategory.all
+    @attribute_categories = AttributeCategory.defined.all
 
     unless @attribute.child_reference.nil?
       if @attribute.child_reference.is_proposed_or_custom?

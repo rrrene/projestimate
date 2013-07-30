@@ -24,8 +24,8 @@ class ProjectSecuritiesController < ApplicationController
   def index
     authorize! :manage_project_securities, ProjectSecurity
     set_page_title 'Projects Securities'
-    @project_security_levels = ProjectSecurityLevel.all
-    @permissions = @permissions = Permission.all.select{|i| i.is_permission_project }
+    @project_security_levels = ProjectSecurityLevel.defined
+    @permissions = @permissions = Permission.defined.select{|i| i.is_permission_project }
   end
 
   def new

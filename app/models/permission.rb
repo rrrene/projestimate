@@ -32,6 +32,6 @@ class Permission < ActiveRecord::Base
 
   validates_presence_of :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :presence => true
+  validates :name, :description, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
 end

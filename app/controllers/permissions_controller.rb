@@ -35,8 +35,8 @@ class PermissionsController < ApplicationController
 
   def globals_permissions
     set_page_title 'Globals Permissions'
-    @permissions = Permission.all.select{|i| !i.is_permission_project }
-    @groups = Group.all
+    @permissions = Permission.defined.select{|i| !i.is_permission_project }
+    @groups = Group.defined_or_local
 
     respond_to do |format|
       format.html # index.html.erb
@@ -63,7 +63,7 @@ class PermissionsController < ApplicationController
   def create
     @permission = Permission.new(params[:permission])
 
-    @groups = Group.all
+    @groups = Group.defined_or_local
 
     @permission.name = params[:permission][:name].underscore.gsub(" ", "_")
 
@@ -109,8 +109,8 @@ class PermissionsController < ApplicationController
   #Set all global rights
   def set_rights
 
-    @groups = Group.all
-    @permissions = Permission.all
+    @groups = Group.defined_or_local
+    @permissions = Permission.defined
 
     @groups.each do |group|
       group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
@@ -123,8 +123,8 @@ class PermissionsController < ApplicationController
   end
 
   def set_rights_project_security
-    @project_security_levels = ProjectSecurityLevel.all
-    @permissions = Permission.all
+    @project_security_levels = ProjectSecurityLevel.defined
+    @permissions = Permission.defined
 
     @project_security_levels.each do |psl|
       psl.update_attribute('permission_ids', params[:permissions][psl.id.to_s])

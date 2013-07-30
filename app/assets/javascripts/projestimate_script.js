@@ -35,7 +35,6 @@ $(document).ready(function() {
         }
     );
 
-
     $('.tabs').tabs({
 
         show: function (event, ui) {

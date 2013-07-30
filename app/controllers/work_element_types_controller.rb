@@ -43,7 +43,7 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_work_element_type, WorkElementType
     set_page_title 'Work Element Type'
     @work_element_type = WorkElementType.find(params[:id])
-    @peicons = Peicon.all
+    @peicons = Peicon.defined
 
     unless @work_element_type.child_reference.nil?
       if @work_element_type.child_reference.is_proposed_or_custom?
@@ -57,7 +57,7 @@ class WorkElementTypesController < ApplicationController
     authorize! :manage_work_element_type, WorkElementType
     @work_element_type = WorkElementType.new(params[:work_element_type])
 
-    @peicons = Peicon.all
+    @peicons = Peicon.defined
     peicon = Peicon.find_by_name('Default')
     @work_element_type.peicon_id = peicon.nil? ? nil : peicon.id
 
@@ -79,7 +79,7 @@ class WorkElementTypesController < ApplicationController
       @work_element_type = current_work_element_type
     end
 
-    @peicons = Peicon.all
+    @peicons = Peicon.defined
 
     if @work_element_type.update_attributes(params[:work_element_type])
       flash[:notice] =  I18n.t (:notice_work_element_type_successful_updated)
