@@ -38,10 +38,11 @@ class ProjectsController < ApplicationController
       @project = Project.new :state => 'preliminary'
     end
     @user = @project.users.first
-    @project_areas = ProjectArea.all
-    @platform_categories = PlatformCategory.all
-    @acquisition_categories = AcquisitionCategory.all
-    @project_categories = ProjectCategory.all
+    @project_areas = ProjectArea.defined_or_local
+    @platform_categories = PlatformCategory.defined_or_local
+    @acquisition_categories = AcquisitionCategory.defined_or_local
+    @project_categories = ProjectCategory.defined_or_local
+
     @pemodules ||= Pemodule.all
     @project_modules = @project.pemodules
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -325,10 +326,10 @@ class ProjectsController < ApplicationController
       @project_area = ProjectArea.find_by_name(params[:project_area_selected])
     end
 
-    @project_areas = ProjectArea.all
-    @platform_categories = PlatformCategory.all
-    @acquisition_categories = AcquisitionCategory.all
-    @project_categories = ProjectCategory.all
+    @project_areas = ProjectArea.defined_or_local
+    @platform_categories = PlatformCategory.defined_or_local
+    @acquisition_categories = AcquisitionCategory.defined_or_local
+    @project_categories = ProjectCategory.defined_or_local
   end
 
   #Change selected project ("Jump to a project" select box)
@@ -410,8 +411,8 @@ class ProjectsController < ApplicationController
     end
 
     unless params[:module_selected].nil? || @project.nil?
-      @array_modules = Pemodule.all
-      @pemodules ||= Pemodule.all
+      @array_modules = Pemodule.defined_or_local
+      @pemodules ||= Pemodule.defined_or_local
 
       #Max pos or 1
       @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
