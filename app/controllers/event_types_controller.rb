@@ -20,22 +20,18 @@
 
 class EventTypesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
 
   before_filter :get_record_statuses
 
   def index
-    authorize! :manage_event_types, EventType
     @event_types = EventType.all
   end
 
   def new
-    authorize! :manage_event_types, EventType
     @event_type = EventType.new
   end
 
   def edit
-    authorize! :manage_event_types, EventType
     @event_type = EventType.find(params[:id])
 
     unless @event_type.child_reference.nil?
@@ -47,13 +43,11 @@ class EventTypesController < ApplicationController
   end
 
   def create
-    authorize! :manage_event_types, EventType
     @event_type = EventType.new(params[:event_type])
     redirect_to event_types_path #event_type_url
   end
 
   def update
-    authorize! :manage_event_types, EventType
     @event_type = nil
     current_event_type = EventType.find(params[:id])
     if current_event_type.is_defined?
@@ -72,7 +66,6 @@ class EventTypesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_event_types, EventType
     @event_type = EventType.find(params[:id])
     if @event_type.is_defined? || @event_type.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record

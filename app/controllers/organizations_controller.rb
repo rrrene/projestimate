@@ -22,11 +22,15 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def new
+    authorize! :edit_organization, Organization
+
     set_page_title 'Organizations'
     @organization = Organization.new
   end
 
   def edit
+    authorize! :edit_organization, Organization
+
     set_page_title 'Organizations'
     @organization = Organization.find(params[:id])
     @attributes = PeAttribute.defined.all
@@ -44,6 +48,8 @@ class OrganizationsController < ApplicationController
   end
 
   def update
+    authorize! :edit_organization, Organization
+
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = I18n.t (:notice_organization_successful_updated)

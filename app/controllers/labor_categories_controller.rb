@@ -25,11 +25,15 @@ class LaborCategoriesController < ApplicationController
   before_filter :get_record_statuses
 
   def index
+    authorize! :create_and_edit_labor_categories, LaborCategory
+
     set_page_title 'Labors Categories'
     @labor_categories = LaborCategory.all
   end
 
   def new
+    authorize! :create_and_edit_labor_categories, LaborCategory
+
     set_page_title 'Labors Categories'
     @labor_category = LaborCategory.new
 
@@ -39,6 +43,8 @@ class LaborCategoriesController < ApplicationController
   end
 
   def edit
+    authorize! :create_and_edit_labor_categories, LaborCategory
+
     set_page_title 'Labors Categories'
     @labor_category = LaborCategory.find(params[:id])
 
@@ -51,6 +57,8 @@ class LaborCategoriesController < ApplicationController
   end
 
   def create
+    authorize! :create_and_edit_labor_categories, LaborCategory
+
     @labor_category = LaborCategory.new(params[:labor_category])
     if @labor_category.save
       flash[:notice] = I18n.t (:notice_labor_category_successful_created)
@@ -61,6 +69,8 @@ class LaborCategoriesController < ApplicationController
   end
 
   def update
+    authorize! :create_and_edit_labor_categories, LaborCategory
+
     @labor_category = nil
     current_labor_category = LaborCategory.find(params[:id])
     if current_labor_category.is_defined?

@@ -25,7 +25,6 @@ class AttributeCategoriesController < ApplicationController
                                # GET /attribute_categories
                                # GET /attribute_categories.json
   def index
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_categories = AttributeCategory.all
 
@@ -38,14 +37,12 @@ class AttributeCategoriesController < ApplicationController
   # GET /attribute_categories/new
   # GET /attribute_categories/new.json
   def new
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new
   end
 
   # GET /attribute_categories/1/edit
   def edit
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.find(params[:id])
   end
@@ -53,7 +50,6 @@ class AttributeCategoriesController < ApplicationController
   # POST /attribute_categories
   # POST /attribute_categories.json
   def create
-    authorize! :manage_attributes, PeAttribute
     set_page_title "Attributes Categories"
     @attribute_category = AttributeCategory.new(params[:attribute_category])
 

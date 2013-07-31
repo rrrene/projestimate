@@ -25,17 +25,23 @@ class PeAttributesController < ApplicationController
   before_filter :get_record_statuses
 
   def index
+    authorize! :create_and_edit_attributes, PeAttribute
+
     set_page_title "Attributes"
     @attributes = PeAttribute.all
   end
 
   def new
+    authorize! :create_and_edit_attributes, PeAttribute
+
     set_page_title "Attributes"
     @attribute = PeAttribute.new
     @attribute_categories = AttributeCategory.defined.all
   end
 
   def edit
+    authorize! :create_and_edit_attributes, PeAttribute
+
     set_page_title "Attributes"
     @attribute = PeAttribute.find(params[:id])
     @attribute_categories = AttributeCategory.defined.all
@@ -49,6 +55,8 @@ class PeAttributesController < ApplicationController
   end
 
   def create
+    authorize! :create_and_edit_attributes, PeAttribute
+
     set_page_title "Attributes"
     @attribute = PeAttribute.new(params[:pe_attribute])
     @attribute.options = params[:options]
@@ -63,6 +71,8 @@ class PeAttributesController < ApplicationController
   end
 
   def update
+    authorize! :create_and_edit_attributes, PeAttribute
+
     set_page_title "Attributes"
     @attribute = nil
     current_attribute = PeAttribute.find(params[:id])
