@@ -64,7 +64,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 #Adding the 2 following gems solve the fontAwesome icon error with Firefox
 gem 'bootstrap-sass', '2.3.2.1'
-gem 'font-awesome-sass-rails'#, '3.0.2.2'
+gem 'font-awesome-sass-rails', '3.0.2.2'
 
 #Searching
 gem 'sunspot_rails'
@@ -130,6 +130,7 @@ group :test do
   gem 'simplecov', :require => false, :group => :test
   # run some required services using foreman start, more on this at the end of the article
   gem 'foreman'
+
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), 'Gemfile.local')

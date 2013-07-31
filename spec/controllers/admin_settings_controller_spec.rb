@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 describe AdminSettingsController do
+
+  def setup
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stubs(:current_ability).returns(@ability)
+  end
+
+  before do
+    @user = login_as_admin
+
+    #@abilities = Ability.new(@user)
+    #Ability.stub(:new).and_return(@abilities)
+
+    #@ability = Object.new
+    #@ability.extend(CanCan::Ability)
+    #@controller.stubs(:current_ability).returns(@ability)
+  end
+
   before :each do
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
     @proposed_status = FactoryGirl.build(:proposed_status)
@@ -9,9 +27,11 @@ describe AdminSettingsController do
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, AdminSetting
       get :index
       response.should render_template("index")
     end
+
     it "assigns all admin_setting as @@admin_setting" do
       get :index
       assigns(:admin_setting)==(@admin_setting)
@@ -20,9 +40,11 @@ describe AdminSettingsController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :read, AdminSetting
       get :new
       response.should render_template("new")
     end
+
     it "assigns a new admin_setting as @admin_setting" do
       get :new
       assigns(:admin_setting).should be_a_new_record
