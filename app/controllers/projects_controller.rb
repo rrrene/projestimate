@@ -288,6 +288,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    authorize! :delete_project, Project
     @project = Project.find(params[:id])
     case params[:commit]
       when I18n.t('delete')

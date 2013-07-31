@@ -20,18 +20,22 @@
 
 class PemodulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_and_authorize_resource :only => [:index, :edit, :update, :create, :destroy]
 
   before_filter :get_record_statuses
   before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
 
   def index
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'Modules'
     @pemodules = Pemodule.all
     @attributes = PeAttribute.defined.all
   end
 
   def new
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'New Modules'
     @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
@@ -41,6 +45,8 @@ class PemodulesController < ApplicationController
   end
 
   def edit
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'Edit Modules'
     @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
@@ -56,6 +62,8 @@ class PemodulesController < ApplicationController
   end
 
   def update
+    authorize! :create_and_edit_modules, Pemodule
+
     @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @attributes = PeAttribute.defined.all
 
@@ -85,6 +93,8 @@ class PemodulesController < ApplicationController
 
 
   def create
+    authorize! :create_and_edit_modules, Pemodule
+
     @pemodule = Pemodule.new(params[:pemodule])
     @pemodule.alias =  params[:pemodule][:alias].downcase
 

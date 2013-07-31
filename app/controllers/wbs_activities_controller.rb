@@ -31,6 +31,8 @@ class WbsActivitiesController < ApplicationController
   before_filter :get_record_statuses
 
   def import
+    authorize! :create_edit_wbs_activities, WbsActivity
+
     begin
       WbsActivityElement.import(params[:file], params[:separator])
       flash[:notice] = I18n.t (:notice_wbs_activity_element_import_successful)
@@ -42,6 +44,8 @@ class WbsActivitiesController < ApplicationController
   end
 
   def refresh_ratio_elements
+    authorize! :create_edit_wbs_activities, WbsActivity
+
     @wbs_activity_ratio_elements = []
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     wbs_activity_elements_list = WbsActivityElement.where(:wbs_activity_id => @wbs_activity_ratio.wbs_activity.id).all
@@ -55,11 +59,14 @@ class WbsActivitiesController < ApplicationController
   end
 
   def index
+    authorize! :edit_wbs_activities, WbsActivity
     set_page_title 'WBS activities'
     @wbs_activities = WbsActivity.all
   end
 
   def edit
+    authorize! :edit_wbs_activities, WbsActivity
+
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
 
@@ -86,6 +93,8 @@ class WbsActivitiesController < ApplicationController
   end
 
   def update
+    authorize! :edit_wbs_activities, WbsActivity
+
     @wbs_activity = WbsActivity.find(params[:id])
     @wbs_activity_elements = @wbs_activity.wbs_activity_elements
     @wbs_activity_ratios = @wbs_activity.wbs_activity_ratios
@@ -111,11 +120,15 @@ class WbsActivitiesController < ApplicationController
   end
 
   def new
+    authorize! :create_edit_wbs_activities, WbsActivity
+
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.new
   end
 
   def create
+    authorize! :create_edit_wbs_activities, WbsActivity
+
     @wbs_activity = WbsActivity.new(params[:wbs_activity])
     #If we are on local instance, Status is set to "Local"
     if is_master_instance?
