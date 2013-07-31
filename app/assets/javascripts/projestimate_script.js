@@ -211,8 +211,15 @@ $(document).ready(function() {
         }
     );
 
+    $(".pbs").resizable({
+        alsoResizeReverse: ".estimation_plan",
+    });
 
-    //Need to disable or enable the custom_value field according to the record_status value
+    $(".i").resizable({
+        alsoResizeReverse: ".o",
+    });
+
+//Need to disable or enable the custom_value field according to the record_status value
     $(".record_status").change(function(){
         var status_text = $('select.record_status :selected').text();
         if(status_text == "Custom"){

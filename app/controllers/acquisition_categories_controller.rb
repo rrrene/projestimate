@@ -25,13 +25,11 @@ class AcquisitionCategoriesController < ApplicationController
   load_and_authorize_resource
 
   def new
-    authorize! :manage_acquisition_categories, AcquisitionCategory
     set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.new
   end
 
   def edit
-    authorize! :manage_acquisition_categories, AcquisitionCategory
     set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.find(params[:id])
 
@@ -44,7 +42,6 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def create
-    authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = I18n.t (:notice_acquisition_category_successful_created)
@@ -55,7 +52,6 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def update
-    authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = nil
     current_acquisition_category = AcquisitionCategory.find(params[:id])
     if current_acquisition_category.record_status == @defined_status
@@ -74,7 +70,6 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_acquisition_categories, AcquisitionCategory
     @acquisition_category = AcquisitionCategory.find(params[:id])
     if @acquisition_category.is_defined? || @acquisition_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on Defined record
