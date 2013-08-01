@@ -704,6 +704,8 @@ div.block_label.selected_pbs {
     color: #000000;
 }
 
+.main{margin-top: -10px;}
+
 
 /* override the font-awesome.css*/
 @font-face {
