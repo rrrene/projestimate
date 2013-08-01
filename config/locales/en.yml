@@ -605,6 +605,7 @@ en:
   last_login: "Last login"
   previous_login: "Previous login"
   time_zone: "Time zone"
+  object_per_page: "Object per page"
   assistance: "Assistance"
   notifications: "Notifications"
   display_format: "Display format"

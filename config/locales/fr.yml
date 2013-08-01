@@ -605,6 +605,7 @@ fr:
   last_login: "Dernière connexion"
   previous_login: "Connexion précédente"
   time_zone: "Fuseau horaire"
+  object_per_page: "Object par page"
   assistance: "Aide"
   notifications: "Notifications"
   display_format: "Format d'affichage"
