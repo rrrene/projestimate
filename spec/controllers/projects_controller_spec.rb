@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe ProjectsController do
+
+  before do
+    login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
+
   before :each do
     @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
     @user = FactoryGirl.build(:user)
@@ -20,10 +28,13 @@ describe ProjectsController do
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, Project
       get :index
       response.should render_template("index")
     end
+
     it "assigns all projects as @projects" do
+      @ability.can :read, Project
       get :index
       assigns(:project)==(@project1)
     end
@@ -31,11 +42,14 @@ describe ProjectsController do
 
   describe "New" do
     it "renders the new template" do
+      #@ability.can :create, Project
+      @ability.can :manage, User
       get :new
       response.should render_template("new")
     end
 
     it "assigns a new attributes as @attribute" do
+      @ability.can :create, Project
       get :new, :project => {:title => 'New Projet', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
       assigns(:project).should be_a_new_record
     end
@@ -43,6 +57,7 @@ describe ProjectsController do
 
   describe "POST Create" do
     it "renders the create template" do
+      @ability.can :create, Project
       get :new
       response.should render_template("new")
     end

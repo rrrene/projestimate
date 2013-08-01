@@ -1,10 +1,20 @@
 require 'spec_helper'
+
 describe GroupsController do
+
+  before do
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
+
   before :each do
     @group = FactoryGirl.create(:group)
     @project = FactoryGirl.create(:project)
     @proposed_status = FactoryGirl.build(:proposed_status)
   end
+
   describe "GET index" do
     it "renders the index template" do
       get :index
@@ -15,6 +25,7 @@ describe GroupsController do
       assigns(:group)==(@group)
     end
   end
+
   describe "New" do
     it "renders the new template" do
       get :new

@@ -22,9 +22,14 @@ describe Permission do
     @permission.should_not be_valid
   end
 
-  it "should be not valid without :is_permission_project" do
-    @permission.is_permission_project = ""
+  it "should be not valid without :description" do
+    @permission.description = ""
     @permission.should_not be_valid
   end
+
+  #it "should be not valid without :is_permission_project" do
+  #  @permission.is_permission_project = ""
+  #  @permission.should_not be_valid
+  #end
 
 end
