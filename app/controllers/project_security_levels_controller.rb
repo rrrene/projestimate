@@ -25,15 +25,18 @@ class ProjectSecurityLevelsController < ApplicationController
   before_filter :get_record_statuses
 
   def index
-
+    set_page_title 'Project security levels'
     @project_security_levels = ProjectSecurityLevel.all
   end
 
   def new
+    set_page_title 'Project security levels'
     @project_security_level = ProjectSecurityLevel.new
   end
 
   def edit
+    set_page_title 'Project security levels'
+
     @project_security_level = ProjectSecurityLevel.find(params[:id])
 
     unless @project_security_level.child_reference.nil?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801064459) do
+ActiveRecord::Schema.define(:version => 20130801065856) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -628,6 +628,7 @@ ActiveRecord::Schema.define(:version => 20130801064459) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.text     "description"
   end
 
   add_index "project_security_levels", ["record_status_id"], :name => "index_project_security_levels_on_record_status_id"

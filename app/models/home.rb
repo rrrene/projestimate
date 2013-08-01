@@ -99,7 +99,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ['name', 'alias', 'description', 'uuid'])
 
     puts 'Create project security level...'
-    self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
 
     puts 'Create global permissions...'
     self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
@@ -537,7 +537,7 @@ class Home < ActiveRecord::Base
     user.save
 
     puts '   - Create project security level...'
-    self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
 
     puts '   - Create global permissions...'
     self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
