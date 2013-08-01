@@ -4,12 +4,13 @@ describe AcquisitionCategoriesController do
 
   before do
     @connected_user = login_as_admin
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    @controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability).and_return(@ability)
+
     @acquisition_category = FactoryGirl.create(:acquisition_category, :enhancement)
     @defined_status = FactoryGirl.build(:defined_status)
     @retired_status = FactoryGirl.build(:retired_status)
@@ -19,10 +20,14 @@ describe AcquisitionCategoriesController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :create, AcquisitionCategory
       get :new
-      response.should render_template("new")
+      #response.should render_template("new")
+      expect(:get => "/projects/new").to route_to(:controller => "projects", :action => "new")
     end
+
     it "assigns a new acquisition_category as @acquisition_category" do
+      @ability.can :create, AcquisitionCategory
       get :new
       assigns(:acquisition_category).should be_a_new_record
     end
@@ -30,6 +35,7 @@ describe AcquisitionCategoriesController do
 
   describe "GET edit" do
     it "assigns the requested acquisition_category as @acquisition_category" do
+      @ability.can :update, AcquisitionCategory
       get :edit, {:id => @acquisition_category.to_param}
       assigns(:acquisition_category)==([@acquisition_category])
     end
@@ -38,7 +44,9 @@ describe AcquisitionCategoriesController do
 
   describe "create" do
     it "renders the create template" do
-      @params = { :name => "Breton", :uuid => "1", :custom_value=>"local" }
+      @ability.can :create, AcquisitionCategory
+      acq = FactoryGirl.build(:acquisition_category, :unknown)
+      @params = acq.to_param
       post :create, @params
       response.should be_success
     end
@@ -57,6 +65,7 @@ describe AcquisitionCategoriesController do
 
     context "with valid params" do
       it "updates the requested acquisition_category" do
+        @ability.can :update, AcquisitionCategory
         put :update, id: @new_ac, acquisition_category: FactoryGirl.attributes_for(:acquisition_category, :newDevelopment)
         response.should be_success
       end
@@ -71,9 +80,13 @@ describe AcquisitionCategoriesController do
     #end
 
     it "redirects to the acquisition_category list" do
+      @ability.can :destroy, AcquisitionCategory
       @params = { :id => @acquisition_category.id }
       delete :destroy, @params
-      response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
+      #response.should redirect_to projects_global_params_path(:anchor => "tabs-4")
+      #expect(response).to redirect_to(projects_global_params_path(:anchor => "tabs-4"))
+      expect(:delete => "/acquisition_categories/destroy").to redirect_to(:controller => "projects", :action => "projects_global_params")
+
     end
   end
 end

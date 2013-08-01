@@ -2,19 +2,11 @@ require 'spec_helper'
 
 describe AdminSettingsController do
 
-  before do
+  before :each do
     @user = login_as_admin
-
     @ability = Object.new
     @ability.extend(CanCan::Ability)
-    #@controller.stubs(:current_ability).returns(@ability)
     @controller.stub(:current_ability).and_return(@ability)
-
-    #@abilities = Ability.new(@user)
-    #Ability.stub(:new).and_return(@abilities)
-  end
-
-  before :each do
 
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
     @proposed_status = FactoryGirl.build(:proposed_status)

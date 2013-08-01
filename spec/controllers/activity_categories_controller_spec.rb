@@ -2,20 +2,19 @@ require 'spec_helper'
 
 describe ActivityCategoriesController do
 
-  before do
+  before :each do
     @connected_user = login_as_admin
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     @controller.stub(:current_ability).and_return(@ability)
-  end
 
-  before :each do
     @activity_category = FactoryGirl.create(:activity_category)
     @params = { :id => @activity_category.id }
   end
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, ActivityCategory
       get :index
       response.should render_template("index")
     end
@@ -27,10 +26,14 @@ describe ActivityCategoriesController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :create, ActivityCategory
       get :new
-      response.should render_template("new")
+      #response.should render_template("new")
+      expect(:get => "/activity_categories/new").to route_to(:controller => "activity_categories", :action => "new")
     end
+
     it "assigns a new activity_category as @activity_category" do
+      @ability.can :create, ActivityCategory
       get :new
       assigns(:activity_category).should be_a_new_record
     end
@@ -38,6 +41,7 @@ describe ActivityCategoriesController do
 
   describe "GET edit" do
     it "assigns the requested activity_category as @activity_category" do
+      @ability.can :update, ActivityCategory
       get :edit, {:id => @activity_category.to_param}
       assigns(:activity_category)==([@activity_category])
     end
@@ -60,8 +64,10 @@ describe ActivityCategoriesController do
     before :each do
       @new_activity_category = FactoryGirl.create(:activity_category)
     end
+
     context "with valid params" do
       it "updates the requested acquisition_category" do
+        @ability.can :update, ActivityCategory
         #@params = { :id=> @activity_category.id,:name => "FRench",:alias=>"test",:description=>"test", :record_status=>23, :uuid => "1", :custom_value=>"custom" }
         put :update, id: @new_activity_category, activity_category: FactoryGirl.attributes_for(:activity_category)
         response.should be_success
