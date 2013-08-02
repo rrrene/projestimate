@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801065856) do
+ActiveRecord::Schema.define(:version => 20130802063117) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -398,6 +398,16 @@ ActiveRecord::Schema.define(:version => 20130801065856) do
     t.integer  "days_per_year"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "organization_technologies", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "alias"
+    t.text     "description"
+    t.float    "productivity_ratio"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "organizations", :force => true do |t|
@@ -813,8 +823,8 @@ ActiveRecord::Schema.define(:version => 20130801065856) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
     t.datetime "created_at",                      :null => false
