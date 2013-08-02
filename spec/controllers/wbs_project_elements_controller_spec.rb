@@ -20,9 +20,14 @@ require 'spec_helper'
 
 describe WbsProjectElementsController do
 
-  before :each do
-    #login_as_admin
+  before do
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
 
+  before :each do
     @project = FactoryGirl.create(:project)
     @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => "Activity", :project => @project)
     @wbs_project_element = FactoryGirl.create(:wbs_project_element, :is_root => true, :pe_wbs_project => @pe_wbs_project, author: @user)

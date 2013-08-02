@@ -20,6 +20,84 @@ require 'spec_helper'
 
 describe AttributeCategoriesController do
 
+  before :each do
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability).and_return(@ability)
+
+    @attribute_category = FactoryGirl.create(:quality_in_use)
+    @defined_status = FactoryGirl.build(:defined_status)
+    @retired_status = FactoryGirl.build(:retired_status)
+    @params = { :id => @attribute_category.id }
+
+  end
+
+  describe "Index" do
+    it "renders the new template" do
+      @ability.can :read, AttributeCategory
+      get :index
+      response.should render_template("index")
+    end
+  end
+
+  describe "New" do
+    it "renders the new template" do
+      @ability.can :create, AttributeCategory
+      get :new
+      response.should render_template("new")
+    end
+
+    it "assigns a new attribute_category as @attribute_category" do
+      get :new
+      assigns(:attribute_category).should be_a_new_record
+    end
+  end
+
+  describe "GET edit" do
+    it "assigns the requested attribute_category as @attribute_category" do
+      get :edit, {:id => @attribute_category.to_param}
+      assigns(:attribute_category)==([@attribute_category])
+    end
+  end
+
+
+  describe "create" do
+    it "renders the create template" do
+      @params = { :name => "Software Size", :alias=>"software_size", :uuid => "1", :custom_value=>"local" }
+      post :create, @params
+      response.should be_success
+    end
+  end
+
+  describe "PUT update" do
+    before :each do
+      @new_ac =  FactoryGirl.create(:product_quality)
+    end
+
+    #context "with valid params" do
+    #  it "updates the requested activity_category" do
+    #    put :update, id: @new_ac, attribute_category: FactoryGirl.attributes_for(:product_quality)
+    #    response.should be_success
+    #  end
+    #end
+  end
+
+  describe "DELETE destroy" do
+    #it "destroys the requested @acquisition_category" do
+    #    @params = { :id => @acquisition_category.id }
+    #    delete :destroy, @params
+    #    response.should be_success
+    #end
+
+    it "redirects to the acquisition_category list" do
+      @params = { :id => @attribute_category.id }
+      delete :destroy, @params
+      response.should redirect_to attribute_categories_path
+    end
+  end
+
+
   ## This should return the minimal set of attributes required to create a valid
   ## AttributeCategory. As you add validations to AttributeCategory, be sure to
   ## adjust the attributes here as well.
@@ -156,75 +234,5 @@ describe AttributeCategoriesController do
   #    response.should redirect_to(attribute_categories_url)
   #  end
   #end
-
-  before :each do
-    @attribute_category = FactoryGirl.create(:quality_in_use)
-    @defined_status = FactoryGirl.build(:defined_status)
-    @retired_status = FactoryGirl.build(:retired_status)
-    @params = { :id => @attribute_category.id }
-
-  end
-
-
-  describe "Index" do
-    it "renders the new template" do
-      get :index
-      response.should render_template("index")
-    end
-  end
-
-  describe "New" do
-    it "renders the new template" do
-      get :new
-      response.should render_template("new")
-    end
-    it "assigns a new attribute_category as @attribute_category" do
-      get :new
-      assigns(:attribute_category).should be_a_new_record
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested attribute_category as @attribute_category" do
-      get :edit, {:id => @attribute_category.to_param}
-      assigns(:attribute_category)==([@attribute_category])
-    end
-  end
-
-
-  describe "create" do
-    it "renders the create template" do
-      @params = { :name => "Software Size", :alias=>"software_size", :uuid => "1", :custom_value=>"local" }
-      post :create, @params
-      response.should be_success
-    end
-  end
-
-  describe "PUT update" do
-    before :each do
-      @new_ac =  FactoryGirl.create(:product_quality)
-    end
-
-    #context "with valid params" do
-    #  it "updates the requested activity_category" do
-    #    put :update, id: @new_ac, attribute_category: FactoryGirl.attributes_for(:product_quality)
-    #    response.should be_success
-    #  end
-    #end
-  end
-
-  describe "DELETE destroy" do
-    #it "destroys the requested @acquisition_category" do
-    #    @params = { :id => @acquisition_category.id }
-    #    delete :destroy, @params
-    #    response.should be_success
-    #end
-
-    it "redirects to the acquisition_category list" do
-      @params = { :id => @attribute_category.id }
-      delete :destroy, @params
-      response.should redirect_to attribute_categories_path
-    end
-  end
 
 end

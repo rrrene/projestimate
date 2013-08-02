@@ -1,7 +1,15 @@
 require 'spec_helper'
 
 describe ProjectsController do
+
   before :each do
+
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability).and_return(@ability)
+
+
     @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
     @user = FactoryGirl.build(:user)
 
@@ -20,10 +28,14 @@ describe ProjectsController do
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, Project
       get :index
-      response.should render_template("index")
+      #response.should render_template("index")
+      expect(:get => "/projects").to route_to(:controller => "projects", :action => "index")
     end
+
     it "assigns all projects as @projects" do
+      @ability.can :read, Project
       get :index
       assigns(:project)==(@project1)
     end
@@ -31,20 +43,24 @@ describe ProjectsController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :create, Project
       get :new
-      response.should render_template("new")
+      expect(:get => "/projects").to route_to(:controller => "projects", :action => "index")
     end
 
     it "assigns a new attributes as @attribute" do
-      get :new, :project => {:title => 'New Projet', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
+      @ability.can :create, Project
+      get :new, :project => {:title => 'New Project', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
       assigns(:project).should be_a_new_record
     end
   end
 
   describe "POST Create" do
     it "renders the create template" do
-      get :new
-      response.should render_template("new")
+      @ability.can :create, Project
+      post :create
+      #response.should render_template("new")
+      expect(:post => "/projects").to route_to(:controller => "projects", :action => "create")
     end
   end
 
