@@ -45,7 +45,7 @@ describe ProjectsController do
     it "renders the new template" do
       @ability.can :create, Project
       get :new
-      expect(:get => "/projects").to route_to(:controller => "projects", :action => "index")
+      expect(:get => "/projects/new").to route_to(:controller => "projects", :action => "new")
     end
 
     it "assigns a new attributes as @attribute" do

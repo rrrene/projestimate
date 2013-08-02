@@ -62,6 +62,9 @@ Spork.each_run do
     #     --seed 1234
     config.order = "random"
 
+    #Render views globally
+    config.render_views
+
     #Manage user authentication on test
     #config.include Devise::TestHelpers, :type => :controller
     config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller

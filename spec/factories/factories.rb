@@ -8,12 +8,24 @@ FactoryGirl.define do
     "#{UUIDTools::UUID.random_create.to_s}"
   end
 
+  sequence :first_name do |n|
+    "Admin_#{n}"
+  end
+
+  sequence :last_name do |n|
+    "Projestimate_#{n}"
+  end
+
   sequence :login_name do |n|
     "login_name_#{n}"
   end
 
   sequence :email do |n|
     "email_#{n}@yahoo.fr"
+  end
+
+  sequence :initials do |n|
+    "Ad_#{n}"
   end
 
   sequence :password_reset_token do |n|

@@ -15,6 +15,19 @@ FactoryGirl.define do
     password_confirmation "projestimate"
   end
 
+  factory :authenticated_user, :class => :user do
+    first_name
+    last_name
+    login_name
+    email
+    initials
+    association :auth_method, :factory => :auth_method
+    user_status "active"
+    association :language, :factory => :language, :strategy => :build
+    password   "projestimate"
+    password_confirmation "projestimate"
+  end
+
 
   factory :user3, :class => :user do
     first_name #"Administrator3"
