@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(params[:user])
       set_user_language
-      flash[:warning] = I18n.t (:notice_account_successful_updated)
+      flash[:notice] = I18n.t (:notice_account_successful_updated)
       redirect_to redirect_apply( edit_user_path(@user, :anchor=> session[:anchor]),nil,users_path)
     else
       render(:edit)
