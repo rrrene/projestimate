@@ -117,8 +117,8 @@
             <td><%= ot.description %></td>
             <td><%= ot.productivity_ratio %></td>
             <td>
-              <%= link_to "", edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => "icon-edit icon-large" %>
-              <%= link_to "", ot, :method => "DELETE", :confirm => "Are you sure ?", :class => "icon-trash icon-large" %>
+              <%= link_to "", edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
             </td>
           </tr>
         <% end %>
