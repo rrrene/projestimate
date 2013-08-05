@@ -3,15 +3,20 @@ require 'spec_helper'
 describe LanguagesController do
 
   before :each do
-    login_as_admin
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability).and_return(@ability)
+
     @language = FactoryGirl.create(:language)
     @params = { :id => @language.id }
   end
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, Language
       get :index
-      response.should render_template("index")
+      expect(:get => "/languages").to route_to(:controller => "languages", :action => "index")
     end
   end
 

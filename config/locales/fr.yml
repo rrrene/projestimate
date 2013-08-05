@@ -280,6 +280,7 @@ fr:
   name: "Nom"
   category: "Catégorie"
   description: "Description"
+  alias: "Alias"
   change_comment: "Commentaire (expliquer et de justifier votre demande de changement)"
   record_status: "Statut de l'enregistrement"
   label_object_status: "Statut"
@@ -460,6 +461,10 @@ fr:
   inflation: "Inflation"
   organizationals_labors_categories: "Catégories de travailleurs des organisations"
   text_organization_attributes: "Attribus sur lesquels l'organisation souhaite capitalier (ils seront automatiquement ajoutés au module 'Capitalisation')"
+  organization_technology: "Technologie"
+  new_organization_technology: "Créer une Technologie"
+  text_organization_technology: "Technologies utilisées dans l'organisation (utilisées pour gérer des unités d'œuvres par technologie)"
+  productivity_ratio: "Ratio de productivité"
 
   #Pbs_project_elements
   ancestry: "Ancêtre"
@@ -605,6 +610,7 @@ fr:
   last_login: "Dernière connexion"
   previous_login: "Connexion précédente"
   time_zone: "Fuseau horaire"
+  object_per_page: "Objets par page"
   assistance: "Aide"
   notifications: "Notifications"
   display_format: "Format d'affichage"
@@ -961,3 +967,4 @@ fr:
   notice_pe_attribute_successful_updated: "Attribut mis à jour avec succès."
   text_index_permissions_guidance: "Liste toutes les permissions (globales et projets)."
   notice_end_of_estimation_execution: "Fin de l'execution des modules"
+

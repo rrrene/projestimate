@@ -22,14 +22,12 @@ class ProjectSecuritiesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    authorize! :manage_project_securities, ProjectSecurity
     set_page_title 'Projects Securities'
-    @project_security_levels = ProjectSecurityLevel.all
-    @permissions = @permissions = Permission.all.select{|i| i.is_permission_project }
+    @project_security_levels = ProjectSecurityLevel.defined
+    @permissions = @permissions = Permission.defined.select{|i| i.is_permission_project }
   end
 
   def new
-    authorize! :manage_project_securities, ProjectSecurity
     set_page_title 'Project securities'
     @project_security = ProjectSecurity.new
     @projects = Project.all.map{|i| [i.title, i.id]}
@@ -37,7 +35,6 @@ class ProjectSecuritiesController < ApplicationController
   end
 
   def edit
-    authorize! :manage_project_securities, ProjectSecurity
     set_page_title 'Project securities'
     @project_security = ProjectSecurity.find(params[:id])
     @projects = Project.all.map{|i| [i.title, i.id]}
@@ -45,7 +42,6 @@ class ProjectSecuritiesController < ApplicationController
   end
 
   def create
-    authorize! :manage_project_securities, ProjectSecurity
     @project_security = ProjectSecurity.new(params[:project_security])
 
     if @project_security.save
@@ -57,7 +53,6 @@ class ProjectSecuritiesController < ApplicationController
   end
 
   def update
-    authorize! :manage_project_securities, ProjectSecurity
     @project_security = ProjectSecurity.find(params[:id])
 
     respond_to do |format|
@@ -71,7 +66,6 @@ class ProjectSecuritiesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_project_securities, ProjectSecurity
     @project_security = ProjectSecurity.find(params[:id])
     @project_security.destroy
 

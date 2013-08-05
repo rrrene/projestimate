@@ -19,6 +19,8 @@
 #
 ########################################################################
 class PeiconsController < ApplicationController
+  load_and_authorize_resource
+
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
@@ -86,7 +88,6 @@ class PeiconsController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_projestimate_icons, Peicon
 
     @peicon = Peicon.find(params[:id])
     if @peicon.is_defined? || @peicon.is_custom?
@@ -102,8 +103,6 @@ class PeiconsController < ApplicationController
   end
 
   def choose_icon
-    authorize! :manage_projestimate_icons, Peicon
-
     @peicon = Peicon.find(params[:id])
   end
 end

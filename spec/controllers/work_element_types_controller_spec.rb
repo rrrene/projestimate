@@ -1,25 +1,42 @@
 require 'spec_helper'
 
 describe WorkElementTypesController do
+
+  render_views
+
   before :each do
-    login_as_admin
+    #@user = User.first # FactoryGirl.create(:authenticated_user)
+    @user = login_as_admin
+    @app_auth_method = FactoryGirl.build(:application_auth_method)
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { @ability }
+
+    @wet = FactoryGirl.create(:work_element_type, :wet_folder)
   end
+
   describe "GET 'index'" do
     it "returns http success" do
-      get "index"
+      @ability.can :read, WorkElementType
+      get "index", :format => "html"
       response.should render_template("index")
     end
   end
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :read, WorkElementType
       get :new
-      response.should render_template("new")
+      #response.should render_template("new")
+      expect(:get => "/work_element_types/new").to route_to(:controller => "work_element_types", :action => "new")
     end
   end
 
   describe "Edit" do
     it "renders the new template" do
+      @ability.can :update, WorkElementType
+
       @wet = FactoryGirl.create(:work_element_type, :wet_folder)
       get :edit, {:id => @wet.id}
       response.should render_template("edit")

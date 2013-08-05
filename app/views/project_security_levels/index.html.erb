@@ -16,6 +16,7 @@
       <thead>
       <tr>
         <th style="text-align:left;"><%= I18n.t(:name) %></th>
+        <th style="text-align:left;"><%= I18n.t(:description) %></th>
         <th class="filter-select"><%= I18n.t(:record_status) %></th>
         <th class="action"><%= I18n.t(:actions) %></th>
       </tr>
@@ -24,6 +25,7 @@
       <% @project_security_levels.each do |project_security_level| %>
           <tr>
             <td><%= project_security_level.name %></td>
+            <td><%= project_security_level.description %></td>
             <td><%= project_security_level.record_status.name unless project_security_level.record_status.nil? %> <%= project_security_level.show_custom_value %></td>
             <td>
               <%= link_to '', edit_project_security_level_path(project_security_level), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>

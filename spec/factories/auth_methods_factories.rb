@@ -21,4 +21,16 @@ FactoryGirl.define do
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
   end
+
+  #Factory for the "Application" AuthMethod
+
+  factory :application_auth_method, :class => :auth_method do
+    name "Application"
+    server_name "not Necessary"
+    port 0
+    base_dn "Not necessary"
+    certificate 0
+    uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
+  end
 end

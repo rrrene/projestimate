@@ -280,7 +280,8 @@ de:
   name: "Name"
   category: "Category"
   description: "Description"
-  change_comment: "Comment (explain and justify your change request)"
+  change_comment: "Comment1 (explain and justify your change request)"
+  alias: "Alias"
   record_status: "Record Status"
   label_object_status: "Status"
   custom_value: "Custom value (if status=custom)"
@@ -460,6 +461,10 @@ de:
   inflation: "Inflation"
   organizationals_labors_categories: "Organizational labors categories"
   text_organization_attributes: "Attributes on which the organization intends to capitalize (its will be automatically added to the 'capitalization' module)"
+  organization_technology: "Technology"
+  new_organization_technology: "New Technology"
+  text_organization_technology: "Technologies used in the organization (used to manage units of works by technology)"
+  productivity_ratio: "Productivity ratio"
 
   #Pbs_project_elements
   ancestry: "Ancestry"
@@ -605,6 +610,7 @@ de:
   last_login: "Last login"
   previous_login: "Previous login"
   time_zone: "Time zone"
+  object_per_page: "Objects per page"
   assistance: "Assistance"
   notifications: "Notifications"
   display_format: "Display format"

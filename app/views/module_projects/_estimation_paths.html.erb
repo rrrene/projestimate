@@ -37,14 +37,16 @@
                     jsPlumb.connect({
                         source:e0,
                         target:e1,
-                        endpoint:"Rectangle",
                         connector:["Straight"]
                     });
+
+                    jsPlumb.repaint($(".<%= amp.pemodule.alias %>_<%= amp.position_x %>_<%= amp.position_y %>"));
+                    jsPlumb.repaint($(".<%= pmod.pemodule.alias %>_<%= pmod.position_x %>_<%= pmod.position_y %>"));
+
                 <% end %>
             <% end %>
-
-             jsPlumb.repaintEverything();
         });
+
         e0 = null;
         e1 = null;
     });

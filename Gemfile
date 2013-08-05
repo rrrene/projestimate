@@ -127,6 +127,7 @@ group :test do
   gem 'simplecov', :require => false, :group => :test
   # run some required services using foreman start, more on this at the end of the article
   gem 'foreman'
+
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), 'Gemfile.local')

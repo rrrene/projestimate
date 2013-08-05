@@ -1,9 +1,14 @@
 require 'spec_helper'
 
 describe WbsActivitiesController do
-  before :each do
-    login_as_admin
+
+  before do
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
   end
+
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'

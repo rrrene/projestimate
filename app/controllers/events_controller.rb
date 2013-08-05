@@ -19,9 +19,7 @@
 ########################################################################
 
 class EventsController < ApplicationController
-  load_and_authorize_resource
-  # GET /events
-  # GET /events.json
+
   def index
     set_page_title('Events')
     @events = Event.all
@@ -31,7 +29,6 @@ class EventsController < ApplicationController
     @event = Event.new
   end
 
-  # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
   end
@@ -59,9 +56,6 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    #@event = Event.find(params[:id])
-    #@event.destroy
-    #redirect_to event_url
     @event = Event.find(params[:id])
     @event.destroy
     redirect_to events_path

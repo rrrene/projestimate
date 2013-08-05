@@ -24,6 +24,7 @@ class Organization < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :wbs_activities, :dependent => :destroy
   has_many :attribute_organizations, :dependent => :destroy
+  has_many :organization_technologies, :dependent => :destroy
   has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_organizations
 
   has_many :projects

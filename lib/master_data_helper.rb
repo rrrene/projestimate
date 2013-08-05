@@ -25,6 +25,8 @@ module MasterDataHelper
       scope :corresponding_local_record, lambda { |guid, loc| where("uuid = ? AND record_status_id <> ? AND (custom_value IS NULL OR custom_value <> ?)", guid, loc, "Locally edited") }
 
       scope :defined, -> { where(record_status_id: RecordStatus.find_by_name("Defined")) }
+      scope :local, -> { where(record_status_id: RecordStatus.find_by_name("Local")) }
+      scope :defined_or_local, -> { defined + local }
 
       ##Enable the amoeba gem for deep copy/clone (dup with associations)
       amoeba do
@@ -158,7 +160,7 @@ module MasterDataHelper
 
     #Show record status collection list according to current_user permission
     def record_status_collection
-      @record_statuses = RecordStatus.all
+      @record_statuses = RecordStatus
       begin
         if self.new_record?
           if defined?(MASTER_DATA) and MASTER_DATA and File.exists?("#{Rails.root}/config/initializers/master_data.rb")
@@ -169,7 +171,8 @@ module MasterDataHelper
         else
           @record_statuses = RecordStatus.where("name <> ?", "Defined")
         end
-
+        #Return only the "Defined" records
+        @record_statuses = @record_statuses.defined
       rescue
         []
       end

@@ -1,21 +1,33 @@
 require 'spec_helper'
+
 describe AuthMethodsController do
+
+  before do
+    @connected_user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
+
   before :each do
     login_as_admin
     @default_auth_method = FactoryGirl.create(:auth_method)
     proposed_status = FactoryGirl.build(:proposed_status)
     @another_auth_method = AuthMethod.new(:name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :certificate => "simple_tls", :uuid => "124563", :record_status => proposed_status)
   end
+
   describe "GET index" do
     it "renders the index template" do
       get :index
       response.should render_template("index")
     end
+
     it "assigns all default_auth_method as @default_auth_method" do
       get :index
       assigns(:default_auth_method)==(@default_auth_method)
     end
   end
+
   describe "New" do
     it "renders the new template" do
       get :new

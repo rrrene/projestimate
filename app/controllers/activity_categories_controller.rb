@@ -22,19 +22,16 @@ class ActivityCategoriesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
-  load_and_authorize_resource
 
   def index
     @activity_categories = ActivityCategory.all
   end
 
   def new
-    authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.new
   end
 
   def edit
-    authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.find(params[:id])
 
     unless @activity_category.child_reference.nil?
@@ -46,14 +43,12 @@ class ActivityCategoriesController < ApplicationController
   end
 
   def create
-    authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.new(params[:activity_category])
     @activity_category.save
     redirect_to activity_categories_url
   end
 
   def update
-    authorize! :manage_activity_categories, ActivityCategory
     @activity_category = nil
     current_activity_category = ActivityCategory.find(params[:id])
     if current_activity_category.is_defined?
@@ -72,7 +67,6 @@ class ActivityCategoriesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_activity_categories, ActivityCategory
     @activity_category = ActivityCategory.find(params[:id])
     if @activity_category.is_defined? || @activity_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record

@@ -20,32 +20,35 @@
 
 class PemodulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_and_authorize_resource :only => [:index, :edit, :update, :create, :destroy]
 
   before_filter :get_record_statuses
   before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
 
   def index
-    authorize! :manage_modules, Pemodule
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'Modules'
     @pemodules = Pemodule.all
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
   end
 
   def new
-    authorize! :manage_modules, Pemodule
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'New Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'
     }
     @pemodule = Pemodule.new
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
     @attribute_settings = []
   end
 
   def edit
-    authorize! :manage_modules, Pemodule
+    authorize! :create_and_edit_modules, Pemodule
+
     set_page_title 'Edit Modules'
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
     @pemodule = Pemodule.find(params[:id])
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeModule.all(:conditions => {:pemodule_id => @pemodule.id})
@@ -59,8 +62,10 @@ class PemodulesController < ApplicationController
   end
 
   def update
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link' || i.alias == 'folder'}
-    @attributes = PeAttribute.all
+    authorize! :create_and_edit_modules, Pemodule
+
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link' || i.alias == 'folder'}
+    @attributes = PeAttribute.defined.all
 
     @pemodule = nil
     current_pemodule = Pemodule.find(params[:id])
@@ -88,13 +93,15 @@ class PemodulesController < ApplicationController
 
 
   def create
+    authorize! :create_and_edit_modules, Pemodule
+
     @pemodule = Pemodule.new(params[:pemodule])
     @pemodule.alias =  params[:pemodule][:alias].downcase
 
     @pemodule.compliant_component_type = params[:compliant_wet]
-    @wets = WorkElementType.all.reject{|i| i.alias == 'link'
+    @wets = WorkElementType.defined.reject{|i| i.alias == 'link'
     }
-    @attributes = PeAttribute.all
+    @attributes = PeAttribute.defined.all
     @attribute_settings = []
 
     if @pemodule.save
@@ -106,7 +113,6 @@ class PemodulesController < ApplicationController
 
   #Update attribute of the pemodule selected (2nd tabs)
   def update_selected_attributes
-    authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:module_id])
 
     attributes_ids = params[:pemodule][:pe_attribute_ids]
@@ -141,8 +147,6 @@ class PemodulesController < ApplicationController
 
   #Update attribute settings (3th tabs)
   def set_attributes_module
-    authorize! :manage_modules, Pemodule
-
     @pemodule = Pemodule.find(params[:module_id])
 
     selected_attributes = params[:attributes]
@@ -164,7 +168,6 @@ class PemodulesController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_modules, Pemodule
     @pemodule = Pemodule.find(params[:id])
     if @pemodule.is_defined? || @pemodule.is_custom?
       #logical deletion: delete don't have to suppress records anymore

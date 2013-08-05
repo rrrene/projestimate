@@ -34,20 +34,18 @@ class UsersController < ApplicationController
     end
     @projects = Project.all
     @organizations = Organization.all
-    @groups = Group.all
+    @groups = Group.defined_or_local
     @project_users = @user.projects
     @org_users = @user.organizations
     @project_groups = @user.groups
   end
 
   def index
-    authorize! :manage_users, User
     set_page_title 'Users'
     @users = User.all
   end
   
   def new
-    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new( :auth_type => AuthMethod.first.id,
@@ -55,7 +53,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    authorize! :manage_users, User
     set_page_title 'New user'
 
     @user = User.new(params[:user])
@@ -92,7 +89,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(params[:user])
       set_user_language
-      flash[:warning] = I18n.t (:notice_account_successful_updated)
+      flash[:notice] = I18n.t (:notice_account_successful_updated)
       redirect_to redirect_apply( edit_user_path(@user, :anchor=> session[:anchor]),nil,users_path)
     else
       render(:edit)
@@ -164,7 +161,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize! :manage_users, User
     @user = User.find(params[:id])
     @user.destroy
 
@@ -185,7 +181,6 @@ class UsersController < ApplicationController
   end
 
   def activate
-    authorize! :manage_users, User
     @user = User.find(params[:id])
     unless @user.active?
       @user.user_status = 'active'

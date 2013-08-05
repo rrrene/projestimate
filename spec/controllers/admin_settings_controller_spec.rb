@@ -1,8 +1,13 @@
 require 'spec_helper'
 
 describe AdminSettingsController do
+
   before :each do
-    login_as_admin
+    @user = login_as_admin
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
     @proposed_status = FactoryGirl.build(:proposed_status)
     @params = { :id => @admin_setting.id }
@@ -10,10 +15,13 @@ describe AdminSettingsController do
 
   describe "GET index" do
     it "renders the index template" do
+      @ability.can :read, AdminSetting
       get :index
       response.should render_template("index")
     end
+
     it "assigns all admin_setting as @@admin_setting" do
+      @ability.can :read, AdminSetting
       get :index
       assigns(:admin_setting)==(@admin_setting)
     end
@@ -21,10 +29,13 @@ describe AdminSettingsController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :create, AdminSetting
       get :new
       response.should render_template("new")
     end
+
     it "assigns a new admin_setting as @admin_setting" do
+      @ability.can :create, AdminSetting
       get :new
       assigns(:admin_setting).should be_a_new_record
     end
@@ -39,6 +50,8 @@ describe AdminSettingsController do
 
   describe "create" do
     it "renders the create template" do
+      @ability.can :create, AdminSetting
+
       @params = {:record_status_id=>2, :value=>"Welcome",:uuid=>2,:key=>"welcome_message",:custom_value=>"local" }
       post :create, @params
       response.should be_success
@@ -61,6 +74,8 @@ describe AdminSettingsController do
       end
 
       it "updates the requested @admin_setting and redirect to the updated admin_setting" do
+        @ability.can :update, AdminSetting
+
         put :update, id: @my_admin_setting, admin_setting: FactoryGirl.attributes_for(:admin_setting, :welcome_message)
         response.should be_success
       end
@@ -73,7 +88,10 @@ describe AdminSettingsController do
     #    delete :destroy, @params
     #    response.should be_success
     #end
+
     it "redirects to the @admin_setting list" do
+      @ability.can :destroy, AdminSetting
+
       @params = { :id => @admin_setting.id }
       delete :destroy, @params
       response.should redirect_to (admin_settings_path)

@@ -35,8 +35,6 @@ class WbsProjectElementsController < ApplicationController
   end
 
 
-  # GET /wbs_project_elements
-  # GET /wbs_project_elements.json
   def index
     @wbs_project_elements = WbsProjectElement.all
 
@@ -46,8 +44,7 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-  # GET /wbs_project_elements/1
-  # GET /wbs_project_elements/1.json
+
   def show
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
@@ -57,8 +54,7 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-  # GET /wbs_project_elements/new
-  # GET /wbs_project_elements/new.json
+
   def new
     @wbs_project_element = WbsProjectElement.new
 
@@ -93,8 +89,7 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-  # POST /wbs_project_elements
-  # POST /wbs_project_elements.json
+
   def create
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
     @wbs_project_element.author_id = current_user.id
@@ -114,8 +109,6 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-  # PUT /wbs_project_elements/1
-  # PUT /wbs_project_elements/1.json
   def update
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
@@ -137,8 +130,6 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
-  # DELETE /wbs_project_elements/1
-  # DELETE /wbs_project_elements/1.json
   def destroy
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])

@@ -20,11 +20,11 @@
 
 class AttributeModulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
 
   before_filter :get_record_statuses
 
   def create
+    authorize! :manage_attributes, PeAttribute
     @attribute_module = AttributeModule.new(params[:attribute_module])
 
     if @attribute_module.save
@@ -35,6 +35,7 @@ class AttributeModulesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage_attributes, PeAttribute
     @attribute_module = AttributeModule.find(params[:id])
     if @attribute_module.is_defined? || @attribute_module.is_custom?
       #logical deletion: delete don't have to suppress records anymore
@@ -47,6 +48,7 @@ class AttributeModulesController < ApplicationController
   end
 
   def check_attribute_modules
+    authorize! :manage_attributes, PeAttribute
     unless params[:attr_id].eql?("undefined") || params[:attr_id].nil?
       @attr = AttributeModule.find(params[:attr_id])
       @is_valid = @attr.is_validate(params[:value])

@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
         if session_expired?
           reset_session
           flash[:error] = I18n.t(:error_session_expired)
-          redirect_to root_url
+          redirect_to root_url(:return_to => session[:return_to])
         end
       end
     end
