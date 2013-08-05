@@ -3,6 +3,7 @@ require 'spec_helper'
 describe PeAttributesController do
 
   before :each do
+    login_as_admin
     @attribute = FactoryGirl.create(:ksloc_attribute)
     @params = { :id => @attribute.id }
   end

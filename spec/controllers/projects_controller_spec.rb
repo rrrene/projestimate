@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ProjectsController do
   before :each do
+    login_as_admin
     @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
     @user = FactoryGirl.build(:user)
 

@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe EventsController do
   before :each do
+    login_as_admin
     @event = FactoryGirl.create(:event)
   end
   describe "GET index" do

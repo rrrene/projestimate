@@ -21,7 +21,7 @@ require 'spec_helper'
 describe WbsProjectElementsController do
 
   before :each do
-    #login_as_admin
+    login_as_admin
 
     @project = FactoryGirl.create(:project)
     @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => "Activity", :project => @project)

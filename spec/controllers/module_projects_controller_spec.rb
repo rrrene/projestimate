@@ -1,6 +1,10 @@
 require 'spec_helper'
 describe ModuleProjectsController do
 
+  before :each do
+    login_as_admin
+  end
+
   describe "GET index" do
     it "renders the index template" do
       get :index

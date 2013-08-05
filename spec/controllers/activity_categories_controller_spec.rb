@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ActivityCategoriesController do
 
   before :each do
+    login_as_admin
     @activity_category = FactoryGirl.create(:activity_category)
     @params = { :id => @activity_category.id }
   end

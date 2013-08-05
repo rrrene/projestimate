@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe HomesController do
+  #end
+  before :each do
+    login_as_admin
+  end
 
   describe "GET 'update_install'" do
     context "On local instance"  do

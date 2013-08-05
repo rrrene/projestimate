@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe WbsActivitiesController do
-
+  before :each do
+    login_as_admin
+  end
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'

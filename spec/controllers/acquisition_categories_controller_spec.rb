@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe AcquisitionCategoriesController do
   before :each do
+    login_as_admin
     @acquisition_category = FactoryGirl.create(:acquisition_category, :enhancement)
     @defined_status = FactoryGirl.build(:defined_status)
     @retired_status = FactoryGirl.build(:retired_status)

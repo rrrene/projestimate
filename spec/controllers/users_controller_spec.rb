@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe UsersController, "Creating and managing user", :type => :controller do
-
+  before :each do
+    login_as_admin
+  end
   describe "GET 'index'" do
     it "returns correct template" do
       get 'index'

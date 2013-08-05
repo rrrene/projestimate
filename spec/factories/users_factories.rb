@@ -3,11 +3,11 @@
 FactoryGirl.define do
 
   factory :admin, :class => :user do
-    first_name #"Administrator"
-    last_name  #"Projestimate"
-    login_name #"admin"
-    email      #"youremail@yourcompany.net"
-    initials   #"ad"
+    first_name "Administrator"
+    last_name  "Projestimate"
+    login_name "admin"
+    email      "youremail@yourcompany.net"
+    initials   "ad"
     association :auth_method, :factory => :auth_method, strategy: :build
     user_status "active"
     association :language, :factory => :language, :strategy => :build

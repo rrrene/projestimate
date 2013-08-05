@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AdminSettingsController do
   before :each do
+    login_as_admin
     @admin_setting = FactoryGirl.create(:welcome_message_ad, :key => "test", :value => "test1")
     @proposed_status = FactoryGirl.build(:proposed_status)
     @params = { :id => @admin_setting.id }

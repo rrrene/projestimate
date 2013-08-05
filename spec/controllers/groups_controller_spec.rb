@@ -1,14 +1,16 @@
 require 'spec_helper'
 describe GroupsController do
   before :each do
+    login_as_admin
     @group = FactoryGirl.create(:group)
     @project = FactoryGirl.create(:project)
     @proposed_status = FactoryGirl.build(:proposed_status)
+
   end
   describe "GET index" do
     it "renders the index template" do
-      get :index
-      response.should render_template("index")
+      get :index, :format => "html"
+      response.should redirect_to groups_path()
     end
     it "assigns all group as @group" do
       get :index
@@ -17,8 +19,8 @@ describe GroupsController do
   end
   describe "New" do
     it "renders the new template" do
-      get :new
-      response.should render_template("new")
+      get :new, :format => "html"
+      response.should redirect_to new_group_path()
     end
     it "assigns a new group as @group" do
       get :new

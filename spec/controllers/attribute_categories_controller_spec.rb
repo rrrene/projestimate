@@ -155,9 +155,9 @@ describe AttributeCategoriesController do
   #    delete :destroy, {:id => attribute_category.to_param}, valid_session
   #    response.should redirect_to(attribute_categories_url)
   #  end
-  #end
 
   before :each do
+    login_as_admin
     @attribute_category = FactoryGirl.create(:quality_in_use)
     @defined_status = FactoryGirl.build(:defined_status)
     @retired_status = FactoryGirl.build(:retired_status)
