@@ -9,7 +9,6 @@ describe ProjectAreasController do
   end
 
   before :each do
-    login_as_admin
     @project_area = FactoryGirl.create(:project_area)
   end
   before :each do
