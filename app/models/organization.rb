@@ -28,6 +28,7 @@ class Organization < ActiveRecord::Base
   has_many :organization_uow_complexities, :dependent => :destroy
   has_many :unit_of_works, :dependent => :destroy
   has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_organizations
+  has_many :subcontractors
 
   has_many :projects
 

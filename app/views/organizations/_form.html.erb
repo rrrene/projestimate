@@ -7,6 +7,7 @@
       <li><a href="#tabs-4"><%= I18n.t(:organization_technology) %> </a></li>
       <li><a href="#tabs-5"><%= I18n.t(:organization_uow_complexity) %> </a></li>
       <li><a href="#tabs-6"><%= I18n.t(:unit_of_work) %> </a></li>
+      <li><a href="#tabs-7"><%= I18n.t(:subcontractor) %> </a></li>
     <% end %>
   </ul>
 
@@ -132,7 +133,6 @@
         <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>
-
     </div>
 
     <div id="tabs-5">
@@ -195,8 +195,35 @@
           <%= render :partial => 'layouts/footer_table' %>
           </tbody>
         </table>
-
       </div>
+
+    <div id="tabs-7">
+      <b><%= I18n.t(:text_subcontractor) %></b>
+      <br><br>
+
+      <table class="table tablesorterPager table-striped table-bordered table-condensed">
+        <tr>
+          <th style="text-align:left"><%= I18n.t(:name) %></th>
+          <th style="text-align:left"><%= I18n.t(:alias) %></th>
+          <th style="text-align:left"><%= I18n.t(:description) %></th>
+          <th colspan="2" style="text-align:left"><%= I18n.t(:actions) %></th>
+        </tr>
+
+        <% @organization.subcontractors.each do |ot| %>
+            <tr>
+              <td><%= ot.name %></td>
+              <td><%= ot.alias %></td>
+              <td><%= ot.description %></td>
+              <td>
+                <%= link_to "", edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              </td>
+            </tr>
+        <% end %>
+
+        <%= link_to I18n.t('new_subcontractor'), new_subcontractor_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+      </table>
+    </div>
 
   <% end %>
 </div>

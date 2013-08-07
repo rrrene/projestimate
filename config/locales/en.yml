@@ -464,6 +464,10 @@ en:
   organization_technology: "Technology"
   new_organization_technology: "New Technology"
   text_organization_technology: "Technologies used in the organization (used to manage units of works by technology)"
+  subcontractor: "Subcontractor"
+  new_subcontractor: "New Subcontractor"
+  edit_subcontractor: "Edit the subcontractor \"%{value}\" ..."
+  text_subcontractor: "Manage your organization's subcontractors"
   productivity_ratio: "Productivity ratio"
 
   #Pbs_project_elements
@@ -983,3 +987,7 @@ en:
   notice_unit_of_work_successful_created: "Unit of Work was successfully created"
   notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
   new_unit_of_work: "New Unit Of Work (UOW)"
+  # Notice message for all Controller
+  notice_successfully_created: "%{value} was successfully created"
+  notice_successfully_updated: "%{value} was successfully updated"
+  notice_successfully_deleted: "%{value} was successfully deleted"
