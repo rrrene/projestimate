@@ -5,8 +5,10 @@ describe WorkElementTypesController do
   render_views
 
   before :each do
-    #@user = User.first # FactoryGirl.create(:authenticated_user)
-    @user = login_as_admin
+    #@user = login_as_admin
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    @user = FactoryGirl.create(:authenticated_user)
+    sign_in @user
     @app_auth_method = FactoryGirl.build(:application_auth_method)
 
     @ability = Object.new

@@ -21,7 +21,7 @@
 #ProjectSecurity belongs to User, Group and Project
 class ProjectSecurity < ActiveRecord::Base
   belongs_to :user
-  #belongs_to :group
+  belongs_to :group
   belongs_to :project
   belongs_to :project_security_level
 

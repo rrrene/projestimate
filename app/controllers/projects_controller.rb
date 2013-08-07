@@ -171,7 +171,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def update
     set_page_title 'Edit project'
 
@@ -194,7 +193,7 @@ class ProjectsController < ApplicationController
     end
 
     @project.groups.each do |gpe|
-      ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id)
+      ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id).first
       if ps
         ps.project_security_level_id = params["group_securities_#{gpe.id}"]
         ps.save
@@ -282,7 +281,7 @@ class ProjectsController < ApplicationController
 
       redirect_to redirect_apply(edit_project_path(@project, :anchor=>session[:anchor]), nil, projects_path ), notice: "#{I18n.t(:notice_project_successful_updated)}"
     else
-      @wbs_activity_ratios=WbsActivityRatio.all
+      @wbs_activity_ratios = WbsActivityRatio.all
       render :action => 'edit'
     end
   end
