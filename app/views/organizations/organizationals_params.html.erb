@@ -26,7 +26,7 @@
       </thead>
 
       <tbody>
-      <% @organizations.each do |i| %>
+        <% @organizations.each do |i| %>
           <tr>
             <td><%= i.name %></td>
             <td><%= i.description %></td>
@@ -35,8 +35,8 @@
               <%= link_to '', i, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
             </td>
           </tr>
-      <% end %>
-      <%= render :partial => 'layouts/footer_table' %>
+        <% end %>
+        <%= render :partial => 'layouts/footer_table' %>
       </tbody>
     </table>
   </div>
