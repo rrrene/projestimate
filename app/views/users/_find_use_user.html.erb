@@ -20,8 +20,8 @@
         <td>
           <% if !project_security.user.nil? %>
             <%= "direct" %>
-          <% elsif project_security.group.nil?  %>
-            <%= "via the #{project_security.group.name} group" %>
+          <% elsif !project_security.group.nil?  %>
+            <%= "via the '#{project_security.group.name}' group" %>
           <% end %>
         </td>
         <td><%= project_security.project_security_level.name %></td>
