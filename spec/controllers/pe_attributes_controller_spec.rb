@@ -10,6 +10,7 @@ describe PeAttributesController do
   end
 
   before :each do
+    login_as_admin
     @attribute = FactoryGirl.create(:ksloc_attribute)
     @params = { :id => @attribute.id }
   end

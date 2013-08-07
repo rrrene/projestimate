@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
   before_filter :load_data, :only => [:update, :edit, :new, :create]
 
-  load_and_authorize_resource :except => [:edit, :show]
+  load_and_authorize_resource :except => [:edit, :show, :update]
 
   def load_data
     if params[:id]
@@ -36,8 +36,8 @@ class UsersController < ApplicationController
     @organizations = Organization.all
     @groups = Group.defined_or_local
     @project_users = @user.projects
-    @org_users = @user.organizations
     @project_groups = @user.groups
+    @org_users = @user.organizations
   end
 
   def index
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(params[:user])
       set_user_language
-      flash[:warning] = I18n.t (:notice_account_successful_updated)
+      flash[:notice] = I18n.t (:notice_account_successful_updated)
       redirect_to redirect_apply( edit_user_path(@user, :anchor=> session[:anchor]),nil,users_path)
     else
       render(:edit)

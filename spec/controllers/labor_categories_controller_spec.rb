@@ -10,6 +10,7 @@ describe LaborCategoriesController do
   end
 
   before :each do
+    login_as_admin
     @labor = FactoryGirl.create(:labor_category)
     @proposed_status = FactoryGirl.build(:proposed_status)
   end

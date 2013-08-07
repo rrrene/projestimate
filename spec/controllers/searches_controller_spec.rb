@@ -1,6 +1,8 @@
 require 'spec_helper'
   describe SearchesController do
-
+    before :each do
+      login_as_admin
+    end
     describe "GET results" do
       it "renders the results template" do
         @params = { :search => "sample" }

@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe PermissionsController do
 
   before do

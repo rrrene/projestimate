@@ -41,9 +41,11 @@ module DataValidationHelper
       @record.transaction do
         @record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
           unless associated_class_name == EstimationValue
-            @record.parent_reference.send(associated_class_name).each do |obj|
-              obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
-              obj.save
+            unless @record.parent_reference.nil?
+              @record.parent_reference.send(associated_class_name).each do |obj|
+                obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
+                obj.save
+              end
             end
           end
         end
@@ -105,6 +107,23 @@ module DataValidationHelper
       #Get the record to validate from its ID
       @record = record_class_name.constantize.find(params[:id])
       trans_successful = false
+      @record.transaction do
+        @record.class.reflect_on_all_associations(:has_many).map{|i| i.name }.each do |associated_class_name|
+          unless associated_class_name == EstimationValue
+            if @record.parent_reference.nil?
+               record= @record.child_reference
+            else @record.child_reference
+              record= @record.parent_reference
+            end
+            unless record.nil?
+              record.send(associated_class_name).each do |obj|
+                obj.send("#{@record.class.to_s.underscore}_id=", @record.id)
+                obj.save
+            end
+            end
+          end
+        end
+      end
       if @record.is_retired?
         #Temporally save uuid
         temp_current_uuid = @record.uuid

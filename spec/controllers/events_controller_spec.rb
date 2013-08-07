@@ -10,6 +10,7 @@ describe EventsController do
   end
 
   before :each do
+    login_as_admin
     @event = FactoryGirl.create(:event)
   end
 
