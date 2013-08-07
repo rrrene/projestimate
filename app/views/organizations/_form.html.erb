@@ -5,6 +5,7 @@
       <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
       <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %> </a></li>
       <li><a href="#tabs-4"><%= I18n.t(:organization_technology) %> </a></li>
+      <li><a href="#tabs-5"><%= I18n.t(:organization_uow_complexity) %> </a></li>
     <% end %>
   </ul>
 
@@ -130,5 +131,34 @@
       </table>
 
     </div>
+
+      <div id="tabs-5">
+        <b><%= I18n.t(:organization_uow_complexity) %></b>
+        <br><br>
+
+        <table class="table table-striped table-bordered table-condensed">
+
+          <tr>
+            <th style="text-align:left"><%= I18n.t(:name) %></th>
+            <th style="text-align:left"><%= I18n.t(:description) %></th>
+            <th colspan="2" style="text-align:left"><%= I18n.t(:actions) %></th>
+          </tr>
+
+          <% @organization.organization_uow_complexities.each do |oc| %>
+              <tr>
+                <td><%= oc.name %></td>
+                <td><%= oc.description %></td>
+                <td>
+                  <%= link_to "", edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                  <%= link_to "", oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                </td>
+              </tr>
+          <% end %>
+
+          <%= link_to I18n.t('new_organization_owc_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+
+        </table>
+
+      </div>
   <% end %>
 </div>

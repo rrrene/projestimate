@@ -967,4 +967,5 @@ fr:
   notice_pe_attribute_successful_updated: "Attribut mis à jour avec succès."
   text_index_permissions_guidance: "Liste toutes les permissions (globales et projets)."
   notice_end_of_estimation_execution: "Fin de l'execution des modules"
+  organization_uow_complexity: "Organization Unit Of Work (UOW) Complexity"
 

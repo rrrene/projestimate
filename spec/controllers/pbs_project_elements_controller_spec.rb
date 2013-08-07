@@ -10,7 +10,6 @@ describe PbsProjectElementsController do
   end
 
   before :each do
-    login_as_admin
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
     @folder = FactoryGirl.create(:folder)
     @folder1 = FactoryGirl.create(:folder, :name => "Folder11", :work_element_type => @work_element_type)

@@ -19,7 +19,7 @@
 ########################################################################
 Projestimate::Application.routes.draw do
   resources :organization_technologies
-
+  resources :organization_uow_complexities
   resources :attribute_categories
 
 
