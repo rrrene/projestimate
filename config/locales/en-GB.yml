@@ -970,5 +970,11 @@ en-gb:
   label_project_name: "Project name"
   label_permission_access: "Access"
   error_group_failed_update: "An error has occurred when during the update"
-
   organization_uow_complexity: "Organization Unit Of Work (UOW) Complexity"
+  new_organization_uow_complexity: "New Organization Unit Of Work (UOW) Complexity"
+  notice_organization_uow_complexity_successful_updated: "Organization Unit Of Work (UOW) Complexity was successfully updated"
+  notice_organization_uow_complexity_successful_created: "Organization Unit Of Work (UOW) Complexity was successfully created"
+  notice_organization_uow_complexity_successful_deleted: "Organization Unit Of Work (UOW) Complexity was successfully deleted"
+  notice_organization_technology_successful_updated: "Organization Technology was successfully updated"
+  notice_organization_technology_successful_created: "Organization Technology was successfully created"
+  notice_organization_technology_successful_deleted: "Organization Technology was successfully deleted"
