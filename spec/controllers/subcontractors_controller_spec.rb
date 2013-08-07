@@ -46,13 +46,13 @@ describe SubcontractorsController do
   #  end
   #end
   #
-  #describe "GET new" do
-  #  it "assigns a new subcontractor as @subcontractor" do
-  #    get :new, {}, valid_session
-  #    assigns(:subcontractor).should be_a_new(Subcontractor)
-  #  end
-  #end
-  #
+  describe "GET new" do
+    #it "assigns a new subcontractor as @subcontractor" do
+    #  get :new, {}, valid_session
+    #  assigns(:subcontractor).should be_a_new(Subcontractor)
+    #end
+  end
+
   #describe "GET edit" do
   #  it "assigns the requested subcontractor as @subcontractor" do
   #    subcontractor = Subcontractor.create! valid_attributes
