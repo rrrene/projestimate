@@ -22,14 +22,14 @@ class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
   def new
-    authorize! :edit_organization, Organization
+    authorize! :edit_organizations, Organization
 
     set_page_title 'Organizations'
     @organization = Organization.new
   end
 
   def edit
-    authorize! :edit_organization, Organization
+    authorize! :edit_organizations, Organization
 
     set_page_title 'Organizations'
     @organization = Organization.find(params[:id])
@@ -48,7 +48,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    authorize! :edit_organization, Organization
+    authorize! :edit_organizations, Organization
 
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])

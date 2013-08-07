@@ -19,6 +19,9 @@
 ########################################################################
 Projestimate::Application.routes.draw do
 
+  resources :subcontractors
+
+
   resources :organization_technologies
 
   resources :attribute_categories
