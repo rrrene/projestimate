@@ -978,3 +978,8 @@ de:
   notice_organization_technology_successful_updated: "Organization Technology was successfully updated"
   notice_organization_technology_successful_created: "Organization Technology was successfully created"
   notice_organization_technology_successful_deleted: "Organization Technology was successfully deleted"
+  unit_of_work: "Unit Of Work"
+  notice_unit_of_work_successful_updated: "Unit of Work was successfully updated"
+  notice_unit_of_work_successful_created: "Unit of Work was successfully created"
+  notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
+  new_unit_of_work: "New Unit Of Work (UOW)"

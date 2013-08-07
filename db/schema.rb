@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802063117) do
+ActiveRecord::Schema.define(:version => 20130807100822) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -177,18 +177,6 @@ ActiveRecord::Schema.define(:version => 20130802063117) do
   add_index "currencies", ["record_status_id"], :name => "index_currencies_on_record_status_id"
   add_index "currencies", ["reference_id"], :name => "index_currencies_on_parent_id"
   add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
-
-  create_table "ej_estimation_values", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "pbs_project_element_id"
-    t.integer  "wbs_activity_element_id"
-    t.float    "minimum"
-    t.float    "most_likely"
-    t.float    "maximum"
-    t.float    "probable"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-  end
 
   create_table "estimation_values", :force => true do |t|
     t.integer  "module_project_id"
@@ -410,6 +398,21 @@ ActiveRecord::Schema.define(:version => 20130802063117) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "organization_technologies_unit_of_works", :id => false, :force => true do |t|
+    t.integer  "organization_technology_id"
+    t.integer  "unit_of_work_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organization_uow_complexities", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -574,13 +577,6 @@ ActiveRecord::Schema.define(:version => 20130802063117) do
     t.integer  "project_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "product_activities", :force => true do |t|
-    t.integer  "pbs_project_element_id"
-    t.integer  "wbs_project_element_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
   end
 
   create_table "project_areas", :force => true do |t|
@@ -753,6 +749,15 @@ ActiveRecord::Schema.define(:version => 20130802063117) do
     t.datetime "updated_at"
   end
 
+  create_table "unit_of_works", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "alias"
+    t.text     "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "password_hash"
@@ -823,8 +828,8 @@ ActiveRecord::Schema.define(:version => 20130802063117) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
     t.datetime "created_at",                      :null => false
