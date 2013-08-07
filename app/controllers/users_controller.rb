@@ -169,8 +169,17 @@ class UsersController < ApplicationController
 
   def find_use_user
     @user = User.find(params[:user_id])
-    @related_projects = @user.projects
+    #@related_projects = @user.projects
+    #Direct access project with Permissions
+    @related_projects_securities = @user.project_securities
+
+    #Indirect acceded project via groups
+    @user.groups.each do |user_group|
+      @related_projects_securities += user_group.project_securities
+    end
+    @related_projects_securities.sort_by(&:project_id)
   end
+
 
   def about
     set_page_title 'About'

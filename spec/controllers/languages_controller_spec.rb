@@ -3,7 +3,10 @@ require 'spec_helper'
 describe LanguagesController do
 
   before :each do
-    @connected_user = login_as_admin
+    #@connected_user = login_as_admin
+    @user = FactoryGirl.create(:authenticated_user)
+    sign_in @user
+
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     controller.stub(:current_ability).and_return(@ability)
@@ -22,6 +25,7 @@ describe LanguagesController do
 
   describe "New" do
     it "renders the new template" do
+      @ability.can :create, Language
       get :new
       response.should render_template("new")
     end
@@ -29,6 +33,7 @@ describe LanguagesController do
 
   describe "edit" do
     it "renders the new template" do
+      @ability.can :update, Language
       get :edit, @params
       response.should render_template("edit")
     end
@@ -36,6 +41,7 @@ describe LanguagesController do
 
   describe "create" do
     it "renders the create template" do
+      @ability.can :create, Language
       @params = { :name => "Breton", :locale => "br" }
       post :create, @params
       response.should be_success
@@ -54,6 +60,7 @@ describe LanguagesController do
 
     context "with valid params" do
       it "updates the requested record_status" do
+        @ability.can :update, Language
         put :update, id: @new_language, language: FactoryGirl.attributes_for(:language)
         response.should be_success
       end
@@ -67,6 +74,7 @@ describe LanguagesController do
     #    response.should be_success
     #end
     it "redirects to the record_statuses list" do
+      @ability.can :destroy, Language
       @params = { :id => @language.id }
       delete :destroy, @params
       response.should redirect_to(languages_url)

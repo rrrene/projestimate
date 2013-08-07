@@ -90,6 +90,57 @@ class GroupsController < ApplicationController
     end
   end
 
+  #Update the selected users in the group's securities
+  def update_selected_users
+    @group = Group.find(params[:group_id])
+    user_ids = params[:group][:user_ids]
+
+    @group.users.each do |m|
+      m.destroy unless user_ids.include?(m.user_id.to_s)
+      user_ids.delete(m.user_id.to_s)
+    end
+
+    #Attribute module record_status is according to the Pemodule record_status
+    user_ids.each do |u|
+      GroupsUsers.create(:group_id => @group.id, :user_id => u) unless u.blank?
+    end
+    @group.projects(force_reload = true)
+
+    if @group.save
+      flash[:notice] = I18n.t(:notice_group_successful_updated)
+    else
+      flash[:notice] = I18n.t(:error_group_failed_update)
+    end
+
+    redirect_to redirect(groups_path)
+  end
+
+  # #Update the selected users in the project's securities
+  def update_selected_projects
+    @group = Group.find(params[:group_id])
+    project_ids = params[:group][:project_ids]
+
+    @group.projects.each do |m|
+      m.destroy unless project_ids.include?(m.project_id.to_s)
+      project_ids.delete(m.project_id.to_s)
+    end
+
+    #Attribute module record_status is according to the Pemodule record_status
+    project_ids.each do |g|
+      GroupsProjects.create(:group_id => @group.id, :project_id => g) unless g.blank?
+    end
+    @group.projects(force_reload = true)
+
+    if @group.save
+      flash[:notice] = I18n.t(:notice_group_successful_updated)
+    else
+      flash[:notice] = I18n.t(:error_group_failed_update)
+    end
+
+    redirect_to redirect(groups_path)
+  end
+
+
   def update
     @users = User.all
     @projects = Project.all

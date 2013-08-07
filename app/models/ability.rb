@@ -52,7 +52,15 @@ class Ability
       #Specfic project security loading
       prj_scrt = ProjectSecurity.find_by_user_id(user.id)
       unless prj_scrt.nil?
-        specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+        #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+        specific_permissions_array = []
+        prj_scrt.project_security_level.permissions.map do |i|
+          if i.object_associated.blank?
+            specific_permissions_array << [i.name.to_sym, :all]
+          else
+            specific_permissions_array << [i.name.to_sym, i.object_associated.constantize]
+          end
+        end
         for perm in specific_permissions_array
           can perm[0].to_sym, perm[1]
         end
@@ -61,7 +69,16 @@ class Ability
       user.group_for_project_securities.each do |grp|
         prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
         unless prj_scrt.nil?
-          specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+          #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+          specific_permissions_array = []
+          prj_scrt.project_security_level.permissions.map do |i|
+            if i.object_associated.blank?
+              specific_permissions_array << [i.name, :all]
+            else
+              specific_permissions_array << [i.name, i.object_associated.constantize]
+            end
+          end
+
           for perm in specific_permissions_array
             can perm[0].to_sym, perm[1]
           end
