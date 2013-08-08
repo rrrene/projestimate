@@ -19,8 +19,12 @@
 ########################################################################
 Projestimate::Application.routes.draw do
 
-  resources :organization_technologies
+  resources :subcontractors
 
+
+  resources :organization_technologies
+  resources :organization_uow_complexities
+  resources :unit_of_works
   resources :attribute_categories
 
 

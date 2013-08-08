@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe HomesController do
   #end
-  before :each do
-    login_as_admin
-  end
-
   before do
     @connected_user = login_as_admin
     @ability = Object.new

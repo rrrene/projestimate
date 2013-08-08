@@ -1,15 +1,13 @@
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:organization_technology) %> </a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:organization_uow_complexity) %> </a></li>
   </ul>
 
   <div id="tabs-1">
-    <%= simple_form_for(@organization_technology) do |f| %>
+    <%= simple_form_for(@organization_uow_complexity) do |f| %>
         <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => params[:organization_id] } %>
         <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
-        <%= f.input :alias, :input_html => {:class => 'input-xxlarge'} %>
         <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-        <%= f.input :productivity_ratio, :input_html => {:class => 'input-mini'} %>
 
       <div class="actions-tabs">
         <% if action_name == 'new' || action_name=="create" %>
@@ -20,7 +18,7 @@
             <%= submit_tag I18n.t('apply'), :class => 'btn' %>
         <% end %>
 
-        <%= link_to I18n.t('back'), '/organizationals_params#tabs-4', :class => 'btn' %>
+        <%= link_to I18n.t('back'), edit_organization_path(params[:organization_id], :anchor=>'tabs-5'), :class => 'btn' %>
       </div>
 
     <% end %>

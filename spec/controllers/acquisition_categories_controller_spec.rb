@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe AcquisitionCategoriesController do
 
-  before do
-    @connected_user = login_as_admin
-  end
-
   before :each do
     @ability = Object.new
     @ability.extend(CanCan::Ability)
