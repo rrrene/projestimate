@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807084706) do
+ActiveRecord::Schema.define(:version => 20130807100822) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -398,6 +398,21 @@ ActiveRecord::Schema.define(:version => 20130807084706) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "organization_technologies_unit_of_works", :id => false, :force => true do |t|
+    t.integer  "organization_technology_id"
+    t.integer  "unit_of_work_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organization_uow_complexities", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -734,6 +749,15 @@ ActiveRecord::Schema.define(:version => 20130807084706) do
   end
 
   create_table "subcontractors", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "alias"
+    t.text     "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "unit_of_works", :force => true do |t|
     t.integer  "organization_id"
     t.string   "name"
     t.string   "alias"

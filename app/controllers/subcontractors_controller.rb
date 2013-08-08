@@ -13,7 +13,7 @@ class SubcontractorsController < ApplicationController
 
     if @subcontractor.save
       flash[:notice] = I18n.t(:notice_successfully_created, :value => "Subcontractor")
-      redirect_to edit_organization_path(@subcontractor.organization_id, :anchor => "tabs-5")
+      redirect_to edit_organization_path(@subcontractor.organization_id, :anchor => "tabs-7")
     else
       render action: "new"
     end
@@ -24,7 +24,7 @@ class SubcontractorsController < ApplicationController
 
     if @subcontractor.update_attributes(params[:subcontractor])
       flash[:notice] = I18n.t(:notice_successfully_updated, :value => "Subcontractor")
-      redirect_to (edit_organization_path(@subcontractor.organization_id, :anchor => "tabs-5"))
+      redirect_to (edit_organization_path(@subcontractor.organization_id, :anchor => "tabs-7"))
     else
       render action: "edit"
     end
@@ -35,6 +35,6 @@ class SubcontractorsController < ApplicationController
     organization_id = @subcontractor.organization_id
     @subcontractor.destroy
     flash[:notice] = I18n.t(:notice_successfully_deleted, :value => "Subcontractor")
-    redirect_to edit_organization_path(organization_id, :anchor => "tabs-5")
+    redirect_to edit_organization_path(organization_id, :anchor => "tabs-7")
   end
 end
