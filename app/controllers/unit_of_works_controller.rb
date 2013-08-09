@@ -42,11 +42,15 @@ class UnitOfWorksController < ApplicationController
   def create
     authorize! :create_edit_organizations, Organization
     @unit_of_work = UnitOfWork.new(params[:unit_of_work])
+    @organization = Organization.find_by_id(params[:unit_of_work][:organization_id])
     if @unit_of_work.save
       flash[:notice] = I18n.t (:notice_unit_of_work_successful_created)
-      redirect_to redirect_apply(nil, new_unit_of_work_path(params[:unit_of_work]),edit_organization_path(params[:unit_of_work][:organization_id], :anchor=>'tabs-6'))
+      redirect_to redirect_apply(nil,
+                                 new_unit_of_work_path(params[:unit_of_work]),
+                                 edit_organization_path(params[:unit_of_work][:organization_id],
+                                                        :anchor=>'tabs-6'))
     else
-      render action: 'new'
+      render action: 'new', :organization_id => @organization.id
     end
 
   end
@@ -54,11 +58,15 @@ class UnitOfWorksController < ApplicationController
   def update
     authorize! :create_edit_organizations, Organization
     @unit_of_work = UnitOfWork.find(params[:id])
+    @organization = Organization.find_by_id(params[:unit_of_work][:organization_id])
     if @unit_of_work.update_attributes(params[:unit_of_work])
       flash[:notice] = I18n.t (:notice_unit_of_work_successful_updated)
-      redirect_to redirect_apply(edit_unit_of_work_path(@unit_of_work),nil,edit_organization_path(params[:unit_of_work][:organization_id], :anchor=>'tabs-6'))
+      redirect_to redirect_apply(edit_unit_of_work_path(@unit_of_work),
+                                 nil,
+                                 edit_organization_path(params[:unit_of_work][:organization_id],
+                                                        :anchor=>'tabs-6'))
     else
-      render action: 'edit'
+      render action: 'edit', :organization_id => @organization.id
     end
   end
 
