@@ -620,11 +620,6 @@ input[type="color"],
     margin: 0px;
 }
 
-.attribute_tooltip{
-    cursor: help;
-    color: green;
-    border-bottom: 1px dotted green
-}
 
 .confirm_deletion{
     background-color: #fafad2;
@@ -653,6 +648,13 @@ input[type="color"],
     color: green;
 }
 
+
+.attribute_tooltip{
+    cursor: help;
+    color: green;
+    border-bottom: 1px dotted green;
+}
+
 .tooltip {
     position: absolute;
     display: block;
@@ -663,6 +665,7 @@ input[type="color"],
     visibility: visible;
     z-index: 99999;
 }
+
 
 .tooltip.in {
     opacity: 1;

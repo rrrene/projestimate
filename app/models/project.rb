@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   has_many :events
   has_many :module_projects, :dependent => :destroy
   has_many :pemodules, :through => :module_projects
-  has_many :project_securities
+  has_many :project_securities, :dependent => :destroy
 
   has_many :pe_wbs_projects, :dependent => :destroy
 
@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
 
   #serialize :ten_latest_projects
   validates_presence_of :state
-  validates :title, :alias, :presence => true, :uniqueness => {case_sensitive: false}
+  validates :title, :alias, :presence => true, :uniqueness => { case_sensitive: false }
 
   searchable do
     text :title, :description, :alias
