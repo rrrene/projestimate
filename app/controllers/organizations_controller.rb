@@ -35,13 +35,16 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
+
+    @complexities = OrganizationUowComplexity.all
+    @unitofworks = UnitOfWork.all
   end
 
   def create
     @organization = Organization.new(params[:organization])
 
     if @organization.save
-        redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
+      redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
     else
       render action: 'new'
     end

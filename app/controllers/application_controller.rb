@@ -142,11 +142,10 @@ class ApplicationController < ActionController::Base
 
   def redirect_apply(edit=nil, new=nil, index=nil)
     begin
-
       if (params[:commit] == "#{I18n.t"save"}")
         index
       elsif (params[:commit] == "#{I18n.t"save_and_create"}")
-        new
+        :back
       elsif (params[:commit] == "#{I18n.t"apply"}")
         edit
       else
