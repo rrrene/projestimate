@@ -1004,7 +1004,6 @@ de:
   new_unit_of_work: "New Unit Of Work (UOW)"
   organization_abacus: "Abacus"
   text_organization_abacus: "Abacus of the organization"
-  # Notice message for all Controller
   notice_subcontractor_successfully_created: "Subcontractor was successfully created"
   notice_subcontractor_successfully_updated: "Subcontractor was successfully updated"
   notice_subcontractor_successfully_deleted: "Subcontractor was successfully deleted"

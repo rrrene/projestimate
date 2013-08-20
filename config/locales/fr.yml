@@ -1002,7 +1002,6 @@ fr:
   new_unit_of_work: "Créer une unité d'œuvre"
   organization_abacus: "Abaque"
   text_organization_abacus: "Abaque de l'organisation"
-  # Notice message for all Controller
   notice_subcontractor_successfully_created: "Le sous-traitant a été créé avec succès"
   notice_subcontractor_successfully_updated: "Le sous-traitant a été mis à jour avec succès"
   notice_subcontractor_successfully_deleted: "Le sous-traitant a été supprimé avec succès"
