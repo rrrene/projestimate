@@ -25,7 +25,7 @@ class SearchesController < ApplicationController
     if params[:search].class == Array
       classes = params[:search][:classes].map { |i| String::keep_clean_space(i).camelcase.constantize }
     else
-      classes = [PeAttribute, ProjectArea, PlatformCategory, ProjectCategory, WorkElementType, PbsProjectElement, Project, Pemodule]
+      classes = [PeAttribute, ProjectArea, PlatformCategory, ProjectCategory, WorkElementType, PbsProjectElement, Project, Pemodule, Organization]
     end
 
     @results = Array.new

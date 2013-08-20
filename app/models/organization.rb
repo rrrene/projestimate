@@ -35,6 +35,10 @@ class Organization < ActiveRecord::Base
   #validates_presence_of :name
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
 
+  searchable do
+    text :name, :alias, :description
+  end
+
   #Override
   def to_s
     self.name
