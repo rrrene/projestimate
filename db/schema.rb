@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807100822) do
+ActiveRecord::Schema.define(:version => 20130820091238) do
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
@@ -137,28 +137,6 @@ ActiveRecord::Schema.define(:version => 20130807100822) do
     t.datetime "updated_at",      :null => false
   end
 
-  create_table "attributes", :force => true do |t|
-    t.string   "name"
-    t.string   "alias"
-    t.text     "description"
-    t.string   "attr_type"
-    t.text     "options"
-    t.text     "aggregation"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "uuid"
-    t.integer  "record_status_id"
-    t.string   "custom_value"
-    t.integer  "owner_id"
-    t.text     "change_comment"
-    t.integer  "reference_id"
-    t.string   "reference_uuid"
-  end
-
-  add_index "attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
-  add_index "attributes", ["reference_id"], :name => "index_attributes_on_parent_id"
-  add_index "attributes", ["uuid"], :name => "index_attributes_on_uuid", :unique => true
-
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
     t.string   "server_name"
@@ -173,8 +151,17 @@ ActiveRecord::Schema.define(:version => 20130807100822) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.boolean  "on_the_fly_user_creation",     :default => false
+    t.string   "ldap_bind_dn"
+    t.string   "ldap_bind_encrypted_password"
+    t.string   "ldap_bind_salt"
+    t.integer  "priority_order",               :default => 1
+    t.string   "first_name_attribute"
+    t.string   "last_name_attribute"
+    t.string   "email_attribute"
+    t.string   "initials_attribute"
   end
 
   add_index "auth_methods", ["record_status_id"], :name => "index_auth_methods_on_record_status_id"
