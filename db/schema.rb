@@ -137,28 +137,6 @@ ActiveRecord::Schema.define(:version => 20130807100822) do
     t.datetime "updated_at",      :null => false
   end
 
-  create_table "attributes", :force => true do |t|
-    t.string   "name"
-    t.string   "alias"
-    t.text     "description"
-    t.string   "attr_type"
-    t.text     "options"
-    t.text     "aggregation"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "uuid"
-    t.integer  "record_status_id"
-    t.string   "custom_value"
-    t.integer  "owner_id"
-    t.text     "change_comment"
-    t.integer  "reference_id"
-    t.string   "reference_uuid"
-  end
-
-  add_index "attributes", ["record_status_id"], :name => "index_attributes_on_record_status_id"
-  add_index "attributes", ["reference_id"], :name => "index_attributes_on_parent_id"
-  add_index "attributes", ["uuid"], :name => "index_attributes_on_uuid", :unique => true
-
   create_table "auth_methods", :force => true do |t|
     t.string   "name"
     t.string   "server_name"
