@@ -9,3 +9,4 @@ Projestimate::Application.initialize!
 #Encoding.default_internal = Encoding::UTF_8
 
 COMMIT_VERSION = `git rev-list -n1 --abbrev-commit HEAD` unless defined? COMMIT_VERSION
+

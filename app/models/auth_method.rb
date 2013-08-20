@@ -27,10 +27,17 @@ class AuthMethod < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
-  validates_presence_of :server_name, :port, :base_dn, :record_status
+  attr_accessor :password
+
+  before_save :encrypt_password
+
+  validates_presence_of :server_name, :port, :base_dn, :record_status, :user_name_attribute
+  validates :password, :presence => {:on => :create} , :if => :on_the_fly_user_creation
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
+  #validates :first_name_attribute, :last_name_attribute, :email_attribute, :presence => true, :if => :on_the_fly_user_creation
+  validate :validate_if_fly_user_creation, :if => :on_the_fly_user_creation
 
   amoeba do
     enable
@@ -43,6 +50,18 @@ class AuthMethod < ActiveRecord::Base
     })
   end
 
+  def validate_if_fly_user_creation
+    errors.add(:first_name_attribute, "#{I18n.t('warning_on_the_fly_user_creation')}") if first_name_attribute.blank?
+    errors.add(:last_name_attribute,  "#{I18n.t('warning_on_the_fly_user_creation')}")  if last_name_attribute.blank?
+    errors.add(:email_attribute,  "#{I18n.t('warning_on_the_fly_user_creation')}")  if email_attribute.blank?
+  end
+
+  def encrypt_password
+    if ldap_bind_encrypted_password.present?
+      self.ldap_bind_salt = BCrypt::Engine.generate_salt
+      self.ldap_bind_encrypted_password = BCrypt::Engine.hash_secret(password, ldap_bind_salt)
+    end
+  end
   def to_s
     self.name
   end
