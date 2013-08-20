@@ -59,6 +59,10 @@ class ModuleProjectsController < ApplicationController
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
 
+  def new
+    @module_project = ModuleProject.new
+  end
+
   def create
     @module_project = ModuleProject.new(params[:module_project])
 
