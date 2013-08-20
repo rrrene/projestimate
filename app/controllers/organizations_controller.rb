@@ -44,6 +44,16 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(params[:organization])
 
     if @organization.save
+      #Create the organization's default subcontractor
+      subcontractors = [
+          ["Undefined", "undefined", "Haven't a clue if it will be subcontracted or made internally"],
+          ["Internal", "internal", "Will be made internally"],
+          ["Subcontracted", "subcontracted", "Will be subcontracted (but don't know the subcontractor yet)"]
+      ]
+      subcontractors.each do |i|
+        @organization.subcontractors.create(:name => i[0], :alias => i[1], :description => i[2])
+      end
+
       redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
     else
       render action: 'new'

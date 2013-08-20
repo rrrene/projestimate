@@ -514,7 +514,7 @@ class Home < ActiveRecord::Base
     ModuleProject.create(:pemodule_id => capitalization.id, :project_id => project.id, :position_x => 0, :position_y => 0)
 
     #New default Pe-Wbs-Project
-    pe_wbs_project_product = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Producte", :wbs_type => 'Product')
+    pe_wbs_project_product = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Product", :wbs_type => 'Product')
     pe_wbs_project_activity = project.pe_wbs_projects.build(:name => "#{project.title} WBS-Activity", :wbs_type => 'Activity')
 
     folder = WorkElementType.find_by_alias('folder')

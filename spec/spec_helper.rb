@@ -66,7 +66,6 @@ Spork.each_run do
     config.render_views
 
     #Manage user authentication on test
-    config.include Devise::TestHelpers, :type => :controller
     config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller
 
     ##For taking in account the Permissions with the CanCan gem
