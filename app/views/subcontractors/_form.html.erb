@@ -6,7 +6,7 @@
   <div id="tabs-1">
     <%= simple_form_for(@subcontractor) do |f| %>
         <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => params[:organization_id] } %>
-        <%= f.input :name, :collection => %w(Undefined Internal Subcontracted), :prompt => "Select name", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
+        <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
         <%= f.input :alias, :label => "Alias", :input_html => {:class => 'input-xxlarge'} %>
         <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
