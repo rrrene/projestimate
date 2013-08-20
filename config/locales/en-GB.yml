@@ -461,6 +461,7 @@ en-gb:
   inflation: "Inflation"
   organizationals_labors_categories: "Organisational labours categories"
   text_organization_attributes: "Attributes on which the organisation intends to capitalize (its will be automatically added to the 'capitalization' module)"
+  text_organization_attributes_settings: 'Settings for attributes selected on the "Attributes" tab'
   organization_technology: "Technology"
   new_organization_technology: "New Technology"
   text_organization_technology: "Technologies used in the organisation (used to manage units of works by technology)"
@@ -974,7 +975,8 @@ en-gb:
   label_project_name: "Project name"
   label_permission_access: "Access"
   error_group_failed_update: "An error has occurred when during the update"
-  organization_uow_complexity: "Organization Unit Of Work Complexity"
+  organization_uow_complexity: "Possible Complexity values used within the Unit Of Work"
+  text_organization_uow_complexity: "Organization Unit Of Work Complexity"
   new_organization_uow_complexity: "New Organization Unit Of Work (UOW) Complexity"
   notice_organization_uow_complexity_successful_updated: "Organization Unit Of Work (UOW) Complexity was successfully updated"
   notice_organization_uow_complexity_successful_created: "Organization Unit Of Work (UOW) Complexity was successfully created"
@@ -987,6 +989,7 @@ en-gb:
   notice_unit_of_work_successful_created: "Unit of Work was successfully created"
   notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
   new_unit_of_work: "New Unit Of Work (UOW)"
+  organization_abacus: "Abacus"
   # Notice message for all Controller
   notice_successfully_created: "%{value} was successfully created"
   notice_successfully_updated: "%{value} was successfully updated"

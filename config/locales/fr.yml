@@ -974,7 +974,8 @@ fr:
   label_project_name: "Nom du projet"
   label_permission_access: "Accès"
   error_group_failed_update: "Une erreur s'est produite lors de la mise à jour."
-  organization_uow_complexity: "Organization Unit Of Work Complexity"
+  organization_uow_complexity: "Complexité des unités de travail"
+  text_organization_uow_complexity: "Valeur de complexité utilisable dans les unités de travail"
   new_organization_uow_complexity: "New Organization Unit Of Work (UOW) Complexity"
   notice_organization_uow_complexity_successful_updated: "Organization Unit Of Work (UOW) Complexity was successfully updated"
   notice_organization_uow_complexity_successful_created: "Organization Unit Of Work (UOW) Complexity was successfully created"
@@ -987,6 +988,7 @@ fr:
   notice_unit_of_work_successful_created: "Unit of Work was successfully created"
   notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
   new_unit_of_work: "New Unit Of Work (UOW)"
+  organization_abacus: "Abacus"
   # Notice message for all Controller
   notice_successfully_created: "%{value} a été créé avec succès"
   notice_successfully_updated: "%{value} a été mis à jour avec succès"
