@@ -9,6 +9,7 @@ class SubcontractorsController < ApplicationController
   end
 
   def create
+    set_page_title 'Subcontractors'
     @subcontractor = Subcontractor.new(params[:subcontractor])
 
     if @subcontractor.save

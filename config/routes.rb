@@ -21,7 +21,6 @@ Projestimate::Application.routes.draw do
 
   resources :subcontractors
 
-
   resources :organization_technologies
   resources :organization_uow_complexities
   resources :unit_of_works

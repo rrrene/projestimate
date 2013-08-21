@@ -224,8 +224,10 @@
                 <td><%= ot.alias %></td>
                 <td><%= ot.description %></td>
                 <td>
-                  <%= link_to "", edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                  <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                  <% unless ot.in?(@default_subcontractors) %>
+                      <%= link_to "", edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                      <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

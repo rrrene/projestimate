@@ -33,11 +33,13 @@ class OrganizationsController < ApplicationController
 
     set_page_title 'Organizations'
     @organization = Organization.find(params[:id])
+
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
 
     @complexities = OrganizationUowComplexity.all
     @unitofworks = UnitOfWork.all
+    @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
   end
 
   def create
@@ -68,6 +70,13 @@ class OrganizationsController < ApplicationController
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
       redirect_to redirect_apply(edit_organization_path(@organization), nil,'/organizationals_params' )
     else
+      @attributes = PeAttribute.defined.all
+      @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
+
+      @complexities = OrganizationUowComplexity.all
+      @unitofworks = UnitOfWork.all
+      @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
+
       render action: 'edit'
     end
   end
