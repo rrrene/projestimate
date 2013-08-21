@@ -19,7 +19,7 @@ describe AuthMethodsController do
   describe "GET index" do
     it "renders the index template" do
       get :index
-      response.should render_template("index")
+      response.should render_template(:index)
     end
 
     it "assigns all default_auth_method as @default_auth_method" do

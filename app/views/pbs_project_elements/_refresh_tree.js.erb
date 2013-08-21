@@ -1,18 +1,16 @@
 //Get the current_component first
 <% @current_component = current_component %>
 
-$("#project_wbs_product_section").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
-
+$("#project_wbs_product_section .tab-pane.active").html("<%=raw j generate_wbs_product(@project.root_component, @project, '', 5) %>");
 $(".component_name").html("<%=raw @current_component %>");
 $('.component_tree ul li').hover(
-        function () {
-            $(this.children).css('display', 'block');
-        },
-        function () {
-            $('.block_link').hide();
-        }
+    function () {
+        $(this.children).css('display', 'block');
+    },
+    function () {
+        $('.block_link').hide();
+    }
 );
-
 
 $('.block_label, div.block_link').hover(
     function () {

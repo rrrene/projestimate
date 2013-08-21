@@ -187,6 +187,18 @@ ActiveRecord::Schema.define(:version => 20130820091238) do
   add_index "currencies", ["reference_id"], :name => "index_currencies_on_parent_id"
   add_index "currencies", ["uuid"], :name => "index_currencies_on_uuid", :unique => true
 
+  create_table "ej_estimation_values", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "pbs_project_element_id"
+    t.integer  "wbs_activity_element_id"
+    t.float    "minimum"
+    t.float    "most_likely"
+    t.float    "maximum"
+    t.float    "probable"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
   create_table "estimation_values", :force => true do |t|
     t.integer  "module_project_id"
     t.integer  "pe_attribute_id"
@@ -586,6 +598,13 @@ ActiveRecord::Schema.define(:version => 20130820091238) do
     t.integer  "project_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "product_activities", :force => true do |t|
+    t.integer  "pbs_project_element_id"
+    t.integer  "wbs_project_element_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   create_table "project_areas", :force => true do |t|
