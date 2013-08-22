@@ -8,6 +8,13 @@ class SubcontractorsController < ApplicationController
   def edit
     @subcontractor = Subcontractor.find(params[:id])
     @organization = @subcontractor.organization
+
+    @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
+    if @subcontractor.alias.in?(%w(undefined internal subcontracted))
+      flash[:error] = "#{@subcontractor.name} subcontractor can't be modified"
+      redirect_to edit_organization_path(@organization, :anchor => "tabs-7")
+    end
+
   end
 
   def create
