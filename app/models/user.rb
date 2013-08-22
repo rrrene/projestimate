@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
 
   validates :password, :presence => {:on => :create}, :confirmation => true, :if => 'auth_method_application'
   validates :password_confirmation, :presence => {:on => :create}, :if => 'auth_method_application'
-  validate  :password_length, :on => :create, :if => 'password.present?'
+  validate :password_length, :on => :create, :if => 'password.present?'
 
   #AASM
   aasm :column => :user_status do
@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 
   def auth_method_application
     begin
-     self.auth_method.name == "Application"
+      self.auth_method.name == "Application"
     rescue
       false
     end
@@ -149,6 +149,26 @@ class User < ActiveRecord::Base
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
+  #Allow to import user from ldap for the on-the-fly user creation
+  def import_user_from_ldap(ldap_cn, login, ldap_server)
+    login_filter = Net::LDAP::Filter.eq ldap_server.user_name_attribute, "#{login}"
+    object_filter = Net::LDAP::Filter.eq "objectClass", "*"
+    search = ldap_cn.search( :base => ldap_server.base_dn,
+                             :filter => object_filter & login_filter,
+                             :attributes => ['dn', ldap_server.first_name_attribute, ldap_server.last_name_attribute, ldap_server.email_attribute, ldap_server.initials_attribute] ) do |entry|
+      self.auth_method = AuthMethod.find_by_id(ldap_server.id)
+      self.auth_type = ldap_server.id
+      self.email = entry["#{ldap_server.email_attribute}"][0]
+      self.login_name = login.to_s
+      self.first_name = entry["#{ldap_server.first_name_attribute}"][0]
+      self.last_name = entry["#{ldap_server.last_name_attribute}"][0]
+      self.group_ids = Group.find_by_name('Everyone').id
+      self.initials = entry["#{ldap_server.initials_attribute}"][0]
+      self.user_status= 'active'
+      self.time_zone = 'GMT'
+      self.save!
+    end
+  end
 
   # Allow to identify the user before the connection.
   def self.authenticate(login, password)
@@ -171,9 +191,76 @@ class User < ActiveRecord::Base
         end
       end
     else
+      #else if the user is not found in the local base, we test all the LDAP servers sorted by priority order
+      user = User.new
+      AuthMethod.order('priority_order').each do |ldap_server|
+        if ldap_server.on_the_fly_user_creation?
+          ldap_server.certificate ? use_ssl=:simple_tls : ''
+          if ldap_server.ldap_bind_dn.present? & ldap_server.ldap_bind_encrypted_password.present?
+            ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
+                                    :base => ldap_server.base_dn,
+                                    :port => ldap_server.port.to_i,
+                                    :encryption => use_ssl,
+                                    :auth => {
+                                        :method => :simple,
+                                        :username => ldap_server.ldap_bind_dn,
+                                        :password => ldap_server.ldap_bind_encrypted_password,
+                                    })
+            if ldap_cn.bind
+              if ldap_cn.bind_as(:base => ldap_server.base_dn.to_s,
+                                 :filter => ("#{ldap_server.user_name_attribute.to_s}=#{login}"),
+                                 :password => password,
+              )
+                user.import_user_from_ldap(ldap_cn,login,ldap_server)
+                if user.active?
+                  return user
+                else
+                  return nil
+                end
+              end
+            end
+          else
+            ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
+                                    :base => ldap_server.base_dn,
+                                    :port => ldap_server.port.to_i,
+                                    :encryption => use_ssl,
+                                    :auth => {
+                                        :method => :simple,
+                                        :username => "#{ldap_server.user_name_attribute.to_s}=#{login},#{ldap_server.base_dn}",
+                                        :password => password,
+                                    }
+            )
+            if ldap_cn.bind
+              user = User.new
+              user.import_user_from_ldap(ldap_cn, login, ldap_server)
+              if user.active?
+                return user
+              else
+                return nil
+              end
+            end
+          end
+
+
+        end
+      end
       nil
     end
   end
+
+  #def ldap_connection (server_name,base_dn,port,encryption,method,username,password)
+  #  @ldap_cn = Net::LDAP.new(:host => server_name.to_s,
+  #                          :base => base_dn.to_s,
+  #                          :port => port.to_i,
+  #                          :encryption => encryption
+  #                          :auth => {
+  #                              :method => method,
+  #                              :username => username,
+  #                              :password => password ,
+  #  )
+  #  ldap_cn
+  #end
+
 
   def ldap_authentication(password, login)
     self.auth_method.certificate ? use_ssl=:simple_tls : ''
