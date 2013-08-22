@@ -31,6 +31,7 @@ class OrganizationUowComplexitiesController < ApplicationController
   def edit
     authorize! :create_edit_organizations, Organization
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
+    @organization = @organization_uow_complexity.organization
   end
 
   def new
@@ -72,10 +73,11 @@ class OrganizationUowComplexitiesController < ApplicationController
 
   def destroy
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
-    organization_id = @organization_uow_complexity.organization_id
+    organization = @organization_uow_complexity.organization
+
     @organization_uow_complexity.delete
     respond_to do |format|
-      format.html { redirect_to redirect(edit_organization_path(organization_id, :anchor=>'tabs-5')), notice: "#{I18n.t (:notice_organization_uow_complexity_successful_deleted)}"}
+      format.html { redirect_to redirect(edit_organization_path(organization, :anchor=>'tabs-5')), notice: "#{I18n.t (:notice_organization_uow_complexity_successful_deleted)}"}
     end
   end
 end

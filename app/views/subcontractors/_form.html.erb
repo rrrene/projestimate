@@ -5,7 +5,7 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@subcontractor) do |f| %>
-        <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => params[:organization_id] } %>
+        <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @organization.id || params[:organization_id] } %>
         <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
         <%= f.input :alias, :label => "Alias", :input_html => {:class => 'input-xxlarge'} %>
         <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
@@ -19,7 +19,7 @@
               <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <% end %>
 
-          <%= link_to I18n.t('back'), '/organizationals_params#tabs-5', :class => 'btn' %>
+          <%= link_to I18n.t('back'), edit_organization_path(@organization, :anchor => "tabs-7"), :class => 'btn' %>
         </div>
     <% end %>
   </div>

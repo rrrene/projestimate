@@ -3,4 +3,6 @@ class OrganizationTechnology < ActiveRecord::Base
   belongs_to :organization
   has_and_belongs_to_many :unit_of_works
 
+  validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id, :case_sensitive => false }
+
 end

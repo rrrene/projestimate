@@ -20,7 +20,10 @@
 
 class UnitOfWork < ActiveRecord::Base
   attr_accessible :alias, :description, :name, :organization_id, :organization_technology_ids
+
   belongs_to :organization
-  validates :alias, :presence => true, :uniqueness => {:case_sensitive => false}
   has_and_belongs_to_many :organization_technologies
+
+  validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id, :case_sensitive => false }
+
 end

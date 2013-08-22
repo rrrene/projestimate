@@ -702,6 +702,11 @@ module ProjectsHelper
     "<br> #{I18n.t(:tooltip_attribute_rules)}: <strong>#{est_val.pe_attribute.options.join(' ')} </strong> <br> #{est_val.is_mandatory ? I18n.t(:mandatory) : I18n.t(:no_mandatory) }"
   end
 
+  #Display Security_Level Description in a bootstrap tooltip
+  def display_security_level_description(security_level)
+    "#{security_level.description}"
+  end
+
   def display_path(res, mp, i)
     if mp.previous[i].nil?
       res << ([mp] + mp.previous).flatten.reverse.join('<br>')
