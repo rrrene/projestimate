@@ -32,35 +32,41 @@ class OrganizationTechnologiesController < ApplicationController
     authorize! :create_edit_organizations, Organization
 
     @organization_technology = OrganizationTechnology.find(params[:id])
+    @organization = @organization_technology.organization
   end
 
   def new
     authorize! :create_edit_organizations, Organization
 
     @organization_technology = OrganizationTechnology.new
+    @organization = Organization.find_by_id(params[:organization_id])
   end
 
   def create
     authorize! :create_edit_organizations, Organization
 
     @organization_technology = OrganizationTechnology.new(params[:organization_technology])
+    @organization = Organization.find_by_id(params["organization_technology"]["organization_id"])
+
     if @organization_technology.save
       flash[:notice] = I18n.t (:notice_organization_technology_successful_created)
-      redirect_to redirect_apply(nil, new_organization_technology_path(params[:organization_technology]),edit_organization_path(params[:organization_technology][:organization_id], :anchor=>'tabs-4'))
+      redirect_to redirect_apply(nil, new_organization_technology_path(params[:organization_technology]), edit_organization_path(@organization, :anchor=>'tabs-4'))
     else
-      render action: 'new'
-      end
+      render action: 'new', :organization_id => @organization.id
+    end
   end
 
   def update
     authorize! :create_edit_organizations, Organization
 
     @organization_technology = OrganizationTechnology.find(params[:id])
+    @organization = @organization_technology.organization
+
     if @organization_technology.update_attributes(params[:organization_technology])
       flash[:notice] = I18n.t (:notice_organization_technology_successful_updated)
-      redirect_to redirect_apply(edit_organization_technology_path(params[:organization_technology]),nil,edit_organization_path(params[:organization_technology][:organization_id], :anchor=>'tabs-4'))
+      redirect_to redirect_apply(edit_organization_technology_path(params[:organization_technology]), nil, edit_organization_path(@organization, :anchor=>'tabs-4'))
     else
-      render action: 'edit'
+      render action: 'edit', :organization_id => @organization.id
     end
   end
 
