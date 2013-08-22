@@ -704,7 +704,7 @@ module ProjectsHelper
 
   #Display Security_Level Description in a bootstrap tooltip
   def display_security_level_description(security_level)
-    "<br> #{I18n.t(:description)}: #{security_level.description}"
+    "#{I18n.t(:description)}: #{security_level.description}"
   end
 
   def display_path(res, mp, i)
