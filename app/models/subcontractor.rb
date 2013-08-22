@@ -3,5 +3,5 @@ class Subcontractor < ActiveRecord::Base
 
   belongs_to :organization
 
-  validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id }
+  validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id, :case_sensitive => false }
 end

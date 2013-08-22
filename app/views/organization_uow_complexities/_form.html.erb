@@ -5,7 +5,7 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@organization_uow_complexity) do |f| %>
-        <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @oragnization.id || params[:organization_id] } %>
+        <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @organization.id || params[:organization_id] } %>
         <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
         <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 

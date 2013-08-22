@@ -19,8 +19,6 @@
 ########################################################################
 Projestimate::Application.routes.draw do
 
-  resources :subcontractors
-
   resources :organization_technologies
   resources :organization_uow_complexities
   resources :unit_of_works
@@ -107,6 +105,10 @@ Projestimate::Application.routes.draw do
 
   resources :organizations
   get 'organizationals_params' => 'organizations#organizationals_params', :as => 'organizationals_params'
+
+  resources :subcontractors
+  #match '/subcontractors', :to => 'subcontractors#new', :via => :get, :as => :get_subcontractor
+  #match 'subcontractors/:id/edit' => 'subcontractors#update', :via => :put, :as => :put_subcontractor
 
   resources :labor_categories
 

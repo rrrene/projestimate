@@ -32,23 +32,25 @@ class UnitOfWorksController < ApplicationController
   def edit
     authorize! :create_edit_organizations, Organization
     @unit_of_work = UnitOfWork.find(params[:id])
+    @organization = @unit_of_work.organization
   end
 
   def new
     authorize! :create_edit_organizations, Organization
     @unit_of_work = UnitOfWork.new
+    @organization = Organization.find_by_id(params[:organization_id])
   end
 
   def create
     authorize! :create_edit_organizations, Organization
     @unit_of_work = UnitOfWork.new(params[:unit_of_work])
     @organization = Organization.find_by_id(params[:unit_of_work][:organization_id])
+
     if @unit_of_work.save
       flash[:notice] = I18n.t (:notice_unit_of_work_successful_created)
       redirect_to redirect_apply(nil,
                                  new_unit_of_work_path(params[:unit_of_work]),
-                                 edit_organization_path(params[:unit_of_work][:organization_id],
-                                                        :anchor=>'tabs-6'))
+                                 edit_organization_path(params[:unit_of_work][:organization_id], :anchor=>'tabs-6'))
     else
       render action: 'new', :organization_id => @organization.id
     end

@@ -67,10 +67,10 @@ class User < ActiveRecord::Base
   before_create { generate_token(:auth_token) }
 
   validates_presence_of :last_name, :first_name, :user_status, :auth_type
-  validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
+  validates :login_name, :presence => true, :uniqueness => { case_sensitive: false }
   validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i}, :uniqueness => {case_sensitive: false}
 
-  validates :password, :presence => {:on => :create}, :confirmation => true, :if => 'auth_method_application'
+  validates :password, :presence => { :on => :create }, :confirmation => true, :if => 'auth_method_application'
   validates :password_confirmation, :presence => {:on => :create}, :if => 'auth_method_application'
   validate  :password_length, :on => :create, :if => 'password.present?'
 
