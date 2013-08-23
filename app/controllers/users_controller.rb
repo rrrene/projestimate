@@ -131,10 +131,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def is_an_automatic_account_activation?()
+    AdminSetting.find_by_key('self-registration') == 'automatic_account_activation'
+  end
   #Create a inactive user if the demand is ok.
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
+      is_an_automatic_account_activation?() ?  status = 'active' : 'pending'
       if !user.nil?
         redirect_to root_url, :warning =>"#{I18n.t (:warning_email_or_username_already_exist)}"
       else
@@ -144,7 +148,7 @@ class UsersController < ApplicationController
                          :login_name => params[:login_name],
                          :language_id => params[:language],
                          :initials => 'your_initials',
-                         :user_status => 'pending',
+                         :user_status => status,
                          :auth_method => AuthMethod.find_by_name('Application'))
 
         user.password = Standards.random_string(8)

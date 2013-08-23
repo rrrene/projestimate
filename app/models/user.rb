@@ -114,6 +114,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_an_automatic_account_activation?()
+    AdminSetting.find_by_key('self-registration') == 'automatic_account_activation'
+  end
   #Check password minimum length value
   def password_length
     begin
@@ -153,6 +156,7 @@ class User < ActiveRecord::Base
   def import_user_from_ldap(ldap_cn, login, ldap_server)
     login_filter = Net::LDAP::Filter.eq ldap_server.user_name_attribute, "#{login}"
     object_filter = Net::LDAP::Filter.eq "objectClass", "*"
+    is_an_automatic_account_activation?() ?  status = 'active' : 'pending'
     search = ldap_cn.search( :base => ldap_server.base_dn,
                              :filter => object_filter & login_filter,
                              :attributes => ['dn', ldap_server.first_name_attribute, ldap_server.last_name_attribute, ldap_server.email_attribute, ldap_server.initials_attribute] ) do |entry|
@@ -164,7 +168,7 @@ class User < ActiveRecord::Base
       self.last_name = entry["#{ldap_server.last_name_attribute}"][0]
       self.group_ids = Group.find_by_name('Everyone').id
       self.initials = entry["#{ldap_server.initials_attribute}"][0]
-      self.user_status= 'active'
+      self.user_status= status
       self.time_zone = 'GMT'
       self.save!
     end
