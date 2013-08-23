@@ -27,9 +27,9 @@ class AuthMethod < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
-  attr_accessor :password
+  attr_accessor :password , :priority_order
 
-  before_save :encrypt_password
+  #before_save :encrypt_password
 
   validates_presence_of :server_name, :port, :base_dn, :record_status, :user_name_attribute
   validates :password, :presence => { :on => :create } , :if => :on_the_fly_user_creation
