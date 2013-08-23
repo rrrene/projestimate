@@ -19,6 +19,12 @@
 ########################################################################
 Projestimate::Application.routes.draw do
 
+  resources :abacus_organizations
+
+
+  resources :organization_abacus
+
+
   resources :organization_technologies
   resources :organization_uow_complexities
   resources :unit_of_works
@@ -218,6 +224,8 @@ Projestimate::Application.routes.draw do
 
   post 'update_selected_attribute_organizations' => 'attribute_organizations#update_selected_attribute_organizations'
   post 'update_attribute_organizations_settings' => 'attribute_organizations#update_attribute_organizations_settings'
+
+  match 'organizations/:id/set_abacus' => 'organizations#set_abacus', :as => 'set_abacus'
 
   post 'save_cocomo_basic' => 'cocomo_basics#save_cocomo_basic', :as => 'EstimationControllers/save_cocomo_basic'
 

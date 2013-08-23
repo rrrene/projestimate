@@ -94,4 +94,21 @@ class OrganizationsController < ApplicationController
     @organizations_labor_categories = OrganizationLaborCategory.all || []
   end
 
+  def set_abacus
+    authorize! :manage_organizations, Organization
+
+    #@ot = OrganizationTechnology.find(params[:organization_technology])
+    @ot = OrganizationTechnology.first
+    @abacus = AbacusOrganization.find_or_create_by_organization_technology_id(@ot.id)
+
+    @complexities = OrganizationUowComplexity.all
+    @unitofworks = UnitOfWork.all
+
+    @complexities.each do |c|
+      @abacus.update_attribute('unit_of_work_id', params[:abacus][c.id.to_s])
+    end
+
+    redirect_to organizations_path
+  end
+
 end
