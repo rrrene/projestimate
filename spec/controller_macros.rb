@@ -38,6 +38,22 @@ module ControllerMacros
     controller.stub(:current_user) { @user }   #view.stub(:current_user) { user}
   end
 
+  #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  def logged_me
+    @logged_in_user = FactoryGirl.create(:logged_in_admin)
+    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @logged_in_user
+  end
+
+
+  def logout_me
+    @logged_in_user = nil
+    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @logged_in_user
+  end
+
+  #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   def first_language
     first_language = Language.first
     if first_language.nil?

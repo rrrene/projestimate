@@ -45,7 +45,7 @@ class AcquisitionCategoriesController < ApplicationController
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = I18n.t (:notice_acquisition_category_successful_created)
-      redirect_to redirect_apply(nil,new_acquisition_category_path(),"/projects_global_params#tabs-4")
+      redirect_to redirect_apply(nil, new_acquisition_category_path(), "/projects_global_params#tabs-4")
     else
       render action: "edit"
     end
