@@ -59,6 +59,20 @@ FactoryGirl.define do
     password_reset_token
   end
 
+  factory :logged_in_admin, :class => User do
+    first_name
+    last_name
+    login_name
+    email
+    initials
+    association :auth_method, :factory => :auth_method
+    user_status "pending"
+    association :language, :factory => :language
+    password   "projestimate"
+    password_confirmation "projestimate"
+    password_reset_token
+  end
+
   factory :user2, :class => User do
     first_name #"Administrator2"
     last_name  #"Projestimate2"
