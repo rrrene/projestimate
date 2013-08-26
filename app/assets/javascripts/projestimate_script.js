@@ -67,7 +67,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.attribute_tooltip').tooltip({'html' : true });
+    $('.attribute_tooltip').tooltip({'html' : true, 'placement' : 'right'});
 
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();
