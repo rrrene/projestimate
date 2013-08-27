@@ -18,7 +18,7 @@
             </tr>
           </table>
           <%= f.input :ldap_bind_dn, :label => I18n.t('ldap_bind_dn'), :input_html => {:class => 'input-xxlarge'} %>
-          <%= f.input :ldap_bind_encrypted_password, :label => I18n.t('ldap_bind_encrypted_password'), :input_html => {:class => 'input-xlarge', :disabled => false} %>
+          <%= f.input :password, :label => I18n.t('ldap_bind_encrypted_password'), :input_html => {:class => 'input-xlarge', :disabled => false} %>
           <%= f.input :base_dn, :label => I18n.t('base_dn'), :input_html => {:class => 'input-xxlarge'} %>
           <table>
             <tr>
