@@ -97,18 +97,22 @@ class OrganizationsController < ApplicationController
   def set_abacus
     authorize! :manage_organizations, Organization
 
-    #@ot = OrganizationTechnology.find(params[:organization_technology])
     @ot = OrganizationTechnology.first
-    @abacus = AbacusOrganization.find_or_create_by_organization_technology_id(@ot.id)
 
     @complexities = OrganizationUowComplexity.all
     @unitofworks = UnitOfWork.all
 
-    @complexities.each do |c|
-      @abacus.update_attribute('unit_of_work_id', params[:abacus][c.id.to_s])
+    @unitofworks.each do |uow|
+      @complexities.each do |c|
+        a = AbacusOrganization.new
+        a.update_attribute('unit_or_work_id', uow.id)
+        a.update_attribute('value', 999)
+        a.update_attribute('organization_uow_complexity_id', c.id)
+        a.update_attribute('organization_technology_id', @ot.id)
+      end
     end
 
-    redirect_to organizations_path
+    redirect_to '/organizationals_params'
   end
 
 end

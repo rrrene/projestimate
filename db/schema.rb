@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820091238) do
+ActiveRecord::Schema.define(:version => 20130823134708) do
+
+  create_table "abacus_organizations", :force => true do |t|
+    t.float    "value"
+    t.integer  "unit_or_work_id"
+    t.integer  "organization_uow_complexity_id"
+    t.integer  "organization_technology_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"

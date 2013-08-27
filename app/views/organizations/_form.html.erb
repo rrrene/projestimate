@@ -239,7 +239,16 @@
       </div>
 
       <div id="tabs-8">
-        <b><%= I18n.t(:text_organization_abacus) %></b>
+        <p>
+          <%= select_tag "technologies", options_for_select(OrganizationTechnology.all), :class => "pull-right" %>
+        </p>
+
+        <p>
+          <b>
+            <%= I18n.t(:text_organization_abacus) %>
+          </b>
+        </p>
+
         <%= form_tag "set_abacus", :method => 'POST', :class => 'simple_form' do %>
           <table class="table table-striped table-bordered table-condensed permissions">
             <tr>
@@ -252,18 +261,18 @@
             </tr>
 
             <% @unitofworks.each do |unit| %>
-              <tr class="">
-
-                  <td>
-                    <%= unit.name %>
+              <tr>
+                <td>
+                  <%= unit.name %>
+                </td>
+                <% @complexities.each do |c| %>
+                  <td style="text-align: center;">
+                    <% a = AbacusOrganization.where(:unit_or_work_id => unit.id,
+                                                    :organization_uow_complexity_id => c.id,
+                                                    :organization_technology_id => OrganizationTechnology.first.id).first %>
+                    <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => "span2" %>
                   </td>
-
-                  <% @complexities.each do |c| %>
-                    <td style="text-align: center;">
-                      <%= text_field_tag "abacus_#{c.id}", "", :class => "span2" %>
-                    </td>
-                  <% end %>
-
+                <% end %>
               </tr>
             <% end %>
           </table>
