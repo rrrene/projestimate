@@ -18,6 +18,8 @@
 #
 ########################################################################
 require 'open-uri'
+require 'mysql2'
+
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
@@ -579,6 +581,39 @@ class Home < ActiveRecord::Base
 
     puts '   - Create global permissions...'
     self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
+    #Associate attribute permissions to groups
+    ext_permissions = ExternalMasterDatabase::ExternalPermission.all
+    ext_groups = ExternalMasterDatabase::ExternalGroup.all
+    begin
+      db = Mysql2::Client.new(ExternalMasterDatabase::HOST)
+    rescue Mysql2::Error
+      puts "We could not connect to our database;"
+      exit 1
+    end
+    rows = db.query("SELECT * FROM groups_permissions")
+    groups_permissions=Array.new
+    rows.each do |row|
+      groups_permissions.push(row)
+    end
+    records_permission=Array.new
+
+    groups_permissions.each do |record_groups_permissions|
+      records_permission.push(record_groups_permissions['permission_id'])
+    end
+
+    ext_permissions.each do |ext_permission|
+
+      ext_groups.each do |ext_group|
+        if records_permission.include?(ext_permission.id)
+          loc_permission = Permission.find_by_uuid(ext_permission.uuid)
+          loc_group = Group.find_by_uuid(ext_group.uuid)
+
+          puts loc_group
+          #loc_permission.group_ids.push(loc_group.id)
+          #loc_permission.save
+        end
+      end
+    end
 
     puts "\n\n"
     puts '   - Default data was successfully loaded. Enjoy !'
