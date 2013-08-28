@@ -46,9 +46,9 @@ class Project < ActiveRecord::Base
   validates_presence_of :state
   validates :title, :alias, :presence => true, :uniqueness => { case_sensitive: false }
 
-  searchable do
-    text :title, :description, :alias
-  end
+  #Search fields
+  scoped_search :on => [:title, :alias, :description]
+  scoped_search :in => :organization, :on => :name
 
   #ASSM needs
   aasm :column => :state do # defaults to aasm_state

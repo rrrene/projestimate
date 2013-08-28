@@ -7,6 +7,7 @@ FactoryGirl.define do
     last_name  "Projestimate"
     login_name "admin"
     email      "youremail@yourcompany.net"
+    time_zone  "GMT"
     initials   "ad"
     association :auth_method, :factory => :auth_method, strategy: :build
     user_status "active"

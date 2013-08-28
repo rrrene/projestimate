@@ -137,6 +137,12 @@ module ExternalMasterDatabase
   class ExternalPeicon < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+
+    has_attached_file :icon, :styles => {:small => "16x16"}
+
+    validates_attachment :icon, :presence => true,
+                         :content_type => {:content_type => "image/png"},
+                         :size => {:in => 0..10.kilobytes}
   end
 
   class ExternalPemodule < ActiveRecord::Base
@@ -187,11 +193,13 @@ module ExternalMasterDatabase
   class ExternalGroup < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+    has_and_belongs_to_many :permissions
   end
 
   class ExternalPermission < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+    has_and_belongs_to_many :groups
   end
 
   class ExternalRecordStatus < ActiveRecord::Base

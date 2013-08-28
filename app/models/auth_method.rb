@@ -1,3 +1,4 @@
+#encoding: utf-8
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
@@ -19,6 +20,7 @@
 ########################################################################
 
 #Special table
+
 class AuthMethod < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
@@ -27,18 +29,18 @@ class AuthMethod < ActiveRecord::Base
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
-  attr_accessor :password , :priority_order
+  attr_accessor :priority_order, :password
 
-  #before_save :encrypt_password
+
+  before_save :encrypt_password
 
   validates_presence_of :server_name, :port, :base_dn, :record_status, :user_name_attribute
-  validates :password, :presence => { :on => :create } , :if => :on_the_fly_user_creation
+  validates :password, :presence => {:on => :create} , :if => :on_the_fly_user_creation
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :presence => true, :uniqueness => { :case_sensitive => false, :scope => :record_status_id }
+  validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
   #validates :first_name_attribute, :last_name_attribute, :email_attribute, :presence => true, :if => :on_the_fly_user_creation
   validate :validate_if_fly_user_creation, :if => :on_the_fly_user_creation
-
   amoeba do
     enable
     exclude_field [:users]
@@ -49,6 +51,7 @@ class AuthMethod < ActiveRecord::Base
       new_record.record_status = RecordStatus.find_by_name('Proposed')
     })
   end
+  KEY = '0123456789abcdef01234567890' # 24 characters
 
   def validate_if_fly_user_creation
     errors.add(:first_name_attribute, "#{I18n.t('warning_on_the_fly_user_creation')}") if first_name_attribute.blank?
@@ -57,10 +60,19 @@ class AuthMethod < ActiveRecord::Base
   end
 
   def encrypt_password
-    if ldap_bind_encrypted_password.present?
-      self.ldap_bind_salt = BCrypt::Engine.generate_salt
-      self.ldap_bind_encrypted_password = BCrypt::Engine.hash_secret(password, ldap_bind_salt)
+
+
+
+    if self.password.present?
+      encrypted_data = AESCrypt.encrypt(password, 'yourpass')
+      self.ldap_bind_encrypted_password = encrypted_data
     end
+
+
+  end
+
+  def decrypt_password
+  return AESCrypt.decrypt(self.ldap_bind_encrypted_password,'yourpass')
   end
   def to_s
     self.name
