@@ -16,7 +16,6 @@
 
 $(document).ready(function() {
 
-
     $("#technology").change(function() {
         return $.ajax({
             url: "/change_abacus",
