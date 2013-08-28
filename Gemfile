@@ -52,7 +52,6 @@ end
 gem 'cancan'
 #Authentication for tests
 gem "warden"
-gem 'devise'
 
 #Tree
 gem 'ancestry'
