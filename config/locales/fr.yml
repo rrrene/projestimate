@@ -590,7 +590,7 @@ fr:
   edit_password: "Mettre à jour votre mot de passe"
   text_forgotten_password_help: "Vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
   ask_new_account_help: "Vous allez recevoir un courriel de confirmation, mais vous devez attendre jusqu'à ce qu'un administrateur valide votre compte.\n Lorsque votre compte est activé par l'administrateur, vous recevez un second courriel de confirmation."
-
+  ask_new_account_help2: "Vous allez recevoir un courriel de confirmation contenant votre identifiant et votre mot de passe"
   #translations
   choose_locale: "Choisir une langue"
   save_translations: "Sauvegarder les traductions"
@@ -849,7 +849,9 @@ fr:
   notice_translation_successful_added: "Traduction ajoutée"
   notice_account_successful_created: "Votre compte a été créé avec succès"
   notice_account_successful_updated: "Votre compte a été mis à jour avec succès.."
-  warning_email_or_username_already_exist: "Cet email ou ce nom d'utilisateur existent déjà dans la base"
+  warning_email_or_username_already_exist: "Cet email ou ce nom d'utilisateur existe déjà dans la base"
+  warning_invalid_import_from_ldap: "Cette utilisateur ne peut être importé :"
+  warning_ldap_attribute_missing:  "L'attribut \"%{value}\" est vide."
   notice_account_demand_send: "Demande de compte envoyée avec succès"
   warning_check_all_fields: "Merci de bien vouloir renseigner tous les champs."
   notice_version_successful_created: "La version a été créé avec succès."
