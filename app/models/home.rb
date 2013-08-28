@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ########################################################################
-
+require 'open-uri'
 class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
@@ -455,11 +455,18 @@ class Home < ActiveRecord::Base
     external_icons = ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
 
     external_icons.each do |ext_icon|
-      if %w(Folder Link Undefined Default).include?(ext_icon.name)
-        icon_name = ext_icon.name.downcase
-        icon = Peicon.create(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}.png"), :record_status_id => local_defined_rs_id)
+        icon_name = ext_icon.icon_file_name
+        icon_url=ext_icon.icon.url
+        icon_id=icon_url.split('/')[7]
+        url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
+        File.open("#{Rails.root}/public/#{icon_name}", "wb") do |saved_file|
+          # the following "open" is provided by open-uri
+          open(url, 'rb') do |read_file|
+            saved_file.write(read_file.read)
+          end
+        end
+        icon = Peicon.create(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id)
         icon.update_attribute(:uuid, ext_icon.uuid)
-      end
     end
 
     puts '   - WBS structure'
