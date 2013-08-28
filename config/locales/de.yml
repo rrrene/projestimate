@@ -246,9 +246,10 @@ de:
   administration: "Admin Settings"
   user: "User"
   groups: "Groups"
-  global_permission: "Global permissions"
+  label_role: "Roles"
+  global_permission: "Roles (Global)"
   all_permissions: "Permissions"
-  project_securities: "Project securities"
+  project_securities: "Roles (Project)"
   auth_methods: "Authentication methods"
   events: "Events"
 
