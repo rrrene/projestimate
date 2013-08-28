@@ -239,47 +239,6 @@
       </div>
 
       <div id="tabs-8">
-        <p>
-          <%= select_tag "technologies", options_for_select(OrganizationTechnology.all), :class => "pull-right" %>
-        </p>
-
-        <p>
-          <b>
-            <%= I18n.t(:text_organization_abacus) %>
-          </b>
-        </p>
-
-        <%= form_tag "set_abacus", :method => 'POST', :class => 'simple_form' do %>
-          <table class="table table-striped table-bordered table-condensed permissions">
-            <tr>
-              <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
-              <% @complexities.each do |ouc| %>
-                <th class="text-center">
-                  <%= ouc.name %>
-                </th>
-              <% end %>
-            </tr>
-
-            <% @unitofworks.each do |unit| %>
-              <tr>
-                <td>
-                  <%= unit.name %>
-                </td>
-                <% @complexities.each do |c| %>
-                  <td style="text-align: center;">
-                    <% a = AbacusOrganization.where(:unit_or_work_id => unit.id,
-                                                    :organization_uow_complexity_id => c.id,
-                                                    :organization_technology_id => OrganizationTechnology.first.id).first %>
-                    <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => "span2" %>
-                  </td>
-                <% end %>
-              </tr>
-            <% end %>
-          </table>
-
-          <%= submit_tag I18n.t('save'), :class => 'btn' %>
-          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-        <% end %>
-      </div>
+        <%= render :partial => 'organization_technologies/abacus' %></div>
   <% end %>
 </div>
