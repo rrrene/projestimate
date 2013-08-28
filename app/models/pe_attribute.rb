@@ -55,9 +55,8 @@ class PeAttribute < ActiveRecord::Base
     })
   end
 
-  searchable do
-    text :name, :description, :alias
-  end
+  #Search fields
+  scoped_search :on => [:name, :alias, :description]
 
   def self.attribute_list
     PeAttribute.all.map(&:alias)

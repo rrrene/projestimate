@@ -26,9 +26,10 @@ class Ability
   def initialize(user)
 #    Uncomment in order to authorize everybody to manage all the app
 
-    cannot :update, [WbsActivityElement, WbsActivity, Language, PeAttribute, MasterSetting, ProjectArea, ProjectCategory, PlatformCategory, AcquisitionCategory, Peicon,
-                     WorkElementType, Currency, AdminSetting, AuthMethod, Group, LaborCategory, ActivityCategory, ProjectSecurityLevel,
-                     Permission], :record_status => {:name => "Retired"}
+    can :manage, :all
+    #cannot :update, [WbsActivityElement, WbsActivity, Language, PeAttribute, MasterSetting, ProjectArea, ProjectCategory, PlatformCategory, AcquisitionCategory, Peicon,
+    #                 WorkElementType, Currency, AdminSetting, AuthMethod, Group, LaborCategory, ActivityCategory, ProjectSecurityLevel,
+    #                 Permission], :record_status => {:name => "Retired"}
 
     #Load user groups permissions
     if user && !user.groups.empty?

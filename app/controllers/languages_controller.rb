@@ -25,6 +25,7 @@ class LanguagesController < ApplicationController
   load_and_authorize_resource
 
   def index
+    #authorize! :create_and_edit_language, Language
     authorize! :create_and_edit_language, Language
     set_page_title 'Languages'
     @languages = Language.all

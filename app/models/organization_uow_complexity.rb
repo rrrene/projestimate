@@ -25,6 +25,6 @@ class OrganizationUowComplexity < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:scope => :organization_id, :case_sensitive => false}
 
   has_many :organization_uow_complexities, :through => :abacus_organizations
-  has_many :abacus_organizations
+  has_many :abacus_organizations, :dependent => :destroy
 
 end

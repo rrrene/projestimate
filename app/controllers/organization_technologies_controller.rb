@@ -78,4 +78,11 @@ class OrganizationTechnologiesController < ApplicationController
       format.html { redirect_to redirect(edit_organization_path(organization_id, :anchor=>'tabs-4')), notice: "#{I18n.t (:notice_organization_technology_successful_deleted)}"}
     end
   end
+
+  def change_abacus
+    @ot = OrganizationTechnology.find(params[:technology])
+    @organization = @ot.organization
+    @unitofworks = @ot.unit_of_works
+    @complexities = OrganizationUowComplexity.all
+  end
 end

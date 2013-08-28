@@ -69,8 +69,9 @@ Projestimate::Application.routes.draw do
 
   resources :master_settings
 
-  resources :searches
+  # searches controller routes
   post 'searches/results'
+  get 'searches/results' => 'searches#results', :as => 'searches/results'
 
   resources :project_security_levels
 
@@ -111,6 +112,7 @@ Projestimate::Application.routes.draw do
 
   resources :organizations
   get 'organizationals_params' => 'organizations#organizationals_params', :as => 'organizationals_params'
+  get 'change_abacus' => 'organization_technologies#change_abacus', :as => 'change_abacus'
 
   resources :subcontractors
   #match '/subcontractors', :to => 'subcontractors#new', :via => :get, :as => :get_subcontractor

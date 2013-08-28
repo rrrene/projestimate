@@ -23,8 +23,9 @@ class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_filter :verify_authentication, :except => [:show, :create_inactive_user]
   before_filter :load_data, :only => [:update, :edit, :new, :create, :create_inactive_user]
-
   load_and_authorize_resource :except => [:edit, :show, :update, :create_inactive_user]
+
+  load_and_authorize_resource :except => [:edit, :show, :update]
 
   def load_data
     if params[:id]
@@ -154,14 +155,10 @@ class UsersController < ApplicationController
         user.password = Standards.random_string(8)
         user.group_ids = [Group.last.id]
         user.save(:validate => false)
+
         UserMailer.account_created(user).deliver
-        if !user.active?
         UserMailer.account_request.deliver
-        redirect_to root_url, :notice => "#{I18n.t (:ask_new_account_help)}"
-        else
-        UserMailer.account_validate(user).deliver
-        redirect_to root_url, :notice => "#{I18n.t (:notice_account_successful_created)}, #{I18n.t(:ask_new_account_help2)}"
-        end
+        redirect_to root_url, :notice => "#{I18n.t (:notice_account_demand_send)}"
       end
     else
       redirect_to root_url, :warning => "#{I18n.t (:warning_check_all_fields)}"

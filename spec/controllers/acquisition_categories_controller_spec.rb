@@ -3,7 +3,7 @@ require 'spec_helper'
 describe AcquisitionCategoriesController do
 
   before :each do
-    logout_me
+    logout_admin
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     controller.stub(:current_ability).and_return(@ability)
@@ -17,7 +17,7 @@ describe AcquisitionCategoriesController do
 
   describe "New" do
     it "renders the new template" do
-      logged_me
+      login_admin
       @ability.can :create, AcquisitionCategory
       get :new
       #response.should render_template("new")
@@ -25,7 +25,7 @@ describe AcquisitionCategoriesController do
     end
 
     it "assigns a new acquisition_category as @acquisition_category" do
-      logged_me
+      login_admin
       @ability.can :create, AcquisitionCategory
       get :new
       assigns(:acquisition_category).should be_a_new_record
@@ -34,7 +34,7 @@ describe AcquisitionCategoriesController do
 
   describe "GET edit" do
     it "assigns the requested acquisition_category as @acquisition_category" do
-      logged_me
+      login_admin
       @ability.can :update, AcquisitionCategory
       get :edit, {:id => @acquisition_category.to_param}
       assigns(:acquisition_category)==([@acquisition_category])
@@ -44,7 +44,7 @@ describe AcquisitionCategoriesController do
 
   describe "create" do
     it "renders the create template" do
-      logged_me
+      login_admin
       @ability.can :create, AcquisitionCategory
       acq = FactoryGirl.build(:acquisition_category, :unknown)
       @params = acq.to_param
@@ -66,7 +66,7 @@ describe AcquisitionCategoriesController do
 
     context "with valid params" do
       it "updates the requested acquisition_category" do
-        logged_me
+        login_admin
         @ability.can :update, AcquisitionCategory
         put :update, id: @new_ac, acquisition_category: FactoryGirl.attributes_for(:acquisition_category, :newDevelopment)
         response.should be_success
@@ -82,7 +82,7 @@ describe AcquisitionCategoriesController do
     #end
 
     it "redirects to the acquisition_category list" do
-      logged_me
+      login_admin
       @ability.can :destroy, AcquisitionCategory
       @params = { :id => @acquisition_category.id }
       delete :destroy, @params

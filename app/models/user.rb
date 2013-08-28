@@ -74,6 +74,11 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => {:on => :create}, :if => 'auth_method_application'
   validate :password_length, :on => :create, :if => 'password.present?'
 
+  #Search fields
+  scoped_search :on => [:last_name, :first_name, :login_name]
+  scoped_search :in => :groups, :on => :name
+  scoped_search :in => :organizations, :on => :name
+
   #AASM
   aasm :column => :user_status do
     state :active
@@ -222,6 +227,7 @@ class User < ActiveRecord::Base
       self.save!
     end
   end
+
 
   # Allow to identify the user before the connection.
   def self.authenticate(login, password)
