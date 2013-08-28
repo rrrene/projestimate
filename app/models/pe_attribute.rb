@@ -57,6 +57,7 @@ class PeAttribute < ActiveRecord::Base
 
   #Search fields
   scoped_search :on => [:name, :alias, :description]
+  scoped_search :in => :attribute_caterogies, :on => :name
 
   def self.attribute_list
     PeAttribute.all.map(&:alias)
