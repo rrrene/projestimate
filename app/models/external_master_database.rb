@@ -193,11 +193,13 @@ module ExternalMasterDatabase
   class ExternalGroup < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+    has_and_belongs_to_many :permissions
   end
 
   class ExternalPermission < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
+    has_and_belongs_to_many :groups
   end
 
   class ExternalRecordStatus < ActiveRecord::Base
