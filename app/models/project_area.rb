@@ -39,10 +39,8 @@ class ProjectArea < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
 
-  #Sunspot needs
-  searchable do
-    text :name, :description
-  end
+  #Search fields
+  scoped_search :on => [:name, :description]
 
   #Override
   def to_s

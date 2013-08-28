@@ -70,9 +70,8 @@ class Pemodule < ActiveRecord::Base
     })
   end
 
-  searchable do
-    text :title, :description, :alias
-  end
+  #Search fields
+  scoped_search :on => [:title, :alias, :description]
 
 
   #Override

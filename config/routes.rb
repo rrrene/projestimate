@@ -69,8 +69,9 @@ Projestimate::Application.routes.draw do
 
   resources :master_settings
 
-  resources :searches
+  # searches controller routes
   post 'searches/results'
+  get 'searches/results' => 'searches#results', :as => 'searches/results'
 
   resources :project_security_levels
 

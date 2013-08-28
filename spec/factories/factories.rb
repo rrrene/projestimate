@@ -51,6 +51,7 @@ FactoryGirl.define do
     login_name "admin1"
     email      "admin1@yourcompany.net"
     initials   "ad1"
+    time_zone  "GMT"
     association :auth_method, :factory => :auth_method
     user_status "pending"
     association :language, :factory => :language
@@ -66,6 +67,7 @@ FactoryGirl.define do
     email
     initials
     association :auth_method, :factory => :auth_method
+    time_zone  "GMT"
     user_status "pending"
     association :language, :factory => :language
     password   "projestimate"
@@ -80,6 +82,7 @@ FactoryGirl.define do
     email      "youremail2@yourcompany.net"
     initials   #"ad2"
     association :auth_method, :factory => :auth_method, strategy: :build
+    time_zone  "GMT"
     user_status "pending"
     association :language, :factory => :language, :strategy => :build
     password   "projestimate2"
