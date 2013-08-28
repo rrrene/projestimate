@@ -132,7 +132,7 @@ class UsersController < ApplicationController
   end
 
   def is_an_automatic_account_activation?()
-    AdminSetting.find_by_key('self-registration').value == 'automatic account activation'
+    AdminSetting.where(:record_status_id =>RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
   end
   #Create a inactive user if the demand is ok.
   def create_inactive_user
