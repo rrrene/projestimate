@@ -99,7 +99,15 @@ class RecordStatusesController < ApplicationController
       #logical deletion: delete don't have to suppress records anymore
       @record_status.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
+      if @record_status.name=="Defined"
+        record_status_defined=true
+      end
+
       @record_status.destroy
+      if record_status_defined
+        @record_status = RecordStatus.find_by_name("Defined")
+        @record_status.update_attributes(:record_status_id => @record_status.id, :owner_id => current_user.id)
+      end
     end
 
     respond_to do |format|
