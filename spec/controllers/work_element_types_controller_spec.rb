@@ -6,7 +6,6 @@ describe WorkElementTypesController do
 
   before :each do
     #@user = login_as_admin
-    @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:authenticated_user)
     sign_in @user
     @app_auth_method = FactoryGirl.build(:application_auth_method)
