@@ -317,6 +317,7 @@ fr:
   display: "Afficher"
   record_per_page: "enregistrements par page"
   quick_search: "Recherche rapide"
+  search: "Recherche"
   import: "Importer"
   export: "Exporter"
 
