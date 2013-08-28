@@ -239,38 +239,6 @@
       </div>
 
       <div id="tabs-8">
-        <b><%= I18n.t(:text_organization_abacus) %></b>
-        <br><br>
-        <%= form_tag "set_abacus" do %>
-          <table class="table table-striped table-bordered table-condensed permissions">
-            <tr>
-              <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
-              <% @complexities.each do |ouc| %>
-                <th style="text-align:center;">
-                  <%= ouc.name %>
-                </th>
-              <% end %>
-            </tr>
-
-            <% @unitofworks.each do |unit| %>
-              <tr class="">
-
-                  <td>
-                    <%= unit.name %>
-                  </td>
-
-                  <% @complexities.each do |c| %>
-                    <td style="text-align: center;">
-                      <%= check_box_tag("permissions[#{c.id}][]", c.id, false, :id => nil) %>
-                    </td>
-                  <% end %>
-
-              </tr>
-            <% end %>
-          </table>
-
-          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-        <% end %>
-      </div>
+        <%= render :partial => 'organization_technologies/abacus' %></div>
   <% end %>
 </div>

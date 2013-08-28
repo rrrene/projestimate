@@ -16,6 +16,14 @@
 
 $(document).ready(function() {
 
+    $("#technology").change(function() {
+        return $.ajax({
+            url: "/change_abacus",
+            method: "GET",
+            data: "technology=" + $(this).val()
+        });
+    });
+
     $(".accordion").on("show", function (e) {
        $(e.target).parent().find(".icon-caret-right").removeClass("icon-caret-right").addClass("icon-caret-down");
     });
@@ -67,7 +75,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.attribute_tooltip').tooltip({'html' : true });
+    $('.attribute_tooltip').tooltip({'html' : true, 'placement' : 'bottom', container: 'body'});
 
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();

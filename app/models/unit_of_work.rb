@@ -24,6 +24,10 @@ class UnitOfWork < ActiveRecord::Base
   belongs_to :organization
   has_and_belongs_to_many :organization_technologies
 
+  has_many :organization_uow_complexities, :through => :abacus_organizations
+  has_many :abacus_organizations
+
+
   validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id, :case_sensitive => false }
 
 end

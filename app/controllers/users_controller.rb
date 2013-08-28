@@ -21,8 +21,8 @@
 
 class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_filter :verify_authentication, :except => [:show, :create_inactive_user, ]
-  before_filter :load_data, :only => [:update, :edit, :new, :create]
+  before_filter :verify_authentication, :except => [:show, :create_inactive_user]
+  before_filter :load_data, :only => [:update, :edit, :new, :create, :create_inactive_user]
 
   load_and_authorize_resource :except => [:edit, :show, :update]
 
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     set_page_title 'Users'
     @users = User.all
   end
-  
+
   def new
     set_page_title 'New user'
 
@@ -58,11 +58,11 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.group_ids = Group.find_by_name('Everyone').id
 
-      if @user.save
-        redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor=>"tabs-1"), users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
-      else
-        render(:new)
-      end
+    if @user.save
+      redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor=>"tabs-1"), users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
+    else
+      render(:new)
+    end
   end
 
   def edit
@@ -131,21 +131,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def is_an_automatic_account_activation?()
+    AdminSetting.where(:record_status_id =>RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
+  end
   #Create a inactive user if the demand is ok.
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
+      is_an_automatic_account_activation?() ?  status = 'active' : 'pending'
       if !user.nil?
         redirect_to root_url, :warning =>"#{I18n.t (:warning_email_or_username_already_exist)}"
       else
         user = User.new(:email => params[:email],
-                         :first_name => params[:first_name],
-                         :last_name => params[:last_name],
-                         :login_name => params[:login_name],
-                         :language_id => params[:language],
-                         :initials => 'your_initials',
-                         :user_status => 'pending',
-                         :auth_method => AuthMethod.find_by_name('Application'))
+                        :first_name => params[:first_name],
+                        :last_name => params[:last_name],
+                        :login_name => params[:login_name],
+                        :language_id => params[:language],
+                        :initials => 'your_initials',
+                        :user_status => status,
+                        :auth_method => AuthMethod.find_by_name('Application'))
 
         user.password = Standards.random_string(8)
         user.group_ids = [Group.last.id]

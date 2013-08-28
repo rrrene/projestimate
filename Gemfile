@@ -57,6 +57,8 @@ gem 'devise'
 #Tree
 gem 'ancestry'
 
+gem 'aescrypt'
+
 # Optional gem for LDAP authentication
 #group :ldap do
   gem 'net-ldap', '~> 0.3.1'
