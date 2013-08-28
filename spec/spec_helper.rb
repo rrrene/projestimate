@@ -69,10 +69,6 @@ Spork.each_run do
     config.include(ControllerMacros, :type => :views)
     config.include(ControllerMacros, :type => :helper)
     config.include(ControllerMacros, :type => :request)
-
-    config.include Devise::TestHelpers, :type => :controller
-    config.include Devise::TestHelpers, :type => :view
-    config.include Warden::Test::Helpers, :type => :controller
     Warden.test_mode!
 
     ##For taking in account the Permissions with the CanCan gem

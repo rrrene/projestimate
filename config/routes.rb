@@ -195,9 +195,6 @@ Projestimate::Application.routes.draw do
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
 
-  #devise_for :users
-  devise_for :users, :path => 'sessions'
-
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'
   get 'sign_up' => 'users#new', :as => 'sign_up'
