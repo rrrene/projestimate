@@ -35,10 +35,8 @@ class PbsProjectElement < ActiveRecord::Base
   validates_presence_of :name
   #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation
 
-  #Sunspot needs
-  searchable do
-    text :name
-  end
+  #Search fields
+  scoped_search :on => [:name]
 
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do

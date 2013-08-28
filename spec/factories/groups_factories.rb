@@ -5,6 +5,7 @@ FactoryGirl.define do
     sequence(:description) {|n| "Group number #{n}"}
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
+    for_global_permission true
   end
 
 end

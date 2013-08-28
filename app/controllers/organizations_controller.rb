@@ -38,8 +38,13 @@ class OrganizationsController < ApplicationController
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
 
     @complexities = OrganizationUowComplexity.all
-    @ot = OrganizationTechnology.first
-    @unitofworks = @ot.unit_of_works
+    begin
+      @ot = @organization.organization_technologies.first
+      @unitofworks = @ot.unit_of_works
+    rescue
+      @ot = nil
+      @unitofworks = nil
+    end
     @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
   end
 
@@ -104,7 +109,7 @@ class OrganizationsController < ApplicationController
 
     @unitofworks.each do |uow|
       @complexities.each do |c|
-        a = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id(uow.id, c.id, @ot.id)
+        a = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(uow.id, c.id, @ot.id, params[:id])
         begin
           a.update_attribute(:value, params["abacus"]["#{uow.id}"]["#{c.id}"])
         rescue

@@ -3,6 +3,39 @@
 
 module ControllerMacros
 
+  def http_login
+    user = 'admin'
+    pw = 'projestimate'
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
+    @request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("username:password")
+  end
+
+
+  def should_authorize(action, subject)
+    controller.should_receive(:authorize!).with(action, subject).and_return('passed!')
+    controller.should_receive(:can?).with(action, subject).and_return(true)
+  end
+
+
+  #def mock_user(type, stubs={})
+  #  mock_model(type, stubs).as_null_object
+  #end
+
+  #def mock_user(stubs={})
+  #  @mock_user ||= mock_model(User, stubs).as_null_object
+  #end
+  #
+  #
+  #
+  ## Example usage: login mock_user(Editor)
+  #def login_inn(user)
+  #  request.env['warden'] = mock(Warden,
+  #                               :authenticate => user,
+  #                               :authenticate! => user)
+  #end
+
+
+
   def login_as_admin
     #we create other record status
     defined_record_status = RecordStatus.find_or_create_by_name(:name => "Defined", :description => "Test Saly")
@@ -39,19 +72,25 @@ module ControllerMacros
   end
 
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  def logged_me
+  def login_admin
     @logged_in_user = FactoryGirl.create(:logged_in_admin)
+
     @controller.stub!(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
 
-  def logout_me
+  def logout_admin
     @logged_in_user = nil
     @controller.stub!(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
+  def login_test_me
+    @logged_in_user = FactoryGirl.create(:logged_in_admin)
+    page.driver.post sessions_path,
+                     :user => {:login_name => @logged_in_user.login_name, :password => @logged_in_user.password}
+  end
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   def first_language
@@ -82,7 +121,7 @@ module ControllerMacros
     @logged_in_user
   end
 
-  def login_admin(options = {})
+  def login_test(options = {})
     #options[:admin] = true
     language = first_language
     auth_method = first_auth_method
@@ -90,11 +129,6 @@ module ControllerMacros
 
     @logged_in_user = Factory.create(:user, options)
     @controller.stub!(:current_user).and_return(@logged_in_user)
-    @logged_in_user
-  end
-
-  def logout_user
-    @logged_in_user = nil
     @logged_in_user
   end
 

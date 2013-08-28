@@ -39,6 +39,9 @@ class Group < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:scope => :record_status_id, :case_sensitive => false}
   validates :custom_value, :presence => true, :if => :is_custom?
 
+  #Search fields
+  scoped_search :on => [:name]
+
   #Override
   def to_s
     self.name

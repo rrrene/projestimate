@@ -23,8 +23,7 @@ class UsersController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_filter :verify_authentication, :except => [:show, :create_inactive_user]
   before_filter :load_data, :only => [:update, :edit, :new, :create, :create_inactive_user]
-
-  load_and_authorize_resource :except => [:edit, :show, :update]
+  load_and_authorize_resource :except => [:edit, :show, :update, :create_inactive_user]
 
   def load_data
     if params[:id]
@@ -132,8 +131,10 @@ class UsersController < ApplicationController
   end
 
   def is_an_automatic_account_activation?()
-    AdminSetting.where(:record_status_id =>RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
+    AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id,
+                       :key => 'self-registration').first.value == 'automatic account activation'
   end
+
   #Create a inactive user if the demand is ok.
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)

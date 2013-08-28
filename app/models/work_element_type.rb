@@ -35,10 +35,8 @@ class WorkElementType < ActiveRecord::Base
   validates :name, :alias, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
 
-  #Sunspot needs
-  searchable do
-    text :name, :description, :alias
-  end
+  #Search fields
+  scoped_search :on => [:name, :alias, :description]
 
   def self.work_element_type_list
     Object::WorkElementType.all.map(&:alias)
