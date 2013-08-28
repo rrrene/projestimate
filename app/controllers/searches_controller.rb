@@ -22,24 +22,6 @@
 class SearchesController < ApplicationController
 
   #Display search result
-  #def results
-  #  if params[:search].class == Array
-  #    classes = params[:search][:classes].map { |i| String::keep_clean_space(i).camelcase.constantize }
-  #  else
-  #    classes = [PeAttribute, ProjectArea, PlatformCategory, ProjectCategory, WorkElementType, PbsProjectElement, Project, Pemodule]
-  #  end
-  #
-  #  @results = Array.new
-  #  classes.each do |class_name|
-  #    @res = class_name.search do
-  #      fulltext params[:search]
-  #    end
-  #
-  #    @results << @res.results
-  #  end
-  #  @results = @results.flatten
-  #end
-
   # Search with the "scoped_search " gem
   def results
     if params[:search].class == Array

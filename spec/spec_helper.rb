@@ -69,8 +69,6 @@ Spork.each_run do
     config.include(ControllerMacros, :type => :views)
     config.include(ControllerMacros, :type => :helper)
     config.include(ControllerMacros, :type => :request)
-    Warden.test_mode!
-
     ##For taking in account the Permissions with the CanCan gem
     #config.extend(ControllerSpecs::CanCan, type: :controller)
   end
