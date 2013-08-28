@@ -72,7 +72,38 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalAttributeCategory, AttributeCategory, ['name', 'alias','uuid'])
 
     puts '   - Projestimate Icons'
-    self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
+    #self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
+    ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Defined').id
+    local_defined_rs_id = RecordStatus.find_by_name('Defined').id
+    external_icons = ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
+
+    external_icons.each do |ext_icon|
+      icon_name = ext_icon.icon_file_name
+      icon_url=ext_icon.icon.url
+      icon_id=icon_url.split('/')[7]
+      unless Dir.entries("#{Rails.root}/public/").include?(icon_name)
+        url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
+        File.open("#{Rails.root}/public/#{icon_name}", "wb") do |saved_file|
+          # the following "open" is provided by open-uri
+          open(url, 'rb') do |read_file|
+            saved_file.write(read_file.read)
+          end
+        end
+      end
+    #end
+    #self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
+
+      peicon=Peicon.find_by_uuid(ext_icon.uuid)
+      unless peicon.nil?
+        id_icon=peicon.id
+        icon = Peicon.find(id_icon)
+        icon.update_attributes(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id,:uuid=> ext_icon.uuid)
+      else
+        puts "create"
+        icon = Peicon.create(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id)
+        icon.update_attributes(:uuid, ext_icon.uuid)
+      end
+    end
 
     puts '   - WorkElementType'
     self.update_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ['name', 'alias', 'peicon_id', 'uuid'])
