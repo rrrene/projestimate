@@ -1,6 +1,6 @@
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:search_results) %></a></li>
+    <li><a href="#tabs-1"><h4><%= I18n.t(:search_results) %></h4></a></li>
   </ul>
 
   <div id="tabs-1">
@@ -10,12 +10,14 @@
       <ul>
         <% classes = @results.map { |i| i.class }.uniq %>
         <% classes.each do |cla| %>
+          <br>
           <ul>
-            <li><strong><%= cla.to_s %></strong></li>
+            <li><strong><%= cla.to_s %>:</strong></li>
             <% @results.each do |res| %>
               <% if res.class == cla %>
-                <li><%= display_link(res, params[:search]) %>
-                <li><%= display_update(res, params[:search]) %>
+                <li class='search_result_label' style="margin-left: 20px;"><%= display_link(res, params[:search]) %></li>
+                <li style="margin-left: 20px;"><%= display_update(res, params[:search]) %></li>
+                <br>
               <% end %>
             <% end %>
           </ul>

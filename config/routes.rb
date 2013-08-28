@@ -63,8 +63,9 @@ Projestimate::Application.routes.draw do
 
   resources :master_settings
 
-  resources :searches
+  # searches controller routes
   post 'searches/results'
+  get 'searches/results' => 'searches#results', :as => 'searches/results'
 
   resources :project_security_levels
 
@@ -186,6 +187,9 @@ Projestimate::Application.routes.draw do
   match 'projects/:project_id/locked_plan' => 'projects#locked_plan', :as => :locked_plan
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
+
+  #devise_for :users
+  devise_for :users, :path => 'sessions'
 
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'

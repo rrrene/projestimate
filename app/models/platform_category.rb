@@ -38,11 +38,8 @@ class PlatformCategory < ActiveRecord::Base
     exclude_field [:projects]
   end
 
-
-  #Sunspot needs
-  searchable do
-    text :name, :description
-  end
+  #Search fields
+  scoped_search :on => [:name, :description]
 
   #Override
   def to_s

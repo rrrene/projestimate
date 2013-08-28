@@ -196,6 +196,19 @@ $(document).ready(function() {
         });
     });
 
+    //$("#quick_search_button").click(function(){
+    $("#quick_search_button").bind('click', function() {
+        $.ajax({
+            url:"/searches/results",
+            method: 'GET',
+            data: {
+                search: $("#search").val()
+            }
+        });
+        return false;
+    });
+
+
 
     var hideFlashes = function () {
         $("#notice, #error, #warning, .on_success_global, .on_success_attr, .on_success_attr_set").fadeOut(2000);

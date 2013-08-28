@@ -22,7 +22,6 @@ Spork.prefork do
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
   require Rails.root.join("spec/controller_macros.rb")
-  #require Rails.root.join("spec/controller_specs.rb")
 end
 
 Spork.each_run do
@@ -67,6 +66,14 @@ Spork.each_run do
 
     #Manage user authentication on test
     config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller
+    config.include(ControllerMacros, :type => :views)
+    config.include(ControllerMacros, :type => :helper)
+    config.include(ControllerMacros, :type => :request)
+
+    config.include Devise::TestHelpers, :type => :controller
+    config.include Devise::TestHelpers, :type => :view
+    config.include Warden::Test::Helpers, :type => :controller
+    Warden.test_mode!
 
     ##For taking in account the Permissions with the CanCan gem
     #config.extend(ControllerSpecs::CanCan, type: :controller)
