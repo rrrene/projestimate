@@ -67,9 +67,6 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
 #Searching
-#gem 'sunspot_rails'
-#gem 'sunspot_solr'
-
 gem 'scoped_search'
 
 #Workflow
