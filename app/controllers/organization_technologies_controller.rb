@@ -81,6 +81,7 @@ class OrganizationTechnologiesController < ApplicationController
 
   def change_abacus
     @ot = OrganizationTechnology.find(params[:technology])
+    @organization = @ot.organization
     @unitofworks = @ot.unit_of_works
     @complexities = OrganizationUowComplexity.all
   end
