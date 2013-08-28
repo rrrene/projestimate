@@ -7,7 +7,7 @@
   <div class='well'>
     <p>
       <label>Select an organization technology</label>
-      <%= select_tag "technology", options_for_select(OrganizationTechnology.all.map{|i| [i.name, i.id]}) %>
+      <%= select_tag "technology", options_for_select(OrganizationTechnology.all.map{|i| [i.name, i.id]}, :selected => @ot.id) %>
     </p>
   </div>
 
@@ -32,7 +32,7 @@
           <td style="text-align: center;">
             <% a = AbacusOrganization.where(:unit_or_work_id => unit.id,
                                             :organization_uow_complexity_id => c.id,
-                                            :organization_technology_id => OrganizationTechnology.first.id).first %>
+                                            :organization_technology_id => @ot).first %>
             <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => "span2" %>
           </td>
         <% end %>
