@@ -20,11 +20,25 @@
 
 module SearchesHelper
   def display_link(res, params)
-    link_to(raw("#{ res.to_s.gsub(/(#{params})/i, '<strong>\1</strong>')}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result")
+
+      if defined? res.title
+        result= res.title
+      else
+        if defined? res.name
+          result=res.name
+        end
+      end
+      if defined? res.alias
+        result += " ("+res.alias+")"
+      end
+
+    link_to(raw("#{ result}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result", :style => "font-size:12px; color: #467aa7;")
   end
 
   def display_description(res, params=[])
-    res.description
+    unless res.description.nil?
+      res.description
+    end
   end
 
   def display_update(res, params=[])
