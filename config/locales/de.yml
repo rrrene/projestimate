@@ -246,9 +246,10 @@ de:
   administration: "Admin Settings"
   user: "User"
   groups: "Groups"
-  global_permission: "Global permissions"
+  label_role: "Roles"
+  global_permission: "Roles (Global)"
   all_permissions: "Permissions"
-  project_securities: "Project securities"
+  project_securities: "Roles (Project)"
   auth_methods: "Authentication methods"
   events: "Events"
 
@@ -593,7 +594,7 @@ de:
   edit_password: "Update your password"
   text_forgotten_password_help: "You will receive an email with a link that allows you to change your password."
   ask_new_account_help: "You will receive a confirmation email, but you must wait until an administrator enable your account.\nWhen your account is activated by the administrator, you receive a second confirmation email."
-
+  ask_new_account_help2: "You will receive a confirmation email with your login and your password"
   #translations
   choose_locale: "Choose a local"
   save_translations: "Save Translations"
@@ -853,6 +854,8 @@ de:
   notice_account_successful_created: "The account was successfully created"
   notice_account_successful_updated: "The account was successfully updated."
   warning_email_or_username_already_exist: "Email or user name already exist in the database."
+  warning_invalid_import_from_ldap: "This user can not be imported :"
+  warning_ldap_attribute_missing:  "The attribute \"%{value}\" is empty."
   notice_account_demand_send: "Account demand send with success."
   warning_check_all_fields: "Please check all fields."
   notice_version_successful_created: "Version was successfully created."
