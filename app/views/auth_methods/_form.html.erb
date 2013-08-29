@@ -14,7 +14,7 @@
             <tr>
               <td><%= f.input :port, :as => :select, :collection => ['389', '636'], :label => I18n.t('port'), :input_html => {:class => 'input-medium'} %></td>
               <td>&nbsp &nbsp &nbsp</td>
-              <td><%= f.input :certificate, :label => I18n.t('certificate') %></td>
+              <td><%= f.input :encryption, :label => I18n.t('encryption'),  :collection => ['No encryption', 'SSL (ldaps://)', 'StartTLS' ] %></td>
             </tr>
           </table>
           <%= f.input :ldap_bind_dn, :label => I18n.t('ldap_bind_dn'), :input_html => {:class => 'input-xxlarge', :type => "text"} %>

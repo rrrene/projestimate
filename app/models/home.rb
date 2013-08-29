@@ -120,7 +120,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ['key', 'value', 'uuid'])
 
     puts '   - Auth Method'
-    self.update_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ['name', 'server_name', 'port', 'base_dn', 'certificate', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ['name', 'server_name', 'port', 'base_dn', 'uuid'])
 
     puts '   - Default groups'
     self.update_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'for_global_permission', 'for_project_security', 'uuid'])
@@ -517,7 +517,7 @@ class Home < ActiveRecord::Base
     self.create_records(ExternalMasterDatabase::ExternalAdminSetting, AdminSetting, ['key', 'value', 'uuid'])
 
     puts '   - Auth Method'
-    self.create_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ['name', 'server_name', 'port', 'base_dn', 'certificate', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalAuthMethod, AuthMethod, ['name', 'server_name', 'port', 'base_dn', 'uuid'])
 
     puts '   - Admin user'
     #Create first user
@@ -576,12 +576,10 @@ class Home < ActiveRecord::Base
     user.project_ids = [Project.first.id]
     user.save
 
-    puts '   - Create project security level...'
-    self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
 
     puts '   - Create global permissions...'
     self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
-    #Associate attribute permissions to groups
+    #Associate permissions to groups
     ext_permissions = ExternalMasterDatabase::ExternalPermission.all
     ext_groups = ExternalMasterDatabase::ExternalGroup.all
     begin
@@ -590,30 +588,89 @@ class Home < ActiveRecord::Base
       puts "We could not connect to our database;"
       exit 1
     end
+
+    #Select groups_permissions table on master database
     rows = db.query("SELECT * FROM groups_permissions")
     groups_permissions=Array.new
     rows.each do |row|
       groups_permissions.push(row)
     end
-    records_permission=Array.new
 
+    ext_records_permission=Array.new
     groups_permissions.each do |record_groups_permissions|
-      records_permission.push(record_groups_permissions['permission_id'])
+      ext_records_permission.push([record_groups_permissions['permission_id'],record_groups_permissions['group_id']])
     end
 
-    ext_permissions.each do |ext_permission|
-
-      ext_groups.each do |ext_group|
-        if records_permission.include?(ext_permission.id)
-          loc_permission = Permission.find_by_uuid(ext_permission.uuid)
-          loc_group = Group.find_by_uuid(ext_group.uuid)
-
-          puts loc_group
-          #loc_permission.group_ids.push(loc_group.id)
-          #loc_permission.save
-        end
+    #Create a table match between master groups_permissions and local groups_permission
+    loc_records_permissions=Array.new
+    ext_records_permission.each do |record|
+      ext_permission_uuid=Array.new
+      ext_group_uuid=Array.new
+      ext_permission= db.query("SELECT uuid FROM permissions where id=#{record[0]}")
+      ext_permission.each do |row|
+        ext_permission_uuid=row
       end
+      ext_group=db.query("SELECT uuid FROM groups where id=#{record[1]}")
+      ext_group.each do |row|
+        ext_group_uuid=row
+      end
+      loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
+      loc_group= Group.find_by_uuid(ext_group_uuid["uuid"]).id
+      loc_records_permissions << [loc_permission_id,loc_group]
     end
+
+    #Insert on local database groups_permissions records
+    loc_records_permissions.each do |groups_permissions|
+      loc_permission = Permission.find(groups_permissions[0])
+      loc_group= Group.find(groups_permissions[1])
+      loc_permission.groups << loc_group
+      loc_permission.save
+    end
+
+    puts '   - Create project security level...'
+    self.create_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
+    ext_permissions = ExternalMasterDatabase::ExternalPermission.all
+    ext_securities_level = ExternalMasterDatabase::ExternalProjectSecurityLevel.all
+    # Connect to the master database
+
+    #Select permissions_project_security_levels table on master database
+    rows = db.query("SELECT * FROM permissions_project_security_levels")
+    permissions_project_security_level=Array.new
+    rows.each do |row|
+      permissions_project_security_level.push(row)
+    end
+
+    ext_records_permission_project=Array.new
+    permissions_project_security_level.each do |record_permissions_project_security_level|
+      ext_records_permission_project.push([record_permissions_project_security_level['permission_id'],record_permissions_project_security_level['project_security_level_id']])
+    end
+    #
+    ##Create a table match between master permissions_project_security_levels and local permissions_project_security_levels
+    loc_records_permissions_project=Array.new
+    ext_records_permission_project.each do |record|
+      ext_permission_uuid=Array.new
+      ext_project_security_level_uuid=Array.new
+      ext_permission= db.query("SELECT uuid FROM permissions where id=#{record[0]}")
+      ext_permission.each do |row|
+        ext_permission_uuid=row
+      end
+      ext_project_security_levels=db.query("SELECT uuid FROM project_security_levels where id=#{record[1]}")
+      ext_project_security_levels.each do |row|
+        ext_project_security_level_uuid=row
+      end
+      loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
+
+      loc_project_security_level_id= ProjectSecurityLevel.find_by_uuid(ext_project_security_level_uuid["uuid"]).id
+      loc_records_permissions_project << [loc_permission_id,loc_project_security_level_id]
+    end
+    #Insert on local database permissions_project_security_levels records
+    loc_records_permissions_project.each do |project_security_permissions|
+      loc_permission = Permission.find(project_security_permissions[0])
+      loc_security_level= ProjectSecurityLevel.find(project_security_permissions[1])
+      loc_permission.project_security_levels << loc_security_level
+      loc_permission.save
+    end
+
 
     puts "\n\n"
     puts '   - Default data was successfully loaded. Enjoy !'
@@ -628,41 +685,4 @@ class Home < ActiveRecord::Base
     #end
   end
 
-
-  def self.testons
-    ext_permissions = ExternalMasterDatabase::ExternalPermission.all
-    ext_groups = ExternalMasterDatabase::ExternalGroup.all
-    begin
-      db = Mysql2::Client.new(ExternalMasterDatabase::HOST)
-    rescue Mysql2::Error
-      puts "We could not connect to our database;"
-      exit 1
-    end
-    rows = db.query("SELECT * FROM groups_permissions")
-    groups_permissions = Array.new
-    rows.each do |row|
-      groups_permissions.push(row)
-    end
-    records_permission=Array.new
-
-    groups_permissions.each do |record_groups_permissions|
-      records_permission.push(record_groups_permissions['permission_id'])
-    end
-
-    ext_permissions.each do |ext_permission|
-
-      ext_groups.each do |ext_group|
-        if records_permission.include?(ext_permission.id)
-          loc_permission = Permission.find_by_uuid(ext_permission.uuid)
-          loc_group = Group.find_by_uuid(ext_group.uuid)
-
-          puts loc_group
-          #loc_permission.group_ids.push(loc_group.id)
-          #loc_permission.save
-        end
-      end
-    end
-
-
-  end
 end

@@ -391,7 +391,7 @@ en-gb:
   priority_order: "Priority order"
   edit_auth_method: "Edit the \"%{value}\" authentication method ..."
   new_auth_method: "New authentication method"
-
+  encryption: "Encryption method"
   #currencies
   currencies: "Currencies"
   edit_currency: "Edit currency"
