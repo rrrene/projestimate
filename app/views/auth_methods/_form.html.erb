@@ -17,8 +17,8 @@
               <td><%= f.input :certificate, :label => I18n.t('certificate') %></td>
             </tr>
           </table>
-          <%= f.input :ldap_bind_dn, :label => I18n.t('ldap_bind_dn'), :input_html => {:class => 'input-xxlarge'} %>
-          <%= f.input :password, :label => I18n.t('ldap_bind_encrypted_password'), :input_html => {:class => 'input-xlarge', :disabled => false} %>
+          <%= f.input :ldap_bind_dn, :label => I18n.t('ldap_bind_dn'), :input_html => {:class => 'input-xxlarge', :type => "text"} %>
+          <%= f.input :password, :label => I18n.t('ldap_bind_encrypted_password'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => "text"} %>
           <%= f.input :base_dn, :label => I18n.t('base_dn'), :input_html => {:class => 'input-xxlarge'} %>
           <table>
             <tr>
