@@ -15,6 +15,8 @@
           <% if can? :create_project_from_scratch, Project %>
             <%= link_to I18n.t('new_project'), new_project_path, :class => 'btn' %>
           <% end %>
+
+          <%= link_to "testeMe", "/homes/testme" %>
         </td>
       </tr>
     </table>

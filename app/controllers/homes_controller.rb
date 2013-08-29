@@ -62,4 +62,9 @@ class HomesController < ApplicationController
       redirect_to about_url
     end
   end
+
+
+  def testme
+    Home::testons
+  end
 end
