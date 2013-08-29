@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130828132737) do
+ActiveRecord::Schema.define(:version => 20130823134708) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -20,14 +20,11 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.integer  "organization_technology_id"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.integer  "organization_id"
   end
 
   create_table "acquisition_categories", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "uuid"
     t.integer  "record_status_id"
     t.string   "custom_value"
@@ -35,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "acquisition_categories", ["record_status_id"], :name => "index_acquisition_categories_on_record_status_id"
@@ -52,8 +51,6 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.string   "name"
     t.text     "description"
     t.string   "alias"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "uuid"
     t.integer  "record_status_id"
     t.string   "custom_value"
@@ -61,6 +58,8 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "activity_categories", ["record_status_id"], :name => "index_activity_categories_on_record_status_id"
@@ -153,7 +152,6 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.integer  "port"
     t.string   "base_dn"
     t.string   "user_name_attribute"
-    t.boolean  "certificate"
     t.string   "uuid"
     t.integer  "record_status_id"
     t.string   "custom_value"
@@ -172,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130828132737) do
     t.string   "last_name_attribute"
     t.string   "email_attribute"
     t.string   "initials_attribute"
+    t.string   "encryption"
   end
 
   add_index "auth_methods", ["record_status_id"], :name => "index_auth_methods_on_record_status_id"
