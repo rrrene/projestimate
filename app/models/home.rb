@@ -577,7 +577,7 @@ class Home < ActiveRecord::Base
     user.save
 
 
-    #puts '   - Create global permissions...'
+    puts '   - Create global permissions...'
     self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
     #Associate permissions to groups
     ext_permissions = ExternalMasterDatabase::ExternalPermission.all
@@ -658,13 +658,11 @@ class Home < ActiveRecord::Base
       ext_project_security_levels.each do |row|
         ext_project_security_level_uuid=row
       end
-      puts ext_permission_uuid["uuid"]
       loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
-      puts loc_permission_id
+
       loc_project_security_level_id= ProjectSecurityLevel.find_by_uuid(ext_project_security_level_uuid["uuid"]).id
       loc_records_permissions_project << [loc_permission_id,loc_project_security_level_id]
     end
-    puts loc_records_permissions_project
     #Insert on local database permissions_project_security_levels records
     loc_records_permissions_project.each do |project_security_permissions|
       loc_permission = Permission.find(project_security_permissions[0])
