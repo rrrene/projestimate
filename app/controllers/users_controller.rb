@@ -131,10 +131,8 @@ class UsersController < ApplicationController
   end
 
   def is_an_automatic_account_activation?()
-    AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id,
-                       :key => 'self-registration').first.value == 'automatic account activation'
+    AdminSetting.where(:record_status_id =>RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
   end
-
   #Create a inactive user if the demand is ok.
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
@@ -155,10 +153,14 @@ class UsersController < ApplicationController
         user.password = Standards.random_string(8)
         user.group_ids = [Group.last.id]
         user.save(:validate => false)
-
         UserMailer.account_created(user).deliver
+        if !user.active?
         UserMailer.account_request.deliver
-        redirect_to root_url, :notice => "#{I18n.t (:notice_account_demand_send)}"
+        redirect_to root_url, :notice => "#{I18n.t (:ask_new_account_help)}"
+        else
+        UserMailer.account_validate(user).deliver
+        redirect_to root_url, :notice => "#{I18n.t (:notice_account_successful_created)}, #{I18n.t(:ask_new_account_help2)}"
+        end
       end
     else
       redirect_to root_url, :warning => "#{I18n.t (:warning_check_all_fields)}"

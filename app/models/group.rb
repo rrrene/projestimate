@@ -47,6 +47,9 @@ class Group < ActiveRecord::Base
     self.name
   end
 
+  #Search fields
+  scoped_search :on => [:name, :description]
+
   #TODO REVIEW function code
   #Return group project_securities for selected project_id
   def project_securities_for_select(prj_id)

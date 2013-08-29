@@ -1,6 +1,4 @@
 # This module is used to avoid login repetition while testing controller methods
-
-
 module ControllerMacros
 
   def http_login

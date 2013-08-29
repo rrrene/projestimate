@@ -39,6 +39,9 @@ class AcquisitionCategory < ActiveRecord::Base
     exclude_field [:projects]
   end
 
+  #Search fields
+  scoped_search :on => [:name, :description]
+
   def to_s
     name
   end
