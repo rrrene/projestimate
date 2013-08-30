@@ -14,23 +14,6 @@
           <div class="accordion" id="accordion1">
             <div class="accordion-group accordion-caret">
               <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
-                  <i class="icon-caret-down"></i>
-                  <b><%= I18n.t 'activity_categories' %></b>
-                </a>
-              </div>
-              <div id="collapseOne" class="accordion-body in collapse">
-                <div class="accordion-inner">
-                  <% @activity_categories.each do |ac| %>
-                      <%= check_box_tag 'project_area[activity_category_ids][]', ac.id, @project_area.activity_categories.include?(ac) %>
-                      <%= ac.name %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-group accordion-caret">
-              <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
                   <i class="icon-caret-down"></i>
                   <b><%= I18n.t 'acquisition_categories' %></b>

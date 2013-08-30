@@ -21,7 +21,6 @@
 class ModuleProject < ActiveRecord::Base
   belongs_to :pemodule
   belongs_to :project
-  belongs_to :reference_value
 
   has_many :estimation_values, :dependent => :destroy
 

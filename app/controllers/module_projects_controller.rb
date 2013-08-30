@@ -50,7 +50,6 @@ class ModuleProjectsController < ApplicationController
     @project = @module_project.project
     @module_projects = @project.module_projects
     @capitalization_module_project = @capitalization_module.nil? ? nil : @module_projects.find_by_pemodule_id(@capitalization_module.id)
-    @references_values = ReferenceValue.all
 
     # Get the max X and Y positions of modules
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -138,7 +137,6 @@ class ModuleProjectsController < ApplicationController
     @module_project = ModuleProject.find(params[:module_project_id])
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
-    @references_values = ReferenceValue.all
 
     @module_projects.each do |mp|
       mp.update_attribute(:reference_value_id, params["module_projects_#{mp.id.to_s}"])

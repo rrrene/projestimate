@@ -76,7 +76,7 @@ describe AttributeCategoriesController do
     end
 
     #context "with valid params" do
-    #  it "updates the requested activity_category" do
+    #  it "updates the requested attribute_category" do
     #    put :update, id: @new_ac, attribute_category: FactoryGirl.attributes_for(:product_quality)
     #    response.should be_success
     #  end

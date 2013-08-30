@@ -8,7 +8,6 @@ FactoryGirl.define do
     user_name_attribute "ldap_user"
     port 0
     base_dn "Not necessary"
-    certificate 0
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
   end
