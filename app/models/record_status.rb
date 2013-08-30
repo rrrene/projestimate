@@ -25,7 +25,6 @@ class RecordStatus < ActiveRecord::Base
   #attr_accessible :description, :name, :change_comment, :record_status_id, :custom_value
 
   has_many :acquisition_categories
-  has_many :activity_categories
   has_many :associated_attributes, :class_name => "PeAttribute"
   has_many :attribute_modules
   has_many :currencies

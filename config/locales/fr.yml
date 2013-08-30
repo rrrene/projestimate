@@ -271,7 +271,6 @@ fr:
   label_language: "Langue"
   translations: "Traductions"
   community: "Communauté"
-  reference_values: "Valeurs de référence"
 
   connected_as: "Connecté en tant que"
   logout: "Se déconnecter"

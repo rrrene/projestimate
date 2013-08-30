@@ -279,33 +279,6 @@ def load_data!
         LaborCategory.create(:name => i[0], :description => i[1], :record_status_id => rsid)
       end
       #laborcategory=LaborCategory.first
-
-    puts '   - Activity categories'
-    #Default actitity category
-    array_activity_category =  Array.new
-    array_activity_category = [
-              ['Acquisition activities', 'Acquisition', 'Acquisition covers the activities involved in initiating a project'],
-              ['Supply activities', 'Supply', 'Supply covers the activities involved to develop a project management plan'],
-              ['Development / Define Functional requirements', 'Requirements', 'Gather the functional requirements, or demands, for the product that is to be created.'],
-              ['Development / Create High level Design', 'Design', 'A basic layout of the product is created. This means the setup of different modules and how they communicate with each other. This design does not contain very much detail about the modules.'],
-              ['Development / Create Module design', 'Detailed design', 'The different modules present in the High level design are designed separately. The modules are designed in as much detail as possible'],
-              ['Development / Coding', 'Coding', 'The code is created according to the high level design and the module design.'],
-              ['Development / Module test', 'Module test', 'The different modules are tested for correct functioning. If this is the case the project can move to the next activity, else the project returns to the module design phase to correct any errors.'],
-              ['Development / Integration test', 'Integration test', 'The communication between modules is tested for correct functioning. If this is the case the project can move to the next activity, else the project falls back to the high level design to correct any errors.'],
-              ['Development / System test', 'System test', 'This test checks whether all functional requirements are present in the product. If this is the case the product is completed and the product is ready to be transferred to the customer. Else the project falls back to the software requirements activity and the functional requirements have to be adjusted.'],
-              ['Operation', 'Operation', 'The operation and maintenance phases occur simultaneously, the operation-phase consists of activities like assisting users in working with the created software product.'],
-              ['Maintenance', 'Maintenance', 'The maintenance-phase consists of maintenance-tasks to keep the product up and running. The maintenance includes any general enhancements, changes and additions, which might be required by the end-users. These defects and deficiencies are usually documented by the developing organization to enable future solutions and known issues addressing in any future maintenance releases. There is no disposal phase'],
-              ['Documentation', 'TBD', 'TBD'],
-              ['Configuration Management', 'TBD', 'TBD'],
-              ['Quality management', 'TBD', 'TBD'],
-              ['Management', 'TBD', 'TBD'],
-              ['Training', 'TBD', 'TBD'],
-              ['Distribution', 'TBD', 'TBD'],
-              ['Other', 'TBD', 'TBD']
-            ]
-      array_activity_category.each do |i|
-        ActivityCategory.create(:name => i[0], :alias => i[1], :description => i[2], :record_status_id => rsid)
-      end
     
   puts ' Creating organizations...'
     Organization.create(:name => 'YourOrganization', :description => 'This must be update to match your organization')
@@ -419,15 +392,6 @@ def load_data!
     permissions.each do |i|
       Permission.create(:name => String.keep_clean_space(i[0]), :description => i[1], :is_permission_project => i[2], :record_status_id => rsid)
     end
-
-  reference_values = [
-    ['One Activity-element'],
-    ['All Activity-elements'],
-    ['A set of activity-elements'],
-  ]
-  reference_values.each do |i|
-    ReferenceValue.create(:value => i[0], :record_status_id => rsid)
-  end
 
   #  puts "\n\n"
   #  puts "Default data was successfully loaded. Enjoy !"
