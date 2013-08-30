@@ -29,11 +29,15 @@ class SearchesController < ApplicationController
     else
       classes = [Project, ProjectArea, PlatformCategory, ProjectCategory, AcquisitionCategory, WbsActivity, Pemodule, PeAttribute, WorkElementType, Organization, User, Group]
     end
+
     @results = Array.new
-    classes.each do |class_name|
-      @query = params[:search]
-      @results << class_name.search_for(@query)
+    if params[:search] != ""
+      classes.each do |class_name|
+        @query = params[:search]
+        @results << class_name.search_for(@query)
+      end
     end
+
     @results = @results.flatten
   end
 

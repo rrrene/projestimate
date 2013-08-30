@@ -722,3 +722,7 @@ div.block_label.selected_pbs {
     font-weight: normal;
     font-style: normal;
 }
+
+.text_search{
+    background-color: #ffffe0;
+}
