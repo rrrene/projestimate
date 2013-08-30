@@ -64,7 +64,4 @@ class HomesController < ApplicationController
   end
 
 
-  def testme
-    Home::testons
-  end
 end

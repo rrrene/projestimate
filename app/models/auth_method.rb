@@ -34,7 +34,7 @@ class AuthMethod < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  validates_presence_of :server_name, :port, :base_dn, :record_status, :user_name_attribute
+  validates_presence_of :server_name, :port, :base_dn, :record_status, :user_name_attribute, :encryption
   validates :password, :presence => {:on => :create} , :if => :on_the_fly_user_creation
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}

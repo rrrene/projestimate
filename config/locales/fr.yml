@@ -393,7 +393,7 @@ fr:
   priority_order: "Priorité"
   edit_auth_method: "Editer la  méthode d'autentification \"%{value}\" ..."
   new_auth_method: "Créer une nouvelle méthode d'authentification"
-
+  encryption: "Méthode d'encryption"
   #currencies
   currencies: "Devises"
   edit_currency: "Editer une devise"
