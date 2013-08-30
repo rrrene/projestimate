@@ -723,6 +723,9 @@ div.block_label.selected_pbs {
     font-style: normal;
 }
 
-.text_search{
-    background-color: #ffffe0;
+.highlight{
+    background-color: #FCFD8D;
+    /*color:#467aa7 ;*/
+    color: inherit;
+    font-weight: inherit;
 }
