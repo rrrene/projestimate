@@ -4,9 +4,14 @@ describe LanguagesController do
 
   render_views
 
-  before :each do
-    @connected_user = login_as_admin
+  before :all do
+    http_login
+  end
 
+
+  before :each do
+    #@connected_user = login_as_admin
+    #
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     controller.stub(:current_ability).and_return(@ability)
@@ -20,45 +25,58 @@ describe LanguagesController do
 
 
   describe "GET index" do
-    before do
-      group_permission_1 = mock(Permission, :object_associated => "Group", :name => "manage")
-      group_permission_2 = mock(Permission, :object_associated => "Group", :name => "manage_master_groups")
-      group_permission_3 = mock(Permission, :object_associated => "Language", :name => "manage")
-      group_permission_4 = mock(Permission, :object_associated => "Language", :name => "create_and_edit_language")
-      group_permission_5 = mock(Permission, :object_associated => "User", :name => "access_menu_admin")
-      group_permission_6 = mock(Permission, :object_associated => "User", :name => "manage")
-
-      user_groups = double(Group, :for_global_permission => true, :permissions => [group_permission_1, group_permission_2, group_permission_3, group_permission_4, group_permission_5, group_permission_6])
-      user_language = double(Language, :name => "English", :locale => "en")
-
-      @user = double(User, :language => user_language, :groups => [user_groups], :group_for_global_permissions => [user_groups])
-
-      #@user.stub(:groups).and_return(user_groups)   ###controller.stub(:current_site).and_return(site)
-
-      should_authorize(:index, Language)
-
-      User.stub(:all).and_return(@user)
-      Language.stub(:all).and_return(@language)
-
-      request.cookies[:auth_token] = @user.auth_token
-
-      controller.stub(:current_user).and_return(@user)
-
-    end
+    #before do
+    #  group_permission_1 = double(Permission, :object_associated => "Group", :name => "manage")
+    #  group_permission_2 = double(Permission, :object_associated => "Group", :name => "manage_master_groups")
+    #  group_permission_3 = double(Permission, :object_associated => "Language", :name => "manage")
+    #  group_permission_4 = double(Permission, :object_associated => "Language", :name => "create_and_edit_language")
+    #  group_permission_5 = double(Permission, :object_associated => "User", :name => "access_menu_admin")
+    #  group_permission_6 = double(Permission, :object_associated => "User", :name => "manage")
+    #
+    #  user_groups = double(Group, :for_global_permission => true, :permissions => [group_permission_1, group_permission_2, group_permission_3, group_permission_4, group_permission_5, group_permission_6])
+    #  user_language = double(Language, :name => "English", :locale => "en")
+    #
+    #  @user = double(User, :language => user_language, :groups => [user_groups], :group_for_global_permissions => [user_groups])
+    #
+    #  #@user.stub(:groups).and_return(user_groups)   ###controller.stub(:current_site).and_return(site)
+    #
+    #  should_authorize(:index, Language)
+    #
+    #  User.stub(:all).and_return(@user)
+    #  Language.stub(:all).and_return(@language)
+    #
+    #  request.cookies[:auth_token] = @user.auth_token
+    #
+    #  controller.stub(:current_user).and_return(@user)
+    #end
 
     it "should be successful" do
       @ability.can :create_and_edit_language, Language
+      #http_login
+      #@request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("admin:projestimate")
+      #@request.env["HTTP_AUTHORIZATION"] = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "projestimate")
+
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")  #ActionController::HttpAuthentication::Token.encode_credentials("admin:projestimate")
+      session[:current_user_id] = user.id
+      controller.stub(:current_user).and_return(user)
       get 'index'
       response.should be_success
     end
 
     it "renders the index template" do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+      session[:current_user_id] = user.id
+      controller.stub(:current_user).and_return(user)
+
       @ability.can :read, Language
       get :index
       expect(:get => "/languages").to route_to(:controller => "languages", :action => "index")
     end
 
     it "render index if have read ability on project" do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+      session[:current_user_id] = user.id
+      controller.stub(:current_user).and_return(user)
       @ability.can :read, Language
 
       get :index
@@ -69,6 +87,10 @@ describe LanguagesController do
 
   describe "New" do
     it "renders the new template" do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+      session[:current_user_id] = user.id
+      controller.stub(:current_user).and_return(user)
+
       @ability.can :create, Language
       get :new
       response.should render_template("new")
@@ -122,7 +144,7 @@ describe LanguagesController do
     #    response.should be_success
     #end
     it "redirects to the record_statuses list" do
-      login_admin
+      #login_admin
       @ability.can :destroy, Language
       @params = { :id => @language.id }
 
