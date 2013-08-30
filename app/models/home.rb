@@ -24,12 +24,24 @@ class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
   EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalPeAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
-                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalProjectSecurityLevel,
+                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
                     ExternalPermission]
-
+  def self.connect_external_database
+    begin
+      db = Mysql2::Client.new(ExternalMasterDatabase::HOST)
+        return db
+    rescue Mysql2::Error
+      puts "We could not connect to our database;"
+      exit 1
+    end
+  end
   def self.update_master_data!
+    db=Home::connect_external_database
     puts 'Updating from Master Data...'
     #begin
+
+    puts '   - Reference Value'
+    self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ['value', 'uuid'])
 
     puts '   - Projestimate Module'
     self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
@@ -107,6 +119,25 @@ class Home < ActiveRecord::Base
 
     puts '   - WorkElementType'
     self.update_records(ExternalMasterDatabase::ExternalWorkElementType, WorkElementType, ['name', 'alias', 'peicon_id', 'uuid'])
+    ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Defined').id
+    local_defined_rs_id = RecordStatus.find_by_name('Defined').id
+    external_icons = ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
+    external_work_element_type = ExternalMasterDatabase::ExternalWorkElementType.send(:defined, ext_defined_rs_id).send(:all)
+
+    external_work_element_type.each do |ext_work_element_type|
+      ext_peicon_id= ext_work_element_type.peicon_id
+      rows = db.query("SELECT uuid FROM peicons where id='#{ext_peicon_id}'")
+      peicon_uuid=0
+      rows.each do |row|
+        peicon_uuid=row
+      end
+      peicon=Peicon.find_by_uuid(peicon_uuid['uuid'])
+      unless peicon.nil?
+        id_icon=peicon.id
+        loc_workElementType = WorkElementType.find_by_uuid(ext_work_element_type.uuid)
+        loc_workElementType.update_attributes(:peicon_id => id_icon, :record_status_id => local_defined_rs_id)
+      end
+    end
 
     puts '   - Currencies'
     self.update_records(ExternalMasterDatabase::ExternalCurrency, Currency, ['name', 'description', 'uuid'])
@@ -126,10 +157,13 @@ class Home < ActiveRecord::Base
     puts '   - Labor categories'
     self.update_records(ExternalMasterDatabase::ExternalLaborCategory, LaborCategory, ['name', 'description', 'uuid'])
 
-    puts 'Create project security level...'
+    puts '   - Activity categories'
+    self.update_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ['name', 'alias', 'description', 'uuid'])
+
+    puts '   - Security level'
     self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
 
-    puts 'Create global permissions...'
+    puts '   - Global permissions'
     self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
 
     #Update the latest update date information
@@ -338,6 +372,7 @@ class Home < ActiveRecord::Base
 
   #Load MasterData from scratch
   def self.load_master_data!
+    db=Home::connect_external_database
     #begin
     record_status = ExternalMasterDatabase::ExternalRecordStatus.all
     record_status.each do |i|
@@ -357,6 +392,9 @@ class Home < ActiveRecord::Base
 
     puts '   - Version'
     Version.create :comment => 'No update data has been save'
+
+    puts '   - ReferenceValue'
+    self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ['value', 'uuid'])
 
     puts '   - Projestimate Module'
     self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
@@ -499,6 +537,28 @@ class Home < ActiveRecord::Base
 
     wet = WorkElementType.first
 
+    ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Defined').id
+    local_defined_rs_id = RecordStatus.find_by_name('Defined').id
+    external_icons = ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
+    external_work_element_type = ExternalMasterDatabase::ExternalWorkElementType.send(:defined, ext_defined_rs_id).send(:all)
+
+    external_work_element_type.each do |ext_work_element_type|
+      ext_peicon_id= ext_work_element_type.peicon_id
+      rows = db.query("SELECT uuid FROM peicons where id='#{ext_peicon_id}'")
+      peicon_uuid=0
+      rows.each do |row|
+        peicon_uuid=row
+      end
+      peicon=Peicon.find_by_uuid(peicon_uuid['uuid'])
+      unless peicon.nil?
+        id_icon=peicon.id
+        loc_workElementType = WorkElementType.find_by_uuid(ext_work_element_type.uuid)
+        loc_workElementType.update_attributes(:peicon_id => id_icon, :record_status_id => local_defined_rs_id)
+      end
+    end
+
+
+
     puts '   - Currencies'
     self.create_records(ExternalMasterDatabase::ExternalCurrency, Currency, ['name', 'description', 'uuid'])
 
@@ -528,6 +588,9 @@ class Home < ActiveRecord::Base
     puts '   - Labor categories'
     self.create_records(ExternalMasterDatabase::ExternalLaborCategory, LaborCategory, ['name', 'description', 'uuid'])
     laborcategory=LaborCategory.first
+
+    puts '   - Activity categories'
+    self.create_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ['name', 'alias', 'description', 'uuid'])
 
     puts '   - Organizations'
     Organization.create(:name => 'YourOrganization', :description => 'This must be update to match your organization')
@@ -571,12 +634,7 @@ class Home < ActiveRecord::Base
     #Associate permissions to groups
     ext_permissions = ExternalMasterDatabase::ExternalPermission.all
     ext_groups = ExternalMasterDatabase::ExternalGroup.all
-    begin
-      db = Mysql2::Client.new(ExternalMasterDatabase::HOST)
-    rescue Mysql2::Error
-      puts "We could not connect to our database;"
-      exit 1
-    end
+
 
     #Select groups_permissions table on master database
     rows = db.query("SELECT * FROM groups_permissions")

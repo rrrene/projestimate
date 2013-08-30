@@ -3,4 +3,5 @@ class AbacusOrganization < ActiveRecord::Base
 
   belongs_to :unit_of_work
   belongs_to :organization_uow_complexity
+  belongs_to :organization_technology
 end

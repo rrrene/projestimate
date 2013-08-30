@@ -250,8 +250,10 @@ en-gb:
   groups: "Groups"
   label_role: "Roles"
   global_permission: "Roles (Global)"
+  text_global_permission: "Use this page to assign "
   all_permissions: "Permissions"
   project_securities: "Roles (Project)"
+  text_project_securities: "Rôles (projets)"
   auth_methods: "Authentication methods"
   events: "Events"
 
@@ -381,11 +383,12 @@ en-gb:
   first_name_attribute: "First name"
   last_name_attribute: "Last name"
   email_attribute: "Email"
-  initials_attribute: "Initials LDAP attribute"
+  initials_attribute: "Initials"
   priority_order: "Priority order"
   edit_auth_method: "Edit the \"%{value}\" authentication method ..."
   new_auth_method: "New authentication method"
   encryption: "Encryption method"
+
   #currencies
   currencies: "Currencies"
   edit_currency: "Edit currency"
@@ -587,6 +590,7 @@ en-gb:
   text_forgotten_password_help: "You will receive an email with a link that allows you to change your password."
   ask_new_account_help: "You will receive a confirmation email, but you must wait until an administrator enable your account.\nWhen your account is activated by the administrator, you receive a second confirmation email."
   ask_new_account_help2: "You will receive a confirmation email with your login and your password"
+
   #translations
   choose_locale: "Choose a local"
   save_translations: "Save Translations"
@@ -684,7 +688,6 @@ en-gb:
   #work element type
   edit_work_element_type: "Edit the \"%{value}\" work element type ..."
   new_work_element_type: "New work element type"
-
 
   #messages
   restoring: "Do you confirm restoring this record as defined ?"
@@ -998,7 +1001,7 @@ en-gb:
   notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
   new_unit_of_work: "New Unit Of Work (UOW)"
   organization_abacus: "Abacus"
-  text_organization_abacus: "Abacus of the organisation"
+  text_organization_abacus: "Abacus of the organisation per technology"
   notice_subcontractor_successfully_created: "Subcontractor was successfully created"
   notice_subcontractor_successfully_updated: "Subcontractor was successfully updated"
   notice_subcontractor_successfully_deleted: "Subcontractor was successfully deleted"
@@ -1012,6 +1015,6 @@ en-gb:
   label_Pemodule: "Module"
   label_PeAttribute: "Attribute"
   label_WorkElementType: "Work Element Type"
-  label_Organization: "Organization"
+  label_Organization: "Organisation"
   label_User: "User"
   label_Group: "Group"

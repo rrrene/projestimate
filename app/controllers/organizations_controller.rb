@@ -118,6 +118,21 @@ class OrganizationsController < ApplicationController
       end
     end
 
-    redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor=>"tabs-8"), nil, edit_organization_path(@ot.organization_id) )
+    redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
+
+  def import_abacus
+
+  end
+
+  def export_abacus
+    begin
+      organization = Organization.find(params[:id])
+      workbook = Organization.export(organization)
+      send_data(workbook, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.csv")
+    rescue
+      redirect_to '/organizationals_params'
+    end
+  end
+
 end
