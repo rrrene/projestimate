@@ -24,7 +24,7 @@ class Home < ActiveRecord::Base
   include ExternalMasterDatabase
 
   EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalPeAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
-                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalActivityCategory, ExternalProjectSecurityLevel,
+                    ExternalWorkElementType, ExternalCurrency, ExternalAdminSetting, ExternalAuthMethod, ExternalGroup, ExternalLaborCategory, ExternalProjectSecurityLevel,
                     ExternalPermission]
   def self.connect_external_database
     begin
@@ -39,9 +39,6 @@ class Home < ActiveRecord::Base
     db=Home::connect_external_database
     puts 'Updating from Master Data...'
     #begin
-
-    puts '   - Reference Value'
-    self.update_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ['value', 'uuid'])
 
     puts '   - Projestimate Module'
     self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
@@ -156,9 +153,6 @@ class Home < ActiveRecord::Base
 
     puts '   - Labor categories'
     self.update_records(ExternalMasterDatabase::ExternalLaborCategory, LaborCategory, ['name', 'description', 'uuid'])
-
-    puts '   - Activity categories'
-    self.update_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ['name', 'alias', 'description', 'uuid'])
 
     puts '   - Security level'
     self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
@@ -393,9 +387,6 @@ class Home < ActiveRecord::Base
     puts '   - Version'
     Version.create :comment => 'No update data has been save'
 
-    puts '   - ReferenceValue'
-    self.create_records(ExternalMasterDatabase::ExternalReferenceValue, ReferenceValue, ['value', 'uuid'])
-
     puts '   - Projestimate Module'
     self.create_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
 
@@ -588,9 +579,6 @@ class Home < ActiveRecord::Base
     puts '   - Labor categories'
     self.create_records(ExternalMasterDatabase::ExternalLaborCategory, LaborCategory, ['name', 'description', 'uuid'])
     laborcategory=LaborCategory.first
-
-    puts '   - Activity categories'
-    self.create_records(ExternalMasterDatabase::ExternalActivityCategory, ActivityCategory, ['name', 'alias', 'description', 'uuid'])
 
     puts '   - Organizations'
     Organization.create(:name => 'YourOrganization', :description => 'This must be update to match your organization')
