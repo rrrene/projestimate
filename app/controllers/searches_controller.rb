@@ -31,10 +31,14 @@ class SearchesController < ApplicationController
     end
 
     @results = Array.new
+    @result_count = Hash.new
+
     if params[:search] != ""
       classes.each do |class_name|
         @query = params[:search]
-        @results << class_name.search_for(@query)
+        res = class_name.search_for(@query)
+        @result_count[class_name] = res.size
+        @results <<  res
       end
     end
 

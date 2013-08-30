@@ -16,7 +16,7 @@
                         <%= render :partial => "searches/search_navigation", :locals => {:classes => classes} %>
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<%= cla.to_s %>" href="#collapse<%= cla.to_s %>">
                           <i class="icon-caret-down"></i>
-                          <b><%= I18n.t("label_#{cla.to_s}") %></b>
+                          <b><%= I18n.t("label_#{cla.to_s}") %> <%= "(#{ @result_count[cla]})"  %> </b>
                         </a>
                       </div>
                       <div id="collapse<%= cla.to_s %>" class="accordion-body in collapse">
