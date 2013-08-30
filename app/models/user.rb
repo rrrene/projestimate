@@ -123,18 +123,7 @@ class User < ActiveRecord::Base
     AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
   end
 
-  def encryption(server_encryption)
-    case server_encryption
-      when 'No encryption'
-        return ''
-      when 'SSL (ldaps://)'
-        return :simple_tls
-      when 'StartTLS'
-        return :start_tls
-      else
-        return ''
-    end
-  end
+
   #Check password minimum length value
   def password_length
     begin
@@ -276,7 +265,7 @@ class User < ActiveRecord::Base
             ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
                                     :base => ldap_server.base_dn,
                                     :port => ldap_server.port.to_i,
-                                    :encryption => encryption(ldap_server.encryption),
+                                    :encryption => ldap_server.encryption2,
                                     :auth => {
                                         :method => :simple,
                                         :username => ldap_server.ldap_bind_dn,
@@ -344,7 +333,7 @@ class User < ActiveRecord::Base
             ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
                                     :base => ldap_server.base_dn,
                                     :port => ldap_server.port.to_i,
-                                    :encryption => encryption(ldap_server.encryption),
+                                    :encryption => ldap_server.encryption2,
                                     :auth => {
                                         :method => :simple,
                                         :username => "#{ldap_server.user_name_attribute.to_s}=#{login},#{ldap_server.base_dn}",
@@ -401,7 +390,7 @@ class User < ActiveRecord::Base
     ldap_cn = Net::LDAP.new(:host => self.auth_method.server_name,
                             :base => self.auth_method.base_dn,
                             :port => self.auth_method.port.to_i,
-                            :encryption => encryption(self.auth_method.encryption) ,
+                            :encryption => self.auth_method.encryption2 ,
                             :auth => {
                                 :method => :simple,
                                 :username => "#{self.auth_method.user_name_attribute.to_s}=#{self.login_name.to_s},#{self.auth_method.base_dn}",
