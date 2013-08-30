@@ -421,6 +421,9 @@ class User < ActiveRecord::Base
   def name
     self.first_name + ' ' + self.last_name
   end
+  def alias
+    self.login_name
+  end
 
   #Send email in order to reset user password
   def send_password_reset
