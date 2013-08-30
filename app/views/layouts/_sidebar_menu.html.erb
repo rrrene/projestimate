@@ -99,9 +99,5 @@
     <% if can? :manage, RecordStatus %>
         <li><a href="<%= record_statuses_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:record_status) %></a></li>
     <% end %>
-
-    <% if can? :manage, ReferenceValue %>
-      <li><a href="<%= reference_values_path %>"> <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:reference_values) %></a></li>
-    <% end %>
   </ul>
 <% end %>

@@ -106,8 +106,6 @@ Projestimate::Application.routes.draw do
 
   resources :work_element_types
 
-  resources :activity_categories
-
   resources :currencies
 
   resources :organization_labor_categories

@@ -271,7 +271,6 @@ fr:
   label_language: "Langue"
   translations: "Traductions"
   community: "Communauté"
-  reference_values: "Valeurs de référence"
 
   connected_as: "Connecté en tant que"
   logout: "Se déconnecter"
@@ -394,6 +393,7 @@ fr:
   edit_auth_method: "Editer la  méthode d'autentification \"%{value}\" ..."
   new_auth_method: "Créer une nouvelle méthode d'authentification"
   encryption: "Méthode d'encryption"
+
   #currencies
   currencies: "Devises"
   edit_currency: "Editer une devise"
@@ -495,8 +495,8 @@ fr:
   icon: "Icône"
   text_icon_message: "Vous pouvez télécharger tous les fichiers PNG de moins de 10 Kbytes depuis votre disque dur.Toutes vos images seront automatiquement redimensionnées en 16x16 pixels."
   edit_icon: "Editer l'icône \"%{value}\" ..."
-  choose_icon: "Choisir / Changer l'icône ..."
   new_icon: "Ajouter un icône"
+  choose_icon: "Choisir / Changer l'icône ..."
   icons: "Icônes"
   actions: "Actions"
 
@@ -595,10 +595,10 @@ fr:
   text_forgotten_password_help: "Vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."
   ask_new_account_help: "Vous allez recevoir un courriel de confirmation, mais vous devez attendre jusqu'à ce qu'un administrateur valide votre compte.\n Lorsque votre compte est activé par l'administrateur, vous recevez un second courriel de confirmation."
   ask_new_account_help2: "Vous allez recevoir un courriel de confirmation contenant votre identifiant et votre mot de passe"
+
   #translations
   choose_locale: "Choisir une langue"
   save_translations: "Sauvegarder les traductions"
-
   #user mailer
   considered_message:  "Votre demande de création de compte a été bien prise en compte."
   your_identifiants_message: "Vos identifiants sont "
@@ -692,7 +692,6 @@ fr:
   #work element type
   edit_work_element_type: "Edit le type d'élément de travail \"%{value}\" ..."
   new_work_element_type: "Créer un nouveau type d'élément de travail"
-
 
   #messages
   restoring: "Confirmez-vous la restauration de ce dossier en mode défini?"
@@ -840,8 +839,8 @@ fr:
   warning_record_status_cant_be_edit: "Ce statut ne peut être modifié, les modifications précédentes n'ont pas encore été validé."
   notice_record_status_successful_created: "Record status a été créé avec succès."
   notice_record_status_successful_updated: "Record status a été mis à jour avec succès."
-  error_record_status_failed_update: "Erreur: la sauvegarde du status d'enregistrement a échoué."
   notice_reference_value_successful_deleted: "Reference value a été supprimé avec succès."
+  error_record_status_failed_update: "Erreur: la sauvegarde du status d'enregistrement a échoué."
   text_welcome: "Bienvenue"
   warning_account_black_listed: "Votre compte est sur liste noir"
   warning_invalid_username_password: "Nom d'utilisateur ou mot de passe incorrect."
@@ -948,8 +947,8 @@ fr:
   text_first_page: "première page"
   text_last_page: "dernière page"
   text_next_page: "page suivante"
-  text_result_index: "index des résultats / nombre de résultat filtré (nombre total d'enregistrements)"
   text_previous_page: "page précédente"
+  text_result_index: "index des résultats / nombre de résultat filtré (nombre total d'enregistrements)"
   label_dashboard: "Tableau de bord du projet \"%{value}\""
   label_estimation_modules: "Modules d'estimation"
   label_input_data: "Formulaire des données d'entrée"
@@ -1008,7 +1007,7 @@ fr:
   notice_unit_of_work_successful_deleted: "l'unités d'œuvres à été supprimée avec succès"
   new_unit_of_work: "Créer une unité d'œuvre"
   organization_abacus: "Abaque"
-  text_organization_abacus: "Abaque de l'organisation"
+  text_organization_abacus: "Abaque de l'organisation par technologie"
   notice_subcontractor_successfully_created: "Le sous-traitant a été créé avec succès"
   notice_subcontractor_successfully_updated: "Le sous-traitant a été mis à jour avec succès"
   notice_subcontractor_successfully_deleted: "Le sous-traitant a été supprimé avec succès"

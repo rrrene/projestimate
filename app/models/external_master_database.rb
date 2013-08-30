@@ -53,11 +53,6 @@ module ExternalMasterDatabase
       :encoding => 'utf8'
   }
 
-  class ExternalReferenceValue < ActiveRecord::Base
-    establish_connection HOST
-    include ExternalInclude
-  end
-
   class ExternalWbsActivityRatioElement < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
@@ -84,11 +79,6 @@ module ExternalMasterDatabase
   end
 
   class ExternalAcquisitionCategory < ActiveRecord::Base
-    establish_connection HOST
-    include ExternalInclude
-  end
-
-  class ExternalActivityCategory < ActiveRecord::Base
     establish_connection HOST
     include ExternalInclude
   end
