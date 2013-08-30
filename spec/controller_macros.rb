@@ -1,18 +1,48 @@
 # This module is used to avoid login repetition while testing controller methods
-module ControllerMacros
-
+module AuthHelper
   def http_login
+    #user = 'username'
+    #pw = 'password'
     user = 'admin'
     pw = 'projestimate'
-    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("username:password")
+    #request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
+    #page.driver.request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
   end
+end
+
+module AuthRequestHelper
+#
+# pass the @env along with your request, eg:
+#
+# GET '/labels', {}, @env
+#
+  def http_login
+    @env ||= {}
+    #user = 'username'
+    #pw = 'password'
+    user = 'admin'
+    pw = 'projestimate'
+    @env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
+  end
+end
 
 
-  def should_authorize(action, subject)
-    controller.should_receive(:authorize!).with(action, subject).and_return('passed!')
-    controller.should_receive(:can?).with(action, subject).and_return(true)
-  end
+
+
+module ControllerMacros
+
+  #def http_login
+  #  user = 'admin'
+  #  pw = 'projestimate'
+  #  request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
+  #  @request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("username:password")
+  #end
+
+  #
+  #def should_authorize(action, subject)
+  #  controller.should_receive(:authorize!).with(action, subject).and_return('passed!')
+  #  controller.should_receive(:can?).with(action, subject).and_return(true)
+  #end
 
 
   #def mock_user(type, stubs={})
@@ -73,14 +103,14 @@ module ControllerMacros
   def login_admin
     @logged_in_user = FactoryGirl.create(:logged_in_admin)
 
-    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @controller.stub(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
 
   def logout_admin
     @logged_in_user = nil
-    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @controller.stub(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
@@ -115,7 +145,7 @@ module ControllerMacros
     options = {:first_name => "Projestimate_test", :last_name => "Administrator_test", :login_name => "admin_test", :email => "admin_test@example.com", :password => "secret1234", :password_confirmation => "secret1234", :language_id => language.id, :auth_type => auth_method.id, :user_status=>"active"}
 
     @logged_in_user = Factory.create(:user, options)
-    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @controller.stub(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
@@ -126,7 +156,7 @@ module ControllerMacros
     options = {:first_name => "Projestimate_test", :last_name => "Administrator_test", :login_name => "admin_test", :email => "admin_test@example.com", :password => "secret1234", :password_confirmation => "secret1234", :language_id => language.id, :auth_type => auth_method.id, :user_status=>"active"}
 
     @logged_in_user = Factory.create(:user, options)
-    @controller.stub!(:current_user).and_return(@logged_in_user)
+    @controller.stub(:current_user).and_return(@logged_in_user)
     @logged_in_user
   end
 
@@ -173,7 +203,7 @@ module ControllerMacros
 #
 #    #user = User.first
 #    @current_user = user
-#    controller.stub!(:current_user).and_return(@current_user)
+#    controller.stub(:current_user).and_return(@current_user)
 #    session[:user_id] = @current_user.id
 #  end
 #end
@@ -184,7 +214,7 @@ module ControllerMacros
 #    language = FactoryGirl.create(:en_language)
 #    user=FactoryGirl.create(:user, :first_name => "Administrator", :last_name => "Projestimate", :initials => "ad", :login_name => "admin", :email => "admin@gmail.com", :user_status => "active")
 #    @current_user = user
-#    controller.stub!(:current_user).and_return(@current_user)
+#    controller.stub(:current_user).and_return(@current_user)
 #    session[:user_id] = @current_user.id
 #  end
 #end
