@@ -36,7 +36,7 @@ module SearchesHelper
   end
 
   def display_description(res, params=[])
-    unless res.description.nil?
+    if defined? res.description
       res.description
     end
   end
