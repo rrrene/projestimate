@@ -250,8 +250,10 @@ en:
   groups: "Groups"
   label_role: "Roles"
   global_permission: "Roles (Global)"
+  text_global_permission: "Use this page to assign "
   all_permissions: "Permissions"
   project_securities: "Roles (Project)"
+  text_project_securities: "Rôles (projets)"
   auth_methods: "Authentication methods"
   events: "Events"
 
@@ -283,8 +285,8 @@ en:
   description: "Description"
   alias: "Alias"
   change_comment: "Comment (explain and justify your change request)"
-  record_status: "Status"
-  label_object_status: "Record Status"
+  record_status: "Record Status"
+  label_object_status: "Status"
   custom_value: "Custom value (if status=custom)"
   notice_no_module_use_current_attribute: "There is no module using the \"%{value}\" attribute"
   text_finduse_attribute: "List of objects that use the \"%{value}\" attribute"
@@ -383,7 +385,7 @@ en:
   ldap_bind_dn: "LDAP bind account DN"
   ldap_bind_encrypted_password: "LDAP bind Password"
   on_the_fly_user_creation: "On-the-fly user creation"
-  warning_on_the_fly_user_creation: "Can't be blank if \"on-the-fly user creation\" is activated"
+  warning_on_the_fly_user_creation: "Can't be blank if 'on-the-fly user creation' is activated"
   first_name_attribute: "First name"
   last_name_attribute: "Last name"
   email_attribute: "Email"
@@ -392,6 +394,7 @@ en:
   edit_auth_method: "Edit the \"%{value}\" authentication method ..."
   new_auth_method: "New authentication method"
   encryption: "Encryption method"
+
   #currencies
   currencies: "Currencies"
   edit_currency: "Edit currency"
@@ -691,7 +694,6 @@ en:
   #work element type
   edit_work_element_type: "Edit the \"%{value}\" work element type ..."
   new_work_element_type: "New work element type"
-
 
   #messages
   restoring: "Do you confirm restoring this record as defined ?"
@@ -1007,7 +1009,7 @@ en:
   notice_unit_of_work_successful_deleted: "Unit of Work was successfully deleted"
   new_unit_of_work: "New Unit Of Work (UOW)"
   organization_abacus: "Abacus"
-  text_organization_abacus: "Abacus of the organization"
+  text_organization_abacus: "Abacus of the organization per technology"
   notice_subcontractor_successfully_created: "Subcontractor was successfully created"
   notice_subcontractor_successfully_updated: "Subcontractor was successfully updated"
   notice_subcontractor_successfully_deleted: "Subcontractor was successfully deleted"
