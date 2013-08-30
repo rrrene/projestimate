@@ -7,27 +7,16 @@
     <% if @results.empty? %>
         <p><%= I18n.t(:no_results) %> <strong><%= params[:search] %></strong></p>
     <% else %>
-        <table width="100%">
-          <tr>
-            <td>
               <% classes = @results.map { |i| i.class }.uniq %>
-              <div class="btn-group" style="float: right;">
-                <% classes.each do |cla| %>
-                    <button class="btn"><a href="#accordion<%= cla.to_s %>"><%= cla.to_s %></a></button>
-                <% end %>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
               <ul>
               <% classes.each do |cla| %>
                   <div id="accordion<%= cla.to_s %>" class="accordion">
                     <div class="accordion-group accordion-caret">
                       <div class="accordion-heading">
+                        <%= render :partial => "searches/search_navigation", :locals => {:classes => classes} %>
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion<%= cla.to_s %>" href="#collapse<%= cla.to_s %>">
                           <i class="icon-caret-down"></i>
-                          <b><%= cla.to_s %></b>
+                          <b><%= I18n.t("label_#{cla.to_s}") %></b>
                         </a>
                       </div>
                       <div id="collapse<%= cla.to_s %>" class="accordion-body in collapse">
@@ -46,8 +35,6 @@
                   </div>
               <% end %>
               </ul>
-            </td>
-          </tr>
         </table>
     <% end %>
   </div>
