@@ -36,6 +36,8 @@ class Project < ActiveRecord::Base
   has_many :project_securities, :dependent => :destroy
 
   has_many :pe_wbs_projects, :dependent => :destroy
+  has_many :pbs_project_elements, :through => :pe_wbs_projects
+  has_many :wbs_project_elements, :through => :pe_wbs_projects
 
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
@@ -49,9 +51,8 @@ class Project < ActiveRecord::Base
   #Search fields
   scoped_search :on => [:title, :alias, :description]
   scoped_search :in => :organization, :on => :name
-  #TODO opi
-  #scoped_search :in => :pbs_project_elements, :on => :name
-  #scoped_search :in => :wbs_project_elements, :on => [:name, :description]
+  scoped_search :in => :pbs_project_elements, :on => :name
+  scoped_search :in => :wbs_project_elements, :on => [:name, :description]
 
   #ASSM needs
   aasm :column => :state do # defaults to aasm_state

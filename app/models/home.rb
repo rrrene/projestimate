@@ -89,8 +89,8 @@ class Home < ActiveRecord::Base
           end
         end
       end
-    #end
-    #self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
+      #end
+      #self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
 
       peicon=Peicon.find_by_uuid(ext_icon.uuid)
       unless peicon.nil?
@@ -99,8 +99,9 @@ class Home < ActiveRecord::Base
         icon.update_attributes(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id,:uuid=> ext_icon.uuid)
       else
         puts "create"
-        icon = Peicon.create(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id)
-        icon.update_attributes(:uuid, ext_icon.uuid)
+        icon = Peicon.create(:name => ext_icon.name, :icon => File.open("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id, :uuid => ext_icon.uuid )
+        icon.uuid=ext_icon.uuid
+        icon.save
       end
     end
 
@@ -673,4 +674,11 @@ class Home < ActiveRecord::Base
     #end
   end
 
+  #Function to debug ruby scripts
+  #uncomment ' match 'homes/testme' => 'homes#testme', :as => 'testme'' in root.rb
+  #function testme in home_controller.rb
+  #Add link <%= link_to "testeMe", "/homes/testme" %> in projects/index.erb
+  #def self.testons
+  #
+  #end
 end
