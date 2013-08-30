@@ -65,10 +65,15 @@ Spork.each_run do
     config.render_views
 
     #Manage user authentication on test
-    config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller
-    config.include(ControllerMacros, :type => :views)
-    config.include(ControllerMacros, :type => :helper)
-    config.include(ControllerMacros, :type => :request)
+    #config.include(ControllerMacros, :type => :controller)        ##config.extend ControllerMacros, :type => :controller
+    #config.include(ControllerMacros, :type => :views)
+    #config.include(ControllerMacros, :type => :helper)
+    #config.include(ControllerMacros, :type => :request)
+
+    config.include AuthRequestHelper, :type => :request
+    config.include AuthHelper, :type => :controller
+
+
     ##For taking in account the Permissions with the CanCan gem
     #config.extend(ControllerSpecs::CanCan, type: :controller)
   end
