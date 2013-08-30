@@ -20,7 +20,8 @@
 Projestimate::Application.routes.draw do
 
   resources :abacus_organizations
-
+  match 'organizations/:id/export_abacus' => 'organizations#export_abacus', :as => 'export_abacus'
+  match 'organizations/:id/import_abacus' => 'organizations#import_abacus', :as => 'import_abacus'
 
   resources :organization_abacus
 
