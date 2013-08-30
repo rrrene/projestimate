@@ -276,7 +276,7 @@ class User < ActiveRecord::Base
             ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
                                     :base => ldap_server.base_dn,
                                     :port => ldap_server.port.to_i,
-                                    :encryption => encryption(ldap_server.auth_method.encryption),
+                                    :encryption => encryption(ldap_server.encryption),
                                     :auth => {
                                         :method => :simple,
                                         :username => ldap_server.ldap_bind_dn,
@@ -344,7 +344,7 @@ class User < ActiveRecord::Base
             ldap_cn = Net::LDAP.new(:host => ldap_server.server_name,
                                     :base => ldap_server.base_dn,
                                     :port => ldap_server.port.to_i,
-                                    :encryption => encryption(ldap_server.auth_method.encryption),
+                                    :encryption => encryption(ldap_server.encryption),
                                     :auth => {
                                         :method => :simple,
                                         :username => "#{ldap_server.user_name_attribute.to_s}=#{login},#{ldap_server.base_dn}",
