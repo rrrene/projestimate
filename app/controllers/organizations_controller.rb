@@ -103,7 +103,7 @@ class OrganizationsController < ApplicationController
   def set_abacus
     authorize! :manage_organizations, Organization
 
-    @ot = OrganizationTechnology.find(params[:technology])
+    @ot = OrganizationTechnology.find_by_id(params[:technology])
     @complexities = @ot.organization.organization_uow_complexities
     @unitofworks = @ot.unit_of_works
 
@@ -118,6 +118,6 @@ class OrganizationsController < ApplicationController
       end
     end
 
-    redirect_to edit_organization_path(@ot.organization_id)
+    redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor=>"tabs-8"), nil, edit_organization_path(@ot.organization_id) )
   end
 end

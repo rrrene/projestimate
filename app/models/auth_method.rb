@@ -70,7 +70,18 @@ class AuthMethod < ActiveRecord::Base
 
 
   end
-
+  def encryption2
+    case self.encryption
+      when 'No encryption'
+        return ''
+      when 'SSL (ldaps://)'
+        return :simple_tls
+      when 'StartTLS'
+        return :start_tls
+      else
+        return ''
+    end
+    end
   def decrypt_password
   return AESCrypt.decrypt(self.ldap_bind_encrypted_password,'yourpass')
   end
