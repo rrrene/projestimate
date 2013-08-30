@@ -25,7 +25,6 @@ class ProjectAreasController < ApplicationController
   before_filter :get_associations_records, :only => [:new, :edit, :create, :update]
 
   def get_associations_records
-    @activity_categories = ActivityCategory.all
     @acquisition_categories = AcquisitionCategory.all
     @labor_categories = LaborCategory.all
     @platform_categories = PlatformCategory.all

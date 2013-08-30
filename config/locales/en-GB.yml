@@ -269,7 +269,6 @@ en-gb:
   label_language: "Language"
   translations: "Translations"
   community: "Community"
-  reference_values: "Reference values"
 
   connected_as: "Connected as"
   logout: "Logout"
@@ -328,7 +327,6 @@ en-gb:
   platform_categories: "Platform categories"
   project_categories: "Project categories"
   project_areas: "Project Areas"
-  activity_category: "Activity category"
   acquisition_category: "Acquisition category"
   platform_category: "Platform category"
   project_category: "Project category"
@@ -353,10 +351,6 @@ en-gb:
   notice_acquisition_category_successful_destroyed: "Acquisition category was successfully deleted."
   warning_acquisition_category_cannot_be_updated: "This Acquisition category can not be edited, previous changes have not yet been validated"
   notice_acquisition_category_successful_updated: "Acquisition category was successfully updated."
-
-  #Activity categories
-  edit_activity_category: "Edit an activity category"
-  new_activity_category: "New activity category"
 
   #Admin_settings
   edit_admin_settings: "Edit the admin settings \"%{value}\" ..."
@@ -737,8 +731,6 @@ en-gb:
   text_download_master_data: "Download and apply MasterData update"
   text_please_wait: "Please wait. It could take a while"
   edit_project_element: "Edit the \"%{value}\" element of the WBS-Activity ..."
-  warning_activity_category_cannot_be_edited: "This Activity category can not be edited, previous changes have not yet been validated"
-  notice_activity_category_successful_update: "Activity category was successfully updated."
   warning_administration_setting_cant_be_edited: "This administration setting record can not be edited, previous changes have not yet been validated."
   notice_administration_setting_successful_created: "Admin setting was successfully created."
   notice_administration_setting_successful_updated: "Admin setting was successfully updated."
@@ -1010,3 +1002,16 @@ en-gb:
   notice_subcontractor_successfully_created: "Subcontractor was successfully created"
   notice_subcontractor_successfully_updated: "Subcontractor was successfully updated"
   notice_subcontractor_successfully_deleted: "Subcontractor was successfully deleted"
+
+  label_Project: "Project"
+  label_ProjectArea: "Project Area"
+  label_PlatformCategory: "Platform Category"
+  label_ProjectCategory: "Project Category"
+  label_AcquisitionCategory: "Acquisition Category"
+  label_WbsActivity: "Wbs Activity"
+  label_Pemodule: "Module"
+  label_PeAttribute: "Attribute"
+  label_WorkElementType: "Work Element Type"
+  label_Organization: "Organization"
+  label_User: "User"
+  label_Group: "Group"

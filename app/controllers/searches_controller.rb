@@ -27,8 +27,7 @@ class SearchesController < ApplicationController
     if params[:search].class == Array
       classes = params[:search][:classes].map { |i| String::keep_clean_space(i).camelcase.constantize }
     else
-      #TODO opi add PbsProjectElement
-      classes = [Project, Pemodule, PeAttribute, ProjectArea, PlatformCategory, ProjectCategory, AcquisitionCategory, WorkElementType, WbsActivity, User, Group]
+      classes = [Project, ProjectArea, PlatformCategory, ProjectCategory, AcquisitionCategory, WbsActivity, Pemodule, PeAttribute, WorkElementType, Organization, User, Group]
     end
     @results = Array.new
     classes.each do |class_name|

@@ -35,9 +35,6 @@ class PbsProjectElement < ActiveRecord::Base
   validates_presence_of :name
   #validates :wbs_activity_ratio_id, :uniqueness => { :scope => :wbs_activity_id }  #TODO Review validation
 
-  #Search fields
-  scoped_search :on => [:name]
-
   #Enable the amoeba gem for deep copy/clone (dup with associations)
   amoeba do
     enable

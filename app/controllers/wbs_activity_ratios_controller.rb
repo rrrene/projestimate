@@ -56,14 +56,12 @@ class WbsActivityRatiosController < ApplicationController
     set_page_title 'Edit wbs-activity ratio'
     @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
-    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     @wbs_activity=@wbs_activity_ratio.wbs_activity
   end
 
 
   def update
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
-    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     @wbs_activity=@wbs_activity_ratio.wbs_activity
 
     unless is_master_instance?
@@ -84,12 +82,10 @@ class WbsActivityRatiosController < ApplicationController
     set_page_title 'New wbs-activity ratio'
     @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.new
-    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
   end
 
   def create
     @wbs_activity_ratio = WbsActivityRatio.new(params[:wbs_activity_ratio])
-    @reference_values =ReferenceValue.all.map{|i| [i.value, i.id]}
     #If we are on local instance, Status is set to "Local"
     unless is_master_instance?   #so not on master
       @wbs_activity_ratio.record_status = @local_status

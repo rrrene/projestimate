@@ -37,7 +37,6 @@ class User < ActiveRecord::Base
 
   #Master and Special Data Tables
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
-  has_many :change_on_activity_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
   has_many :change_on_attributes, :foreign_key => 'owner_id', :class_name => 'PeAttribute'
   has_many :change_on_attribute_modules, :foreign_key => 'owner_id', :class_name => 'AttributeModule'
   has_many :change_on_currencies, :foreign_key => 'owner_id', :class_name => 'Currency'
@@ -420,6 +419,9 @@ class User < ActiveRecord::Base
   # Returns "First Name"
   def name
     self.first_name + ' ' + self.last_name
+  end
+  def alias
+    self.login_name
   end
 
   #Send email in order to reset user password

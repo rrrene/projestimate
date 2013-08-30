@@ -27,7 +27,6 @@ class WbsActivityRatio < ActiveRecord::Base
   has_many :wbs_project_elements
   has_many :pbs_project_elements
 
-  belongs_to :reference_value
   belongs_to :wbs_activity
 
   belongs_to :record_status
