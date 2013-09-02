@@ -60,16 +60,12 @@ class AuthMethod < ActiveRecord::Base
   end
 
   def encrypt_password
-
-
-
     if self.password.present?
       encrypted_data = AESCrypt.encrypt(password, 'yourpass')
       self.ldap_bind_encrypted_password = encrypted_data
     end
-
-
   end
+
   def encryption2
     case self.encryption
       when 'No encryption'
@@ -81,10 +77,12 @@ class AuthMethod < ActiveRecord::Base
       else
         return ''
     end
-    end
-  def decrypt_password
-  return AESCrypt.decrypt(self.ldap_bind_encrypted_password,'yourpass')
   end
+
+  def decrypt_password
+    return AESCrypt.decrypt(self.ldap_bind_encrypted_password,'yourpass')
+  end
+
   def to_s
     self.name
   end
