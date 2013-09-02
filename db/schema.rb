@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130829134714) do
+ActiveRecord::Schema.define(:version => 20130830094419) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -43,32 +43,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
 
   create_table "acquisition_categories_project_areas", :id => false, :force => true do |t|
     t.integer  "acquisition_category_id"
-    t.integer  "project_area_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "activity_categories", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "alias"
-    t.string   "uuid"
-    t.integer  "record_status_id"
-    t.string   "custom_value"
-    t.integer  "owner_id"
-    t.text     "change_comment"
-    t.integer  "reference_id"
-    t.string   "reference_uuid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "activity_categories", ["record_status_id"], :name => "index_activity_categories_on_record_status_id"
-  add_index "activity_categories", ["reference_id"], :name => "index_activity_categories_on_parent_id"
-  add_index "activity_categories", ["uuid"], :name => "index_activity_categories_on_uuid", :unique => true
-
-  create_table "activity_categories_project_areas", :id => false, :force => true do |t|
-    t.integer  "activity_category_id"
     t.integer  "project_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -288,25 +262,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
     t.datetime "updated_at"
   end
 
-  create_table "help_types", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "helps", :force => true do |t|
-    t.text     "content"
-    t.integer  "help_type_id"
-    t.string   "help_code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "homes", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "labor_categories", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -350,11 +305,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
   add_index "languages", ["reference_id"], :name => "index_languages_on_parent_id"
   add_index "languages", ["uuid"], :name => "index_languages_on_uuid", :unique => true
 
-  create_table "links_module_project_attributes", :id => false, :force => true do |t|
-    t.integer "link_id"
-    t.integer "module_project_attribute_id"
-  end
-
   create_table "master_settings", :force => true do |t|
     t.string   "key"
     t.text     "value"
@@ -380,7 +330,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
     t.integer  "position_y"
     t.integer  "nb_input_attr"
     t.integer  "nb_output_attr"
-    t.integer  "reference_value_id"
     t.integer  "copy_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -679,11 +628,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
   add_index "project_security_levels", ["reference_id"], :name => "index_project_security_levels_on_parent_id"
   add_index "project_security_levels", ["uuid"], :name => "index_project_security_levels_on_uuid", :unique => true
 
-  create_table "project_staffs", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "projects", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -713,7 +657,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
   create_table "projects_users", :id => false, :force => true do |t|
     t.integer  "project_id"
     t.integer  "user_id"
-    t.text     "settings"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -736,37 +679,6 @@ ActiveRecord::Schema.define(:version => 20130829134714) do
   add_index "record_statuses", ["record_status_id"], :name => "index_record_statuses_on_record_status_id"
   add_index "record_statuses", ["reference_id"], :name => "index_record_statuses_on_parent_id"
   add_index "record_statuses", ["uuid"], :name => "index_record_statuses_on_uuid", :unique => true
-
-  create_table "reference_values", :force => true do |t|
-    t.string   "value"
-    t.integer  "record_status_id"
-    t.string   "custom_value"
-    t.integer  "owner_id"
-    t.text     "change_comment"
-    t.integer  "reference_id"
-    t.string   "reference_uuid"
-    t.string   "uuid"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  add_index "reference_values", ["owner_id"], :name => "index_reference_values_on_owner_id"
-  add_index "reference_values", ["record_status_id"], :name => "index_reference_values_on_record_status_id"
-  add_index "reference_values", ["reference_id"], :name => "index_reference_values_on_reference_id"
-  add_index "reference_values", ["uuid"], :name => "index_reference_values_on_uuid", :unique => true
-
-  create_table "results", :force => true do |t|
-    t.integer "functionality_id"
-    t.integer "step"
-    t.text    "content"
-  end
-
-  create_table "roles_users", :id => false, :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "subcontractors", :force => true do |t|
     t.integer  "organization_id"
