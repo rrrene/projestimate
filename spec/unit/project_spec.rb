@@ -5,8 +5,8 @@ describe Project do
   before :each do
     @project = FactoryGirl.create(:project) #, :title => "projet11", :alias => "P11")
     @user = FactoryGirl.build(:user)
-
-    @user1 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin1', :email => 'youremail1@yourcompany.net', :user_status => 'active', :auth_type => AuthMethod.first.id, :password => 'test', :password_confirmation => 'test')
+    @user1 = FactoryGirl.build(:user)
+    #@user1 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin1', :email => 'youremail1@yourcompany.net', :user_status => 'active', :auth_type => AuthMethod.first.id, :password => 'test', :password_confirmation => 'test')
     #@project1 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
     @project1 = FactoryGirl.build(:project)
     @project_security_1 = ProjectSecurity.new(:project_id => @project1.id, :user_id => @user1.id)
@@ -14,7 +14,8 @@ describe Project do
   end
 
   before :all do
-    @user2 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin2', :email => 'youremail2@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'test', :password_confirmation => 'test')
+    @user2 = FactoryGirl.build(:user)
+    #@user2 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin2', :email => 'youremail2@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'test', :password_confirmation => 'test')
     @project2 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
     @project2_security = ProjectSecurity.new(:project_id => @project2.id, :user_id => @user2.id)
   end
