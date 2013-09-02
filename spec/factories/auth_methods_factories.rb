@@ -10,6 +10,7 @@ FactoryGirl.define do
     base_dn "Not necessary"
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
+    encryption "simple_tls"
   end
 
   factory :auth_methodLDAP do
@@ -18,9 +19,9 @@ FactoryGirl.define do
     user_name_attribute "ldap_user"
     port 636
     base_dn "ou=People,dc=gpsforprojects,dc=net"
-    certificate 0
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
+    encryption "simple_tls"
   end
 
   #Factory for the "Application" AuthMethod
@@ -31,8 +32,8 @@ FactoryGirl.define do
     user_name_attribute "ldap_user"
     port 0
     base_dn "Not necessary"
-    certificate 0
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
+    encryption "simple_tls"
   end
 end

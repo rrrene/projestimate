@@ -13,7 +13,7 @@ describe AuthMethodsController do
     login_as_admin
     @default_auth_method = FactoryGirl.create(:auth_method)
     proposed_status = FactoryGirl.build(:proposed_status)
-    @another_auth_method = AuthMethod.new(:name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :certificate => "simple_tls", :uuid => "124563", :record_status => proposed_status)
+    @another_auth_method = AuthMethod.new(:name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :uuid => "124563", :record_status => proposed_status)
   end
 
   describe "GET index" do
