@@ -10,16 +10,16 @@ describe WorkElementTypesController do
     sign_in @user
     @app_auth_method = FactoryGirl.build(:application_auth_method)
 
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    controller.stub(:current_ability) { @ability }
+    #@ability = Object.new
+    #@ability.extend(CanCan::Ability)
+    #controller.stub(:current_ability) { @ability }
 
     @wet = FactoryGirl.create(:work_element_type, :wet_folder)
   end
 
   describe "GET 'index'" do
     it "returns http success" do
-      @ability.can :read, WorkElementType
+      #@ability.can :read, WorkElementType
       get "index", :format => "html"
       response.should render_template("index")
     end
@@ -27,7 +27,7 @@ describe WorkElementTypesController do
 
   describe "New" do
     it "renders the new template" do
-      @ability.can :read, WorkElementType
+      #@ability.can :read, WorkElementType
       get :new
       #response.should render_template("new")
       expect(:get => "/work_element_types/new").to route_to(:controller => "work_element_types", :action => "new")
@@ -36,7 +36,7 @@ describe WorkElementTypesController do
 
   describe "Edit" do
     it "renders the new template" do
-      @ability.can :update, WorkElementType
+      #@ability.can :update, WorkElementType
 
       @wet = FactoryGirl.create(:work_element_type, :wet_folder)
       get :edit, {:id => @wet.id}

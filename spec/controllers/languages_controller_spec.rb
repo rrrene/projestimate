@@ -8,21 +8,11 @@ describe LanguagesController do
     http_login
   end
 
-
   before :each do
-    #@connected_user = login_as_admin
-    #
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    controller.stub(:current_ability).and_return(@ability)
-
-    ##@ability = Ability.new(@user)
-    ##Ability.stub(:new).and_return(@ability)
-
+    @connected_user = login_as_admin
     @language = FactoryGirl.create(:language)
     @params = { :id => @language.id }
   end
-
 
   describe "GET index" do
     #before do
@@ -51,7 +41,7 @@ describe LanguagesController do
     #end
 
     it "should be successful" do
-      @ability.can :create_and_edit_language, Language
+      #@ability.can :create_and_edit_language, Language
       #http_login
       #@request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("admin:projestimate")
       #@request.env["HTTP_AUTHORIZATION"] = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "projestimate")
@@ -68,7 +58,7 @@ describe LanguagesController do
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
 
-      @ability.can :read, Language
+      #@ability.can :read, Language
       get :index
       expect(:get => "/languages").to route_to(:controller => "languages", :action => "index")
     end
@@ -77,7 +67,7 @@ describe LanguagesController do
       request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
-      @ability.can :read, Language
+      #@ability.can :read, Language
 
       get :index
       assert_template :index
@@ -91,7 +81,7 @@ describe LanguagesController do
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
 
-      @ability.can :create, Language
+      #@ability.can :create, Language
       get :new
       response.should render_template("new")
     end
@@ -101,7 +91,7 @@ describe LanguagesController do
     it "renders the new template" do
       @user = User.first
 
-      @ability.can :update, Language
+      #@ability.can :update, Language
       get :edit, @params
       response.should render_template("edit")
     end
@@ -109,7 +99,7 @@ describe LanguagesController do
 
   describe "create" do
     it "renders the create template" do
-      @ability.can :create, Language
+      #@ability.can :create, Language
 
       @params = { :name => "Breton", :locale => "br" }
       post :create, @params
@@ -129,7 +119,7 @@ describe LanguagesController do
 
     context "with valid params" do
       it "updates the requested record_status" do
-        @ability.can :update, Language
+        #@ability.can :update, Language
 
         put :update, id: @new_language, language: FactoryGirl.attributes_for(:language)
         response.should be_success
@@ -145,7 +135,7 @@ describe LanguagesController do
     #end
     it "redirects to the record_statuses list" do
       #login_admin
-      @ability.can :destroy, Language
+      #@ability.can :destroy, Language
       @params = { :id => @language.id }
 
       delete :destroy, @params
