@@ -72,6 +72,7 @@ Spork.each_run do
 
     config.include AuthRequestHelper, :type => :request
     config.include AuthHelper, :type => :controller
+    config.include ControllerMacros, :type => :controller
 
 
     ##For taking in account the Permissions with the CanCan gem

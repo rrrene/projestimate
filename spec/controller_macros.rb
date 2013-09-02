@@ -95,8 +95,9 @@ module ControllerMacros
       @user.save
     end
     session[:current_user_id] = @user.id
+    session[:ctime] = Time.now.utc.to_i - 1.day.to_i
+    session[:atime] = Time.now.utc.to_i - 1.hour.to_i
     current_user = @user
-    controller.stub(:current_user) { @user }   #view.stub(:current_user) { user}
   end
 
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
