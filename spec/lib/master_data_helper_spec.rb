@@ -18,7 +18,7 @@ describe MasterDataHelper do
     @retired_status = FactoryGirl.build(:retired_status, :record_status => proposed_status)
     @custom_status = FactoryGirl.build(:custom_status, :record_status => proposed_status)
 
-    @language = FactoryGirl.create(:language)
+    @language = FactoryGirl.create(:en_language)
   end
 
   specify "records should be valid" do
