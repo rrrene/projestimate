@@ -5,9 +5,9 @@ describe WorkElementTypesController do
   render_views
 
   before :each do
-    #@user = login_as_admin
-    @user = FactoryGirl.create(:authenticated_user)
-    sign_in @user
+    @user = login_as_admin
+    #@user = FactoryGirl.create(:authenticated_user)
+    #sign_in @user
     @app_auth_method = FactoryGirl.build(:application_auth_method)
 
     #@ability = Object.new

@@ -49,7 +49,7 @@ describe ProjectsController do
     end
 
     it "assigns a new attributes as @attribute" do
-      @ability.can :create, Project
+      #@ability.can :create, Project
       get :new, :project => {:title => 'New Project', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
       assigns(:project).should be_a_new_record
     end

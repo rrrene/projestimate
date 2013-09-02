@@ -20,8 +20,9 @@ describe GroupsController do
   describe "GET index" do
     it "renders the index template" do
       get :index, :format => "html"
-      response.should redirect_to groups_path()
+      response.should render_template("index")
     end
+
     it "assigns all group as @group" do
       get :index
       assigns(:group)==(@group)
@@ -31,7 +32,7 @@ describe GroupsController do
   describe "New" do
     it "renders the new template" do
       get :new, :format => "html"
-      response.should redirect_to new_group_path()
+      response.should render_template("new")
     end
     it "assigns a new group as @group" do
       get :new

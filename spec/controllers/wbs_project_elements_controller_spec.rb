@@ -60,13 +60,6 @@ describe WbsProjectElementsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested wbs_project_element as @wbs_project_element" do
-      get :show, {:id => @wbs_project_element.to_param}
-      assigns[:wbs_project_element].should eq(@wbs_project_element)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new wbs_project_element as @wbs_project_element" do
       get :new, {:project_id => @project.id}
