@@ -1,7 +1,7 @@
 <div class="tabs">
-  <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:organizations) %> </a></li>
-    <% if action_name == "edit" %>
+<ul>
+  <li><a href="#tabs-1"><%= I18n.t(:organizations) %> </a></li>
+  <% if action_name == 'edit' %>
       <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
       <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %> </a></li>
       <li><a href="#tabs-4"><%= I18n.t(:organization_technology) %> </a></li>
@@ -9,11 +9,11 @@
       <li><a href="#tabs-6"><%= I18n.t(:organization_unit_of_work) %> </a></li>
       <li><a href="#tabs-7"><%= I18n.t(:organization_subcontractor) %> </a></li>
       <li><a href="#tabs-8"><%= I18n.t(:organization_abacus) %> </a></li>
-    <% end %>
-  </ul>
+  <% end %>
+</ul>
 
-  <div id="tabs-1">
-    <%= simple_form_for(@organization) do |f| %>
+<div id="tabs-1">
+  <%= simple_form_for(@organization) do |f| %>
 
       <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
       <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
@@ -25,76 +25,76 @@
         <%= submit_tag I18n.t('apply'), :class => 'btn' %>
         <%= link_to I18n.t('back'), organizationals_params_path, :class => 'btn' %>
       </div>
-    <% end %>
-  </div>
+  <% end %>
+</div>
 
-  <% unless action_name == 'new' or action_name == 'create' %>
+<% unless action_name == 'new' or action_name == 'create' %>
 
-      <div id="tabs-2">
-        <b><%= I18n.t(:text_organization_attributes) %></b>
-        <br><br>
-        <!-- Method in AttributeOrganizationsController -->
-        <%= form_tag('/update_selected_attribute_organizations', :method => 'POST', :class => 'simple_form') do -%>
-
-            <%= hidden_field_tag 'organization_id', @organization.id %>
-            <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
-
-            <table class="table tablesorterPager table-striped table-bordered table-condensed">
-              <thead>
-              <tr>
-                <th><%= I18n.t(:pe_attribute_name) %></th>
-                <th class="filter-select"><%= I18n.t(:selected) %></th>
-                <th class="filter-select"><%= I18n.t(:attribute_categories) %></th>
-                <th><%= I18n.t(:description) %></th>
-              </tr>
-              </thead>
-              <tbody>
-              <% @attributes.each do |attr| %>
-                  <tr class="<%= cycle('even', 'odd') %>">
-                    <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(attr)) unless attr.nil? %></td>
-                    <td>
-                        <span class="hidden">
-                          <%= @attribute_settings.map(&:pe_attribute_id).include?(attr.id).to_s.humanize %>
-                        </span>
-                      <%= check_box_tag 'organization[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
-                    </td>
-                    <td><%= attr.attribute_category %></td>
-                    <td><%= attr.description %></td>
-                  </tr>
-              <% end %>
-              <%= render :partial => 'layouts/footer_table' %>
-              </tbody>
-            </table>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
-            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-            <span class="on_success_attr"></span>
-        <% end -%>
-      </div>
-
-      <div id="tabs-3">
-        <b><%= I18n.t(:text_organization_attributes_settings) %></b>
-        <br><br>
-        <!-- Method in AttributeOrganizationsController -->
-        <%= form_tag('/update_attribute_organizations_settings', :method => 'POST', :class => 'simple_form') do -%>
+    <div id="tabs-2">
+      <b><%= I18n.t(:text_organization_attributes) %></b>
+      <br><br>
+      <!-- Method in AttributeOrganizationsController -->
+      <%= form_tag('/update_selected_attribute_organizations', :method => 'POST', :class => 'simple_form') do -%>
 
           <%= hidden_field_tag 'organization_id', @organization.id %>
           <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
 
           <table class="table tablesorterPager table-striped table-bordered table-condensed">
             <thead>
-              <tr>
-                <th><%= I18n.t(:name) %></th>
-                <th><%= I18n.t(:mandatory) %></th>
-              </tr>
+            <tr>
+              <th><%= I18n.t(:pe_attribute_name) %></th>
+              <th class="filter-select"><%= I18n.t(:selected) %></th>
+              <th class="filter-select"><%= I18n.t(:attribute_categories) %></th>
+              <th><%= I18n.t(:description) %></th>
+            </tr>
             </thead>
             <tbody>
-              <% @attribute_settings.each_with_index do |ao, i| %>
+            <% @attributes.each do |attr| %>
+                <tr>
+                  <td><%= link_to(attr.name, edit_pe_attribute_path(attr), :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(attr)) unless attr.nil? %></td>
+                  <td>
+                        <span class="hidden">
+                          <%= @attribute_settings.map(&:pe_attribute_id).include?(attr.id).to_s.humanize %>
+                        </span>
+                    <%= check_box_tag 'organization[pe_attribute_ids][]', attr.id, @attribute_settings.map(&:pe_attribute_id).include?(attr.id) %>
+                  </td>
+                  <td><%= attr.attribute_category %></td>
+                  <td><%= attr.description %></td>
+                </tr>
+            <% end %>
+            <%= render :partial => 'layouts/footer_table' %>
+            </tbody>
+          </table>
+          <%= submit_tag I18n.t('save'), :class => 'btn' %>
+          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <span class="on_success_attr"></span>
+      <% end -%>
+    </div>
+
+    <div id="tabs-3">
+      <b><%= I18n.t(:text_organization_attributes_settings) %></b>
+      <br><br>
+      <!-- Method in AttributeOrganizationsController -->
+      <%= form_tag('/update_attribute_organizations_settings', :method => 'POST', :class => 'simple_form') do -%>
+
+          <%= hidden_field_tag 'organization_id', @organization.id %>
+          <%= hidden_field_tag 'organization[pe_attribute_ids][]' %>
+
+          <table class="table tablesorterPager table-striped table-bordered table-condensed">
+            <thead>
+            <tr>
+              <th><%= I18n.t(:name) %></th>
+              <th><%= I18n.t(:mandatory) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @attribute_settings.each_with_index do |ao, i| %>
                 <%= hidden_field_tag 'attributes[]', ao.pe_attribute_id %>
                 <tr>
                   <td class="span3"><%= link_to ao.pe_attribute.nil? ? '-' : ao.pe_attribute.name, '#', :class => 'attribute_tooltip', :style => 'color:green;', :title => display_attribute_rule(ao.pe_attribute) %></td>
                   <td><%= select_tag 'is_mandatory[]', options_for_select([['yes', true], ['no', false]], :selected => ao.is_mandatory), :prompt => I18n.t('helpers.select.prompt'), :class => 'input-small' %></td>
                 </tr>
-              <% end %>
+            <% end %>
             </tbody>
 
             <%= render :partial => 'layouts/footer_table' %>
@@ -105,140 +105,140 @@
           <%= submit_tag I18n.t('apply'), :class => 'btn' %>
 
           <span class="on_success_attr"></span>
-        <% end -%>
-      </div>
+      <% end -%>
+    </div>
 
-      <div id="tabs-4">
-        <b><%= I18n.t(:text_organization_technology) %></b>
-        <br><br>
+    <div id="tabs-4">
+      <b><%= I18n.t(:text_organization_technology) %></b>
+      <br><br>
 
-        <table class="table table tablesorterPager table-striped table-bordered table-condensed">
-          <thead>
-              <tr>
-                <th><%= I18n.t(:name) %></th>
-                <th><%= I18n.t(:alias) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th><%= I18n.t(:productivity_ratio) %></th>
-                <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @organization.organization_technologies.each do |ot| %>
-              <tr>
-                <td><%= ot.name %></td>
-                <td><%= ot.alias %></td>
-                <td><%= ot.description %></td>
-                <td><%= ot.productivity_ratio %></td>
-                <td>
-                  <%= link_to "", edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                  <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                </td>
-              </tr>
-            <% end %>
+      <table class="table table tablesorterPager table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:alias) %></th>
+          <th><%= I18n.t(:description) %></th>
+          <th><%= I18n.t(:productivity_ratio) %></th>
+          <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @organization.organization_technologies.each do |ot| %>
+            <tr>
+              <td><%= ot.name %></td>
+              <td><%= ot.alias %></td>
+              <td><%= ot.description %></td>
+              <td><%= ot.productivity_ratio %></td>
+              <td>
+                <%= link_to '', edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              </td>
+            </tr>
+        <% end %>
 
-          <%= link_to I18n.t('new_organization_technology'), new_organization_technology_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
-          <%= render :partial => 'layouts/footer_table' %>
-          </tbody>
-        </table>
-      </div>
+        <%= link_to I18n.t('new_organization_technology'), new_organization_technology_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+        <%= render :partial => 'layouts/footer_table' %>
+        </tbody>
+      </table>
+    </div>
 
-      <div id="tabs-5">
-        <b><%= I18n.t(:text_organization_uow_complexity) %></b>
-        <br><br>
+    <div id="tabs-5">
+      <b><%= I18n.t(:text_organization_uow_complexity) %></b>
+      <br><br>
 
-        <table class="table table tablesorterPager table-striped table-bordered table-condensed">
-          <thead>
-          <tr>
-            <th><%= I18n.t(:name) %></th>
-            <th><%= I18n.t(:description) %></th>
-            <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @organization.organization_uow_complexities.each do |oc| %>
+      <table class="table table tablesorterPager table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:description) %></th>
+          <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @organization.organization_uow_complexities.each do |oc| %>
             <tr>
               <td><%= oc.name %></td>
               <td><%= oc.description %></td>
               <td>
-                <%= link_to "", edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <%= link_to "", oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               </td>
             </tr>
-          <% end %>
+        <% end %>
 
-          <%= link_to I18n.t('new_organization_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
-          <%= render :partial => 'layouts/footer_table' %>
-          </tbody>
-        </table>
-      </div>
+        <%= link_to I18n.t('new_organization_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+        <%= render :partial => 'layouts/footer_table' %>
+        </tbody>
+      </table>
+    </div>
 
-      <div id="tabs-6">
-        <b><%= I18n.t(:text_organization_unit_of_work) %></b>
-        <br><br>
+    <div id="tabs-6">
+      <b><%= I18n.t(:text_organization_unit_of_work) %></b>
+      <br><br>
 
-        <table class="table table tablesorterPager table-striped table-bordered table-condensed">
-          <thead>
-          <tr>
-            <th><%= I18n.t(:name) %></th>
-            <th><%= I18n.t(:alias) %></th>
-            <th><%= I18n.t(:description) %></th>
-            <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @organization.unit_of_works.each do |uow| %>
-              <tr>
-                <td><%= uow.name %></td>
-                <td><%= uow.alias %></td>
-                <td><%= uow.description %></td>
-                <td>
-                  <%= link_to "", edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                  <%= link_to "", uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                </td>
-              </tr>
-          <% end %>
+      <table class="table table tablesorterPager table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:alias) %></th>
+          <th><%= I18n.t(:description) %></th>
+          <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @organization.unit_of_works.each do |uow| %>
+            <tr>
+              <td><%= uow.name %></td>
+              <td><%= uow.alias %></td>
+              <td><%= uow.description %></td>
+              <td>
+                <%= link_to '', edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              </td>
+            </tr>
+        <% end %>
 
-          <%= link_to I18n.t('new_unit_of_work'), new_unit_of_work_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
-          <%= render :partial => 'layouts/footer_table' %>
-          </tbody>
-        </table>
-      </div>
+        <%= link_to I18n.t('new_unit_of_work'), new_unit_of_work_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+        <%= render :partial => 'layouts/footer_table' %>
+        </tbody>
+      </table>
+    </div>
 
-      <div id="tabs-7">
-        <b><%= I18n.t(:text_organization_subcontractor) %></b>
-        <br><br>
+    <div id="tabs-7">
+      <b><%= I18n.t(:text_organization_subcontractor) %></b>
+      <br><br>
 
-        <table class="table tablesorterPager table-striped table-bordered table-condensed">
-          <thead>
-              <tr>
-                <th><%= I18n.t(:name) %></th>
-                <th><%= I18n.t(:alias) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @organization.subcontractors.each do |ot| %>
-              <tr>
-                <td><%= ot.name %></td>
-                <td><%= ot.alias %></td>
-                <td><%= ot.description %></td>
-                <td>
-                  <% unless ot.in?(@default_subcontractors) %>
-                      <%= link_to "", edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                      <%= link_to "", ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
+      <table class="table tablesorterPager table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:alias) %></th>
+          <th><%= I18n.t(:description) %></th>
+          <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @organization.subcontractors.each do |ot| %>
+            <tr>
+              <td><%= ot.name %></td>
+              <td><%= ot.alias %></td>
+              <td><%= ot.description %></td>
+              <td>
+                <% unless ot.in?(@default_subcontractors) %>
+                    <%= link_to '', edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                    <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% end %>
+              </td>
+            </tr>
+        <% end %>
 
-            <%= link_to I18n.t('new_subcontractor'), new_subcontractor_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
-            <%= render :partial => 'layouts/footer_table' %>
-          </tbody>
-        </table>
-      </div>
+        <%= link_to I18n.t('new_subcontractor'), new_subcontractor_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+        <%= render :partial => 'layouts/footer_table' %>
+        </tbody>
+      </table>
+    </div>
 
-      <div id="tabs-8">
-        <%= render :partial => 'organization_technologies/abacus' %></div>
-  <% end %>
+    <div id="tabs-8">
+      <%= render :partial => 'organization_technologies/abacus' %></div>
+<% end %>
 </div>
