@@ -1,20 +1,21 @@
-<%= form_tag "/searches/results", :class => "simple_form navbar-search pull-right", :id => "search_form" do %>
+<%= form_tag '/searches/results', :class => 'simple_form navbar-search pull-right', :id => 'search_form' do %>
     <div class="input-prepend">
       <div class="input-append">
-        <%= search_field_tag "search", "", :placeholder => I18n.t(:quick_search), :class => "search-input span5" %>
+        <%= search_field_tag 'search', '', :placeholder => I18n.t(:quick_search), :class => 'search-input span5' %>
         <div class="btn-group">
-            <button class="btn" tabindex="-1"><%= I18n.t(:search_action) %></button>7
-            <button class="btn dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_all_words) %></a></li>
-              <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_any_words) %></a></li>
-              <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_phrase) %> </a></li>
-              <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_query) %></a></li>
+          <button class="btn" tabindex="-1"><%= I18n.t(:search_action) %></button>
+          7
+          <button class="btn dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_all_words) %></a></li>
+            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_any_words) %></a></li>
+            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_phrase) %> </a></li>
+            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_query) %></a></li>
 
-              <%#= link_to I18n.t(:search_any_words), "#", {:search_action => "search_all_words"}, :onclick => "$('#search_form').submit();" %>
-            </ul>
+            <%#= link_to I18n.t(:search_any_words), "#", {:search_action => "search_all_words"}, :onclick => "$('#search_form').submit();" %>
+          </ul>
         </div>
       </div>
     </div>
