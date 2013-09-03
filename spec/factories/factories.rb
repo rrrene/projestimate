@@ -51,7 +51,7 @@ FactoryGirl.define do
     u.sequence(:login_name) {|n| "User_login#{n}"}
     u.sequence(:email) {|n| "email#{n}@yourcompagny.net"}
     initials   "ad1"
-    time_zone  "GMT"
+    #time_zone  "GMT"
     association :auth_method, :factory => :auth_method
     user_status "pending"
     association :language, :factory => :language

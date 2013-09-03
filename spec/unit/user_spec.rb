@@ -80,12 +80,12 @@ describe User do
   end
 
   it "should not be valid without user_status" do
-    @user.user_status=''
-    @user.should be_valid
+    @user.user_status = ''
+    @user.should_not be_valid
   end
 
   it "should not be valid without auth_type"  do
-    @user.auth_type=''
+    @user.auth_type = ''
     @user.should_not be_valid
   end
 
