@@ -45,13 +45,13 @@ FactoryGirl.define do
   #  password_confirmation "projestimate1"
   #end
 
-  factory :user do
-    first_name "Administrator1"
-    last_name  "Projestimate1"
-    login_name "admin1"
-    email      "admin1@yourcompany.net"
+  factory :user do |u|
+    u.sequence(:first_name) {|n| "User#{n}"}
+    u.sequence(:last_name) {|n| "P#{n}"}
+    u.sequence(:login_name) {|n| "User_login#{n}"}
+    u.sequence(:email) {|n| "email#{n}@yourcompagny.net"}
     initials   "ad1"
-    time_zone  "GMT"
+    #time_zone  "GMT"
     association :auth_method, :factory => :auth_method
     user_status "pending"
     association :language, :factory => :language

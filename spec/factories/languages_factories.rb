@@ -9,12 +9,18 @@ FactoryGirl.define do
     association :record_status, :factory => :proposed_status, strategy: :build
   end
 
-  #factory :en_language, :class => Language do
-  #  name "English1"
-  #  locale "en1"
-  #  uuid
-  #end
-  #
+  factory :en_language, :class => Language do
+    sequence(:name)   {|n| "english#{n}"}
+    sequence(:locale) {|n| "locale_english#{n}"}
+    uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
+  end
+  factory :fr_language, :class => Language do
+    sequence(:name)   {|n| "fr#{n}"}
+    sequence(:locale) {|n| "locale_fr#{n}"}
+    uuid
+    association :record_status, :factory => :proposed_status, strategy: :build
+  end
 
   #factory :fr_language, :class => Language do
   #  name "Français1"

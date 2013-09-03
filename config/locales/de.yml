@@ -320,6 +320,11 @@ de:
   record_per_page: "records per page"
   quick_search: "Quick Search"
   search: "Search"
+  search_action: "Search action"
+  search_all_words: "Search all words"
+  search_any_words: "Search any words"
+  search_phrase: "Search phrase"
+  search_query: "Search query"
   import: "Import"
   export: "Export"
 

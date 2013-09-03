@@ -32,11 +32,32 @@ class SearchesController < ApplicationController
 
     @results = Array.new
     @result_count = Hash.new
+    test = params[:search_action]
+    test2 = params[:appendedDropdownButton]
+    if params[:search] != "" && params[:search] != nil
 
-    if params[:search] != ""
       classes.each do |class_name|
         @query = params[:search]
-        res = class_name.search_for(@query)
+        res = []
+
+        case params[:search_action]
+
+          when "search_all_words"
+            res = class_name.search_for(@query)
+
+          when "search_any_words"
+            res = class_name.search_for(@query.split)
+
+          when "search_phrase"
+            res = class_name.search_for(@query)
+
+          when "search_query"
+            res = class_name.search_for(@query)
+
+          else
+            res = class_name.search_for(@query)
+        end
+
         @result_count[class_name] = res.size
         @results <<  res
       end

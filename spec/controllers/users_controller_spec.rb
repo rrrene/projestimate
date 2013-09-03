@@ -19,8 +19,8 @@ describe UsersController, "Creating and managing user", :type => :controller do
 
   describe "GET 'edit'" do
     it "returns correct template" do
-      #@ability.can :edit, User
-      @user = FactoryGirl.create(:user)
+      ##@ability.can :edit, User
+      #@user = FactoryGirl.create(:user)
       get 'edit', :id=> @user.to_param
       response.should render_template("edit")
     end
@@ -35,7 +35,7 @@ describe UsersController, "Creating and managing user", :type => :controller do
 
   describe "GET 'find_use_user'" do
     it "returns correct template" do
-      @user = FactoryGirl.create(:user)
+    #  @user = FactoryGirl.create(:user)
       @params = { :user_id => @user.id, :format => 'js' }
       get 'find_use_user', @params
       response.should be_success
@@ -60,7 +60,7 @@ describe UsersController, "Creating and managing user", :type => :controller do
 
   describe "GET 'display_states'" do
     it "returns http success" do
-      @user = FactoryGirl.create(:user)
+      #@user = FactoryGirl.create(:user)
       @params = { :user_status => @user.user_status, :format => 'js' }
       get 'display_states', @params
       response.should be_success

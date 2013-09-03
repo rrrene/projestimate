@@ -2,11 +2,10 @@ require "spec_helper"
 
 describe Language do
 
-  before :each do
-
+  before do
     #proposed_status = FactoryGirl.build(:record_status, :proposed)
     #@language = FactoryGirl.create(:language, record_status: proposed_status)
-    @language = FactoryGirl.create(:language)
+    @language = FactoryGirl.create(:fr_language)
     #@language2 = FactoryGirl.create(:language)
     @custom_status = FactoryGirl.build(:custom_status)
   end

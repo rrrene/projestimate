@@ -4,7 +4,7 @@ describe AuthMethod do
   before :each do
     @default_auth_method = FactoryGirl.create(:auth_method)
     proposed_status = FactoryGirl.build(:proposed_status)
-    @another_auth_method = AuthMethod.new(:name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :encryption => "simple_tls", :uuid => "124563", :record_status => proposed_status)
+    @another_auth_method = AuthMethod.new(:user_name_attribute => "cn", :name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :encryption => "simple_tls", :uuid => "124563", :record_status => proposed_status)
     @custom_status = FactoryGirl.build(:custom_status)
   end
 
