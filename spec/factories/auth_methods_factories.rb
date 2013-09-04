@@ -14,7 +14,7 @@ FactoryGirl.define do
   end
 
   factory :auth_methodLDAP do
-    sequence(:name) {|n| "Application_#{n}"}        #name "Application"
+    sequence(:name) {|n| "Application_LDAP_#{n}"}        #name "Application"
     server_name "gpsforprojects.net"
     user_name_attribute "ldap_user"
     port 636
