@@ -20,7 +20,6 @@
 
 #Organization of the User
 class Organization < ActiveRecord::Base
-
   has_and_belongs_to_many :users
   has_many :wbs_activities, :dependent => :destroy
   has_many :attribute_organizations, :dependent => :destroy
@@ -44,10 +43,10 @@ class Organization < ActiveRecord::Base
   end
 
   def self.export(organization)
-    require 'rubyXL'
-    workbook = RubyXL::Workbook.new
-    organization.organization_technologies.each do |ot|
-      workbook.worksheets << Worksheet.new(ot.name)
-    end
+    #workbook = RubyXL::Workbook.new
+    #organization.organization_technologies.each do |ot|
+    #  workbook.worksheets << Worksheet.new(ot.name)
+    #end
+    #return workbook
   end
 end
