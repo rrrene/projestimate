@@ -37,25 +37,25 @@ class SearchesController < ApplicationController
     if params[:search] != "" && params[:search] != nil
 
       classes.each do |class_name|
-        @query = params[:search]
+        query = params[:search]
         res = []
 
         case params[:search_action]
 
           when "search_all_words"
-            res = class_name.search_for(@query)
+            res = class_name.search_for(query)
 
           when "search_any_words"
-            res = class_name.search_for(@query.split)
+            res = class_name.search_for(query.gsub(" ", " OR "))
 
           when "search_phrase"
-            res = class_name.search_for(@query)
+            res = class_name.search_for(" \"#{query}\" ")
 
           when "search_query"
-            res = class_name.search_for(@query)
+            res = class_name.search_for(query)
 
           else
-            res = class_name.search_for(@query)
+            res = class_name.search_for(query)
         end
 
         @result_count[class_name] = res.size

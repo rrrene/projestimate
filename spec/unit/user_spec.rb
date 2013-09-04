@@ -79,8 +79,8 @@ describe User do
   end
 
   it "should not be valid without user_status" do
-    @user.user_status = ''
-    @user.should_not be_valid
+    @admin1.user_status=''
+    @admin1.should_not be_valid
   end
 
   it "should not be valid without auth_type"  do

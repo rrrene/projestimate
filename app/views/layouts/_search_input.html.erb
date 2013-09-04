@@ -1,5 +1,5 @@
 <%= form_tag '/searches/results', :class => 'simple_form navbar-search pull-right', :id => 'search_form' do %>
-    <div class="input-prepend">
+    <div class="input-prepend" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
       <div class="input-append">
         <%= search_field_tag 'search', '', :placeholder => I18n.t(:quick_search), :class => 'search-input span5' %>
         <div class="btn-group">
@@ -13,6 +13,8 @@
             <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_any_words) %></a></li>
             <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_phrase) %> </a></li>
             <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_query) %></a></li>
+
+
           </ul>
         </div>
       </div>
