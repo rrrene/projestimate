@@ -129,28 +129,31 @@ class OrganizationsController < ApplicationController
 
   def export_abacus
       organization = Organization.find(params[:id])
-
       filename = "#{organization.name}.xls"
       book =  RubyXL::Workbook.new
-      sheet1 = book.worksheets << Worksheet.new(organization.name)
 
-      ["a", "b", "c"].each_with_index do |j, i|
-        book.worksheets[0].add_cell(0,i,j)
-        #j.versions.all.each_with_index do |ver, j|
-        #  sheet1.row(2)[j] = ver.name
-        #end
+      organization.organization_technologies.each_with_index do |ot, n|
+        book.worksheets << Worksheet.new(ot.name)
+        organization.unit_of_works.each_with_index do |uow, i|
+          organization.organization_uow_complexities.each_with_index do |comp, l|
+            begin
+              w = book[n]
+
+              w.add_cell(0, i+1, uow.name)
+              w.add_cell(l+1, 0, comp.name)
+
+              a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
+              w.add_cell(l+1, i+1, a.first.value)
+            rescue
+
+            end
+          end
+        end
       end
 
-      #Reference.find(:all).each_with_index do |refe, k|
-      #  sheet1.row(k+2)[0] = refe.libelle
-      #  sheet1.row(k+2)[1] = refe.categorie
-      #  sheet1.row(k+2)[2] = refe.sous_categorie
-      #  sheet1.row(k+2)[3] = refe.unit
-      #end
-
       book.write 'file.xlsx'
-      #send_data(book, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
 
+      #send_data(book, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
   end
 
 end
