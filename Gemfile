@@ -94,7 +94,6 @@ gem 'cache_digests'
 #Continious integration and monitoring
 gem 'newrelic_rpm'
 
-gem 'roo'
 gem 'rubyXL'
 
 # Gems used only for assets and not required
