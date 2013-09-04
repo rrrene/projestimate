@@ -4724,9 +4724,6 @@ function refresh_me(data){
     });
 }
 
-
-
-
 function select_or_unselect_all(clicked_elt){
     var mp_id = $(clicked_elt).data("mp_id");
     var rows_or_cols = $(clicked_elt).data("rows_or_cols");
@@ -4762,6 +4759,9 @@ function select_or_unselect_all(clicked_elt){
         }
     }
 }
+
+
+//Submit form
 
 
 jQuery.fn.submitWithAjax = function () {

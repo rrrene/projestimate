@@ -3,16 +3,15 @@ require "spec_helper"
 describe User do
 
   before :each do
-    #@admin1 =  User.first
     @admin1 = FactoryGirl.create(:user)
     @admin = User.new(admin_user_hash)  #defined below
-    @user = User.new(valid_user_hash)  #defined below
-    #@user = FactoryGirl.create(:user, :last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test', :password_confirmation => 'test')
+    @user = User.new(valid_user_hash)   #defined below
   end
 
   it "should be valid" do
     @admin.should be_valid
     @user.should be_valid
+    @admin1.should be_valid
   end
 
   it "should return the name of user" do
@@ -80,8 +79,8 @@ describe User do
   end
 
   it "should not be valid without user_status" do
-    @user.user_status = ''
-    @user.should_not be_valid
+    @admin1.user_status=''
+    @admin1.should_not be_valid
   end
 
   it "should not be valid without auth_type"  do
@@ -171,6 +170,7 @@ describe User do
   #METHODS AND OTHERS VALIDATIONS
 
   it "should be activated by admin" do
+    @admin.user_status = 'active'
     @admin.user_status.should eql('active')
     @admin.should be_valid
   end
@@ -351,12 +351,12 @@ describe User do
   end
 
   def valid_user_hash
-    {:last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test', :password_confirmation => 'test'}
+    {:last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test_me', :password_confirmation => 'test_me'}
   end
 
 
   def admin_user_hash
-    {:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'administrator', :email => 'admin@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'test', :password_confirmation => 'test'}
+    {:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'administrator', :email => 'admin@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'test_me', :password_confirmation => 'test_me'}
   end
 
 end
