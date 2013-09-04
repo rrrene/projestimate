@@ -145,7 +145,7 @@ class OrganizationsController < ApplicationController
               a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
               w.add_cell(l+1, i+1, a.first.value)
             rescue
-
+              # :()
             end
           end
         end
@@ -153,7 +153,8 @@ class OrganizationsController < ApplicationController
 
       book.write 'file.xlsx'
 
-      #send_data(book, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
+      #send_data('./file.xlsx', :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
+      redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
 
 end
