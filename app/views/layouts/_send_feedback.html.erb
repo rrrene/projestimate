@@ -7,7 +7,13 @@
     <h3 id="myModalLabel">Send a feedback</h3>
   </div>
   <div class="modal-body">
-
+    <%= simple_form_for :send_feedback, {:url => "/application/send_feedback" } do |f| %>
+        <div class="form-horizontal">
+          <%= f.input :user_name,:input_html => { :style=>"width:320px",:value => current_user.first_name + " " + current_user.last_name + " (" + current_user.email+ " )"}%>
+          <%= f.input :type, :input_html => { :style=>"width:334px"}, :collection =>([["Problem", 0], ["Suggestion",1], ["Other",2]]) %>
+          <%= f.input :description , :as=> :text,  :input_html => { :cols => 50, :rows => 5, :style=>"width:320px"}%>
+        </div>
+    <% end %>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
