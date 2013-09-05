@@ -4761,8 +4761,24 @@ function select_or_unselect_all(clicked_elt){
 }
 
 
-//Submit form
+//Submit the search form
+function submit_search_form(){
 
+    var search_option;
+
+    $('#search_all_words, #search_any_words, #search_phrase, #search_query').live("click", function(event) {
+        search_option = $(event.target).data("search_option_link");
+        $('#search_form').submit();
+    });
+
+    $('#search_form').submit(function(){
+        $('<input />').attr('type', 'hidden')
+            .attr('name', "search_option")
+            .attr('value', search_option)
+            .appendTo('#search_form');
+    });
+
+}
 
 jQuery.fn.submitWithAjax = function () {
     this.submit(function () {

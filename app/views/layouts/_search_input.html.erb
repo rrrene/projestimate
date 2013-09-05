@@ -9,11 +9,10 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_all_words) %></a></li>
-            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_any_words) %></a></li>
-            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_phrase) %> </a></li>
-            <li><a href="#" onclick="$('#search_form').submit();"><%= I18n.t(:search_query) %></a></li>
-
+            <li><a id="search_all_words" class="search_option_class" data-search_option_link="search_all_words" href="#" onclick="submit_search_form()"><%= I18n.t(:search_all_words) %></a></li>
+            <li><a id="search_any_words" class="search_option_class" data-search_option_link="search_any_words" href="#" onclick="submit_search_form()"><%= I18n.t(:search_any_words) %></a></li>
+            <li><a id="search_phrase" class="search_option_class" data-search_option_link="search_phrase" href="#" onclick="submit_search_form()"><%= I18n.t(:search_phrase) %></a></li>
+            <li><a id="search_query" class="search_option_class" data-search_option_link="search_query" href="#" onclick="submit_search_form()"><%= I18n.t(:search_query) %></a></li>
 
           </ul>
         </div>

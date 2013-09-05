@@ -31,12 +31,12 @@ module SearchesHelper
       if defined? res.alias
         result += " ("+res.alias+")"
       end
-    link_to(raw("#{highlight(result, params) unless params.nil?}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result", :style => "font-size:12px; color: #467aa7;")
+    link_to(raw("#{highlight(result, params.split) unless params.nil?}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result", :style => "font-size:12px; color: #467aa7;")
   end
 
   def display_description(res, params=[])
     if defined?  res.description
-      highlight(res.description, params) unless params.nil?
+      highlight(res.description, params.split) unless (params.nil? || res.description.nil?)
     end
   end
 
