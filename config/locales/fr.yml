@@ -1029,3 +1029,6 @@ fr:
   label_Organization: "Organisation"
   label_User: "Utilisateur"
   label_Group: "Groupe"
+  send_feedback: "Envoyer un commentaire"
+  label_feedback_type: "Type de commentaire"
+  notice_send_feedback: "Merci d'entrer un descriptif de votre problème ou suggestion:"
