@@ -40,7 +40,7 @@ class SearchesController < ApplicationController
         query = params[:search]
         res = []
 
-        case params[:search_action]
+        case params[:search_option]
 
           when "search_all_words"
             res = class_name.search_for(query)
