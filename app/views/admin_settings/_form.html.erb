@@ -19,7 +19,7 @@
 
         <%= f.input :value, :label => I18n.t('value'), :collection => [[I18n.t(:label_disabled), 0]]+[[I18n.t('datetime.distance_in_words.x_minutes', :count => 30), '30']]+ [1, 2, 4, 8, 12, 24, 48].collect { |hours| [I18n.t('datetime.distance_in_words.x_hours', :count => hours), (hours).to_s] } if (@admin_setting.key=='session_inactivity_timeout') %>
 
-        <%= f.input :value, :label => I18n.t('value'), :as => 'boolean' if (@admin_setting.key=='allow_feedback') %>
+        <%= f.input :value, :label => I18n.t('value')+" (True/False)", :as => 'boolean' if (@admin_setting.key=='allow_feedback') %>
 
         <table>
           <tr>
