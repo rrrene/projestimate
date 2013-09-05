@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance
-
+  helper_method :send_feedback
   helper_method :allow_feedback?
   helper_method :current_user
   helper_method :current_project
@@ -124,6 +124,10 @@ class ApplicationController < ActionController::Base
   #    end
   #  end
   #end
+
+  def send_feedback
+      redirect_to users_path
+  end
   def allow_feedback?
     @admin_setting=AdminSetting.find_by_key_and_record_status_id("allow_feedback", @defined_record_status)
     if @admin_setting.nil?
