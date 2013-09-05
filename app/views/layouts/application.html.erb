@@ -23,7 +23,10 @@
         <div class="pull-left">
           <%= link_to(content_tag(:div, '', :class => 'logoEstimate'), '/dashboard') %>
         </div>
-        <div style="margin-top:16px;">
+        <div class="pull-right" style="margin-top:16px; margin-left: 10px">
+          <%= render 'layouts/send_feedback.html.erb' %>
+        </div>
+        <div style="margin-top:16px" class="pull-right">
           <%= render 'layouts/search_input' %>
         </div>
       </div>
