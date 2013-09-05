@@ -126,13 +126,17 @@ class ApplicationController < ActionController::Base
   #end
   def allow_feedback?
     @admin_setting=AdminSetting.find_by_key_and_record_status_id("allow_feedback", @defined_record_status)
-    @admin_setting.value.to_i
-    puts "toto"
-    if @admin_setting.value== "0"
+    if @admin_setting.nil?
       return false
     else
-      return true
+      @admin_setting.value.to_i
+      if @admin_setting.value== "0"
+        return false
+      else
+        return true
+      end
     end
+
   end
   #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
   #This method test if we are on Master or Local instance
