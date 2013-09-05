@@ -26,7 +26,7 @@
           <tr>
             <td><%= admin_setting.key %></td>
 
-            <% unless admin_setting.key=='session_maximum_lifetime' || admin_setting.key=='session_inactivity_timeout' %>
+            <% unless admin_setting.key=='session_maximum_lifetime' || admin_setting.key=='session_inactivity_timeout' || admin_setting.key=='allow_feedback' %>
                 <td><%= admin_setting.value %></td>
             <% end %>
             <% if admin_setting.key=='session_maximum_lifetime' %>
@@ -37,7 +37,9 @@
                 <% else %>
                     <td><%= I18n.t('datetime.distance_in_words.x_hours', :count => admin_setting.value.to_i) %></td>
                 <% end %>
-            <% end %>
+            <% elsif admin_setting.key=='allow_feedback'%>
+                <td><%= admin_setting.value== "1" ? true : false %></td>
+          <% end %>
 
             <td><%= admin_setting.record_status.name unless admin_setting.record_status.nil? %> <%= admin_setting.show_custom_value %></td>
 

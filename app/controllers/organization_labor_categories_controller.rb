@@ -28,7 +28,7 @@ class OrganizationLaborCategoriesController < ApplicationController
     @organization_labor_category = OrganizationLaborCategory.new
 
     respond_to do |format|
-      format.html # _new.html.erb
+      format.html # new.html.erb
       format.json { render json: @organization_labor_category }
     end
   end

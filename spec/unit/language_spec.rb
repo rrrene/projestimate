@@ -5,7 +5,7 @@ describe Language do
   before do
     #proposed_status = FactoryGirl.build(:record_status, :proposed)
     #@language = FactoryGirl.create(:language, record_status: proposed_status)
-    @language = FactoryGirl.create(:fr_language)
+    @language = FactoryGirl.create(:language)
     #@language2 = FactoryGirl.create(:language)
     @custom_status = FactoryGirl.build(:custom_status)
   end

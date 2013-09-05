@@ -20,6 +20,8 @@
 
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
+  require 'rubyXL'
+  include RubyXL
 
   def new
     authorize! :edit_organizations, Organization
@@ -126,13 +128,33 @@ class OrganizationsController < ApplicationController
   end
 
   def export_abacus
-    begin
       organization = Organization.find(params[:id])
-      workbook = Organization.export(organization)
-      send_data(workbook, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.csv")
-    rescue
-      redirect_to '/organizationals_params'
-    end
+      filename = "#{organization.name}.xls"
+      book =  RubyXL::Workbook.new
+
+      organization.organization_technologies.each_with_index do |ot, n|
+        book.worksheets << Worksheet.new(ot.name)
+        organization.unit_of_works.each_with_index do |uow, i|
+          organization.organization_uow_complexities.each_with_index do |comp, l|
+            begin
+              w = book[n]
+
+              w.add_cell(0, i+1, uow.name)
+              w.add_cell(l+1, 0, comp.name)
+
+              a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
+              w.add_cell(l+1, i+1, a.first.value)
+            rescue
+              # :()
+            end
+          end
+        end
+      end
+
+      book.write 'file.xlsx'
+
+      #send_data('./file.xlsx', :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
+      redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
 
 end
