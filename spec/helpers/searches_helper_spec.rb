@@ -11,7 +11,7 @@ describe SearchesHelper do
   end
 
   it "should display description" do
-    display_description(@ksloc_attribute).should == "Attribut number 1"
+    display_description(@ksloc_attribute, "toto").should == "Attribute number 1"
   end
 
   it "should display last updated date" do
