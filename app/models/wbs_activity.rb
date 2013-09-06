@@ -63,7 +63,7 @@ class WbsActivity < ActiveRecord::Base
   end
 
   #Search fields
-  scoped_search :on => [:name, :description]
+  scoped_search :on => [:name, :description, :created_at, :updated_at]
   scoped_search :in => :organization, :on => :name
   scoped_search :in => :wbs_activity_elements, :on => [:name, :description]
   scoped_search :in => :wbs_activity_ratios, :on => [:name, :description]

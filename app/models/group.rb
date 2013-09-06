@@ -40,15 +40,12 @@ class Group < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
 
   #Search fields
-  scoped_search :on => [:name]
+  scoped_search :on => [:name, :description, :created_at, :updated_at]
 
   #Override
   def to_s
     self.name
   end
-
-  #Search fields
-  scoped_search :on => [:name, :description]
 
   #TODO REVIEW function code
   #Return group project_securities for selected project_id
