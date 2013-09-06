@@ -49,7 +49,7 @@ class Project < ActiveRecord::Base
   validates :title, :alias, :presence => true, :uniqueness => { case_sensitive: false }
 
   #Search fields
-  scoped_search :on => [:title, :alias, :description]
+  scoped_search :on => [:title, :alias, :description, :start_date, :created_at, :updated_at]
   scoped_search :in => :organization, :on => :name
   scoped_search :in => :pbs_project_elements, :on => :name
   scoped_search :in => :wbs_project_elements, :on => [:name, :description]

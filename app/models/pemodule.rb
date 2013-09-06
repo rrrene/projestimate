@@ -71,7 +71,7 @@ class Pemodule < ActiveRecord::Base
   end
 
   #Search fields
-  scoped_search :on => [:title, :alias, :description]
+  scoped_search :on => [:title, :alias, :description, :created_at, :updated_at]
 
 
   #Override

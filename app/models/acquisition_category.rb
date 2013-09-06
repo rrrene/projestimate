@@ -40,7 +40,7 @@ class AcquisitionCategory < ActiveRecord::Base
   end
 
   #Search fields
-  scoped_search :on => [:name, :description]
+  scoped_search :on => [:name, :description, :created_at, :updated_at]
 
   def to_s
     name
