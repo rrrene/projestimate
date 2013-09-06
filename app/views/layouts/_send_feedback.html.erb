@@ -1,31 +1,30 @@
-<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Send feedback</a>
+<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal"><%= I18n.t(:send_feedback) %></a>
 
 <!-- Modal -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="myModal" style="width: 620px;" class="modal hide fade" tabindex="-1" role="dialog" >
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Send a feedback</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h3 id="myModalLabel"><%= I18n.t(:send_feedback) %> &nbsp; - &nbsp;<%= I18n.t(:notice_send_feedback) %></h3>
   </div>
-  <div class="modal-body">
-    <%= simple_form_for @message, {:url => "/messages" } do |f| %>
-        <div class="form-horizontal">
-          <%= f.input :user_name,:input_html => { :style=>"width:320px",:value => current_user.first_name + " " + current_user.last_name + " (" + current_user.email+ " )"}%>
-          <%= f.input :type, :input_html => { :style=>"width:334px"}, :collection =>([["Problem", 0], ["Suggestion",1], ["Other",2]]) %>
-          <%= f.input :description , :as=> :text,  :input_html => { :cols => 50, :rows => 5, :style=>"width:320px"}%>
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-          <%= f.submit %>
+  <div class="modal-body" >
+    <%= simple_form_for :send_feedback, {:url => '/application/send_feedback'} do |f| %>
+        <div>
+          <%= f.input :user_name, :label => I18n.t('user'), :input_html => {:class => 'input-xxlarge', :value => current_user.first_name + ' ' + current_user.last_name + ' (' + current_user.email+ ' )'} %>
+          <%= f.input :type, :label => I18n.t('label_feedback_type'), :input_html => {:class => 'input-large'}, :collection => ([['Problem', 0], ['Suggestion', 1], ['Other', 2]]) %>
+          <%= f.input :description, :label => I18n.t('description'), :as => :text, :input_html => {:class => 'input-xxlarge', :rows => 10} %>
         </div>
     <% end %>
   </div>
-
+  <div class="modal-footer-left" style="margin:20px">
+    <button class="btn"><%= I18n.t(:send_request) %></button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= I18n.t(:cancel) %></button>
+  </div>
 </div>
-<script>
 
+<script>
     <% if allow_feedback? %>
-        $(".btn-primary").show();
+    $(".btn-primary").show();
     <% else %>
-        $(".btn-primary").hide();
+    $(".btn-primary").hide();
     <% end %>
 </script>
