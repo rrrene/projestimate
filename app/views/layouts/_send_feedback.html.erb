@@ -7,18 +7,19 @@
     <h3 id="myModalLabel"><%= I18n.t(:send_feedback) %> &nbsp; - &nbsp;<%= I18n.t(:notice_send_feedback) %></h3>
   </div>
   <div class="modal-body" >
-    <%= simple_form_for :send_feedback, {:url => '/application/send_feedback'} do |f| %>
+    <%= simple_form_for(:send_feedback, {:url => send_feedback_path, :method => "post"}) do |f| %>
         <div>
           <%= f.input :user_name, :label => I18n.t('user'), :input_html => {:class => 'input-xxlarge', :value => current_user.first_name + ' ' + current_user.last_name + ' (' + current_user.email+ ' )'} %>
-          <%= f.input :type, :label => I18n.t('label_feedback_type'), :input_html => {:class => 'input-large'}, :collection => ([['Problem', 0], ['Suggestion', 1], ['Other', 2]]) %>
+          <%= f.input :type, :label => I18n.t('label_feedback_type'), :input_html => {:class => 'input-large'}, :collection => (['Problem', 'Suggestion', 'Other']) %>
           <%= f.input :description, :label => I18n.t('description'), :as => :text, :input_html => {:class => 'input-xxlarge', :rows => 10} %>
         </div>
+        <div class="modal-footer-left">
+          <%= f.submit I18n.t('send_request'), :class => 'btn' %>
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><%= I18n.t(:cancel) %></button>
+        </div>
     <% end %>
-  </div>
-  <div class="modal-footer-left" style="margin:20px">
-    <button class="btn"><%= I18n.t(:send_request) %></button>
-    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= I18n.t(:cancel) %></button>
-  </div>
+    </div>
+
 </div>
 
 <script>

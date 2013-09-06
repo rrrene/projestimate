@@ -94,6 +94,17 @@ class UserMailer < ActionMailer::Base
     reset_locale
   end
 
+  #Account created
+  def send_feedback(user, type, message)
+    @message = "Message from: #{user}, Type: #{type}, Message: #{message}"
+    to=AdminSetting.find_by_key("feedback_email")
+    to=to.value
+    mail(:to => to , :subject => user +": "+ type)
+
+  ensure
+    reset_locale
+  end
+
   protected
   def reset_locale
     I18n.locale = OLD_LOCALE

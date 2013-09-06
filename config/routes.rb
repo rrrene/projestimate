@@ -31,7 +31,6 @@ Projestimate::Application.routes.draw do
   resources :unit_of_works
   resources :attribute_categories
 
-
   resources :versions
 
   resources :reference_values
@@ -162,6 +161,8 @@ Projestimate::Application.routes.draw do
 
   resources :pe_wbs_projects
 
+
+
   resources :projects
   get 'append_pemodule' => 'projects#append_pemodule'
   get 'select_categories' => 'projects#select_categories', :as => 'select_categories'
@@ -209,6 +210,7 @@ Projestimate::Application.routes.draw do
   get 'about' => 'users#about', :as => 'about'
   match 'users/:id/activate' => 'users#activate', :as => 'activate'
   get 'display_states' => 'users#display_states', :as => 'display_states'
+  post 'send_feedback' => 'users#send_feedback', :as => 'send_feedback'
 
   resources :password_resets
 
