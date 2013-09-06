@@ -39,23 +39,26 @@ class SearchesController < ApplicationController
       classes.each do |class_name|
         query = params[:search]
         res = []
+        begin
+          case params[:search_option]
 
-        case params[:search_action]
+            when "search_all_words"
+              res = class_name.search_for(query)
 
-          when "search_all_words"
-            res = class_name.search_for(query)
+            when "search_any_words"
+              res = class_name.search_for(query.gsub(" ", " OR "))
 
-          when "search_any_words"
-            res = class_name.search_for(query.gsub(" ", " OR "))
+            when "search_phrase"
+              res = class_name.search_for(" \"#{query}\" ")
 
-          when "search_phrase"
-            res = class_name.search_for(" \"#{query}\" ")
+            when "search_query"
+              res = class_name.search_for(query)
 
-          when "search_query"
-            res = class_name.search_for(query)
-
-          else
-            res = class_name.search_for(query)
+            else
+              res = class_name.search_for(query)
+          end
+        rescue
+          next
         end
 
         @result_count[class_name] = res.size

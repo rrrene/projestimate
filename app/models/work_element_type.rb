@@ -36,7 +36,7 @@ class WorkElementType < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
 
   #Search fields
-  scoped_search :on => [:name, :alias, :description]
+  scoped_search :on => [:name, :alias, :description, :created_at, :updated_at]
 
   def self.work_element_type_list
     Object::WorkElementType.all.map(&:alias)

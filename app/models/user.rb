@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   validate :password_length, :on => :create, :if => 'password.present?'
 
   #Search fields
-  scoped_search :on => [:last_name, :first_name, :login_name]
+  scoped_search :on => [:last_name, :first_name, :login_name, :created_at, :updated_at]
   scoped_search :in => :groups, :on => :name
   scoped_search :in => :organizations, :on => :name
 

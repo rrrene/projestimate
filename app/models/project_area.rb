@@ -38,7 +38,7 @@ class ProjectArea < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
 
   #Search fields
-  scoped_search :on => [:name, :description]
+  scoped_search :on => [:name, :description, :created_at, :updated_at]
 
   #Override
   def to_s

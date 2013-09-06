@@ -56,7 +56,7 @@ class PeAttribute < ActiveRecord::Base
   end
 
   #Search fields
-  scoped_search :on => [:name, :alias, :description]
+  scoped_search :on => [:name, :alias, :description, :created_at, :updated_at]
   scoped_search :in => :attribute_category, :on => :name
 
   def self.attribute_list

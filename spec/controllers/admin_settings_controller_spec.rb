@@ -35,7 +35,6 @@ describe AdminSettingsController do
     end
 
     it "assigns a new admin_setting as @admin_setting" do
-      @ability.can :create, AdminSetting
       get :new
       assigns(:admin_setting).should be_a_new_record
     end

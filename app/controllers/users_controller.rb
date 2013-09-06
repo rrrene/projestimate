@@ -213,4 +213,34 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_feedback
+    latest_record_version = Version.last.nil? ? Version.create(:comment => "No update data has been save") : Version.last
+    @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
+    @latest_local_update =  latest_record_version.local_latest_update
+    @projestimate_version="ProjEstimate version: #{projestimate_version}"
+    @ruby_version="Ruby version: #{ruby_version}"
+    @rails_version="Rails version: #{rails_version}"
+    @environment="Environment: #{environment}"
+    @database_adapter="Database adapter: #{database_adapter}"
+    @browser="Browser: #{browser}"
+    @server_name="Server name: #{server_name}"
+    @root_url ="Root url: #{root_url}"
+    um = UserMailer.send_feedback(params[:send_feedback][:user_name],
+                                 params[:send_feedback][:type],
+                                 params[:send_feedback][:description],
+                                 @latest_repo_update,
+                                 @projestimate_version,
+                                 @ruby_version,
+                                 @rails_version,
+                                 @environment,
+                                 @database_adapter, @browser, @server_name, @root_url)
+    if um.deliver
+      flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
+      redirect_to session[:return_to]
+    else
+      flash[:error] = I18n.t (:notice_attribute_category_successful_deleted)
+    end
+
+  end
+
 end

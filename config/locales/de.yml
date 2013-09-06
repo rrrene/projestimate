@@ -1023,3 +1023,6 @@ de:
   label_Organization: "Organization"
   label_User: "User"
   label_Group: "Group"
+  send_feedback: "Send Feedback"
+  label_feedback_type: "Feedback type"
+  notice_send_feedback: "Please enter a little information about the issue you'd like to tell us about:"

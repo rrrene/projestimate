@@ -38,7 +38,7 @@ class LaborCategoriesController < ApplicationController
     @labor_category = LaborCategory.new
 
     respond_to do |format|
-      format.html # _new.html.erb
+      format.html # new.html.erb
     end
   end
 

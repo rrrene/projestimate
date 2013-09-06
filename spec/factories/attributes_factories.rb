@@ -14,7 +14,7 @@ FactoryGirl.define do
   factory :ksloc_attribute, :class => :pe_attribute do |attr|
      attr.name "Ksloc1"
      attr.alias "ksloc1"
-     attr.description "Attribut number 1"
+     attr.description "Attribute number 1"
      attr.attr_type "integer"
      attr.options ["integer", ">=", "10"]
      uuid
