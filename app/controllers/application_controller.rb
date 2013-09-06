@@ -20,6 +20,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  require 'socket'
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
@@ -375,7 +376,7 @@ class ApplicationController < ActionController::Base
   end
 
   def server_name
-    @server_name=request.env['SERVER_NAME']
+    @server_name=Socket.gethostname
   end
   def root_url
     @root_url=request.env['HTTP_HOST']
