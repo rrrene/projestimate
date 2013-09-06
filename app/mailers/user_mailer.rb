@@ -95,8 +95,10 @@ class UserMailer < ActionMailer::Base
   end
 
   #Account created
-  def send_feedback(user, type, message)
-    @message = "Message from: #{user}, Type: #{type}, Message: #{message}"
+  def send_feedback(user, type, message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser, server_name, root_url)
+
+
+    @message = "Message from: #{user}, Type: #{type}, Message: #{message}, Latest reprository update: #{latest_repo_update}, #{projestimate_version}, #{ruby_version}, #{rails_version}, #{environment}, #{database_adapter}, #{browser}, #{server_name}, #{root_url}"
     to=AdminSetting.find_by_key("feedback_email")
     to=to.value
     mail(:to => to , :subject => user +": "+ type)
