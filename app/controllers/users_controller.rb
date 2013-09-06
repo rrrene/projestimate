@@ -213,4 +213,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_feedback
+    um = UserMailer.send_feedback(params[:send_feedback][:user_name],
+                                 params[:send_feedback][:type],
+                                 params[:send_feedback][:description])
+    um.deliver
+    redirect_to session[:return_to]
+  end
+
 end
