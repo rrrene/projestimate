@@ -1,4 +1,5 @@
 <div class="span5" xmlns="http://www.w3.org/1999/html">
+
   <%= simple_form_for(@pbs_project_element, :remote => true) do |f| %>
       <%= f.error_notification %>
       <%= hidden_field_tag :project_id, @project.id %>
@@ -36,8 +37,8 @@
         </tr>
       </table>
       <div class="modal-footer-left">
-      <%= f.submit I18n.t('save'), :class => 'btn' %>
-      <button type="button" class="btn" data-dismiss="modal" aria-hidden="true"><%=I18n.t(:close)%></button>
+        <%= f.submit I18n.t('save'), :class => 'btn' %>
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><%= I18n.t(:cancel) %></button>
       </div>
   <% end %>
 </div>
