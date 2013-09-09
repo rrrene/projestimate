@@ -197,10 +197,6 @@ Projestimate::Application.routes.draw do
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
 
-  match 'projects/:id/edit' => 'projects#update', :via => :put, :as => :put_project
-
-
-
   resources :users
   get 'dashboard' => 'users#show', :as => 'dashboard'
   get 'sign_up' => 'users#new', :as => 'sign_up'

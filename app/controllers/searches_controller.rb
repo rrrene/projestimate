@@ -39,6 +39,7 @@ class SearchesController < ApplicationController
       classes.each do |class_name|
         query = params[:search]
         res = []
+
         begin
           case params[:search_option]
 
@@ -68,5 +69,4 @@ class SearchesController < ApplicationController
 
     @results = @results.flatten
   end
-
 end
