@@ -17,12 +17,47 @@
 $(document).ready(function() {
 
     $("form.send_feedback input[type=submit]").click(function() {
-        if($("form.send_feedback textarea").val() == "" || $("form.send_feedback input").val() == ""){
+        var error=false;
+        if($("#send_feedback_user_name").val() == "") {
             $("#error_send_feedback").show();
-            return false;
-        }else{
+            $("#send_feedback_user_name").css("border-color", "red");
+            error= true;
+        }else
+        {
+            $("#send_feedback_user_name").css("border", "1px solid #cccccc");
             $("#error_send_feedback").hide();
-            return true;
+        }
+
+        if( $("#send_feedback_type").val() == "")
+        {
+            $("#error_send_feedback").show();
+            $("#send_feedback_type").css("border-color", "red");
+            error=  true;
+        }
+        else
+        {
+            $("#send_feedback_type").css("border", "1px solid #cccccc");
+            $("#error_send_feedback").hide();
+        }
+        if ($("#send_feedback_description").val() == "")
+        {
+            $("#error_send_feedback").show();
+            $("#send_feedback_description").css("border-color", "red");
+            error=  true;
+        }
+        else
+        {
+            $("#send_feedback_description").css("border", "1px solid #cccccc");
+            $("#error_send_feedback").hide();
+        }
+
+        if (error==true)
+        {
+            return false
+        }
+        else
+        {
+            return true
         }
 
     });
