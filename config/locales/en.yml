@@ -1026,3 +1026,6 @@ en:
   send_feedback: "Send Feedback"
   label_feedback_type: "Feedback Type"
   notice_send_feedback: "Please enter a little information about the issue you'd like to tell us about:"
+  error_send_feedback_empty: "Please fill out all fields of the form"
+  notice_send_feedback_succes: "Your request has been considered"
+  error_send_feedback_failled: "An error occurred while sending your request"

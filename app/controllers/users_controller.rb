@@ -236,10 +236,10 @@ class UsersController < ApplicationController
                                  @environment,
                                  @database_adapter, @browser,@version_browser, @server_name, @root_url,@defined_record_status)
     if um.deliver
-      flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
+      flash[:notice] = I18n.t (:notice_send_feedback_succes)
       redirect_to session[:return_to]
     else
-      flash[:error] = I18n.t (:notice_attribute_category_successful_deleted)
+      flash[:error] = I18n.t (:error_send_feedback_failled)
     end
 
   end
