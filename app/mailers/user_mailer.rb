@@ -45,7 +45,7 @@ class UserMailer < ActionMailer::Base
   #Send an account request
   def account_request(status)
     I18n.locale = 'en'
-    mail(:to => AdminSetting.find_by_key_and_record_status_id('notifications_email',status).value, :subject => I18n.t(:mail_subject_account_activation_request))
+    mail(:to => AdminSetting.find_by_key_and_record_status_id('notifications_email', status).value, :subject => I18n.t(:mail_subject_account_activation_request))
   ensure
     reset_locale
   end
@@ -96,13 +96,13 @@ class UserMailer < ActionMailer::Base
   end
 
   #Account created
-  def send_feedback(user, type, feedback_message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser,version_browser, server_name, root_url,status)
+  def send_feedback(user, type, feedback_message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser, version_browser, platform, os, server_name, root_url, status)
 
-    @message = "Here a new Feedback from: #{user} \nType: #{type} \n\nMessage: \n\n#{feedback_message} \n\nInformation on environment\n - Latest repository update: #{latest_repo_update} \n - ProjEstimate version: #{projestimate_version} - Ruby version: #{ruby_version} \n - Rails version: #{rails_version} \n - Environment: #{environment} \n - Database adapter: #{database_adapter}\n - Hostname: #{server_name} \n - URL: #{root_url} \n - Browser: #{browser} \n - Version Browser: #{version_browser}"
-    @defined_status=RecordStatus.find_by_name("Defined")
-    to=AdminSetting.find_by_key_and_record_status_id('feedback_email',status)
+    @message = "Here a new Feedback from: #{user} \nType: #{type} \n\nMessage: \n\n#{feedback_message} \n\nInformation on environment\n - Latest repository update: #{latest_repo_update} \n - ProjEstimate version: #{projestimate_version} - Ruby version: #{ruby_version} \n - Rails version: #{rails_version} \n - Environment: #{environment} \n - Database adapter: #{database_adapter}\n - Hostname: #{server_name} \n - URL: #{root_url} \n - Browser: #{browser} #{version_browser} (#{platform}) \n - OS: #{os}"
+    @defined_status=RecordStatus.find_by_name('Defined')
+    to=AdminSetting.find_by_key_and_record_status_id('feedback_email', status)
     to=to.value
-    mail(:to => to , :subject => 'Feedback ('+type+') from '+ user)
+    mail(:to => to, :subject => 'Feedback ('+type+') from '+ user)
 
   ensure
     reset_locale
