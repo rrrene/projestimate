@@ -20,23 +20,24 @@
 
 module SearchesHelper
   def display_link(res, params)
-
-      if defined? res.title
-        result= res.title
-      else
-        if defined? res.name
-          result=res.name
-        end
+    if defined? res.title
+      result= res.title
+    else
+      if defined? res.name
+        result=res.name
       end
-      if defined? res.alias
-        result += " ("+res.alias+")"
-      end
-    link_to(raw("#{highlight(result, params.split) unless params.nil?}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result", :style => "font-size:12px; color: #467aa7;")
+    end
+    if defined? res.alias
+      result += " ("+res.alias+")"
+    end
+    query_string =  params.gsub /"/, ''
+    link_to(raw("#{highlight(result, query_string.split) unless params.nil?}"), "/#{String::keep_clean_space(res.class.to_s.underscore.pluralize)}/#{res.id}/edit", :class => "search_result", :style => "font-size:12px; color: #467aa7;")
   end
 
   def display_description(res, params=nil)
     if defined?  res.description
-      params.nil? ? res.description : highlight(res.description, params.split) unless res.description.nil?
+      query_string =  params.gsub /"/, ''
+      params.nil? ? res.description : highlight(res.description, query_string.split) unless res.description.nil?
     end
   end
 

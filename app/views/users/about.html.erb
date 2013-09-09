@@ -38,7 +38,7 @@
     <h4> <%= I18n.t('label_environment') %> : </h4>
     <dl class="dl-horizontal">
       <dt>ProjEstimate version</dt>
-      <dd><span class="label label-info">0.20.0-Beta.2+<%= COMMIT_VERSION %> </span>
+      <dd><span class="label label-info"><%= projestimate_version %></span>
         (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
       </dd>
       <dt>Ruby version</dt>
@@ -49,6 +49,12 @@
       <dd><span class="label label-info"> <%= environment %> </span></dd>
       <dt>Database adapter</dt>
       <dd><span class="label label-info"> <%= database_adapter %> </span></dd>
+      <dt>Hostname</dt>
+      <dd><span class="label label-info"> <%= server_name %> </span></dd>
+      <dt>URL</dt>
+      <dd><span class="label label-info"> <%= root_url %> </span></dd>
+      <dt>Browser</dt>
+      <dd><span class="label label-info"> <%= browser %> </span></dd>
     </dl>
   </div>
 </div>

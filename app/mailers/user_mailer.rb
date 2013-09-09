@@ -95,13 +95,12 @@ class UserMailer < ActionMailer::Base
   end
 
   #Account created
-  def send_feedback(user, type, message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser, server_name, root_url)
+  def send_feedback(user, type, feedback_message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser, server_name, root_url)
 
-
-    @message = "Message from: #{user},</br> Type: #{type},</br> Message: #{message},</br> Latest reprository update: #{latest_repo_update},</br> #{projestimate_version} #{ruby_version},</br> #{rails_version},</br> #{environment},</br> #{database_adapter},</br> #{browser},</br> #{server_name},</br> #{root_url}</br>"
-    to=AdminSetting.find_by_key("feedback_email")
+    @message = "Here a new Feedback from: #{user} \nType: #{type} \n\nMessage: \n\n#{feedback_message} \nInformation on environment\n - Latest repository update: #{latest_repo_update} \n - ProjEstimate version: #{projestimate_version} \n - Ruby version: #{ruby_version} \n - Rails version: #{rails_version} \n - Environment: #{environment} \n - Database adapter: #{database_adapter}\n - Hostname: #{server_name} \n - URL: #{root_url} \n - Browser: #{browser}"
+    to=AdminSetting.find_by_key('feedback_email')
     to=to.value
-    mail(:to => to , :subject => user +": "+ type)
+    mail(:to => to , :subject => 'Feedback ('+type+') from '+ user)
 
   ensure
     reset_locale
