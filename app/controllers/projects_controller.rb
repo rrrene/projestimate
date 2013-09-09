@@ -147,9 +147,13 @@ class ProjectsController < ApplicationController
 
   #Edit a selected project
   def edit
+
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
+    if @project.in_review?
+      authorize! :write_access_to_inreview_projects, Project
+    end
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first

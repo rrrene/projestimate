@@ -48,6 +48,7 @@ class Project < ActiveRecord::Base
   validates_presence_of :state
   validates :title, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
   validates :alias, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
+  validates :version, :presence => true
 
   #Search fields
   scoped_search :on => [:title, :alias, :description, :start_date, :created_at, :updated_at]
