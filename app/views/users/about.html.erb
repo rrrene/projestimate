@@ -38,17 +38,23 @@
     <h4> <%= I18n.t('label_environment') %> : </h4>
     <dl class="dl-horizontal">
       <dt>ProjEstimate version</dt>
-      <dd><span class="label label-info">0.20.0-Beta.2+<%= COMMIT_VERSION %> </span>
+      <dd><span class="label label-info"><%= projestimate_version %></span>
         (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
       </dd>
       <dt>Ruby version</dt>
-      <dd><span class="label label-info"><%= RUBY_ENGINE %> <%= RUBY_VERSION %>p<%= RUBY_PATCHLEVEL %> [<%= RUBY_PLATFORM %>] </span></dd>
+      <dd><span class="label label-info"><%= ruby_version %> </span></dd>
       <dt>Rails version</dt>
-      <dd><span class="label label-info"> <%= Rails.version %> </span></dd>
+      <dd><span class="label label-info"> <%= rails_version %> </span></dd>
       <dt>Environment</dt>
-      <dd><span class="label label-info"> <%= Rails.env %> </span></dd>
+      <dd><span class="label label-info"> <%= environment %> </span></dd>
       <dt>Database adapter</dt>
-      <dd><span class="label label-info"> <%= ActiveRecord::Base.configurations[Rails.env]['adapter'] %> </span></dd>
+      <dd><span class="label label-info"> <%= database_adapter %> </span></dd>
+      <dt>Hostname</dt>
+      <dd><span class="label label-info"> <%= server_name %> </span></dd>
+      <dt>URL</dt>
+      <dd><span class="label label-info"> <%= root_url %> </span></dd>
+      <dt>Browser</dt>
+      <dd><span class="label label-info"> <%= browser %> </span></dd>
     </dl>
   </div>
 </div>

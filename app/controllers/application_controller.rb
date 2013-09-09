@@ -20,6 +20,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  require 'socket'
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
@@ -30,6 +31,14 @@ class ApplicationController < ActionController::Base
     flash[:error] = I18n.t(:error_connection_refused)
   end
 
+  helper_method :root_url
+  helper_method :browser
+  helper_method :server_name
+  helper_method :projestimate_version
+  helper_method :ruby_version
+  helper_method :rails_version
+  helper_method :environment
+  helper_method :database_adapter
   helper_method :is_master_instance?    #Identify if we are on Master or Local instance
   helper_method :send_feedback
   helper_method :allow_feedback?
@@ -125,9 +134,6 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
-  def send_feedback
-      redirect_to users_path
-  end
   def allow_feedback?
     @admin_setting=AdminSetting.find_by_key_and_record_status_id("allow_feedback", @defined_record_status)
     if @admin_setting.nil?
@@ -345,5 +351,34 @@ class ApplicationController < ActionController::Base
     request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
   end
 
+  def projestimate_version
+    @projestimate_version="0.20.0-Beta.2+#{COMMIT_VERSION}"
+  end
 
+  def ruby_version
+    @ruby_version="#{RUBY_ENGINE} #{RUBY_VERSION} #{RUBY_PATCHLEVEL} [#{RUBY_PLATFORM}]"
+  end
+
+  def rails_version
+    @rails_version=Rails.version
+  end
+
+  def environment
+    @environment= Rails.env
+  end
+
+  def database_adapter
+    @database_adapter=ActiveRecord::Base.configurations[Rails.env]['adapter']
+  end
+
+  def browser
+    @browser=request.env['BROWSER']
+  end
+
+  def server_name
+    @server_name=Socket.gethostname
+  end
+  def root_url
+    @root_url=request.env['HTTP_HOST']
+  end
 end
