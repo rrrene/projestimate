@@ -23,7 +23,7 @@
         <table>
           <tr>
             <td><%= f.input :alias, :input_html => {:class => 'input-large'} %></td>
-            <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
+            <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} unless (@project.released? || @project.rejected?)  %></td>
           </tr>
           <tr>
             <td>

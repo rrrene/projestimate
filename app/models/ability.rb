@@ -27,6 +27,7 @@ class Ability
 #    Uncomment in order to authorize everybody to manage all the app
 
     #can :manage, :all
+    can :read, Project
     cannot :update, [WbsActivityElement, WbsActivity, Language, PeAttribute, MasterSetting, ProjectArea, ProjectCategory, PlatformCategory, AcquisitionCategory, Peicon,
                      WorkElementType, Currency, AdminSetting, AuthMethod, Group, LaborCategory, ProjectSecurityLevel,
                      Permission], :record_status => {:name => "Retired"}
