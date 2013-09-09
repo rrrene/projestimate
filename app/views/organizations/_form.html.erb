@@ -1,7 +1,7 @@
 <div class="tabs">
 <ul>
   <li><a href="#tabs-1"><%= I18n.t(:organizations) %> </a></li>
-  <% if action_name == 'edit' %>
+  <% if action_name.in?(%w(edit update)) %>
       <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
       <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %> </a></li>
       <li><a href="#tabs-4"><%= I18n.t(:organization_technology) %> </a></li>
@@ -28,7 +28,7 @@
   <% end %>
 </div>
 
-<% unless action_name == 'new' or action_name == 'create' %>
+<% if action_name.in?(%w(edit update)) %>
 
     <div id="tabs-2">
       <b><%= I18n.t(:text_organization_attributes) %></b>
