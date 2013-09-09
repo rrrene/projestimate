@@ -24,7 +24,7 @@
         <td><%= project.is_model %></td>
         <td>
           <%=
-          (project.baseline? || project.access_locked? || project.closed?) ?
+          (project.released? || project.rejected?) ?
             commit = link_to('', '#', :class => 'icn_commit') :
             commit = link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :class => 'icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project'))
             link_to('', edit_project_path(project, :anchor => 'tabs-1'), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
