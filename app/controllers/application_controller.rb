@@ -385,6 +385,7 @@ class ApplicationController < ActionController::Base
   def server_name
     @server_name=Socket.gethostname
   end
+
   def root_url
     @root_url=request.env['HTTP_HOST']
   end
