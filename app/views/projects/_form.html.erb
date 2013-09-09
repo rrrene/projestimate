@@ -4,7 +4,7 @@
     <div class="tabs">
       <ul>
         <li><a href="#tabs-1"><%= I18n.t(:global_properties) %></a></li>
-        <% if action_name.in? %w(edit update) %>
+        <% if action_name.in?(%w(edit update)) %>
             <li><a href="#tabs-2"><%= I18n.t(:wbs_product) %></a></li>
             <li><a href="#tabs-3"><%= I18n.t(:wbs_activity) %></a></li>
             <li class="tabs_4_with_estimation_plan"><a href="#tabs-4"><%= I18n.t(:estimation_plan) %></a></li>
@@ -55,10 +55,21 @@
         <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => {:class => 'input-xxlarge'} %>
 
         <div class="actions-tabs">
-          <% if action_name == 'edit'%>
-              <%= f.submit I18n.t(:save), :class => 'btn' %>
+          <!--If Project is in frozen status -->
+          <% if @project.state.in?(%w(Rejected Released Checkpoint))%>
+              <% if can? :alter_frozen_projects, Project %>
+                  <% if action_name == 'edit'%>
+                      <%= f.submit I18n.t(:save), :class => 'btn' %>
+                  <% end %>
+                  <%= f.submit I18n.t('apply'), :class => 'btn' %>
+              <% end %>
+          <% else %>
+              <% if action_name == 'edit'%>
+                  <%= f.submit I18n.t(:save), :class => 'btn' %>
+              <% end %>
+              <%= f.submit I18n.t('apply'), :class => 'btn' %>
           <% end %>
-          <%= f.submit I18n.t('apply'), :class => 'btn' %>
+
           <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
         </div>
 
