@@ -23,6 +23,7 @@ class UserMailer < ActionMailer::Base
   default :from => 'no-reply@spirula.fr'
   OLD_LOCALE = I18n.locale
 
+
   #Send the new password
   def forgotten_password(user)
     @user = user
@@ -95,9 +96,9 @@ class UserMailer < ActionMailer::Base
   end
 
   #Account created
-  def send_feedback(user, type, feedback_message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser, server_name, root_url,status)
+  def send_feedback(user, type, feedback_message, latest_repo_update, projestimate_version, ruby_version, rails_version, environment, database_adapter, browser,version_browser, server_name, root_url,status)
 
-    @message = "Here a new Feedback from: #{user} \nType: #{type} \n\nMessage: \n\n#{feedback_message} \n\nInformation on environment\n - Latest repository update: #{latest_repo_update} \n - ProjEstimate version: #{projestimate_version} - Ruby version: #{ruby_version} \n - Rails version: #{rails_version} \n - Environment: #{environment} \n - Database adapter: #{database_adapter}\n - Hostname: #{server_name} \n - URL: #{root_url} \n - Browser: #{browser}"
+    @message = "Here a new Feedback from: #{user} \nType: #{type} \n\nMessage: \n\n#{feedback_message} \n\nInformation on environment\n - Latest repository update: #{latest_repo_update} \n - ProjEstimate version: #{projestimate_version} - Ruby version: #{ruby_version} \n - Rails version: #{rails_version} \n - Environment: #{environment} \n - Database adapter: #{database_adapter}\n - Hostname: #{server_name} \n - URL: #{root_url} \n - Browser: #{browser} \n - Version Browser: #{version_browser}"
     @defined_status=RecordStatus.find_by_name("Defined")
     to=AdminSetting.find_by_key_and_record_status_id('feedback_email',status)
     to=to.value

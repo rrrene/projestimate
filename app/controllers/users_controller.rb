@@ -223,6 +223,7 @@ class UsersController < ApplicationController
     @environment=environment
     @database_adapter=database_adapter
     @browser=browser
+    @version_browser=version_browser
     @server_name=server_name
     @root_url =root_url
     um = UserMailer.send_feedback(params[:send_feedback][:user_name],
@@ -233,7 +234,7 @@ class UsersController < ApplicationController
                                  @ruby_version,
                                  @rails_version,
                                  @environment,
-                                 @database_adapter, @browser, @server_name, @root_url,@defined_record_status)
+                                 @database_adapter, @browser,@version_browser, @server_name, @root_url,@defined_record_status)
     if um.deliver
       flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
       redirect_to session[:return_to]

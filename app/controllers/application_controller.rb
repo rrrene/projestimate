@@ -376,6 +376,12 @@ class ApplicationController < ActionController::Base
     @browser=user_agent.browser
   end
 
+  def version_browser
+    string = request.env['HTTP_USER_AGENT']
+    user_agent = UserAgent.parse(string)
+    @version_browser=user_agent.version
+  end
+
   def server_name
     @server_name=Socket.gethostname
   end
