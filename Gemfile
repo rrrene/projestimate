@@ -7,7 +7,7 @@ gem 'builder', '3.0.0'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'
-
+gem "useragent"
 # Include database gems for the adapters found in the database
 # configuration file
 require 'erb'
