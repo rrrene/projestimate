@@ -22,7 +22,7 @@ class OrganizationUowComplexity < ActiveRecord::Base
   attr_accessible :description, :name, :organization_id
 
   belongs_to :organization
-  validates :name, :presence => true, :uniqueness => {:scope => :organization_id, :case_sensitive => false}
+  validates :name, :presence => true
 
   has_many :organization_uow_complexities, :through => :abacus_organizations
   has_many :abacus_organizations, :dependent => :destroy

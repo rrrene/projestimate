@@ -24,8 +24,6 @@ Projestimate::Application.routes.draw do
   match 'organizations/:id/import_abacus' => 'organizations#import_abacus', :as => 'import_abacus'
 
   resources :organization_abacus
-
-
   resources :organization_technologies
   resources :organization_uow_complexities
   resources :unit_of_works

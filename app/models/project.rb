@@ -46,7 +46,8 @@ class Project < ActiveRecord::Base
 
   #serialize :ten_latest_projects
   validates_presence_of :state
-  validates :title, :alias, :presence => true, :uniqueness => { case_sensitive: false }
+  validates :title, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
+  validates :alias, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
 
   #Search fields
   scoped_search :on => [:title, :alias, :description, :start_date, :created_at, :updated_at]
@@ -82,6 +83,8 @@ class Project < ActiveRecord::Base
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
       new_project.alias = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.alias}"
+      new_project.version = "1.0"
+      new_project.description = " #{original_project.description} \n \n This project is a duplication of project \"#{original_project.title} (#{original_project.alias}) - #{original_project.version}\" "
       new_project.copy_number = 0
       new_project.is_model = false
       original_project.copy_number = original_project.copy_number.to_i+1

@@ -27,7 +27,6 @@ class UnitOfWork < ActiveRecord::Base
   has_many :organization_uow_complexities, :through => :abacus_organizations
   has_many :abacus_organizations
 
-
-  validates :name, :alias, :presence => true, :uniqueness => { :scope => :organization_id, :case_sensitive => false }
+  validates :name, :alias, :presence => true
 
 end

@@ -124,7 +124,34 @@ class OrganizationsController < ApplicationController
   end
 
   def import_abacus
+    organization = Organization.find(params[:id])
+    file = params[:file]
+    workbook = RubyXL::Parser.parse("/home/nicolas/Bureau/file.xlsx")
 
+    array = []
+    workbook.worksheets.each_with_index do |worksheet, k|
+      name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
+      ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => organization.id)
+      ot.save
+      worksheet.sheet_data.each_with_index do |sd, i|
+        sd.each_with_index do |e, j|
+          unless sd[j].nil?
+            if i == 0
+              ouc = OrganizationUowComplexity.new(:name => sd[j].value, :organization_id => organization.id)
+              ouc.save
+            elsif i > 0
+              unless sd[0].nil?
+                uow = UnitOfWork.new(:name => sd[0].value, :alias => sd[0].value, :organization_id => organization.id)
+                uow.organization_technologies << ot
+                uow.save
+              end
+            end
+          end
+        end
+      end
+    end
+
+    redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
 
   def export_abacus
@@ -139,8 +166,8 @@ class OrganizationsController < ApplicationController
             begin
               w = book[n]
 
-              w.add_cell(0, i+1, uow.name)
-              w.add_cell(l+1, 0, comp.name)
+              w.add_cell(0, l+1, comp.name)
+              w.add_cell(i+1, 0, uow.name)
 
               a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
               w.add_cell(l+1, i+1, a.first.value)
