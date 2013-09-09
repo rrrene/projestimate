@@ -77,59 +77,58 @@ class SessionsController < ApplicationController
       else #user.suspended? || user.blacklisted?
         redirect_to '/dashboard', :flash => {:warning => "#{I18n.t (:warning_account_black_listed)}"}
       end
-
-
       else
       redirect_to '/dashboard', :flash => {:warning => "#{I18n.t (:warning_invalid_username_password)}"}
       end
-      end
-      #Logout
-      def destroy
-        session[:current_user_id] = nil
-        redirect_to root_url(:return_to => session[:return_to])
-      end
+  end
 
-      #Login
-      def login
-        render :layout => 'login'
-      end
+  #Logout
+  def destroy
+    session[:current_user_id] = nil
+    redirect_to root_path(:return_to => session[:return_to])
+  end
 
-      #Display new account page
-      def ask_new_account
-        @user = User.new
-      end
+  #Login
+  def login
+    render :layout => 'login'
+  end
 
-      #Display help login page
-      def help_login
-      end
+  #Display new account page
+  def ask_new_account
+    @user = User.new
+  end
 
-      #Display "forgotten password" page
-      def forgotten_password
-      end
+  #Display help login page
+  def help_login
+  end
 
-      #Reset the password depending of the status of the user
-      def reset_forgotten_password
-        user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
-        if user
-          if user.auth_method.name == 'Application' or user.auth_method.nil?
-            if user.active?
-              user.send_password_reset if user
-              flash[:notice] = I18n.t(:notice_session_password_reset_instruction)
-              redirect_to root_url
-            else
-              user.send_password_reset if user
-              flash[:warning] = I18n.t(:warning_session_account_not_active)
-              redirect_to root_url
-            end
-          else
-            flash[:error] = I18n.t(:error_account_ldap_association)
-            redirect_to root_url
-          end
+  #Display "forgotten password" page
+  def forgotten_password
+  end
+
+  #Reset the password depending of the status of the user
+  def reset_forgotten_password
+    user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
+    if user
+      if user.auth_method.name == 'Application' or user.auth_method.nil?
+        if user.active?
+          user.send_password_reset if user
+          flash[:notice] = I18n.t(:notice_session_password_reset_instruction)
+          redirect_to root_url
         else
-          cookies[:login_name] = {:value => params[:login_name], :expires => Time.now + 3600}
-          flash[:warning] = I18n.t(:warning_session_bad_username)
-          render :layout => 'login'
+          user.send_password_reset if user
+          flash[:warning] = I18n.t(:warning_session_account_not_active)
+          redirect_to root_url
         end
+      else
+        flash[:error] = I18n.t(:error_account_ldap_association)
+        redirect_to root_url
       end
+    else
+      cookies[:login_name] = {:value => params[:login_name], :expires => Time.now + 3600}
+      flash[:warning] = I18n.t(:warning_session_bad_username)
+      render :layout => 'login'
+    end
+  end
 
-      end
+end

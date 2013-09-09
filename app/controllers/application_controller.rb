@@ -32,13 +32,17 @@ class ApplicationController < ActionController::Base
 
   helper_method :root_url
   helper_method :browser
+  helper_method :version_browser
+  helper_method :platform
+  helper_method :os
+  helper_method :security
   helper_method :server_name
   helper_method :projestimate_version
   helper_method :ruby_version
   helper_method :rails_version
   helper_method :environment
   helper_method :database_adapter
-  helper_method :is_master_instance?    #Identify if we are on Master or Local instance
+  helper_method :is_master_instance? #Identify if we are on Master or Local instance
   helper_method :send_feedback
   helper_method :allow_feedback?
   helper_method :current_user
@@ -61,7 +65,7 @@ class ApplicationController < ActionController::Base
   before_filter :capitalization_module
 
   def session_expiration
-    unless load_admin_setting("session_maximum_lifetime").nil? && load_admin_setting("session_inactivity_timeout").nil?
+    unless load_admin_setting('session_maximum_lifetime').nil? && load_admin_setting('session_inactivity_timeout').nil?
       if current_user
         if session_expired?
           reset_session
@@ -73,19 +77,19 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expired?
-    unless load_admin_setting("session_maximum_lifetime")=="unset"
-      unless session[:ctime] && (Time.now.utc.to_i - session[:ctime].to_i <= load_admin_setting("session_maximum_lifetime").to_i*60*60*24)
+    unless load_admin_setting('session_maximum_lifetime')=='unset'
+      unless session[:ctime] && (Time.now.utc.to_i - session[:ctime].to_i <= load_admin_setting('session_maximum_lifetime').to_i*60*60*24)
         return true
       end
     end
 
-    unless load_admin_setting("session_inactivity_timeout")=="unset"
-      if load_admin_setting("session_inactivity_timeout").to_i==30
-        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting("session_inactivity_timeout").to_i*60)
+    unless load_admin_setting('session_inactivity_timeout')=='unset'
+      if load_admin_setting('session_inactivity_timeout').to_i==30
+        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting('session_inactivity_timeout').to_i*60)
           return true
         end
       else
-        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting("session_inactivity_timeout").to_i*60*60)
+        unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= load_admin_setting('session_inactivity_timeout').to_i*60*60)
           return true
         end
       end
@@ -96,8 +100,8 @@ class ApplicationController < ActionController::Base
 
   def update_activity_time
     if current_user
-      unless load_admin_setting("session_inactivity_timeout")=="unset"
-          session[:atime] = Time.now.utc.to_i
+      unless load_admin_setting('session_inactivity_timeout')=='unset'
+        session[:atime] = Time.now.utc.to_i
       end
     end
   end
@@ -134,12 +138,12 @@ class ApplicationController < ActionController::Base
   #end
 
   def allow_feedback?
-    @admin_setting=AdminSetting.find_by_key_and_record_status_id("allow_feedback", @defined_record_status)
+    @admin_setting=AdminSetting.find_by_key_and_record_status_id('allow_feedback', @defined_record_status)
     if @admin_setting.nil?
       return false
     else
       @admin_setting.value.to_i
-      if @admin_setting.value== "0"
+      if @admin_setting.value== '0'
         return false
       else
         return true
@@ -147,6 +151,7 @@ class ApplicationController < ActionController::Base
     end
 
   end
+
   #For some specific tables, we need to know if record is created on MasterData instance or on the local instance
   #This method test if we are on Master or Local instance
   def is_master_instance?
@@ -154,22 +159,22 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_authentication
-    unless self.request.format == "application/json"
+    unless self.request.format == 'application/json'
       if session[:current_user_id].nil?
         session[:remember_address] = self.request.fullpath
       end
     else
-      session[:remember_address] = "/dashboard"
+      session[:remember_address] = '/dashboard'
     end
   end
 
   def redirect_apply(edit=nil, new=nil, index=nil)
     begin
-      if (params[:commit] == "#{I18n.t"save"}")
+      if (params[:commit] == "#{I18n.t 'save'}")
         index
-      elsif (params[:commit] == "#{I18n.t"save_and_create"}")
+      elsif (params[:commit] == "#{I18n.t 'save_and_create'}")
         :back
-      elsif (params[:commit] == "#{I18n.t"apply"}")
+      elsif (params[:commit] == "#{I18n.t 'apply'}")
         edit
       else
         session[:return_to]
@@ -182,9 +187,9 @@ class ApplicationController < ActionController::Base
   def redirect_save(url, anchor=nil)
     begin
       if anchor.nil?
-        (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
+        (params[:commit] == "#{I18n.t 'save'}" or params[:commit] == 'Save') ? url : session[:return_to]
       else
-        (params[:commit] == "#{I18n.t "save"}" or params[:commit] == "Save") ? url: anchor
+        (params[:commit] == "#{I18n.t 'save'}" or params[:commit] == 'Save') ? url : anchor
       end
     rescue
       url
@@ -193,7 +198,7 @@ class ApplicationController < ActionController::Base
 
   def redirect(url)
     begin
-        (params[:commit] == "#{I18n.t"save"}"  or params[:commit] == "Save") ? url : session[:return_to]
+      (params[:commit] == "#{I18n.t 'save'}" or params[:commit] == 'Save') ? url : session[:return_to]
     rescue
       url
     end
@@ -203,19 +208,19 @@ class ApplicationController < ActionController::Base
     #session[:return_to] = request.referer
     session[:anchor_value] ||= params[:anchor_value]
     session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
-    session[:anchor_value] ||= ""
+    session[:anchor_value] ||= ''
     session[:anchor] = session[:anchor_value].to_s.split('#')[1]
   end
 
   def previous_page
-    session[:now] ||= ""
+    session[:now] ||= ''
     session[:previous] = session[:now]
     session[:now] = request.referer
   end
 
   def current_user
     begin
-     (User.find(session[:current_user_id]) if session[:current_user_id]) || (User.find_by_email(cookies[:login]) if cookies[:login] || nil)
+      (User.find(session[:current_user_id]) if session[:current_user_id]) || (User.find_by_email(cookies[:login]) if cookies[:login] || nil)
     rescue ActiveRecord::RecordNotFound
       reset_session
     end
@@ -239,7 +244,7 @@ class ApplicationController < ActionController::Base
     return if current_project.nil?
 
     begin
-        PbsProjectElement.find(session[:pbs_project_element_id])
+      PbsProjectElement.find(session[:pbs_project_element_id])
     rescue
       @component = current_project.root_component
     end
@@ -254,16 +259,16 @@ class ApplicationController < ActionController::Base
 
 
   def current_module_project
-    @defined_record_status = RecordStatus.find_by_name("Defined")
-    pemodule = Pemodule.find_by_alias_and_record_status_id("capitalization", @defined_record_status)
-    default_current_module_project = ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
+    @defined_record_status = RecordStatus.find_by_name('Defined')
+    pemodule = Pemodule.find_by_alias_and_record_status_id('capitalization', @defined_record_status)
+    default_current_module_project = ModuleProject.where('pemodule_id = ? AND project_id = ?', pemodule.id, current_project.id).first
 
     if current_project.module_projects.map(&:id).include?(session[:module_project_id].to_i)
       session[:module_project_id].nil? ? default_current_module_project : ModuleProject.find(session[:module_project_id])
     else
       begin
-        pemodule = Pemodule.find_by_alias("capitalization")
-        ModuleProject.where("pemodule_id = ? AND project_id = ?", pemodule.id, current_project.id).first
+        pemodule = Pemodule.find_by_alias('capitalization')
+        ModuleProject.where('pemodule_id = ? AND project_id = ?', pemodule.id, current_project.id).first
       rescue
         current_project.module_projects.first
       end
@@ -271,8 +276,8 @@ class ApplicationController < ActionController::Base
   end
 
   def capitalization_module
-    @defined_record_status = RecordStatus.where("name = ?", "Defined").last
-    @capitalization_module ||= Pemodule.find_by_alias_and_record_status_id("capitalization", @defined_record_status.id)
+    @defined_record_status = RecordStatus.where('name = ?', 'Defined').last
+    @capitalization_module ||= Pemodule.find_by_alias_and_record_status_id('capitalization', @defined_record_status.id)
   end
 
   def load_master_setting(args)
@@ -291,14 +296,14 @@ class ApplicationController < ActionController::Base
 
   def set_user_language
     unless current_user.nil? || current_user.language.nil?
-        session[:current_locale] = current_user.language.locale.downcase
+      session[:current_locale] = current_user.language.locale.downcase
     else
       session[:current_locale] = set_locale_from_browser
     end
     @current_locale = session[:current_locale]
     I18n.locale = session[:current_locale]
   end
-  
+
   def set_user_time_zone
     if current_user
       unless current_user.time_zone.blank?
@@ -317,34 +322,35 @@ class ApplicationController < ActionController::Base
 
   #Get record statuses
   def get_record_statuses
-    @retired_status = RecordStatus.find_by_name("Retired")
-    @proposed_status = RecordStatus.find_by_name("Proposed")
-    @defined_status = RecordStatus.find_by_name("Defined")
-    @custom_status = RecordStatus.find_by_name("Custom")
-    @local_status = RecordStatus.find_by_name("Local")
+    @retired_status = RecordStatus.find_by_name('Retired')
+    @proposed_status = RecordStatus.find_by_name('Proposed')
+    @defined_status = RecordStatus.find_by_name('Defined')
+    @custom_status = RecordStatus.find_by_name('Custom')
+    @local_status = RecordStatus.find_by_name('Local')
   end
 
-  #before filter only pemodules move fonctions
+  #before filter only pemodules move functions
   def project_locked?
     if current_project.locked?
-      flash[:notice] = "Project locked."
+      flash[:notice] = 'Project locked.'
       redirect_save(root_url)
     end
   end
 
   def set_locale_from_browser
 
-      if  request.env['HTTP_ACCEPT_LANGUAGE'].nil?
-        I18n.locale= "en"
+    if  request.env['HTTP_ACCEPT_LANGUAGE'].nil?
+      I18n.locale= 'en'
+    else
+      local_language=Language.find_by_locale(extract_locale_from_accept_language_header)
+      if local_language.nil?
+        I18n.locale= 'en'
       else
-        local_language=Language.find_by_locale(extract_locale_from_accept_language_header)
-        if local_language.nil?
-          I18n.locale= "en"
-        else
-          I18n.locale = extract_locale_from_accept_language_header
-        end
+        I18n.locale = extract_locale_from_accept_language_header
       end
+    end
   end
+
   private
   def extract_locale_from_accept_language_header
     request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
@@ -376,9 +382,28 @@ class ApplicationController < ActionController::Base
     @browser=user_agent.browser
   end
 
+  def version_browser
+    string = request.env['HTTP_USER_AGENT']
+    user_agent = UserAgent.parse(string)
+    @version_browser=user_agent.version
+  end
+
+  def platform
+    string = request.env['HTTP_USER_AGENT']
+    user_agent = UserAgent.parse(string)
+    platform=user_agent.platform
+  end
+
+  def os
+    string = request.env['HTTP_USER_AGENT']
+    user_agent = UserAgent.parse(string)
+    os=user_agent.os
+  end
+
   def server_name
     @server_name=Socket.gethostname
   end
+
   def root_url
     @root_url=request.env['HTTP_HOST']
   end

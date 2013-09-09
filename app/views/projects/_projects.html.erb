@@ -1,9 +1,9 @@
 <table class="table tablesorterPager table-striped table-bordered table-condensed">
   <thead>
   <tr>
-    <th><%= I18n.t(:name) %></th>
-    <th><%= I18n.t(:version) %></th>
-    <th style="width: 100px">Alias</th>
+    <th><%= I18n.t(:label_project_name) %></th>
+    <th><%= I18n.t(:label_project_version) %></th>
+    <th style="width: 100px"><%= I18n.t(:alias) %></th>
     <th style="width: 100px"  class="filter-select" > <%= I18n.t(:state) %></th>
     <th style="width: 120px"><%= I18n.t(:start_date) %></th>
     <th class="filter-select"><%= I18n.t(:organizations) %></th>
@@ -26,7 +26,7 @@
         <td><%= project.is_model %></td>
         <td>
           <%=
-          (project.baseline? || project.access_locked? || project.closed?) ?
+          (project.released? || project.rejected?) ?
             commit = link_to('', '#', :class => 'icn_commit') :
             commit = link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :class => 'icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project'))
             link_to('', edit_project_path(project, :anchor => 'tabs-1'), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +

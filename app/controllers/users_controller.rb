@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     @user.group_ids = Group.find_by_name('Everyone').id
 
     if @user.save
-      redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor=>"tabs-1"), users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
+      redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor=> 'tabs-1'), users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
     else
       render(:new)
     end
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     # Get the Application authType
-    application_auth_type = AuthMethod.where("name = ? AND record_status_id =?", "Application", @defined_record_status.id).first
+    application_auth_type = AuthMethod.where('name = ? AND record_status_id =?', 'Application', @defined_record_status.id).first
 
     if application_auth_type && params[:user][:auth_type].to_i != application_auth_type.id
       params[:user].delete :password
@@ -120,7 +120,7 @@ class UsersController < ApplicationController
       if @project
         @module_projects ||= @project.module_projects
         #Get the capitalization module_project
-        @capitalization_module_project ||= ModuleProject.where("pemodule_id = ? AND project_id = ?", @capitalization_module.id, @project.id).first  unless @capitalization_module.nil?
+        @capitalization_module_project ||= ModuleProject.where('pemodule_id = ? AND project_id = ?', @capitalization_module.id, @project.id).first  unless @capitalization_module.nil?
 
         @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
         @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
@@ -190,7 +190,7 @@ class UsersController < ApplicationController
 
   def about
     set_page_title 'About'
-    latest_record_version = Version.last.nil? ? Version.create(:comment => "No update data has been save") : Version.last
+    latest_record_version = Version.last.nil? ? Version.create(:comment => 'No update data has been save') : Version.last
     @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
     @latest_local_update =  latest_record_version.local_latest_update
     Rails.cache.write('latest_update', @latest_local_update)
@@ -214,7 +214,7 @@ class UsersController < ApplicationController
   end
 
   def send_feedback
-    latest_record_version = Version.last.nil? ? Version.create(:comment => "No update data has been save") : Version.last
+    latest_record_version = Version.last.nil? ? Version.create(:comment => 'No update data has been save') : Version.last
     @latest_repo_update = latest_record_version.repository_latest_update #Home::latest_repo_update
     @latest_local_update =  latest_record_version.local_latest_update
     @projestimate_version=projestimate_version
@@ -223,6 +223,9 @@ class UsersController < ApplicationController
     @environment=environment
     @database_adapter=database_adapter
     @browser=browser
+    @version_browser=version_browser
+    @platform=platform
+    @os=os
     @server_name=server_name
     @root_url =root_url
     um = UserMailer.send_feedback(params[:send_feedback][:user_name],
@@ -233,12 +236,12 @@ class UsersController < ApplicationController
                                  @ruby_version,
                                  @rails_version,
                                  @environment,
-                                 @database_adapter, @browser, @server_name, @root_url,@defined_record_status)
+                                 @database_adapter, @browser,@version_browser,@platform,@os, @server_name, @root_url,@defined_record_status)
     if um.deliver
-      flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
+      flash[:notice] = I18n.t (:notice_send_feedback_success)
       redirect_to session[:return_to]
     else
-      flash[:error] = I18n.t (:notice_attribute_category_successful_deleted)
+      flash[:error] = I18n.t (:error_send_feedback_failed)
     end
 
   end

@@ -60,15 +60,19 @@ class Project < ActiveRecord::Base
     state :preliminary, :initial => true
     state :in_progress
     state :in_review
-    state :private
-    state :access_locked ##locked
-    state :baseline
-    state :closed
+    #state :private
+    #state :access_locked ##locked
+    state :checkpoint ##locked
+    #state :baseline
+    state :released
+    #state :closed
+    state :rejected
 
     event :commit do
       transitions :to => :in_progress, :from => :preliminary
       transitions :to => :in_review, :from => :in_progress
-      transitions :to => :baseline, :from => [:private, :in_review]
+      #transitions :to => :baseline, :from => [:private, :in_review]
+      transitions :to => :released, :from => :in_review
     end
   end
 
@@ -95,10 +99,10 @@ class Project < ActiveRecord::Base
 
   #Return possible states of project
   def states
-    if self.preliminary? || self.in_progress? || self.in_review? || self.private?
+    if self.preliminary? || self.in_progress? || self.in_review? #|| self.private?
       Project.aasm_states_for_select
     else
-      Project.aasm_states_for_select.reject { |i| i[0] == 'preliminary' || i[0] == 'in_progress' || i[0] == 'in_review' || i[0] == 'private' }
+      Project.aasm_states_for_select.reject { |i| i[0] == 'preliminary' || i[0] == 'in_progress' || i[0] == 'in_review'}# || i[0] == 'private' }
     end
   end
 
