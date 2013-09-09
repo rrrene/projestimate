@@ -988,6 +988,7 @@ de:
   text_index_permissions_guidance: "List all permissions (global and project)"
   notice_end_of_estimation_execution: "Finish to execute modules"
   label_project_name: "Project name"
+  label_project_version: "Version"
   label_permission_access: "Access"
   error_group_failed_update: "An error has occurred when during the update"
   organization_uow_complexity: "Unit Of Work Complexity's"
