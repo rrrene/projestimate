@@ -9,7 +9,7 @@
   <div class="modal-body" >
 
     <div id="error_send_feedback" class="alert alert-error hide" style="margin-bottom: 15px; ">
-      Problem :(
+      <%= I18n.t('error_send_feedback_empty') %>
     </div>
 
     <%= simple_form_for(:send_feedback, {:url => send_feedback_path, :method => 'post'}) do |f| %>
