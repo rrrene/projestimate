@@ -21,7 +21,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'socket'
-
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
     redirect_to edit_user_path(current_user)
@@ -372,7 +371,9 @@ class ApplicationController < ActionController::Base
   end
 
   def browser
-    @browser=request.env['BROWSER']
+    string = request.env['HTTP_USER_AGENT']
+    user_agent = UserAgent.parse(string)
+    @browser=user_agent.browser
   end
 
   def server_name
