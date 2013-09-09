@@ -16,6 +16,16 @@
 
 $(document).ready(function() {
 
+    $("form.send_feedback input[type=submit]").click(function() {
+        if($("form.send_feedback textarea").val() == ""){
+            $("#error_send_feedback").show();
+            return false;
+        }else{
+            $("#error_send_feedback").hide();
+            return true;
+        }
+    });
+
     $("#technology").change(function() {
         return $.ajax({
             url: "/change_abacus",

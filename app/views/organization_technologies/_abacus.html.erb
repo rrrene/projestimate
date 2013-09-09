@@ -45,12 +45,12 @@
 
   <%= submit_tag I18n.t('save'), :class => 'btn' %>
   <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-  <a href="#myModal" role="button" class="btn" data-toggle="modal">Import</a>
+  <a href="#myImportModal" role="button" class="btn" data-toggle="modal">Import</a>
   <%= link_to "Export", export_abacus_path(@organization.id), :class => 'btn' %>
 
 <% end %>
 
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="myImportModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_tag import_abacus_path(@organization.id), :multipart => true, :class => 'simple_form' do %>
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

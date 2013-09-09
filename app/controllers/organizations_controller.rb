@@ -129,18 +129,22 @@ class OrganizationsController < ApplicationController
     workbook = RubyXL::Parser.parse("/home/nicolas/Bureau/file.xlsx")
 
     array = []
-    workbook.worksheets.each do |worksheet|
+    workbook.worksheets.each_with_index do |worksheet, k|
+      name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
+      ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => organization.id)
+      ot.save
       worksheet.sheet_data.each_with_index do |sd, i|
         sd.each_with_index do |e, j|
           unless sd[j].nil?
             if i == 0
               ouc = OrganizationUowComplexity.new(:name => sd[j].value, :organization_id => organization.id)
               ouc.save
-
-              uow = UnitOfWork.new(:name => sd[j].value, :alias => sd[j].value, :organization_id => organization.id)
-              uow.save
-            else
-              p "ygyg"
+            elsif i > 0
+              unless sd[0].nil?
+                uow = UnitOfWork.new(:name => sd[0].value, :alias => sd[0].value, :organization_id => organization.id)
+                uow.organization_technologies << ot
+                uow.save
+              end
             end
           end
         end
