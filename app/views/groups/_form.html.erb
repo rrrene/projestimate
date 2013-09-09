@@ -122,6 +122,7 @@
             <thead>
             <tr>
               <th><%= I18n.t(:label_project_name) %></th>
+              <th><%= I18n.t(:label_project_version) %></th>
               <th><%= I18n.t(:alias) %></th>
               <th><%= I18n.t(:description) %></th>
               <th class="filter-select"><%= I18n.t(:state) %></th>
@@ -133,6 +134,7 @@
             <% @projects.each do |group_project| %>
                 <tr>
                   <td><%= group_project.title %></td>
+                  <td><%= group_project.version %></td>
                   <td><%= group_project.alias %></td>
                   <td><%= group_project.description %></td>
                   <td><%= group_project.state %></td>
