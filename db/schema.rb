@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909085751) do
+ActiveRecord::Schema.define(:version => 20130909101047) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -708,8 +708,8 @@ ActiveRecord::Schema.define(:version => 20130909085751) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "initials"
-    t.date     "last_login"
-    t.date     "previous_login"
+    t.datetime "last_login"
+    t.datetime "previous_login"
     t.string   "time_zone"
     t.string   "auth_token"
     t.string   "password_reset_token"
