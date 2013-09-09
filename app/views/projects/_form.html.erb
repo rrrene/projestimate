@@ -60,7 +60,7 @@
 
         <div class="actions-tabs">
           <!--If Project is in frozen status -->
-          <% if @project.state.in?(%w(Rejected Released Checkpoint))%>
+          <% if @project.state.in?(%w(rejected released checkpoint)) %>
               <% if can? :alter_frozen_projects, Project %>
                   <% if action_name == 'edit'%>
                       <%= f.submit I18n.t(:save), :class => 'btn' %>
