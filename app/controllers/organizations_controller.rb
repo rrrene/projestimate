@@ -126,7 +126,7 @@ class OrganizationsController < ApplicationController
   def import_abacus
     organization = Organization.find(params[:id])
     file = params[:file]
-    workbook = RubyXL::Parser.parse("/home/nicolas/Bureau/file.xlsx")
+    workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
 
     array = []
     workbook.worksheets.each_with_index do |worksheet, k|
@@ -134,18 +134,31 @@ class OrganizationsController < ApplicationController
       ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => organization.id)
       ot.save
       worksheet.sheet_data.each_with_index do |sd, i|
-        sd.each_with_index do |e, j|
-          unless sd[j].nil?
-            if i == 0
-              ouc = OrganizationUowComplexity.new(:name => sd[j].value, :organization_id => organization.id)
-              ouc.save
-            elsif i > 0
-              unless sd[0].nil?
-                uow = UnitOfWork.new(:name => sd[0].value, :alias => sd[0].value, :organization_id => organization.id)
-                uow.organization_technologies << ot
-                uow.save
-              end
-            end
+        unless worksheet.sheet_data[0][i].nil?
+          ouc = OrganizationUowComplexity.new(:name => worksheet.sheet_data[0][i].value,
+                                              :organization_id => organization.id)
+          ouc.save
+        end
+
+        unless worksheet.sheet_data[i][0].nil?
+          uow = UnitOfWork.new(:name => worksheet.sheet_data[i][0].value,
+                               :alias => worksheet.sheet_data[i][0].value,
+                               :organization_id => organization.id)
+          uow.organization_technologies << ot
+          uow.save
+        end
+
+        sd.each_with_index do |row, j|
+          #unless worksheet.sheet_data[i][j].nil?
+          begin
+            ao = AbacusOrganization.new(:unit_or_work_id => uow.id,
+                                        :organization_uow_complexity_id => ouc.id,
+                                        :organization_technology_id => ot.id,
+                                        :organization_id => organization.id,
+                                        :value => worksheet.sheet_data[i][j].value)
+            ao.save
+          rescue
+
           end
         end
       end
@@ -156,7 +169,7 @@ class OrganizationsController < ApplicationController
 
   def export_abacus
       organization = Organization.find(params[:id])
-      filename = "#{organization.name}.xls"
+      filename = "#{organization.name}.xlsx"
       book =  RubyXL::Workbook.new
 
       organization.organization_technologies.each_with_index do |ot, n|
@@ -178,10 +191,9 @@ class OrganizationsController < ApplicationController
         end
       end
 
-      book.write 'file.xlsx'
+      book.write("file.xlsx")
 
-      #send_data('./file.xlsx', :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
-      redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+      #send_data(book, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{filename}")
   end
 
 end
