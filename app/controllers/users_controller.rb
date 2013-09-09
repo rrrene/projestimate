@@ -155,7 +155,7 @@ class UsersController < ApplicationController
         user.save(:validate => false)
         UserMailer.account_created(user).deliver
         if !user.active?
-        UserMailer.account_request.deliver
+        UserMailer.account_request(@defined_record_status).deliver
         redirect_to root_url, :notice => "#{I18n.t (:ask_new_account_help)}"
         else
         UserMailer.account_validate(user).deliver
@@ -233,7 +233,7 @@ class UsersController < ApplicationController
                                  @ruby_version,
                                  @rails_version,
                                  @environment,
-                                 @database_adapter, @browser, @server_name, @root_url)
+                                 @database_adapter, @browser, @server_name, @root_url,@defined_record_status)
     if um.deliver
       flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
       redirect_to session[:return_to]
