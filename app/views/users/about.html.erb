@@ -39,7 +39,8 @@
     <dl class="dl-horizontal">
       <dt>ProjEstimate version</dt>
       <dd><span class="label label-info"><%= projestimate_version %></span>
-        (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>)
+        (<%= link_to I18n.t('text_checking_new_release'), 'http://projestimate.org/projects/pe/wiki/Download_and_ChangeLog' %>
+        )
       </dd>
       <dt>Ruby version</dt>
       <dd><span class="label label-info"><%= ruby_version %> </span></dd>
@@ -54,7 +55,9 @@
       <dt>URL</dt>
       <dd><span class="label label-info"> <%= root_url %> </span></dd>
       <dt>Browser</dt>
-      <dd><span class="label label-info"> <%= browser %> </span></dd>
+      <dd><span class="label label-info"> <%= browser %> <%= version_browser %> (<%= platform %>)</span></dd>
+      <dt> OS</dt>
+      <dd><span class="label label-info"> <%= os %></span></dd>
     </dl>
   </div>
 </div>
