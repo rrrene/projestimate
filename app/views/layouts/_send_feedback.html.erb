@@ -32,14 +32,4 @@
     <% else %>
     $(".btn-primary").hide();
     <% end %>
-
-    $("#myModal").change( function()
-    {
-        $("#send_feedback_user_name").text(<%=current_user.first_name + " " + current_user.last_name + " (" + current_user.email+ " )" %>);
-        $("#send_feedback_type").text("");
-        $("#send_feedback_description").text("");
-        $("#myModal").close();
-
-
-    } );
 </script>
