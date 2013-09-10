@@ -26,6 +26,7 @@
                 </td>
 
                 <% @groups.each do |group| %>
+                  <%= hidden_field_tag "permissions[#{group.id}][]" %>
                   <td style="text-align: center;">
                     <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}")%>
                   </td>
