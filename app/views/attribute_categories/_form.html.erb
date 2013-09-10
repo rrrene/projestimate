@@ -8,7 +8,7 @@
 
         <div>
           <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge', :autofocus => (controller.action_name == 'new')} %>
-          <%= f.input :alias %>
+          <%= f.input :alias, :label => I18n.t('alias') %>
           <table>
             <tr>
               <td>
