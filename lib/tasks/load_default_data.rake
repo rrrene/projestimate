@@ -25,6 +25,9 @@ namespace :projestimate do
   desc 'Load default data'
   task :load_default_data => :environment do
 
+    print "\n-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-\n"
+    print "\n-!-!-!- This is a deprecated task ... let we recommend to QUIT (option 3) -!-!-!-\n"
+    print "\n-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-!-\n\n"
     print "\n You're about to install the default data on #{Rails.env} database. Do you want : \n
        1- Delete all data then reinstall default data -- Press 1 \n
        2- Reinstall default data and keep old data (recommended) -- Press 2 \n
