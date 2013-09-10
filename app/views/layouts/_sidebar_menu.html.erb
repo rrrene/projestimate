@@ -1,10 +1,12 @@
 <ul class="nav nav-list" xmlns="http://www.w3.org/1999/html">
   <li class="nav-header"><h5><%= I18n.t(:label_menu_projects) %></h5></li>
   <li><%= render 'layouts/recent_project' %>  </li>
-  <li><a href="/dashboard"><i class="icon-home icon-large icon-border pull-left"></i><%=  I18n.t('home') %></a></li>
+  <li><a href="/dashboard"><i class="icon-home icon-large icon-border pull-left"></i><%= I18n.t('home') %></a></li>
 
   <% if can? :write_access_to_inreview_projects, Project and current_project %>
-    <li><a href="<%= edit_project_path(current_project, :anchor => "tabs-1")%>"><i class="icon-edit icon-large icon-border pull-left"></i> <%=  I18n.t('edit') %> <%= current_project.title %></a></li>
+      <li>
+        <a href="<%= edit_project_path(current_project, :anchor => 'tabs-1') %>"><i class="icon-edit icon-large icon-border pull-left"></i> <%= I18n.t('edit') %> <%= current_project.title %>
+        </a></li>
   <% end %>
   <li>
     <a href="<%= projects_url %>"><i class=" icon-list icon-large icon-border pull-left"></i> <%= I18n.t('all_projects') %>
@@ -86,19 +88,19 @@
             <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
       <% end %>
 
-      <% if can? :manage, PeAttribute %>
+      <% if can? :manage, PeAttribute or can? :create_and_edit_attributes, PeAttribute %>
           <li><a href="<%= pe_attributes_path %>">
             <i class="icon-list-ol icon-large icon-border pull-left"></i><%= I18n.t(:pe_attributes) %></a></li>
           <li><a href="<%= attribute_categories_path %>">
             <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
       <% end %>
 
-      <% if can? :manage, Pemodule %>
+      <% if can? :manage, Pemodule or can? :create_and_edit_modules, Pemodule %>
           <li><a href="<%= pemodules_path %>">
             <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
       <% end %>
 
-      <% if can? :manage, LaborCategory %>
+      <% if can? :manage, LaborCategory or can? :create_and_edit_labor_categories, LaborCategory%>
           <li><a href="<%= labor_categories_path %>">
             <i class="icon-user-md icon-large icon-border pull-left"></i><%= I18n.t(:labor_categories) %></a></li>
       <% end %>
@@ -108,7 +110,7 @@
             <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:work_element) %></a></li>
       <% end %>
 
-      <% if can? :manage, Peicon %>
+      <% if can? :manage, Peicon or can? :create_and_edit_projestimate_icons, Peicon %>
           <li>
             <a href="<%= peicons_path %>"> <i class="icon-paper-clip icon-large icon-border pull-left"></i>Projestimate
               Icons</a></li>
@@ -124,7 +126,7 @@
             <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:all_permissions) %></a></li>
       <% end %>
 
-      <% if can? :manage, Language or can? :create_and_edit_language, Language%>
+      <% if can? :manage, Language or can? :create_and_edit_languages, Language %>
           <li><a href="<%= languages_path %>">
             <i class="icon-comments icon-large icon-border pull-left"></i><%= I18n.t(:languages) %></a></li>
       <% end %>

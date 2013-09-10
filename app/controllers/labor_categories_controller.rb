@@ -19,7 +19,7 @@
 ########################################################################
 
 class LaborCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_resource
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
@@ -89,6 +89,8 @@ class LaborCategoriesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, LaborCategory
+
     @labor_category = LaborCategory.find(params[:id])
     if @labor_category.is_defined? || @labor_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore
