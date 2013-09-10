@@ -21,10 +21,13 @@
 
 class PermissionsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
+  load_resource
 
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage, Permission
+
     set_page_title 'Permissions'
     @permissions = Permission.all
 
@@ -35,7 +38,7 @@ class PermissionsController < ApplicationController
 
   def globals_permissions
     set_page_title 'Globals Permissions'
-    @permissions = Permission.order("object_associated").defined.select{|i| !i.is_permission_project }
+    @permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project }
     @permissions_classes = @permissions.map(&:object_associated).uniq
 
     @groups = Group.defined_or_local
@@ -46,11 +49,15 @@ class PermissionsController < ApplicationController
   end
 
   def new
+    authorize! :manage, Permission
+
     set_page_title 'Permissions'
     @permission = Permission.new
   end
 
   def edit
+    authorize! :manage, Permission
+
     set_page_title 'Permissions'
     @permission = Permission.find(params[:id])
 
@@ -63,11 +70,13 @@ class PermissionsController < ApplicationController
   end
 
   def create
+    authorize! :manage, Permission
+
     @permission = Permission.new(params[:permission])
 
     @groups = Group.defined_or_local
 
-    @permission.name = params[:permission][:name].underscore.gsub(" ", "_")
+    @permission.name = params[:permission][:name].underscore.gsub(' ', '_')
 
     if @permission.save
       redirect_to redirect_apply(nil, new_permission_path(), permissions_path), notice: "#{I18n.t (:notice_permission_successful_created)}"
@@ -77,6 +86,8 @@ class PermissionsController < ApplicationController
   end
 
   def update
+    authorize! :manage, Permission
+
     @permission = nil
     current_permission = Permission.find(params[:id])
     if current_permission.is_defined?
@@ -93,8 +104,9 @@ class PermissionsController < ApplicationController
     end
   end
 
-
   def destroy
+    authorize! :manage, Permission
+
     @permission = Permission.find(params[:id])
     if @permission.is_defined? || @permission.is_custom?
       @permission.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
@@ -110,6 +122,7 @@ class PermissionsController < ApplicationController
 
   #Set all global rights
   def set_rights
+    #TOTO opi authorize!
 
     @groups = Group.defined_or_local
     @permissions = Permission.defined
@@ -125,6 +138,7 @@ class PermissionsController < ApplicationController
   end
 
   def set_rights_project_security
+    #TOTO opi authorize!
     @project_security_levels = ProjectSecurityLevel.defined
     @permissions = Permission.defined
 

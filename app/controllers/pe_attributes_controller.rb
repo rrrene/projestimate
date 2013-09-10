@@ -19,7 +19,7 @@
 ########################################################################
 
 class PeAttributesController < ApplicationController
-  load_and_authorize_resource :except => [:find_use_attribute, :check_attribute]
+  load_resource :except => [:find_use_attribute, :check_attribute]
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
@@ -27,14 +27,14 @@ class PeAttributesController < ApplicationController
   def index
     authorize! :create_and_edit_attributes, PeAttribute
 
-    set_page_title "Attributes"
+    set_page_title 'Attributes'
     @attributes = PeAttribute.all
   end
 
   def new
     authorize! :create_and_edit_attributes, PeAttribute
 
-    set_page_title "Attributes"
+    set_page_title 'Attributes'
     @attribute = PeAttribute.new
     @attribute_categories = AttributeCategory.defined.all
   end
@@ -42,7 +42,7 @@ class PeAttributesController < ApplicationController
   def edit
     authorize! :create_and_edit_attributes, PeAttribute
 
-    set_page_title "Attributes"
+    set_page_title 'Attributes'
     @attribute = PeAttribute.find(params[:id])
     @attribute_categories = AttributeCategory.defined.all
 
@@ -57,7 +57,7 @@ class PeAttributesController < ApplicationController
   def create
     authorize! :create_and_edit_attributes, PeAttribute
 
-    set_page_title "Attributes"
+    set_page_title 'Attributes'
     @attribute = PeAttribute.new(params[:pe_attribute])
     @attribute.options = params[:options]
     @attribute.attr_type = params[:options][0]
@@ -66,14 +66,14 @@ class PeAttributesController < ApplicationController
       flash[:notice] = I18n.t (:notice_pe_attribute_successful_created)
       redirect_to redirect_apply(nil,new_pe_attribute_path(),  pe_attributes_path)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
   def update
     authorize! :create_and_edit_attributes, PeAttribute
 
-    set_page_title "Attributes"
+    set_page_title 'Attributes'
     @attribute = nil
     current_attribute = PeAttribute.find(params[:id])
     if current_attribute.is_defined?
@@ -83,20 +83,22 @@ class PeAttributesController < ApplicationController
       @attribute = current_attribute
     end
 
-    if @attribute.update_attributes(params[:pe_attribute]) and @attribute.update_attribute("options", params[:options])
+    if @attribute.update_attributes(params[:pe_attribute]) and @attribute.update_attribute('options', params[:options])
       @attribute.attr_type = params[:options][0]
       if @attribute.save
         flash[:notice] = I18n.t (:notice_pe_attribute_successful_updated)
         redirect_to redirect_apply(edit_pe_attribute_path(@attribute), nil, pe_attributes_path)
       else
-        render action: "edit"
+        render action: 'edit'
       end
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
   def destroy
+    authorize! :manage, PeAttribute
+
     @attribute = PeAttribute.find(params[:id])
     if @attribute.is_defined? || @attribute.is_custom?
       #logical deletion: delete don't have to suppress cds anymore on defined record
@@ -107,14 +109,16 @@ class PeAttributesController < ApplicationController
     redirect_to pe_attributes_path
   end
 
+  #TODO opi : add a comment to explain when/how is used check_attribute
   def check_attribute
+    #TODO opi define authorize!
     if params[:est_val_id]
       @ev = EstimationValue.find(params[:est_val_id])
       @is_valid = @ev.is_validate(params[:value])
       test = params[:value]
       @level = params[:level]
       @est_val_id = params[:est_val_id]
-      params[:wbs_project_elt_id].eql?("undefined") ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id]
+      params[:wbs_project_elt_id].eql?('undefined') ? @wbs_project_elt_id = nil : @wbs_project_elt_id = params[:wbs_project_elt_id]
     end
   end
 

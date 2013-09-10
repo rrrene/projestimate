@@ -77,16 +77,14 @@ describe Project do
 
   #ASSM STATES
 
-  it 'should have 7 states' do
-    Project.aasm_states_for_select.size.should eql(7)
+  it 'should have 6 states' do
+    Project.aasm_states_for_select.size.should eql(6)
   end
 
   it "should change project state when transition" do
     lambda { @project1.commit! }.should change(@project1, :state).from('preliminary').to('in_progress')
     lambda { @project1.commit! }.should change(@project1, :state).from('in_progress').to('in_review')
-    lambda { @project1.commit! }.should change(@project1, :state).from('in_review').to('baseline')
-    @project1.state = "private"
-    lambda { @project1.commit! }.should change(@project1, :state).from('private').to('baseline')
+    lambda { @project1.commit! }.should change(@project1, :state).from('in_review').to('released')
   end
 
   it "should return all possible states" do

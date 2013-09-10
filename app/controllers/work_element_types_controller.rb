@@ -90,6 +90,7 @@ class WorkElementTypesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, WorkElementType
     @work_element_type = WorkElementType.find(params[:id])
     if @work_element_type.is_defined? || @work_element_type.is_custom?
       #logical deletion: delete don't have to suppress records anymore
