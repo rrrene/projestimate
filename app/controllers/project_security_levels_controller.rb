@@ -20,21 +20,27 @@
 
 class ProjectSecurityLevelsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_resource
 
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage, ProjectSecurityLevel
+
     set_page_title 'Project security levels'
     @project_security_levels = ProjectSecurityLevel.all
   end
 
   def new
+    authorize! :manage, ProjectSecurityLevel
+
     set_page_title 'Project security levels'
     @project_security_level = ProjectSecurityLevel.new
   end
 
   def edit
+    authorize! :manage, ProjectSecurityLevel
+
     set_page_title 'Project security levels'
 
     @project_security_level = ProjectSecurityLevel.find(params[:id])
@@ -48,6 +54,8 @@ class ProjectSecurityLevelsController < ApplicationController
   end
 
   def create
+    authorize! :manage, ProjectSecurityLevel
+
     @project_security_level = ProjectSecurityLevel.new(params[:project_security_level])
 
     if @project_security_level.save
@@ -58,6 +66,8 @@ class ProjectSecurityLevelsController < ApplicationController
   end
 
   def update
+    authorize! :manage, ProjectSecurityLevel
+
     @project_security_level = nil
     current_project_security_level = ProjectSecurityLevel.find(params[:id])
     if current_project_security_level.is_defined?
@@ -75,6 +85,8 @@ class ProjectSecurityLevelsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, ProjectSecurityLevel
+
     @project_security_level = ProjectSecurityLevel.find(params[:id])
     if @project_security_level.is_defined? || @project_security_level.is_custom?
       #logical deletion: delete don't have to suppress records anymore
