@@ -124,47 +124,44 @@ class OrganizationsController < ApplicationController
   end
 
   def import_abacus
-    organization = Organization.find(params[:id])
+    @organization = Organization.find(params[:id])
     file = params[:file]
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
 
     array = []
     workbook.worksheets.each_with_index do |worksheet, k|
       name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
-      ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => organization.id)
-      ot.save
-      worksheet.sheet_data.each_with_index do |sd, i|
-        unless worksheet.sheet_data[0][i].nil?
-          ouc = OrganizationUowComplexity.new(:name => worksheet.sheet_data[0][i].value,
-                                              :organization_id => organization.id)
-          ouc.save
-        end
-
-        unless worksheet.sheet_data[i][0].nil?
-          uow = UnitOfWork.new(:name => worksheet.sheet_data[i][0].value,
-                               :alias => worksheet.sheet_data[i][0].value,
-                               :organization_id => organization.id)
-          uow.organization_technologies << ot
-          uow.save
-        end
-
-        sd.each_with_index do |row, j|
-          #unless worksheet.sheet_data[i][j].nil?
-          begin
-            ao = AbacusOrganization.new(:unit_or_work_id => uow.id,
-                                        :organization_uow_complexity_id => ouc.id,
-                                        :organization_technology_id => ot.id,
-                                        :organization_id => organization.id,
-                                        :value => worksheet.sheet_data[i][j].value)
-            ao.save
-          rescue
-
+      @ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => @organization.id)
+      @ot.save
+      worksheet.sheet_data.each_with_index do |row, i|
+        row.each_with_index do |cell, j|
+          unless cell.nil?
+            if i == 0
+              @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value,
+                                                                                          :organization_id => @organization.id)
+            elsif j == 0
+              @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value,
+                                                                                     :alias => cell.value,
+                                                                                     :organization_id => @organization.id)
+              @uow.organization_technologies << @ot
+              @uow.save
+            else
+              begin
+                @ao = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id_and_value(
+                  :unit_or_work_id => @uow.id,
+                  :organization_uow_complexity_id => @ouc.id,
+                  :organization_technology_id => 10,
+                  :organization_id => @organization.id,
+                  :value => worksheet.sheet_data[i][j].value)
+              rescue
+              end
+            end
           end
         end
       end
     end
 
-    redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+    redirect_to redirect_apply(edit_organization_path(@organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
 
   def export_abacus
