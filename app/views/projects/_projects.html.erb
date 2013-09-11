@@ -47,9 +47,6 @@
                 end
               end
 
-
-
-
               #if can? :write_access_to_inreview_projects, Project
               #  (project.released? || project.rejected?) ?
               #  commit = link_to('', '#', :class => 'icn_commit') :

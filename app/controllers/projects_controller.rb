@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   helper_method :sort_column
   helper_method :sort_direction
 
-  before_filter :load_data, :only => [:update, :edit, :new, :create]
+  before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
   before_filter :get_record_statuses
 
   def load_data
@@ -151,6 +151,12 @@ class ProjectsController < ApplicationController
 
     set_page_title 'Edit project'
 
+    @project = Project.find(params[:id])
+
+    unless can? :alter_frozen_projects, Project
+      redirect_to(:action => "show") if @project.in_frozen_status?
+    end
+
     if @project.in_review?
       authorize! :write_access_to_inreview_projects, Project
     end
@@ -177,6 +183,7 @@ class ProjectsController < ApplicationController
 
   def update
     set_page_title 'Edit project'
+    @project = Project.find(params[:id])
 
     if @project.in_review?
       authorize! :write_access_to_inreview_projects, Project
@@ -293,6 +300,34 @@ class ProjectsController < ApplicationController
       render :action => 'edit'
     end
   end
+
+
+  def show
+    set_page_title 'Show project'
+    @project = Project.find(params[:id])
+
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @wbs_activity_elements = []
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    @wbs_activity_ratios = []
+
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
+    defined_wbs_activities = WbsActivity.where('record_status_id = ?', @defined_status.id).all
+    @wbs_activities = defined_wbs_activities.reject { |i| @project.included_wbs_activities.include?(i.id) }
+    @wbs_activity_elements = []
+    @wbs_activities.each do |wbs_activity|
+      elements_root = wbs_activity.wbs_activity_elements.elements_root.first
+      unless elements_root.nil?
+        @wbs_activity_elements << elements_root #wbs_activity.wbs_activity_elements.last.root
+      end
+    end
+
+  end
+
 
   def destroy
     authorize! :delete_project, Project

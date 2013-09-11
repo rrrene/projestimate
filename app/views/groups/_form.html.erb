@@ -63,7 +63,7 @@
 
 
   <div id="tabs-2">
-    <%= form_tag('/update_selected_users', :method => 'get', :class => 'simple_form') do -%>
+    <%= form_tag('/update_selected_users', :method => 'POST', :class => 'simple_form') do -%>
         <b><%= I18n.t(:text_group_associated_users) %></b>
         <br/><br/>
 
@@ -111,7 +111,7 @@
   </div>
 
   <div id="tabs-3">
-    <%= form_tag('/update_selected_projects', :method => 'get', :class => 'simple_form') do -%>
+    <%= form_tag('/update_selected_projects', :method => 'POST', :class => 'simple_form') do -%>
         <b><%= I18n.t(:text_group_associated_projects) %></b>
         <br/><br/>
 

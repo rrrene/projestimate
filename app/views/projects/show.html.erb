@@ -1,0 +1,206 @@
+<%= simple_form_for(@project) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="tabs">
+    <ul>
+      <li><a href="#tabs-1"><%= I18n.t(:global_properties) %></a></li>
+      <li><a href="#tabs-2"><%= I18n.t(:wbs_product) %></a></li>
+      <li><a href="#tabs-3"><%= I18n.t(:wbs_activity) %></a></li>
+      <li class="tabs_4_with_estimation_plan"><a href="#tabs-4"><%= I18n.t(:estimation_plan) %></a></li>
+      <li><a href="#tabs-5"><%= I18n.t(:securities) %></a></li>
+      <li><a href="#tabs-6"><%= I18n.t(:calendar) %> </a></li>
+      <li><a href="#tabs-7"><%= I18n.t(:resources) %> </a></li>
+      <li><a href="#tabs-8"><%= I18n.t(:analyse) %> </a></li>
+    </ul>
+
+    <div id="tabs-1">
+
+      <%= f.input :title, :label => "#{I18n.t 'label_project_name'}", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')}, :disabled => true %>
+      <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 5}, :disabled => true %>
+      <%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
+      <table>
+        <tr>
+          <td><%= f.input :alias, :input_html => {:class => 'input-large'}, :disabled => true %></td>
+          <td><%= f.input :version, :input_html => {:class => 'input-large'}, :disabled => true %></td>
+        </tr>
+        <tr>
+          <td><%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'}, :disabled => true %></td>
+          <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :disabled => true, :input_html => {:class => 'input-large'} unless (@project.released? || @project.rejected?)  %></td>
+        </tr>
+        <tr>
+          <td>
+            <%= f.input :start_date, :as => :string, :disabled => true, :input_html => { :class => 'date-picker', :value => @project.start_date.nil? ? '' : I18n.l(@project.start_date) } %>
+          </td>
+
+          <script>
+              $(document).ready(function () {
+                  $(".date-picker").datepicker({
+                      language: '<%= set_user_language %>',
+                      autoclose: true,
+                      todayHighlight: true,
+                      todayBtn: true
+                  });
+              });
+          </script>
+
+          <td><%= f.input :organization_id, :label => "#{I18n.t 'organizations'}", :as => :select, :collection => @organizations.map{|i| [i.name, i.id] }, :input_html => {:class => 'input-xlarge'}, :disabled => true %></td>
+        </tr>
+      </table>
+
+
+      <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
+
+      <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
+
+      <%= f.input :platform_category_id, :label => "#{I18n.t 'platform_category'}", :as => :select, :collection => @platform_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
+
+      <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true%>
+
+      <div class="actions-tabs">
+        <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
+      </div>
+
+<% end %>
+</div>
+
+
+    <div id="tabs-2">
+      <div class="component_tree" id="project_wbs_product_section">
+        <% unless @project.nil? || @pe_wbs_project_product.nil? %>
+            <%= raw generate_wbs_product(@project.root_component, @project, '', 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="tabs-3">
+      <div class="show_list">
+        <span class="pull-right"><%= I18n.t(:label_show_hidden_elements) %> <%= check_box_tag 'show_excluded_elt', true, false, :onchange => 'refresh_me();', :remote => true %></span>
+        <br/>
+
+        <div id="wbs_project_elements_section" class="component_tree">
+          <%= render :partial => 'generate_wbs_project_elt_tree', :object => @pe_wbs_project_activity %>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabs-4" class="tabs_4_with_estimation_plan2">
+      <% if controller.controller_name == 'projects' %>
+          <% if @project.is_locked == false or @project.is_locked.nil? %>
+              <table style="width: 100%" border=0>
+                <tr>
+                  <td class="pull-right">
+                    <%= I18n.t(:label_filter_on_pbs_element) %>
+                    <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
+                  </td>
+                </tr>
+              </table>
+          <% end %>
+      <% end %>
+
+      <br>
+      <div class="module_box"  style=" width: auto; overflow-x:auto;">
+        <%= render :partial => 'module_projects/estimation_plan', :locals => { :module_projects => @project.module_projects } %>
+      </div>
+    </div>
+
+    <div id="tabs-5">
+      <div id="accordion-security">
+        <div class="accordion" id="accordion1">
+          <div class="accordion-group accordion-caret">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                <i class="icon-caret-down"></i>
+                <b><%= I18n.t(:label_user_security_resume) %></b>
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body in collapse">
+              <div class="accordion-inner">
+                <table class="table table-striped table-bordered table-condensed">
+                  <tr>
+                    <th>User name</th>
+                    <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
+                        <th><span class="attribute_tooltip" title='<%= display_security_level_description(prj_level) %>'><%= prj_level.name %></span></th>
+                    <% end %>
+                  </tr>
+                  <% @project.users.each do |user| %>
+                      <%= hidden_field_tag "user_securities_#{user.id}" %>
+                      <% securities = user.project_securities_for_select(@project.id) %>
+                      <tr>
+                        <td><%= user.name %>
+                          <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
+                            <td><%= radio_button_tag("user_securities_#{user.id}", prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+                        <% end %>
+                      </tr>
+                  <% end %>
+                </table>
+                <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                <%= submit_tag I18n.t('apply'), :class => 'btn', :anchor_value => params[:anchor_value] %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion2" class="accordion">
+          <div class="accordion-group accordion-caret">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                <i class="icon-caret-down"></i>
+                <b><%= I18n.t(:label_group_security_resume) %></b>
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body in collapse">
+              <div class="accordion-inner">
+                <table class="table table-striped table-bordered table-condensed">
+                  <tr>
+                    <th>Group name</th>
+                    <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
+                        <th><span class="attribute_tooltip" title='<%= display_security_level_description(prj_level) %>'><%= prj_level.name %></span></th>
+                    <% end %>
+                  </tr>
+                  <% @project.groups.each do |group| %>
+                      <% securities = group.project_securities_for_select(@project.id) %>
+                      <tr>
+                        <td><%= group.name %>
+                          <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
+                            <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level_id == prj_level.id))) %> </td>
+                        <% end %>
+                      </tr>
+                  <% end %>
+                </table>
+                <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                <%= submit_tag I18n.t('apply'), :class => 'btn', :anchor_value => params[:anchor_value] %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div id="tabs-6">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+    <div id="tabs-7">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+    <div id="tabs-8">
+      <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $('.component_tree ul li, .widget-content ul li').hover(
+            function () {
+                $('.block_link').hide();
+
+            }
+        );
+    });
+</script>
+
+</div>
+
+
