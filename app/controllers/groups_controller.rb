@@ -95,15 +95,15 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:group_id])
     user_ids = params[:group][:user_ids]
 
-    @group.users.each do |m|
-      m.destroy unless user_ids.include?(m.user_id.to_s)
-      user_ids.delete(m.user_id.to_s)
+    @group.users.each do |u|
+      gu = GroupsUsers.where(:group_id => @group.id, :user_id => u.id) unless u.blank?
+      gu.delete_all
     end
 
-    #Attribute module record_status is according to the Pemodule record_status
     user_ids.each do |u|
-      GroupsUsers.create(:group_id => @group.id, :user_id => u) unless u.blank?
+      gu = GroupsUsers.create(:group_id => @group.id, :user_id => u)
     end
+
     @group.projects(force_reload = true)
 
     if @group.save
@@ -120,15 +120,15 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:group_id])
     project_ids = params[:group][:project_ids]
 
-    @group.projects.each do |m|
-      m.destroy unless project_ids.include?(m.project_id.to_s)
-      project_ids.delete(m.project_id.to_s)
+    @group.projects.each do |p|
+      gp = GroupsProjects.where(:group_id => @group.id, :project_id => p.id)
+      gp.delete_all
     end
 
-    #Attribute module record_status is according to the Pemodule record_status
     project_ids.each do |g|
       GroupsProjects.create(:group_id => @group.id, :project_id => g) unless g.blank?
     end
+
     @group.projects(force_reload = true)
 
     if @group.save
