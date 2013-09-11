@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
   include ModuleProjectsHelper
   include PemoduleEstimationMethods
 
-  load_and_authorize_resource
+  load_resource
 
   helper_method :sort_column
   helper_method :sort_direction
@@ -54,6 +54,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
+    authorize! :manage, Project
     set_page_title 'Projects'
     @projects = Project.all
   end
@@ -183,6 +184,10 @@ class ProjectsController < ApplicationController
   def update
     set_page_title 'Edit project'
     @project = Project.find(params[:id])
+
+    if @project.in_review?
+      authorize! :write_access_to_inreview_projects, Project
+    end
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first

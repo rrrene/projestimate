@@ -19,11 +19,12 @@
 ########################################################################
 
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource
+  load_resource
   require 'rubyXL'
   include RubyXL
 
   def new
+    authorize! :edit_organizations, Organization
     authorize! :edit_organizations, Organization
 
     set_page_title 'Organizations'
@@ -124,26 +125,36 @@ class OrganizationsController < ApplicationController
   end
 
   def import_abacus
-    organization = Organization.find(params[:id])
+    @organization = Organization.find(params[:id])
     file = params[:file]
-    workbook = RubyXL::Parser.parse("/home/nicolas/Bureau/file.xlsx")
+    workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
 
     array = []
     workbook.worksheets.each_with_index do |worksheet, k|
       name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
-      ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => organization.id)
-      ot.save
-      worksheet.sheet_data.each_with_index do |sd, i|
-        sd.each_with_index do |e, j|
-          unless sd[j].nil?
+      @ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => @organization.id)
+      @ot.save
+      worksheet.sheet_data.each_with_index do |row, i|
+        row.each_with_index do |cell, j|
+          unless cell.nil?
             if i == 0
-              ouc = OrganizationUowComplexity.new(:name => sd[j].value, :organization_id => organization.id)
-              ouc.save
-            elsif i > 0
-              unless sd[0].nil?
-                uow = UnitOfWork.new(:name => sd[0].value, :alias => sd[0].value, :organization_id => organization.id)
-                uow.organization_technologies << ot
-                uow.save
+              @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value,
+                                                                                          :organization_id => @organization.id)
+            elsif j == 0
+              @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value,
+                                                                                     :alias => cell.value,
+                                                                                     :organization_id => @organization.id)
+              @uow.organization_technologies << @ot
+              @uow.save
+            else
+              begin
+                @ao = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id_and_value(
+                  :unit_or_work_id => @uow.id,
+                  :organization_uow_complexity_id => @ouc.id,
+                  :organization_technology_id => 10,
+                  :organization_id => @organization.id,
+                  :value => worksheet.sheet_data[i][j].value)
+              rescue
               end
             end
           end
@@ -151,12 +162,12 @@ class OrganizationsController < ApplicationController
       end
     end
 
-    redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+    redirect_to redirect_apply(edit_organization_path(@organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
   end
 
   def export_abacus
       organization = Organization.find(params[:id])
-      filename = "#{organization.name}.xls"
+      filename = "#{organization.name}.xlsx"
       book =  RubyXL::Workbook.new
 
       organization.organization_technologies.each_with_index do |ot, n|
@@ -178,10 +189,9 @@ class OrganizationsController < ApplicationController
         end
       end
 
-      book.write 'file.xlsx'
+      book.write("file.xlsx")
 
-      #send_data('./file.xlsx', :type => 'text/xls; header=present', :disposition => "attachment; filename=#{organization.name}.xls")
-      redirect_to redirect_apply(edit_organization_path(organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+      #send_data(book, :type => 'text/xls; header=present', :disposition => "attachment; filename=#{filename}")
   end
 
 end

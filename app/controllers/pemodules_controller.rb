@@ -20,7 +20,8 @@
 
 class PemodulesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource :only => [:index, :edit, :update, :create, :destroy]
+  #load_resource :only => [:index, :edit, :update, :create, :destroy]
+  load_resource
 
   before_filter :get_record_statuses
   before_filter :project_locked?,  :only => [:pemodules_right, :pemodules_left, :pemodules_up, :pemodules_down]
@@ -91,7 +92,6 @@ class PemodulesController < ApplicationController
 
   end
 
-
   def create
     authorize! :create_and_edit_modules, Pemodule
 
@@ -113,6 +113,8 @@ class PemodulesController < ApplicationController
 
   #Update attribute of the pemodule selected (2nd tabs)
   def update_selected_attributes
+    authorize! :manage, Pemodule
+
     @pemodule = Pemodule.find(params[:module_id])
 
     attributes_ids = params[:pemodule][:pe_attribute_ids]
@@ -125,8 +127,8 @@ class PemodulesController < ApplicationController
     #Attribute module record_status is according to the Pemodule record_status
     attributes_ids.each do |g|
       #For Capitalization module : all attributes are input/output (both)
-      if @pemodule.alias == "Capitalization"
-        @pemodule.attribute_modules.create(:pe_attribute_id => g, :in_out => "both", :record_status_id => @pemodule.record_status_id) unless g.blank?
+      if @pemodule.alias == 'Capitalization'
+        @pemodule.attribute_modules.create(:pe_attribute_id => g, :in_out => 'both', :record_status_id => @pemodule.record_status_id) unless g.blank?
       else
         @pemodule.attribute_modules.create(:pe_attribute_id => g, :record_status_id => @pemodule.record_status_id) unless g.blank?
       end
@@ -147,6 +149,8 @@ class PemodulesController < ApplicationController
 
   #Update attribute settings (3th tabs)
   def set_attributes_module
+    authorize! :manage, Pemodule
+
     @pemodule = Pemodule.find(params[:module_id])
 
     selected_attributes = params[:attributes]
@@ -168,6 +172,8 @@ class PemodulesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Pemodule
+
     @pemodule = Pemodule.find(params[:id])
     if @pemodule.is_defined? || @pemodule.is_custom?
       #logical deletion: delete don't have to suppress records anymore
@@ -178,27 +184,30 @@ class PemodulesController < ApplicationController
     redirect_to pemodules_url, :notice => "#{I18n.t (:notice_pemodule_successful_deleted)}"
   end
 
+  #TODO opi : add a comment to explain when/how
   def estimations_params
+    #TODO opi define authorize!
     set_page_title 'Estimations parameters'
   end
 
   def update_link_between_modules(project, module_project, last_position_x=nil)
+    #TODO opi define authorize!
     return if @capitalization_module.nil?
     capitalization_mod_proj = project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     unless capitalization_mod_proj.nil?
       #We have to get first module in each col
       if last_position_x.nil?
-        mps = project.module_projects.where("position_x = ?", module_project.position_x)
+        mps = project.module_projects.where('position_x = ?', module_project.position_x)
         mps.each do |mp|
           ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{mp.id} AND associated_module_project_id = #{capitalization_mod_proj.id}")
         end
-        mp = project.module_projects.where("position_x = ?", module_project.position_x).order("position_y ASC").first
+        mp = project.module_projects.where('position_x = ?', module_project.position_x).order('position_y ASC').first
         mp.update_attribute('associated_module_project_ids', capitalization_mod_proj.id) unless mp.nil?
       else
         positions_x = [last_position_x, module_project.position_x]
         positions_x.each do |pos_x|
-          mps = project.module_projects.where("position_x = ?", pos_x).order("position_y ASC")
+          mps = project.module_projects.where('position_x = ?', pos_x).order('position_y ASC')
           mps.each do |mp|
             #Delete association for the Capitalization module
             ActiveRecord::Base.connection.execute("DELETE FROM associated_module_projects WHERE module_project_id = #{mp.id} AND associated_module_project_id = #{capitalization_mod_proj.id}")
@@ -212,11 +221,12 @@ class PemodulesController < ApplicationController
   end
 
   def pemodules_up
+    #TODO opi define authorize!
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     if @project_module.position_y > 1
-      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y.to_i-1).first
+      current_pmodule = @project.module_projects.where('position_x =? AND position_y =?', @project_module.position_x, @project_module.position_y.to_i-1).first
       if current_pmodule
         current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
       end
@@ -235,12 +245,13 @@ class PemodulesController < ApplicationController
 
 
   def pemodules_down
+    #TODO opi define authorize!
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
 
-    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x, @project_module.position_y+1).first
+    current_pmodule = @project.module_projects.where('position_x =? AND position_y =?', @project_module.position_x, @project_module.position_y+1).first
     if current_pmodule
       current_pmodule.update_attribute('position_y', @project_module.position_y.to_i)
     end
@@ -257,13 +268,14 @@ class PemodulesController < ApplicationController
 
 
   def pemodules_left
+    #TODO opi define authorize!
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
     last_position_x = nil
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     if @project_module.position_x.to_i > 1
-      current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i-1, @project_module.position_y).first
+      current_pmodule = @project.module_projects.where('position_x =? AND position_y =?', @project_module.position_x.to_i-1, @project_module.position_y).first
       if current_pmodule
         current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)
       end
@@ -279,12 +291,13 @@ class PemodulesController < ApplicationController
 
 
   def pemodules_right
+    #TODO opi define authorize!
     @project_module = ModuleProject.find(params[:module_id])
     @project = @project_module.project
     last_position_x = nil
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    current_pmodule = @project.module_projects.where("position_x =? AND position_y =?", @project_module.position_x.to_i+1, @project_module.position_y.to_i).first
+    current_pmodule = @project.module_projects.where('position_x =? AND position_y =?', @project_module.position_x.to_i+1, @project_module.position_y.to_i).first
 
     if current_pmodule
       current_pmodule.update_attribute('position_x', @project_module.position_x.to_i)

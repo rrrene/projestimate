@@ -22,23 +22,23 @@ class LanguagesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
-  load_and_authorize_resource
+  load_resource
 
   def index
-    #authorize! :create_and_edit_language, Language
-    authorize! :create_and_edit_language, Language
+    authorize! :create_and_edit_languages, Language
+
     set_page_title 'Languages'
     @languages = Language.all
   end
 
   def new
-    authorize! :create_and_edit_language, Language
+    authorize! :create_and_edit_languages, Language
     set_page_title 'Add a language'
     @language = Language.new
   end
 
   def edit
-    authorize! :create_and_edit_language, Language
+    authorize! :create_and_edit_languages, Language
     set_page_title 'Edit language'
     @language = Language.find(params[:id])
 
@@ -51,7 +51,7 @@ class LanguagesController < ApplicationController
   end
 
   def create
-    authorize! :create_and_edit_language, Language
+    authorize! :create_and_edit_languages, Language
     @language = Language.new(params[:language])
     @language.record_status = @proposed_status
     if @language.save
@@ -63,7 +63,7 @@ class LanguagesController < ApplicationController
   end
 
   def update
-    authorize! :create_and_edit_language, Language
+    authorize! :create_and_edit_languages, Language
     @language = nil
     current_language = Language.find(params[:id])
     if current_language.is_defined?
@@ -85,6 +85,7 @@ class LanguagesController < ApplicationController
   # Destroy method on Master table is not going to delete  definitively the record
   #It is only going to change ths record status : logical deletion
   def destroy
+    authorize! :manage, Language
     @language = Language.find(params[:id])
     if @language.is_defined? || @language.is_custom?
       #logical deletion  delete don't have to suppress records anymore on Defined record

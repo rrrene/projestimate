@@ -21,11 +21,13 @@
 
 class RecordStatusesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_resource
 
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage, RecordStatus
+
     @record_statuses = RecordStatus.all
 
     respond_to do |format|
@@ -35,6 +37,8 @@ class RecordStatusesController < ApplicationController
   end
 
   def show
+    authorize! :manage, RecordStatus
+
     @record_status = RecordStatus.find(params[:id])
 
     respond_to do |format|
@@ -44,6 +48,8 @@ class RecordStatusesController < ApplicationController
   end
 
   def new
+    authorize! :manage, RecordStatus
+
     @record_status = RecordStatus.new
 
     respond_to do |format|
@@ -53,6 +59,8 @@ class RecordStatusesController < ApplicationController
   end
 
   def edit
+    authorize! :manage, RecordStatus
+
     @record_status = RecordStatus.find(params[:id])
 
     unless @record_status.child_reference.nil?
@@ -63,8 +71,9 @@ class RecordStatusesController < ApplicationController
     end
   end
 
-
   def create
+    authorize! :manage, RecordStatus
+
     @record_status = RecordStatus.new(params[:record_status])
 
     if @record_status.save
@@ -75,6 +84,8 @@ class RecordStatusesController < ApplicationController
   end
 
   def update
+    authorize! :manage, RecordStatus
+
     @record_status = nil
     current_record_status = RecordStatus.find(params[:id])
     if current_record_status.is_defined?
@@ -94,18 +105,20 @@ class RecordStatusesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, RecordStatus
+
     @record_status = RecordStatus.find(params[:id])
     if @record_status.is_defined? || @record_status.is_custom?
       #logical deletion: delete don't have to suppress records anymore
       @record_status.update_attributes(:record_status_id => @retired_status.id, :owner_id => current_user.id)
     else
-      if @record_status.name=="Defined"
+      if @record_status.name=='Defined'
         record_status_defined=true
       end
 
       @record_status.destroy
       if record_status_defined
-        @record_status = RecordStatus.find_by_name("Defined")
+        @record_status = RecordStatus.find_by_name('Defined')
         @record_status.update_attributes(:record_status_id => @record_status.id, :owner_id => current_user.id)
       end
     end

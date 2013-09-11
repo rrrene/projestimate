@@ -132,8 +132,8 @@ Projestimate::Application.routes.draw do
   get 'globals_permissions' => 'permissions#globals_permissions', :as => 'globals_permissions'
 
   resources :groups
-  get 'update_selected_users' => 'groups#update_selected_users'
-  get 'update_selected_projects' => 'groups#update_selected_projects'
+  post 'update_selected_users' => 'groups#update_selected_users'
+  post 'update_selected_projects' => 'groups#update_selected_projects'
 
   resources :pemodules
   match 'pemodules/:module_id/pemodules_down' => 'pemodules#pemodules_down', :as => 'pemodules_down'

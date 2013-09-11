@@ -19,13 +19,15 @@
 ########################################################################
 #
 class AttributeCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_resource
   include DataValidationHelper #Module for master data changes validation
   before_filter :get_record_statuses
                                # GET /attribute_categories
                                # GET /attribute_categories.json
   def index
-    set_page_title "Attributes Categories"
+    authorize! :create_and_edit_attributes, PeAttribute
+
+    set_page_title 'Attributes Categories'
     @attribute_categories = AttributeCategory.all
 
     respond_to do |format|
@@ -37,33 +39,41 @@ class AttributeCategoriesController < ApplicationController
   # GET /attribute_categories/new
   # GET /attribute_categories/new.json
   def new
-    set_page_title "Attributes Categories"
+    authorize! :manage, PeAttribute
+
+    set_page_title 'Attributes Categories'
     @attribute_category = AttributeCategory.new
   end
 
   # GET /attribute_categories/1/edit
   def edit
-    set_page_title "Attributes Categories"
+    authorize! :create_and_edit_attributes, PeAttribute
+
+    set_page_title 'Attributes Categories'
     @attribute_category = AttributeCategory.find(params[:id])
   end
 
   # POST /attribute_categories
   # POST /attribute_categories.json
   def create
-    set_page_title "Attributes Categories"
+    authorize! :manage, PeAttribute
+
+    set_page_title 'Attributes Categories'
     @attribute_category = AttributeCategory.new(params[:attribute_category])
 
     if @attribute_category.save
       flash[:notice] = I18n.t (:notice_attribute_category_successful_created)
       redirect_to redirect_apply(nil, new_attribute_category_path(),attribute_categories_path)
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
   # PUT /attribute_categories/1
   # PUT /attribute_categories/1.json
   def update
+    authorize! :manage, PeAttribute
+
     @attribute_category = AttributeCategory.find(params[:id])
 
     if @attribute_category.update_attributes(params[:attribute_category])
@@ -78,6 +88,8 @@ class AttributeCategoriesController < ApplicationController
   # DELETE /attribute_categories/1
   # DELETE /attribute_categories/1.json
   def destroy
+    authorize! :manage, PeAttribute
+
     @attribute_category = AttributeCategory.find(params[:id])
     @attribute_category.destroy
 

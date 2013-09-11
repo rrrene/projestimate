@@ -3,7 +3,7 @@
       <%= f.error_notification %>
 
       <%= f.input :name, :label => I18n.t('name'), :input_html => {:autofocus => (controller.action_name == 'new')}  %>
-      <%= f.input :alias %>
+      <%= f.input :alias, :label => I18n.t('alias') %>
       <%= f.input :description, :label => I18n.t('description') , :input_html => {:rows => 4} %> <br />
 
       <%= f.input :change_comment,

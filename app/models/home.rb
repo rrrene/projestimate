@@ -636,22 +636,25 @@ class Home < ActiveRecord::Base
       ext_records_permission.push([record_groups_permissions['permission_id'],record_groups_permissions['group_id']])
     end
 
-    #Create a table match between master groups_permissions and local groups_permission
-    loc_records_permissions=Array.new
-    ext_records_permission.each do |record|
-      ext_permission_uuid=Array.new
-      ext_group_uuid=Array.new
-      ext_permission= db.query("SELECT uuid FROM permissions where id=#{record[0]}")
-      ext_permission.each do |row|
-        ext_permission_uuid=row
+    begin
+      #Create a table match between master groups_permissions and local groups_permission
+      loc_records_permissions=Array.new
+      ext_records_permission.each do |record|
+        ext_permission_uuid=Array.new
+        ext_group_uuid=Array.new
+        ext_permission= db.query("SELECT uuid FROM permissions where id=#{record[0]}")
+        ext_permission.each do |row|
+          ext_permission_uuid=row
+        end
+        ext_group=db.query("SELECT uuid FROM groups where id=#{record[1]}")
+        ext_group.each do |row|
+          ext_group_uuid=row
+        end
+        loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
+        loc_group= Group.find_by_uuid(ext_group_uuid["uuid"]).id
+        loc_records_permissions << [loc_permission_id,loc_group]
       end
-      ext_group=db.query("SELECT uuid FROM groups where id=#{record[1]}")
-      ext_group.each do |row|
-        ext_group_uuid=row
-      end
-      loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
-      loc_group= Group.find_by_uuid(ext_group_uuid["uuid"]).id
-      loc_records_permissions << [loc_permission_id,loc_group]
+    rescue
     end
 
     #Insert on local database groups_permissions records

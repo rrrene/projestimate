@@ -50,10 +50,10 @@
                   <%= link_to ' ', admin_setting, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% end %>
               <% if is_master_instance? && !admin_setting.is_local_record? %>
-                  <% if admin_setting.is_retired? %>
+                  <% if admin_setting.is_retired? can? :restore, :all %>
                       <%= link_to(' ', "admin_settings/#{admin_setting.id}/restore_change", confirm: I18n.t('restoring'),:class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
                   <% else %>
-                      <% unless admin_setting.is_defined? %>
+                      <% unless admin_setting.is_defined? can? :validate, :all %>
                           <%= link_to(' ', "admin_settings/#{admin_setting.id}/validate_change", confirm: I18n.t('validation'),:class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
                       <% end %>
                   <% end %>

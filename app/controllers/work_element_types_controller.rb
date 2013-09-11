@@ -23,14 +23,16 @@ class WorkElementTypesController < ApplicationController
 
   before_filter :get_record_statuses
 
-  load_and_authorize_resource
+  load_resource
 
   def index
+    authorize! :create_and_edit_work_element_type, WorkElementType
     set_page_title 'Work Element Type'
     @work_element_types = WorkElementType.all
   end
 
   def new
+    authorize! :create_and_edit_work_element_type, WorkElementType
     set_page_title 'Work Element Type'
     @work_element_type = WorkElementType.new
     @peicons = Peicon.all
@@ -38,6 +40,7 @@ class WorkElementTypesController < ApplicationController
 
   # GET /work_element_types/1/edit
   def edit
+    authorize! :create_and_edit_work_element_type, WorkElementType
     set_page_title 'Work Element Type'
     @work_element_type = WorkElementType.find(params[:id])
     @peicons = Peicon.defined
@@ -51,6 +54,7 @@ class WorkElementTypesController < ApplicationController
   end
 
   def create
+    authorize! :create_and_edit_work_element_type, WorkElementType
     @work_element_type = WorkElementType.new(params[:work_element_type])
 
     @peicons = Peicon.defined
@@ -65,6 +69,7 @@ class WorkElementTypesController < ApplicationController
   end
 
   def update
+    authorize! :create_and_edit_work_element_type, WorkElementType
     @work_element_type = nil
     current_work_element_type = WorkElementType.find(params[:id])
     if current_work_element_type.is_defined?
@@ -85,6 +90,7 @@ class WorkElementTypesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, WorkElementType
     @work_element_type = WorkElementType.find(params[:id])
     if @work_element_type.is_defined? || @work_element_type.is_custom?
       #logical deletion: delete don't have to suppress records anymore

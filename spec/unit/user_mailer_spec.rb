@@ -23,7 +23,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe UserMailer do
       before(:each) do
         ActionMailer::Base.deliveries = []
-
+        @defined_status=RecordStatus.find_by_name("Defined")
         #@user = FactoryGirl.create(:user)
         @user = User.first
         @user.language = Language.where("locale = ?", "en").first #we force user language to English.
@@ -32,7 +32,7 @@ describe UserMailer do
         @mailer_account_suspended=UserMailer.account_suspended(@user)
         @mailer_new=UserMailer.new_password(@user)
         @mailer_forgotten_password=UserMailer.forgotten_password(@user)
-        @mailer_account_request=UserMailer.account_request()
+        @mailer_account_request=UserMailer.account_request(@defined_status)
         @mailer_account_validate=UserMailer.account_validate(@user)
         @mailer_account_validate_nopwd=UserMailer.account_validate_no_pw(@user)
         I18n.locale = 'en' #we force Locale to English

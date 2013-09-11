@@ -11,7 +11,7 @@
           <table>
             <tr>
               <td><%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge', :autofocus => (controller.action_name == 'new')} %></td>
-              <td><%= f.input :alias, :input_html => {:class => 'input-medium'} %></td>
+              <td><%= f.input :alias, :label => I18n.t('alias'), :input_html => {:class => 'input-medium'} %></td>
             </tr>
           </table>
 
