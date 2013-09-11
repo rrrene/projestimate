@@ -143,4 +143,9 @@ class Project < ActiveRecord::Base
   def locked?
     (self.is_locked.nil? or self.is_locked == true) ? true : false
   end
+
+  def in_frozen_status?
+    (self.state.in?(%w(rejected released checkpoint))) ? true : false
+  end
+
 end

@@ -49,7 +49,6 @@
           </tr>
         </table>
 
-
          <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'} %>
 
         <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'} %>
@@ -60,7 +59,7 @@
 
         <div class="actions-tabs">
           <!--If Project is in frozen status -->
-          <% if @project.state.in?(%w(Rejected Released Checkpoint))%>
+          <% if @project.state.in?(%w(rejected released checkpoint))%>
               <% if can? :alter_frozen_projects, Project %>
                   <% if action_name == 'edit'%>
                       <%= f.submit I18n.t(:save), :class => 'btn' %>
@@ -92,7 +91,7 @@
 
     <div id="tabs-3">
       <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-          <div class="well well-small component_tree">
+          <div class="well well-small add_wbs_component_tree">
             <%= form_tag '/add_wbs_activity_to_project', :method => :post, :id => 'form_select_and_add_wbs_activity', :remote => true do %>
                 <p style="margin: 10px; ">
                   <label><%= simple_format(I18n.t(:available_wbs_activity)) %></label>

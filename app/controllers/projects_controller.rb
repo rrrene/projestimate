@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   helper_method :sort_column
   helper_method :sort_direction
 
-  before_filter :load_data, :only => [:update, :edit, :new, :create]
+  before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
   before_filter :get_record_statuses
 
   def load_data
@@ -151,6 +151,11 @@ class ProjectsController < ApplicationController
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
+
+    unless can? :alter_frozen_projects, Project
+      redirect_to(:action => "show") if @project.in_frozen_status?
+    end
+
     if @project.in_review?
       authorize! :write_access_to_inreview_projects, Project
     end
@@ -177,6 +182,7 @@ class ProjectsController < ApplicationController
 
   def update
     set_page_title 'Edit project'
+    @project = Project.find(params[:id])
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
@@ -289,6 +295,138 @@ class ProjectsController < ApplicationController
       render :action => 'edit'
     end
   end
+
+
+  def show
+    set_page_title 'Show project'
+    @project = Project.find(params[:id])
+
+    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @wbs_activity_elements = []
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    @wbs_activity_ratios = []
+
+    # Get the max X and Y positions of modules
+    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
+    defined_wbs_activities = WbsActivity.where('record_status_id = ?', @defined_status.id).all
+    @wbs_activities = defined_wbs_activities.reject { |i| @project.included_wbs_activities.include?(i.id) }
+    @wbs_activity_elements = []
+    @wbs_activities.each do |wbs_activity|
+      elements_root = wbs_activity.wbs_activity_elements.elements_root.first
+      unless elements_root.nil?
+        @wbs_activity_elements << elements_root #wbs_activity.wbs_activity_elements.last.root
+      end
+    end
+    #
+    #@project.users.each do |u|
+    #  ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
+    #  if ps
+    #    ps.project_security_level_id = params["user_securities_#{u.id}"]
+    #    ps.save
+    #  elsif !params["user_securities_#{u.id}"].blank?
+    #    ProjectSecurity.create(:user_id => u.id,
+    #                           :project_id => @project.id,
+    #                           :project_security_level_id => params["user_securities_#{u.id}"])
+    #  end
+    #end
+    #
+    #@project.groups.each do |gpe|
+    #  ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id).first
+    #  if ps
+    #    ps.project_security_level_id = params["group_securities_#{gpe.id}"]
+    #    ps.save
+    #  elsif !params["group_securities_#{gpe.id}"].blank?
+    #    ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
+    #  end
+    #end
+    #
+    ## Get the max X and Y positions of modules
+    #@module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+    #@module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+    #
+    ##Get the project Organization before update
+    #project_organization = @project.organization
+    #
+    #if @project.update_attributes(params[:project])
+    #
+    #  begin
+    #    date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+    #    @project.start_date = date
+    #  rescue
+    #    @project.start_date = Time.now.to_date
+    #  end
+    #
+    #  # Capitalization Module
+    #  unless @capitalization_module.nil?
+    #    # Get the project capitalization module_project or create if it doesn't exist
+    #    cap_module_project = @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+    #    if cap_module_project.nil?
+    #      cap_module_project = @project.module_projects.create(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+    #    end
+    #
+    #    # Create the project capitalization module estimation_values if project organization has changed and not nil
+    #    if project_organization.nil? && !@project.organization.nil?
+    #
+    #      #Create the corresponding EstimationValues
+    #      unless @project.organization.attribute_organizations.nil?
+    #        @project.organization.attribute_organizations.each do |am|
+    #          ['input', 'output'].each do |in_out|
+    #            mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+    #                                         :module_project_id => cap_module_project.id,
+    #                                         :in_out => in_out,
+    #                                         :is_mandatory => am.is_mandatory,
+    #                                         :description => am.pe_attribute.description,
+    #                                         :display_order => nil,
+    #                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+    #                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+    #                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+    #          end
+    #        end
+    #      end
+    #
+    #      # When project organization exists
+    #    elsif !project_organization.nil?
+    #
+    #      # project's organization is deleted and none one is selected
+    #      if @project.organization.nil?
+    #        cap_module_project.estimation_values.delete_all
+    #      end
+    #
+    #      # Project's organization has changed
+    #      if !@project.organization.nil? && project_organization != @project.organization
+    #        # Delete all last estimation values for this organization on this project
+    #        cap_module_project.estimation_values.delete_all
+    #
+    #        # Create estimation_values for the new selected organization
+    #        @project.organization.attribute_organizations.each do |am|
+    #          ['input', 'output'].each do |in_out|
+    #            mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+    #                                         :module_project_id => cap_module_project.id,
+    #                                         :in_out => in_out,
+    #                                         :is_mandatory => am.is_mandatory,
+    #                                         :description => am.pe_attribute.description,
+    #                                         :display_order => nil,
+    #                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+    #                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+    #                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+    #          end
+    #        end
+    #      end
+    #    end
+    #  end
+    #
+    #  @project.save
+    #
+    #  redirect_to redirect_apply(edit_project_path(@project, :anchor=>session[:anchor]), nil, projects_path ), notice: "#{I18n.t(:notice_project_successful_updated)}"
+    #else
+    #  @wbs_activity_ratios = WbsActivityRatio.all
+    #  render :action => 'edit'
+    #end
+  end
+
 
   def destroy
     authorize! :delete_project, Project

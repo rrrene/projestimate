@@ -47,9 +47,6 @@
                 end
               end
 
-
-
-
               #if can? :write_access_to_inreview_projects, Project
               #  (project.released? || project.rejected?) ?
               #  commit = link_to('', '#', :class => 'icn_commit') :
@@ -63,6 +60,7 @@
               #end
           %>
         </td>
+       <td><%= link_to('show', {:controller => 'projects', :action => 'show', :id => project.id}, :class => '') %></td>
       </tr>
   <% end %>
 

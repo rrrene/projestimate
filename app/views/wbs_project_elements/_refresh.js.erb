@@ -1,4 +1,4 @@
-$(".component_tree").html("<%=raw j generate_wbs_activity(@project.wbs_project_element_root, @project, '', 5) %>");
+$("#project_wbs_product_section").html("<%=raw j generate_wbs_activity(@project.wbs_project_element_root, @project, '', 5) %>");
 
 $("#main").html("<%= j render(:partial => "users/wbs_activity_process", :locals => { :result => @result } ) %>");
 
