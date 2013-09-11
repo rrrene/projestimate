@@ -19,7 +19,7 @@
             </div>
             <div id="collapseOne" class="accordion-body in collapse">
               <div class="accordion-inner">
-                <%= f.association :organization_technologies ,:as=> :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
+                <%= f.association :organization_technologies, :collection => @organization.organization_technologies, :as=> :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
               </div>
             </div>
           </div>

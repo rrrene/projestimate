@@ -6,7 +6,7 @@
       </td>
       <td>&nbsp;&nbsp; </td>
       <td>
-        <%= select_tag "technology", options_for_select(OrganizationTechnology.all.map { |i| [i.name, i.id] }, :selected => @ot.nil? ? '' : @ot.id) %>
+        <%= select_tag "technology", options_for_select(@organization.organization_technologies.map { |i| [i.name, i.id] }, :selected => @ot.nil? ? '' : @ot.id) %>
       </td>
     </tr>
   </table>

@@ -19,11 +19,12 @@
 ########################################################################
 
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource
+  load_resource
   require 'rubyXL'
   include RubyXL
 
   def new
+    authorize! :edit_organizations, Organization
     authorize! :edit_organizations, Organization
 
     set_page_title 'Organizations'
