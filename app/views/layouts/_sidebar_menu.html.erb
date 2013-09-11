@@ -132,7 +132,7 @@
       <% end %>
 
       <!-- TODO add manage permission for translation (and replace Language per Translation -->
-      <% if can? :manage, Language %>
+      <% if can? :manage_translations, Language %>
           <li><a href="/translations">
             <i class="icon-comments-alt icon-large icon-border pull-left"></i><%= I18n.t(:translations) %></a></li>
       <% end %>

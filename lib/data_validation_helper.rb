@@ -23,6 +23,8 @@ module DataValidationHelper
 
   #Validate changes on record
   def validate_change
+    authorize! :validate, :all
+
     #get the record controller name
     controller = params[:controller]    #controller.controller_name
     record_class_name = controller.classify  #controller.singularize.capitalize
@@ -100,6 +102,8 @@ module DataValidationHelper
 
   #Restoring change on record
   def restore_change
+    authorize! :restore, :all
+
     #get the record controller name
     controller = params[:controller]    #controller.controller_name
     record_class_name = controller.classify  #controller.singularize.capitalize
