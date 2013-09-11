@@ -19,21 +19,30 @@
 ########################################################################
 
 class EventsController < ApplicationController
+  load_resource
 
   def index
+    authorize! :manage, Event
+
     set_page_title('Events')
     @events = Event.all
   end
 
   def new
+    authorize! :manage, Event
+
     @event = Event.new
   end
 
   def edit
+    authorize! :manage, Event
+
     @event = Event.find(params[:id])
   end
 
   def create
+    authorize! :manage, Event
+
     @event = Event.new(params[:event])
     if @event.save
       flash[:notice] = I18n.t (:notice_event_successful_created)
@@ -44,6 +53,8 @@ class EventsController < ApplicationController
   end
 
   def update
+    authorize! :manage, Event
+
     @event = nil
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
@@ -56,6 +67,8 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Event
+
     @event = Event.find(params[:id])
     @event.destroy
     redirect_to events_path

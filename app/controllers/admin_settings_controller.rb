@@ -20,23 +20,29 @@
 
 class AdminSettingsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_resource
 
   before_filter :get_record_statuses
 
   helper_method :admin_setting_selected_status
 
   def index
+    authorize! :edit_admin_settings, AdminSetting
+
     set_page_title 'Parameters'
     @admin_settings = AdminSetting.all
   end
 
   def new
+    authorize! :manage, AdminSetting
+
     set_page_title 'Parameters'
     @admin_setting = AdminSetting.new
   end
 
   def edit
+    authorize! :edit_admin_settings, AdminSetting
+
     set_page_title 'Parameters'
     @admin_setting = AdminSetting.find(params[:id])
 
@@ -51,6 +57,8 @@ class AdminSettingsController < ApplicationController
   end
 
   def create
+    authorize! :manage, AdminSetting
+
     @admin_setting = AdminSetting.new(params[:admin_setting])
 
     unless is_master_instance?
@@ -67,6 +75,8 @@ class AdminSettingsController < ApplicationController
 
 
   def update
+    authorize! :edit_admin_settings, AdminSetting
+
     @admin_setting = nil
     current_admin_setting = AdminSetting.find(params[:id])
     if current_admin_setting.is_defined? && is_master_instance?
@@ -90,6 +100,8 @@ class AdminSettingsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, AdminSetting
+
     @admin_setting = AdminSetting.find(params[:id])
 
     if is_master_instance?
@@ -113,7 +125,6 @@ class AdminSettingsController < ApplicationController
 
     redirect_to admin_settings_path
   end
-
 
   def admin_setting_selected_status
     begin

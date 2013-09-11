@@ -20,16 +20,20 @@
 
 class AuthMethodsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_resource
 
   before_filter :get_record_statuses
 
   def index
+    authorize! :manage, AuthMethod
+
     set_page_title 'Authentications Method'
     @auth_methods = AuthMethod.all.reject{|i| i.name == 'Application' }
   end
 
   def edit
+    authorize! :manage, AuthMethod
+
     @auth_method = AuthMethod.find(params[:id])
     set_page_title "Edit #{@auth_method.name}"
 
@@ -51,11 +55,15 @@ class AuthMethodsController < ApplicationController
   end
 
   def new
+    authorize! :manage, AuthMethod
+
     set_page_title 'New authentication method'
     @auth_method = AuthMethod.new
   end
 
   def update
+    authorize! :manage, AuthMethod
+
     set_page_title 'Authentications Method'
     @auth_method = nil
     current_auth_method = AuthMethod.find(params[:id])
@@ -82,6 +90,8 @@ class AuthMethodsController < ApplicationController
   end
 
   def create
+    authorize! :manage, AuthMethod
+
     set_page_title 'Authentications Method'
     @auth_method = AuthMethod.new(params[:auth_method])
     #If we are on local instance, Status is set to "Local"
@@ -100,6 +110,8 @@ class AuthMethodsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, AuthMethod
+
     @auth_method = AuthMethod.find(params[:id])
     if is_master_instance?
       if @auth_method.is_defined? || @auth_method.is_custom?
