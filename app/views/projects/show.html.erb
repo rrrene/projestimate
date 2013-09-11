@@ -73,20 +73,6 @@
     </div>
 
     <div id="tabs-3">
-      <% unless @project.nil? || @pe_wbs_project_activity.nil? %>
-          <div class="well well-small component_tree">
-            <%= form_tag '/add_wbs_activity_to_project', :method => :post, :id => 'form_select_and_add_wbs_activity', :remote => true do %>
-                <p style="margin: 10px; ">
-                  <label><%= simple_format(I18n.t(:available_wbs_activity)) %></label>
-                  <%= hidden_field_tag :project_id, @project.id %>
-                  <%= select_tag 'wbs_activity_element', options_for_select(@wbs_activity_elements.map { |i| [i.wbs_activity.name, i.id] }), :prompt => I18n.t('helpers.select.prompt') %>
-                  <%= select_tag 'project_default_wbs_activity_ratio', options_for_select(@wbs_activity_ratios.map { |i| [i.name, i.id] }), :prompt => I18n.t('helpers.select.prompt') %>
-                  <%= submit_tag I18n.t(:button_add), :class => 'btn', :id => 'add_activity_and_ratio_to_project', :disabled => true %>
-                </p>
-            <% end %>
-          </div>
-      <% end %>
-
       <div class="show_list">
         <span class="pull-right"><%= I18n.t(:label_show_hidden_elements) %> <%= check_box_tag 'show_excluded_elt', true, false, :onchange => 'refresh_me();', :remote => true %></span>
         <br/>
@@ -102,21 +88,10 @@
           <% if @project.is_locked == false or @project.is_locked.nil? %>
               <table style="width: 100%" border=0>
                 <tr>
-                  <td>
-                    <%= I18n.t(:label_add_a_module_to_project) %>
-                    <%= select_tag 'select_module', options_for_select(Pemodule.where('record_status_id = ? AND alias <> ?', @defined_status.id, 'capitalization').all.map { |i| [i.title, i.id] }), :prompt => '' %>
-                  </td>
                   <td class="pull-right">
                     <%= I18n.t(:label_filter_on_pbs_element) %>
                     <%= select_tag 'select_pbs_project_elements', options_for_select(@project.root_component.subtree.map { |i| [i.name, i.id] }), :prompt => '' %>
                   </td>
-                <tr>
-                  <td>
-                    <%= hidden_field_tag 'project_id', @project.id %>
-                    <%= link_to I18n.t(:button_build_estimation_path), module_projects_matrix_path(@project.id), :class => 'btn' %>
-                    <%= link_to I18n.t(:button_configure_module_pbs_element), pbs_element_matrix_path(@project.id), :class => 'btn' %>
-                  </td>
-                  <td></td>
                 </tr>
               </table>
           <% end %>
