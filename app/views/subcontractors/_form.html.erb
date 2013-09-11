@@ -6,9 +6,9 @@
   <div id="tabs-1">
     <%= simple_form_for(@subcontractor) do |f| %>
         <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @organization.id || params[:organization_id] } %>
-        <%= f.input :name, :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
-        <%= f.input :alias, :label => "Alias", :input_html => {:class => 'input-xxlarge'} %>
-        <%= f.input :description, :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+        <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
+        <%= f.input :alias, :label => I18n.t('alias'), :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
         <div class="actions-tabs">
           <% if action_name.in?(%w(new create)) %>
