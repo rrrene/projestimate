@@ -23,7 +23,7 @@ require 'will_paginate/array'
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
-  load_and_authorize_resource
+  load_resource
 
   helper_method :wbs_record_statuses_collection
   helper_method :enable_update_in_local?
@@ -154,6 +154,8 @@ class WbsActivitiesController < ApplicationController
   end
 
   def destroy
+    #TODO authorize
+
     @wbs_activity = WbsActivity.find(params[:id])
 
     if is_master_instance?
@@ -182,6 +184,7 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_wbs_activity
+    #TODO authorize
     #Update ancestry depth caching
     WbsActivityElement.rebuild_depth_cache!
 
@@ -256,6 +259,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def wbs_record_statuses_collection
+    #TODO authorize
     if @wbs_activity.new_record?
       if is_master_instance?
         @wbs_record_status_collection = RecordStatus.where('name = ?', 'Proposed').defined
@@ -274,6 +278,7 @@ class WbsActivitiesController < ApplicationController
 
   #This function will validate teh WBS-Activity and all its elements
   def validate_change_with_children
+    #TODO authorize
     begin
       wbs_activity = WbsActivity.find(params[:id])
       wbs_activity.record_status = @defined_status
@@ -321,6 +326,7 @@ class WbsActivitiesController < ApplicationController
 
   #Function that enable/disable to update
   def enable_update_in_local?
+    #TODO authorize
     if is_master_instance?
       true
     else

@@ -231,14 +231,17 @@ class GroupsController < ApplicationController
   end
 
   def associated_users
+    #TODO authorize
     @group = Group.find(params[:id])
   end
 
   def associated_projects
+    #TODO authorize
     @group = Group.find(params[:id])
   end
 
   def user_organizations_users
+    #TODO authorize
     users = []
     organizations = current_user.organizations
     organizations.each do |org|
@@ -248,6 +251,7 @@ class GroupsController < ApplicationController
   end
 
   def user_organizations_projects
+    #TODO authorize
     projects = []
     organizations = current_user.organizations
     organizations.each do |org|

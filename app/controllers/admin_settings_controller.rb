@@ -128,6 +128,7 @@ class AdminSettingsController < ApplicationController
 
   def admin_setting_selected_status
     begin
+      #TODO authorize
       selected = nil
       @admin_setting = AdminSetting.find(params[:id])  unless params[:id].nil?
 
@@ -154,6 +155,7 @@ class AdminSettingsController < ApplicationController
 
 
   def unselect_conditions
+    #TODO authorize
     (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ''
   end
 
