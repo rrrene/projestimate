@@ -21,14 +21,19 @@
 class ProjectCategoriesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
+  load_resource
+
   before_filter :get_record_statuses
 
   def new
+    authorize! :manage, ProjectCategory
+
     set_page_title 'Project Category'
     @project_category = ProjectCategory.new
   end
 
   def edit
+    #no authorize required since everyone can show this object
     set_page_title 'Project Category'
     @project_category = ProjectCategory.find(params[:id])
 
@@ -41,6 +46,8 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def create
+    authorize! :manage, ProjectCategory
+
     @project_category = ProjectCategory.new(params[:project_category])
 
     if @project_category.save
@@ -52,6 +59,8 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def update
+    authorize! :manage, ProjectCategory
+
     @project_category = nil
     current_project_category = ProjectCategory.find(params[:id])
     if current_project_category.is_defined?
@@ -70,6 +79,8 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, ProjectCategory
+
     @project_category = ProjectCategory.find(params[:id])
     if @project_category.is_defined? || @project_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on defined record

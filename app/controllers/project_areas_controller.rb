@@ -21,10 +21,13 @@
 class ProjectAreasController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
+  load_resource
+
   before_filter :get_record_statuses
   before_filter :get_associations_records, :only => [:new, :edit, :create, :update]
 
   def get_associations_records
+    #no authorize required since everyone can show this object
     @acquisition_categories = AcquisitionCategory.all
     @labor_categories = LaborCategory.all
     @platform_categories = PlatformCategory.all
@@ -32,11 +35,14 @@ class ProjectAreasController < ApplicationController
   end
 
   def new
+    authorize! :manage, ProjectArea
+
     set_page_title 'Project Area'
     @project_area = ProjectArea.new
   end
 
   def edit
+    #no authorize required since everyone can show this object
     set_page_title 'Project Area'
     @project_area = ProjectArea.find(params[:id])
 
@@ -48,8 +54,9 @@ class ProjectAreasController < ApplicationController
     end
   end
 
-
   def create
+    authorize! :manage, ProjectArea
+
     @project_area = ProjectArea.new(params[:project_area])
 
     if @project_area.save
@@ -61,6 +68,8 @@ class ProjectAreasController < ApplicationController
   end
 
   def update
+    authorize! :manage, ProjectArea
+
     @project_area = nil
     current_project_area = ProjectArea.find(params[:id])
     if current_project_area.is_defined?
@@ -79,6 +88,8 @@ class ProjectAreasController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, ProjectArea
+
     @project_area = ProjectArea.find(params[:id])
     if @project_area.is_defined? || @project_area.is_custom?
       #logical deletion: delete don't have to suppress records anymore if record status is defined
