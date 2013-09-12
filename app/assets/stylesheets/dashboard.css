@@ -655,6 +655,12 @@ input[type="color"],
     border-bottom: 1px dotted green;
 }
 
+.button_attribute_tooltip{
+    color: green;
+    border-bottom: 1px dotted green;
+}
+
+
 .tooltip {
     position: absolute;
     display: block;

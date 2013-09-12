@@ -1096,6 +1096,12 @@ class ProjectsController < ApplicationController
     @projects = Project.where(:is_model => true)
   end
 
+  #Checkout the project
+  def checkout
+    @project = Project.find(params[:project_id])
+    redirect_to projects_url
+  end
+
   #Filter the projects list according to version
   def add_filter_on_project_version
     version_filter = params[:filter_selected]
@@ -1104,7 +1110,6 @@ class ProjectsController < ApplicationController
     unless version_filter.empty?
       case version_filter.to_i
         when 1
-
         when 2
         when 3
         when 4
