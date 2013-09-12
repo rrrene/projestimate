@@ -3,9 +3,6 @@ describe ProjectAreasController do
 
   before do
     @connected_user = login_as_admin
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    @controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
@@ -16,30 +13,30 @@ describe ProjectAreasController do
   end
 
   #log_user(@admin)
-  describe "New" do
-    it "renders the new template" do
+  describe 'New' do
+    it 'renders the new template' do
       get :new
-      response.should render_template("new")
+      response.should render_template('new')
     end
-    it "assigns a new project_area as @project_area" do
+    it 'assigns a new project_area as @project_area' do
       get :new
       assigns(:project_area).should be_a_new_record
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested project_area as @project_area" do
+  describe 'GET edit' do
+    it 'assigns the requested project_area as @project_area' do
       get :edit, {:id => @project_area.to_param}
       assigns(:project_area)==(@project_area)
     end
   end
 
-  describe "DELETE destroy" do
-    it "redirects to the project_area list" do
+  describe 'DELETE destroy' do
+    it 'redirects to the project_area list' do
       delete :destroy, {:id => @project_area.to_param}
-      response.should redirect_to ("/projects_global_params#tabs-1")
+      response.should redirect_to ('/projects_global_params#tabs-1')
     end
-    it "destroys the requested event" do
+    it 'destroys the requested event' do
       expect {
         delete :destroy, {:id => @project_area.to_param}
       }.to change(ProjectArea, :count).by(-1)
@@ -47,11 +44,11 @@ describe ProjectAreasController do
 
   end
 
-  describe "Create" do
+  describe 'Create' do
 
   end
 
-  describe "Update" do
+  describe 'Update' do
 
   end
 end

@@ -19,7 +19,7 @@
 ########################################################################
 
 class ProjectSecuritiesController < ApplicationController
-  load_and_authorize_resource
+  load_resource
 
   def index
     set_page_title 'Projects Securities'

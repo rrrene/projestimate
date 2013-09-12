@@ -22,9 +22,6 @@ describe AttributeCategoriesController do
 
   before :each do
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #controller.stub(:current_ability).and_return(@ability)
 
     @attribute_category = FactoryGirl.create(:quality_in_use)
     @defined_status = FactoryGirl.build(:defined_status)
@@ -33,44 +30,44 @@ describe AttributeCategoriesController do
 
   end
 
-  describe "Index" do
-    it "renders the new template" do
+  describe 'Index' do
+    it 'renders the new template' do
       #@ability.can :read, AttributeCategory
       get :index
-      response.should render_template("index")
+      response.should render_template('index')
     end
   end
 
-  describe "New" do
-    it "renders the new template" do
+  describe 'New' do
+    it 'renders the new template' do
       #@ability.can :create, AttributeCategory
       get :new
-      response.should render_template("new")
+      response.should render_template('new')
     end
 
-    it "assigns a new attribute_category as @attribute_category" do
+    it 'assigns a new attribute_category as @attribute_category' do
       get :new
       assigns(:attribute_category).should be_a_new_record
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested attribute_category as @attribute_category" do
+  describe 'GET edit' do
+    it 'assigns the requested attribute_category as @attribute_category' do
       get :edit, {:id => @attribute_category.to_param}
       assigns(:attribute_category)==([@attribute_category])
     end
   end
 
 
-  describe "create" do
-    it "renders the create template" do
-      @params = { :name => "Software Size", :alias=>"software_size", :uuid => "1", :custom_value=>"local" }
+  describe 'create' do
+    it 'renders the create template' do
+      @params = { :name => 'Software Size', :alias=> 'software_size', :uuid => '1', :custom_value=> 'local'}
       post :create, @params
       response.should be_success
     end
   end
 
-  describe "PUT update" do
+  describe 'PUT update' do
     before :each do
       @new_ac =  FactoryGirl.create(:product_quality)
     end
@@ -83,14 +80,14 @@ describe AttributeCategoriesController do
     #end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     #it "destroys the requested @acquisition_category" do
     #    @params = { :id => @acquisition_category.id }
     #    delete :destroy, @params
     #    response.should be_success
     #end
 
-    it "redirects to the acquisition_category list" do
+    it 'redirects to the acquisition_category list' do
       @params = { :id => @attribute_category.id }
       delete :destroy, @params
       response.should redirect_to attribute_categories_path

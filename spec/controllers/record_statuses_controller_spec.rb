@@ -27,7 +27,7 @@ describe RecordStatusesController do
   # update the return value of this method accordingly.
   def valid_attributes
     {
-        "name" => "Proposed",
+        'name' => 'Proposed',
     }
   end
 

@@ -14,7 +14,7 @@ describe LanguagesController do
     @params = { :id => @language.id }
   end
 
-  describe "GET index" do
+  describe 'GET index' do
     #before do
     #  group_permission_1 = double(Permission, :object_associated => "Group", :name => "manage")
     #  group_permission_2 = double(Permission, :object_associated => "Group", :name => "manage_master_groups")
@@ -40,31 +40,31 @@ describe LanguagesController do
     #  controller.stub(:current_user).and_return(@user)
     #end
 
-    it "should be successful" do
+    it 'should be successful' do
       #@ability.can :create_and_edit_language, Language
       #http_login
       #@request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("admin:projestimate")
       #@request.env["HTTP_AUTHORIZATION"] = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "projestimate")
 
-      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")  #ActionController::HttpAuthentication::Token.encode_credentials("admin:projestimate")
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate('admin', 'projestimate')  #ActionController::HttpAuthentication::Token.encode_credentials("admin:projestimate")
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
       get 'index'
       response.should be_success
     end
 
-    it "renders the index template" do
-      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+    it 'renders the index template' do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate('admin', 'projestimate')
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
 
       #@ability.can :read, Language
       get :index
-      expect(:get => "/languages").to route_to(:controller => "languages", :action => "index")
+      expect(:get => '/languages').to route_to(:controller => 'languages', :action => 'index')
     end
 
-    it "render index if have read ability on project" do
-      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+    it 'render index if have read ability on project' do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate('admin', 'projestimate')
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
       #@ability.can :read, Language
@@ -75,33 +75,33 @@ describe LanguagesController do
 
   end
 
-  describe "New" do
-    it "renders the new template" do
-      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate("admin", "projestimate")
+  describe 'New' do
+    it 'renders the new template' do
+      request.env['HTTP_AUTHORIZATION'] = user =  User.authenticate('admin', 'projestimate')
       session[:current_user_id] = user.id
       controller.stub(:current_user).and_return(user)
 
       #@ability.can :create, Language
       get :new
-      response.should render_template("new")
+      response.should render_template('new')
     end
   end
 
-  describe "edit" do
-    it "renders the new template" do
+  describe 'edit' do
+    it 'renders the new template' do
       @user = User.first
 
       #@ability.can :update, Language
       get :edit, @params
-      response.should render_template("edit")
+      response.should render_template('edit')
     end
   end
 
-  describe "create" do
-    it "renders the create template" do
+  describe 'create' do
+    it 'renders the create template' do
       #@ability.can :create, Language
 
-      @params = { :name => "Breton", :locale => "br" }
+      @params = { :name => 'Breton', :locale => 'br'}
       post :create, @params
       response.should be_success
     end
@@ -112,13 +112,13 @@ describe LanguagesController do
     #end
   end
 
-  describe "PUT update" do
+  describe 'PUT update' do
     before :each do
       @new_language = FactoryGirl.create(:language)
     end
 
-    context "with valid params" do
-      it "updates the requested record_status" do
+    context 'with valid params' do
+      it 'updates the requested record_status' do
         #@ability.can :update, Language
 
         put :update, id: @new_language, language: FactoryGirl.attributes_for(:language)
@@ -127,13 +127,13 @@ describe LanguagesController do
     end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     #it "destroys the requested record_status" do
     #    @params = { :id => @language.id }
     #    delete :destroy, @params
     #    response.should be_success
     #end
-    it "redirects to the record_statuses list" do
+    it 'redirects to the record_statuses list' do
       #login_admin
       #@ability.can :destroy, Language
       @params = { :id => @language.id }
