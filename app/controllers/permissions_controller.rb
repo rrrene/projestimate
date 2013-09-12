@@ -122,7 +122,7 @@ class PermissionsController < ApplicationController
 
   #Set all global rights
   def set_rights
-    #TOTO opi authorize!
+    authorize! :manage_roles, Permission
 
     @groups = Group.defined_or_local
     @permissions = Permission.defined
@@ -138,7 +138,8 @@ class PermissionsController < ApplicationController
   end
 
   def set_rights_project_security
-    #TOTO opi authorize!
+    authorize! :manage_roles, Permission
+
     @project_security_levels = ProjectSecurityLevel.defined
     @permissions = Permission.defined
 
