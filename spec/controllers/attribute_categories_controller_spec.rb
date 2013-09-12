@@ -32,7 +32,6 @@ describe AttributeCategoriesController do
 
   describe 'Index' do
     it 'renders the new template' do
-      #@ability.can :read, AttributeCategory
       get :index
       response.should render_template('index')
     end
@@ -40,7 +39,6 @@ describe AttributeCategoriesController do
 
   describe 'New' do
     it 'renders the new template' do
-      #@ability.can :create, AttributeCategory
       get :new
       response.should render_template('new')
     end

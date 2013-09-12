@@ -8,7 +8,6 @@ describe UsersController, 'Creating and managing user', :type => :controller do
 
   describe "GET 'index'" do
     it 'returns correct template' do
-      #@ability.can :manage, User
       get 'index'
       response.should render_template('index')
     end
@@ -16,7 +15,6 @@ describe UsersController, 'Creating and managing user', :type => :controller do
 
   describe "GET 'edit'" do
     it 'returns correct template' do
-      ##@ability.can :edit, User
       #@user = FactoryGirl.create(:user)
       get 'edit', :id=> @user.to_param
       response.should render_template('edit')

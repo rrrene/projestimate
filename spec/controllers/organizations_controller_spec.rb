@@ -8,7 +8,6 @@ describe OrganizationsController do
 
   describe 'New' do
     it 'renders the new template' do
-      #@ability.can :create, Organization
       get :new
       response.should render_template('new')
     end
