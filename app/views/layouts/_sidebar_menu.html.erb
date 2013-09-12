@@ -41,7 +41,7 @@
     <ul class="nav nav-list">
       <li class="nav-header"><h5><%= I18n.t(:label_menu_admin) %></h5></li>
 
-      <% if can? :manage, AdminSetting %>
+      <% if can? :manage, AdminSetting or can? :edit_admin_settings, AdminSetting %>
           <li>
             <a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %>
             </a></li>
@@ -53,17 +53,15 @@
             </a></li>
       <% end %>
 
-      <% if can? :manage, Group %>
+      <% if can? :manage, Group or can? :manage, User or can? :create_and_edit_groups, Group %>
           <li><a href="<%= groups_path %>">
             <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
       <% end %>
 
-      <% if can? :manage, Permission %>
+      <% if can? :manage_roles, Permission %>
           <li><a href="/globals_permissions">
             <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
-      <% end %>
 
-      <% if can? :manage, ProjectSecurity %>
           <li><a href="<%= project_securities_path %>">
             <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
       <% end %>
@@ -100,7 +98,7 @@
             <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
       <% end %>
 
-      <% if can? :manage, LaborCategory or can? :create_and_edit_labor_categories, LaborCategory%>
+      <% if can? :manage, LaborCategory or can? :create_and_edit_labor_categories, LaborCategory %>
           <li><a href="<%= labor_categories_path %>">
             <i class="icon-user-md icon-large icon-border pull-left"></i><%= I18n.t(:labor_categories) %></a></li>
       <% end %>

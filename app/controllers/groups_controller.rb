@@ -21,7 +21,7 @@
 
 class GroupsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_and_authorize_resource
+  load_resource
 
   before_filter :get_record_statuses
 
@@ -30,11 +30,15 @@ class GroupsController < ApplicationController
   helper_method :user_organizations_projects
 
   def index
+    authorize! :create_and_edit_groups, Group
+
     set_page_title 'Groups'
     @groups = Group.all
   end
 
   def new
+    authorize! :create_and_edit_groups, Group
+
     set_page_title 'New group'
     @group = Group.new
     @users = User.all
@@ -43,6 +47,8 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    authorize! :create_and_edit_groups, Group
+
     set_page_title 'Edit group'
     @group = Group.find(params[:id])
     @users = User.all
@@ -71,6 +77,8 @@ class GroupsController < ApplicationController
   end
 
   def create
+    authorize! :create_and_edit_groups, Group
+
     @users = User.all
     @projects = Project.all
     @group = Group.new(params[:group])
@@ -92,6 +100,8 @@ class GroupsController < ApplicationController
 
   #Update the selected users in the group's securities
   def update_selected_users
+    authorize! :manage, Group
+
     @group = Group.find(params[:group_id])
     user_ids = params[:group][:user_ids]
 
@@ -117,6 +127,8 @@ class GroupsController < ApplicationController
 
   # #Update the selected users in the project's securities
   def update_selected_projects
+    authorize! :manage, Group
+
     @group = Group.find(params[:group_id])
     project_ids = params[:group][:project_ids]
 
@@ -142,6 +154,8 @@ class GroupsController < ApplicationController
 
 
   def update
+    authorize! :create_and_edit_groups, Group
+
     @users = User.all
     @projects = Project.all
     @group = nil
@@ -174,6 +188,8 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Group
+
     @group = Group.find(params[:id])
     if is_master_instance?
       if @group.is_defined? || @group.is_custom?
@@ -213,7 +229,6 @@ class GroupsController < ApplicationController
       end
     end
   end
-
 
   def associated_users
     @group = Group.find(params[:id])
