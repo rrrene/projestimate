@@ -3,11 +3,11 @@ require 'spec_helper'
     before :each do
       login_as_admin
     end
-    describe "GET results" do
-      it "renders the results template" do
-        @params = { :search => "sample" }
+    describe 'GET results' do
+      it 'renders the results template' do
+        @params = { :search => 'sample'}
         post :results, @params
-        response.should render_template("results")
+        response.should render_template('results')
       end
     end
 

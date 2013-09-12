@@ -58,7 +58,7 @@
             <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
       <% end %>
 
-      <% if can? :manage_roles, Permission %>
+      <% if can? :manage, Group and can? :manage, User %>
           <li><a href="/globals_permissions">
             <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
 

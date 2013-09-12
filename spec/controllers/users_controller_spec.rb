@@ -1,40 +1,35 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe UsersController, "Creating and managing user", :type => :controller do
+describe UsersController, 'Creating and managing user', :type => :controller do
 
   before do
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #@controller.stub(:current_ability).and_return(@ability)
   end
 
   describe "GET 'index'" do
-    it "returns correct template" do
-      #@ability.can :manage, User
+    it 'returns correct template' do
       get 'index'
-      response.should render_template("index")
+      response.should render_template('index')
     end
   end
 
   describe "GET 'edit'" do
-    it "returns correct template" do
-      ##@ability.can :edit, User
+    it 'returns correct template' do
       #@user = FactoryGirl.create(:user)
       get 'edit', :id=> @user.to_param
-      response.should render_template("edit")
+      response.should render_template('edit')
     end
   end
 
   describe "GET 'new'" do
-    it "returns correct template" do
+    it 'returns correct template' do
       get 'new'
-      response.should render_template("new")
+      response.should render_template('new')
     end
   end
 
   describe "GET 'find_use_user'" do
-    it "returns correct template" do
+    it 'returns correct template' do
     #  @user = FactoryGirl.create(:user)
       @params = { :user_id => @user.id, :format => 'js' }
       get 'find_use_user', @params
@@ -43,7 +38,7 @@ describe UsersController, "Creating and managing user", :type => :controller do
   end
 
   describe "GET 'about'" do
-    it "returns http success" do
+    it 'returns http success' do
       get 'about'
       response.should be_success
     end
@@ -59,7 +54,7 @@ describe UsersController, "Creating and managing user", :type => :controller do
   #end
 
   describe "GET 'display_states'" do
-    it "returns http success" do
+    it 'returns http success' do
       #@user = FactoryGirl.create(:user)
       @params = { :user_status => @user.user_status, :format => 'js' }
       get 'display_states', @params

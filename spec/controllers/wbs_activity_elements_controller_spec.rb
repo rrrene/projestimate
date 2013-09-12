@@ -22,9 +22,6 @@ describe WbsActivityElementsController do
 
   before do
     @connected_user = login_as_admin
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    @controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
@@ -36,7 +33,7 @@ describe WbsActivityElementsController do
   # WbsActivityElement. As you add validations to WbsActivityElement, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "name" => "wbs_ac_element_1", "uuid" => "MyString", "description" => "TBD", "wbs_activity_id" => 2 }
+    { 'name' => 'wbs_ac_element_1', 'uuid' => 'MyString', 'description' => 'TBD', 'wbs_activity_id' => 2 }
   end
 
   # This should return the minimal set of values that should be in the session
