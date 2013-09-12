@@ -7,6 +7,11 @@
 
     <table border="0" width="100%">
       <tr>
+        <td>
+          <%= I18n.t(:label_add_filter_on_projects_version) %>
+          <%= select_tag 'filter_projects_version', options_for_select([["Display leaves projects only",1], ["Display all versions",2], ["Display root version only",3], ["Most recent version",4]]), :prompt => '' %>
+        </td>
+
         <td colspan=2 style="text-align:right;">
           <% if can? :create_project_from_template, Project %>
             <%= link_to I18n.t('new_project_from'), projects_from_path, :class => 'btn' %>

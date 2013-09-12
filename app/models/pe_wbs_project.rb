@@ -30,7 +30,6 @@ class PeWbsProject < ActiveRecord::Base
   scope :products_wbs, where(:wbs_type => "Product")
   scope :activities_wbs, where(:wbs_type => "Activity")
 
-  validates :name, :presence => true, :uniqueness => {:case_sensitive => false}
   validates_associated :project
 
   #validate :project_id_exists
