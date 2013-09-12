@@ -122,6 +122,7 @@ $(document).ready(function() {
     });
 
     $('.attribute_tooltip').tooltip({'html' : true, 'placement' : 'bottom', container: 'body'});
+    $('.button_attribute_tooltip').tooltip({'html' : true, 'placement' : 'bottom', container: 'body'});
 
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();
