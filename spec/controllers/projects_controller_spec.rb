@@ -5,16 +5,12 @@ describe ProjectsController do
   before :each do
 
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #controller.stub(:current_ability).and_return(@ability)
 
-
-    @project = FactoryGirl.create(:project, :title => "projet11", :alias => "P11")
+    @project = FactoryGirl.create(:project, :title => 'Project11', :alias => 'P11')
     @user = FactoryGirl.build(:user)
 
     @user1 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin1', :email => 'youremail1@yourcompany.net', :user_status => 'active', :auth_type => AuthMethod.first.id, :password => 'test', :password_confirmation => 'test')
-    #@project1 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
+    #@project1 = Project.new(:title => 'Project1', :description => 'project number 1', :alias => 'P1', :state => 'preliminary')
     @project1 = FactoryGirl.build(:project)
     @project_security_1 = ProjectSecurity.new(:project_id => @project1.id, :user_id => @user1.id)
     @project_security = ProjectSecurity.new(:project_id => @project.id, :user_id => @user1.id)
@@ -22,49 +18,44 @@ describe ProjectsController do
 
   before :all do
     @user2 = User.new(:last_name => 'Projestimate', :first_name => 'Administrator', :login_name => 'admin2', :email => 'youremail2@yourcompany.net', :user_status => 'active', :auth_type => 6, :password => 'test', :password_confirmation => 'test')
-    @project2 = Project.new(:title => 'Projet1', :description => 'projet numero 1', :alias => 'P1', :state => 'preliminary')
+    @project2 = Project.new(:title => 'Project1', :description => 'project number 1', :alias => 'P1', :state => 'preliminary')
     @project2_security = ProjectSecurity.new(:project_id => @project2.id, :user_id => @user2.id)
   end
 
-  describe "GET index" do
-    it "renders the index template" do
-      #@ability.can :read, Project
+  describe 'GET index' do
+    it 'renders the index template' do
       get :index
       #response.should render_template("index")
-      expect(:get => "/projects").to route_to(:controller => "projects", :action => "index")
+      expect(:get => '/projects').to route_to(:controller => 'projects', :action => 'index')
     end
 
-    it "assigns all projects as @projects" do
-      #@ability.can :read, Project
+    it 'assigns all projects as @projects' do
       get :index
       assigns(:project)==(@project1)
     end
   end
 
-  describe "New" do
-    it "renders the new template" do
-      #@ability.can :create, Project
+  describe 'New' do
+    it 'renders the new template' do
       get :new
-      expect(:get => "/projects/new").to route_to(:controller => "projects", :action => "new")
+      expect(:get => '/projects/new').to route_to(:controller => 'projects', :action => 'new')
     end
 
-    it "assigns a new attributes as @attribute" do
-      #@ability.can :create, Project
-      get :new, :project => {:title => 'New Project', :description => 'projet numero new', :alias => 'Pnew', :state => 'preliminary'}
+    it 'assigns a new attributes as @attribute' do
+      get :new, :project => {:title => 'New Project', :description => 'project number new', :alias => 'Pnew', :state => 'preliminary'}
       assigns(:project).should be_a_new_record
     end
   end
 
-  describe "POST Create" do
-    it "renders the create template" do
-      #@ability.can :create, Project
+  describe 'POST Create' do
+    it 'renders the create template' do
       post :create
       #response.should render_template("new")
-      expect(:post => "/projects").to route_to(:controller => "projects", :action => "create")
+      expect(:post => '/projects').to route_to(:controller => 'projects', :action => 'create')
     end
   end
 
-  describe "GET edit" do
+  describe 'GET edit' do
     #login_as_admin
     #@defined_status = FactoryGirl.build(:defined_status)
     #it "assigns the requested project as @project" do
@@ -73,12 +64,12 @@ describe ProjectsController do
     #end
   end
 
-  describe "PUT update" do
+  describe 'PUT update' do
     before :each do
-      @new_project = FactoryGirl.create(:project, :title => "New project", :alias => "NewP")
+      @new_project = FactoryGirl.create(:project, :title => 'New project', :alias => 'NewP')
     end
 
-    context "with valid params" do
+    context 'with valid params' do
       #it "located the requested project" do
       #  login_as_admin
       #  put :update, id: @new_project, project: FactoryGirl.attributes_for(:project)

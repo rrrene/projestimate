@@ -4,9 +4,6 @@ describe GroupsController do
 
   before do
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #@controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
@@ -17,37 +14,37 @@ describe GroupsController do
 
   end
 
-  describe "GET index" do
-    it "renders the index template" do
-      get :index, :format => "html"
-      response.should render_template("index")
+  describe 'GET index' do
+    it 'renders the index template' do
+      get :index, :format => 'html'
+      response.should render_template('index')
     end
 
-    it "assigns all group as @group" do
+    it 'assigns all group as @group' do
       get :index
       assigns(:group)==(@group)
     end
   end
 
-  describe "New" do
-    it "renders the new template" do
-      get :new, :format => "html"
-      response.should render_template("new")
+  describe 'New' do
+    it 'renders the new template' do
+      get :new, :format => 'html'
+      response.should render_template('new')
     end
-    it "assigns a new group as @group" do
+    it 'assigns a new group as @group' do
       get :new
       assigns(:group).should be_a_new_record
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested group as @group" do
+  describe 'GET edit' do
+    it 'assigns the requested group as @group' do
       get :edit, {:id => @group.to_param}
       assigns(:group)==([@group])
     end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     #it "redirects to the admin_setting list" do
     #  delete :destroy, {:id => :admin_setting.to_param}
     #  response.should redirect_to(admin_settings_path)

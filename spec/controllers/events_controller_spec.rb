@@ -4,9 +4,6 @@ describe EventsController do
 
   before do
     @connected_user = login_as_admin
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    @controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
@@ -14,32 +11,32 @@ describe EventsController do
     @event = FactoryGirl.create(:event)
   end
 
-  describe "GET index" do
-    it "renders the index template" do
+  describe 'GET index' do
+    it 'renders the index template' do
       get :index
-      response.should render_template("index")
+      response.should render_template('index')
     end
 
-    it "assigns all attributes as @attributes" do
+    it 'assigns all attributes as @attributes' do
       get :index
       assigns(:event)==(@event)
     end
   end
 
-  describe "New" do
-    it "renders the new template" do
+  describe 'New' do
+    it 'renders the new template' do
       get :new
-      response.should render_template("new")
+      response.should render_template('new')
     end
 
-    it "assigns a new event as @event" do
+    it 'assigns a new event as @event' do
       get :new
       assigns(:event).should be_a_new_record
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested attribute as @attribute" do
+  describe 'GET edit' do
+    it 'assigns the requested attribute as @attribute' do
       get :edit, {:id => @event.to_param}
       assigns(:event)==([@event])
     end

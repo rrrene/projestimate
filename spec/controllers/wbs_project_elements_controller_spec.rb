@@ -22,14 +22,11 @@ describe WbsProjectElementsController do
 
   before do
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #@controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
     @project = FactoryGirl.create(:project)
-    @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => "Activity", :project => @project)
+    @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :wbs_type => 'Activity', :project => @project)
     @wbs_project_element = FactoryGirl.create(:wbs_project_element, :is_root => true, :pe_wbs_project => @pe_wbs_project, author: @user)
   end
 
@@ -37,7 +34,7 @@ describe WbsProjectElementsController do
   # WbsProjectElement. As you add validations to WbsProjectElement, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "wbs_activity_element_id" => "1" }
+    { 'wbs_activity_element_id' => '1'}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -47,36 +44,36 @@ describe WbsProjectElementsController do
     {}
   end
 
-  describe "GET index for Test" do
+  describe 'GET index for Test' do
 
-    it "index" do
+    it 'index' do
       get :index
       @wbs_project_element.should be_a_kind_of(WbsProjectElement)
       @wbs_project_element.should_not be_nil
       expect(response).to be_success
       expect(response.status).to eq(200)
-      response.should render_template("index")
+      response.should render_template('index')
       #assigns(:wbs_project_elements).should eq([@wbs_project_element])
     end
   end
 
-  describe "GET new" do
-    it "assigns a new wbs_project_element as @wbs_project_element" do
+  describe 'GET new' do
+    it 'assigns a new wbs_project_element as @wbs_project_element' do
       get :new, {:project_id => @project.id}
       assigns(:wbs_project_element).should be_a_new(WbsProjectElement)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested wbs_project_element as @wbs_project_element" do
+  describe 'GET edit' do
+    it 'assigns the requested wbs_project_element as @wbs_project_element' do
       get :edit, {:id => @wbs_project_element.to_param, :project_id => @project.id}
       assigns(:wbs_project_element).should eq(@wbs_project_element)
     end
   end
 
-  describe "POST create" do
+  describe 'POST create' do
 
-    describe "with valid params" do
+    describe 'with valid params' do
       #it "creates a new WbsProjectElement" do
       #  current_user = @user
       #  expect {

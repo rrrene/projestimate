@@ -1,5 +1,5 @@
-require "rubygems"
-require "uuidtools"
+require 'rubygems'
+require 'uuidtools'
 
 FactoryGirl.define do
 
@@ -40,10 +40,10 @@ FactoryGirl.define do
     initials
     #time_zone  "GMT"
     association :auth_method, :factory => :auth_method
-    user_status "pending"
+    user_status 'pending'
     association :language, :factory => :language
-    password   "projestimate1"
-    password_confirmation "projestimate1"
+    password 'projestimate1'
+    password_confirmation 'projestimate1'
     password_reset_token
   end
 
@@ -54,33 +54,33 @@ FactoryGirl.define do
     email
     initials
     association :auth_method, :factory => :auth_method
-    time_zone  "GMT"
-    user_status "pending"
+    time_zone 'GMT'
+    user_status 'pending'
     association :language, :factory => :language
-    password   "projestimate"
-    password_confirmation "projestimate"
+    password 'projestimate'
+    password_confirmation 'projestimate'
     password_reset_token
   end
 
   factory :ProjectCategory do
-    name "projet1"
-    description "en"
+    name 'Project1'
+    description 'en'
     uuid
     association :record_status, :factory => :proposed_status, strategy: :build
   end
 
   # Components
   factory :pbs_project_element_first, :class => PbsProjectElement do
-    name "Root compoment"
+    name 'Root component'
     is_root true
     pe_wbs_project
   end
 
   factory :pe_attribute, :class => PeAttribute do |attr|
-     attr.name "attr"
-     attr.alias "attr"
-     attr.description "Attr"
-     attr.attr_type "Integer"
+     attr.name 'attr'
+     attr.alias 'attr'
+     attr.description 'Attr'
+     attr.attr_type 'Integer'
      attr.options []
      uuid
      association :record_status, :factory => :proposed_status, strategy: :build

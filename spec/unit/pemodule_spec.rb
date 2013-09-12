@@ -1,32 +1,32 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Pemodule do
   before :each do
     proposed_status = FactoryGirl.build(:proposed_status)
-    @pemodule = Pemodule.new(:title => "CocomoBasic", :alias => "cocomo_basic", :description => "CocomoBasic vraiment basic", :uuid => "121212", :record_status => proposed_status)
+    @pemodule = Pemodule.new(:title => 'CocomoBasic', :alias => 'cocomo_basic', :description => 'CocomoBasic basic', :uuid => '121212', :record_status => proposed_status)
     @custom_status = FactoryGirl.build(:custom_status)
   end
 
-  it "should be valid" do
+  it 'should be valid' do
     @pemodule.should be_valid
   end
 
-  it "should be display title" do
+  it 'should be display title' do
     @pemodule.to_s.should eql(@pemodule.title)
   end
 
-  it "should not be valid without title" do
-    @pemodule.title = ""
+  it 'should not be valid without title' do
+    @pemodule.title = ''
     @pemodule.should_not be_valid
   end
 
-  it "should not be valid without alias" do
-    @pemodule.alias = ""
+  it 'should not be valid without alias' do
+    @pemodule.alias = ''
     @pemodule.should_not be_valid
   end
 
-  it "should not be valid without description" do
-    @pemodule.description = ""
+  it 'should not be valid without description' do
+    @pemodule.description = ''
     @pemodule.should_not be_valid
   end
 
@@ -35,7 +35,7 @@ describe Pemodule do
     @pemodule.should_not be_valid
   end
 
-  it "should return module title " do
+  it 'should return module title ' do
     @pemodule.to_s.should eql(@pemodule.title)
   end
 

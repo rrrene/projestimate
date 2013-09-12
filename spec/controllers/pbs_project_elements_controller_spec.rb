@@ -4,19 +4,16 @@ describe PbsProjectElementsController do
 
   before do
     @connected_user = login_as_admin
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    @controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
     @work_element_type = FactoryGirl.build(:work_element_type, :wet_folder)
     @folder = FactoryGirl.create(:folder)
-    @folder1 = FactoryGirl.create(:folder, :name => "Folder11", :work_element_type => @work_element_type)
-    @bad = FactoryGirl.create(:bad, :name => "bad_name")
+    @folder1 = FactoryGirl.create(:folder, :name => 'Folder11', :work_element_type => @work_element_type)
+    @bad = FactoryGirl.create(:bad, :name => 'bad_name')
   end
 
-  describe "New" do
+  describe 'New' do
     #it "renders the new template" do
     #  get :new
     #  response.should render_template("new")
@@ -27,14 +24,14 @@ describe PbsProjectElementsController do
     #end
   end
 
-  describe "GET edit" do
+  describe 'GET edit' do
     #it "assigns the requested work_element_type as @work_element_type" do
     #  get :edit, {:id => @folder.to_param}
     #  assigns(:folder)==(@folder)
     #end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     #it "redirects to the admin_setting list" do
     #  delete :destroy, {:id => :admin_setting.to_param}
     #  response.should redirect_to(admin_settings_path)

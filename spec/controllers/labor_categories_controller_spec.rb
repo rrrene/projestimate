@@ -4,9 +4,6 @@ describe LaborCategoriesController do
 
   before do
     @connected_user = login_as_admin
-    #@ability = Object.new
-    #@ability.extend(CanCan::Ability)
-    #@controller.stub(:current_ability).and_return(@ability)
   end
 
   before :each do
@@ -14,21 +11,21 @@ describe LaborCategoriesController do
     @proposed_status = FactoryGirl.build(:proposed_status)
   end
 
-  describe "GET index" do
-    it "renders the index template" do
+  describe 'GET index' do
+    it 'renders the index template' do
       get :index
-      response.should render_template("index")
+      response.should render_template('index')
     end
-    it "assigns all labor as @labor" do
+    it 'assigns all labor as @labor' do
       get :index
       assigns(:labor)==(@labor)
     end
   end
 
-  describe "New" do
-    it "renders the new template" do
+  describe 'New' do
+    it 'renders the new template' do
       get :new
-      response.should render_template("new")
+      response.should render_template('new')
     end
     #it "assigns a new labor as @labor" do
     #  get :new
@@ -36,14 +33,14 @@ describe LaborCategoriesController do
     #end
   end
 
-  describe "GET edit" do
-    it "assigns the requested labor as @labor" do
+  describe 'GET edit' do
+    it 'assigns the requested labor as @labor' do
       get :edit, {:id => @labor.to_param}
       assigns(:labor)==([@labor])
     end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     #it "redirects to the labor list" do
     #  delete :destroy, {:id => :labor.to_param}
     #  response.should redirect_to(labor_categories_path)
