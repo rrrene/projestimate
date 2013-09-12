@@ -33,6 +33,7 @@ class OrganizationTechnologiesController < ApplicationController
 
     @organization_technology = OrganizationTechnology.find(params[:id])
     @organization = @organization_technology.organization
+
   end
 
   def new
