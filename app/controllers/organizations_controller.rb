@@ -40,7 +40,7 @@ class OrganizationsController < ApplicationController
     @attributes = PeAttribute.defined.all
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
 
-    @complexities = OrganizationUowComplexity.all
+    @complexities = @organization.organization_uow_complexities
     begin
       @ot = @organization.organization_technologies.first
       @unitofworks = @ot.unit_of_works
@@ -128,7 +128,6 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     file = params[:file]
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
-
     array = []
     workbook.worksheets.each_with_index do |worksheet, k|
       name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
@@ -138,23 +137,23 @@ class OrganizationsController < ApplicationController
         row.each_with_index do |cell, j|
           unless cell.nil?
             if i == 0
-              @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value,
-                                                                                          :organization_id => @organization.id)
+              @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value, :organization_id => @organization.id)
             elsif j == 0
-              @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value,
-                                                                                     :alias => cell.value,
-                                                                                     :organization_id => @organization.id)
+              @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value, :alias => cell.value, :organization_id => @organization.id)
               @uow.organization_technologies << @ot
               @uow.save
             else
               begin
-                @ao = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id_and_value(
-                  :unit_or_work_id => @uow.id,
-                  :organization_uow_complexity_id => @ouc.id,
-                  :organization_technology_id => 10,
-                  :organization_id => @organization.id,
-                  :value => worksheet.sheet_data[i][j].value)
+                ouc = OrganizationUowComplexity.find_by_name(worksheet.sheet_data[0][j].value)
+                uow = UnitOfWork.find_by_name(worksheet.sheet_data[i][0].value)
+                  ao = AbacusOrganization.create(
+                        :unit_or_work_id => uow.id,
+                        :organization_uow_complexity_id => ouc.id,
+                        :organization_technology_id => @ot.id,
+                        :organization_id => @organization.id,
+                        :value => worksheet.sheet_data[i][j].value)
               rescue
+
               end
             end
           end

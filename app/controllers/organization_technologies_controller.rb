@@ -33,6 +33,7 @@ class OrganizationTechnologiesController < ApplicationController
 
     @organization_technology = OrganizationTechnology.find(params[:id])
     @organization = @organization_technology.organization
+
   end
 
   def new
@@ -83,6 +84,6 @@ class OrganizationTechnologiesController < ApplicationController
     @ot = OrganizationTechnology.find(params[:technology])
     @organization = @ot.organization
     @unitofworks = @ot.unit_of_works
-    @complexities = OrganizationUowComplexity.all
+    @complexities = @ot.organization.organization_uow_complexities
   end
 end
