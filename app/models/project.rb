@@ -24,6 +24,8 @@ class Project < ActiveRecord::Base
   include AASM
   include ActionView::Helpers
 
+  has_ancestry :ancestry_column  => :version_ancestry, :cache_depth => true
+
   belongs_to :organization
   belongs_to :project_area
   belongs_to :acquisition_category

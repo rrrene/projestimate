@@ -3,6 +3,7 @@
   <tr>
     <th><%= I18n.t(:label_project_name) %></th>
     <th><%= I18n.t(:label_project_version) %></th>
+    <th>Ancestry</th>
     <th style="width: 100px"><%= I18n.t(:alias) %></th>
     <th style="width: 100px"  class="filter-select" > <%= I18n.t(:state) %></th>
     <th style="width: 120px"><%= I18n.t(:start_date) %></th>
@@ -19,6 +20,7 @@
       <tr>
         <td><%= project.title %></td>
         <td><%= project.version %></td>
+        <td><%= project.version_ancestry %></td>
         <td><%= project.alias %></td>
         <td><%= project.state %></td>
         <td><%= I18n.l(project.start_date)  unless project.start_date.nil? %></td>
@@ -47,8 +49,9 @@
                 end
 
               # Project can be checkout, only if it is in "baseline" status
-              elsif project.released?
-                  commit = link_to('', {:controller => 'projects', :action => 'checkout', :project_id => project.id}, :class => 'icon-step-forward icon-large icon-border pull-left button_attribute_tooltip', :title => I18n.t('button_checkout_project'))
+              elsif project.released? || project.checkpoint?
+                  commit = link_to('', {:controller => 'projects', :action => 'checkout', :project_id => project.id}, :class => 'icon-step-forward icon-large icon-border pull-left button_attribute_tooltip', :title => I18n.t('button_checkout_project'), :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?)) +
+                          (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project)
               end
 
               #if can? :write_access_to_inreview_projects, Project

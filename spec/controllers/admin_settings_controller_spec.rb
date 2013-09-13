@@ -22,15 +22,15 @@ describe AdminSettingsController do
     end
   end
 
-  describe 'New' do
+  describe 'New/Create' do
     it 'renders the new template' do
       get :new
       response.should render_template('new')
     end
 
     it 'assigns a new admin_setting as @admin_setting' do
-      get :new
-      assigns(:admin_setting).should be_a_new_record
+      get :new, :admin_setting => FactoryGirl.attributes_for(:welcome_message_ad, :key => "key_for_test", :value => "value_for_test")
+      assigns(:admin_setting).should_not be_a_new_record
     end
   end
 
