@@ -655,6 +655,8 @@ fr:
   edit_wbs_activity: "Editer le wbs activités \"%{value}\" ..."
   new_wbs_activity: "Créer un nouveau wbs activités"
   import_wbs_activity: "Créer un nouveau wbs activities depuis un fichier CSV"
+  guide_import_wbs_activity: "Créer un nouveau WBS-activités à partir d'une liste d'activités contenue dans un fichier CSV (Format: <numéro_hiérarchique>;<nom_élément>;<description_élément>)"
+  guide_create_wbs_activity: "Créer un nouveau WBS-activités manuellement"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
   one_activity_element: "Un activité-élément"
   all_activity_elements: "Tous les activité-éléments"

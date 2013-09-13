@@ -655,6 +655,8 @@ en-gb:
   edit_wbs_activity: "Editing the \"%{value}\" wbs activities ..."
   new_wbs_activity: "New wbs activities"
   import_wbs_activity: "New wbs activities from CSV file"
+  guide_import_wbs_activity: "Create a new WBS-activities from a list of activities contained in a CSV file (<outline_number>;<element_name>;<element_description>)"
+  guide_create_wbs_activity: "Create a new WBS-activities manually"
   sum_of_ratio_values: "Sum of ratio values :"
   one_activity_element: "One Activities-element"
   all_activity_elements: "All Activities-elements"
