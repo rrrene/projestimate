@@ -301,7 +301,7 @@ de:
   save: "Save"
   apply: "Apply"
   save_and_create: "Save and create a new one"
-  edit: "Edit"
+  edit: "Show / Edit"
   delete: "Delete"
   cancel: "Cancel"
   show: "Show"
@@ -327,6 +327,8 @@ de:
   search_query: "query"
   import: "Import"
   export: "Export"
+  up: "Move up"
+  down: "Move down"
 
   #Project settings
   activity_categories: "Activity categories"
@@ -490,6 +492,9 @@ de:
   ancestry: "Ancestry"
   work_element_type: "Work element type"
   project_link: "Project link"
+  add_folder: "Add a folder"
+  add_link: "Add a link"
+  add_component: "Add a component"
 
   #peicons
   icon: "Icon"
@@ -540,7 +545,7 @@ de:
   wbs_product: "WBS Product"
   wbs_activity: "WBS Activity"
   available_wbs_activity: "Available WBS-Activities from the library, with their associated ratio tables\n(Selected ratio table will be used as default ratio table)"
-  button_add: "ADD"
+  button_add: "Add"
   label_wbs_activity_ratio: "Ratio table"
   estimation_plan: "Estimation plan"
   button_estimation_plan: "Edit estimation plan"
@@ -647,12 +652,13 @@ de:
   filters: "Filters"
 
   #wbs activities
-  edit_wbs_activity: "Editing the \"%{value}\" wbs activity ..."
-  new_wbs_activity: "New wbs activity"
+  edit_wbs_activity: "Editing the \"%{value}\" wbs activities ..."
+  new_wbs_activity: "New wbs activities"
+  import_wbs_activity: "New wbs activities from CSV file"
   sum_of_ratio_values: "Sum of ratio values :"
-  one_activity_element: "One Activity-element"
-  all_activity_elements: "All Activity-elements"
-  set_of_activity_elements: "A set of activity-elements"   
+  one_activity_element: "One Activities-element"
+  all_activity_elements: "All Activities-elements"
+  set_of_activity_elements: "A set of activities-elements"
   new_activities: "New activities"
   general: "General"
   file_csv: "File (csv only)"
@@ -661,9 +667,10 @@ de:
   please_wait_import: "Please wait during import..."
   close: "Close"
   select_ratio_table: "Select the ratio table to display "
-  wbs_elements: Wbs Elements (Tree View)  
-  ratios: Ratios
-  ratios_elements: Ratio elements  
+  wbs_elements: "Wbs Elements (Tree View)"
+  ratios: "Ratios"
+  ratios_elements: "Ratio elements"
+  change_ratio: "Change Ratio"
 
   #wbs activity elements
   edit_wbs_activity_element: "Edit a wbs activity element"

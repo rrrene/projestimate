@@ -30,8 +30,9 @@ class WbsActivitiesController < ApplicationController
 
   before_filter :get_record_statuses
 
+  #Import a new WBS-Activities from a CVS file
   def import
-    authorize! :create_edit_wbs_activities, WbsActivity
+    authorize! :create_wbs_activities, WbsActivity
 
     begin
       WbsActivityElement.import(params[:file], params[:separator])
@@ -65,7 +66,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def edit
-    authorize! :edit_wbs_activities, WbsActivity
+    #no authorize required since everyone can show this object
 
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.find(params[:id])
