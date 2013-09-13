@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    authorize! :manage, Project
+    #authorize! :manage, Project
     set_page_title 'Projects'
     @projects = Project.order("title ASC, version ASC")
   end

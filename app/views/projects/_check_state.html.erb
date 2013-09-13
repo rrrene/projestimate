@@ -1,0 +1,156 @@
+<script>
+  $(document).ready(function() {
+
+    var can_promote = "<%= local_assigns[:can] %>"
+    var error_messages = new Array(
+            "if you continue only users with 'write_access_to_inreview_projects'",
+            "if you continue this project version will become non modifiable but collapsible, please confirm (y/n)",
+            "if you continue this project version will become non modifiable, please confirm (y/n)",
+            "if you continue this project version will become non modifiable and non derivable, please confirm (y/n)",
+            "This is unusual to commit from state A to state B, please confirm (y/n)",
+            "This is not a normal commit from state A to state B, please confirm (y/n)",
+            "Not possible transaction"
+    );
+
+    function send_notice(message){
+      if(message == "ok"){
+        return true;
+      }
+      else if(message == "ko"){
+        if(can_promote == "can_promote_project"){
+          alert(error_messages[6]);
+          return false;
+        }
+        else{
+          alert(error_messages[5]);
+          return true;
+        }
+      }
+      else{
+        return confirm(message);
+      }
+    }
+
+    $(".submit_project").click(function() {
+      old_value = "<%= @project.state %>"
+      new_value = $("#project_state").val();
+      r = ""
+
+      if (old_value != new_value) {
+        switch (old_value)
+        {
+          case "preliminary":
+            switch (new_value) {
+              case "in_progress":
+                return send_notice("ok");
+                break;
+              case "in_review":
+                return send_notice(error_messages[0]);
+                break;
+              case "checkpoint":
+                return send_notice(error_messages[1]);
+                break;
+              case "released":
+                return send_notice(error_messages[2]);
+                break;
+              case "rejected":
+                return send_notice(error_messages[3]);
+                break;
+            }
+            break;
+          case "in_progress":
+            switch (new_value) {
+              case "preliminary":
+                return send_notice("ok");
+                break;
+              case "in_review":
+                return send_notice(error_messages[0]);
+                break;
+              case "checkpoint":
+                return send_notice(error_messages[1]);
+                break;
+              case "released":
+                return send_notice(error_messages[2]);
+                break;
+              case "rejected":
+                return send_notice(error_messages[3]);
+                break;
+            }
+          case "in_review":
+            switch (new_value) {
+              case "preliminary":
+                send_notice("ok");
+                break;
+              case "in_progress":
+                send_notice("ok");
+                break;
+              case "checkpoint":
+                return send_notice(error_messages[1]);
+                break;
+              case "released":
+                 return send_notice(error_messages[2]);
+                 break;
+              case "rejected":
+                return send_notice(error_messages[3]);
+                break;
+            }
+          case "checkpoint":
+            switch (new_value) {
+              case "preliminary":
+                return send_notice("ko");
+                break;
+              case "in_progress":
+                return send_notice("ko");
+                break;
+              case "in_review":
+                return send_notice("ko");
+                break;
+              case "released":
+                return send_notice(error_messages[2]);
+                break;
+              case "rejected":
+                return send_notice(error_messages[3]);
+                break;
+            }
+          case "released":
+            switch (new_value) {
+              case "preliminary":
+                return send_notice("ko");
+                break;
+              case "in_progress":
+                return send_notice("ko");
+                break;
+              case "in_review":
+                return send_notice("ko");
+                break;
+              case "checkpoint":
+                return send_notice(error_messages[4]);
+                break;
+              case "rejected":
+                return send_notice(error_messages[3]);
+                break;
+            }
+          case "rejected":
+            switch (new_value) {
+              case "preliminary":
+                return send_notice("ko");
+                break;
+              case "in_progress":
+                return send_notice("ko");
+                break;
+              case "in_review":
+                return send_notice("ko");
+                break;
+              case "checkpoint":
+                return send_notice(error_messages[4]);
+                break;
+              case "released":
+                return send_notice(error_messages[4]);
+                break;
+            }
+        }
+      }
+
+    });
+  });
+</script>
