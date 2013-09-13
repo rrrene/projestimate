@@ -72,7 +72,7 @@
     </ul>
 <% end %>
 
-<% if is_master_instance? %>
+<% if is_master_instance? and can? :access_master_menu_admin, :all %>
     <ul class="nav nav-list">
       <li class="nav-header"><h5><%= I18n.t(:label_menu_master_admin) %></h5></li>
       <% if can? :manage, MasterSetting %>
