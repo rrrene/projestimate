@@ -5,23 +5,25 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@organization_technology) do |f| %>
-      <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @organization.id || params[:organization_id] } %>
-      <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
-      <%= f.input :alias, :label => I18n.t('alias'), :input_html => {:class => 'input-xxlarge'} %>
-      <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-      <%= f.input :productivity_ratio, :label => I18n.t('productivity_ratio'), :input_html => {:value => (controller.action_name == 'new' ? 1 : @organization_technology.productivity_ratio), :class => 'input-mini'} %>
+        <%= f.input :organization_id, :as => :hidden, :input_html => {:class => 'input-xxlarge', :value => @organization.id || params[:organization_id]} %>
+        <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
+        <%= f.input :alias, :label => I18n.t('alias'), :input_html => {:class => 'input-xxlarge'} %>
+        <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
+        <%= f.input :productivity_ratio, :label => I18n.t('productivity_ratio'), :input_html => {:value => (controller.action_name == 'new' ? 1 : @organization_technology.productivity_ratio), :class => 'input-mini'} %>
 
-      <div class="actions-tabs">
-        <% if action_name == 'new' || action_name=="create" %>
-            <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
-        <% elsif action_name == 'edit' || action_name=="update" %>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
-            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <% if can? :edit_organizations, Organization %>
+            <div class="actions-tabs">
+              <% if action_name == 'new' || action_name=='create' %>
+                  <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
+                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
+              <% elsif action_name == 'edit' || action_name=='update' %>
+                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                  <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+              <% end %>
         <% end %>
 
         <%= link_to I18n.t('back'), edit_organization_path(@organization, :anchor => 'tabs-4'), :class => 'btn' %>
-      </div>
+        </div>
 
     <% end %>
   </div>

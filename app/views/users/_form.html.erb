@@ -58,8 +58,8 @@
                 <tr class="password_row">
 
                   <% if @user.auth_method.name == 'Application' %>
-                      <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => false} %></td>
-                      <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => false} %></td>
+                      <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => "text"} %></td>
+                      <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => "text"} %></td>
                   <% else %>
                       <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => true} %></td>
                       <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => true} %></td>

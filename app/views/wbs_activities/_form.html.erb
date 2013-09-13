@@ -44,9 +44,10 @@
               <br/>
           <% end %>
 
-          <% if (action_name == 'new' || action_name=="create")%>
+
+          <% if can? :create_wbs_activities, WbsActivity and (action_name == 'new' || action_name=='create') %>
               <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-          <% elsif (action_name == 'edit' || action_name=="update")%>
+          <% elsif can? :edit_wbs_activities, WbsActivity and (action_name == 'edit' || action_name=='update') %>
               <%= submit_tag I18n.t('save'), :class => 'btn' %>
               <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <% end %>
@@ -74,12 +75,12 @@
 
           <table class="table tablesorterPager table-striped table-bordered table-condensed">
             <thead>
-                <tr>
-                  <th><%= I18n.t(:name) %></th>
-                  <th><%= I18n.t(:description) %></th>
-                  <th class="filter-select"><%= I18n.t(:record_status) %></th>
-                  <th class="action" colspan=5>Actions</th>
-                </tr>
+            <tr>
+              <th><%= I18n.t(:name) %></th>
+              <th><%= I18n.t(:description) %></th>
+              <th class="filter-select"><%= I18n.t(:record_status) %></th>
+              <th class="action" colspan=5><%= I18n.t(:actions) %></th>
+            </tr>
             </thead>
             <% @wbs_activity_ratios.each do |wbs_activity_ratio| %>
                 <tr>
@@ -87,19 +88,21 @@
                   <td><%= wbs_activity_ratio.description %></td>
                   <td><%= wbs_activity_ratio.record_status %></td>
                   <td>
-                    <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity_id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit) %>
-                    <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t(:delete) %>
-                    <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => 'icon-download icon-large icon-border pull-left', :title => I18n.t(:export) %>
-                    <a href="#myModal" role="button" class="icon-upload icon-large icon-border pull-left" data-toggle="modal" title="Import a CSV file"></a>
-                    <% if wbs_activity_ratio.wbs_activity.is_defined? && is_master_instance? && wbs_activity_ratio.record_status != @local_status %>
-                        <% unless wbs_activity_ratio.is_defined? %>
-                            <%= link_to('', "/wbs_activity_ratios/#{wbs_activity_ratio.id}/validate_ratio", confirm: 'Do you confirm ?', :title => I18n.t(:validate_title), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green') %>
+                    <%= link_to '', edit_wbs_activity_ratio_path(wbs_activity_ratio, :activity_id => wbs_activity_ratio.wbs_activity_id), :class => 'button_attribute_tooltip icon-pencil icon-large icon-border pull-left', :title => I18n.t(:edit) %>
+                    <% if can? :edit_wbs_activities, WbsActivity %>
+                        <%= link_to '', wbs_activity_ratio, confirm: I18n.t(:are_you_sur), method: :delete, :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t(:delete) %>
+                        <%= link_to '', export_wbs_activity_ratios_path(wbs_activity_ratio), :class => 'button_attribute_tooltip icon-download icon-large icon-border pull-left', :title => I18n.t(:export) %>
+                        <a href="#myWBSModal" role="button" class="button_attribute_tooltip icon-upload icon-large icon-border pull-left" data-toggle="modal" title="Import a CSV file"></a>
+                        <% if wbs_activity_ratio.wbs_activity.is_defined? && is_master_instance? && wbs_activity_ratio.record_status != @local_status %>
+                            <% unless wbs_activity_ratio.is_defined? %>
+                                <%= link_to('', "/wbs_activity_ratios/#{wbs_activity_ratio.id}/validate_ratio", confirm: 'Do you confirm ?', :title => I18n.t(:validate_title), :class => 'button_attribute_tooltip icon-ok icon-large icon-border pull-left', :style => 'color:green') %>
+                            <% end %>
                         <% end %>
                     <% end %>
                   </td>
                 </tr>
 
-                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div id="myWBSModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <%= form_tag import_wbs_activity_ratios_path, :multipart => true, :class => 'simple_form' do %>
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

@@ -26,7 +26,13 @@
           </tr>
           <tr>
             <td><%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %></td>
-            <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} unless (@project.released? || @project.rejected?)  %></td>
+            <% if can? :manage, :all %>
+              <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
+            <% else %>
+              <% unless (@project.released? || @project.rejected?) %>
+                <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
+              <% end %>
+            <% end %>
           </tr>
           <tr>
             <td>
@@ -57,19 +63,12 @@
         <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => {:class => 'input-xxlarge'} %>
 
         <div class="actions-tabs">
-          <!--If Project is in frozen status -->
           <% if @project.state.in?(%w(rejected released checkpoint))%>
-              <% if can? :alter_frozen_projects, Project %>
-                  <% if action_name == 'edit'%>
-                      <%= f.submit I18n.t(:save), :class => 'btn' %>
-                  <% end %>
-                  <%= f.submit I18n.t('apply'), :class => 'btn' %>
-              <% end %>
+            <% if can? :alter_frozen_projects, Project %>
+              <%= render :partial => 'submit_project', :object => f %>
+            <% end %>
           <% else %>
-              <% if action_name == 'edit'%>
-                  <%= f.submit I18n.t(:save), :class => 'btn' %>
-              <% end %>
-              <%= f.submit I18n.t('apply'), :class => 'btn' %>
+            <%= render :partial => 'submit_project', :object => f %>
           <% end %>
 
           <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
@@ -232,3 +231,9 @@
     </div>
 <% end %>
 </div>
+
+<% if can? :promote_project, Project %>
+  <%= render :partial => 'check_state', :locals => { :can => "can_promote_project" } %>
+<% end %>
+
+

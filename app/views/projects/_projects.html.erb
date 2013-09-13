@@ -53,18 +53,6 @@
                   commit = link_to('', {:controller => 'projects', :action => 'checkout', :project_id => project.id}, :class => 'icon-step-forward icon-large icon-border pull-left button_attribute_tooltip', :title => I18n.t('button_checkout_project'), :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?)) +
                           (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project)
               end
-
-              #if can? :write_access_to_inreview_projects, Project
-              #  (project.released? || project.rejected?) ?
-              #  commit = link_to('', '#', :class => 'icn_commit') :
-              #  commit = link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :class => 'icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project'))
-              #  link_to('', edit_project_path(project, :anchor => 'tabs-1'), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
-              #  link_to('', {:controller => 'projects', :action => 'activate', :project_id => project.id}, :class => 'icon-star icon-large icon-border pull-left', :title => I18n.t('button_activate_project')) +
-              #  link_to('', {:controller => 'projects', :action => 'find_use_project', :project_id => project.id}, :remote => true, 'data-project_id' => project.id, :class => 'icon-info icon-large icon-border pull-left',:id => 'find_use_projects', :title => I18n.t('button_find_use')) +
-              #  commit +
-              #  link_to('', "projects/#{project.id}/duplicate", :class => 'icon-copy icon-large icon-border pull-left', :title => I18n.t('button_duplicate_project')) +
-              #  (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project)
-              #end
           %>
         </td>
       </tr>

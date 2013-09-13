@@ -5,7 +5,7 @@
 
   <div id="tabs-1">
     <%= simple_form_for(@unit_of_work) do |f| %>
-        <%= f.input :organization_id, :as => :hidden, :input_html => { :class => 'input-xxlarge', :value => @organization.id || params[:organization_id] } %>
+        <%= f.input :organization_id, :as => :hidden, :input_html => {:class => 'input-xxlarge', :value => @organization.id || params[:organization_id]} %>
         <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
         <%= f.input :alias, :label => I18n.t('alias'), :input_html => {:class => 'input-xxlarge'} %>
         <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
@@ -19,25 +19,27 @@
             </div>
             <div id="collapseOne" class="accordion-body in collapse">
               <div class="accordion-inner">
-                <%= f.association :organization_technologies, :collection => @organization.organization_technologies, :as=> :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
+                <%= f.association :organization_technologies, :collection => @organization.organization_technologies, :as => :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
               </div>
             </div>
           </div>
         </div>
 
-      <div class="actions-tabs">
+        <div class="actions-tabs">
 
-        <% if action_name.in?(%w(new create)) %>
-            <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
-        <% elsif action_name == 'edit' || action_name=="update" %>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
-            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-        <% end %>
+          <% if can? :edit_organizations, Organization %>
+              <% if action_name.in?(%w(new create)) %>
+                  <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
+                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
+              <% elsif action_name == 'edit' || action_name=='update' %>
+                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                  <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+              <% end %>
+          <% end %>
 
-        <%= link_to I18n.t('back'), edit_organization_path(@organization || params[:organization_id], :anchor=>'tabs-6'), :class => 'btn' %>
+          <%= link_to I18n.t('back'), edit_organization_path(@organization || params[:organization_id], :anchor => 'tabs-6'), :class => 'btn' %>
 
-      </div>
+        </div>
 
     <% end %>
   </div>

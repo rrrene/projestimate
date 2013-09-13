@@ -23,6 +23,9 @@
 class Project < ActiveRecord::Base
   include AASM
   include ActionView::Helpers
+  include ActiveModel::Dirty
+
+  #define_attribute_methods :state
 
   has_ancestry :ancestry_column  => :version_ancestry, :cache_depth => true
 
@@ -63,18 +66,13 @@ class Project < ActiveRecord::Base
     state :preliminary, :initial => true
     state :in_progress
     state :in_review
-    #state :private
-    #state :access_locked ##locked
-    state :checkpoint ##locked
-    #state :baseline
+    state :checkpoint
     state :released
-    #state :closed
     state :rejected
 
-    event :commit do
+    event :commit do #promote project
       transitions :to => :in_progress, :from => :preliminary
       transitions :to => :in_review, :from => :in_progress
-      #transitions :to => :baseline, :from => [:private, :in_review]
       transitions :to => :released, :from => :in_review
     end
   end

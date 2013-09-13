@@ -20,14 +20,20 @@
 
 class PlatformCategoriesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
+
+  load_resource
+
   before_filter :get_record_statuses
 
   def new
+    authorize! :manage, PlatformCategory
+
     set_page_title 'Platform Category'
     @platform_category = PlatformCategory.new
   end
 
   def edit
+    #no authorize required since everyone can show this object
     set_page_title 'Platform Category'
     @platform_category = PlatformCategory.find(params[:id])
 
@@ -40,6 +46,8 @@ class PlatformCategoriesController < ApplicationController
   end
 
   def create
+    authorize! :manage, PlatformCategory
+
     @platform_category = PlatformCategory.new(params[:platform_category])
 
     if @platform_category.save
@@ -51,6 +59,8 @@ class PlatformCategoriesController < ApplicationController
   end
 
   def update
+    authorize! :manage, PlatformCategory
+
     @platform_category = nil
     current_platform_category = PlatformCategory.find(params[:id])
     if current_platform_category.is_defined?
@@ -69,6 +79,8 @@ class PlatformCategoriesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, PlatformCategory
+
     @platform_category = PlatformCategory.find(params[:id])
     if @platform_category.is_defined? || @platform_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore

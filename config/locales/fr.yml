@@ -301,7 +301,7 @@ fr:
   save: "Sauvegarder"
   apply: "Appliquer"
   save_and_create: "Sauvegarder et créer un autre"
-  edit: "Editer"
+  edit: "Voir / Editer"
   delete: "Supprimer"
   cancel: "Annuler"
   show: "Voir"
@@ -327,6 +327,8 @@ fr:
   search_query: "requête"
   import: "Importer"
   export: "Exporter"
+  up: "Déplacer vers le haut"
+  down: "Déplacer vers le bas"
 
   #Project settings
   activity_categories: "Catégories d'activités"
@@ -334,7 +336,6 @@ fr:
   platform_categories: "Catégories de plates-formes"
   project_categories: "Catégories de projets"
   project_areas: "Secteurs de projets"
-  activity_category: "Catégorie d'activité"
   acquisition_category: "Catégorie d'acquisition"
   platform_category: "Catégorie de plate-forme"
   project_category: "Catégorie de projet"
@@ -359,10 +360,6 @@ fr:
   notice_acquisition_category_successful_destroyed: "Cette catégorie d'activité a été supprimée avec succès"
   warning_acquisition_category_cannot_be_updated: "Cette catégorie d'activité ne peux pas être mise à jour, les changements précédents n'ont pas encore été validé."
   notice_acquisition_category_successful_updated: "Cette catégorie d'activité a été mise à jour avec succès"
-
-  #Activity categories
-  edit_activity_category: "Editer une catégorie d'activité"
-  new_activity_category: "Créer une catégorie d'activité"
 
   #Admin_settings
   edit_admin_settings: "Editer le paramètre d'administrations \"%{value}\" ..."
@@ -495,6 +492,9 @@ fr:
   ancestry: "Ancêtre"
   work_element_type: "Type de l'élément de travail"
   project_link: "Liens vers le projet"
+  add_folder: "Ajouter une dossier"
+  add_link: "Ajouter un lien"
+  add_component: "Ajouter un composant"
 
   #peicons
   icon: "Icône"
@@ -604,6 +604,7 @@ fr:
   #translations
   choose_locale: "Choisir une langue"
   save_translations: "Sauvegarder les traductions"
+
   #user mailer
   considered_message:  "Votre demande de création de compte a été bien prise en compte."
   your_identifiants_message: "Vos identifiants sont "
@@ -653,6 +654,9 @@ fr:
   #wbs activities
   edit_wbs_activity: "Editer le wbs activités \"%{value}\" ..."
   new_wbs_activity: "Créer un nouveau wbs activités"
+  import_wbs_activity: "Créer un nouveau wbs activities depuis un fichier CSV"
+  guide_import_wbs_activity: "Créer un nouveau WBS-activités à partir d'une liste d'activités contenue dans un fichier CSV (Format: <numéro_hiérarchique>;<nom_élément>;<description_élément>)"
+  guide_create_wbs_activity: "Créer un nouveau WBS-activités manuellement"
   sum_of_ratio_values: "Somme des valeurs des ratios :"
   one_activity_element: "Un activité-élément"
   all_activity_elements: "Tous les activité-éléments"
@@ -660,14 +664,16 @@ fr:
   new_activities: "Nouvelle activité"
   general: "Général"
   file_csv: "Fichier (csv seulement)"
+  file_xls: "Fichier Excel"
   separator: "Séparateur (defaut:"
   encoding: "Encodage"
   please_wait_import: "Merci de bien vouloir patienter durant l'import..."
   close: "Fermer"
   select_ratio_table: "Sélectionner la table de ratio à afficher "
-  wbs_elements: Élément du WBS (arbre)  
-  ratios: Ratios
-  ratios_elements: Élément des Ratios
+  wbs_elements: "Élément du WBS (arbre)"
+  ratios: "Ratios"
+  ratios_elements: "Élément des Ratios"
+  change_ratio: "Changer le ratio"
 
   #wbs activity elements
   edit_wbs_activity_element: "Editer l'élément \"%{value}\" du wbs activités ..."
@@ -743,8 +749,6 @@ fr:
   text_download_master_data: "Téléchargez et appliquez les mise à jour de la table Master"
   text_please_wait: "Merci de bien vouloir patienter. Celà devrait prendre quelques minutes"
   edit_project_element: "Editer l'élément \"%{value}\" du WBS-Activité ..."
-  warning_activity_category_cannot_be_edited: "Cette catégorie d'activité ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
-  notice_activity_category_successful_update: "Activity category a été mis à jour avec succès."
   warning_administration_setting_cant_be_edited: "Cette administration setting record ne peut pas être modifié, les modifications précédentes n'ont pas encore été validée"
   notice_administration_setting_successful_created: "Admin setting a été créé avec succès."
   notice_administration_setting_successful_updated: "Admin setting a été mis à jour avec succès."
