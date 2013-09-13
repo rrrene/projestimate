@@ -955,6 +955,7 @@ en:
   button_activate_user_account: "Activate user account"
   button_find_use: "Find where it is used and know the impact of changes"
   button_commit_project: "Promote the project into its life cycle"
+  button_checkout_project: "Checkout project"
   button_activate_project: "Activate the project, to see it on dashboard"
   button_duplicate_project: "Duplicate project"
   button_duplicate_model: "Create project from this template"
@@ -1013,6 +1014,7 @@ en:
   notice_subcontractor_successfully_deleted: "Subcontractor was successfully deleted"
 
   label_Project: "Project"
+  label_add_filter_on_projects_version: "Filter"
   label_ProjectArea: "Project Area"
   label_PlatformCategory: "Platform Category"
   label_ProjectCategory: "Project Category"

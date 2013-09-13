@@ -122,6 +122,7 @@ $(document).ready(function() {
     });
 
     $('.attribute_tooltip').tooltip({'html' : true, 'placement' : 'bottom', container: 'body'});
+    $('.button_attribute_tooltip').tooltip({'html' : true, 'placement' : 'bottom', container: 'body'});
 
     $("#run_estimation").bind('click', function() {
         $('.icon-signal').toggle();
@@ -368,6 +369,25 @@ $(document).ready(function() {
     });
 
 
+    $("#filter_projects_version").on('change', function() {
+        if ($("#filter_projects_version").val() !== "") {
+            return $.ajax({
+                url: "/add_filter_on_project_version",
+                method: "get",
+                data: {
+                    filter_selected: $(this).val()
+                },
+                success: function(data) {
+                    //return alert("success");
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    return alert("Error! :" + textStatus + ";" + errorThrown );
+                }
+            });
+        }
+    });
+
+
     $("#select_module").on('change', function() {
         if ($("#select_module").val() !== "") {
             return $.ajax({
@@ -377,14 +397,15 @@ $(document).ready(function() {
                     module_selected: $(this).val(),
                     project_id: $("#project_id").val(),
                     pbs_project_element_id: $("#select_pbs_project_elements").val()
-                },
-                success: function(data) {
-                    //return alert("success");
-                    //jsPlumb.repaintEverything();
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    return alert("Error! :" + textStatus + ";" + errorThrown );
                 }
+//                ,
+//                success: function(data) {
+//                    //return alert("success");
+//                    //jsPlumb.repaintEverything();
+//                },
+//                error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                    return alert("Error! :" + textStatus + ";" + errorThrown );
+//                }
             });
         }
     });

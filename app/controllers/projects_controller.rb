@@ -56,7 +56,7 @@ class ProjectsController < ApplicationController
   def index
     authorize! :manage, Project
     set_page_title 'Projects'
-    @projects = Project.all
+    @projects = Project.order("title ASC, version ASC")
   end
 
   def new
@@ -79,35 +79,41 @@ class ProjectsController < ApplicationController
       @project.save
     end
 
-    begin
-      @project.transaction do
-        if @project.save
+
+    Project.transaction do
+      begin
+
+      @project.add_to_transaction
+
+        if @project.valid?
+          @project.save!
           #New default Pe-Wbs-Project
           pe_wbs_project_product = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Product", :wbs_type => 'Product')
           pe_wbs_project_activity = @project.pe_wbs_projects.build(:name => "#{@project.title} WBS-Activity", :wbs_type => 'Activity')
 
-          if pe_wbs_project_product.save
-            ##New root Pbs-Project-Element
-            pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} - WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
-            pbs_project_element.save
-            pe_wbs_project_product.save
-          else
-            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_product.errors.full_messages.to_sentence}."
-          end
+          pe_wbs_project_product.add_to_transaction
+          pe_wbs_project_activity.add_to_transaction
 
-          if pe_wbs_project_activity.save
-            ##New Root Wbs-Project-Element
-            wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "#{@project.title} - WBS-Activity", :is_root => true, :description => 'WBS-Activity Root Element', :author_id => current_user.id)
-            wbs_project_element.save
-          else
-            redirect_to redirect(edit_project_path(@project)), notice: "#{pe_wbs_project_activity.errors.full_messages.to_sentence}."
-          end
+          pe_wbs_project_product.save!
+          ##New root Pbs-Project-Element
+          pbs_project_element = pe_wbs_project_product.pbs_project_elements.build(:name => "#{@project.title} - WBS-Product", :is_root => true, :work_element_type_id => default_work_element_type.id, :position => 0)
+          pbs_project_element.add_to_transaction
+
+          pbs_project_element.save!
+          pe_wbs_project_product.save!
+
+          pe_wbs_project_activity.save!
+          ##New Root Wbs-Project-Element
+          wbs_project_element = pe_wbs_project_activity.wbs_project_elements.build(:name => "#{@project.title} - WBS-Activity", :is_root => true, :description => 'WBS-Activity Root Element', :author_id => current_user.id)
+          wbs_project_element.add_to_transaction
+          wbs_project_element.save!
+
 
           #Get the capitalization module from ApplicationController
           #When creating project, we need to create module_projects for created capitalization
           unless @capitalization_module.nil?
             cap_module_project = @project.module_projects.build(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-            if cap_module_project.save
+            if cap_module_project.save!
               #Create the corresponding EstimationValues
               unless @project.organization.nil? || @project.organization.attribute_organizations.nil?
                 @project.organization.attribute_organizations.each do |am|
@@ -129,7 +135,7 @@ class ProjectsController < ApplicationController
 
           if current_user.groups.map(&:code_group).include? ('super_admin')
             current_user.project_ids = current_user.project_ids.push(@project.id)
-            current_user.save
+            current_user.save!
           end
 
           redirect_to redirect_apply(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
@@ -137,12 +143,18 @@ class ProjectsController < ApplicationController
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
         end
-      end
 
-    rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-      flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
-      redirect_to :back
+        #raise ActiveRecord::Rollback
+
+        #rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
+        rescue ActiveRecord::RecordInvalid => error
+        #flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
+        flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
+
+        redirect_to projects_url
+      end
     end
+
 
   end
 
@@ -1082,6 +1094,30 @@ class ProjectsController < ApplicationController
   def projects_from
     authorize! :create_project_from_template, Project
     @projects = Project.where(:is_model => true)
+  end
+
+  #Checkout the project
+  def checkout
+    @project = Project.find(params[:project_id])
+    redirect_to projects_url
+  end
+
+  #Filter the projects list according to version
+  def add_filter_on_project_version
+    version_filter = params[:filter_selected]
+    filtered_projects = Hash.new
+
+    unless version_filter.empty?
+      case version_filter.to_i
+        when 1
+        when 2
+        when 3
+        when 4
+        else
+      end
+    end
+    #filtered_projects
+    @projects = Project.order("title ASC, version ASC")
   end
 
 end

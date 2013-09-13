@@ -178,6 +178,8 @@ Projestimate::Application.routes.draw do
   get 'check_in' => 'projects#check_in', :as => 'check_in'
   get 'check_out' => 'projects#check_out', :as => 'check_out'
   get 'select_pbs_project_elements' => 'projects#select_pbs_project_elements', :as => 'select_pbs_project_elements'
+  get 'add_filter_on_project_version' => 'projects#add_filter_on_project_version', :as => 'add_filter_on_project_version'
+  get 'checkout' => 'projects#checkout', :as => 'checkout'
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
   post 'update_project_security_level_group' => 'projects#update_project_security_level_group',  :as => 'update_project_security_level_group'

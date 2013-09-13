@@ -23,7 +23,7 @@ require 'will_paginate/array'
 class WbsActivitiesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
-  load_and_authorize_resource
+  load_resource
 
   helper_method :wbs_record_statuses_collection
   helper_method :enable_update_in_local?
@@ -44,7 +44,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def refresh_ratio_elements
-    authorize! :create_edit_wbs_activities, WbsActivity
+    authorize! :edit_wbs_activities, WbsActivity
 
     @wbs_activity_ratio_elements = []
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
@@ -59,7 +59,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def index
-    authorize! :edit_wbs_activities, WbsActivity
+    #No authorize required since everyone can access the list of ABS
     set_page_title 'WBS activities'
     @wbs_activities = WbsActivity.all
   end
@@ -120,14 +120,14 @@ class WbsActivitiesController < ApplicationController
   end
 
   def new
-    authorize! :create_edit_wbs_activities, WbsActivity
+    authorize! :create_wbs_activities, WbsActivity
 
     set_page_title 'WBS activities'
     @wbs_activity = WbsActivity.new
   end
 
   def create
-    authorize! :create_edit_wbs_activities, WbsActivity
+    authorize! :create_wbs_activities, WbsActivity
 
     @wbs_activity = WbsActivity.new(params[:wbs_activity])
     #If we are on local instance, Status is set to "Local"
@@ -154,6 +154,8 @@ class WbsActivitiesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, WbsActivity
+
     @wbs_activity = WbsActivity.find(params[:id])
 
     if is_master_instance?
@@ -182,6 +184,8 @@ class WbsActivitiesController < ApplicationController
 
   #Method to duplicate WBS-Activity and associated WBS-Activity-Elements
   def duplicate_wbs_activity
+    authorize! :create_wbs_activities, WbsActivity
+
     #Update ancestry depth caching
     WbsActivityElement.rebuild_depth_cache!
 
@@ -256,6 +260,7 @@ class WbsActivitiesController < ApplicationController
   end
 
   def wbs_record_statuses_collection
+    #TODO authorize
     if @wbs_activity.new_record?
       if is_master_instance?
         @wbs_record_status_collection = RecordStatus.where('name = ?', 'Proposed').defined
@@ -272,8 +277,9 @@ class WbsActivitiesController < ApplicationController
     end
   end
 
-  #This function will validate teh WBS-Activity and all its elements
+  #This function will validate the WBS-Activity and all its elements
   def validate_change_with_children
+    authorize! :manage, WbsActivity
     begin
       wbs_activity = WbsActivity.find(params[:id])
       wbs_activity.record_status = @defined_status
@@ -321,6 +327,7 @@ class WbsActivitiesController < ApplicationController
 
   #Function that enable/disable to update
   def enable_update_in_local?
+    #TODO authorize
     if is_master_instance?
       true
     else

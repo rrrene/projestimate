@@ -22,14 +22,17 @@ class AcquisitionCategoriesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
 
   before_filter :get_record_statuses
-  load_and_authorize_resource
+  load_resource
 
   def new
+    authorize! :manage, AcquisitionCategory
+
     set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.new
   end
 
   def edit
+    #no authorize required since everyone can show this object
     set_page_title I18n.t (:acquisition_category)
     @acquisition_category = AcquisitionCategory.find(params[:id])
 
@@ -42,6 +45,8 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def create
+    authorize! :manage, AcquisitionCategory
+
     @acquisition_category = AcquisitionCategory.new(params[:acquisition_category])
     if @acquisition_category.save
       flash[:notice] = I18n.t (:notice_acquisition_category_successful_created)
@@ -52,6 +57,8 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def update
+    authorize! :manage, AcquisitionCategory
+
     @acquisition_category = nil
     current_acquisition_category = AcquisitionCategory.find(params[:id])
     if current_acquisition_category.record_status == @defined_status
@@ -70,6 +77,8 @@ class AcquisitionCategoriesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, AcquisitionCategory
+
     @acquisition_category = AcquisitionCategory.find(params[:id])
     if @acquisition_category.is_defined? || @acquisition_category.is_custom?
       #logical deletion: delete don't have to suppress records anymore on Defined record

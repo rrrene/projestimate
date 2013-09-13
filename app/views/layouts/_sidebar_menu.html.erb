@@ -21,19 +21,13 @@
 <% if can? :access_library_menu, User %>
     <ul class="nav nav-list">
       <li class="nav-header"><h5><%= I18n.t(:label_menu_library) %></h5></li>
-      <% if can? :access_project_global_settings, User %>
           <li>
             <a href="/projects_global_params"><i class="icon-tasks icon-large icon-border pull-left"></i><%= I18n.t(:project_global_setting) %>
             </a></li>
-      <% end %>
-      <% if can? :access_organizations, Organization %>
           <li><a href="/organizationals_params">
             <i class="icon-globe icon-large icon-border pull-left"></i><%= I18n.t(:organization_setting) %></a></li>
-      <% end %>
-      <% if can? :access_wbs_activities, WbsActivity %>
           <li><a href="<%= wbs_activities_path %>">
             <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:wbs_activities) %></a></li>
-      <% end %>
     </ul>
 <% end %>
 
