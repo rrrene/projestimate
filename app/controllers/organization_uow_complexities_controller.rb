@@ -19,29 +19,29 @@
 ########################################################################
 
 class OrganizationUowComplexitiesController < ApplicationController
-  load_and_authorize_resource
+  load_resource
 
   def index
-    authorize! :create_edit_organizations, Organization
+    #No authorize required since everyone can edit
 
     @organization = Organization.find(params[:id])
     @organization_uow_complexities = @organization.organization_uow_complexities
   end
 
   def edit
-    authorize! :create_edit_organizations, Organization
+    #No authorize required since everyone can edit
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
     @organization = @organization_uow_complexity.organization
   end
 
   def new
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @organization = Organization.find_by_id(params[:organization_id])
     @organization_uow_complexity = OrganizationUowComplexity.new
   end
 
   def create
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @organization_uow_complexity = OrganizationUowComplexity.new(params[:organization_uow_complexity])
     @organization = Organization.find_by_id(params[:organization_uow_complexity][:organization_id])
     if @organization_uow_complexity.save
@@ -49,7 +49,7 @@ class OrganizationUowComplexitiesController < ApplicationController
       redirect_to redirect_apply(nil,
                                  new_organization_uow_complexity_path(params[:organization_uow_complexity]),
                                  edit_organization_path(params[:organization_uow_complexity][:organization_id],
-                                 :anchor=>'tabs-5'))
+                                                        :anchor => 'tabs-5'))
     else
       render action: 'new', :organization_id => @organization
     end
@@ -57,7 +57,7 @@ class OrganizationUowComplexitiesController < ApplicationController
   end
 
   def update
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
     @organization = Organization.find_by_id(params[:organization_uow_complexity][:organization_id])
     if @organization_uow_complexity.update_attributes(params[:organization_uow_complexity])
@@ -65,19 +65,20 @@ class OrganizationUowComplexitiesController < ApplicationController
       redirect_to redirect_apply(edit_organization_uow_complexity_path(params[:organization_uow_complexity]),
                                  nil,
                                  edit_organization_path(params[:organization_uow_complexity][:organization_id],
-                                                        :anchor=>'tabs-5'))
+                                                        :anchor => 'tabs-5'))
     else
       render action: 'edit', :organization_id => @organization.id
     end
   end
 
   def destroy
+    authorize! :edit_organizations, Organization
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
     organization = @organization_uow_complexity.organization
 
     @organization_uow_complexity.delete
     respond_to do |format|
-      format.html { redirect_to redirect(edit_organization_path(organization, :anchor=>'tabs-5')), notice: "#{I18n.t (:notice_organization_uow_complexity_successful_deleted)}"}
+      format.html { redirect_to redirect(edit_organization_path(organization, :anchor => 'tabs-5')), notice: "#{I18n.t (:notice_organization_uow_complexity_successful_deleted)}" }
     end
   end
 end

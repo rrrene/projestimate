@@ -664,6 +664,7 @@ fr:
   new_activities: "Nouvelle activité"
   general: "Général"
   file_csv: "Fichier (csv seulement)"
+  file_xls: "Fichier Excel"
   separator: "Séparateur (defaut:"
   encoding: "Encodage"
   please_wait_import: "Merci de bien vouloir patienter durant l'import..."
