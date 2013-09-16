@@ -123,7 +123,7 @@ class ModuleProject < ActiveRecord::Base
 
   def is_One_Activity_Element?
     begin
-      if self.reference_value.value==I18n.t(:one_activity_element)
+      if self.reference_value.value == I18n.t(:one_activity_element)
         return true
       else
         return false
@@ -135,7 +135,7 @@ class ModuleProject < ActiveRecord::Base
 
   def is_All_Activity_Elements?
     begin
-      if self.reference_value.value==I18n.t(:all_activity_elements)
+      if self.reference_value.value == I18n.t(:all_activity_elements)
         return true
       else
         return false
@@ -147,7 +147,7 @@ class ModuleProject < ActiveRecord::Base
 
   def is_A_Set_Of_Activity_Elements?
     begin
-      if self.reference_value.value==I18n.t(:all_activity_elements)
+      if self.reference_value.value == I18n.t(:all_activity_elements)
         return true
       else
         return false

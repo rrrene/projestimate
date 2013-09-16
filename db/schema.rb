@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909101047) do
+ActiveRecord::Schema.define(:version => 20130916094420) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
-    t.integer  "unit_or_work_id"
+    t.integer  "unit_of_work_id"
     t.integer  "organization_uow_complexity_id"
     t.integer  "organization_technology_id"
     t.datetime "created_at",                     :null => false

@@ -31,11 +31,11 @@
           </td>
           <% @complexities.each do |c| %>
             <td style="text-align: center;">
-              <% a = AbacusOrganization.where(:unit_or_work_id => unit.id,
+              <% a = AbacusOrganization.where(:unit_of_work_id => unit.id,
                                               :organization_uow_complexity_id => c.id,
                                               :organization_technology_id => @ot.id,
                                               :organization_id => @organization.id).first %>
-              <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => "span2" %>
+              <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => "span3" %>
             </td>
           <% end %>
         </tr>
@@ -46,7 +46,7 @@
   <%= submit_tag I18n.t('save'), :class => 'btn' %>
   <%= submit_tag I18n.t('apply'), :class => 'btn' %>
   <a href="#myImportModal" role="button" class="btn" data-toggle="modal">Import</a>
-  <%= link_to "Export", export_abacus_path(@organization.id), :class => 'btn' %>
+  <%= link_to "Export", export_abacus_path(@organization.id, :format => :xls), :class => 'btn' %>
 
 <% end %>
 

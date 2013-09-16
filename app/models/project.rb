@@ -98,10 +98,10 @@ class Project < ActiveRecord::Base
 
   #Return possible states of project
   def states
-    if self.preliminary? || self.in_progress? || self.in_review? #|| self.private?
+    if self.preliminary? || self.in_progress? || self.in_review?
       Project.aasm_states_for_select
     else
-      Project.aasm_states_for_select.reject { |i| i[0] == 'preliminary' || i[0] == 'in_progress' || i[0] == 'in_review'}# || i[0] == 'private' }
+      Project.aasm_states_for_select.reject { |i| i[0] == 'preliminary' || i[0] == 'in_progress' || i[0] == 'in_review'}
     end
   end
 
@@ -124,7 +124,7 @@ class Project < ActiveRecord::Base
     self.send(attr.project_value.gsub('_id', ''))
   end
 
-  #Return folders list of a projects
+  #Return folders of wbs product of a list of a projects
   def folders
     self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
   end

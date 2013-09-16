@@ -112,7 +112,7 @@ class OrganizationsController < ApplicationController
 
     @unitofworks.each do |uow|
       @complexities.each do |c|
-        a = AbacusOrganization.find_or_create_by_unit_or_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(uow.id, c.id, @ot.id, params[:id])
+        a = AbacusOrganization.find_or_create_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(uow.id, c.id, @ot.id, params[:id])
         begin
           a.update_attribute(:value, params["abacus"]["#{uow.id}"]["#{c.id}"])
         rescue
@@ -126,6 +126,11 @@ class OrganizationsController < ApplicationController
 
   def import_abacus
     @organization = Organization.find(params[:id])
+
+    @organization.abacus_organizations.delete_all
+    @organization.unit_of_works.delete_all
+    @organization.organization_technologies.delete_all
+    @organization.organization_uow_complexities.delete_all
 
     #updaload file copied in a tmp directory
     file = params[:file]
@@ -146,10 +151,10 @@ class OrganizationsController < ApplicationController
               @uow.save
             else
               begin
-                ouc = OrganizationUowComplexity.find_by_name(worksheet.sheet_data[0][j].value)
-                uow = UnitOfWork.find_by_name(worksheet.sheet_data[i][0].value)
+                ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.sheet_data[0][j].value, @organization.id)
+                uow = UnitOfWork.find_by_name_and_organization_id(worksheet.sheet_data[i][0].value, @organization.id)
                   ao = AbacusOrganization.create(
-                        :unit_or_work_id => uow.id,
+                        :unit_of_work_id => uow.id,
                         :organization_uow_complexity_id => ouc.id,
                         :organization_technology_id => @ot.id,
                         :organization_id => @organization.id,
@@ -167,37 +172,10 @@ class OrganizationsController < ApplicationController
   end
 
   def export_abacus
-    organization = Organization.find(params[:id])
-    filename = "#{organization.name}.xlsx"
-    book =  RubyXL::Workbook.new
-
-    organization.organization_technologies.each_with_index do |ot, n|
-      @w = book[n]
-      if @w.nil?
-        book.worksheets << Worksheet.new(book, ot.name)
-        @w = book.worksheets.last
-        @w.sheet_name = ot.name
-      else
-        @w.sheet_name = ot.name
-      end
-      ot.unit_of_works.each_with_index do |uow, i|
-        organization.organization_uow_complexities.each_with_index do |comp, l|
-          begin
-            @w.add_cell(0, l+1, comp.name)
-            @w.add_cell(i+1, 0, uow.name)
-
-            a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
-            @w.add_cell( i+1, l+1, a.first.value)
-          rescue
-            puts @w
-          end
-        end
-      end
+    @organization = Organization.find(params[:id])
+    respond_to do |format|
+      format.xls
     end
-
-    #book.write("./public/#{filename}")
-    #
-    #redirect_to "http://#{root_url}/#{filename}"
   end
 
 end
