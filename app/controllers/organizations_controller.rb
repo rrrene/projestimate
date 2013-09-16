@@ -168,35 +168,6 @@ class OrganizationsController < ApplicationController
 
   def export_abacus
     @organization = Organization.find(params[:id])
-    respond_to do |format|
-      format.xls
-    organization = Organization.find(params[:id])
-    filename = "#{organization.name}.xlsx"
-    book = RubyXL::Workbook.new
-
-    organization.organization_technologies.each_with_index do |ot, n|
-      @w = book[n]
-      if @w.nil?
-        book.worksheets << Worksheet.new(book, ot.name)
-        @w = book.worksheets.last
-        @w.sheet_name = ot.name
-      else
-        @w.sheet_name = ot.name
-      end
-      ot.unit_of_works.each_with_index do |uow, i|
-        organization.organization_uow_complexities.each_with_index do |comp, l|
-          begin
-            @w.add_cell(0, l+1, comp.name)
-            @w.add_cell(i+1, 0, uow.name)
-
-            a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
-            @w.add_cell(i+1, l+1, a.first.value)
-          rescue
-            puts @w
-          end
-        end
-      end
-    end
   end
 
 end

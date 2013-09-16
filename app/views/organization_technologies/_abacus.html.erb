@@ -31,7 +31,7 @@
                 </td>
                 <% @complexities.each do |c| %>
                     <td style="text-align: center;">
-                      <% a = AbacusOrganization.where(:unit_or_work_id => unit.id,
+                      <% a = AbacusOrganization.where(:unit_of_work_id => unit.id,
                                                       :organization_uow_complexity_id => c.id,
                                                       :organization_technology_id => @ot.id,
                                                       :organization_id => @organization.id).first %>
@@ -43,10 +43,10 @@
       <% end %>
     </table>
     <% if can? :edit_organizations, Organization %>
-        <%= submit_tag I18n.t('save'), :class => 'btn' %>
-        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-        <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%=I18n.t('import')%></a>
-        <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
+      <%= submit_tag I18n.t('save'), :class => 'btn' %>
+      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+      <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%=I18n.t('import')%></a>
+      <%= link_to I18n.t('export'), export_abacus_path(@organization.id, :format => :xlsx), :class => 'btn' %>
     <% end %>
 
 <% end %>
