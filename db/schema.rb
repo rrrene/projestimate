@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909101047) do
+ActiveRecord::Schema.define(:version => 20130916124825) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -632,6 +632,7 @@ ActiveRecord::Schema.define(:version => 20130909101047) do
     t.string   "title"
     t.string   "version",                 :default => "1.0"
     t.string   "alias"
+    t.string   "ancestry"
     t.text     "description"
     t.string   "state"
     t.date     "start_date"
@@ -643,7 +644,6 @@ ActiveRecord::Schema.define(:version => 20130909101047) do
     t.integer  "platform_category_id"
     t.integer  "acquisition_category_id"
     t.boolean  "is_model"
-    t.integer  "version_ancestry"
     t.integer  "master_anscestry"
     t.integer  "owner"
     t.text     "purpose"
@@ -653,6 +653,8 @@ ActiveRecord::Schema.define(:version => 20130909101047) do
     t.text     "included_wbs_activities"
     t.boolean  "is_locked"
   end
+
+  add_index "projects", ["ancestry"], :name => "index_projects_on_ancestry"
 
   create_table "projects_users", :id => false, :force => true do |t|
     t.integer  "project_id"
@@ -666,6 +668,7 @@ ActiveRecord::Schema.define(:version => 20130909101047) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -769,8 +772,8 @@ ActiveRecord::Schema.define(:version => 20130909101047) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

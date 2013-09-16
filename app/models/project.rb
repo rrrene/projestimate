@@ -27,7 +27,7 @@ class Project < ActiveRecord::Base
 
   #define_attribute_methods :state
 
-  has_ancestry :ancestry_column  => :version_ancestry, :cache_depth => true
+  has_ancestry #:ancestry_column  => :version_ancestry, :cache_depth => true
 
   belongs_to :organization
   belongs_to :project_area

@@ -1184,36 +1184,75 @@ class ProjectsController < ApplicationController
     # The new version number is calculated according to the parent project position (if parent project has children or not)
     if project_to_checkout.is_childless?
       # get the version last numerical value
-      version_ended = parent_version.split(/(\d*)\b/).last
+      #version_ended = parent_version.split(/(\d*)\b/).last
+      version_ended = parent_version.split(/^0|([0-9]\d*)$/).last
 
       #Test if ended version value is a Integer
       if version_ended.valid_integer?
         new_version_ended = "#{ version_ended.to_i + 1 }"
-        new_version = parent_version.gsub(version_ended, new_version_ended)
+        new_version = parent_version.gsub(/^0|([0-9]\d*)$/, new_version_ended)
       else
         new_version = "#{ version_ended }.1"
       end
     else
       #That means project has successor(s)/children, and a new branch need to be created
+      branch_version = 1
+      branch_name = ""
+      parent_version_ended_end = 0
       if parent_version.include?("-")
-        parent_version_ended = parent_version.split("-").last
-        parent_version_ended_begin = parent_version_ended.split(".").first
-        new_version_name = parent_version_ended_begin.to_i + 1
-        new_version = parent_version.gsub(/(-.*)/, "-#{new_version_name}")
+        split_parent_version = parent_version.split("-")
+
+        branch_name = split_parent_version.first
+
+        parent_version_ended = splited_parent_version.last
+
+        split_parent_version_ended = parent_version_ended.split(".")
+
+        parent_version_ended_begin = split_parent_version_ended.first
+        parent_version_ended_end = split_parent_version_ended.last
+
+        branch_version = parent_version_ended_begin.to_i + 1
+
+        #new_version = parent_version.gsub(/(-.*)/, "-#{branch_version}")
+
+        new_version = "#{branch_name}-#{branch_version}.#{parent_version_ended_end}"
       else
-        new_version = "#{parent_version}-1.0"
+        branch_name = parent_version
+        new_version = "#{branch_name}-#{branch_version}.0"
       end
+
+      # If new_version is not available, then check for new available version
+      until is_project_version_available?(project_to_checkout.title, project_to_checkout.alias, new_version)
+        branch_version = branch_version+1
+        new_version = "#{branch_name}-#{branch_version}.#{parent_version_ended_end}"
+      end
+
     end
     new_version
   end
 
+  #Function that check the couples (title,version) and (alias, version) availability
+  def is_project_version_available?(parent_title, parent_alias, new_version)
+    begin
+      project = Project.where('(title=? AND version=?) OR (alias=? AND version=?)', parent_title, new_version, parent_alias, new_version).first
+      if project
+        false
+      else
+        true
+      end
+    rescue
+      false
+    end
+  end
+
+
   #Filter the projects list according to version
   def add_filter_on_project_version
-    version_filter = params[:filter_selected]
-    filtered_projects = Hash.new
+    @filtered_projects = Project.order("title ASC, version ASC")
+    selected_filter_version = params[:filter_selected]
 
-    unless version_filter.empty?
-      case version_filter.to_i
+    unless selected_filter_version.empty?
+      case selected_filter_version.to_i
         when 1
         when 2
         when 3
@@ -1221,8 +1260,8 @@ class ProjectsController < ApplicationController
         else
       end
     end
-    #filtered_projects
-    @projects = Project.order("title ASC, version ASC")
+
+    @filtered_projects
   end
 
 end
