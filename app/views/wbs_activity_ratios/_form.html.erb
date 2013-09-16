@@ -31,15 +31,15 @@
         <% end %>
 
         <div class="actions-tabs">
-          <% if action_name.in?(%w(new create)) %>
+          <% if can? :edit_wbs_activities, WbsActivity and action_name.in?(%w(new create)) %>
               <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
               <%= submit_tag I18n.t('save'), :class => 'btn' %>
-          <% elsif action_name == 'edit' || action_name=="update" %>
+          <% elsif can? :edit_wbs_activities, WbsActivity and (action_name == 'edit' || action_name=='update') %>
               <%= submit_tag I18n.t('save'), :class => 'btn' %>
               <%= submit_tag I18n.t('apply'), :class => 'btn' %>
           <% end %>
           <% params[:activity_id].nil? ? @activity_id=@wbs_activity_ratio.wbs_activity_id : @activity_id=params[:activity_id] %>
-          <%= link_to I18n.t('back'), edit_wbs_activity_path(@activity_id , :anchor => "tabs-3"), :class => 'btn' %>
+          <%= link_to I18n.t('back'), edit_wbs_activity_path(@activity_id , :anchor => 'tabs-3'), :class => 'btn' %>
         </div>
     <% end %>
   </div>

@@ -19,10 +19,12 @@
       <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
       <div class="actions-tabs">
-        <% if action_name == 'edit' %>
-            <%= submit_tag I18n.t('save'), :class => 'btn' %>
+        <% if can? :edit_organizations, Organization %>
+            <% if action_name == 'edit' %>
+                <%= submit_tag I18n.t('save'), :class => 'btn' %>
+            <% end %>
+            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
         <% end %>
-        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
         <%= link_to I18n.t('back'), organizationals_params_path, :class => 'btn' %>
       </div>
   <% end %>
@@ -65,8 +67,10 @@
             <%= render :partial => 'layouts/footer_table' %>
             </tbody>
           </table>
-          <%= submit_tag I18n.t('save'), :class => 'btn' %>
-          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <% if can? :edit_organizations, Organization %>
+              <%= submit_tag I18n.t('save'), :class => 'btn' %>
+              <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <% end %>
           <span class="on_success_attr"></span>
       <% end -%>
     </div>
@@ -100,9 +104,10 @@
             <%= render :partial => 'layouts/footer_table' %>
 
           </table>
-
-          <%= submit_tag I18n.t('save'), :class => 'btn' %>
-          <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <% if can? :edit_organizations, Organization %>
+              <%= submit_tag I18n.t('save'), :class => 'btn' %>
+              <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+          <% end %>
 
           <span class="on_success_attr"></span>
       <% end -%>
@@ -110,8 +115,10 @@
 
     <div id="tabs-4">
       <b><%= I18n.t(:text_organization_technology) %></b>
-      <br><br>
-
+      <br>
+      <% if can? :edit_organizations, Organization %>
+          <%= link_to I18n.t('new_organization_technology'), new_organization_technology_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+      <% end %>
       <table class="table table tablesorterPager table-striped table-bordered table-condensed">
         <thead>
         <tr>
@@ -131,12 +138,13 @@
               <td><%= ot.productivity_ratio %></td>
               <td>
                 <%= link_to '', edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% if can? :edit_organizations, Organization %>
+                    <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% end %>
               </td>
             </tr>
         <% end %>
 
-        <%= link_to I18n.t('new_organization_technology'), new_organization_technology_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
         <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>
@@ -144,8 +152,10 @@
 
     <div id="tabs-5">
       <b><%= I18n.t(:text_organization_uow_complexity) %></b>
-      <br><br>
-
+      <br>
+      <% if can? :edit_organizations, Organization %>
+          <%= link_to I18n.t('new_organization_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+      <% end %>
       <table class="table table tablesorterPager table-striped table-bordered table-condensed">
         <thead>
         <tr>
@@ -161,12 +171,14 @@
               <td><%= oc.description %></td>
               <td>
                 <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% if can? :edit_organizations, Organization %>
+                    <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% end %>
               </td>
             </tr>
         <% end %>
 
-        <%= link_to I18n.t('new_organization_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+
         <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>
@@ -174,8 +186,10 @@
 
     <div id="tabs-6">
       <b><%= I18n.t(:text_organization_unit_of_work) %></b>
-      <br><br>
-
+      <br>
+      <% if can? :edit_organizations, Organization %>
+          <%= link_to I18n.t('new_unit_of_work'), new_unit_of_work_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+      <% end %>
       <table class="table table tablesorterPager table-striped table-bordered table-condensed">
         <thead>
         <tr>
@@ -193,12 +207,13 @@
               <td><%= uow.description %></td>
               <td>
                 <%= link_to '', edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% if can? :edit_organizations, Organization %>
+                    <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% end %>
               </td>
             </tr>
         <% end %>
 
-        <%= link_to I18n.t('new_unit_of_work'), new_unit_of_work_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
         <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>
@@ -206,8 +221,10 @@
 
     <div id="tabs-7">
       <b><%= I18n.t(:text_organization_subcontractor) %></b>
-      <br><br>
-
+      <br>
+      <% if can? :edit_organizations, Organization %>
+          <%= link_to I18n.t('new_subcontractor'), new_subcontractor_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+      <% end %>
       <table class="table tablesorterPager table-striped table-bordered table-condensed">
         <thead>
         <tr>
@@ -226,13 +243,14 @@
               <td>
                 <% unless ot.in?(@default_subcontractors) %>
                     <%= link_to '', edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                    <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                    <% if can? :edit_organizations, Organization %>
+                        <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                    <% end %>
                 <% end %>
               </td>
             </tr>
         <% end %>
 
-        <%= link_to I18n.t('new_subcontractor'), new_subcontractor_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
         <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>

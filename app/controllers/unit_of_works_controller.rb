@@ -20,29 +20,29 @@
 #
 class UnitOfWorksController < ApplicationController
 
-  load_and_authorize_resource
+  load_resource
 
   def index
-    authorize! :create_edit_organizations, Organization
+    #No authorize required since everyone can edit
 
     @organization = Organization.find(params[:id])
     @organization_uow_complexities = @organization.unit_of_works
   end
 
   def edit
-    authorize! :create_edit_organizations, Organization
+    #No authorize required since everyone can edit
     @unit_of_work = UnitOfWork.find(params[:id])
     @organization = @unit_of_work.organization
   end
 
   def new
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @unit_of_work = UnitOfWork.new
     @organization = Organization.find_by_id(params[:organization_id])
   end
 
   def create
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @unit_of_work = UnitOfWork.new(params[:unit_of_work])
     @organization = Organization.find_by_id(params[:unit_of_work][:organization_id])
 
@@ -50,7 +50,7 @@ class UnitOfWorksController < ApplicationController
       flash[:notice] = I18n.t (:notice_unit_of_work_successful_created)
       redirect_to redirect_apply(nil,
                                  new_unit_of_work_path(params[:unit_of_work]),
-                                 edit_organization_path(params[:unit_of_work][:organization_id], :anchor=>'tabs-6'))
+                                 edit_organization_path(params[:unit_of_work][:organization_id], :anchor => 'tabs-6'))
     else
       render action: 'new', :organization_id => @organization.id
     end
@@ -58,7 +58,7 @@ class UnitOfWorksController < ApplicationController
   end
 
   def update
-    authorize! :create_edit_organizations, Organization
+    authorize! :edit_organizations, Organization
     @unit_of_work = UnitOfWork.find(params[:id])
     @organization = Organization.find_by_id(params[:unit_of_work][:organization_id])
     if @unit_of_work.update_attributes(params[:unit_of_work])
@@ -66,18 +66,19 @@ class UnitOfWorksController < ApplicationController
       redirect_to redirect_apply(edit_unit_of_work_path(@unit_of_work),
                                  nil,
                                  edit_organization_path(params[:unit_of_work][:organization_id],
-                                                        :anchor=>'tabs-6'))
+                                                        :anchor => 'tabs-6'))
     else
       render action: 'edit', :organization_id => @organization.id
     end
   end
 
   def destroy
+    authorize! :edit_organizations, Organization
     @unit_of_work = UnitOfWork.find(params[:id])
     organization_id = @unit_of_work.organization_id
     @unit_of_work.delete
     respond_to do |format|
-      format.html { redirect_to redirect(edit_organization_path(organization_id, :anchor=>'tabs-6')), notice: "#{I18n.t (:notice_unit_of_work_successful_deleted)}"}
+      format.html { redirect_to redirect(edit_organization_path(organization_id, :anchor => 'tabs-6')), notice: "#{I18n.t (:notice_unit_of_work_successful_deleted)}" }
     end
   end
 end

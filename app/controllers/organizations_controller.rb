@@ -32,7 +32,7 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    authorize! :edit_organizations, Organization
+    #No authorize required since everyone can edit
 
     set_page_title 'Organizations'
     @organization = Organization.find(params[:id])
@@ -48,7 +48,7 @@ class OrganizationsController < ApplicationController
       @ot = nil
       @unitofworks = nil
     end
-    @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
+    @default_subcontractors = @organization.subcontractors.where('alias IN (?)', %w(undefined internal subcontracted))
   end
 
   def create
@@ -57,9 +57,9 @@ class OrganizationsController < ApplicationController
     if @organization.save
       #Create the organization's default subcontractor
       subcontractors = [
-          ["Undefined", "undefined", "Haven't a clue if it will be subcontracted or made internally"],
-          ["Internal", "internal", "Will be made internally"],
-          ["Subcontracted", "subcontracted", "Will be subcontracted (but don't know the subcontractor yet)"]
+          ['Undefined', 'undefined', "Haven't a clue if it will be subcontracted or made internally"],
+          ['Internal', 'internal', 'Will be made internally'],
+          ['Subcontracted', 'subcontracted', "Will be subcontracted (but don't know the subcontractor yet)"]
       ]
       subcontractors.each do |i|
         @organization.subcontractors.create(:name => i[0], :alias => i[1], :description => i[2])
@@ -77,14 +77,14 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(params[:organization])
       flash[:notice] = I18n.t (:notice_organization_successful_updated)
-      redirect_to redirect_apply(edit_organization_path(@organization), nil,'/organizationals_params' )
+      redirect_to redirect_apply(edit_organization_path(@organization), nil, '/organizationals_params')
     else
       @attributes = PeAttribute.defined.all
       @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
 
       @complexities = OrganizationUowComplexity.all
       @unitofworks = UnitOfWork.all
-      @default_subcontractors = @organization.subcontractors.where("alias IN (?)", %w(undefined internal subcontracted))
+      @default_subcontractors = @organization.subcontractors.where('alias IN (?)', %w(undefined internal subcontracted))
 
       render action: 'edit'
     end
@@ -114,29 +114,24 @@ class OrganizationsController < ApplicationController
       @complexities.each do |c|
         a = AbacusOrganization.find_or_create_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(uow.id, c.id, @ot.id, params[:id])
         begin
-          a.update_attribute(:value, params["abacus"]["#{uow.id}"]["#{c.id}"])
+          a.update_attribute(:value, params['abacus']["#{uow.id}"]["#{c.id}"])
         rescue
-           # :()
+          # :()
         end
       end
     end
 
-    redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+    redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor => 'tabs-8'), nil, '/organizationals_params')
   end
 
   def import_abacus
     @organization = Organization.find(params[:id])
 
-    @organization.abacus_organizations.delete_all
-    @organization.unit_of_works.delete_all
-    @organization.organization_technologies.delete_all
-    @organization.organization_uow_complexities.delete_all
-
     #updaload file copied in a tmp directory
     file = params[:file]
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
     workbook.worksheets.each_with_index do |worksheet, k|
-      #if sheeet name blank, we use sheetN as default name
+      #if sheet name blank, we use sheetN as default name
       name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
       @ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => @organization.id)
       @ot.save
@@ -168,13 +163,39 @@ class OrganizationsController < ApplicationController
       end
     end
 
-    redirect_to redirect_apply(edit_organization_path(@organization.id, :anchor=>"tabs-8"), nil, '/organizationals_params' )
+    redirect_to redirect_apply(edit_organization_path(@organization.id, :anchor => 'tabs-8'), nil, '/organizationals_params')
   end
 
   def export_abacus
     @organization = Organization.find(params[:id])
     respond_to do |format|
       format.xls
+    organization = Organization.find(params[:id])
+    filename = "#{organization.name}.xlsx"
+    book = RubyXL::Workbook.new
+
+    organization.organization_technologies.each_with_index do |ot, n|
+      @w = book[n]
+      if @w.nil?
+        book.worksheets << Worksheet.new(book, ot.name)
+        @w = book.worksheets.last
+        @w.sheet_name = ot.name
+      else
+        @w.sheet_name = ot.name
+      end
+      ot.unit_of_works.each_with_index do |uow, i|
+        organization.organization_uow_complexities.each_with_index do |comp, l|
+          begin
+            @w.add_cell(0, l+1, comp.name)
+            @w.add_cell(i+1, 0, uow.name)
+
+            a = AbacusOrganization.where(:unit_or_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => organization.id)
+            @w.add_cell(i+1, l+1, a.first.value)
+          rescue
+            puts @w
+          end
+        end
+      end
     end
   end
 

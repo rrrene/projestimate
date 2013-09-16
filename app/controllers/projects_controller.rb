@@ -1098,8 +1098,113 @@ class ProjectsController < ApplicationController
 
   #Checkout the project
   def checkout
-    @project = Project.find(params[:project_id])
-    redirect_to projects_url
+    #@project = Project.find(params[:project_id])
+    #redirect_to projects_url
+
+    begin
+      old_prj = Project.find(params[:project_id])
+
+      new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
+      new_prj.title = old_prj.title
+      new_prj.alias = old_prj.alias
+      new_prj.state = "preliminary"
+      new_prj.version = set_project_version(old_prj)
+      new_prj.parent_id = old_prj.id
+
+      if new_prj.save
+        old_prj.save #Original project copy number will be incremented to 1
+
+        #Managing the component tree : PBS
+        pe_wbs_product = new_prj.pe_wbs_projects.products_wbs.first
+        pe_wbs_activity = new_prj.pe_wbs_projects.activities_wbs.first
+
+        # For PBS
+        new_prj_components = pe_wbs_product.pbs_project_elements
+        new_prj_components.each do |new_c|
+          unless new_c.is_root?
+            new_ancestor_ids_list = []
+            new_c.ancestor_ids.each do |ancestor_id|
+              ancestor_id = PbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_c.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_c.ancestry = new_ancestor_ids_list.join('/')
+
+            # For PBS-Project-Element Links with modules
+            old_pbs = PbsProjectElement.find(new_c.copy_id)
+            new_c.module_projects = old_pbs.module_projects
+
+            new_c.save
+          end
+        end
+
+        # For WBS
+        new_prj_wbs = pe_wbs_activity.wbs_project_elements
+        new_prj_wbs.each do |new_wbs|
+          unless new_wbs.is_root?
+            new_ancestor_ids_list = []
+            new_wbs.ancestor_ids.each do |ancestor_id|
+              ancestor_id = WbsProjectElement.find_by_pe_wbs_project_id_and_copy_id(new_wbs.pe_wbs_project_id, ancestor_id).id
+              new_ancestor_ids_list.push(ancestor_id)
+            end
+            new_wbs.ancestry = new_ancestor_ids_list.join('/')
+            new_wbs.save
+          end
+        end
+
+        # For ModuleProject associations
+        old_prj.module_projects.group(:id).each do |old_mp|
+          new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
+          old_mp.associated_module_projects.each do |associated_mp|
+            new_associated_mp = ModuleProject.where('project_id = ? AND copy_id = ?', new_prj.id, associated_mp.id).first
+            new_mp.associated_module_projects <<  new_associated_mp
+          end
+        end
+
+        flash[:success] = I18n.t(:notice_project_successful_checkout)
+        redirect_to edit_project_path(new_prj) and return
+
+        #raise "#{RuntimeError}"
+      else
+        flash['Error'] = "test" #I18n.t(:error_project_checkout_failed)
+        redirect_to '/projects' and return
+      end
+
+    rescue
+      flash['Error'] = I18n.t(:error_project_checkout_failed)
+      redirect_to '/projects'
+    end
+  end
+
+
+  # Set the new checked-outed project version
+  def set_project_version(project_to_checkout)
+    new_version = ""
+    parent_version = project_to_checkout.version
+
+    # The new version number is calculated according to the parent project position (if parent project has children or not)
+    if project_to_checkout.is_childless?
+      # get the version last numerical value
+      version_ended = parent_version.split(/(\d*)\b/).last
+
+      #Test if ended version value is a Integer
+      if version_ended.valid_integer?
+        new_version_ended = "#{ version_ended.to_i + 1 }"
+        new_version = parent_version.gsub(version_ended, new_version_ended)
+      else
+        new_version = "#{ version_ended }.1"
+      end
+    else
+      #That means project has successor(s)/children, and a new branch need to be created
+      if parent_version.include?("-")
+        parent_version_ended = parent_version.split("-").last
+        parent_version_ended_begin = parent_version_ended.split(".").first
+        new_version_name = parent_version_ended_begin.to_i + 1
+        new_version = parent_version.gsub(/(-.*)/, "-#{new_version_name}")
+      else
+        new_version = "#{parent_version}-1.0"
+      end
+    end
+    new_version
   end
 
   #Filter the projects list according to version
