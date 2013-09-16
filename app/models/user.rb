@@ -118,10 +118,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  def is_an_automatic_account_activation?()
-    AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
+  def is_an_automatic_account_activation?
+    as = AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value
+    as == 'automatic account activation'
   end
-
 
   #Check password minimum length value
   def password_length
@@ -163,25 +163,34 @@ class User < ActiveRecord::Base
   def import_user_from_ldap(ldap_cn, login, ldap_server)
     login_filter = Net::LDAP::Filter.eq ldap_server.user_name_attribute, "#{login}"
     object_filter = Net::LDAP::Filter.eq "objectClass", "*"
-    is_an_automatic_account_activation?() ? status = 'active' : 'pending'
-    # logger.debug "Automatic account activation : #{AdminSetting.find_by_key('self-registration').value.to_s}, #{is_an_automatic_account_activation?().to_s}"
+    is_an_automatic_account_activation? ? status = 'active' : 'pending'
+
     search = ldap_cn.search(:base => ldap_server.base_dn,
                             :filter => object_filter & login_filter,
-                            :attributes => ['dn', ldap_server.first_name_attribute, ldap_server.last_name_attribute, ldap_server.email_attribute, ldap_server.initials_attribute]) do |entry|
+                            :attributes => ['dn', ldap_server.first_name_attribute,
+                                            ldap_server.last_name_attribute,
+                                            ldap_server.email_attribute,
+                                            ldap_server.initials_attribute]) do |entry|
+
       self.auth_method = AuthMethod.find_by_id(ldap_server.id)
       self.auth_type = ldap_server.id
+
       if entry["#{ldap_server.email_attribute}"][0].blank?
         return 1
       end
+
       if entry["#{ldap_server.first_name_attribute}"][0].blank?
         return 2
       end
+
       if entry["#{ldap_server.last_name_attribute}"][0].blank?
         return 3
       end
+
       if User.find_by_email(entry["#{ldap_server.email_attribute}"][0])
         return 0
       end
+
       self.email = entry["#{ldap_server.email_attribute}"][0]
       self.login_name = login.to_s
       self.first_name = entry["#{ldap_server.first_name_attribute}"][0]
@@ -199,23 +208,34 @@ class User < ActiveRecord::Base
     login_filter = Net::LDAP::Filter.eq ldap_server.email_attribute, "#{email}"
     object_filter = Net::LDAP::Filter.eq "objectClass", "*"
     is_an_automatic_account_activation?() ? status = 'active' : 'pending'
+
     search = ldap_cn.search(:base => ldap_server.base_dn,
                             :filter => object_filter & login_filter,
-                            :attributes => ['dn', ldap_server.user_name_attribute, ldap_server.first_name_attribute, ldap_server.last_name_attribute, ldap_server.initials_attribute]) do |entry|
+                            :attributes => ['dn', ldap_server.user_name_attribute,
+                                            ldap_server.first_name_attribute,
+                                            ldap_server.last_name_attribute,
+                                            ldap_server.initials_attribute]) do |entry|
+
       self.auth_method = AuthMethod.find_by_id(ldap_server.id)
+
       self.auth_type = ldap_server.id
+
       if entry["#{ldap_server.user_name_attribute}"][0].blank?
         return 4
       end
+
       if entry["#{ldap_server.first_name_attribute}"][0].blank?
         return 2
       end
+
       if entry["#{ldap_server.last_name_attribute}"][0].blank?
         return 3
       end
+
       if User.find_by_login_name(entry["#{ldap_server.user_name_attribute}"][0])
         return 0
       end
+
       self.login_name = entry["#{ldap_server.user_name_attribute}"][0]
       self.email = email.to_s
       self.first_name = entry["#{ldap_server.first_name_attribute}"][0]
@@ -301,13 +321,11 @@ class User < ActiveRecord::Base
                 end
                 if ldap_cn.bind_as(:base => ldap_server.base_dn.to_s,
                                    :filter => ("#{ldap_server.email_attribute.to_s}=#{login}"),
-                                   :password => password,
-                )
+                                   :password => password)
                   if !user
                     user = User.new
                     i = user.import_user_from_ldap_mail(ldap_cn, login, ldap_server)
                     if i.is_a? Integer
-                      #if an error occurs
                       return i
                   else
                     UserMailer.account_created(user).deliver
@@ -369,21 +387,6 @@ class User < ActiveRecord::Base
       nil
     end
   end
-
-
-  #def ldap_connection (server_name,base_dn,port,encryption,method,username,password)
-  #  @ldap_cn = Net::LDAP.new(:host => server_name.to_s,
-  #                          :base => base_dn.to_s,
-  #                          :port => port.to_i,
-  #                          :encryption => encryption
-  #                          :auth => {
-  #                              :method => method,
-  #                              :username => username,
-  #                              :password => password ,
-  #  )
-  #  ldap_cn
-  #end
-
 
   def ldap_authentication(password, login)
     ldap_cn = Net::LDAP.new(:host => self.auth_method.server_name,
@@ -491,7 +494,6 @@ class User < ActiveRecord::Base
     rescue
       :en
     end
-
   end
 end
 

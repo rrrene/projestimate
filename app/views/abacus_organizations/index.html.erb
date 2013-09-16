@@ -14,7 +14,7 @@
 <% @abacus_organizations.each do |abacus_organization| %>
   <tr>
     <td><%= abacus_organization.value %></td>
-    <td><%= abacus_organization.unit_or_work_id %></td>
+    <td><%= abacus_organization.unit_of_work_id %></td>
     <td><%= abacus_organization.organization_uow_complexity_id %></td>
     <td><%= abacus_organization.organization_technology_id %></td>
     <td><%= link_to 'Show', abacus_organization %></td>

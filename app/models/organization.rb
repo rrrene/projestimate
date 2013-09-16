@@ -28,6 +28,7 @@ class Organization < ActiveRecord::Base
   has_many :unit_of_works, :dependent => :destroy
   has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_organizations
   has_many :subcontractors
+  has_many :abacus_organizations
 
   has_many :projects
 
@@ -40,13 +41,5 @@ class Organization < ActiveRecord::Base
   #Override
   def to_s
     self.name
-  end
-
-  def self.export(organization)
-    #workbook = RubyXL::Workbook.new
-    #organization.organization_technologies.each do |ot|
-    #  workbook.worksheets << Worksheet.new(ot.name)
-    #end
-    #return workbook
   end
 end

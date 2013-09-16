@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+
+  <% @organization.organization_technologies.each_with_index do |ot, n| %>
+    <Worksheet ss:Name="<%= ot.name %>">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <% @organization.organization_uow_complexities.each_with_index do |comp, i| %>
+            <Cell><Data ss:Type="String"><%= comp.name %></Data></Cell>
+          <% end %>
+        </Row>
+
+        <% ot.unit_of_works.each_with_index do |uow, j| %>
+          <Row>
+            <Cell><Data ss:Type="String"><%= uow.name %></Data></Cell>
+            <% @organization.organization_uow_complexities.each_with_index do |comp, i| %>
+              <% begin %>
+                <% val = AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp.id, :organization_id => @organization.id).first.value %>
+              <% rescue %>
+                <% val = 0 %>
+              <% end %>
+              <Cell><Data ss:Type="Number"><%= val %></Data></Cell>
+            <% end %>
+          </Row>
+        <% end %>
+      </Table>
+    </Worksheet>
+  <% end %>
+
+</Workbook>

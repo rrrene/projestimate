@@ -22,8 +22,6 @@
 class RecordStatus < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
-  #attr_accessible :description, :name, :change_comment, :record_status_id, :custom_value
-
   has_many :acquisition_categories
   has_many :associated_attributes, :class_name => "PeAttribute"
   has_many :attribute_modules
