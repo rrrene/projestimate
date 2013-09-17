@@ -19,7 +19,7 @@
 ########################################################################
 
 class OrganizationUowComplexity < ActiveRecord::Base
-  attr_accessible :description, :name, :organization_id
+  attr_accessible :description, :name, :display_order, :organization_id
 
   belongs_to :organization
   validates :name, :presence => true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916124825) do
+ActiveRecord::Schema.define(:version => 20130917145201) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -379,6 +379,7 @@ ActiveRecord::Schema.define(:version => 20130916124825) do
     t.text     "description"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "display_order"
   end
 
   create_table "organizations", :force => true do |t|
