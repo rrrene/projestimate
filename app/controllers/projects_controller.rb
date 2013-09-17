@@ -56,7 +56,7 @@ class ProjectsController < ApplicationController
   def index
     #authorize! :manage, Project
     set_page_title 'Projects'
-    @projects = Project.all.reject{ |i| i.is_childless? == true }
+    @projects = Project.all.reject{ |i| !i.is_childless?  }
   end
 
   def new
@@ -1254,13 +1254,13 @@ class ProjectsController < ApplicationController
     unless selected_filter_version.empty?
       case selected_filter_version
         when "1"   #Display leaves projects only
-          @projects = Project.all.reject{ |i| i.is_childless? == true }
+          @projects = Project.all.reject{ |i| !i.is_childless? }
 
         when "2"   #Display all versions
           @projects = Project.all
 
         when "3"   #Display root version only
-          @projects = Project.all.reject{ |i| i.is_root? == true }
+          @projects = Project.all.reject{ |i| !i.is_root? }
 
         when "4"   #Most recent version
           #@projects = Project.all.uniq_by(&:title)
