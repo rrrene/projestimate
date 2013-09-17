@@ -128,6 +128,11 @@ class OrganizationsController < ApplicationController
   def import_abacus
     @organization = Organization.find(params[:id])
 
+    @organization.abacus_organizations.delete_all
+    @organization.unit_of_works.delete_all
+    @organization.organization_technologies.delete_all
+    @organization.organization_uow_complexities.delete_all
+
     #updaload file copied in a tmp directory
     file = params[:file]
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
@@ -177,7 +182,6 @@ class OrganizationsController < ApplicationController
         style_title_left = sheet.styles.add_style(:bg_color => "E6E6E6", :sz => 14, :b => true, :alignment => {:horizontal => :right})
         style_data = sheet.styles.add_style(:sz => 12, :alignment => {:horizontal => :center})
         head = ['Unit of work \ Complexity']
-        #TODO sort complexities per display_order ASC
         @organization.organization_uow_complexities.each_with_index do |comp|
           head.push(comp.name)
         end
@@ -186,11 +190,11 @@ class OrganizationsController < ApplicationController
           uow_row = []
           uow_row.push(uow.name)
           @organization.organization_uow_complexities.each_with_index do |comp2, i|
-                if AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.nil?
-                  data = ""
-                  else
-                  data = AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.value
-                end
+              if AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.nil?
+                data = ""
+                else
+                data = AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.value
+              end
             uow_row.push(data)
           end
           row=sheet.add_row(uow_row, :style => style_data)
