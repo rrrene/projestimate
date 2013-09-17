@@ -3,7 +3,6 @@
   <tr>
     <th><%= I18n.t(:label_project_name) %></th>
     <th><%= I18n.t(:label_project_version) %></th>
-    <th>Ancestry</th>
     <th style="width: 100px"><%= I18n.t(:alias) %></th>
     <th style="width: 100px" class="filter-select"> <%= I18n.t(:state) %></th>
     <th style="width: 120px"><%= I18n.t(:start_date) %></th>
@@ -20,7 +19,6 @@
           <tr>
             <td><%= project.title %></td>
             <td><%= project.version %></td>
-            <td><%= project.ancestry %></td>
             <td><%= project.alias %></td>
             <td><%= project.state %></td>
             <td><%= I18n.l(project.start_date) unless project.start_date.nil? %></td>

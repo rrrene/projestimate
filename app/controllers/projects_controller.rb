@@ -1264,7 +1264,7 @@ class ProjectsController < ApplicationController
 
         when "4"   #Most recent version
           #@projects = Project.all.uniq_by(&:title)
-          @projects = Project.unscoped.order('updated_at DESC').uniq_by(&:title)
+          @projects = Project.reorder('updated_at DESC').uniq_by(&:title)
 
         else
           @projects = Project.all
