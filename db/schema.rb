@@ -633,6 +633,7 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.string   "title"
     t.string   "version",                 :default => "1.0"
     t.string   "alias"
+    t.string   "ancestry"
     t.text     "description"
     t.string   "state"
     t.date     "start_date"
@@ -644,7 +645,6 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.integer  "platform_category_id"
     t.integer  "acquisition_category_id"
     t.boolean  "is_model"
-    t.integer  "version_ancestry"
     t.integer  "master_anscestry"
     t.integer  "owner"
     t.text     "purpose"
@@ -654,6 +654,8 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.text     "included_wbs_activities"
     t.boolean  "is_locked"
   end
+
+  add_index "projects", ["ancestry"], :name => "index_projects_on_ancestry"
 
   create_table "projects_users", :id => false, :force => true do |t|
     t.integer  "project_id"

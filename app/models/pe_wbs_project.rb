@@ -25,7 +25,7 @@ class PeWbsProject < ActiveRecord::Base
   has_many :wbs_project_elements, :dependent => :destroy
   has_many :wbs_activities, :through => :wbs_project_elements
 
-  belongs_to :project
+  belongs_to :project, :touch => true
 
   scope :products_wbs, where(:wbs_type => "Product")
   scope :activities_wbs, where(:wbs_type => "Activity")

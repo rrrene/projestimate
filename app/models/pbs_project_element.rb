@@ -23,7 +23,7 @@
 class PbsProjectElement < ActiveRecord::Base
   has_ancestry
 
-  belongs_to :pe_wbs_project
+  belongs_to :pe_wbs_project, :touch => true
   belongs_to :work_element_type
   belongs_to :wbs_activity
   belongs_to :wbs_activity_ratio

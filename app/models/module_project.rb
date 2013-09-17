@@ -20,7 +20,7 @@
 
 class ModuleProject < ActiveRecord::Base
   belongs_to :pemodule
-  belongs_to :project
+  belongs_to :project, :touch => true
 
   has_many :estimation_values, :dependent => :destroy
 

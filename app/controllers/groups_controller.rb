@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
     set_page_title 'New group'
     @group = Group.new
     @users = User.all
-    @projects = Project.all
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
     @enable_update_in_local = true
   end
 
@@ -52,7 +52,7 @@ class GroupsController < ApplicationController
     set_page_title 'Edit group'
     @group = Group.find(params[:id])
     @users = User.all
-    @projects = Project.all
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
 
     if is_master_instance?
       @enable_update_in_local = true
@@ -80,7 +80,7 @@ class GroupsController < ApplicationController
     authorize! :create_and_edit_groups, Group
 
     @users = User.all
-    @projects = Project.all
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
     @group = Group.new(params[:group])
     @enable_update_in_local = true
 
@@ -157,7 +157,7 @@ class GroupsController < ApplicationController
     authorize! :create_and_edit_groups, Group
 
     @users = User.all
-    @projects = Project.all
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
     @group = nil
     current_group = Group.find(params[:id])
 

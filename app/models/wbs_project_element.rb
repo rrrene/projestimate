@@ -22,7 +22,7 @@ class WbsProjectElement < ActiveRecord::Base
 
   has_ancestry :cache_depth => true
 
-  belongs_to :pe_wbs_project
+  belongs_to :pe_wbs_project, :touch => true
   belongs_to :wbs_activity_element
   belongs_to :wbs_activity
   belongs_to :wbs_activity_ratio #Default Wbs-Activity-Ratio

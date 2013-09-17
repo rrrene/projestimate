@@ -27,7 +27,7 @@ class Project < ActiveRecord::Base
 
   #define_attribute_methods :state
 
-  has_ancestry :ancestry_column  => :version_ancestry, :cache_depth => true
+  has_ancestry
 
   belongs_to :organization
   belongs_to :project_area
@@ -46,6 +46,8 @@ class Project < ActiveRecord::Base
 
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
+
+  default_scope order('title ASC, version ASC')
 
   serialize :included_wbs_activities, Array
 
