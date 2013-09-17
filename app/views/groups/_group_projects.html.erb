@@ -13,7 +13,7 @@
   </tr>
   </thead>
   <tbody>
-  <% @projects.each do |group_project| %>
+  <% projects.each do |group_project| %>
       <tr>
         <td><%= group_project.title %></td>
         <td><%= group_project.version %></td>
@@ -23,9 +23,9 @@
         <td><%= group_project.is_model %></td>
         <td>
            <span class="hidden">
-                  <%= @group.projects.map(&:id).include?(group_project.id).to_s.humanize %>
+                  <%= group.projects.map(&:id).include?(group_project.id).to_s.humanize %>
            </span>
-          <%= check_box_tag('group[project_ids][]', group_project.id, (@group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}") %>
+          <%= check_box_tag('group[project_ids][]', group_project.id, (group.projects.map(&:id).include? group_project.id), :id => nil, :class => "group_#{group_project.id}") %>
         </td>
       </tr>
   <% end %>
