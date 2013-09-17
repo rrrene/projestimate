@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     else
       @user = User.new :auth_type => AuthMethod.first.id, :user_status => 'active'
     end
-    @projects = Project.all
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
     @organizations = Organization.all
     @groups = Group.defined_or_local
     @project_users = @user.projects

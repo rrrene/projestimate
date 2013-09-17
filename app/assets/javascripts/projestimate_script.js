@@ -369,13 +369,16 @@ $(document).ready(function() {
     });
 
 
-    $("#filter_projects_version").on('change', function() {
-        if ($("#filter_projects_version").val() !== "") {
+    $("#filter_projects_version, #filter_user_projects_version, #filter_group_projects_version").on('change', function() {
+        //if ($("#filter_projects_version").val() !== "") {
+        if ($(this).val() !== "") {
             return $.ajax({
                 url: "/add_filter_on_project_version",
                 method: "get",
                 data: {
-                    filter_selected: $(this).val()
+                    filter_selected: $(this).val(),
+                    project_list_name: $(this).attr('id'),
+                    group_id: $("#group_id").val()
                 },
                 success: function(data) {
                     //return alert("success");
