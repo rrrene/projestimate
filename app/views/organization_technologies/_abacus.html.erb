@@ -16,6 +16,7 @@
     <table class="table table-striped table-bordered table-condensed permissions">
       <tr>
         <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
+        #TODO sort complexities per display_order ASC
         <% @complexities.each do |ouc| %>
             <th class="text-center">
               <%= ouc.name %>
@@ -30,6 +31,7 @@
                   <%= unit.name %>
                 </td>
                 <% @complexities.each do |c| %>
+                    #TODO sort complexities per display_order ASC
                     <td style="text-align: center;">
                       <% a = AbacusOrganization.where(:unit_of_work_id => unit.id,
                                                       :organization_uow_complexity_id => c.id,
@@ -46,7 +48,7 @@
       <%= submit_tag I18n.t('save'), :class => 'btn' %>
       <%= submit_tag I18n.t('apply'), :class => 'btn' %>
       <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%=I18n.t('import')%></a>
-      <%= link_to I18n.t('export'), export_abacus_path(@organization.id, :format => :xlsx), :class => 'btn' %>
+      <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
     <% end %>
 
 <% end %>
