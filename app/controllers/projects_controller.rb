@@ -56,7 +56,7 @@ class ProjectsController < ApplicationController
   def index
     #authorize! :manage, Project
     set_page_title 'Projects'
-    @projects = Project.order("title ASC, version ASC")
+    @projects = Project.all.reject{ |i| i.is_childless? == true }
   end
 
   def new
@@ -1184,13 +1184,12 @@ class ProjectsController < ApplicationController
     # The new version number is calculated according to the parent project position (if parent project has children or not)
     if project_to_checkout.is_childless?
       # get the version last numerical value
-      #version_ended = parent_version.split(/(\d*)\b/).last
-      version_ended = parent_version.split(/^0|([0-9]\d*)$/).last
+      version_ended = parent_version.split(/(\d\d*)$/).last
 
       #Test if ended version value is a Integer
       if version_ended.valid_integer?
         new_version_ended = "#{ version_ended.to_i + 1 }"
-        new_version = parent_version.gsub(/^0|([0-9]\d*)$/, new_version_ended)
+        new_version = parent_version.gsub(/(\d\d*)$/, new_version_ended)
       else
         new_version = "#{ version_ended }.1"
       end
@@ -1248,20 +1247,31 @@ class ProjectsController < ApplicationController
 
   #Filter the projects list according to version
   def add_filter_on_project_version
-    @filtered_projects = Project.order("title ASC, version ASC")
+
     selected_filter_version = params[:filter_selected]
+    #"Display leaves projects only",1], ["Display all versions",2], ["Display root version only",3], ["Most recent version",4]
 
     unless selected_filter_version.empty?
-      case selected_filter_version.to_i
-        when 1
-        when 2
-        when 3
-        when 4
+      case selected_filter_version
+        when "1"   #Display leaves projects only
+          @projects = Project.all.reject{ |i| i.is_childless? == true }
+
+        when "2"   #Display all versions
+          @projects = Project.all
+
+        when "3"   #Display root version only
+          @projects = Project.all.reject{ |i| i.is_root? == true }
+
+        when "4"   #Most recent version
+          #@projects = Project.all.uniq_by(&:title)
+          @projects = Project.unscoped.order('updated_at DESC').uniq_by(&:title)
+
         else
+          @projects = Project.all
       end
     end
 
-    @filtered_projects
+    @projects
   end
 
 end
