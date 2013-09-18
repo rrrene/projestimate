@@ -128,38 +128,47 @@ class OrganizationsController < ApplicationController
   def import_abacus
     @organization = Organization.find(params[:id])
 
-    @organization.abacus_organizations.delete_all
-    @organization.unit_of_works.delete_all
-    @organization.organization_technologies.delete_all
-    @organization.organization_uow_complexities.delete_all
-
     #updaload file copied in a tmp directory
     file = params[:file]
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
     workbook.worksheets.each_with_index do |worksheet, k|
       #if sheet name blank, we use sheetN as default name
       name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
-      @ot = OrganizationTechnology.new(:name => name, :alias => name, :organization_id => @organization.id)
-      @ot.save
+      @ot = OrganizationTechnology.find_or_create_by_name_and_alias_and_organization_id(:name => name,
+                                                                                        :alias => name,
+                                                                                        :organization_id => @organization.id)
       worksheet.sheet_data.each_with_index do |row, i|
         row.each_with_index do |cell, j|
-          unless cell.nil?
+          unless cell.nil? or (cell.row == 0 && cell.column == 0)
             if i == 0 #line
               @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value, :organization_id => @organization.id)
             elsif j == 0 #column
               @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value, :alias => cell.value, :organization_id => @organization.id)
-              @uow.organization_technologies << @ot
+              if @ot.unit_of_works.empty?
+                @uow.organization_technologies << @ot
+              end
               @uow.save
             else
               begin
                 ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.sheet_data[0][j].value, @organization.id)
                 uow = UnitOfWork.find_by_name_and_organization_id(worksheet.sheet_data[i][0].value, @organization.id)
-                ao = AbacusOrganization.create(
-                    :unit_of_work_id => uow.id,
-                    :organization_uow_complexity_id => ouc.id,
-                    :organization_technology_id => @ot.id,
-                    :organization_id => @organization.id,
-                    :value => worksheet.sheet_data[i][j].value)
+                ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
+                    uow.id,
+                    ouc.id,
+                    @ot.id,
+                    @organization.id
+                )
+
+                if ao.nil?
+                  AbacusOrganization.create(
+                      :unit_of_work_id => uow.id,
+                      :organization_uow_complexity_id => ouc.id,
+                      :organization_technology_id => @ot.id,
+                      :organization_id => @organization.id,
+                      :value => worksheet.sheet_data[i][j].value)
+                else
+                  ao.update_attribute(:value, worksheet.sheet_data[i][j].value)
+                end
               rescue
 
               end
@@ -190,11 +199,13 @@ class OrganizationsController < ApplicationController
           uow_row = []
           uow_row.push(uow.name)
           @organization.organization_uow_complexities.each_with_index do |comp2, i|
-              if AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.nil?
-                data = ""
-                else
-                data = AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.value
-              end
+            if AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.nil?
+              data = ""
+            else
+              data = AbacusOrganization.where(:unit_of_work_id => uow.id,
+                                              :organization_uow_complexity_id => comp2.id,
+                                              :organization_technology_id => ot.id, :organization_id => @organization.id).first.value
+            end
             uow_row.push(data)
           end
           row=sheet.add_row(uow_row, :style => style_data)
