@@ -187,33 +187,53 @@ class OrganizationsController < ApplicationController
     wb=p.workbook
     @organization.organization_technologies.each_with_index do |ot|
       wb.add_worksheet(:name => ot.name) do |sheet|
-        style_title = sheet.styles.add_style(:bg_color => "B0E0E6", :sz => 14, :b => true)
-        style_title_left = sheet.styles.add_style(:bg_color => "E6E6E6", :sz => 14, :b => true, :alignment => {:horizontal => :right})
-        style_data = sheet.styles.add_style(:sz => 12, :alignment => {:horizontal => :center})
-        head = ['Unit of work \ Complexity']
+        style_title = sheet.styles.add_style(:bg_color => 'B0E0E6', :sz => 14, :b => true, :alignment => {:horizontal => :center})
+        style_title_red = sheet.styles.add_style(:bg_color => 'B0E0E6', :fg_color => 'FF0000', :sz => 14, :b => true, :i => true,:alignment => {:horizontal => :center})
+        style_title_orange = sheet.styles.add_style(:bg_color => 'B0E0E6', :fg_color => 'FF8C00',:sz => 14, :b => true, :i => true,:alignment => {:horizontal => :center})
+        style_title_right = sheet.styles.add_style(:bg_color => 'E6E6E6', :sz => 14, :b => true, :alignment => {:horizontal => :right})
+        style_title_right_red = sheet.styles.add_style(:bg_color => 'E6E6E6', :fg_color => 'FF8C00', :sz => 14, :b => true,:i => true, :alignment => {:horizontal => :right})
+        style_title_right_orange = sheet.styles.add_style(:bg_color => 'E6E6E6', :fg_color => 'FF8C00', :sz => 14, :b => true,:i => true, :alignment => {:horizontal => :right})
+        style_data = sheet.styles.add_style(:sz => 12, :alignment => {:horizontal => :center}, :locked => false)
+        head = ['Abacus']
+        head_style = [0]
         @organization.organization_uow_complexities.each_with_index do |comp|
           head.push(comp.name)
+          if comp.state == 'retired'
+                head_style.push(style_title_red)
+          elsif comp.state == 'draft'
+            head_style.push(style_title_orange)
+          else
+            head_style.push(style_title)
+          end
         end
-        row=sheet.add_row(head, :style => style_title)
+        row=sheet.add_row(head, :style => head_style)
           ot.unit_of_works.each_with_index do |uow|
           uow_row = []
-          uow_row.push(uow.name)
+          if uow.state == 'retired'
+            uow_row_style=[style_title_right_red]
+          elsif uow.state == 'draft'
+            uow_row_style=[style_title_right_orange]
+          else
+            uow_row_style=[style_title_right]
+          end
+          uow_row = [uow.name]
+
           @organization.organization_uow_complexities.each_with_index do |comp2, i|
             if AbacusOrganization.where(:unit_of_work_id => uow.id, :organization_uow_complexity_id => comp2.id, :organization_technology_id => ot.id, :organization_id => @organization.id).first.nil?
-              data = ""
+              data = ''
             else
               data = AbacusOrganization.where(:unit_of_work_id => uow.id,
                                               :organization_uow_complexity_id => comp2.id,
                                               :organization_technology_id => ot.id, :organization_id => @organization.id).first.value
-            end
+              end
+            uow_row_style.push(style_data)
             uow_row.push(data)
           end
-          row=sheet.add_row(uow_row, :style => style_data)
-          sheet["A#{row.index + 1}"].style = style_title_left
-        end
+          row=sheet.add_row(uow_row, :style => uow_row_style)
+          end
+        sheet.sheet_protection.password = 'readonly'
       end
     end
     send_data p.to_stream.read, :filename => @organization.name+'.xlsx'
   end
-
 end
