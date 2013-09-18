@@ -16,13 +16,14 @@
     <div id="tabs-1">
 
       <%= f.input :title, :label => "#{I18n.t 'label_project_name'}", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')}, :disabled => true %>
-      <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 5}, :disabled => true %>
-      <%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
       <table>
         <tr>
           <td><%= f.input :alias, :input_html => {:class => 'input-large'}, :disabled => true %></td>
           <td><%= f.input :version, :input_html => {:class => 'input-large'}, :disabled => true %></td>
         </tr>
+      </table>
+      <%= f.input :description, :label => "#{I18n.t 'description'}", :input_html => {:class => 'input-xxlarge', :rows => 5}, :disabled => true %>
+      <table>
         <tr>
           <td><%= f.input :is_model, :label => I18n.t('label_project_is_model'), :as => :boolean, :input_html => {:class => 'input-xxlarge'}, :disabled => true %></td>
           <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :disabled => true, :input_html => {:class => 'input-large'} unless (@project.released? || @project.rejected?)  %></td>
