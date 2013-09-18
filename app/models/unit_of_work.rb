@@ -26,6 +26,7 @@ class UnitOfWork < ActiveRecord::Base
     state :defined
     state :retired
   end
+
   attr_accessible :alias, :description, :name, :organization_id, :organization_technology_ids, :state
 
   belongs_to :organization
@@ -35,5 +36,7 @@ class UnitOfWork < ActiveRecord::Base
   has_many :abacus_organizations, :dependent => :destroy
 
   validates :name, :alias, :presence => true
+
+  default_scope order("alias ASC")
 
 end

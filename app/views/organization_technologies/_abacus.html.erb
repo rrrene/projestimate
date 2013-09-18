@@ -17,14 +17,16 @@
       <tr>
         <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
         <% @complexities.each do |ouc| %>
-            <% if ouc.state == 'retired' %>
-                <th class="text-center" style="font-style:italic; color:Red">
-            <% elsif ouc.state == 'draft' %>
-                <th class="text-center" style="font-style:italic; color:DarkOrange ">
-            <% else %>
-                <th class="text-center">
-            <% end %>
-            <%= ouc.name %>
+            <th class="text-center">
+              <% if ouc.state == 'retired' %>
+                <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= ouc.description %>'>
+              <% elsif ouc.state == 'draft' %>
+                <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange " title='<%= ouc.description %>'>
+              <% else %>
+                <span class="attribute_tooltip" title='<%= ouc.description %>'>
+              <% end %>
+              <%= ouc.name %>
+              </span>
             </th>
         <% end %>
       </tr>
@@ -32,14 +34,16 @@
       <% if @unitofworks %>
           <% @unitofworks.each do |unit| %>
               <tr>
-                <% if unit.state == 'retired' %>
-                    <td style="font-style:italic; color:Red">
-                <% elsif unit.state == 'draft' %>
-                    <td style="font-style:italic; color:DarkOrange ">
-                <% else %>
-                    <td style="font-weight:bold">
-                <% end %>
+                <td style="text-align: right;">
+                  <% if unit.state == 'retired' %>
+                    <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= unit.description %>'>
+                  <% elsif unit.state == 'draft' %>
+                    <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange" title='<%= unit.description %>'>
+                  <% else %>
+                    <span class="attribute_tooltip" style="font-weight:bold" title='<%= unit.description %>'>
+                  <% end %>
                   <%= unit.name %>
+                  </span>
                 </td>
                 <% @complexities.each do |c| %>
                     <td style="text-align: center;">
