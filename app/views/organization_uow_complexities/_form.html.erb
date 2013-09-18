@@ -7,9 +7,14 @@
     <%= simple_form_for(@organization_uow_complexity) do |f| %>
         <%= f.input :organization_id, :as => :hidden, :input_html => {:class => 'input-xxlarge', :value => @organization.id || params[:organization_id]} %>
         <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')} %>
-        <%= f.input :display_order, :label => I18n.t('display_order'), :input_html => {:class => 'input-small'} %>
         <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
-
+        <table>
+          <tr>
+            <td><%= f.input :display_order, :label => I18n.t('display_order'), :input_html => {:class => 'input-small'} %></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%= f.input :state, :label => I18n.t('state'), :as => :select, :collection => OrganizationUowComplexity.aasm_states_for_select, :input_html => {:class => 'input-large'} %></td>
+          </tr>
+        </table>
         <% if can? :edit_organizations, Organization %>
             <div class="actions-tabs">
               <% if action_name == 'new' || action_name=='create' %>

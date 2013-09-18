@@ -19,7 +19,14 @@
 ########################################################################
 
 class UnitOfWork < ActiveRecord::Base
-  attr_accessible :alias, :description, :name, :organization_id, :organization_technology_ids
+  include AASM
+
+  aasm :column => :state do # defaults to aasm_state
+    state :draft, :initial => true
+    state :defined
+    state :retired
+  end
+  attr_accessible :alias, :description, :name, :organization_id, :organization_technology_ids, :state
 
   belongs_to :organization
   has_and_belongs_to_many :organization_technologies
