@@ -35,7 +35,7 @@
                                                       :organization_uow_complexity_id => c.id,
                                                       :organization_technology_id => @ot.id,
                                                       :organization_id => @organization.id).first %>
-                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'span2' %>
+                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'input-medium' %>
                     </td>
                 <% end %>
               </tr>
