@@ -146,11 +146,8 @@ class ProjectsController < ApplicationController
 
         #raise ActiveRecord::Rollback
 
-        #rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-        rescue ActiveRecord::RecordInvalid => error
-        #flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
+        rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
         flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
-
         redirect_to projects_url
       end
     end
@@ -1174,17 +1171,17 @@ class ProjectsController < ApplicationController
         end
 
         flash[:success] = I18n.t(:notice_project_successful_checkout)
-        redirect_to edit_project_path(new_prj) and return
+        redirect_to (edit_project_path(new_prj)), :notice => I18n.t(:notice_project_successful_checkout)
 
         #raise "#{RuntimeError}"
       else
-        flash['Error'] = "test" #I18n.t(:error_project_checkout_failed)
+        flash['Error'] = I18n.t(:error_project_checkout_failed)
         redirect_to '/projects' and return
       end
 
     rescue
       flash['Error'] = I18n.t(:error_project_checkout_failed)
-      redirect_to '/projects'
+      redirect_to '/projects', :flash => {:error => I18n.t(:error_project_checkout_failed) }
     end
   end
 
