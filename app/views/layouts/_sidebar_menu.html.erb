@@ -54,10 +54,7 @@
 
       <% if can? :manage, Group and can? :manage, User %>
           <li><a href="/globals_permissions">
-            <i class="icon-check-sign icon-large icon-border pull-left"></i><%= I18n.t(:global_permission) %></a></li>
-
-          <li><a href="<%= project_securities_path %>">
-            <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:project_securities) %></a></li>
+            <i class="icon-check-sign icon-large icon-border pull-left"></i>Roles</a></li>
       <% end %>
 
       <% if can? :manage, AuthMethod %>

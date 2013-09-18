@@ -27,8 +27,10 @@
 
       <% @permissions.each do |perm| %>
           <tr>
+            <td><%= perm.alias %></td>
             <td><%= perm.description %></td>
             <td><%= perm.name %></td>
+            <td><%= perm.category %></td>
             <td><%= perm.is_permission_project %></td>
             <td><%= perm.object_associated.blank? ? 'All' : perm.object_associated %></td>
             <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
