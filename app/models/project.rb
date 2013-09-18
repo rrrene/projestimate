@@ -53,9 +53,9 @@ class Project < ActiveRecord::Base
 
   #serialize :ten_latest_projects
   validates_presence_of :state
-  validates :title, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false, :message => "the pairs 'name/version' and 'alias/version' must be unique" }
-  validates :alias, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false, :message => "the pairs 'name/version' and 'alias/version' must be unique" }
-  validates :version, :presence => true, :uniqueness => { :scope => :title, :scope => :alias, case_sensitive: false, :message => "the pairs 'name/version' and 'alias/version' must be unique" }
+  validates :title, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false, :message => I18n.t(:error_validation_project) }
+  validates :alias, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false, :message => I18n.t(:error_validation_project) }
+  validates :version, :presence => true, :uniqueness => { :scope => :title, :scope => :alias, case_sensitive: false, :message => I18n.t(:error_validation_project) }
 
   #Search fields
   scoped_search :on => [:title, :alias, :description, :start_date, :created_at, :updated_at]

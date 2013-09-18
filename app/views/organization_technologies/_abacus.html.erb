@@ -32,7 +32,13 @@
       <% if @unitofworks %>
           <% @unitofworks.each do |unit| %>
               <tr>
-                <td>
+                <% if unit.state == 'retired' %>
+                    <td style="font-style:italic; color:Red">
+                <% elsif unit.state == 'draft' %>
+                    <td style="font-style:italic; color:DarkOrange ">
+                <% else %>
+                    <td style="font-weight:bold">
+                <% end %>
                   <%= unit.name %>
                 </td>
                 <% @complexities.each do |c| %>
@@ -41,7 +47,7 @@
                                                       :organization_uow_complexity_id => c.id,
                                                       :organization_technology_id => @ot.id,
                                                       :organization_id => @organization.id).first %>
-                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'input-medium' %>
+                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'span' %>
                     </td>
                 <% end %>
               </tr>
