@@ -53,3 +53,7 @@
 <script>
     <%= render :partial => 'layouts/sort_date', :handlers => [:erb], :formats => [:js]%>
 </script>
+
+<% if can? :commit_project, Project %>
+    hello
+<% end %>
