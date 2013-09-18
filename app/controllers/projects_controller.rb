@@ -146,11 +146,8 @@ class ProjectsController < ApplicationController
 
         #raise ActiveRecord::Rollback
 
-        #rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
-        rescue ActiveRecord::RecordInvalid => error
-        #flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
+        rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
         flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
-
         redirect_to projects_url
       end
     end
@@ -1103,8 +1100,14 @@ class ProjectsController < ApplicationController
 
     begin
       old_prj = Project.find(params[:project_id])
+      old_prj_copy_number = old_prj.copy_number
+      old_prj_pe_wbs_product_name = old_prj.pe_wbs_projects.products_wbs.first.name
+      old_prj_pe_wbs_activity_name = old_prj.pe_wbs_projects.activities_wbs.first.name
+
 
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
+      old_prj.copy_number = old_prj_copy_number
+
       new_prj.title = old_prj.title
       new_prj.alias = old_prj.alias
       new_prj.description = old_prj.description
@@ -1118,6 +1121,12 @@ class ProjectsController < ApplicationController
         #Managing the component tree : PBS
         pe_wbs_product = new_prj.pe_wbs_projects.products_wbs.first
         pe_wbs_activity = new_prj.pe_wbs_projects.activities_wbs.first
+
+        pe_wbs_product.name = old_prj_pe_wbs_product_name
+        pe_wbs_activity.name = old_prj_pe_wbs_activity_name
+
+        pe_wbs_product.save
+        pe_wbs_activity.save
 
         # For PBS
         new_prj_components = pe_wbs_product.pbs_project_elements
@@ -1162,17 +1171,17 @@ class ProjectsController < ApplicationController
         end
 
         flash[:success] = I18n.t(:notice_project_successful_checkout)
-        redirect_to edit_project_path(new_prj) and return
+        redirect_to (edit_project_path(new_prj)), :notice => I18n.t(:notice_project_successful_checkout)
 
         #raise "#{RuntimeError}"
       else
-        flash['Error'] = "test" #I18n.t(:error_project_checkout_failed)
+        flash['Error'] = I18n.t(:error_project_checkout_failed)
         redirect_to '/projects' and return
       end
 
     rescue
       flash['Error'] = I18n.t(:error_project_checkout_failed)
-      redirect_to '/projects'
+      redirect_to '/projects', :flash => {:error => I18n.t(:error_project_checkout_failed) }
     end
   end
 
@@ -1201,10 +1210,8 @@ class ProjectsController < ApplicationController
       parent_version_ended_end = 0
       if parent_version.include?("-")
         split_parent_version = parent_version.split("-")
-
         branch_name = split_parent_version.first
-
-        parent_version_ended = splited_parent_version.last
+        parent_version_ended = split_parent_version.last
 
         split_parent_version_ended = parent_version_ended.split(".")
 

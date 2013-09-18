@@ -116,12 +116,12 @@
         <br/><br/>
 
         <div>
-          <%= I18n.t(:label_add_filter_on_projects_version) %>
-          <%= select_tag 'filter_group_projects_version', options_for_select([["Display leaves projects only",1], ["Display all versions",2], ["Display root version only",3], ["Most recent version",4]], :selected => 1), :prompt => '' %>
+          <%= I18n.t(:label_filter_on_projects_version) %>
+          <%= select_tag 'filter_group_projects_version', options_for_select([[I18n.t(:label_filter_on_project_version_1),1], [I18n.t(:label_filter_on_project_version_2),2], [I18n.t(:label_filter_on_project_version_3),3], [I18n.t(:label_filter_on_project_version_4),4]], :selected => 1), :include_blank => false %>
         </div>
 
         <div id="group_projects" class="field_checkbox">
-          <%= render :partial => "group_projects", :locals => {:projects => @projects, :group => @group} %>
+          <%= render :partial => 'group_projects', :locals => {:projects => @projects, :group => @group} %>
         </div>
 
         <div class="actions">

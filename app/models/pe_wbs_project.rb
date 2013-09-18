@@ -48,7 +48,7 @@ class PeWbsProject < ActiveRecord::Base
     include_field [:pbs_project_elements, :wbs_project_elements]
 
     customize(lambda { |original_pe_wbs, new_pe_wbs|
-      new_pe_wbs.name = "Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{original_pe_wbs.name }"
+      new_pe_wbs.name = "Copy_#{ new_pe_wbs.project.copy_number.to_i+1} of #{original_pe_wbs.name}"
     })
 
     propagate

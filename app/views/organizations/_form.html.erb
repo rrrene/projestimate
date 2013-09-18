@@ -132,18 +132,24 @@
         </thead>
         <tbody>
         <% @organization.organization_technologies.each do |ot| %>
-            <tr>
-              <td><%= ot.name %></td>
-              <td><%= ot.alias %></td>
-              <td><%= ot.description %></td>
-              <td><%= ot.state %></td>
-              <td><%= ot.productivity_ratio %></td>
-              <td>
-                <%= link_to '', edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <% if can? :edit_organizations, Organization %>
-                    <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                <% end %>
-              </td>
+            <% if ot.state == 'retired' %>
+                <tr style="font-style:italic; color:Red">
+            <% elsif ot.state == 'draft' %>
+                <tr style="font-style:italic; color:DarkOrange ">
+            <% else %>
+                <tr>
+            <% end %>
+            <td><%= ot.name %></td>
+            <td><%= ot.alias %></td>
+            <td><%= ot.description %></td>
+            <td><%= ot.state %></td>
+            <td><%= ot.productivity_ratio %></td>
+            <td>
+              <%= link_to '', edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <% if can? :edit_organizations, Organization %>
+                  <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              <% end %>
+            </td>
             </tr>
         <% end %>
 
@@ -170,17 +176,23 @@
         </thead>
         <tbody>
         <% @organization.organization_uow_complexities.each do |oc| %>
-            <tr>
-              <td><%= oc.display_order %></td>
-              <td><%= oc.name %></td>
-              <td><%= oc.description %></td>
-              <td><%= oc.state %></td>
-              <td>
-                <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <% if can? :edit_organizations, Organization %>
-                    <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                <% end %>
-              </td>
+            <% if oc.state == 'retired' %>
+                <tr style="font-style:italic; color:Red">
+            <% elsif oc.state == 'draft' %>
+                <tr style="font-style:italic; color:DarkOrange ">
+            <% else %>
+                <tr>
+            <% end %>
+            <td><%= oc.display_order %></td>
+            <td><%= oc.name %></td>
+            <td><%= oc.description %></td>
+            <td><%= oc.state %></td>
+            <td>
+              <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <% if can? :edit_organizations, Organization %>
+                  <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              <% end %>
+            </td>
             </tr>
         <% end %>
 
@@ -208,17 +220,23 @@
         </thead>
         <tbody>
         <% @organization.unit_of_works.each do |uow| %>
-            <tr>
-              <td><%= uow.name %></td>
-              <td><%= uow.alias %></td>
-              <td><%= uow.description %></td>
-              <td><%= uow.state %></td>
-              <td>
-                <%= link_to '', edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                <% if can? :edit_organizations, Organization %>
-                    <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                <% end %>
-              </td>
+            <% if uow.state == 'retired' %>
+                <tr style="font-style:italic; color:Red">
+            <% elsif uow.state == 'draft' %>
+                <tr style="font-style:italic; color:DarkOrange ">
+            <% else %>
+                <tr>
+            <% end %>
+            <td><%= uow.name %></td>
+            <td><%= uow.alias %></td>
+            <td><%= uow.description %></td>
+            <td><%= uow.state %></td>
+            <td>
+              <%= link_to '', edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <% if can? :edit_organizations, Organization %>
+                  <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              <% end %>
+            </td>
             </tr>
         <% end %>
 
@@ -245,19 +263,25 @@
         </thead>
         <tbody>
         <% @organization.subcontractors.each do |ot| %>
-            <tr>
-              <td><%= ot.name %></td>
-              <td><%= ot.alias %></td>
-              <td><%= ot.description %></td>
-              <td><%= ot.state %></td>
-              <td>
-                <% unless ot.in?(@default_subcontractors) %>
-                    <%= link_to '', edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                    <% if can? :edit_organizations, Organization %>
-                        <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-                    <% end %>
-                <% end %>
-              </td>
+            <% if ot.state == 'retired' %>
+                <tr style="font-style:italic; color:Red">
+            <% elsif ot.state == 'draft' %>
+                <tr style="font-style:italic; color:DarkOrange ">
+            <% else %>
+                <tr>
+            <% end %>
+            <td><%= ot.name %></td>
+            <td><%= ot.alias %></td>
+            <td><%= ot.description %></td>
+            <td><%= ot.state %></td>
+            <td>
+              <% unless ot.in?(@default_subcontractors) %>
+                  <%= link_to '', edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                  <% if can? :edit_organizations, Organization %>
+                      <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                  <% end %>
+              <% end %>
+            </td>
             </tr>
         <% end %>
 

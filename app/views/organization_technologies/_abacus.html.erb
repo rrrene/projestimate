@@ -17,8 +17,14 @@
       <tr>
         <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
         <% @complexities.each do |ouc| %>
-            <th class="text-center">
-              <%= ouc.name %>
+            <% if ouc.state == 'retired' %>
+                <th class="text-center" style="font-style:italic; color:Red">
+            <% elsif ouc.state == 'draft' %>
+                <th class="text-center" style="font-style:italic; color:DarkOrange ">
+            <% else %>
+                <th class="text-center">
+            <% end %>
+            <%= ouc.name %>
             </th>
         <% end %>
       </tr>
@@ -26,7 +32,13 @@
       <% if @unitofworks %>
           <% @unitofworks.each do |unit| %>
               <tr>
-                <td>
+                <% if unit.state == 'retired' %>
+                    <td style="font-style:italic; color:Red">
+                <% elsif unit.state == 'draft' %>
+                    <td style="font-style:italic; color:DarkOrange ">
+                <% else %>
+                    <td style="font-weight:bold">
+                <% end %>
                   <%= unit.name %>
                 </td>
                 <% @complexities.each do |c| %>
@@ -35,7 +47,7 @@
                                                       :organization_uow_complexity_id => c.id,
                                                       :organization_technology_id => @ot.id,
                                                       :organization_id => @organization.id).first %>
-                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'input-medium' %>
+                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'span' %>
                     </td>
                 <% end %>
               </tr>
@@ -43,10 +55,10 @@
       <% end %>
     </table>
     <% if can? :edit_organizations, Organization %>
-      <%= submit_tag I18n.t('save'), :class => 'btn' %>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-      <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%=I18n.t('import')%></a>
-      <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
+        <%= submit_tag I18n.t('save'), :class => 'btn' %>
+        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%= I18n.t('import') %></a>
+        <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
     <% end %>
 
 <% end %>
