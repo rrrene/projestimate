@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130917145201) do
+ActiveRecord::Schema.define(:version => 20130917171312) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -362,8 +362,9 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.string   "alias"
     t.text     "description"
     t.float    "productivity_ratio"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.string   "state",              :limit => 20
   end
 
   create_table "organization_technologies_unit_of_works", :id => false, :force => true do |t|
@@ -377,9 +378,10 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.integer  "organization_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "display_order"
+    t.string   "state",           :limit => 20
   end
 
   create_table "organizations", :force => true do |t|
@@ -669,7 +671,6 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -688,8 +689,9 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.string   "name"
     t.string   "alias"
     t.text     "description"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "state",           :limit => 20
   end
 
   create_table "unit_of_works", :force => true do |t|
@@ -697,8 +699,9 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.string   "name"
     t.string   "alias"
     t.text     "description"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "state",           :limit => 20
   end
 
   create_table "users", :force => true do |t|
@@ -771,8 +774,8 @@ ActiveRecord::Schema.define(:version => 20130917145201) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
     t.datetime "created_at",                      :null => false
