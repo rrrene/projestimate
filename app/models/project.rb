@@ -53,9 +53,10 @@ class Project < ActiveRecord::Base
 
   #serialize :ten_latest_projects
   validates_presence_of :state
-  validates :title, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
-  validates :alias, :presence => true, :uniqueness => { :scope => :version, case_sensitive: false }
+  validates :title, :presence => true
+  validates :alias, :presence => true
   validates :version, :presence => true
+  validate :check_title_alias_version
 
   #Search fields
   scoped_search :on => [:title, :alias, :description, :start_date, :created_at, :updated_at]
@@ -94,6 +95,22 @@ class Project < ActiveRecord::Base
     })
 
     propagate
+  end
+
+  #Check the couples (title,version) and (alias,version) validation
+  def check_title_alias_version
+    begin
+      project = Project.where('(title=? AND version=?) OR (alias=? AND version=?)', self.title, self.version, self.alias, self.version).first
+      if project
+        errors.add(:title, "the pairs 'name/version' and 'alias/version' must be unique")
+        errors.add(:alias, "the pairs 'name/version' and 'alias/version' must be unique")
+        errors.add(:version, "the pairs 'name/version' and 'alias/version' must be unique")
+      end
+    rescue
+      errors.add(:title, "the pairs 'name/version' and 'alias/version' must be unique")
+      errors.add(:alias, "the pairs 'name/version' and 'alias/version' must be unique")
+      errors.add(:version, "the pairs 'name/version' and 'alias/version' must be unique")
+    end
   end
 
   def self.encoding
