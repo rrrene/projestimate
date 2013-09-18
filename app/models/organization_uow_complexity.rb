@@ -34,4 +34,6 @@ class OrganizationUowComplexity < ActiveRecord::Base
   has_many :organization_uow_complexities, :through => :abacus_organizations
   has_many :abacus_organizations, :dependent => :destroy
 
+  default_scope order("display_order ASC")
+
 end
