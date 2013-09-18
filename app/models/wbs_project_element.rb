@@ -37,7 +37,6 @@ class WbsProjectElement < ActiveRecord::Base
     enable
 
     customize(lambda { |original_wbs_project_elt, new_wbs_project_elt|
-      ###new_wbs_project_elt.name = "Copy_#{ original_wbs_project_elt.copy_number.to_i+1} of #{original_wbs_project_elt.name }"    TODO: remove this line
       new_wbs_project_elt.copy_id = original_wbs_project_elt.id
       new_wbs_project_elt.copy_number = 0
       original_wbs_project_elt.copy_number = original_wbs_project_elt.copy_number.to_i+1
