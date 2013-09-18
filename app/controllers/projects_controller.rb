@@ -1107,6 +1107,7 @@ class ProjectsController < ApplicationController
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
       new_prj.title = old_prj.title
       new_prj.alias = old_prj.alias
+      new_prj.description = old_prj.description
       new_prj.state = "preliminary"
       new_prj.version = set_project_version(old_prj)
       new_prj.parent_id = old_prj.id
