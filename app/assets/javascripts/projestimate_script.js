@@ -220,7 +220,12 @@ $(document).ready(function() {
             $('.spiner').show();
             $.ajax({
                 url:'/selected_pbs_project_element',
-                data:'pbs_id=' + this.value + '&project_id=' + $('#project_id').val()
+                //data:'pbs_id=' + this.value + '&project_id=' + $('#project_id').val()
+                data: {
+                    pbs_id: this.value,
+                    project_id: $('#project_id').val(),
+                    is_project_show_view:  $('#is_project_show_view').val()
+                }
             })
         }
     );
@@ -320,7 +325,8 @@ $(document).ready(function() {
             method: 'GET',
             data: {
                 elt_id: $('#wbs_activity_element').val(),
-                project_id: $('#project_id').val()
+                project_id: $('#project_id').val(),
+                is_project_show_view: $('#is_project_show_view').val()
             }
         });
         return false;
@@ -4778,6 +4784,7 @@ function refresh_me(data){
         data: {
             project_id: $("#project_id").val(),
             show_hidden: show_exclude,
+            is_project_show_view: $('#is_project_show_view').val(),
             dataType: "html"
         }
         ,

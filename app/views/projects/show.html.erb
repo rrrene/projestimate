@@ -14,6 +14,8 @@
     </ul>
 
     <div id="tabs-1">
+      <%= hidden_field_tag :project_id, @project.id %>
+      <%= hidden_field_tag :is_project_show_view, "true" %>
 
       <%= f.input :title, :label => "#{I18n.t 'label_project_name'}", :input_html => {:class => 'input-xxlarge', :autofocus => (controller.action_name == 'new')}, :disabled => true %>
       <table>
@@ -48,27 +50,22 @@
         </tr>
       </table>
 
-
       <%= f.input :project_area_id, :label => "#{I18n.t 'project_area'}", :as => :select, :collection => @project_areas, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
-
       <%= f.input :acquisition_category_id, :label => "#{I18n.t 'acquisition_category'}", :as => :select, :collection => @acquisition_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
-
       <%= f.input :platform_category_id, :label => "#{I18n.t 'platform_category'}", :as => :select, :collection => @platform_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true %>
-
       <%= f.input :project_category_id, :label => "#{I18n.t 'project_category'}", :as => :select, :collection => @project_categories, :input_html => {:class => 'input-xxlarge'}, :disabled => true%>
 
       <div class="actions-tabs">
         <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
       </div>
-
+    </div>
 <% end %>
-</div>
 
 
     <div id="tabs-2">
       <div class="component_tree" id="project_wbs_product_section">
         <% unless @project.nil? || @pe_wbs_project_product.nil? %>
-            <%= raw generate_wbs_product(@project.root_component, @project, '', 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
+            <%= raw generate_wbs_product(@project.root_component, @project, '', 5, true) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
         <% end %>
       </div>
     </div>
@@ -191,16 +188,16 @@
       <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
     </div>
 
-<script>
-    $(document).ready(function () {
-        $('.component_tree ul li, .widget-content ul li').hover(
-            function () {
-                $('.block_link').hide();
+    <script>
+        $(document).ready(function () {
+            $('.component_tree ul li, .widget-content ul li').hover(
+                function () {
+                    $('.block_link').hide();
 
-            }
-        );
-    });
-</script>
+                }
+            );
+        });
+    </script>
 
 </div>
 
