@@ -1050,3 +1050,4 @@ fr:
   notice_send_feedback_success: "Votre demande a bien été prise en compte"
   error_send_feedback_failed: "Une erreur s'est produite lors de l'envoi de votre demande"
   error_validation_project: "les paires 'nom/version' et 'alias/version' doivent être unique"
+  tooltip_state: "Les enregistrements \"Définie (Defined)\" sont affichés en noir, \"Brouillon (Draft)\" en orange, \"Retiré (Retired)\" en rouge"

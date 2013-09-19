@@ -64,7 +64,7 @@ class OrganizationsController < ApplicationController
           ['Subcontracted', 'subcontracted', "Will be subcontracted (but don't know the subcontractor yet)"]
       ]
       subcontractors.each do |i|
-        @organization.subcontractors.create(:name => i[0], :alias => i[1], :description => i[2])
+        @organization.subcontractors.create(:name => i[0], :alias => i[1], :description => i[2], :state => 'defined')
       end
 
       redirect_to redirect_apply(edit_organization_path(@organization)), notice: "#{I18n.t (:notice_organization_successful_created)}"
