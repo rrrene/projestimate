@@ -72,7 +72,7 @@ class OrganizationUowComplexitiesController < ApplicationController
   end
 
   def destroy
-    authorize! :edit_organizations, Organization
+    authorize! :manage, Organization
     @organization_uow_complexity = OrganizationUowComplexity.find(params[:id])
     organization = @organization_uow_complexity.organization
 

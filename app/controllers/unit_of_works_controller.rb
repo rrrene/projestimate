@@ -73,7 +73,7 @@ class UnitOfWorksController < ApplicationController
   end
 
   def destroy
-    authorize! :edit_organizations, Organization
+    authorize! :manage, Organization
     @unit_of_work = UnitOfWork.find(params[:id])
     organization_id = @unit_of_work.organization_id
     @unit_of_work.delete

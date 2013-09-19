@@ -60,7 +60,7 @@ module WbsActivityElementsHelper
 
 
   #Generate tree of Activity Element (projects/:id/edit and dashboard)
-  def generate_wbs_project_elt_tree(element, tree, show_hidden=false)
+  def generate_wbs_project_elt_tree(element, tree, show_hidden=false, is_project_show_view=false)
     #Root is always display
     gap = 2.5
     tree ||= String.new
@@ -72,7 +72,7 @@ module WbsActivityElementsHelper
                         #{show_element_name(element)}
                     </div>
                     <div class='block_link'>
-                      #{ link_activity_element(element) }
+                      #{ link_activity_element(element, is_project_show_view) }
                     </div>
                   </li>"
       end
@@ -87,11 +87,11 @@ module WbsActivityElementsHelper
                         #{show_element_name(e)}
                       </div>
                       <div class='block_link'>
-                        #{ link_activity_element(e) }
+                        #{ link_activity_element(e, is_project_show_view) }
                       </div>
                     </li>"
 
-            generate_wbs_project_elt_tree(e, tree, show_hidden)
+            generate_wbs_project_elt_tree(e, tree, show_hidden, is_project_show_view)
           else
             unless e.exclude
               tree << "
@@ -100,11 +100,11 @@ module WbsActivityElementsHelper
                           #{show_element_name(e)}
                         </div>
                         <div class='block_link'>
-                          #{ link_activity_element(e) }
+                          #{ link_activity_element(e, is_project_show_view) }
                         </div>
                       </li>"
 
-              generate_wbs_project_elt_tree(e, tree, show_hidden)
+              generate_wbs_project_elt_tree(e, tree, show_hidden, is_project_show_view)
             end
           end
         end
@@ -138,24 +138,25 @@ module WbsActivityElementsHelper
   end
 
 
-  def link_activity_element(element)
+  def link_activity_element(element, is_project_show_view)
     if can? :edit_wbs_activities, WbsActivity
       res = String.new
-      if element.attributes.has_key? 'record_status_id'
-        res << link_to('', new_wbs_activity_element_path(:selected_parent_id =>
-                                                             element.id, :activity_id => element.wbs_activity_id), :class => 'button_attribute_tooltip icon-plus icon-large icon-border pull-left', :title => I18n.t('button_add'))
-        res << link_to('', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), :class => 'button_attribute_tooltip icon-edit icon-large icon-border pull-left', :title => I18n.t('edit'), :confirm => (I18n.t(:text_master_force_edit) if element.is_defined?))
-        res << link_to('', element, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'button_attribute_tooltip icon-trash icon-large icon-border pull-left', :title => I18n.t('delete'))
+      unless is_project_show_view
+        if element.attributes.has_key? 'record_status_id'
+          res << link_to('', new_wbs_activity_element_path(:selected_parent_id => element.id, :activity_id => element.wbs_activity_id), :class => 'button_attribute_tooltip icon-plus icon-large icon-border pull-left', :title => I18n.t('button_add'))
+          res << link_to('', edit_wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), :class => 'button_attribute_tooltip icon-edit icon-large icon-border pull-left', :title => I18n.t('edit'), :confirm => (I18n.t(:text_master_force_edit) if element.is_defined?))
+          res << link_to('', element, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'button_attribute_tooltip icon-trash icon-large icon-border pull-left', :title => I18n.t('delete'))
 
-        unless enable_update_in_local?
-          res = link_to('', wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), method: :get, :class => 'icon-eye-open icon-large', :title => 'Show', :remote => true)
+          unless enable_update_in_local?
+            res = link_to('', wbs_activity_element_path(element, :activity_id => element.wbs_activity_id), method: :get, :class => 'icon-eye-open icon-large', :title => 'Show', :remote => true)
+          end
+
+        else
+          res << link_to_unless(element.cannot_get_new_child_link?, '', new_wbs_project_element_path(:selected_parent_id => element.id, :project_id => @project.id), :class => 'button_attribute_tooltip icon-plus icon-large icon-border pull-left', :title => I18n.t('button_add'))
+          res << link_to_unless(element.is_root?, '', edit_wbs_project_element_path(element, :project_id => @project.id), :class => 'button_attribute_tooltip icon-edit icon-large icon-border pull-left', :title => I18n.t('edit'))
+          res << link_to_unless(element.is_root?, '', wbs_project_element_path(element, :project_id => @project.id), confirm: I18n.t('are_you_sur'), method: :delete, :project_id => @project.id, :class => 'button_attribute_tooltip icon-trash icon-large icon-border pull-left', :title => I18n.t('delete')) unless  !element.destroy_leaf
+          res << link_to_if(element.is_added_wbs_root, '', "wbs_project_elements/#{element.id}/change_wbs_project_ratio", :wbs_project_element_id => element.id, :project_id => @project.id, :class => 'button_attribute_tooltip icon-share icon-large icon-border pull-left', :title => I18n.t('change_ratio'), :remote => true)
         end
-
-      else
-        res << link_to_unless(element.cannot_get_new_child_link?, '', new_wbs_project_element_path(:selected_parent_id => element.id, :project_id => @project.id), :class => 'button_attribute_tooltip icon-plus icon-large icon-border pull-left', :title => I18n.t('button_add'))
-        res << link_to_unless(element.is_root?, '', edit_wbs_project_element_path(element, :project_id => @project.id), :class => 'button_attribute_tooltip icon-edit icon-large icon-border pull-left', :title => I18n.t('edit'))
-        res << link_to_unless(element.is_root?, '', wbs_project_element_path(element, :project_id => @project.id), confirm: I18n.t('are_you_sur'), method: :delete, :project_id => @project.id, :class => 'button_attribute_tooltip icon-trash icon-large icon-border pull-left', :title => I18n.t('delete')) unless  !element.destroy_leaf
-        res << link_to_if(element.is_added_wbs_root, '', "wbs_project_elements/#{element.id}/change_wbs_project_ratio", :wbs_project_element_id => element.id, :project_id => @project.id, :class => 'button_attribute_tooltip icon-share icon-large icon-border pull-left', :title => I18n.t('change_ratio'), :remote => true)
       end
       res
     end

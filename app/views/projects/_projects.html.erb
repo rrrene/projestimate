@@ -40,6 +40,8 @@
               <% if (((project.preliminary? || project.in_review? || project.in_progress? || project.checkpoint?) && (can? :delete_project, Project))||(can? :manage, Project)) && project.is_childless? %>
                   <%= (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project) %>
               <% end %>
+
+              <%= (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project) %>
             </td>
           </tr>
       <% end %>

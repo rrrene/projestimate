@@ -31,7 +31,7 @@ class Home < ActiveRecord::Base
       db = Mysql2::Client.new(ExternalMasterDatabase::HOST)
         return db
     rescue Mysql2::Error
-      puts "We could not connect to our database;"
+      puts 'We could not connect to our database;'
       exit 1
     end
   end
@@ -91,7 +91,7 @@ class Home < ActiveRecord::Base
       icon_id=icon_url.split('/')[7]
       unless Dir.entries("#{Rails.root}/public/").include?(icon_name)
         url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
-        File.open("#{Rails.root}/public/#{icon_name}", "wb") do |saved_file|
+        File.open("#{Rails.root}/public/#{icon_name}", 'wb') do |saved_file|
           # the following "open" is provided by open-uri
           open(url, 'rb') do |read_file|
             saved_file.write(read_file.read)
@@ -107,7 +107,7 @@ class Home < ActiveRecord::Base
         icon = Peicon.find(id_icon)
         icon.update_attributes(:name => ext_icon.name, :icon => File.new("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id,:uuid=> ext_icon.uuid)
       else
-        puts "create"
+        puts 'create'
         icon = Peicon.create(:name => ext_icon.name, :icon => File.open("#{Rails.root}/public/#{icon_name}"), :record_status_id => local_defined_rs_id, :uuid => ext_icon.uuid )
         icon.uuid=ext_icon.uuid
         icon.save
@@ -158,7 +158,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalProjectSecurityLevel, ProjectSecurityLevel, ['name', 'description', 'uuid'])
 
     puts '   - Global permissions'
-    self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid','alias','is_master_permission','category'])
 
     #Update the latest update date information
     latest_saved_record = Version.last
@@ -513,7 +513,7 @@ class Home < ActiveRecord::Base
         icon_url=ext_icon.icon.url
         icon_id=icon_url.split('/')[7]
         url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
-        File.open("#{Rails.root}/public/#{icon_name}", "wb") do |saved_file|
+        File.open("#{Rails.root}/public/#{icon_name}", 'wb') do |saved_file|
           # the following "open" is provided by open-uri
           open(url, 'rb') do |read_file|
             saved_file.write(read_file.read)
@@ -590,7 +590,7 @@ class Home < ActiveRecord::Base
     Project.create(:title => 'Sample project', :description => 'This is a sample project for demonstration purpose', :alias => 'sample project', :state => 'preliminary', :start_date => Time.now.strftime('%Y/%m/%d'), :is_model => false, :organization_id => organization.id, :project_area_id => pjarea.id, :project_category_id => ProjectCategory.first.id, :platform_category_id => PlatformCategory.first.id, :acquisition_category_id => AcquisitionCategory.first.id)
     project = Project.first
 
-    capitalization = Pemodule.find_by_alias("capitalization")
+    capitalization = Pemodule.find_by_alias('capitalization')
     ModuleProject.create(:pemodule_id => capitalization.id, :project_id => project.id, :position_x => 0, :position_y => 0)
 
     #New default Pe-Wbs-Project
@@ -618,14 +618,14 @@ class Home < ActiveRecord::Base
 
 
     puts '   - Create global permissions...'
-    self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalPermission, Permission, ['name', 'description', 'object_associated', 'is_permission_project', 'uuid','alias','is_master_permission','category'])
     #Associate permissions to groups
     ext_permissions = ExternalMasterDatabase::ExternalPermission.all
     ext_groups = ExternalMasterDatabase::ExternalGroup.all
 
 
     #Select groups_permissions table on master database
-    rows = db.query("SELECT * FROM groups_permissions")
+    rows = db.query('SELECT * FROM groups_permissions')
     groups_permissions=Array.new
     rows.each do |row|
       groups_permissions.push(row)
@@ -650,8 +650,8 @@ class Home < ActiveRecord::Base
         ext_group.each do |row|
           ext_group_uuid=row
         end
-        loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
-        loc_group= Group.find_by_uuid(ext_group_uuid["uuid"]).id
+        loc_permission_id=Permission.find_by_uuid(ext_permission_uuid['uuid']).id
+        loc_group= Group.find_by_uuid(ext_group_uuid['uuid']).id
         loc_records_permissions << [loc_permission_id,loc_group]
       end
     rescue
@@ -672,7 +672,7 @@ class Home < ActiveRecord::Base
     # Connect to the master database
 
     #Select permissions_project_security_levels table on master database
-    rows = db.query("SELECT * FROM permissions_project_security_levels")
+    rows = db.query('SELECT * FROM permissions_project_security_levels')
     permissions_project_security_level=Array.new
     rows.each do |row|
       permissions_project_security_level.push(row)
@@ -696,9 +696,9 @@ class Home < ActiveRecord::Base
       ext_project_security_levels.each do |row|
         ext_project_security_level_uuid=row
       end
-      loc_permission_id=Permission.find_by_uuid(ext_permission_uuid["uuid"]).id
+      loc_permission_id=Permission.find_by_uuid(ext_permission_uuid['uuid']).id
 
-      loc_project_security_level_id= ProjectSecurityLevel.find_by_uuid(ext_project_security_level_uuid["uuid"]).id
+      loc_project_security_level_id= ProjectSecurityLevel.find_by_uuid(ext_project_security_level_uuid['uuid']).id
       loc_records_permissions_project << [loc_permission_id,loc_project_security_level_id]
     end
     #Insert on local database permissions_project_security_levels records

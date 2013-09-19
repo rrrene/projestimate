@@ -72,7 +72,7 @@ class OrganizationTechnologiesController < ApplicationController
   end
 
   def destroy
-    authorize! :edit_organizations, Organization
+    authorize! :manage, Organization
     @organization_technology = OrganizationTechnology.find(params[:id])
     organization_id = @organization_technology.organization_id
     @organization_technology.delete
