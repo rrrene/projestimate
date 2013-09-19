@@ -20,13 +20,17 @@
             <th class="text-center">
               <% if ouc.state == 'retired' %>
                 <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= ouc.description %>'>
+                    <%= ouc.name %>
+                </span>
               <% elsif ouc.state == 'draft' %>
                 <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange " title='<%= ouc.description %>'>
+                  <%= ouc.name %>
+                </span>
               <% else %>
                 <span class="attribute_tooltip" title='<%= ouc.description %>'>
+                    <%= ouc.name %>
+                </span>
               <% end %>
-              <%= ouc.name %>
-              </span>
             </th>
         <% end %>
       </tr>
@@ -37,13 +41,18 @@
                 <td style="text-align: right;">
                   <% if unit.state == 'retired' %>
                     <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
                   <% elsif unit.state == 'draft' %>
                     <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
                   <% else %>
                     <span class="attribute_tooltip" style="font-weight:bold" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
                   <% end %>
-                  <%= unit.name %>
-                  </span>
+
                 </td>
                 <% @complexities.each do |c| %>
                     <td style="text-align: center;">
