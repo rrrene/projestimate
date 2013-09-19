@@ -1027,7 +1027,11 @@ fr:
   notice_subcontractor_successfully_deleted: "Le sous-traitant a été supprimé avec succès"
 
   label_Project: "Projet"
-  label_add_filter_on_projects_version: "Filtrer"
+  label_filter_on_projects_version: "Filtre sur les versions de projets"
+  label_filter_on_project_version_1: "Afficher seulement les feuilles "
+  label_filter_on_project_version_2: "Afficher toutes les versions"
+  label_filter_on_project_version_3: "Afficher seulement la racine "
+  label_filter_on_project_version_4: "Afficher seulement la plus récente"
   label_ProjectArea: "Secteur Projet"
   label_PlatformCategory: "Catégorie Plate-forme"
   label_ProjectCategory: "Catégorie Projet"
@@ -1045,3 +1049,4 @@ fr:
   error_send_feedback_empty: "Merci de bien vouloir renseigner tous les champs du formulaire"
   notice_send_feedback_success: "Votre demande a bien été prise en compte"
   error_send_feedback_failed: "Une erreur s'est produite lors de l'envoi de votre demande"
+  error_validation_project: "les paires 'nom/version' et 'alias/version' doivent être unique"

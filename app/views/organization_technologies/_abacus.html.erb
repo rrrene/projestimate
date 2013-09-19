@@ -17,14 +17,20 @@
       <tr>
         <th style="text-align:left;"><%= I18n.t(:organization_abacus) %></th>
         <% @complexities.each do |ouc| %>
-            <% if ouc.state == 'retired' %>
-                <th class="text-center" style="font-style:italic; color:Red">
-            <% elsif ouc.state == 'draft' %>
-                <th class="text-center" style="font-style:italic; color:DarkOrange ">
-            <% else %>
-                <th class="text-center">
-            <% end %>
-            <%= ouc.name %>
+            <th class="text-center">
+              <% if ouc.state == 'retired' %>
+                <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= ouc.description %>'>
+                    <%= ouc.name %>
+                </span>
+              <% elsif ouc.state == 'draft' %>
+                <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange " title='<%= ouc.description %>'>
+                  <%= ouc.name %>
+                </span>
+              <% else %>
+                <span class="attribute_tooltip" title='<%= ouc.description %>'>
+                    <%= ouc.name %>
+                </span>
+              <% end %>
             </th>
         <% end %>
       </tr>
@@ -32,8 +38,21 @@
       <% if @unitofworks %>
           <% @unitofworks.each do |unit| %>
               <tr>
-                <td>
-                  <%= unit.name %>
+                <td style="text-align: right;">
+                  <% if unit.state == 'retired' %>
+                    <span class="attribute_tooltip" style="font-style:italic; color:Red" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
+                  <% elsif unit.state == 'draft' %>
+                    <span class="attribute_tooltip" style="font-style:italic; color:DarkOrange" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
+                  <% else %>
+                    <span class="attribute_tooltip" style="font-weight:bold" title='<%= unit.description %>'>
+                        <%= unit.name %>
+                    </span>
+                  <% end %>
+
                 </td>
                 <% @complexities.each do |c| %>
                     <td style="text-align: center;">
@@ -41,7 +60,7 @@
                                                       :organization_uow_complexity_id => c.id,
                                                       :organization_technology_id => @ot.id,
                                                       :organization_id => @organization.id).first %>
-                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'input-medium' %>
+                      <%= text_field_tag "abacus[#{unit.id}][#{c.id}]", a.nil? ? '' : a.value, :class => 'span' %>
                     </td>
                 <% end %>
               </tr>

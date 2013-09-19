@@ -38,9 +38,14 @@ class PermissionsController < ApplicationController
 
   def globals_permissions
     set_page_title 'Globals Permissions'
-    @permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project }
-    @permissions_classes = @permissions.map(&:object_associated).uniq
 
+    @global_permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project }
+    @permission_projects = Permission.order('object_associated').defined.select{|i| i.is_permission_project }
+
+    @permissions_classes_globals = @global_permissions.map(&:category).uniq
+    @permissions_classes_projects = @permission_projects.map(&:category).uniq
+
+    @project_security_levels = ProjectSecurityLevel.defined
     @groups = Group.defined_or_local
 
     respond_to do |format|
@@ -148,7 +153,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to project_securities_path, :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
+      format.html { redirect_to "/globals_permissions", :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
     end
 
   end
