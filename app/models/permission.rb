@@ -28,7 +28,7 @@ class Permission < ActiveRecord::Base
   has_and_belongs_to_many :project_security_levels
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates_presence_of :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}

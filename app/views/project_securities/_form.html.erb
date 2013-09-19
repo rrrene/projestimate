@@ -17,18 +17,18 @@
     <%= f.input :user_id, :as => :select , :collection => @users %>
 
     <div >
-      <label for="theme"><%= I18n.t(:project_securities)%></label>
-      <br/><%= f.radio_button 'project_security_level', "4", :name => "project_security_level" %> <%= I18n.t(:full_control)%>
-      <br/><%= f.radio_button 'project_security_level', "3", :name => "project_security_level" %> <%= I18n.t(:define)%>
-      <br/><%= f.radio_button 'project_security_level', "2", :name => "project_security_level" %> <%= I18n.t(:modify)%>
-      <br/><%= f.radio_button 'project_security_level', "1", :name => "project_security_level" %> <%= I18n.t(:comment)%>
-      <br/><%= f.radio_button 'project_security_level', "0", :name => "project_security_level" %> <%= I18n.t(:read_only)%>
+      <label for="theme"><%= I18n.t(:project_permissions)%></label>
+      <br/><%= f.radio_button 'project_security_level', '4', :name => 'project_security_level' %> <%= I18n.t(:full_control)%>
+      <br/><%= f.radio_button 'project_security_level', '3', :name => 'project_security_level' %> <%= I18n.t(:define)%>
+      <br/><%= f.radio_button 'project_security_level', '2', :name => 'project_security_level' %> <%= I18n.t(:modify)%>
+      <br/><%= f.radio_button 'project_security_level', '1', :name => 'project_security_level' %> <%= I18n.t(:comment)%>
+      <br/><%= f.radio_button 'project_security_level', '0', :name => 'project_security_level' %> <%= I18n.t(:read_only)%>
     </div>
     <div class="actions">
       <% if action_name.in?(%w(new create)) %>
           <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
           <%= submit_tag I18n.t('save'), :class => 'btn' %>
-      <% elsif action_name == 'edit' || action_name=="update" %>
+      <% elsif action_name == 'edit' || action_name=='update' %>
           <%= submit_tag I18n.t('save'), :class => 'btn' %>
           <%= submit_tag I18n.t('apply'), :class => 'btn' %>
       <% end %>

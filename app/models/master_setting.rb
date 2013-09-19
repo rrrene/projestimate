@@ -23,7 +23,7 @@ class MasterSetting < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :value, :record_status, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}

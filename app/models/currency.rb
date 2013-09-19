@@ -26,7 +26,7 @@ class Currency < ActiveRecord::Base
   has_many :organization_labor_categories
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :record_status, :presence => true
   validates :name, :alias, :uuid, :presence => true, :uniqueness => {:scope => :record_status_id, case_sensitive: false}

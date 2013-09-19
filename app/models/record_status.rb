@@ -23,7 +23,7 @@ class RecordStatus < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :acquisition_categories
-  has_many :associated_attributes, :class_name => "PeAttribute"
+  has_many :associated_attributes, :class_name => 'PeAttribute'
   has_many :attribute_modules
   has_many :currencies
   has_many :event_types
@@ -44,10 +44,10 @@ class RecordStatus < ActiveRecord::Base
   has_many :permissions
 
   #self relation for status
-  has_many :record_statuses, :class_name => "RecordStatus", :foreign_key => "record_status_id"
-  belongs_to :record_status, :class_name => "RecordStatus", :foreign_key => "record_status_id"
+  has_many :record_statuses, :class_name => 'RecordStatus', :foreign_key => 'record_status_id'
+  belongs_to :record_status, :class_name => 'RecordStatus', :foreign_key => 'record_status_id'
 
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :description, :presence => true #:record_status,
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
@@ -62,7 +62,7 @@ class RecordStatus < ActiveRecord::Base
     customize(lambda { |original_record, new_record|
       new_record.reference_uuid = original_record.uuid
       new_record.reference_id = original_record.id
-      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+      new_record.record_status = RecordStatus.find_by_name('Proposed') #RecordStatus.first
     })
   end
 

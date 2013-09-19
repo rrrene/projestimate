@@ -1,6 +1,6 @@
 <div class="tabs">
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:global_permission) %></a></li>
+    <li><a href="#tabs-1"><%= I18n.t(:global_permissions) %></a></li>
   </ul>
 
   <div id="tabs-1">
@@ -18,9 +18,9 @@
         <tr>
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:alias) %></th>
-          <th><%= I18n.t(:description) %></th>
-          <th><%= I18n.t(:category) %></th>
+          <th class="filter-select"><%= I18n.t(:category) %></th>
           <th class="filter-select"><%= I18n.t(:is_permission_project) %></th>
+          <th class="filter-select"><%= I18n.t(:is_permission_master) %></th>
           <th class="filter-select"><%= I18n.t('label_associated_object') %></th>
           <th class="filter-select"><%= I18n.t(:record_status) %></th>
           <th class="action"><%= I18n.t(:actions) %></th>
@@ -29,11 +29,11 @@
 
       <% @permissions.each do |perm| %>
           <tr>
-            <td><%= perm.name %></td>
+            <td><span class = "attribute_tooltip" title ='<%= perm.description%>' ><%= perm.name %></span></td>
             <td><%= perm.alias %></td>
-            <td><%= perm.description %></td>
             <td><%= perm.category %></td>
             <td><%= perm.is_permission_project %></td>
+            <td><%= perm.is_master_permission %></td>
             <td><%= perm.object_associated.blank? ? 'All' : perm.object_associated %></td>
             <td><%= perm.record_status.name unless perm.record_status.nil? %><%= perm.show_custom_value %></td>
             <td>

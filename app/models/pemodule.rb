@@ -34,7 +34,7 @@ class Pemodule < ActiveRecord::Base
   has_many :pe_attributes, :source => :pe_attribute, :through => :attribute_modules
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   serialize :compliant_component_type
 
@@ -66,7 +66,7 @@ class Pemodule < ActiveRecord::Base
     customize(lambda { |original_record, new_record|
       new_record.reference_uuid = original_record.uuid
       new_record.reference_id = original_record.id
-      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+      new_record.record_status = RecordStatus.find_by_name('Proposed') #RecordStatus.first
     })
   end
 

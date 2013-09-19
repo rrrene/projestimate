@@ -249,11 +249,11 @@ fr:
   user: "Utilisateur"
   groups: "Groupes"
   label_role: "Rôles"
-  global_permission: "Rôles (Globals)"
+  global_permissions: "Autorisations globales"
   text_global_permission: "Use this page to assign "
   all_permissions: "Permissions"
-  project_securities: "Rôles (Projets)"
-  text_project_securities: "Rôles (projets)"
+  project_permissions: "Autorisations Projets"
+  master_permissions: "Autorisations Master"
   auth_methods: "Authentifications"
   events: "Evènements"
 
@@ -520,6 +520,7 @@ fr:
 
   #permissions
   is_permission_project: "Est une permission projet"
+  is_permission_master: "Est une permission master"
   label_associated_object: "Objet associé"
   edit_permission: "Editer la permission \"%{value}\" ..."
   new_permission: "Créer une nouvelle permission"
@@ -1051,3 +1052,10 @@ fr:
   error_send_feedback_failed: "Une erreur s'est produite lors de l'envoi de votre demande"
   error_validation_project: "les paires 'nom/version' et 'alias/version' doivent être unique"
   tooltip_state: "Les enregistrements \"Définie (Defined)\" sont affichés en noir, \"Brouillon (Draft)\" en orange, \"Retiré (Retired)\" en rouge"
+  warning_project_state_to_rejected: "if you continue this project version will become non modifiable and non derivable, please confirm..."
+  warning_project_state_to_released: "if you continue this project version will become non modifiable, please confirm..."
+  warning_project_state_to_checkpoint: "if you continue this project version will become non modifiable but collapsible, please confirm..."
+  warning_project_state_to_inreview: "if you continue only users with \"write_access_to_inreview_projects\" privilege will be able to modify this project version, please confirm..."
+  warning_project_state_unusual: "This is unusual to commit from state \"%{value_a}\" to state \"%{value_b}\", please confirm"
+  warning_project_state_unnormal: "This is not a normal commit from state \"%{value_a}\" to state \"%{value_b}\", please confirm"
+  error_project_state_not_possible: "This is a transaction that is not possible"

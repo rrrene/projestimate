@@ -28,7 +28,7 @@ class ProjectArea < ActiveRecord::Base
   has_and_belongs_to_many :project_categories
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   has_many :projects
 

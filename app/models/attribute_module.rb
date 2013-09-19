@@ -24,10 +24,10 @@ class AttributeModule < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   belongs_to :pemodule
-  belongs_to :pe_attribute, :class_name => "PeAttribute", :foreign_key => "pe_attribute_id"
+  belongs_to :pe_attribute, :class_name => 'PeAttribute', :foreign_key => 'pe_attribute_id'
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates_presence_of :pe_attribute_id

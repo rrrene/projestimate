@@ -2,27 +2,18 @@
   $(document).ready(function() {
 
     var can_promote = "<%= local_assigns[:can] %>"
-    var error_messages = new Array(
-            "if you continue only users with 'write_access_to_inreview_projects'",
-            "if you continue this project version will become non modifiable but collapsible, please confirm (y/n)",
-            "if you continue this project version will become non modifiable, please confirm (y/n)",
-            "if you continue this project version will become non modifiable and non derivable, please confirm (y/n)",
-            "This is unusual to commit from state A to state B, please confirm (y/n)",
-            "This is not a normal commit from state A to state B, please confirm (y/n)",
-            "Not possible transaction"
-    );
 
-    function send_notice(message){
+    function send_notice(message,s1,s2){
       if(message == "ok"){
         return true;
       }
       else if(message == "ko"){
         if(can_promote == "can_promote_project"){
-          alert(error_messages[6]);
+          alert("<%= I18n.t(:error_project_state_not_possible, :value_a => @s1, :value_b => @s2) %>");
           return false;
         }
         else{
-          alert(error_messages[5]);
+          alert("<%= I18n.t(:warning_project_state_unnormal, :value_a => @s1, :value_b => @s2) %>");
           return true;
         }
       }
@@ -45,16 +36,16 @@
                 return send_notice("ok");
                 break;
               case "in_review":
-                return send_notice(error_messages[0]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_inreview) %>");
                 break;
               case "checkpoint":
-                return send_notice(error_messages[1]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_checkpoint) %>");
                 break;
               case "released":
-                return send_notice(error_messages[2]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_released) %>");
                 break;
               case "rejected":
-                return send_notice(error_messages[3]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_rejected) %>");
                 break;
             }
             break;
@@ -64,16 +55,16 @@
                 return send_notice("ok");
                 break;
               case "in_review":
-                return send_notice(error_messages[0]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_inreview) %>");
                 break;
               case "checkpoint":
-                return send_notice(error_messages[1]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_checkpoint) %>");
                 break;
               case "released":
-                return send_notice(error_messages[2]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_released) %>");
                 break;
               case "rejected":
-                return send_notice(error_messages[3]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_rejected) %>");
                 break;
             }
           case "in_review":
@@ -85,67 +76,67 @@
                 send_notice("ok");
                 break;
               case "checkpoint":
-                return send_notice(error_messages[1]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_checkpoint) %>");
                 break;
               case "released":
-                 return send_notice(error_messages[2]);
+                 return send_notice("<%= I18n.t(:warning_project_state_to_released) %>");
                  break;
               case "rejected":
-                return send_notice(error_messages[3]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_rejected) %>");
                 break;
             }
           case "checkpoint":
             switch (new_value) {
               case "preliminary":
-                return send_notice("ko");
+                return send_notice("ko",'CHECKPOINT','PRELIMINARY');
                 break;
               case "in_progress":
-                return send_notice("ko");
+                return send_notice("ko",'CHECKPOINT','IN PROGRESS');
                 break;
               case "in_review":
-                return send_notice("ko");
+                return send_notice("ko",'CHECKPOINT','IN REVIEW');
                 break;
               case "released":
-                return send_notice(error_messages[2]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_released) %>");
                 break;
               case "rejected":
-                return send_notice(error_messages[3]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_rejected) %>");
                 break;
             }
           case "released":
             switch (new_value) {
               case "preliminary":
-                return send_notice("ko");
+                return send_notice("ko",'RELEASED','PRELIMINARY');
                 break;
               case "in_progress":
-                return send_notice("ko");
+                return send_notice("ko",'RELEASED','IN PROGRESS');
                 break;
               case "in_review":
-                return send_notice("ko");
+                return send_notice("ko",'RELEASED','IN REVIEW');
                 break;
               case "checkpoint":
-                return send_notice(error_messages[4]);
+                return send_notice("<%= I18n.t(:warning_project_state_unusual, :value_a =>'RELEASED', :value_b => 'CHECKPOINT') %>");
                 break;
               case "rejected":
-                return send_notice(error_messages[3]);
+                return send_notice("<%= I18n.t(:warning_project_state_to_rejected) %>");
                 break;
             }
           case "rejected":
             switch (new_value) {
               case "preliminary":
-                return send_notice("ko");
+                return send_notice("ko",'REJECTED','PRELIMINARY');
                 break;
               case "in_progress":
-                return send_notice("ko");
+                return send_notice("ko",'REJECTED','IN PROGRESS');
                 break;
               case "in_review":
-                return send_notice("ko");
+                return send_notice("ko",'REJECTED','IN REVIEW');
                 break;
               case "checkpoint":
-                return send_notice(error_messages[4]);
+                return send_notice("<%= I18n.t(:warning_project_state_unusual, :value_a =>'REJECTED', :value_b => 'CHECKPOINT') %>");
                 break;
               case "released":
-                return send_notice(error_messages[4]);
+                return send_notice("<%= I18n.t(:warning_project_state_unusual, :value_a =>'REJECTED', :value_b => 'RELEASED') %>");
                 break;
             }
         }
