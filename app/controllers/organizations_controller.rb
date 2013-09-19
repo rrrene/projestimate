@@ -59,9 +59,9 @@ class OrganizationsController < ApplicationController
     if @organization.save
       #Create the organization's default subcontractor
       subcontractors = [
-          ['Undefined', 'undefined', "Haven't a clue if it will be subcontracted or made internally"],
-          ['Internal', 'internal', 'Will be made internally'],
-          ['Subcontracted', 'subcontracted', "Will be subcontracted (but don't know the subcontractor yet)"]
+          ['Undefined', '_undefined', "Haven't a clue if it will be subcontracted or made internally"],
+          ['Internal', '_internal', 'Will be made internally'],
+          ['Subcontracted', '_subcontracted', "Will be subcontracted (but don't know the subcontractor yet)"]
       ]
       subcontractors.each do |i|
         @organization.subcontractors.create(:name => i[0], :alias => i[1], :description => i[2], :state => 'defined')
