@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918124625) do
+ActiveRecord::Schema.define(:version => 20130919133127) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -674,7 +674,6 @@ ActiveRecord::Schema.define(:version => 20130918124625) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -780,8 +779,8 @@ ActiveRecord::Schema.define(:version => 20130918124625) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end

@@ -15,7 +15,7 @@
 
       <%= f.input :category, :label => I18n.t('category'), :collection => ["Project", "Library", "Admin", "Master"], :input_html => {:class => 'input-xxlarge'} %>
 
-      <%= f.input :is_master_permission, :label => I18n.t('is_master_permission'), :input_html => {:class => 'input-xxlarge'} %>
+      <%= f.input :is_master_permission, :label => I18n.t('is_master_permission'), :input_html => {:class => 'input-xxlarge'}, :as => :boolean %>
 
       <%= f.input :is_permission_project, :label => I18n.t('is_permission_project'), :input_html => {:class => 'input-small'}, :as => :boolean %>
 
