@@ -41,9 +41,11 @@ class PermissionsController < ApplicationController
 
     @global_permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project }
     @permission_projects = Permission.order('object_associated').defined.select{|i| i.is_permission_project }
+    @master_permissions = Permission.order('object_associated').defined.select{|i| i.is_master_permission }
 
     @permissions_classes_globals = @global_permissions.map(&:category).uniq
     @permissions_classes_projects = @permission_projects.map(&:category).uniq
+    @permissions_classes_masters = @master_permissions.map(&:category).uniq
 
     @project_security_levels = ProjectSecurityLevel.defined
     @groups = Group.defined_or_local

@@ -16,8 +16,10 @@
     <table class="table tablesorterPager table-striped table-bordered table-condensed">
       <thead>
         <tr>
+          <th><%= I18n.t(:name) %></th>
+          <th><%= I18n.t(:alias) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th>Alias</th>
+          <th><%= I18n.t(:category) %></th>
           <th class="filter-select"><%= I18n.t(:is_permission_project) %></th>
           <th class="filter-select"><%= I18n.t('label_associated_object') %></th>
           <th class="filter-select"><%= I18n.t(:record_status) %></th>
@@ -27,9 +29,9 @@
 
       <% @permissions.each do |perm| %>
           <tr>
+            <td><%= perm.name %></td>
             <td><%= perm.alias %></td>
             <td><%= perm.description %></td>
-            <td><%= perm.name %></td>
             <td><%= perm.category %></td>
             <td><%= perm.is_permission_project %></td>
             <td><%= perm.object_associated.blank? ? 'All' : perm.object_associated %></td>
