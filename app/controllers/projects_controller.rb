@@ -514,6 +514,9 @@ class ProjectsController < ApplicationController
 
   def select_pbs_project_elements
     @project = Project.find(params[:project_id])
+    @module_projects = @project.module_projects
+    @capitalization_module_project = @capitalization_module.nil? ? nil : @module_projects.find_by_pemodule_id(@capitalization_module.id)
+
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
       @pbs_project_element = PbsProjectElement.find(params[:pbs_project_element_id])
     else
@@ -1061,6 +1064,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @show_hidden = params[:show_hidden]
+    @is_project_show_view =  params[:is_project_show_view]
   end
 
   #On edit page, select ratios according to the selected wbs_activity
