@@ -25,8 +25,7 @@ class OrganizationsController < ApplicationController
   include RubyXL
 
   def new
-    authorize! :edit_organizations, Organization
-    authorize! :edit_organizations, Organization
+    authorize! :create_organizations, Organization
 
     set_page_title 'Organizations'
     @organization = Organization.new
@@ -53,6 +52,8 @@ class OrganizationsController < ApplicationController
   end
 
   def create
+    authorize! :create_organizations, Organization
+
     @organization = Organization.new(params[:organization])
 
     if @organization.save
@@ -92,6 +93,8 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Organization
+
     @organization = Organization.find(params[:id])
     @organization.destroy
     flash[:notice] = I18n.t (:notice_organization_successful_deleted)
@@ -105,7 +108,7 @@ class OrganizationsController < ApplicationController
   end
 
   def set_abacus
-    authorize! :manage_organizations, Organization
+    authorize! :edit_organizations, Organization
 
     @ot = OrganizationTechnology.find_by_id(params[:technology])
     @complexities = @ot.organization.organization_uow_complexities
@@ -121,11 +124,11 @@ class OrganizationsController < ApplicationController
         end
       end
     end
-
     redirect_to redirect_apply(edit_organization_path(@ot.organization_id, :anchor => 'tabs-8'), nil, '/organizationals_params')
   end
 
   def import_abacus
+    authorize! :edit_organizations, Organization
     @organization = Organization.find(params[:id])
 
     #updaload file copied in a tmp directory
@@ -160,14 +163,15 @@ class OrganizationsController < ApplicationController
                       @ot.id,
                       @organization.id
                   )
-
                   if ao.nil?
-                    AbacusOrganization.create(
-                        :unit_of_work_id => uow.id,
-                        :organization_uow_complexity_id => ouc.id,
-                        :organization_technology_id => @ot.id,
-                        :organization_id => @organization.id,
-                        :value => worksheet.sheet_data[i][j].value)
+                    if can? :manage, Organization
+                      AbacusOrganization.create(
+                          :unit_of_work_id => uow.id,
+                          :organization_uow_complexity_id => ouc.id,
+                          :organization_technology_id => @ot.id,
+                          :organization_id => @organization.id,
+                          :value => worksheet.sheet_data[i][j].value)
+                    end
                   else
                     ao.update_attribute(:value, worksheet.sheet_data[i][j].value)
                   end
@@ -185,6 +189,8 @@ class OrganizationsController < ApplicationController
   end
 
   def export_abacus
+    #No authorize required since everyone can edit
+
     @organization = Organization.find(params[:id])
     p=Axlsx::Package.new
     wb=p.workbook

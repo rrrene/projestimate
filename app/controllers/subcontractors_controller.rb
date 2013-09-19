@@ -48,7 +48,7 @@ class SubcontractorsController < ApplicationController
   end
 
   def destroy
-    authorize! :edit_organizations, Organization
+    authorize! :manage, Organization
     @subcontractor = Subcontractor.find(params[:id])
     organization_id = @subcontractor.organization_id
     @subcontractor.destroy
