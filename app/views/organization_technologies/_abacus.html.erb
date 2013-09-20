@@ -71,8 +71,8 @@
         <%= submit_tag I18n.t('save'), :class => 'btn' %>
         <%= submit_tag I18n.t('apply'), :class => 'btn' %>
         <a href="#myAbacusImportModal" role="button" class="btn" data-toggle="modal"><%= I18n.t('import') %></a>
-        <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
     <% end %>
+    <%= link_to I18n.t('export'), export_abacus_path(@organization.id), :class => 'btn' %>
 
 <% end %>
 

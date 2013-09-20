@@ -24,16 +24,16 @@ class Peicon < ActiveRecord::Base
 
   attr_accessible :name, :icon, :record_status_id
 
-  has_attached_file :icon, :styles => {:small => "16x16"}
+  has_attached_file :icon, :styles => {:small => '16x16'}
 
   validates_attachment :icon, :presence => true,
-                       :content_type => {:content_type => "image/png"},
+                       :content_type => {:content_type => 'image/png'},
                        :size => {:in => 0..10.kilobytes}
 
   has_many :work_element_types, :dependent => :destroy
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :record_status, :presence => true
   validates :uuid, :presence => true, :uniqueness => {case_sensitive: false}

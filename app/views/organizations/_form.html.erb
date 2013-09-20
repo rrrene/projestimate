@@ -125,7 +125,7 @@
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:alias) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th class="filter-select"><%= I18n.t(:state) %></th>
+          <th class="filter-select" title="<%= I18n.t(:tooltip_state) %>"><%= I18n.t(:state) %></th>
           <th><%= I18n.t(:productivity_ratio) %></th>
           <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
         </tr>
@@ -146,7 +146,7 @@
             <td><%= ot.productivity_ratio %></td>
             <td>
               <%= link_to '', edit_organization_technology_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-              <% if can? :edit_organizations, Organization %>
+              <% if can? :manage, Organization %>
                   <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% end %>
             </td>
@@ -170,7 +170,7 @@
           <th><%= I18n.t(:display_order) %></th>
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th class="filter-select"><%= I18n.t(:state) %></th>
+          <th class="filter-select" title="<%= I18n.t(:tooltip_state) %>"><%= I18n.t(:state) %></th>
           <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
         </tr>
         </thead>
@@ -189,7 +189,7 @@
             <td><%= oc.state %></td>
             <td>
               <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-              <% if can? :edit_organizations, Organization %>
+              <% if can? :manage, Organization %>
                   <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% end %>
             </td>
@@ -214,7 +214,7 @@
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:alias) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th class="filter-select"><%= I18n.t(:state) %></th>
+          <th class="filter-select" title="<%= I18n.t(:tooltip_state) %>"><%= I18n.t(:state) %></th>
           <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
         </tr>
         </thead>
@@ -233,7 +233,7 @@
             <td><%= uow.state %></td>
             <td>
               <%= link_to '', edit_unit_of_work_path(uow.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-              <% if can? :edit_organizations, Organization %>
+              <% if can? :manage, Organization %>
                   <%= link_to '', uow, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
               <% end %>
             </td>
@@ -257,7 +257,7 @@
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:alias) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th class="filter-select"><%= I18n.t(:state) %></th>
+          <th class="filter-select" title="<%= I18n.t(:tooltip_state) %>"><%= I18n.t(:state) %></th>
           <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
         </tr>
         </thead>
@@ -277,7 +277,7 @@
             <td>
               <% unless ot.in?(@default_subcontractors) %>
                   <%= link_to '', edit_subcontractor_path(ot.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-                  <% if can? :edit_organizations, Organization %>
+                  <% if can? :manage, Organization %>
                       <%= link_to '', ot, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
                   <% end %>
               <% end %>

@@ -19,6 +19,6 @@
 ########################################################################
 
 class AssociatedModuleProject < ActiveRecord::Base
-  belongs_to :module_project,            :class_name => 'ModuleProject', :foreign_key => "module_project_id"
-  belongs_to :associated_module_project, :class_name => 'ModuleProject', :foreign_key => "associated_module_project_id"
+  belongs_to :module_project,            :class_name => 'ModuleProject', :foreign_key => 'module_project_id'
+  belongs_to :associated_module_project, :class_name => 'ModuleProject', :foreign_key => 'associated_module_project_id'
 end

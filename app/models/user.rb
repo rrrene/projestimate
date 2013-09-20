@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
 
   def auth_method_application
     begin
-      self.auth_method.name == "Application"
+      self.auth_method.name == 'Application'
     rescue
       false
     end
@@ -162,7 +162,7 @@ class User < ActiveRecord::Base
   #Allow to import user thanks to his login from ldap for the on-the-fly user creation
   def import_user_from_ldap(ldap_cn, login, ldap_server)
     login_filter = Net::LDAP::Filter.eq ldap_server.user_name_attribute, "#{login}"
-    object_filter = Net::LDAP::Filter.eq "objectClass", "*"
+    object_filter = Net::LDAP::Filter.eq 'objectClass', '*'
     is_an_automatic_account_activation? ? status = 'active' : 'pending'
 
     search = ldap_cn.search(:base => ldap_server.base_dn,
@@ -206,7 +206,7 @@ class User < ActiveRecord::Base
   #Allow to import user thanks to his email from ldap for the on-the-fly user creation
   def import_user_from_ldap_mail(ldap_cn, email, ldap_server)
     login_filter = Net::LDAP::Filter.eq ldap_server.email_attribute, "#{email}"
-    object_filter = Net::LDAP::Filter.eq "objectClass", "*"
+    object_filter = Net::LDAP::Filter.eq 'objectClass', '*'
     is_an_automatic_account_activation?() ? status = 'active' : 'pending'
 
     search = ldap_cn.search(:base => ldap_server.base_dn,

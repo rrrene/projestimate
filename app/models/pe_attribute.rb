@@ -35,7 +35,7 @@ class PeAttribute < ActiveRecord::Base
   has_many :estimation_values, :dependent => :destroy
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
   belongs_to :attribute_category
 
   validates_presence_of :description, :attr_type, :record_status
@@ -51,7 +51,7 @@ class PeAttribute < ActiveRecord::Base
     customize(lambda { |original_record, new_record|
       new_record.reference_uuid = original_record.uuid
       new_record.reference_id = original_record.id
-      new_record.record_status = RecordStatus.find_by_name("Proposed") #RecordStatus.first
+      new_record.record_status = RecordStatus.find_by_name('Proposed') #RecordStatus.first
     })
   end
 
@@ -75,22 +75,22 @@ class PeAttribute < ActiveRecord::Base
   #Type of the aggregation
   #Not finished
   def self.type_aggregation
-    [["Moyenne", "average"], ["Somme", "sum"], ["Maximum", "maxi"]]
+    [['Moyenne', 'average'], ['Somme', 'sum'], ['Maximum', 'maxi']]
   end
 
   def self.type_values
-    [["Integer", "integer"], ["Float", "float"], ["Date", "date"], ["Text", "text"], ["List", "list"]]
+    [['Integer', 'integer'], ['Float', 'float'], ['Date', 'date'], ['Text', 'text'], ['List', 'list']]
   end
 
   def self.value_options
     [
-        ["Greater than or equal to", ">="],
-        ["Greater than", ">"],
-        ["Lower than or equal to", "<="],
-        ["Lower than", "<"],
-        ["Equal to", "=="],
-        ["Not equal to", "!="],
-        ["Between", "between"]
+        ['Greater than or equal to', '>='],
+        ['Greater than', '>'],
+        ['Lower than or equal to', '<='],
+        ['Lower than', '<'],
+        ['Equal to', '=='],
+        ['Not equal to', '!='],
+        ['Between', 'between']
     ]
   end
 
@@ -102,36 +102,36 @@ class PeAttribute < ActiveRecord::Base
   #return the data type
   def attribute_type
     case self.attr_type
-      when "integer"
-        "numeric"
-      when "float"
-        "numeric"
-      when "date"
-        "date"
-      when "text"
-        "string"
-      when "list"
-        "string"
-      when "array"
-        "string"
+      when 'integer'
+        'numeric'
+      when 'float'
+        'numeric'
+      when 'date'
+        'date'
+      when 'text'
+        'string'
+      when 'list'
+        'string'
+      when 'array'
+        'string'
     end
   end
 
   #return the data type
   def explicit_data_type
     case self.attr_type
-      when "integer"
-        "numeric"
-      when "float"
-        "numeric"
-      when "date"
-        "date"
-      when "text"
-        "string"
-      when "list"
-        "string"
-      when "array"
-        "string"
+      when 'integer'
+        'numeric'
+      when 'float'
+        'numeric'
+      when 'date'
+        'date'
+      when 'text'
+        'string'
+      when 'list'
+        'string'
+      when 'array'
+        'string'
     end
   end
 

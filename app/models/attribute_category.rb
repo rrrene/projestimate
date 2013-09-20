@@ -28,7 +28,7 @@ class AttributeCategory < ActiveRecord::Base
   has_many :pe_attributes
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :alias, :presence => true, :uniqueness => {:scope => :record_status_id, :case_sensitive => false}

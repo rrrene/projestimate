@@ -28,8 +28,8 @@
           <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
           <table cellpadding="5">
             <tr>
-              <td><%= f.input :for_global_permission, :label => I18n.t('global_permission'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %></td>
-              <td><%= f.input :for_project_security, :label => I18n.t('project_securities'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %></td>
+              <td><%= f.input :for_global_permission, :label => I18n.t('global_permissions'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %></td>
+              <td><%= f.input :for_project_security, :label => I18n.t('project_permissions'), :as => :boolean, :input_html => {:class => 'input-xxlarge'} %></td>
             </tr>
           </table>
           <% if is_master_instance? %>

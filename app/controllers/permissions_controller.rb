@@ -39,11 +39,13 @@ class PermissionsController < ApplicationController
   def globals_permissions
     set_page_title 'Globals Permissions'
 
-    @global_permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project }
+    @global_permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project and !i.is_master_permission}
     @permission_projects = Permission.order('object_associated').defined.select{|i| i.is_permission_project }
+    @master_permissions = Permission.order('object_associated').defined.select{|i| i.is_master_permission }
 
-    @permissions_classes_globals = @global_permissions.map(&:category).uniq
-    @permissions_classes_projects = @permission_projects.map(&:category).uniq
+    @permissions_classes_globals = @global_permissions.map(&:category).uniq.sort
+    @permissions_classes_projects = @permission_projects.map(&:category).uniq.sort
+    @permissions_classes_masters = @master_permissions.map(&:category).uniq.sort
 
     @project_security_levels = ProjectSecurityLevel.defined
     @groups = Group.defined_or_local

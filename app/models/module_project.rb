@@ -26,14 +26,14 @@ class ModuleProject < ActiveRecord::Base
 
   has_and_belongs_to_many :pbs_project_elements
 
-  has_many :first_module_projects, :class_name => "AssociatedModuleProject", :foreign_key => "module_project_id"
+  has_many :first_module_projects, :class_name => 'AssociatedModuleProject', :foreign_key => 'module_project_id'
   has_many :associated_module_projects, :through => :first_module_projects
 
-  has_many :second_module_projects, :class_name => "AssociatedModuleProject", :foreign_key => "associated_module_project_id"
+  has_many :second_module_projects, :class_name => 'AssociatedModuleProject', :foreign_key => 'associated_module_project_id'
   has_many :inverse_associated_module_projects, :through => :second_module_projects, :source => :module_project
 
 
-  default_scope :order => "position_x ASC, position_y ASC"
+  default_scope :order => 'position_x ASC, position_y ASC'
 
   amoeba do
     enable

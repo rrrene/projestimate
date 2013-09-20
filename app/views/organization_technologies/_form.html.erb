@@ -16,6 +16,22 @@
             <td><%= f.input :state, :label => I18n.t('state'), :as => :select, :collection => OrganizationTechnology.aasm_states_for_select, :input_html => {:class => 'input-large'} %></td>
           </tr>
         </table>
+        <div class="accordion" id="accordion1">
+          <div class="accordion-group accordion-caret">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                <i class="icon-caret-down"></i>
+                <b><%= I18n.t 'text_organization_unit_of_work' %></b>
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body in collapse">
+              <div class="accordion-inner">
+                <%= f.association :unit_of_works, :collection => @organization.unit_of_works, :as => :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <% if can? :edit_organizations, Organization %>
             <div class="actions-tabs">
               <% if action_name == 'new' || action_name=='create' %>

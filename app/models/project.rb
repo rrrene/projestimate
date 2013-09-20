@@ -86,7 +86,7 @@ class Project < ActiveRecord::Base
     customize(lambda { |original_project, new_project|
       new_project.title = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.title}"
       new_project.alias = "Copy_#{ original_project.copy_number.to_i+1} of #{original_project.alias}"
-      new_project.version = "1.0"
+      new_project.version = '1.0'
       new_project.description = " #{original_project.description} \n \n This project is a duplication of project \"#{original_project.title} (#{original_project.alias}) - #{original_project.version}\" "
       new_project.copy_number = 0
       new_project.is_model = false

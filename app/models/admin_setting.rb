@@ -23,7 +23,7 @@ class AdminSetting < ActiveRecord::Base
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   belongs_to :record_status
-  belongs_to :owner_of_change, :class_name => "User", :foreign_key => "owner_id"
+  belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
 
   validates :record_status, :presence => true
   validates :value, :presence => true, :unless => :is_custom_value_to_consider?
@@ -32,6 +32,6 @@ class AdminSetting < ActiveRecord::Base
   validates :custom_value, :presence => true, :if => :is_custom?
 
   def is_custom_value_to_consider?
-    self.key == "custom_status_to_consider"
+    self.key == 'custom_status_to_consider'
   end
 end

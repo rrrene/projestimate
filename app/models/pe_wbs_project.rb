@@ -27,8 +27,8 @@ class PeWbsProject < ActiveRecord::Base
 
   belongs_to :project, :touch => true
 
-  scope :products_wbs, where(:wbs_type => "Product")
-  scope :activities_wbs, where(:wbs_type => "Activity")
+  scope :products_wbs, where(:wbs_type => 'Product')
+  scope :activities_wbs, where(:wbs_type => 'Activity')
 
   validates_associated :project
 
@@ -37,7 +37,7 @@ class PeWbsProject < ActiveRecord::Base
     begin
       Project.find(self.project_id)
     rescue ActiveRecord::RecordNotFound
-      errors.add(:project_id, "project_id foreign key must exist")
+      errors.add(:project_id, 'project_id foreign key must exist')
       false
     end
   end
