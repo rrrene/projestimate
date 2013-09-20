@@ -50,5 +50,4 @@ module ApplicationHelper
     content_for :action_title, title
     "<h1 class = 'action_title'>#{title}</h1>"
   end
-
 end

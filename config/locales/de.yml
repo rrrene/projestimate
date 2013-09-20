@@ -1059,3 +1059,4 @@ de:
   warning_project_state_unusual: "This is unusual to commit from state \"%{value_a}\" to state \"%{value_b}\", please confirm"
   warning_project_state_unnormal: "This is not a normal commit from state \"%{value_a}\" to state \"%{value_b}\", please confirm"
   error_project_state_not_possible: "This is a transaction that is not possible"
+  warning_project_cannot_be_deleted: "Project with this state cannot be deleted"

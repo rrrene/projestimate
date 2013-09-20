@@ -341,15 +341,18 @@ class ProjectsController < ApplicationController
   def destroy
     authorize! :delete_project, Project
     @project = Project.find(params[:id])
+
     case params[:commit]
       when I18n.t('delete')
         if params[:yes_confirmation] == 'selected'
-          @project.destroy
-          current_user.delete_recent_project(@project.id)
-          session[:current_project_id] = current_user.projects.first
-
-          #redirect_to session[:return_to]
-          redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => 'Project')
+          if ((can? :delete_project, Project)  || (can? :manage, Project)) && (@project.is_childless? && !@project.rejected? && !@project.released? && !@project.checkpoint?)
+            @project.destroy
+            current_user.delete_recent_project(@project.id)
+            session[:current_project_id] = current_user.projects.first
+            redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => 'Project')
+          else
+            redirect_to projects_path, :notice => {:warning => I18n.t(:error_access_denied)}
+          end
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
@@ -365,6 +368,10 @@ class ProjectsController < ApplicationController
   def confirm_deletion
     authorize! :delete_project, Project
     @project = Project.find(params[:project_id])
+
+    if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
+      redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+    end
   end
 
   def select_categories

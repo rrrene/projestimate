@@ -1,4 +1,4 @@
-<table class="table tablesorterPager table-striped table-bordered table-condensed">
+<table id="table_list_1" class="table tablesorterPager table-striped table-bordered table-condensed">
   <thead>
   <tr>
     <th><%= I18n.t(:label_project_name) %></th>
@@ -37,11 +37,12 @@
               <% if (can? :create_project_from_template, Project) || (can? :manage, Project )%>
                   <%= link_to('', "projects/#{project.id}/duplicate", :class => 'button_attribute_tooltip icon-copy icon-large icon-border pull-left', :title => I18n.t('button_duplicate_project')) %>
               <% end %>
-              <% if (((project.preliminary? || project.in_review? || project.in_progress? || project.checkpoint?) && (can? :delete_project, Project))||(can? :manage, Project)) && project.is_childless? %>
-                  <%= (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project) %>
+              <% if (can? :delete_project, Project) || (can? :manage, Project) %>
+                  <!-- Adapt the delete behaviour to project version -->
+                  <% if project.is_childless? && !project.rejected? && !project.released? && !project.checkpoint?  %>
+                    <%= (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project) %>
+                  <% end %>
               <% end %>
-
-              <%= (link_to('', "projects/#{project.id}/confirm_deletion", :class => 'button_attribute_tooltip icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete')) if can? :delete_project, Project) %>
             </td>
           </tr>
       <% end %>

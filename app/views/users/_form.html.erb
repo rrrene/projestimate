@@ -129,7 +129,7 @@
           <br/>
 
           <div class="field_checkbox">
-            <table class="table tablesorterPager table-striped table-bordered table-condensed">
+            <table id="table_list_2" class="table tablesorterPager table-striped table-bordered table-condensed">
               <thead>
               <tr>
                 <th><%= I18n.t(:label_Group) %></th>
@@ -154,7 +154,7 @@
                     </td>
                   </tr>
               <% end %>
-              <%= render :partial => 'layouts/footer_table' %>
+              <span class="user_groups_table_footer"><%= render :partial => 'layouts/footer_table' %></span>
               </tbody>
             </table>
           </div>
@@ -165,7 +165,7 @@
           <br/>
 
           <div class="field_checkbox">
-            <table class="table tablesorterPager table-striped table-bordered table-condensed">
+            <table id="table_list_3" class="table tablesorterPager table-striped table-bordered table-condensed">
               <thead>
               <tr>
                 <th><%= I18n.t(:label_Organization) %></th>
