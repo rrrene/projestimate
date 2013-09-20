@@ -7,35 +7,35 @@
     <li>
       <a href="<%= edit_user_path(current_user) %>">
         <i class="icon-user"></i>
-        <%= I18n.t "connected_as" %> <%= current_user %>
+        <%= I18n.t 'connected_as' %> <%= current_user %>
       </a>
     </li>
 
     <li>
       <a href="<%= log_out_path %>#">
         <i class="icon-off"></i>
-            <%= I18n.t "logout" %>
+            <%= I18n.t 'logout' %>
       </a>
     </li>
 
     <li>
       <a href="<%= load_master_setting('url_wiki') %>">
         <i class="icon-file"></i>
-        <%= I18n.t "help" %>
+        <%= I18n.t 'help' %>
       </a>
     </li>
 
     <li>
       <a href="<%= load_master_setting('url_service') %>">
         <i class="icon-eye-open"></i>
-        <%= I18n.t "services" %>
+        <%= I18n.t 'services' %>
       </a>
     </li>
 
     <li>
       <a href="/about">
         <i class="icon-asterisk"></i>
-        <%= I18n.t "about" %>
+        <%= I18n.t 'about' %>
       </a>
     </li>
 
