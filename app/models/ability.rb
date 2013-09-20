@@ -18,7 +18,7 @@
 #
 ########################################################################
 
-#Ability for role management. See CanCan on github fore more informations about Role.
+#Ability for role management. See CanCan on github fore more information about Role.
 class Ability
   include CanCan::Ability
 
@@ -39,9 +39,9 @@ class Ability
       user.group_for_global_permissions.map do |grp|
         grp.permissions.map do |i|
           if i.object_associated.blank?
-            permissions_array << [i.name.to_sym, :all]
+            permissions_array << [i.alias.to_sym, :all]
           else
-            permissions_array << [i.name.to_sym, i.object_associated.constantize]
+            permissions_array << [i.alias.to_sym, i.object_associated.constantize]
           end
         end
       end
@@ -55,13 +55,13 @@ class Ability
       #Specfic project security loading
       prj_scrt = ProjectSecurity.find_by_user_id(user.id)
       unless prj_scrt.nil?
-        #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+        #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.alias, i.object_associated.constantize] }
         specific_permissions_array = []
         prj_scrt.project_security_level.permissions.map do |i|
           if i.object_associated.blank?
-            specific_permissions_array << [i.name.to_sym, :all]
+            specific_permissions_array << [i.alias.to_sym, :all]
           else
-            specific_permissions_array << [i.name.to_sym, i.object_associated.constantize]
+            specific_permissions_array << [i.alias.to_sym, i.object_associated.constantize]
           end
         end
         for perm in specific_permissions_array
@@ -72,13 +72,13 @@ class Ability
       user.group_for_project_securities.each do |grp|
         prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
         unless prj_scrt.nil?
-          #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.name, i.object_associated.constantize] }
+          #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.alias, i.object_associated.constantize] }
           specific_permissions_array = []
           prj_scrt.project_security_level.permissions.map do |i|
             if i.object_associated.blank?
-              specific_permissions_array << [i.name, :all]
+              specific_permissions_array << [i.alias, :all]
             else
-              specific_permissions_array << [i.name, i.object_associated.constantize]
+              specific_permissions_array << [i.alias, i.object_associated.constantize]
             end
           end
 

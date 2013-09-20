@@ -13,7 +13,7 @@
 
       <%= f.input :description, :label => I18n.t('description'), :input_html => {:class => 'input-xxlarge', :rows => 5} %>
 
-      <%= f.input :category, :label => I18n.t('category'), :collection => ['Project', 'Library', 'Admin', 'Master'], :input_html => {:class => 'input-xxlarge'} %>
+      <%= f.input :category, :label => I18n.t('category'), :collection => ['Admin', 'Library','Library - Organization', 'Library - Project Settings','Library - WBS-Activities', 'Master data','Projects'], :input_html => {:class => 'input-xxlarge'} %>
 
       <%= f.input :is_master_permission, :label => I18n.t('is_permission_master'), :input_html => {:class => 'input-xxlarge'}, :as => :boolean %>
 

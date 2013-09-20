@@ -1,136 +1,164 @@
 <div class="tabs">
 
   <ul>
-    <li><a href="#tabs-1"><%= I18n.t(:global_permissions) %></a></li>
-    <li><a href="#tabs-2"><%= I18n.t(:project_permissions) %></a></li>
+    <li><a href="#tabs-global"><%= I18n.t(:global_permissions) %></a></li>
+    <li><a href="#tabs-projects"><%= I18n.t(:project_permissions) %></a></li>
     <% if is_master_instance? %>
-      <li><a href="#tabs-master"><%= I18n.t(:master_permissions) %></a></li>
+        <li><a href="#tabs-master"><%= I18n.t(:master_permissions) %></a></li>
     <% end %>
   </ul>
 
-  <div id="tabs-1">
-    <%= form_tag({:action=> 'set_rights', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
-      <table class="table table-striped table-bordered table-condensed">
-
+  <div id="tabs-global">
+    <%= form_tag({:action => 'set_rights', :controller => 'permissions'}, :method => 'post', :class => 'simple_form') do %>
+        <table class="table table-striped table-bordered table-condensed">
           <tr>
             <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
             <% @groups.each do |group| %>
-              <th style="text-align:center;">
-                <span class="attribute_tooltip" title='<%= group.description %>'><%= group.name %></span>
-              </th>
+                <th>
+                  <span class="attribute_tooltip" title='<%= group.description %>'><%= group.name %></span>
+                  &nbsp;
+                  <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                </th>
             <% end %>
           </tr>
 
-        <tbody>
           <% @permissions_classes_globals.each do |cla| %>
-            <tr>
-              <td colspan=<%= @groups.size+1 %> >
-                <h5><%= cla.blank? ? 'General' : cla.humanize %></h5>
-              </td>
-            </tr>
-            <% for perm in @global_permissions %>
               <tr>
-                <% if perm.category.to_s == cla %>
-                  <td>
-                    <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
-                  </td>
-                  <% @groups.each do |group| %>
-                    <%= hidden_field_tag "permissions[#{group.id}][]" %>
-                    <td style="text-align: center;">
-                      <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}")%>
-                    </td>
-                  <% end %>
+                <th style="text-align:left; vertical-align:middle;">
+                  <%= cla.blank? ? '' : cla %>
+                </th>
+                <% @groups.each do |group| %>
+                    <th style="text-align:center; font-style:italic; vertical-align:bottom; font-size: 85%; color: #999; border-left: 0;">
+                      <%= group.name %>
+                    </th>
                 <% end %>
               </tr>
-            <% end %>
+              <% @global_permissions.each do |perm| %>
+                  <tr>
+                    <% if perm.category.to_s == cla %>
+                        <td>
+                          &nbsp;
+                          <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                          &nbsp;
+                          <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
+                        </td>
+                        <% @groups.each do |group| %>
+                            <%= hidden_field_tag "permissions[#{group.id}][]" %>
+                            <td style="text-align: center;">
+                              <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}") %>
+                            </td>
+                        <% end %>
+                    <% end %>
+                  </tr>
+              <% end %>
           <% end %>
-        </tbody>
-      </table>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+
+        </table>
+        <%= submit_tag I18n.t('apply'), :class => 'btn' %>
     <% end %>
   </div>
 
-  <div id="tabs-2">
-    <%= form_tag({:action=> 'set_rights_project_security', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
-      <table class="table table-striped table-bordered table-condensed">
-
-        <tr>
-          <th style="text-align:left;"></th>
-          <% @project_security_levels.each do |ps| %>
-            <th style="text-align:center;">
-              <span class="attribute_tooltip" title='<%= ps.description %>'><%= ps.name %></span>
-            </th>
-          <% end %>
-        </tr>
-
-        <tbody>
-          <% @permissions_classes_projects.each do |cla| %>
-            <tr>
-              <td colspan=<%= @project_security_levels.size+1 %>>
-                <h5><%= cla.blank? ? 'General' : cla %></h5>
-              </td>
-            </tr>
-            <% for perm in @permission_projects %>
-              <tr>
-                <td>
-                  <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
-                </td>
-                <% @project_security_levels.each do |ps| %>
-                  <td style="text-align: center;">
-                    <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}")%>
-                  </td>
-                <% end %>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-
-      </table>
-      <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-    <% end %>
-  </div>
-
-
-  <% if is_master_instance? %>
-    <div id="tabs-master">
-      <%= form_tag({:action=> 'set_rights_project_security', :controller=> 'permissions'}, :method => 'post', :class => 'simple_form') do %>
+  <div id="tabs-projects">
+    <%= form_tag({:action => 'set_rights_project_security', :controller => 'permissions'}, :method => 'post', :class => 'simple_form') do %>
         <table class="table table-striped table-bordered table-condensed">
-
           <tr>
-            <th style="text-align:left;"></th>
-            <% @groups.each do |ps| %>
-              <th style="text-align:center;">
-                <span class="attribute_tooltip" title='<%= ps.description %>'><%= ps.name %></span>
-              </th>
+            <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
+            <% @project_security_levels.each do |ps| %>
+                <th style="text-align:center;">
+                  <span class="attribute_tooltip" title='<%= ps.description %>'><%= ps.name %></span>
+                  &nbsp;
+                  <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                </th>
             <% end %>
           </tr>
 
           <tbody>
-          <% @permissions_classes_masters.each do |cla| %>
-            <tr>
-              <td colspan=<%= @groups.size+1 %>>
-                <h5><%= cla.blank? ? 'General' : cla %></h5>
-              </td>
-            </tr>
-            <% for perm in @master_permissions %>
+          <% @permissions_classes_projects.each do |cla| %>
               <tr>
-                <td>
-                  <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
-                </td>
-                <% @groups.each do |ps| %>
-                  <td style="text-align: center;">
-                    <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}")%>
-                  </td>
+                <th style="text-align:left; vertical-align:middle;">
+                  <%= cla.blank? ? '' : cla %>
+                </th>
+                <% @project_security_levels.each do |ps| %>
+                    <th style="text-align:center; font-style:italic; vertical-align:bottom; font-size: 85%; color: #999; border-left: 0;">
+                      <%= ps.name %>
+                    </th>
                 <% end %>
               </tr>
-            <% end %>
+              <% @permission_projects.each do |perm| %>
+                  <tr>
+                    <% if perm.category.to_s == cla %>
+                        <td>
+                          &nbsp;
+                          <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                          &nbsp;
+                          <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
+                        </td>
+                        <% @project_security_levels.each do |ps| %>
+                            <td style="text-align: center;">
+                              <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}") %>
+                            </td>
+                        <% end %>
+                    <% end %>
+                  </tr>
+              <% end %>
           <% end %>
           </tbody>
 
         </table>
         <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-      <% end %>
-    </div>
+    <% end %>
+  </div>
+
+
+  <% if is_master_instance? %>
+      <div id="tabs-master">
+        <%= form_tag({:action => 'set_rights_project_security', :controller => 'permissions'}, :method => 'post', :class => 'simple_form') do %>
+            <table class="table table-striped table-bordered table-condensed">
+              <tr>
+                <th style="text-align:left;"><%= I18n.t(:permissions) %></th>
+                <% @groups.each do |ps| %>
+                    <th style="text-align:center;">
+                      <span class="attribute_tooltip" title='<%= ps.description %>'><%= ps.name %></span>
+                      &nbsp;
+                      <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                    </th>
+                <% end %>
+              </tr>
+
+              <% @permissions_classes_masters.each do |cla| %>
+                  <tr>
+                    <th style="text-align:left; vertical-align:middle;">
+                      <%= cla.blank? ? '' : cla %>
+                    </th>
+                    <% @groups.each do |group| %>
+                        <th style="text-align:center; font-style:italic; vertical-align:bottom; font-size: 85%; color: #999; border-left: 0;">
+                          <%= group.name %>
+                        </th>
+                    <% end %>
+                  </tr>
+                  <% @master_permissions.each do |perm| %>
+                      <tr>
+                        <% if perm.category.to_s == cla %>
+                            <td>
+                              &nbsp;
+                              <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                              &nbsp;
+                              <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
+                            </td>
+                            <% @groups.each do |ps| %>
+                                <td style="text-align: center;">
+                                  <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}") %>
+                                </td>
+                            <% end %>
+                        <% end %>
+                      </tr>
+                  <% end %>
+              <% end %>
+
+            </table>
+            <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+        <% end %>
+      </div>
   <% end %>
 
 </div>
