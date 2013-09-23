@@ -159,7 +159,7 @@ class UsersController < ApplicationController
       user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
       is_an_automatic_account_activation?() ? status = 'active' : 'pending'
       if !user.nil?
-        redirect_to root_url, :warning => "#{I18n.t (:warning_email_or_username_already_exist)}"
+        redirect_to :back, :flash => {:warning => "#{I18n.t (:warning_email_or_username_already_exist)}"}
       else
         user = User.new(:email => params[:email],
                         :first_name => params[:first_name],
@@ -176,14 +176,14 @@ class UsersController < ApplicationController
         UserMailer.account_created(user).deliver
         if !user.active?
           UserMailer.account_request(@defined_record_status).deliver
-          redirect_to root_url, :notice => "#{I18n.t (:ask_new_account_help)}"
+          redirect_to :back, :notice => "#{I18n.t (:ask_new_account_help)}"
         else
           UserMailer.account_validate(user).deliver
-          redirect_to root_url, :notice => "#{I18n.t (:notice_account_successful_created)}, #{I18n.t(:ask_new_account_help2)}"
+          redirect_to :back, :notice => "#{I18n.t (:notice_account_successful_created)}, #{I18n.t(:ask_new_account_help2)}"
         end
       end
     else
-      redirect_to root_url, :warning => "#{I18n.t (:warning_check_all_fields)}"
+      redirect_to :back, :flash => {:warning => "#{I18n.t (:warning_check_all_fields)}"}
     end
   end
 
