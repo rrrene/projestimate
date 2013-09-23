@@ -35,6 +35,7 @@ class Home < ActiveRecord::Base
       exit 1
     end
   end
+
   def self.update_master_data!
     db=Home::connect_external_database
     puts 'Updating from Master Data...'
@@ -44,7 +45,7 @@ class Home < ActiveRecord::Base
     self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
 
     puts '   - Attribute Module'
-    self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'uuid'])
+    self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'is_mandatory', 'uuid'])
 
     puts '   - WBS Activity'
     self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ['name', 'description', 'uuid', 'state'])
@@ -334,7 +335,6 @@ class Home < ActiveRecord::Base
 
         obj.update_attributes(:record_status_id => corresponding_local_rs_id, :change_comment => ext.change_comment)
       end
-
     end
   end
 
@@ -397,7 +397,7 @@ class Home < ActiveRecord::Base
     self.create_records(ExternalMasterDatabase::ExternalAttributeCategory, AttributeCategory, ['name', 'alias','uuid'])
 
     puts '   - Attribute Module'
-    self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'uuid'])
+    self.create_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'is_mandatory', 'uuid'])
 
     #Associate attribute modules to modules
     ext_pemodules = ExternalPemodule.all
@@ -410,6 +410,7 @@ class Home < ActiveRecord::Base
           loc_attr = PeAttribute.find_by_uuid(ext_attr.uuid)
           ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = #{loc_module.id} WHERE uuid = '#{ext_attr_module.uuid}'")
           ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pe_attribute_id = #{loc_attr.id} WHERE uuid = '#{ext_attr_module.uuid}'")
+          ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET record_status_id = #{local_defined_rs_id} WHERE uuid = '#{ext_attr_module.uuid}'")
         end
       end
     end
