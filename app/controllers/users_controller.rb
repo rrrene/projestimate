@@ -73,12 +73,13 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    if current_user != @user
+    if current_user == @user
+      set_page_title 'Edit your user account'
+    else
       authorize! :manage, User
+      flash[:notice] = "You're not allowed to perform this action"
+      redirect_to "dashboard"
     end
-
-    set_page_title 'Edit user'
-    @user = User.find(params[:id])
   end
 
 

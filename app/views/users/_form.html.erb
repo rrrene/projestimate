@@ -25,12 +25,20 @@
                 <div class="accordion-inner">
                   <table>
                     <tr>
-                      <td> <%= f.input :first_name, :label => I18n.t('first_name'), :input_html => {:autofocus => (controller.action_name == 'new'), :class => 'input-large'} %></td>
+                      <td><%= f.input :first_name, :label => I18n.t('first_name'), :input_html => {:autofocus => (controller.action_name == 'new'), :class => 'input-large'} %></td>
                       <td><%= f.input :last_name, :label => I18n.t('last_name'), :input_html => {:class => 'input-xlarge'} %>   </td>
                     </tr>
                     <tr>
-                      <td><%= f.input :initials, :label => I18n.t('initials'), :input_html => {:class => 'input-small'} %>  </td>
-                      <td><%= f.input :login_name, :label => I18n.t('login_name') %> </td>
+                      <td><%= f.input :initials, :label => I18n.t('initials'), :input_html => {:class => 'input-small'} %></td>
+
+                      <td>
+                        <% if can? :manage, User %>
+                         <%= f.input :login_name, :label => I18n.t('login_name') %>
+                        <% else %>
+                          <%= f.input :login_name, :label => I18n.t('login_name'), :disabled => true %>
+                        <% end %>
+                      </td>
+
                     </tr>
                     <tr>
                       <td colspan="2"><%= f.input :email, :label => I18n.t('email'), :input_html => {:class => 'input-xxlarge'} %></td>
@@ -52,17 +60,23 @@
               <div id="collapseTwo" class="accordion-body in collapse">
                 <div class="accordion-inner">
                   <table>
+
                     <tr>
-                      <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all %></td>
+                      <% if can? :manage, User %>
+                        <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all %></td>
+                      <% else %>
+                        <td colspan="2"><%= f.input :auth_type, :label => I18n.t('auth_type'), :as => :select, :collection => AuthMethod.all, :disabled => true %></td>
+                      <% end %>
                     </tr>
+
                     <tr class="password_row">
 
                       <% if @user.auth_method.name == 'Application' %>
-                          <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => 'text'} %></td>
-                          <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => 'text'} %></td>
+                        <td><%= f.input :password, :as => :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => 'text'} %></td>
+                        <td><%= f.input :password_confirmation, :as => :password, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => false, :type => 'text'} %></td>
                       <% else %>
-                          <td><%= f.input :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => true} %></td>
-                          <td><%= f.input :password_confirmation, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => true} %></td>
+                        <td><%= f.input :password, :as => :password, :label => I18n.t('password'), :input_html => {:class => 'input-xlarge', :disabled => true } %></td>
+                        <td><%= f.input :password_confirmation, :as => :password, :label => I18n.t('password_confirmation'), :input_html => {:class => 'input-xlarge', :disabled => true } %></td>
                       <% end %>
 
                     </tr>
@@ -97,25 +111,36 @@
                 <div class="accordion-inner">
                   <table>
                     <tr>
-                      <td colspan="2"><%= f.input :user_status, :label => I18n.t('user_status'), :as => :select, :collection => [['Active', 'active'], ['Pending', 'pending'], ['Suspended', 'suspended'], ['Blacklisted', 'blacklisted']], :input_html => {:class => 'input-medium'} %></td>
+                      <td colspan="2">
+                        <%= f.input :user_status,
+                                    :label => I18n.t('user_status'),
+                                    :as => :select,
+                                    :collection => [['Active', 'active'], ['Pending', 'pending'], ['Suspended', 'suspended'], ['Blacklisted', 'blacklisted']],
+                                    :input_html => {:class => 'input-medium'}, :disabled => !(can? :manage, User) %>
+                      </td>
                     </tr>
                     <tr>
-                      <td><%= f.input :created_at, :label => I18n.t('created_at') do %>
-                            <%= f.text_field :created_at, :value => (I18n.l(@user.created_at) unless @user.created_at.nil?), :disabled => true, :input_html => {:class => 'input-xxlarge'} %>
-                        <% end %>    </td>
+                      <td>
+                        <%= f.input :created_at, :label => I18n.t('created_at') do %>
+                          <%= f.text_field :created_at, :value => (I18n.l(@user.created_at) unless @user.created_at.nil?), :disabled => true, :input_html => {:class => 'input-xxlarge'} %>
+                        <% end %>
+                      </td>
 
                       <td><%= f.input :updated_at, :label => I18n.t('updated_at') do %>
                             <%= f.text_field :updated_at, :value => (I18n.l(@user.updated_at) unless @user.updated_at.nil?), :disabled => true, :input_html => {:class => 'input-xxlarge'} %>
-                        <% end %>    </td>
+                        <% end %>
+                      </td>
                     </tr>
                     <tr>
                       <td><%= f.input :last_login, :label => I18n.t('last_login') do %>
                             <%= f.text_field :last_login, :value => (I18n.l(@user.last_login) unless @user.last_login.nil?), :disabled => true %>
-                        <% end %>    </td>
+                        <% end %>
+                      </td>
 
                       <td><%= f.input :previous_login, :label => I18n.t('previous_login') do %>
                             <%= f.text_field :previous_login, :value => (I18n.l(@user.previous_login) unless @user.previous_login.nil?), :disabled => true %>
-                        <% end %>     </td>
+                        <% end %>
+                      </td>
                     </tr>
                   </table>
                 </div>
@@ -131,16 +156,16 @@
           <div class="field_checkbox">
             <table id="table_list_2" class="table tablesorterPager table-striped table-bordered table-condensed">
               <thead>
-              <tr>
-                <th><%= I18n.t(:label_Group) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th class="filter-select"><%= I18n.t(:global_permissions) %></th>
-                <th class="filter-select"><%= I18n.t(:project_permissions) %></th>
-                <th class="filter-select"><%= I18n.t(:selected) %></th>
-              </tr>
+                <tr>
+                  <th><%= I18n.t(:label_Group) %></th>
+                  <th><%= I18n.t(:description) %></th>
+                  <th class="filter-select"><%= I18n.t(:global_permissions) %></th>
+                  <th class="filter-select"><%= I18n.t(:project_permissions) %></th>
+                  <th class="filter-select"><%= I18n.t(:selected) %></th>
+                </tr>
               </thead>
               <tbody>
-              <% @groups.each do |group| %>
+                <% @groups.each do |group| %>
                   <tr>
                     <td><%= group.name %></td>
                     <td><%= group.description %></td>
@@ -150,12 +175,16 @@
                       <span class="hidden">
                             <%= @project_groups.map(&:id).include?(group.id).to_s.humanize %>
                       </span>
-                      <%= check_box_tag 'user[group_ids][]', group.id, @project_groups.map(&:id).include?(group.id) ? true : false %>
+                      <% if can? :manage, User %>
+                        <%= check_box_tag 'user[group_ids][]', group.id, @project_groups.map(&:id).include?(group.id) ? true : false %>
+                      <% else %>
+                        <%= check_box_tag 'user[group_ids][]', group.id, @project_groups.map(&:id).include?(group.id) ? true : false, :disabled => true %>
+                      <% end %>
                     </td>
                   </tr>
-              <% end %>
-              <span class="user_groups_table_footer"><%= render :partial => 'layouts/footer_table' %></span>
+                <% end %>
               </tbody>
+              <span class="user_groups_table_footer"><%= render :partial => 'layouts/footer_table' %></span>
             </table>
           </div>
         </div>
@@ -167,14 +196,14 @@
           <div class="field_checkbox">
             <table id="table_list_3" class="table tablesorterPager table-striped table-bordered table-condensed">
               <thead>
-              <tr>
-                <th><%= I18n.t(:label_Organization) %></th>
-                <th><%= I18n.t(:description) %></th>
-                <th class="filter-select"><%= I18n.t(:selected) %></th>
-              </tr>
+                <tr>
+                  <th><%= I18n.t(:label_Organization) %></th>
+                  <th><%= I18n.t(:description) %></th>
+                  <th class="filter-select"><%= I18n.t(:selected) %></th>
+                </tr>
               </thead>
               <tbody>
-              <% @organizations.each do |org| %>
+                <% @organizations.each do |org| %>
                   <tr>
                     <td><%= org.name %></td>
                     <td><%= org.description %></td>
@@ -182,12 +211,16 @@
                       <span class="hidden">
                             <%= @org_users.map(&:id).include?(org.id).to_s.humanize %>
                       </span>
-                      <%= check_box_tag 'user[organization_ids][]', org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+                      <% if can? :manage, User %>
+                        <%= check_box_tag 'user[organization_ids][]', org.id, @org_users.map(&:id).include?(org.id) ? true : false %>
+                      <% else %>
+                        <%= check_box_tag 'user[organization_ids][]', org.id, @org_users.map(&:id).include?(org.id) ? true : false, :disabled => true %>
+                      <% end %>
                     </td>
                   </tr>
-              <% end %>
-              <%= render :partial => 'layouts/footer_table' %>
+                <% end %>
               </tbody>
+              <%= render :partial => 'layouts/footer_table' %>
             </table>
           </div>
         </div>
