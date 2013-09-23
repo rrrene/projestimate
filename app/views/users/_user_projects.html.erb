@@ -1,16 +1,16 @@
 <table id="table_list_4" class="table tablesorterPager table-striped table-bordered table-condensed">
   <thead>
-  <tr>
-    <th><%= I18n.t(:label_project_name) %></th>
-    <th><%= I18n.t(:label_project_version) %></th>
-    <th><%= I18n.t(:alias) %></th>
-    <th class="filter-select"><%= I18n.t(:state) %></th>
-    <th class="filter-select" data-value="false"><%= I18n.t(:label_project_is_model) %></th>
-    <th class="filter-select"><%= I18n.t(:selected) %></th>
-  </tr>
+    <tr>
+      <th><%= I18n.t(:label_project_name) %></th>
+      <th><%= I18n.t(:label_project_version) %></th>
+      <th><%= I18n.t(:alias) %></th>
+      <th class="filter-select"><%= I18n.t(:state) %></th>
+      <th class="filter-select" data-value="false"><%= I18n.t(:label_project_is_model) %></th>
+      <th class="filter-select"><%= I18n.t(:selected) %></th>
+    </tr>
   </thead>
   <tbody>
-  <% projects.each do |project| %>
+    <% projects.each do |project| %>
       <tr>
         <td><%= project.title %></td>
         <td><%= project.version %></td>
@@ -21,12 +21,17 @@
           <span class="hidden">
                   <%= project_users.map(&:id).include?(project.id).to_s.humanize %>
           </span>
-          <%= check_box_tag :project_ids, project.id, project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
+          <% if can? :manage, User %>
+            <%= check_box_tag :project_ids, project.id, project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]' %>
+          <% else %>
+            <%= check_box_tag :project_ids, project.id, project_users.map(&:id).include?(project.id), :name => 'user[project_ids][]', :disabled => true %>
+          <% end %>
         </td>
       </tr>
-  <% end %>
-  <%= render :partial => 'layouts/footer_table' %>
+    <% end %>
   </tbody>
+  <%= render :partial => 'layouts/footer_table' %>
+
 </table>
 
 <script>

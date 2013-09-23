@@ -32,7 +32,7 @@
             <% if can? :manage, :all %>
               <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
             <% else %>
-              <% unless (@project.released? || @project.rejected?) %>
+              <% unless @project.released? || @project.rejected? %>
                 <td><%= f.input :state, :label => "#{I18n.t 'state'}", :as => :select, :collection => @project.states, :input_html => {:class => 'input-large'} %></td>
               <% end %>
             <% end %>
@@ -67,7 +67,7 @@
 
         <div class="actions-tabs">
           <% if @project.state.in?(%w(rejected released checkpoint))%>
-            <% if can? :alter_frozen_projects, Project %>
+            <% if can? :alter_frozen_project, Project %>
               <%= render :partial => 'submit_project', :object => f %>
             <% end %>
           <% else %>
@@ -235,8 +235,8 @@
 <% end %>
 </div>
 
-<% if can? :promote_project, Project %>
-  <%= render :partial => 'check_state', :locals => { :can => "can_promote_project" } %>
+<% if can? :commit_project, Project %>
+  <%= render :partial => 'check_state', :locals => { :can => 'can_promote_project'} %>
 <% end %>
 
 

@@ -27,7 +27,7 @@
             <td>
               <%= link_to('', edit_project_path(project, :anchor => 'tabs-1'), :class => 'button_attribute_tooltip icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) %>
               <%= link_to('', {:controller => 'projects', :action => 'activate', :project_id => project.id}, :class => 'button_attribute_tooltip icon-star icon-large icon-border pull-left', :title => I18n.t('button_activate_project')) %>
-              <% if (project.preliminary? || project.in_progress? || (project.in_review? && (can? :write_access_to_inreview_projects, Project))) && ((can? :commit_project, Project)||(can? :manage, Project)) %>
+              <% if (project.preliminary? || project.in_progress? || (project.in_review? && (can? :write_access_to_inreview_project, Project))) && ((can? :commit_project, Project)||(can? :manage, Project)) %>
                   <%= link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :class => 'button_attribute_tooltip icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project')) %>
               <% end %>
               <% if (project.checkpoint? || project.released?) && ((can? :commit_project, Project)||(can? :manage, Project)) %>

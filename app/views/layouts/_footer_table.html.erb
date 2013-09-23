@@ -6,7 +6,7 @@
       <span class="pagedisplay" title="<%=I18n.t(:text_result_index)%>"></span> <!-- this can be any element, including an input -->
       <button type="button" class="btn next" title="<%=I18n.t(:text_next_page)%>"><i class="icon-arrow-right"></i></button>
       <button type="button" class="btn last" title="<%=I18n.t(:text_last_page)%>"><i class="icon-step-forward"></i></button>
-      <%= select_tag :object_per_page, options_for_select([5,10,25,50,100], :selected => current_user.object_per_page || 10), :class => "pagesize input-mini", :title => I18n.t(:text_select_page_size) %>
+      <%= select_tag :object_per_page, options_for_select([5,10,25,50,100], :selected => current_user.object_per_page || 10), :class => 'pagesize input-mini', :title => I18n.t(:text_select_page_size) %>
       <select class="pagenum input-mini" title="<%=I18n.t(:text_select_page_number)%>"></select>
     </th>
   </tr>

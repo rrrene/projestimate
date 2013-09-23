@@ -20,7 +20,7 @@ describe LanguagesController do
     #  group_permission_2 = double(Permission, :object_associated => "Group", :name => "manage_master_groups")
     #  group_permission_3 = double(Permission, :object_associated => "Language", :name => "manage")
     #  group_permission_4 = double(Permission, :object_associated => "Language", :name => "create_and_edit_language")
-    #  group_permission_5 = double(Permission, :object_associated => "User", :name => "access_menu_admin")
+    #  group_permission_5 = double(Permission, :object_associated => "User", :name => "access_admin_menu")
     #  group_permission_6 = double(Permission, :object_associated => "User", :name => "manage")
     #
     #  user_groups = double(Group, :for_global_permission => true, :permissions => [group_permission_1, group_permission_2, group_permission_3, group_permission_4, group_permission_5, group_permission_6])

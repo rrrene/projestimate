@@ -39,9 +39,9 @@ class PermissionsController < ApplicationController
   def globals_permissions
     set_page_title 'Globals Permissions'
 
-    @global_permissions = Permission.order('object_associated').defined.select{|i| !i.is_permission_project and !i.is_master_permission}
-    @permission_projects = Permission.order('object_associated').defined.select{|i| i.is_permission_project }
-    @master_permissions = Permission.order('object_associated').defined.select{|i| i.is_master_permission }
+    @global_permissions = Permission.order('object_associated','alias').defined.select{|i| !i.is_permission_project and !i.is_master_permission}
+    @permission_projects = Permission.order('object_associated','alias').defined.select{|i| i.is_permission_project }
+    @master_permissions = Permission.order('object_associated','alias').defined.select{|i| i.is_master_permission }
 
     @permissions_classes_globals = @global_permissions.map(&:category).uniq.sort
     @permissions_classes_projects = @permission_projects.map(&:category).uniq.sort
@@ -83,7 +83,7 @@ class PermissionsController < ApplicationController
 
     @groups = Group.defined_or_local
 
-    @permission.name = params[:permission][:name].underscore.gsub(' ', '_')
+    @permission.alias = params[:permission][:alias].underscore.gsub(' ', '_')
 
     if @permission.save
       redirect_to redirect_apply(nil, new_permission_path(), permissions_path), notice: "#{I18n.t (:notice_permission_successful_created)}"
@@ -105,6 +105,8 @@ class PermissionsController < ApplicationController
     end
 
     if @permission.update_attributes(params[:permission])
+      @permission.alias = @permission.alias.underscore.gsub(' ', '_')
+      @permission.save
       redirect_to redirect_apply(edit_permission_path(@permission), nil, permissions_path ), notice: "#{I18n.t (:notice_function_successful_updated)}"
     else
       render action: 'edit'
@@ -155,7 +157,7 @@ class PermissionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to "/globals_permissions", :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
+      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
     end
 
   end
