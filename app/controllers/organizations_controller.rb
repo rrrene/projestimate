@@ -136,7 +136,7 @@ class OrganizationsController < ApplicationController
     workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
     workbook.worksheets.each_with_index do |worksheet, k|
       #if sheet name blank, we use sheetN as default name
-      name = worksheet.sheet_name.blank? ? "Sheet#{k}" : worksheet.sheet_name
+      name = worksheet.sheet_name
       if name != 'ReadMe' #The ReadMe sheet is only for guidance and don't have to be proceed
 
         @ot = OrganizationTechnology.find_or_create_by_name_and_alias_and_organization_id(:name => name,
