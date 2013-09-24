@@ -8,13 +8,13 @@
           <th></th>
           <th style="text-align:left;">Product-Element</th>
           <% @module_projects.each do |mp| %>
-              <th style="text-align:center; min-width: 70px;">
-                <%= mp.pemodule.title %>
-                <p>
-                  (<%= @alphabetical[mp.position_x.to_i-1] %>;<%= mp.position_y.to_i %>)&nbsp;
-                  <%= link_to '', '', :id => "cols_select_all_#{mp.id}", 'data-mp_id' => mp.id, 'data-rows_or_cols' => 'cols', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
-                </p>
-              </th>
+            <th style="text-align:center; min-width: 70px;">
+              <%= mp.pemodule.title %>
+              <p>
+                (<%= @alphabetical[mp.position_x.to_i-1] %>;<%= mp.position_y.to_i %>)&nbsp;
+                <%= link_to '', '', :id => "cols_select_all_#{mp.id}", 'data-mp_id' => mp.id, 'data-rows_or_cols' => 'cols', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
+              </p>
+            </th>
           <% end %>
         </tr>
 
@@ -22,7 +22,7 @@
             <tr>
               <td>
                 <% unless element.is_root? %>
-                    <%= link_to '', '', :id => "lines_select_all_#{element.id}", 'data-mp_id' => element.id, 'data-rows_or_cols' => 'rows', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
+                  <%= link_to '', '', :id => "lines_select_all_#{element.id}", 'data-mp_id' => element.id, 'data-rows_or_cols' => 'rows', :remote => true, :class => 'icon-check icon-large check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all(this);' %>
                 <% end %>
               </td>
               <td style="padding-left: <%= element.depth + 2 %>em;">
@@ -30,14 +30,14 @@
                 <%= element.name %>
               </td>
               <% @module_projects.each do |mp| %>
-                  <td style="text-align: center;">
-                    <%= hidden_field_tag "pbs_project_elements[#{mp.id}][]" %>
-                    <% if mp.compatible_with(element.work_element_type.alias) %>
-                        <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id} pbs_#{element.id}") %>
-                    <% else %>
-                        -
-                    <% end %>
-                  </td>
+                <td style="text-align: center;">
+                  <%= hidden_field_tag "pbs_project_elements[#{mp.id}][]" %>
+                  <% if mp.compatible_with(element.work_element_type.alias) %>
+                      <%= check_box_tag("pbs_project_elements[#{mp.id}][]", element.id, (mp.pbs_project_elements.map(&:id).include?(element.id)), :id => nil, :class => "module_project_#{mp.id} pbs_#{element.id}") %>
+                  <% else %>
+                      -
+                  <% end %>
+                </td>
               <% end %>
             </tr>
         <% end %>

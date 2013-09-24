@@ -78,7 +78,6 @@ class UsersController < ApplicationController
     else
       authorize! :manage, User
       flash[:notice] = "You're not allowed to perform this action"
-      redirect_to "dashboard"
     end
   end
 

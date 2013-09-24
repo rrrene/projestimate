@@ -18,9 +18,9 @@
           <strong><%= @module_project.pemodule.title %></strong>
         </td>
         <% @references_values.each do |ref| %>
-            <td>
-              <%= radio_button_tag "module_projects_#{@module_project.id}", ref.id, @module_project.reference_value.nil? ? false : (@module_project.reference_value == ref) %>
-            </td>
+          <td>
+            <%= radio_button_tag "module_projects_#{@module_project.id}", ref.id, @module_project.reference_value.nil? ? false : (@module_project.reference_value == ref) %>
+          </td>
         <% end %>
       </tr>
     </table>

@@ -146,13 +146,17 @@ class OrganizationsController < ApplicationController
           row.each_with_index do |cell, j|
             unless cell.nil? or (cell.row == 0 && cell.column == 0)
               if i == 0 #line
-                @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value, :organization_id => @organization.id)
-              elsif j == 0 #column
-                @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value, :alias => cell.value, :organization_id => @organization.id)
-                if @ot.unit_of_works.empty?
-                  @uow.organization_technologies << @ot
+                if can? :manage, Organization
+                  @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value, :organization_id => @organization.id)
                 end
-                @uow.save
+              elsif j == 0 #column
+                if can? :manage, Organization
+                  @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value, :alias => cell.value, :organization_id => @organization.id)
+                  if @ot.unit_of_works.empty?
+                    @uow.organization_technologies << @ot
+                  end
+                  @uow.save
+                end
               else
                 begin
                   ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.sheet_data[0][j].value, @organization.id)
