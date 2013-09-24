@@ -158,44 +158,46 @@ class OrganizationsController < ApplicationController
         workbook.each_with_index do |row, i|
           row.each_with_index do |cell, j|
             unless row.nil?
-              if i == 0 #line
+              if i == 0 and j != 0 #line
                 if can? :manage, Organization
                   @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => row[j], :organization_id => @organization.id)
                 end
               elsif i > 0
                 if can? :manage, Organization
                   @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => row[0], :alias => row[0], :organization_id => @organization.id)
-                  if @ot.unit_of_works.empty?
+                  unless @uow.organization_technologies.map(&:id).include?(@ot.id)
                     @uow.organization_technologies << @ot
                   end
                   @uow.save
                 end
               else
-                begin
-                  puts cell[i+1]
-                  #ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.cell(0,i), @organization.id)
-                  #uow = UnitOfWork.find_by_name_and_organization_id(worksheet.cell(i,0).value, @organization.id)
-                  #ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
-                  #    uow.id,
-                  #    ouc.id,
-                  #    @ot.id,
-                  #    @organization.id
-                  #)
-                  #if ao.nil?
-                    #if can? :manage, Organization
-                    #  AbacusOrganization.create(
-                    #      :unit_of_work_id => uow.id,
-                    #      :organization_uow_complexity_id => ouc.id,
-                    #      :organization_technology_id => @ot.id,
-                    #      :organization_id => @organization.id,
-                    #      :value => worksheet.sheet_data[i][j].value)
-                    #end
-                  #else
-                    ao.update_attribute(:value, worksheet.sheet_data[i][j].value)
-                  #end
-                rescue
+                #begin
+                  ouc = OrganizationUowComplexity.find_by_name_and_organization_id(workbook.cell(1,j+2), @organization.id)
 
-                end
+                  uow = UnitOfWork.find_by_name_and_organization_id(workbook.cell(j+2,1), @organization.id)
+
+                  ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
+                      uow.id,
+                      ouc.id,
+                      @ot.id,
+                      @organization.id
+                  )
+
+                  if ao.nil?
+                    #if can? :manage, Organization
+                      AbacusOrganization.create(
+                          :unit_of_work_id => uow.id,
+                          :organization_uow_complexity_id => ouc.id,
+                          :organization_technology_id => @ot.id,
+                          :organization_id => @organization.id,
+                          :value => workbook.cell(i+2,j+2))
+                    #end
+                  else
+                    ao.update_attribute(:value, workbook.cell(i+2,j+2))
+                  end
+                #rescue
+
+                #end
               end
             end
           end
