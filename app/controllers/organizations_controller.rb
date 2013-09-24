@@ -22,7 +22,10 @@ class OrganizationsController < ApplicationController
   load_resource
   require 'axlsx'
   require 'rubyXL'
+  require 'rubygems'
+  require 'roo'
   include RubyXL
+  include Roo
 
   def new
     authorize! :create_organizations, Organization
@@ -133,25 +136,35 @@ class OrganizationsController < ApplicationController
 
     #updaload file copied in a tmp directory
     file = params[:file]
-    workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
-    workbook.worksheets.each_with_index do |worksheet, k|
+    #workbook = RubyXL::Parser.parse(file.path, :data_only => false, :skip_filename_check => true)
+
+    case File.extname(file.original_filename)
+      when ".ods"
+        workbook = Openoffice.new("myspreadsheet.ods")      # creates an Openoffice Spreadsheet instance
+      when ".xls"
+        workbook = Excel.new("myspreadsheet.xls")           # creates an Excel Spreadsheet instance
+      when ".xlsx"
+        workbook = Roo::Spreadsheet.open(file.path, extension: :xlsx)
+    end
+
+    workbook.sheets.each_with_index do |worksheet, k|
       #if sheet name blank, we use sheetN as default name
-      name = worksheet.sheet_name
+      name = worksheet
       if name != 'ReadMe' #The ReadMe sheet is only for guidance and don't have to be proceed
 
         @ot = OrganizationTechnology.find_or_create_by_name_and_alias_and_organization_id(:name => name,
                                                                                           :alias => name,
                                                                                           :organization_id => @organization.id)
-        worksheet.sheet_data.each_with_index do |row, i|
+        workbook.each_with_index do |row, i|
           row.each_with_index do |cell, j|
-            unless cell.nil? or (cell.row == 0 && cell.column == 0)
+            unless row.nil?
               if i == 0 #line
                 if can? :manage, Organization
-                  @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => cell.value, :organization_id => @organization.id)
+                  @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => row[j], :organization_id => @organization.id)
                 end
-              elsif j == 0 #column
+              elsif i > 0
                 if can? :manage, Organization
-                  @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => cell.value, :alias => cell.value, :organization_id => @organization.id)
+                  @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => row[0], :alias => row[0], :organization_id => @organization.id)
                   if @ot.unit_of_works.empty?
                     @uow.organization_technologies << @ot
                   end
@@ -159,26 +172,27 @@ class OrganizationsController < ApplicationController
                 end
               else
                 begin
-                  ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.sheet_data[0][j].value, @organization.id)
-                  uow = UnitOfWork.find_by_name_and_organization_id(worksheet.sheet_data[i][0].value, @organization.id)
-                  ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
-                      uow.id,
-                      ouc.id,
-                      @ot.id,
-                      @organization.id
-                  )
-                  if ao.nil?
-                    if can? :manage, Organization
-                      AbacusOrganization.create(
-                          :unit_of_work_id => uow.id,
-                          :organization_uow_complexity_id => ouc.id,
-                          :organization_technology_id => @ot.id,
-                          :organization_id => @organization.id,
-                          :value => worksheet.sheet_data[i][j].value)
-                    end
-                  else
+                  puts cell[i+1]
+                  #ouc = OrganizationUowComplexity.find_by_name_and_organization_id(worksheet.cell(0,i), @organization.id)
+                  #uow = UnitOfWork.find_by_name_and_organization_id(worksheet.cell(i,0).value, @organization.id)
+                  #ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
+                  #    uow.id,
+                  #    ouc.id,
+                  #    @ot.id,
+                  #    @organization.id
+                  #)
+                  #if ao.nil?
+                    #if can? :manage, Organization
+                    #  AbacusOrganization.create(
+                    #      :unit_of_work_id => uow.id,
+                    #      :organization_uow_complexity_id => ouc.id,
+                    #      :organization_technology_id => @ot.id,
+                    #      :organization_id => @organization.id,
+                    #      :value => worksheet.sheet_data[i][j].value)
+                    #end
+                  #else
                     ao.update_attribute(:value, worksheet.sheet_data[i][j].value)
-                  end
+                  #end
                 rescue
 
                 end

@@ -97,6 +97,7 @@ gem 'newrelic_rpm'
 gem 'rubyzip', '~> 0.9'
 gem 'rubyXL'
 gem 'axlsx'
+gem 'roo'
 
 # Gems used only for assets and not required
 # in production environments by default.

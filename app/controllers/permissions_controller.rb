@@ -21,7 +21,7 @@
 
 class PermissionsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_resource
+  #load_resource
 
   before_filter :get_record_statuses
 
@@ -140,10 +140,7 @@ class PermissionsController < ApplicationController
       group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
     end
 
-    respond_to do |format|
-      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
-    end
-
+    redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 
   def set_rights_project_security
