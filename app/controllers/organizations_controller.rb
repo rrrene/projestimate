@@ -155,14 +155,16 @@ class OrganizationsController < ApplicationController
         @ot = OrganizationTechnology.find_or_create_by_name_and_alias_and_organization_id(:name => name,
                                                                                           :alias => name,
                                                                                           :organization_id => @organization.id)
+
+        #4.upto(oo.last_row)
         workbook.each_with_index do |row, i|
           row.each_with_index do |cell, j|
             unless row.nil?
-              if i == 0 and j != 0 #line
+              if j != 0 #line
                 if can? :manage, Organization
                   @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => row[j], :organization_id => @organization.id)
                 end
-              elsif i > 0
+              else
                 if can? :manage, Organization
                   @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => row[0], :alias => row[0], :organization_id => @organization.id)
                   unless @uow.organization_technologies.map(&:id).include?(@ot.id)
@@ -170,7 +172,7 @@ class OrganizationsController < ApplicationController
                   end
                   @uow.save
                 end
-              else
+              end
                 #begin
                   ouc = OrganizationUowComplexity.find_by_name_and_organization_id(workbook.cell(1,j+2), @organization.id)
 
@@ -190,15 +192,11 @@ class OrganizationsController < ApplicationController
                           :organization_uow_complexity_id => ouc.id,
                           :organization_technology_id => @ot.id,
                           :organization_id => @organization.id,
-                          :value => workbook.cell(i+2,j+2))
+                          :value => workbook.cell("B", 3))
                     #end
                   else
-                    ao.update_attribute(:value, workbook.cell(i+2,j+2))
+                    ao.update_attribute(:value, workbook.cell("B",3))
                   end
-                #rescue
-
-                #end
-              end
             end
           end
         end

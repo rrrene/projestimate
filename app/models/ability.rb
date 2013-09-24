@@ -65,7 +65,9 @@ class Ability
           end
         end
         for perm in specific_permissions_array
-          can perm[0].to_sym, perm[1]
+          user.projects.each do |p|
+            can perm[0].to_sym, p
+          end
         end
       end
 
@@ -83,7 +85,9 @@ class Ability
           end
 
           for perm in specific_permissions_array
-            can perm[0].to_sym, perm[1]
+            user.projects.each do |p|
+              can perm[0].to_sym, p
+            end
           end
         end
       end
