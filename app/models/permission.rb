@@ -34,6 +34,11 @@ class Permission < ActiveRecord::Base
 
   validates_presence_of :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :description, :alias, :category, :presence => true
+  validates :name, :description, :alias, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
+
+
+  def to_s
+    self.name
+  end
 end

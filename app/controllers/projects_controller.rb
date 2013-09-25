@@ -54,7 +54,6 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    #authorize! :manage, Project
     set_page_title 'Projects'
     @projects = Project.all.reject{ |i| !i.is_childless?  }
   end
@@ -162,12 +161,12 @@ class ProjectsController < ApplicationController
 
     @project = Project.find(params[:id])
 
-    unless can? :alter_frozen_project, Project
+    unless can? :alter_frozen_project, @project
       redirect_to(:action => "show") if @project.in_frozen_status?
     end
 
     if @project.in_review?
-      authorize! :write_access_to_inreview_project, Project
+      authorize! :write_access_to_inreview_project, @project
     end
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
@@ -195,7 +194,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 
     if @project.in_review?
-      authorize! :write_access_to_inreview_project, Project
+      authorize! :write_access_to_inreview_project, @project
     end
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
@@ -339,13 +338,14 @@ class ProjectsController < ApplicationController
 
 
   def destroy
-    authorize! :delete_project, Project
     @project = Project.find(params[:id])
+    authorize! :delete_project, @project
+
 
     case params[:commit]
       when I18n.t('delete')
         if params[:yes_confirmation] == 'selected'
-          if ((can? :delete_project, Project)  || (can? :manage, Project)) && (@project.is_childless? && !@project.rejected? && !@project.released? && !@project.checkpoint?)
+          if ((can? :delete_project, @project)  || (can? :manage, @project)) && (@project.is_childless? && !@project.rejected? && !@project.released? && !@project.checkpoint?)
             @project.destroy
             current_user.delete_recent_project(@project.id)
             session[:current_project_id] = current_user.projects.first
@@ -366,8 +366,8 @@ class ProjectsController < ApplicationController
 
 
   def confirm_deletion
-    authorize! :delete_project, Project
     @project = Project.find(params[:project_id])
+    authorize! :delete_project, @project
 
     if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
       redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
