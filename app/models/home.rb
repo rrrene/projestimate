@@ -573,7 +573,7 @@ class Home < ActiveRecord::Base
     #Create default groups
     self.create_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'for_global_permission', 'for_project_security', 'uuid'])
 
-    #Associated default user with group MasterAdmin
+    #Associated default user with group first group (Admin)
     user.group_ids = [Group.first.id]
     user.save
 

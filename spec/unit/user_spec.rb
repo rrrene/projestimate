@@ -305,7 +305,7 @@ describe User do
     group1.name = 'Admin'
 
     group2 = FactoryGirl.create(:group)
-    group2.name = 'MasterAdmin'
+    group2.name = 'Everyone'
 
     new_user.groups << group1
     new_user.groups << group2
