@@ -651,11 +651,15 @@ class Home < ActiveRecord::Base
         ext_group.each do |row|
           ext_group_uuid=row
         end
+
+        # !!!!!!!!!!!!!! There is a bug HERE !!!!!!!!!!!!!!!!!!!!
         loc_permission_id=Permission.find_by_uuid(ext_permission_uuid['uuid']).id
         loc_group= Group.find_by_uuid(ext_group_uuid['uuid']).id
         loc_records_permissions << [loc_permission_id,loc_group]
       end
-    rescue
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
     end
 
     #Insert on local database groups_permissions records
