@@ -76,7 +76,8 @@ describe PeAttributesController do
       it 'updates the requested peAttribute' do
         login_as_admin
 
-        put :update, id: @cost_attribute.to_param, cost_attribute: @cost_attribute.attributes = {:uuid => '12345', :description => 'My_new_description'}
+        put :update, id: @cost_attribute.to_param, cost_attribute: @cost_attribute.attributes = {:description => 'My_new_description'}
+        @cost_attribute.uuid='12345'
         @cost_attribute.uuid.should eq('12345')
         @cost_attribute.description.should eq('My_new_description')
       end

@@ -9,9 +9,11 @@ describe ModuleProject do
     @pemodule = Pemodule.new(:title => 'Foo',
                             :alias => 'foo',
                             :description => 'Bar',
-                            :uuid => 'pepepe',
                             :record_status => proposed_status,
                             :compliant_component_type=>['Toto'])
+    @pemodule.uuid = 'pepepe'
+
+   # @pemodule = FactoryGirl.create(:pemodule)
 
     @mp1 = ModuleProject.create(:project_id => @project.id, :position_y => 1, :pemodule => @pemodule)
     @mp2 = ModuleProject.create(:project_id => @project.id, :position_y => 1, :pemodule => @pemodule)
