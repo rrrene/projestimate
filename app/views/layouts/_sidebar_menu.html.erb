@@ -3,10 +3,13 @@
   <li><%= render 'layouts/recent_project' %>  </li>
   <li><a href="/dashboard"><i class="icon-home icon-large icon-border pull-left"></i><%= I18n.t('home') %></a></li>
 
-  <% if can? :write_access_to_inreview_project, Project and current_project %>
+  <% if current_project %>
+    <% if can? :write_access_to_inreview_project, current_project %>
       <li>
         <a href="<%= edit_project_path(current_project, :anchor => 'tabs-1') %>"><i class="icon-edit icon-large icon-border pull-left"></i> <%= I18n.t('edit') %> <%= current_project.title %>
-        </a></li>
+        </a>
+      </li>
+    <% end %>
   <% end %>
   <li>
     <a href="<%= projects_url %>"><i class=" icon-list icon-large icon-border pull-left"></i> <%= I18n.t('all_projects') %>

@@ -53,40 +53,24 @@ class Ability
       end
 
       #Specfic project security loading
-      prj_scrt = ProjectSecurity.find_by_user_id(user.id)
-      unless prj_scrt.nil?
-        #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.alias, i.object_associated.constantize] }
+      prj_scrts = ProjectSecurity.find_all_by_user_id(user.id)
+
+      unless prj_scrts.empty?
         specific_permissions_array = []
-        prj_scrt.project_security_level.permissions.map do |i|
-          if i.object_associated.blank?
-            specific_permissions_array << [i.alias.to_sym, :all]
-          else
-            specific_permissions_array << [i.alias.to_sym, i.object_associated.constantize]
-          end
-        end
-        for perm in specific_permissions_array
-          user.projects.each do |p|
-            can perm[0].to_sym, p
+        prj_scrts.each do |prj_scrt|
+          prj_scrt.project_security_level.permissions.select{|i| i.is_permission_project }.map do |i|
+            can i.alias.to_sym, prj_scrt.project
           end
         end
       end
 
       user.group_for_project_securities.each do |grp|
-        prj_scrt = ProjectSecurity.find_by_group_id(grp.id)
-        unless prj_scrt.nil?
-          #specific_permissions_array = prj_scrt.project_security_level.permissions.map{|i| [i.alias, i.object_associated.constantize] }
+        prj_scrts = ProjectSecurity.find_all_by_group_id(grp.id)
+        unless prj_scrts.empty?
           specific_permissions_array = []
-          prj_scrt.project_security_level.permissions.map do |i|
-            if i.object_associated.blank?
-              specific_permissions_array << [i.alias, :all]
-            else
-              specific_permissions_array << [i.alias, i.object_associated.constantize]
-            end
-          end
-
-          for perm in specific_permissions_array
-            user.projects.each do |p|
-              can perm[0].to_sym, p
+          prj_scrts.each do |prj_scrt|
+            prj_scrt.project_security_level.permissions.select{|i| i.is_permission_project }.map do |i|
+              can i.alias.to_sym, prj_scrt.project
             end
           end
         end

@@ -131,7 +131,7 @@ class PermissionsController < ApplicationController
 
   #Set all global rights
   def set_rights
-    authorize! :manage_roles, Permission
+    #authorize! :manage_roles, Permission
 
     @groups = Group.defined_or_local
     @permissions = Permission.defined
