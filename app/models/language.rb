@@ -21,6 +21,8 @@
 #Master Data
 #Language of the User
 class Language < ActiveRecord::Base
+  attr_accessible :name, :locale, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :users, :foreign_key => 'language_id'

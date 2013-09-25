@@ -20,6 +20,8 @@
 
 #Master Data
 class MasterSetting < ActiveRecord::Base
+  attr_accessible :key, :value, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   belongs_to :record_status

@@ -20,9 +20,9 @@
 
 #Master Data
 class Peicon < ActiveRecord::Base
-  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
+  attr_accessible :name, :record_status_id, :custom_value, :change_comment
 
-  attr_accessible :name, :icon, :record_status_id
+  include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_attached_file :icon, :styles => {:small => '16x16'}
 

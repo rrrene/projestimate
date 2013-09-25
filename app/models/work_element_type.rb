@@ -21,6 +21,8 @@
 #Master Data
 #WorkElementType has many pbs_project_elements and belongs to project_area. WET can be "development", "cots" but also "folder" and "link"
 class WorkElementType < ActiveRecord::Base
+  attr_accessible :alias, :name, :description, :peicon_id,:record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :pbs_project_elements, :dependent => :destroy

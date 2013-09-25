@@ -19,6 +19,8 @@
 ########################################################################
 
 class AttributeCategory < ActiveRecord::Base
+  attr_accessible :name, :alias, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   serialize :options, Array
