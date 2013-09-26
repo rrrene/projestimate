@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919133127) do
+ActiveRecord::Schema.define(:version => 20130926130631) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -651,7 +651,7 @@ ActiveRecord::Schema.define(:version => 20130919133127) do
     t.integer  "acquisition_category_id"
     t.boolean  "is_model"
     t.integer  "master_anscestry"
-    t.integer  "owner"
+    t.integer  "creator_id"
     t.text     "purpose"
     t.text     "level_of_detail"
     t.text     "scope"

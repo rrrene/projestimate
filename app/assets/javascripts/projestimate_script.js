@@ -89,17 +89,11 @@ $(document).ready(function() {
         }
     );
 
+
     $('.tabs').tabs({
-
         show: function (event, ui) {
-            var index = $(ui.tab).parent().index();
-
-            tablesorter_index_tab = index+1;
-            $("#table_list_"+tablesorter_index_tab).trigger("update");
-            $("#table_list_"+tablesorter_index_tab).trigger("appendCache");
-
             jsPlumb.repaintEverything();
-        },
+         },
 
         select: function(event, ui) {
             // Objects available in the function context:
@@ -650,45 +644,116 @@ $(function table_sorter_filter() {
         sorter: false,
         filter: false
     });
-    // call the tablesorter plugin and apply the uitheme widget
-    $("table")
-        .tablesorter({
-            // this will apply the bootstrap theme if "uitheme" widget is included
-            // the widgetOptions.uitheme is no longer required to be set
-            theme : "bootstrap",
-            widthFixed: true,
-            sortList: [[0,0]],
-            headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
-            debug: true,
-            dateFormat       : 'ddmmyyyy',
-            // widget code contained in the jquery.tablesorter.widgets.js file
-            // use the zebra stripe widget if you plan on hiding any rows (filter widget)
 
-            widgets: [ 'uitheme', 'zebra', 'filter'],
-            widgetOptions : {
-                filter_cssFilter   : 'tablesorter-filter',
-                zebra : ["even", "odd"],
-                // jQuery selector string of an element used to reset the filters
-                filter_reset : '.reset',
-                filter_functions : {
 
+    $('.tabs').tabs({
+        select: function(event, ui) { //bind click event to link
+            var tab_index =  ui.index+1;
+
+            var anchor_value = "";
+            $(".current_tab").val("tabs-" + tab_index);
+
+            var re = /#/;
+            window.location.hash = ui.tab.hash.replace(re, "#");
+            anchor_value = ui.tab.hash;
+
+            $.ajax({
+                url:"/",
+                method: 'GET',
+                data: {
+                    anchor_value: anchor_value
                 }
-            }
 
-        })
-        // bind to pager events
-        // *********************
-        .bind('pagerChange pagerComplete pagerInitialized pageMoved', function(e, c){
-            var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') +
-                ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
-            $('#display')
-                .append('<li><span class="str">"' + e.type + msg + '</li>')
-                .find('li:first').remove();
-        })
+            });
 
-        // initialize the pager plugin
-        // ****************************
-        .tablesorterPager(pagerOptions);
+            // ADD TABLESORTER TO ALL TABLES WITH ID
+            $("#table_list_"+tab_index)
+
+                .tablesorter({
+                    // this will apply the bootstrap theme if "uitheme" widget is included
+                    // the widgetOptions.uitheme is no longer required to be set
+                    theme : "bootstrap",
+                    widthFixed: true,
+                    sortList: [[0,0]],
+                    headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+                    debug: true,
+                    dateFormat       : 'ddmmyyyy',
+                    // widget code contained in the jquery.tablesorter.widgets.js file
+                    // use the zebra stripe widget if you plan on hiding any rows (filter widget)
+
+                    widgets: [ 'uitheme', 'zebra', 'filter'],
+                    widgetOptions : {
+                        filter_cssFilter   : 'tablesorter-filter',
+                        zebra : ["even", "odd"],
+                        // jQuery selector string of an element used to reset the filters
+                        filter_reset : '.reset',
+                        filter_functions : {
+
+                        }
+                    }
+
+                })
+                // bind to pager events
+                // *********************
+                .bind('pagerChange pagerComplete pagerInitialized pageMoved', function(e, c){
+                    var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') +
+                        ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
+                    $('#display')
+                        .append('<li><span class="str">"' + e.type + msg + '</li>')
+                        .find('li:first').remove();
+                })
+
+                // initialize the pager plugin
+                // ****************************
+                .tablesorterPager(pagerOptions);
+        }
+    });
+
+
+    // Get the current tab
+    //var current_tab_index = $(".tabs").tabs('option', 'active');
+    //var current_tab_index = $(".tabs").tabs('option', 'selected');
+
+
+    // call the tablesorter plugin and apply the uitheme widget
+//    $("table")
+//        .tablesorter({
+//            // this will apply the bootstrap theme if "uitheme" widget is included
+//            // the widgetOptions.uitheme is no longer required to be set
+//            theme : "bootstrap",
+//            widthFixed: true,
+//            sortList: [[0,0]],
+//            headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+//            debug: true,
+//            dateFormat       : 'ddmmyyyy',
+//            // widget code contained in the jquery.tablesorter.widgets.js file
+//            // use the zebra stripe widget if you plan on hiding any rows (filter widget)
+//
+//            widgets: [ 'uitheme', 'zebra', 'filter'],
+//            widgetOptions : {
+//                filter_cssFilter   : 'tablesorter-filter',
+//                zebra : ["even", "odd"],
+//                // jQuery selector string of an element used to reset the filters
+//                filter_reset : '.reset',
+//                filter_functions : {
+//
+//                }
+//            }
+//
+//        })
+//        // bind to pager events
+//        // *********************
+//        .bind('pagerChange pagerComplete pagerInitialized pageMoved', function(e, c){
+//            var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') +
+//                ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
+//            $('#display')
+//                .append('<li><span class="str">"' + e.type + msg + '</li>')
+//                .find('li:first').remove();
+//        })
+//
+//        // initialize the pager plugin
+//        // ****************************
+//        .tablesorterPager(pagerOptions);
 });
 
 // ################################# BOOTSTRAP DATE PICKER #################################
@@ -4736,6 +4801,8 @@ function warn_me(message){
         },
         type: "text"
     });
+
+
 
     // update select and all input types in the tablesorter cache when the change event fires.
     // This method only works with jQuery 1.7+

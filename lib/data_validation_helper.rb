@@ -87,13 +87,14 @@ module DataValidationHelper
         end
       end
 
+      #redirect_to :back and return
       redirect_to :back and return
 
     rescue ActiveRecord::StatementInvalid => error
       put "#{error.message}"
       flash[:error] = "#{error.message}"
       redirect_to :back and return
-    rescue ActiveRecord::RecordInvalid => err   #ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => err
       flash[:error] = "#{err.message}"
       redirect_to :back
     end

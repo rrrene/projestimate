@@ -69,6 +69,13 @@ class ProjectsController < ApplicationController
     authorize! :create_project_from_scratch, Project
     set_page_title 'Create project'
     @project = Project.new(params[:project])
+    @project.creator_id = current_user.id
+    @project.users << current_user
+
+    #Give full control to project creator
+    full_control_security_level = ProjectSecurityLevel.find_by_name("FullControl")
+    @project.project_securities.build(:user => current_user, :project_security_level => full_control_security_level)
+
     @wbs_activity_elements = []
 
     @project.is_locked = false
@@ -132,12 +139,6 @@ class ProjectsController < ApplicationController
               end
             end
           end
-
-          if current_user.groups.map(&:code_group).include? ('super_admin')
-            current_user.project_ids = current_user.project_ids.push(@project.id)
-            current_user.save!
-          end
-
           redirect_to redirect_apply(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
@@ -145,7 +146,6 @@ class ProjectsController < ApplicationController
         end
 
         #raise ActiveRecord::Rollback
-
         rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
         flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
         redirect_to projects_url
