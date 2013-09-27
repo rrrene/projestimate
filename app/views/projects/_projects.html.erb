@@ -34,7 +34,7 @@
               <%= link_to('', edit_project_path(project, :anchor => 'tabs-1'), :class => 'button_attribute_tooltip icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) %>
               <%= link_to('', {:controller => 'projects', :action => 'activate', :project_id => project.id}, :class => 'button_attribute_tooltip icon-star icon-large icon-border pull-left', :title => I18n.t('button_activate_project')) %>
               <% if (project.preliminary? || project.in_progress? || (project.in_review? && (can? :write_access_to_inreview_project, project))) && ((can? :commit_project, project)||(can? :manage, project)) %>
-                  <%= link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :class => 'button_attribute_tooltip icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project')) %>
+                  <%= link_to('', {:controller => 'projects', :action => 'commit', :project_id => project.id}, :confirm => send_notice(project), :class => 'button_attribute_tooltip icon-ok-circle icon-large icon-border pull-left', :title => I18n.t('button_commit_project')) %>
               <% end %>
               <% if (project.checkpoint? || project.released?) && ((can? :commit_project, project)||(can? :manage, project)) %>
                   <%= link_to('', {:controller => 'projects', :action => 'checkout', :project_id => project.id}, :class => 'icon-step-forward icon-large icon-border pull-left button_attribute_tooltip', :title => I18n.t('button_checkout_project'), :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?)) %>

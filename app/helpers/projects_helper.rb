@@ -715,4 +715,13 @@ module ProjectsHelper
     end
     res
   end
+
+  def send_notice(project)
+    if project.state == "in_progress"
+      I18n.t(:warning_project_state_to_checkpoint, :value_b => 'RELEASED')
+    elsif project.state == "in_review"
+      I18n.t(:warning_project_state_to_released, :value_b => 'RELEASED')
+    end
+
+  end
 end
