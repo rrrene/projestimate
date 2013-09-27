@@ -61,7 +61,7 @@ class PeiconsController < ApplicationController
     if @icon.save
       redirect_to redirect_apply(nil,new_peicon_path(), peicons_path )
     else
-      flash[:error] = I18n.t(:icons) + "#{ @icon.errors.values.flatten.join(" I18n.t ('support.array.two_words_connector') ")}"
+      flash[:error] = I18n.t(:icons) + " #{ @icon.errors.values.flatten.join( I18n.t('support.array.two_words_connector'))}"
       render :new
     end
   end

@@ -32,6 +32,7 @@ class ProjectsController < ApplicationController
   before_filter :get_record_statuses
 
   def load_data
+    #No authorize required since this method is usd to load data and shared by the other one.
     if params[:id]
       @project = Project.find(params[:id])
     else
@@ -54,9 +55,9 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    #authorize! :manage, Project
+    #No authorize required since everyone can access the list (permission will be managed project per project)
     set_page_title 'Projects'
-    @projects = Project.all.reject{ |i| !i.is_childless?  }
+    @projects = Project.all.reject { |i| !i.is_childless? }
   end
 
   def new
@@ -69,13 +70,6 @@ class ProjectsController < ApplicationController
     authorize! :create_project_from_scratch, Project
     set_page_title 'Create project'
     @project = Project.new(params[:project])
-    @project.creator_id = current_user.id
-    @project.users << current_user
-
-    #Give full control to project creator
-    full_control_security_level = ProjectSecurityLevel.find_by_name("FullControl")
-    @project.project_securities.build(:user => current_user, :project_security_level => full_control_security_level)
-
     @wbs_activity_elements = []
 
     @project.is_locked = false
@@ -86,11 +80,10 @@ class ProjectsController < ApplicationController
       @project.save
     end
 
-
     Project.transaction do
       begin
 
-      @project.add_to_transaction
+        @project.add_to_transaction
 
         if @project.valid?
           @project.save!
@@ -126,27 +119,34 @@ class ProjectsController < ApplicationController
                 @project.organization.attribute_organizations.each do |am|
                   ['input', 'output'].each do |in_out|
                     mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                           :module_project_id => cap_module_project.id,
-                           :in_out => in_out,
-                           :is_mandatory => am.is_mandatory,
-                           :description => am.pe_attribute.description,
-                           :display_order => nil,
-                           :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
-                           :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
-                           :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+                                                 :module_project_id => cap_module_project.id,
+                                                 :in_out => in_out,
+                                                 :is_mandatory => am.is_mandatory,
+                                                 :description => am.pe_attribute.description,
+                                                 :display_order => nil,
+                                                 :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                                                 :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                                                 :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
                   end
                 end
               end
             end
           end
+
+          if current_user.groups.map(&:code_group).include? ('super_admin')
+            current_user.project_ids = current_user.project_ids.push(@project.id)
+            current_user.save!
+          end
+
           redirect_to redirect_apply(edit_project_path(@project)), notice: "#{I18n.t(:notice_project_successful_created)}"
         else
           flash[:error] = "#{I18n.t(:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
           render :new
         end
 
-        #raise ActiveRecord::Rollback
-        rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
+          #raise ActiveRecord::Rollback
+
+      rescue ActiveRecord::UnknownAttributeError, ActiveRecord::StatementInvalid, ActiveRecord::RecordInvalid => error
         flash[:error] = "#{I18n.t (:error_project_creation_failed)} #{@project.errors.full_messages.to_sentence}"
         redirect_to projects_url
       end
@@ -162,13 +162,12 @@ class ProjectsController < ApplicationController
 
     @project = Project.find(params[:id])
 
-    unless can? :alter_frozen_project, Project
-      redirect_to(:action => "show") if @project.in_frozen_status?
+    if (cannot? :edit_project, @project) ||                                            # No write access to project
+        (@project.in_frozen_status? && (cannot? :alter_frozen_project, @project)) ||     # frozen project
+        (@project.in_review? && (cannot? :write_access_to_inreview_project, @project))     # InReview project
+      redirect_to(:action => 'show')
     end
 
-    if @project.in_review?
-      authorize! :write_access_to_inreview_project, Project
-    end
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
@@ -194,124 +193,125 @@ class ProjectsController < ApplicationController
     set_page_title 'Edit project'
     @project = Project.find(params[:id])
 
-    if @project.in_review?
-      authorize! :write_access_to_inreview_project, Project
-    end
+    unless (cannot? :edit_project, @project) || # No write access to project
+        (@project.in_frozen_status? && (cannot? :alter_frozen_project, @project)) || # frozen project
+        (@project.in_review? && (cannot? :write_access_to_inreview_project, @project)) # InReview project
 
-    @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
-    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
-    @wbs_activity_elements = []
-    @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
-    @wbs_activity_ratios = []
+      @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
+      @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+      @wbs_activity_elements = []
+      @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+      @wbs_activity_ratios = []
 
-    @project.users.each do |u|
-      ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
-      if ps
-        ps.project_security_level_id = params["user_securities_#{u.id}"]
-        ps.save
-      elsif !params["user_securities_#{u.id}"].blank?
-        ProjectSecurity.create(:user_id => u.id,
-                               :project_id => @project.id,
-                               :project_security_level_id => params["user_securities_#{u.id}"])
-      end
-    end
-
-    @project.groups.each do |gpe|
-      ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id).first
-      if ps
-        ps.project_security_level_id = params["group_securities_#{gpe.id}"]
-        ps.save
-      elsif !params["group_securities_#{gpe.id}"].blank?
-        ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
-      end
-    end
-
-    # Get the max X and Y positions of modules
-    @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-    @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
-
-    #Get the project Organization before update
-    project_organization = @project.organization
-
-    if @project.update_attributes(params[:project])
-
-      begin
-        date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
-        @project.start_date = date
-      rescue
-        @project.start_date = Time.now.to_date
-      end
-
-      # Capitalization Module
-      unless @capitalization_module.nil?
-        # Get the project capitalization module_project or create if it doesn't exist
-        cap_module_project = @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
-        if cap_module_project.nil?
-          cap_module_project = @project.module_projects.create(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
-        end
-
-        # Create the project capitalization module estimation_values if project organization has changed and not nil
-        if project_organization.nil? && !@project.organization.nil?
-
-          #Create the corresponding EstimationValues
-          unless @project.organization.attribute_organizations.nil?
-            @project.organization.attribute_organizations.each do |am|
-              ['input', 'output'].each do |in_out|
-                mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                         :module_project_id => cap_module_project.id,
-                         :in_out => in_out,
-                         :is_mandatory => am.is_mandatory,
-                         :description => am.pe_attribute.description,
-                         :display_order => nil,
-                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
-                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
-                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
-              end
-            end
-          end
-
-        # When project organization exists
-        elsif !project_organization.nil?
-
-          # project's organization is deleted and none one is selected
-          if @project.organization.nil?
-            cap_module_project.estimation_values.delete_all
-          end
-
-          # Project's organization has changed
-          if !@project.organization.nil? && project_organization != @project.organization
-            # Delete all last estimation values for this organization on this project
-            cap_module_project.estimation_values.delete_all
-
-            # Create estimation_values for the new selected organization
-            @project.organization.attribute_organizations.each do |am|
-              ['input', 'output'].each do |in_out|
-                mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                         :module_project_id => cap_module_project.id,
-                         :in_out => in_out,
-                         :is_mandatory => am.is_mandatory,
-                         :description => am.pe_attribute.description,
-                         :display_order => nil,
-                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
-                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
-                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
-              end
-            end
-          end
+      @project.users.each do |u|
+        ps = ProjectSecurity.find_by_user_id_and_project_id(u.id, @project.id)
+        if ps
+          ps.project_security_level_id = params["user_securities_#{u.id}"]
+          ps.save
+        elsif !params["user_securities_#{u.id}"].blank?
+          ProjectSecurity.create(:user_id => u.id,
+                                 :project_id => @project.id,
+                                 :project_security_level_id => params["user_securities_#{u.id}"])
         end
       end
 
-      @project.save
+      @project.groups.each do |gpe|
+        ps = ProjectSecurity.where(:group_id => gpe.id, :project_id => @project.id).first
+        if ps
+          ps.project_security_level_id = params["group_securities_#{gpe.id}"]
+          ps.save
+        elsif !params["group_securities_#{gpe.id}"].blank?
+          ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
+        end
+      end
 
-      redirect_to redirect_apply(edit_project_path(@project, :anchor=>session[:anchor]), nil, projects_path ), notice: "#{I18n.t(:notice_project_successful_updated)}"
-    else
-      @wbs_activity_ratios = WbsActivityRatio.all
-      render :action => 'edit'
+      # Get the max X and Y positions of modules
+      @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
+      @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
+
+      #Get the project Organization before update
+      project_organization = @project.organization
+
+      if @project.update_attributes(params[:project])
+
+        begin
+          date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
+          @project.start_date = date
+        rescue
+          @project.start_date = Time.now.to_date
+        end
+
+        # Capitalization Module
+        unless @capitalization_module.nil?
+          # Get the project capitalization module_project or create if it doesn't exist
+          cap_module_project = @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
+          if cap_module_project.nil?
+            cap_module_project = @project.module_projects.create(:pemodule_id => @capitalization_module.id, :position_x => 0, :position_y => 0)
+          end
+
+          # Create the project capitalization module estimation_values if project organization has changed and not nil
+          if project_organization.nil? && !@project.organization.nil?
+
+            #Create the corresponding EstimationValues
+            unless @project.organization.attribute_organizations.nil?
+              @project.organization.attribute_organizations.each do |am|
+                ['input', 'output'].each do |in_out|
+                  mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                               :module_project_id => cap_module_project.id,
+                                               :in_out => in_out,
+                                               :is_mandatory => am.is_mandatory,
+                                               :description => am.pe_attribute.description,
+                                               :display_order => nil,
+                                               :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                                               :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                                               :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+                end
+              end
+            end
+
+            # When project organization exists
+          elsif !project_organization.nil?
+
+            # project's organization is deleted and none one is selected
+            if @project.organization.nil?
+              cap_module_project.estimation_values.delete_all
+            end
+
+            # Project's organization has changed
+            if !@project.organization.nil? && project_organization != @project.organization
+              # Delete all last estimation values for this organization on this project
+              cap_module_project.estimation_values.delete_all
+
+              # Create estimation_values for the new selected organization
+              @project.organization.attribute_organizations.each do |am|
+                ['input', 'output'].each do |in_out|
+                  mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
+                                               :module_project_id => cap_module_project.id,
+                                               :in_out => in_out,
+                                               :is_mandatory => am.is_mandatory,
+                                               :description => am.pe_attribute.description,
+                                               :display_order => nil,
+                                               :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => ''},
+                                               :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => ''},
+                                               :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => ''})
+                end
+              end
+            end
+          end
+        end
+
+        @project.save
+
+        redirect_to redirect_apply(edit_project_path(@project, :anchor => session[:anchor]), nil, projects_path), notice: "#{I18n.t(:notice_project_successful_updated)}"
+      else
+        @wbs_activity_ratios = WbsActivityRatio.all
+        render :action => 'edit'
+      end
     end
   end
 
-
   def show
+    authorize! :show_project, @project
     set_page_title 'Show project'
     @project = Project.find(params[:id])
 
@@ -337,15 +337,14 @@ class ProjectsController < ApplicationController
 
   end
 
-
   def destroy
-    authorize! :delete_project, Project
     @project = Project.find(params[:id])
+    authorize! :delete_project, @project
 
     case params[:commit]
       when I18n.t('delete')
         if params[:yes_confirmation] == 'selected'
-          if ((can? :delete_project, Project)  || (can? :manage, Project)) && (@project.is_childless? && !@project.rejected? && !@project.released? && !@project.checkpoint?)
+          if ((can? :delete_project, @project) || (can? :manage, @project)) && (@project.is_childless? && !@project.rejected? && !@project.released? && !@project.checkpoint?)
             @project.destroy
             current_user.delete_recent_project(@project.id)
             session[:current_project_id] = current_user.projects.first
@@ -364,10 +363,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def confirm_deletion
-    authorize! :delete_project, Project
     @project = Project.find(params[:project_id])
+    authorize! :delete_project, @project
 
     if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
       redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
@@ -375,6 +373,7 @@ class ProjectsController < ApplicationController
   end
 
   def select_categories
+    #No authorize required
     if params[:project_area_selected].is_numeric?
       @project_area = ProjectArea.find(params[:project_area_selected])
     else
@@ -389,6 +388,7 @@ class ProjectsController < ApplicationController
 
   #Change selected project ("Jump to a project" select box)
   def change_selected_project
+    #TODO check if No authorize is required
     if params[:project_id]
       session[:current_project_id] = params[:project_id]
     end
@@ -397,6 +397,7 @@ class ProjectsController < ApplicationController
 
   #Load specific security depending of user selected (last tabs on project editing page)
   def load_security_for_selected_user
+    #No authorize required
     set_page_title 'Project securities'
     @user = User.find(params[:user_id])
     @project = Project.find(params[:project_id])
@@ -413,6 +414,7 @@ class ProjectsController < ApplicationController
 
   #Load specific security depending of user selected (last tabs on project editing page)
   def load_security_for_selected_group
+    #No authorize required
     set_page_title 'Project securities'
     @group = Group.find(params[:group_id])
     @project = Project.find(params[:project_id])
@@ -429,6 +431,7 @@ class ProjectsController < ApplicationController
 
   #Updates the security according to the previous users
   def update_project_security_level
+    #TODO check if No authorize is required
     set_page_title 'Project securities'
     @project = Project.find(params[:project_id])
     @user = User.find(params[:user_id].to_i)
@@ -442,6 +445,7 @@ class ProjectsController < ApplicationController
 
   #Updates the security according to the previous users
   def update_project_security_level_group
+    #TODO check if No authorize is required
     set_page_title 'Project securities'
     @project = Project.find(params[:project_id])
     @group = Group.find(params[:group_id].to_i)
@@ -456,6 +460,7 @@ class ProjectsController < ApplicationController
 
   #Allow o add or append a pemodule to a estimation process
   def append_pemodule
+    authorize! :alter_estimation_plan, @project
     @project = Project.find(params[:project_id])
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
@@ -486,29 +491,29 @@ class ProjectsController < ApplicationController
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
             mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                     :module_project_id => my_module_project.id,
-                     :in_out => in_out,
-                     :is_mandatory => am.is_mandatory,
-                     :description => am.description,
-                     :display_order => am.display_order,
-                     :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                     :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                     :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                     :custom_attribute => am.custom_attribute,
-                     :project_value => am.project_value)
+                                         :module_project_id => my_module_project.id,
+                                         :in_out => in_out,
+                                         :is_mandatory => am.is_mandatory,
+                                         :description => am.description,
+                                         :display_order => am.display_order,
+                                         :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                         :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                         :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                                         :custom_attribute => am.custom_attribute,
+                                         :project_value => am.project_value)
           end
         else
           mpa = EstimationValue.create(:pe_attribute_id => am.pe_attribute.id,
-                     :module_project_id => my_module_project.id,
-                     :in_out => am.in_out,
-                     :is_mandatory => am.is_mandatory,
-                     :display_order => am.display_order,
-                     :description => am.description,
-                     :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
-                     :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
-                     :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
-                     :custom_attribute => am.custom_attribute,
-                     :project_value => am.project_value)
+                                       :module_project_id => my_module_project.id,
+                                       :in_out => am.in_out,
+                                       :is_mandatory => am.is_mandatory,
+                                       :display_order => am.display_order,
+                                       :description => am.description,
+                                       :string_data_low => {:pe_attribute_name => am.pe_attribute.name, :default_low => am.default_low},
+                                       :string_data_most_likely => {:pe_attribute_name => am.pe_attribute.name, :default_most_likely => am.default_most_likely},
+                                       :string_data_high => {:pe_attribute_name => am.pe_attribute.name, :default_high => am.default_high},
+                                       :custom_attribute => am.custom_attribute,
+                                       :project_value => am.project_value)
         end
       end
 
@@ -520,6 +525,7 @@ class ProjectsController < ApplicationController
   end
 
   def select_pbs_project_elements
+    #No authorize required
     @project = Project.find(params[:project_id])
     @module_projects = @project.module_projects
     @capitalization_module_project = @capitalization_module.nil? ? nil : @module_projects.find_by_pemodule_id(@capitalization_module.id)
@@ -535,8 +541,9 @@ class ProjectsController < ApplicationController
 
 
   def read_tree_nodes(current_node)
+    #No authorize required
     ordered_list_of_nodes = Array.new
-    next_nodes = current_node.next.sort{|node1, node2| (node1.position_y <=> node2.position_y) && (node1.position_x <=> node2.position_x)}.uniq
+    next_nodes = current_node.next.sort { |node1, node2| (node1.position_y <=> node2.position_y) && (node1.position_x <=> node2.position_x) }.uniq
     ordered_list_of_nodes = ordered_list_of_nodes + next_nodes
     ordered_list_of_nodes.uniq
 
@@ -550,6 +557,7 @@ class ProjectsController < ApplicationController
   # compatibility between the module_projects with the current_component is verified
   # Then return the module_projects like Tree Breadth
   def crawl_module_project(starting_node, pbs_project_element)
+    #TODO check if No authorize is required
     list = []
     items=[starting_node]
     until items.empty?
@@ -559,28 +567,27 @@ class ProjectsController < ApplicationController
       # Get all next module_projects that are linked to the current item
       list << item unless list.include?(item)
       kids = item.next.select { |i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }
-      kids = kids.sort{ |mp1, mp2| (mp1.position_y <=> mp2.position_y) && (mp1.position_x <=> mp2.position_x)} #Get next module_project
+      kids = kids.sort { |mp1, mp2| (mp1.position_y <=> mp2.position_y) && (mp1.position_x <=> mp2.position_x) } #Get next module_project
 
-      kids.each{ |kid| items << kid }
+      kids.each { |kid| items << kid }
     end
     list - [starting_node]
   end
 
-
   #Run estimation process
-  def run_estimation(start_module_project = nil, pbs_project_element_id = nil,  rest_of_module_projects = nil, set_attributes = nil)
-    authorize! :execute_estimation_plan, ModuleProject
+  def run_estimation(start_module_project = nil, pbs_project_element_id = nil, rest_of_module_projects = nil, set_attributes = nil)
+    authorize! :execute_estimation_plan, @project
     @project = current_project
     @my_results = Hash.new
     @last_estimation_results = Hash.new
-    set_attributes_name_list = { 'low' => [], 'high' => [], 'most_likely' => [] }
+    set_attributes_name_list = {'low' => [], 'high' => [], 'most_likely' => []}
 
     if start_module_project.nil?
       pbs_project_element = current_component
       pbs_project_element_id = pbs_project_element.id
       start_module_project = current_module_project
       rest_of_module_projects = crawl_module_project(current_module_project, pbs_project_element)
-      set_attributes = {'low' => {}, 'most_likely' => {}, 'high' => {} }
+      set_attributes = {'low' => {}, 'most_likely' => {}, 'high' => {}}
 
       ['low', 'most_likely', 'high'].each do |level|
         params[level].each do |key, hash|
@@ -624,7 +631,7 @@ class ProjectsController < ApplicationController
 
           # For modules with activities
           if start_module_project.pemodule.yes_for_output_with_ratio? || start_module_project.pemodule.yes_for_output_without_ratio? || start_module_project.pemodule.yes_for_input_output_with_ratio? || start_module_project.pemodule.yes_for_input_output_without_ratio?
-            value = value.inject({}){ |wbs_value,(k,v)| wbs_value[k.to_s] = v; wbs_value }
+            value = value.inject({}) { |wbs_value, (k, v)| wbs_value[k.to_s] = v; wbs_value }
           end
 
           set_attributes[level][attribute_alias] = value
@@ -663,6 +670,8 @@ class ProjectsController < ApplicationController
   # Function that save current module_project estimation result in DB
   #Save output values: only for current pbs_project_element
   def save_estimation_results(start_module_project, input_attributes, output_data)
+    authorize! :alter_estimation_plan, @project
+
     @pbs_project_element = current_component
 
     # get the estimation_value for the current_pbs_project_element
@@ -711,7 +720,7 @@ class ProjectsController < ApplicationController
           level_estimation_value = Hash.new
           level_estimation_value = est_val.send("string_data_#{level}")
           begin
-            pbs_level_form_input =  input_attributes[level][est_val_attribute_alias]
+            pbs_level_form_input = input_attributes[level][est_val_attribute_alias]
           rescue
             pbs_level_form_input = input_attributes[est_val_attribute_alias.to_sym]
           end
@@ -737,6 +746,7 @@ class ProjectsController < ApplicationController
   # Compute the input element value
   ## values_to_set : Hash
   def compute_tree_node_estimation_value(tree_root, values_to_set)
+    #TODO check if No authorize is required
     WbsProjectElement.rebuild_depth_cache!
     new_effort_man_hour = Hash.new
 
@@ -758,6 +768,8 @@ class ProjectsController < ApplicationController
 
   #This method set result in DB with the :value key for node estimation value
   def set_element_value_with_activities(estimation_result, module_project)
+    authorize! :alter_estimation_plan, @project
+
     result_with_consistency = Hash.new
     consistency = true
     if !estimation_result.nil? && !estimation_result.eql?('-')
@@ -765,7 +777,7 @@ class ProjectsController < ApplicationController
         if module_project.pemodule.alias == 'wbs_activity_completion'
           wbs_project_elt = WbsProjectElement.find(wbs_project_elt_id)
           if wbs_project_elt.has_new_complement_child?
-            consistency =  set_wbs_completion_node_consistency(estimation_result, wbs_project_elt)
+            consistency = set_wbs_completion_node_consistency(estimation_result, wbs_project_elt)
           end
           result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
         elsif module_project.pemodule.alias == 'effort_balancing'
@@ -785,13 +797,15 @@ class ProjectsController < ApplicationController
 
   # After estimation, need to know if node value are consistent or not for WBS-Completion modules
   def set_wbs_completion_node_consistency(estimation_result, wbs_project_element)
+    authorize! :alter_wbsproducts, @project
+
     consistency = true
     estimation_result_without_null_value = []
 
     wbs_project_element.child_ids.each do |child_id|
       value = estimation_result[child_id]
       if value.is_a?(Float) or value.is_a?(Integer)
-        estimation_result_without_null_value <<  value
+        estimation_result_without_null_value << value
       end
     end
     if estimation_result[wbs_project_element.id].to_f != estimation_result_without_null_value.sum.to_f
@@ -804,6 +818,8 @@ class ProjectsController < ApplicationController
   # TODO: Verify if it still being used ... Unless DELETE function from code
   # After estimation, need to know if node value are consistent or not
   def set_element_consistency(estimation_result, module_project)
+    authorize! :alter_wbsproducts, @project
+
     result_with_consistency = Hash.new
     #unless estimation_result.nil? || estimation_result.eql?("-")
     if !estimation_result.nil? && !estimation_result.eql?('-')
@@ -833,6 +849,8 @@ class ProjectsController < ApplicationController
 
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, pbs_project_element_id, level, project, current_mp_to_execute)
+    authorize! :execute_estimation_plan, @project
+
     @result_hash = Hash.new
     inputs = Hash.new
     #Need to add input for pbs_project_element and module_project
@@ -841,7 +859,7 @@ class ProjectsController < ApplicationController
 
     current_mp_to_execute.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
       if est_val.in_out == 'input' or est_val.in_out=='both'
-        inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias]#[current_mp_to_execute.id.to_s]
+        inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias] #[current_mp_to_execute.id.to_s]
       end
 
       current_module = "#{current_mp_to_execute.pemodule.alias.camelcase.constantize}::#{current_mp_to_execute.pemodule.alias.camelcase.constantize}".gsub(' ', '').constantize
@@ -867,6 +885,8 @@ class ProjectsController < ApplicationController
   #Method to duplicate project and associated pe_wbs_project
   def duplicate
     begin
+      authorize! :create_project_from_template, Project
+
       old_prj = Project.find(params[:project_id])
 
       new_prj = old_prj.amoeba_dup #amoeba gem is configured in Project class model
@@ -916,7 +936,7 @@ class ProjectsController < ApplicationController
           new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
           old_mp.associated_module_projects.each do |associated_mp|
             new_associated_mp = ModuleProject.where('project_id = ? AND copy_id = ?', new_prj.id, associated_mp.id).first
-            new_mp.associated_module_projects <<  new_associated_mp
+            new_mp.associated_module_projects << new_associated_mp
           end
         end
 
@@ -933,12 +953,16 @@ class ProjectsController < ApplicationController
 
 
   def commit
+    authorize! :commit_project, @project
+
     project = Project.find(params[:project_id])
     project.commit!
     redirect_to '/projects'
   end
 
   def activate
+    authorize! :show_project, @project
+
     u = current_user
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
@@ -946,6 +970,8 @@ class ProjectsController < ApplicationController
   end
 
   def find_use_project
+    authorize! :show_project, @project
+
     @project = Project.find(params[:project_id])
     @related_projects = Array.new
     @related_projects_inverse = Array.new
@@ -963,7 +989,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    related_pbs_project_elements = PbsProjectElement.where('project_link IN (?)',  [params[:project_id]]).all
+    related_pbs_project_elements = PbsProjectElement.where('project_link IN (?)', [params[:project_id]]).all
     related_pbs_project_elements.each do |i|
       @related_projects_inverse << i.pe_wbs_project.project
     end
@@ -991,6 +1017,8 @@ class ProjectsController < ApplicationController
 
   #Add/Import a WBS-Activity template from Library to Project
   def add_wbs_activity_to_project
+    authorize! :alter_wbsactivities, @project
+
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_project_elements_root = @project.wbs_project_element_root
@@ -1040,6 +1068,7 @@ class ProjectsController < ApplicationController
   end
 
   def get_new_ancestors(node, pe_wbs_activity, wbs_elt_root)
+    #TODO check if No authorize is required
     node_ancestors = node.ancestry.split('/')
     new_ancestors = []
     new_ancestors << wbs_elt_root.id
@@ -1068,14 +1097,16 @@ class ProjectsController < ApplicationController
   end
 
   def refresh_wbs_project_elements
+    #TODO check if No authorize is required
     @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @show_hidden = params[:show_hidden]
-    @is_project_show_view =  params[:is_project_show_view]
+    @is_project_show_view = params[:is_project_show_view]
   end
 
   #On edit page, select ratios according to the selected wbs_activity
   def refresh_wbs_activity_ratios
+    #TODO check if No authorize is required
     if params[:wbs_activity_element_id].empty? || params[:wbs_activity_element_id].nil?
       @wbs_activity_ratios = []
     else
@@ -1086,6 +1117,7 @@ class ProjectsController < ApplicationController
   end
 
   def choose_project
+    #TODO check if No authorize is required
     u = current_user
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
@@ -1093,6 +1125,8 @@ class ProjectsController < ApplicationController
   end
 
   def locked_plan
+    authorize! :alter_estimation_plan, @project
+
     @project = Project.find(params[:project_id])
     @project.locked? ? @project.is_locked = false : @project.is_locked = true
     @project.save
@@ -1101,6 +1135,7 @@ class ProjectsController < ApplicationController
 
   def projects_from
     authorize! :create_project_from_template, Project
+
     @projects = Project.where(:is_model => true)
   end
 
@@ -1110,6 +1145,7 @@ class ProjectsController < ApplicationController
     #redirect_to projects_url
 
     begin
+      authorize! :commit_project, @project
       old_prj = Project.find(params[:project_id])
       old_prj_copy_number = old_prj.copy_number
       old_prj_pe_wbs_product_name = old_prj.pe_wbs_projects.products_wbs.first.name
@@ -1122,7 +1158,7 @@ class ProjectsController < ApplicationController
       new_prj.title = old_prj.title
       new_prj.alias = old_prj.alias
       new_prj.description = old_prj.description
-      new_prj.state = "preliminary"
+      new_prj.state = 'preliminary'
       new_prj.version = set_project_version(old_prj)
       new_prj.parent_id = old_prj.id
 
@@ -1177,7 +1213,7 @@ class ProjectsController < ApplicationController
           new_mp = ModuleProject.find_by_project_id_and_copy_id(new_prj.id, old_mp.id)
           old_mp.associated_module_projects.each do |associated_mp|
             new_associated_mp = ModuleProject.where('project_id = ? AND copy_id = ?', new_prj.id, associated_mp.id).first
-            new_mp.associated_module_projects <<  new_associated_mp
+            new_mp.associated_module_projects << new_associated_mp
           end
         end
 
@@ -1192,14 +1228,15 @@ class ProjectsController < ApplicationController
 
     rescue
       flash['Error'] = I18n.t(:error_project_checkout_failed)
-      redirect_to '/projects', :flash => {:error => I18n.t(:error_project_checkout_failed) }
+      redirect_to '/projects', :flash => {:error => I18n.t(:error_project_checkout_failed)}
     end
   end
 
 
   # Set the new checked-outed project version
   def set_project_version(project_to_checkout)
-    new_version = ""
+    #TODO check if No authorize is required
+    new_version = ''
     parent_version = project_to_checkout.version
 
     # The new version number is calculated according to the parent project position (if parent project has children or not)
@@ -1217,14 +1254,14 @@ class ProjectsController < ApplicationController
     else
       #That means project has successor(s)/children, and a new branch need to be created
       branch_version = 1
-      branch_name = ""
+      branch_name = ''
       parent_version_ended_end = 0
-      if parent_version.include?("-")
-        split_parent_version = parent_version.split("-")
+      if parent_version.include?('-')
+        split_parent_version = parent_version.split('-')
         branch_name = split_parent_version.first
         parent_version_ended = split_parent_version.last
 
-        split_parent_version_ended = parent_version_ended.split(".")
+        split_parent_version_ended = parent_version_ended.split('.')
 
         parent_version_ended_begin = split_parent_version_ended.first
         parent_version_ended_end = split_parent_version_ended.last
@@ -1252,6 +1289,7 @@ class ProjectsController < ApplicationController
   #Function that check the couples (title,version) and (alias, version) availability
   def is_project_version_available?(parent_title, parent_alias, new_version)
     begin
+      #No authorize required
       project = Project.where('(title=? AND version=?) OR (alias=? AND version=?)', parent_title, new_version, parent_alias, new_version).first
       if project
         false
@@ -1266,23 +1304,23 @@ class ProjectsController < ApplicationController
 
   #Filter the projects list according to version
   def add_filter_on_project_version
-
+    #No authorize required
     selected_filter_version = params[:filter_selected]
     #"Display leaves projects only",1], ["Display all versions",2], ["Display root version only",3], ["Most recent version",4]
 
     unless selected_filter_version.empty?
       case selected_filter_version
-        when "1"   #Display leaves projects only
-          @projects = Project.all.reject{ |i| !i.is_childless? }
+        when '1' #Display leaves projects only
+          @projects = Project.all.reject { |i| !i.is_childless? }
 
-        when "2"   #Display all versions
+        when '2' #Display all versions
           @projects = Project.all
 
-        when "3"   #Display root version only
-          @projects = Project.all.reject{ |i| !i.is_root? }
+        when '3' #Display root version only
+          @projects = Project.all.reject { |i| !i.is_root? }
 
-        when "4"   #Most recent version
-          #@projects = Project.all.uniq_by(&:title)
+        when '4' #Most recent version
+                 #@projects = Project.all.uniq_by(&:title)
           @projects = Project.reorder('updated_at DESC').uniq_by(&:title)
 
         else

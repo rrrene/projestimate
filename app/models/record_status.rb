@@ -20,6 +20,8 @@
 
 #Master Data
 class RecordStatus < ActiveRecord::Base
+  attr_accessible :name, :description, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :acquisition_categories

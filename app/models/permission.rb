@@ -21,6 +21,8 @@
 
 #Permission  of the users and the groups
 class Permission < ActiveRecord::Base
+  attr_accessible :alias, :name, :description, :category, :is_master_permission, :is_permission_project, :object_associated, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_and_belongs_to_many :users
@@ -32,6 +34,11 @@ class Permission < ActiveRecord::Base
 
   validates_presence_of :record_status
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
-  validates :name, :description, :alias, :category, :presence => true
+  validates :name, :description, :alias, :presence => true
   validates :custom_value, :presence => true, :if => :is_custom?
+
+
+  def to_s
+    self.name
+  end
 end

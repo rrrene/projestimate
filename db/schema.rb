@@ -674,7 +674,6 @@ ActiveRecord::Schema.define(:version => 20130926130631) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
-    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"

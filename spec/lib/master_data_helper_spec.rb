@@ -62,7 +62,7 @@ describe MasterDataHelper do
   it "should show custom value if record status is custom" do
     @language.record_status = @custom_status
     @language.custom_value = "Test"
-    @language.show_custom_value.should eql("( Test ) ")
+    @language.show_custom_value.should eql(" (Test) ")
   end
 
 end

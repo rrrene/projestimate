@@ -78,7 +78,6 @@ class UsersController < ApplicationController
     else
       authorize! :manage, User
       flash[:notice] = "You're not allowed to perform this action"
-      redirect_to "dashboard"
     end
   end
 
@@ -92,24 +91,21 @@ class UsersController < ApplicationController
 
     set_page_title 'Edit user'
 
-    params[:user][:group_ids] ||= []
-    params[:user][:project_ids] ||= []
+      # Get the Application authType
+      application_auth_type = AuthMethod.where('name = ? AND record_status_id =?', 'Application', @defined_record_status.id).first
 
-    # Get the Application authType
-    application_auth_type = AuthMethod.where('name = ? AND record_status_id =?', 'Application', @defined_record_status.id).first
+      if application_auth_type && params[:user][:auth_type].to_i != application_auth_type.id
+        params[:user].delete :password
+        params[:user].delete :password_confirmation
+      end
 
-    if application_auth_type && params[:user][:auth_type].to_i != application_auth_type.id
-      params[:user].delete :password
-      params[:user].delete :password_confirmation
-    end
-
-    if @user.update_attributes(params[:user])
-      set_user_language
-      flash[:notice] = I18n.t (:notice_account_successful_updated)
-      redirect_to redirect_apply(edit_user_path(@user, :anchor => session[:anchor]), nil, users_path)
-    else
-      render(:edit)
-    end
+      if @user.update_attributes(params[:user])
+        set_user_language
+        flash[:notice] = I18n.t (:notice_account_successful_updated)
+        redirect_to redirect_apply(edit_user_path(@user, :anchor => session[:anchor]), nil, users_path)
+      else
+        render(:edit)
+      end
 
   end
 

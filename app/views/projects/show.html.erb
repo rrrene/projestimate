@@ -126,13 +126,12 @@
                       <tr>
                         <td><%= user.name %>
                           <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
-                            <td><%= radio_button_tag("user_securities_#{user.id}", prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id))) %> </td>
+                            <td><%= radio_button_tag("user_securities_#{user.id}", prj_level.id, ((securities.nil? || securities.project_security_level.nil?) ? false : (securities.project_security_level.id == prj_level.id)), :disabled => true) %> </td>
                         <% end %>
                       </tr>
                   <% end %>
                 </table>
-                <%= submit_tag I18n.t('save'), :class => 'btn' %>
-                <%= submit_tag I18n.t('apply'), :class => 'btn', :anchor_value => params[:anchor_value] %>
+                <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
               </div>
             </div>
           </div>
@@ -160,13 +159,12 @@
                       <tr>
                         <td><%= group.name %>
                           <% ProjectSecurityLevel.defined.all.each do |prj_level| %>
-                            <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level_id == prj_level.id))) %> </td>
+                            <td><%= radio_button_tag("group_securities_#{group.id}", prj_level.id, (securities.nil? ? false : (securities.project_security_level_id == prj_level.id)), :disabled => true) %> </td>
                         <% end %>
                       </tr>
                   <% end %>
                 </table>
-                <%= submit_tag I18n.t('save'), :class => 'btn' %>
-                <%= submit_tag I18n.t('apply'), :class => 'btn', :anchor_value => params[:anchor_value] %>
+                <%= link_to I18n.t('back'), projects_path, :class => 'btn' %>
               </div>
             </div>
           </div>

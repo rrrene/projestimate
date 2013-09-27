@@ -29,4 +29,8 @@ class ProjectSecurity < ActiveRecord::Base
   def level
     self.project_security_level.nil? ? '-' : self.project_security_level.name
   end
+
+  def to_s
+    self.id.to_s
+  end
 end

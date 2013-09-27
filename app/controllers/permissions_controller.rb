@@ -21,7 +21,7 @@
 
 class PermissionsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  load_resource
+  #load_resource
 
   before_filter :get_record_statuses
 
@@ -140,25 +140,23 @@ class PermissionsController < ApplicationController
       group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
     end
 
-    respond_to do |format|
-      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
-    end
-
+    redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 
   def set_rights_project_security
-    authorize! :manage_roles, Permission
+    #authorize! :manage_roles, Permission
 
     @project_security_levels = ProjectSecurityLevel.defined
     @permissions = Permission.defined
 
     @project_security_levels.each do |psl|
-      psl.update_attribute('permission_ids', params[:permissions][psl.id.to_s])
+      if params[:permissions].nil?
+        psl.update_attribute('permission_ids', nil)
+      else
+        psl.update_attribute('permission_ids', params[:permissions][psl.id.to_s])
+      end
     end
 
-    respond_to do |format|
-      format.html { redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}" }
-    end
-
+    redirect_to '/globals_permissions##tabs-projects', :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 end

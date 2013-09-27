@@ -62,10 +62,4 @@ class HomesController < ApplicationController
       redirect_to about_url
     end
   end
-
-
-  #def testme
-  #  Home::testons
-  #  redirect_to projects_url
-  #end
 end

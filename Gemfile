@@ -15,27 +15,32 @@ require 'yaml'
 database_file = File.join(File.dirname(__FILE__), 'config/database.yml')
 if File.exist?(database_file)
   database_config = YAML::load(ERB.new(IO.read(database_file)).result)
-  adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
+  adapters = database_config.values.map { |c| c['adapter'] }.compact.uniq
   if adapters.any?
     adapters.each do |adapter|
       case adapter
-      when 'mysql2'
-        gem 'mysql2', '~> 0.3.11', :platforms => [:mri, :mingw]
-        gem 'activerecord-jdbcmysql-adapter', :platforms => :jruby
-      when 'mysql'
-        gem 'mysql', '~> 2.8.1', :platforms => [:mri, :mingw]
-        gem 'activerecord-jdbcmysql-adapter', :platforms => :jruby
-      when /postgresql/
-        gem 'pg', '>= 0.11.0', :platforms => [:mri, :mingw]
-        gem 'activerecord-jdbcpostgresql-adapter', :platforms => :jruby
-      when /sqlite3/
-        gem 'sqlite3', :platforms => [:mri, :mingw]
-        gem 'activerecord-jdbcsqlite3-adapter', :platforms => :jruby
-      when /sqlserver/
-        gem 'tiny_tds', '~> 0.5.1', :platforms => [:mri, :mingw]
-        gem 'activerecord-sqlserver-adapter', :platforms => [:mri, :mingw]
-      else
-        warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
+        when 'mysql2'
+          if RUBY_PLATFORM =~ /i386-mingw32/
+            # do that since mysql2 version > 0.3.11 doesn't work properly on Windows
+            gem 'mysql2', '= 0.3.11', :platforms => [:mswin, :mingw]
+          else
+            gem 'mysql2', '~> 0.3.11', :platforms => :mri
+          end
+          gem 'activerecord-jdbcmysql-adapter', :platforms => :jruby
+        when 'mysql'
+          gem 'mysql', '~> 2.8.1', :platforms => [:mri, :mingw]
+          gem 'activerecord-jdbcmysql-adapter', :platforms => :jruby
+        when /postgresql/
+          gem 'pg', '>= 0.11.0', :platforms => [:mri, :mingw]
+          gem 'activerecord-jdbcpostgresql-adapter', :platforms => :jruby
+        when /sqlite3/
+          gem 'sqlite3', :platforms => [:mri, :mingw]
+          gem 'activerecord-jdbcsqlite3-adapter', :platforms => :jruby
+        when /sqlserver/
+          gem 'tiny_tds', '~> 0.5.1', :platforms => [:mri, :mingw]
+          gem 'activerecord-sqlserver-adapter', :platforms => [:mri, :mingw]
+        else
+          warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
       end
     end
   else
@@ -60,7 +65,7 @@ gem 'aescrypt'
 
 # Optional gem for LDAP authentication
 #group :ldap do
-  gem 'net-ldap', '~> 0.3.1'
+gem 'net-ldap', '~> 0.3.1'
 #end
 
 #Pagination library for Rails 3
@@ -97,6 +102,7 @@ gem 'newrelic_rpm'
 gem 'rubyzip', '~> 0.9'
 gem 'rubyXL'
 gem 'axlsx'
+gem 'roo'
 
 # Gems used only for assets and not required
 # in production environments by default.

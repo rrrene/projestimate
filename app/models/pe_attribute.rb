@@ -22,6 +22,8 @@
 #Global attributes of project. Ex : size, cost, result, date etc...
 #Those attributes are used into AttributeModule
 class PeAttribute < ActiveRecord::Base
+  attr_accessible :name, :alias, :attribute_category_id, :aggregation, :attr_type, :options, :precision, :description, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   serialize :options, Array
@@ -114,6 +116,8 @@ class PeAttribute < ActiveRecord::Base
         'string'
       when 'array'
         'string'
+      else
+        'string'
     end
   end
 
@@ -131,6 +135,8 @@ class PeAttribute < ActiveRecord::Base
       when 'list'
         'string'
       when 'array'
+        'string'
+      else
         'string'
     end
   end

@@ -30,7 +30,7 @@ module PeWbsProjectsHelper
     #Root is always display
     if !pbs_project_element.nil? && pbs_project_element.is_root?
       tree << "<ul>
-           #{wbs_root_links(pbs_project_element, project, is_project_show_view)}"
+         #{wbs_root_links(pbs_project_element, project, is_project_show_view)}"
     end
 
     if pbs_project_element.has_children?
@@ -110,3 +110,6 @@ module PeWbsProjectsHelper
       </li>"
   end
 end
+
+
+

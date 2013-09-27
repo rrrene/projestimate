@@ -172,7 +172,7 @@ module MasterDataHelper
       def show_custom_value
         #if self.is_custom? || self.is_local_record?
         unless self.is_local_record?
-          self.custom_value.blank? ? "" : "( #{self.custom_value} ) "
+          self.custom_value.blank? ? "" : " (#{self.custom_value}) "
         end
       end
 

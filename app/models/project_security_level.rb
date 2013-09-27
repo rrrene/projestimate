@@ -20,6 +20,8 @@
 
 #Master Data
 class ProjectSecurityLevel < ActiveRecord::Base
+  attr_accessible :name, :description, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :project_securities
@@ -32,4 +34,9 @@ class ProjectSecurityLevel < ActiveRecord::Base
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?
+
+
+  def to_s
+    self.name
+  end
 end
