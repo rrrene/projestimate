@@ -1,40 +1,64 @@
-<div id="content-header">
-  <h1><%= I18n.t(:currencies) %></h1>
-</div>
+<div class="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= I18n.t(:currencies) %></a></li>
+  </ul>
 
-<table class="table tablesorterPager table-striped table-bordered table-condensed">
-  <tr>
-    <th><%= I18n.t(:name) %></th>
-    <th>Alias</th>
-    <th><%= I18n.t(:description) %></th>
-    <th class="filter-select"><%= I18n.t(:record_status) %></th>
-    <th  class="action"><%= I18n.t(:actions) %></th>
-  </tr>
-
-  <% @currencies.each do |currency| %>
+  <div id="tabs-1">
+    <table border="0" width="100%">
       <tr>
-        <td><%= currency.name %></td>
-        <td><%= currency.alias %></td>
-        <td><%= currency.description %></td>
-        <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
-        <td><%= link_to '', edit_currency_path(currency), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-          <%= link_to '', currency, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-          <% if is_master_instance? && !currency.is_local_record? %>
-              <% if currency.is_retired? %>
-                  <%= link_to('', "currencies/#{currency.id}/restore_change", confirm: I18n.t('restoring'), :class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
-              <% else %>
-                  <% unless currency.is_defined? %>
-                      <%= link_to('', "currencies/#{currency.id}/validate_change", confirm: I18n.t('validation'), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
-                  <% end %>
-              <% end %>
-          <% end %>
+        <td style="text-align:right;">
+          <%= link_to I18n.t('new_currency'), new_currency_path, :class => 'btn' %>
         </td>
       </tr>
-  <% end %>
+    </table>
+    <table id="table_list_1" class="table tablesorterPager table-striped table-bordered table-condensed">
+      <thead>
+          <tr>
+            <th><%= I18n.t(:name) %></th>
+            <th>Alias</th>
+            <th><%= I18n.t(:description) %></th>
+            <th class="filter-select"><%= I18n.t(:record_status) %></th>
+            <th  class="action"><%= I18n.t(:actions) %></th>
+          </tr>
+      </thead>
 
-  <%= render :partial => 'layouts/footer_table' %>
-</table>
+      <tbody>
+      <% @currencies.each do |currency| %>
+          <tr>
+            <td><%= currency.name %></td>
+            <td><%= currency.alias %></td>
+            <td><%= currency.description %></td>
+            <td><%= currency.record_status.name unless currency.record_status.nil? %> <%= currency.show_custom_value %></td>
+            <td><%= link_to '', edit_currency_path(currency), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+              <%= link_to '', currency, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+              <% if is_master_instance? && !currency.is_local_record? %>
+                  <% if currency.is_retired? %>
+                      <%= link_to('', "currencies/#{currency.id}/restore_change", confirm: I18n.t('restoring'), :class => 'icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
+                  <% else %>
+                      <% unless currency.is_defined? %>
+                          <%= link_to('', "currencies/#{currency.id}/validate_change", confirm: I18n.t('validation'), :class => 'icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
+                      <% end %>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+      <%= render :partial => 'layouts/footer_table' %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<br/>
+<script>
+    <%= render :partial => 'layouts/sort_date', :handlers => [:erb], :formats => [:js] %>
+</script>
 
-<%= link_to I18n.t('new_currency'), new_currency_path, :class => 'btn' %>
+
+
+
+
+
+
+
+
+
