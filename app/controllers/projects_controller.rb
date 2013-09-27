@@ -307,9 +307,9 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @project = Project.find(params[:id])
     authorize! :show_project, @project
     set_page_title 'Show project'
-    @project = Project.find(params[:id])
 
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
@@ -456,8 +456,9 @@ class ProjectsController < ApplicationController
 
   #Allow o add or append a pemodule to a estimation process
   def append_pemodule
-    authorize! :alter_estimation_plan, @project
     @project = Project.find(params[:project_id])
+    authorize! :alter_estimation_plan, @project
+
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
     if params[:pbs_project_element_id] && params[:pbs_project_element_id] != ''
@@ -572,8 +573,9 @@ class ProjectsController < ApplicationController
 
   #Run estimation process
   def run_estimation(start_module_project = nil, pbs_project_element_id = nil, rest_of_module_projects = nil, set_attributes = nil)
-    authorize! :execute_estimation_plan, @project
     @project = current_project
+    authorize! :execute_estimation_plan, @project
+
     @my_results = Hash.new
     @last_estimation_results = Hash.new
     set_attributes_name_list = {'low' => [], 'high' => [], 'most_likely' => []}
@@ -666,6 +668,7 @@ class ProjectsController < ApplicationController
   # Function that save current module_project estimation result in DB
   #Save output values: only for current pbs_project_element
   def save_estimation_results(start_module_project, input_attributes, output_data)
+    @project = current_project
     authorize! :alter_estimation_plan, @project
 
     @pbs_project_element = current_component
@@ -764,6 +767,7 @@ class ProjectsController < ApplicationController
 
   #This method set result in DB with the :value key for node estimation value
   def set_element_value_with_activities(estimation_result, module_project)
+    @project = current_project
     authorize! :alter_estimation_plan, @project
 
     result_with_consistency = Hash.new
@@ -793,6 +797,7 @@ class ProjectsController < ApplicationController
 
   # After estimation, need to know if node value are consistent or not for WBS-Completion modules
   def set_wbs_completion_node_consistency(estimation_result, wbs_project_element)
+    @project = current_project
     authorize! :alter_wbsproducts, @project
 
     consistency = true
@@ -814,6 +819,7 @@ class ProjectsController < ApplicationController
   # TODO: Verify if it still being used ... Unless DELETE function from code
   # After estimation, need to know if node value are consistent or not
   def set_element_consistency(estimation_result, module_project)
+    @project = current_project
     authorize! :alter_wbsproducts, @project
 
     result_with_consistency = Hash.new
@@ -845,6 +851,7 @@ class ProjectsController < ApplicationController
 
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, pbs_project_element_id, level, project, current_mp_to_execute)
+    @project = current_project
     authorize! :execute_estimation_plan, @project
 
     @result_hash = Hash.new
@@ -949,15 +956,15 @@ class ProjectsController < ApplicationController
 
 
   def commit
-    authorize! :commit_project, @project
-
     project = Project.find(params[:project_id])
+    authorize! :commit_project, project
     project.commit!
     redirect_to '/projects'
   end
 
   def activate
-    authorize! :show_project, @project
+    project = Project.find(params[:project_id])
+    authorize! :show_project, project
 
     u = current_user
     u.add_recent_project(params[:project_id])
@@ -966,9 +973,9 @@ class ProjectsController < ApplicationController
   end
 
   def find_use_project
+    @project = Project.find(params[:project_id])
     authorize! :show_project, @project
 
-    @project = Project.find(params[:project_id])
     @related_projects = Array.new
     @related_projects_inverse = Array.new
 
@@ -1013,9 +1020,9 @@ class ProjectsController < ApplicationController
 
   #Add/Import a WBS-Activity template from Library to Project
   def add_wbs_activity_to_project
+    @project = Project.find(params[:project_id])
     authorize! :alter_wbsactivities, @project
 
-    @project = Project.find(params[:project_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @wbs_project_elements_root = @project.wbs_project_element_root
 
@@ -1121,18 +1128,17 @@ class ProjectsController < ApplicationController
   end
 
   def locked_plan
+    @project = Project.find(params[:project_id])
     authorize! :alter_estimation_plan, @project
 
-    @project = Project.find(params[:project_id])
     @project.locked? ? @project.is_locked = false : @project.is_locked = true
     @project.save
     redirect_to edit_project_path(@project, :anchor => 'tabs-4')
   end
 
   def projects_from
-    authorize! :create_project_from_template, Project
-
     @projects = Project.where(:is_model => true)
+    authorize! :create_project_from_template, Project
   end
 
   #Checkout the project
@@ -1141,8 +1147,8 @@ class ProjectsController < ApplicationController
     #redirect_to projects_url
 
     begin
-      authorize! :commit_project, @project
       old_prj = Project.find(params[:project_id])
+      authorize! :commit_project, old_prj
       old_prj_copy_number = old_prj.copy_number
       old_prj_pe_wbs_product_name = old_prj.pe_wbs_projects.products_wbs.first.name
       old_prj_pe_wbs_activity_name = old_prj.pe_wbs_projects.activities_wbs.first.name
