@@ -250,7 +250,6 @@ class Home < ActiveRecord::Base
         local_record = local.corresponding_local_record(ext.uuid, loc_local_rs_id).first
 
         unless local_record.nil?
-
           if local.to_s == 'AdminSetting'
             if local_record.custom_value == 'Locally edited'
               fields = fields - ['value']

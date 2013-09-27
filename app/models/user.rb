@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
 
   has_many :project_securities
   has_many :wbs_project_elements, :foreign_key => 'author_id' ###has_many :authors, :foreign_key => 'author_id', :class_name => 'WbsProjectElement'
+  has_one :creator, :class_name => "User", :foreign_key => "creator_id"
 
   #Master and Special Data Tables
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'
