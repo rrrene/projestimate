@@ -100,13 +100,10 @@ $(document).ready(function() {
         }
     );
 
+
     $('.tabs').tabs({
         show: function (event, ui) {
-//            var index = $(ui.tab).parent().index();
-//            var tablesorter_index_tab = index+1;
-//            $("#table_list_"+tablesorter_index_tab).trigger("update");
-//            $("#table_list_"+tablesorter_index_tab).trigger("appendCache");
-
+            var index = ui.index; //$(ui.tab).parent().index();
             jsPlumb.repaintEverything();
          },
 
@@ -700,6 +697,11 @@ $(function table_sorter_filter() {
         // ****************************
         .tablesorterPager(pagerOptions);
 
+        //Update the current TAB footer
+        var current_tab_index = $(".tabs").tabs('option', 'selected');
+        var current_tab_name = current_tab_index+1;
+        $("#table_list_"+current_tab_name).trigger("update");
+        $("#table_list_"+current_tab_name).trigger("appendCache");
 
 
     // Get the current tab
@@ -767,7 +769,6 @@ $(function table_sorter_filter() {
                 // ****************************
                 .tablesorterPager(pagerOptions);
         }
-
     });
 
 });
