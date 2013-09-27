@@ -104,6 +104,8 @@ $(document).ready(function() {
     $('.tabs').tabs({
         show: function (event, ui) {
             var index = ui.index; //$(ui.tab).parent().index();
+            //$("#table_list_"+current_tab_name).trigger("update");
+            //$("#table_list_"+current_tab_name).trigger("appendCache");
             jsPlumb.repaintEverything();
          },
 
@@ -700,8 +702,6 @@ $(function table_sorter_filter() {
         //Update the current TAB footer
         var current_tab_index = $(".tabs").tabs('option', 'selected');
         var current_tab_name = current_tab_index+1;
-//        $("#table_list_"+current_tab_name).trigger("update");
-//        $("#table_list_"+current_tab_name).trigger("appendCache");
         if($("#table_list_"+current_tab_name).length){
             $("#table_list_"+current_tab_name).tablesorterPager(pagerOptions);
         }
@@ -4929,6 +4929,45 @@ function select_or_unselect_all(clicked_elt){
         }
     }
 }
+
+function select_or_unselect_all_permissions(clicked_elt){
+    var group_id = $(clicked_elt).data("group_id");
+    var rows_or_cols = $(clicked_elt).data("rows_or_cols");
+    var at_least_one_selected = false;
+    var number_of_elt = 0;
+    var number_of_checked_elt = 0;
+
+    if (rows_or_cols == "cols") {
+        $('.group_'+group_id+':checkbox').each(function(){
+            number_of_elt = number_of_elt+1;
+            //at_least_one_selected = (this.checked ? true : false);
+            if (this.checked)
+                number_of_checked_elt = number_of_checked_elt+1;
+        });
+
+        if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
+            $('.group_'+group_id).attr("checked", true);
+        else
+            $('.group_'+group_id).attr("checked", false);
+    }
+    else{
+        if (rows_or_cols == "rows") {
+            $('.permission_'+group_id+':checkbox').each(function(){
+                number_of_elt = number_of_elt+1;
+                if (this.checked)
+                    number_of_checked_elt = number_of_checked_elt+1;
+            });
+
+            if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
+                $('.permission_'+group_id).attr("checked", true);
+            else
+                $('.permission_'+group_id).attr("checked", false);
+        }
+    }
+}
+
+
+
 
 
 //Submit the search form
