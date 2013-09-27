@@ -700,9 +700,11 @@ $(function table_sorter_filter() {
         //Update the current TAB footer
         var current_tab_index = $(".tabs").tabs('option', 'selected');
         var current_tab_name = current_tab_index+1;
-        $("#table_list_"+current_tab_name).trigger("update");
-        $("#table_list_"+current_tab_name).trigger("appendCache");
-
+//        $("#table_list_"+current_tab_name).trigger("update");
+//        $("#table_list_"+current_tab_name).trigger("appendCache");
+        if($("#table_list_"+current_tab_name).length){
+            $("#table_list_"+current_tab_name).tablesorterPager(pagerOptions);
+        }
 
     // Get the current tab
     //var current_tab_index = $(".tabs").tabs('option', 'active');
