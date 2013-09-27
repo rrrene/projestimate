@@ -50,12 +50,12 @@
             </a></li>
       <% end %>
 
-      <% if can? :manage, Group or can? :manage, User or can? :create_and_edit_groups, Group %>
+      <% if can? :manage, User or can? :create_and_edit_groups, Group %>
           <li><a href="<%= groups_path %>">
             <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
       <% end %>
 
-      <% if can? :manage, Group and can? :manage, User %>
+      <% if can? :manage_roles, :All %>
           <li><a href="/globals_permissions">
             <i class="icon-check-sign icon-large icon-border pull-left"></i>Roles</a></li>
       <% end %>

@@ -644,15 +644,14 @@ class Home < ActiveRecord::Base
         ext_group_uuid=Array.new
         ext_permission= db.query("SELECT uuid FROM permissions where id=#{record[0]}")
         ext_permission.each do |row|
-          ext_permission_uuid=row
+          ext_permission_uuid = row
         end
         ext_group=db.query("SELECT uuid FROM groups where id=#{record[1]}")
         ext_group.each do |row|
-          ext_group_uuid=row
+          ext_group_uuid = row
         end
 
-        # !!!!!!!!!!!!!! There is a bug HERE !!!!!!!!!!!!!!!!!!!!
-        loc_permission_id=Permission.find_by_uuid(ext_permission_uuid['uuid']).id
+        loc_permission_id = Permission.find_by_uuid(ext_permission_uuid['uuid']).id
         loc_group= Group.find_by_uuid(ext_group_uuid['uuid']).id
         loc_records_permissions << [loc_permission_id,loc_group]
       end
