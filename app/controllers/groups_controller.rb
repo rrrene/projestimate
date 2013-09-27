@@ -30,10 +30,10 @@ class GroupsController < ApplicationController
   helper_method :user_organizations_projects
 
   def index
-    authorize! :create_and_edit_groups, Group
-
-    set_page_title 'Groups'
-    @groups = Group.all
+    if (can? :create_and_edit_groups, Group) || (can? :manage, User)
+      set_page_title 'Groups'
+      @groups = Group.all
+    end
   end
 
   def new
@@ -42,45 +42,44 @@ class GroupsController < ApplicationController
     set_page_title 'New group'
     @group = Group.new
     @users = User.all
-    @projects = Project.all.reject{ |i| !i.is_childless? }
+    @projects = Project.all.reject { |i| !i.is_childless? }
     @enable_update_in_local = true
   end
 
   def edit
-    authorize! :create_and_edit_groups, Group
+    if can? :manage, User
+      set_page_title 'Edit group'
+      @group = Group.find(params[:id])
+      @users = User.all
+      @projects = Project.all.reject { |i| !i.is_childless? }
 
-    set_page_title 'Edit group'
-    @group = Group.find(params[:id])
-    @users = User.all
-    @projects = Project.all.reject{ |i| !i.is_childless? }
-
-    if is_master_instance?
-      @enable_update_in_local = true
-      unless @group.child_reference.nil?
-        if @group.child_reference.is_proposed_or_custom?
-          flash[:warning] = I18n.t (:warning_group_cant_be_edit)
-          redirect_to groups_path and return
+      if is_master_instance?
+        @enable_update_in_local = true
+        unless @group.child_reference.nil?
+          if @group.child_reference.is_proposed_or_custom?
+            flash[:warning] = I18n.t (:warning_group_cant_be_edit)
+            redirect_to groups_path and return
+          end
+        end
+      else
+        if @group.is_local_record?
+          @group.record_status = @local_status
+          @enable_update_in_local = true
+          ##flash[:notice] = "testing"
+        else
+          @enable_update_in_local = false
+          #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
+          #  redirect_to redirect(groups_path)
         end
       end
-    else
-      if @group.is_local_record?
-        @group.record_status = @local_status
-        @enable_update_in_local = true
-        ##flash[:notice] = "testing"
-      else
-        @enable_update_in_local = false
-        #  flash[:error] = "Master record can not be edited, it is required for the proper functioning of the application"
-        #  redirect_to redirect(groups_path)
-      end
     end
-
   end
 
   def create
     authorize! :create_and_edit_groups, Group
 
     @users = User.all
-    @projects = Project.all.reject{ |i| !i.is_childless? }
+    @projects = Project.all.reject { |i| !i.is_childless? }
     @group = Group.new(params[:group])
     @enable_update_in_local = true
 
@@ -92,7 +91,7 @@ class GroupsController < ApplicationController
     end
 
     if @group.save
-      redirect_to redirect_apply(edit_group_path(@group, :anchor=>session[:anchor]), new_group_path(), groups_path())
+      redirect_to redirect_apply(edit_group_path(@group, :anchor => session[:anchor]), new_group_path(), groups_path())
     else
       render action: 'new'
     end
@@ -100,7 +99,7 @@ class GroupsController < ApplicationController
 
   #Update the selected users in the group's securities
   def update_selected_users
-    authorize! :manage, Group
+    authorize! :manage, User
 
     @group = Group.find(params[:group_id])
     user_ids = params[:group][:user_ids]
@@ -127,7 +126,7 @@ class GroupsController < ApplicationController
 
   # #Update the selected users in the project's securities
   def update_selected_projects
-    authorize! :manage, Group
+    authorize! :manage, User
 
     @group = Group.find(params[:group_id])
     project_ids = params[:group][:project_ids]
@@ -157,7 +156,7 @@ class GroupsController < ApplicationController
     authorize! :create_and_edit_groups, Group
 
     @users = User.all
-    @projects = Project.all.reject{ |i| !i.is_childless? }
+    @projects = Project.all.reject { |i| !i.is_childless? }
     @group = nil
     current_group = Group.find(params[:id])
 
@@ -188,7 +187,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    authorize! :manage, Group
+    authorize! :manage, User
 
     @group = Group.find(params[:id])
     if is_master_instance?
