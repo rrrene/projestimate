@@ -21,7 +21,7 @@
 
 class PermissionsController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
-  #load_resource
+  load_resource
 
   before_filter :get_record_statuses
 
@@ -37,6 +37,8 @@ class PermissionsController < ApplicationController
   end
 
   def globals_permissions
+    authorize! :manage_roles, Permission
+
     set_page_title 'Globals Permissions'
 
     @global_permissions = Permission.order('object_associated','alias').defined.select{|i| !i.is_permission_project and !i.is_master_permission}

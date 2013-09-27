@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
   require 'socket'
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
-    redirect_to edit_user_path(current_user)
+    begin
+      redirect_to :back
+    rescue
+      redirect_to root_path
+    end
   end
 
   rescue_from Errno::ECONNREFUSED do |error|
@@ -170,11 +174,11 @@ class ApplicationController < ActionController::Base
 
   def redirect_apply(edit=nil, new=nil, index=nil)
     begin
-      if (params[:commit] == "#{I18n.t 'save'}")
+      if params[:commit] == "#{I18n.t 'save'}"
         index
-      elsif (params[:commit] == "#{I18n.t 'save_and_create'}")
+      elsif params[:commit] == "#{I18n.t 'save_and_create'}"
         :back
-      elsif (params[:commit] == "#{I18n.t 'apply'}")
+      elsif params[:commit] == "#{I18n.t 'apply'}"
         edit
       else
         session[:return_to]

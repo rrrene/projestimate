@@ -236,7 +236,7 @@
 </div>
 
 <% if can? :commit_project, @project %>
-  <%= render :partial => 'check_state', :locals => { :can => 'can_promote_project'} %>
+  <%= render :partial => 'check_state', :locals => { :can => 'admin_project_state'} %>
 <% end %>
 
 
