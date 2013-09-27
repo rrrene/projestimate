@@ -138,9 +138,9 @@ class OrganizationsController < ApplicationController
 
     case File.extname(file.original_filename)
       when ".ods"
-        workbook = Openoffice.new("myspreadsheet.ods")      # creates an Openoffice Spreadsheet instance
+        workbook = Roo::Spreadsheet.open(file.path, extension: :ods)
       when ".xls"
-        workbook = Excel.new("myspreadsheet.xls")           # creates an Excel Spreadsheet instance
+        workbook = Roo::Spreadsheet.open(file.path, extension: :xls)
       when ".xlsx"
         workbook = Roo::Spreadsheet.open(file.path, extension: :xlsx)
     end
@@ -154,15 +154,14 @@ class OrganizationsController < ApplicationController
                                                                                           :alias => name,
                                                                                           :organization_id => @organization.id)
 
-        #4.upto(oo.last_row)
         workbook.each_with_index do |row, i|
           row.each_with_index do |cell, j|
             unless row.nil?
-              if j != 0 #line
+              unless workbook.cell(1,j+1) == "Abacus" or workbook.cell(i+1,1) == "Abacus"
                 if can? :manage, Organization
                   @ouc = OrganizationUowComplexity.find_or_create_by_name_and_organization_id(:name => workbook.cell(1,j+1), :organization_id => @organization.id)
                 end
-              else
+
                 if can? :manage, Organization
                   @uow = UnitOfWork.find_or_create_by_name_and_alias_and_organization_id(:name => workbook.cell(i+1,1), :alias => workbook.cell(i+1,1), :organization_id => @organization.id)
                   unless @uow.organization_technologies.map(&:id).include?(@ot.id)
@@ -170,7 +169,6 @@ class OrganizationsController < ApplicationController
                   end
                   @uow.save
                 end
-              end
 
                 ao = AbacusOrganization.find_by_unit_of_work_id_and_organization_uow_complexity_id_and_organization_technology_id_and_organization_id(
                     @uow.id,
@@ -180,17 +178,18 @@ class OrganizationsController < ApplicationController
                 )
 
                 if ao.nil?
-                  #if can? :manage, Organization
+                  if can? :manage, Organization
                     AbacusOrganization.create(
-                        :unit_of_work_id => uow.id,
-                        :organization_uow_complexity_id => ouc.id,
+                        :unit_of_work_id => @uow.id,
+                        :organization_uow_complexity_id => @ouc.id,
                         :organization_technology_id => @ot.id,
                         :organization_id => @organization.id,
-                        :value => workbook.cell(2, 3))
-                  #end
+                        :value => workbook.cell(i+1, j+1))
+                  end
                 else
-                  ao.update_attribute(:value, workbook.cell("B",3))
+                  ao.update_attribute(:value, workbook.cell(i+1, j+1))
                 end
+              end
             end
           end
         end

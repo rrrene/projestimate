@@ -3,6 +3,8 @@
 
     var can_promote = "<%= local_assigns[:can] %>"
 
+    <%# @project = local_assigns[:prj] || @project %>
+
     function send_notice(message, s1, s2){
       if(message == "ok"){
         return true;

@@ -17,6 +17,11 @@
   <% else %>
       <% @projects.each do |project| %>
         <% if can? :show_project, project %>
+
+          <%# if can? :commit_project, project %>
+            <%# render :partial => 'check_state', :locals => { :can => 'admin_project_state', :prj => project } %>
+          <%# end %>
+
           <tr>
             <td><%= project.title %></td>
             <td><%= project.version %></td>
