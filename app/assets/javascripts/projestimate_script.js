@@ -102,6 +102,11 @@ $(document).ready(function() {
 
     $('.tabs').tabs({
         show: function (event, ui) {
+//            var index = $(ui.tab).parent().index();
+//            var tablesorter_index_tab = index+1;
+//            $("#table_list_"+tablesorter_index_tab).trigger("update");
+//            $("#table_list_"+tablesorter_index_tab).trigger("appendCache");
+
             jsPlumb.repaintEverything();
          },
 
