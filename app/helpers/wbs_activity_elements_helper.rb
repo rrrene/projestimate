@@ -138,7 +138,7 @@ module WbsActivityElementsHelper
   end
 
 
-  def link_activity_element(element, is_project_show_view)
+  def link_activity_element(element, is_project_show_view=false)
     if can? :edit_wbs_activities, WbsActivity
       res = String.new
       unless is_project_show_view
