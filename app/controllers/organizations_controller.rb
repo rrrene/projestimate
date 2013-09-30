@@ -23,7 +23,6 @@ class OrganizationsController < ApplicationController
   require 'axlsx'
   require 'rubygems'
   require 'roo'
-  include RubyXL
   include Roo
 
   def new
