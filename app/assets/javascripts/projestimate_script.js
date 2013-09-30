@@ -4930,15 +4930,19 @@ function select_or_unselect_all(clicked_elt){
     }
 }
 
-function select_or_unselect_all_permissions(clicked_elt){
-    var group_id = $(clicked_elt).data("group_id");
-    var rows_or_cols = $(clicked_elt).data("rows_or_cols");
+
+//Function for Select/Unselect All permission on Permissions page
+function select_or_unselect_all_permissions(clicked_elt, cols_data_name, rows_data_name, rows_or_cols_name){
+    var group_id = $(clicked_elt).data(cols_data_name);
+    var permission_id = $(clicked_elt).data(rows_data_name);
+    var rows_or_cols = $(clicked_elt).data("rows_or_cols_"+rows_or_cols_name);
     var at_least_one_selected = false;
     var number_of_elt = 0;
     var number_of_checked_elt = 0;
 
-    if (rows_or_cols == "cols") {
-        $('.group_'+group_id+':checkbox').each(function(){
+    if(rows_or_cols == "cols") {
+        $('.'+cols_data_name+'_'+group_id+':checkbox').each(function(){
+
             number_of_elt = number_of_elt+1;
             //at_least_one_selected = (this.checked ? true : false);
             if (this.checked)
@@ -4946,28 +4950,25 @@ function select_or_unselect_all_permissions(clicked_elt){
         });
 
         if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
-            $('.group_'+group_id).attr("checked", true);
+            $('.'+cols_data_name+'_'+group_id).attr("checked", true);
         else
-            $('.group_'+group_id).attr("checked", false);
+            $('.'+cols_data_name+'_'+group_id).attr("checked", false);
     }
     else{
         if (rows_or_cols == "rows") {
-            $('.permission_'+group_id+':checkbox').each(function(){
+            $('.'+rows_data_name+'_'+permission_id+':checkbox').each(function(){
                 number_of_elt = number_of_elt+1;
                 if (this.checked)
                     number_of_checked_elt = number_of_checked_elt+1;
             });
 
             if (number_of_checked_elt==0 || number_of_checked_elt < number_of_elt)
-                $('.permission_'+group_id).attr("checked", true);
+                $('.'+rows_data_name+'_'+permission_id).attr("checked", true);
             else
-                $('.permission_'+group_id).attr("checked", false);
+                $('.'+rows_data_name+'_'+permission_id).attr("checked", false);
         }
     }
 }
-
-
-
 
 
 //Submit the search form

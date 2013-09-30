@@ -21,10 +21,8 @@
 class OrganizationsController < ApplicationController
   load_resource
   require 'axlsx'
-  require 'rubyXL'
   require 'rubygems'
   require 'roo'
-  include RubyXL
   include Roo
 
   def new
