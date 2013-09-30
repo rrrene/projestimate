@@ -60,4 +60,8 @@ describe EstimationValue do
     @cost_estimation_value.is_validate("15").should be_true
   end
 
+  it 'should return attr name' do
+    @cost_estimation_value.to_s.should eql("Cost")
+  end
+
 end

@@ -43,4 +43,15 @@ describe AuthMethod do
     @default_auth_method2.reference_uuid = @default_auth_method.uuid
   end
 
+  it "should display ecncryption" do
+    @another_auth_method.encryption2.should eql("")
+    @another_auth_method.encryption = 'No encryption'
+    @another_auth_method.encryption2.should eql("")
+    @another_auth_method.encryption = 'SSL (ldaps://)'
+    @another_auth_method.encryption2.should eql(:simple_tls)
+    @another_auth_method.encryption = 'StartTLS'
+    @another_auth_method.encryption2.should eql(:start_tls)
+  end
+
+
 end
