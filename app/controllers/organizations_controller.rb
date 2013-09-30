@@ -21,10 +21,8 @@
 class OrganizationsController < ApplicationController
   load_resource
   require 'axlsx'
-  require 'rubyXL'
   require 'rubygems'
   require 'roo'
-  include RubyXL
   include Roo
 
   def new
@@ -143,6 +141,8 @@ class OrganizationsController < ApplicationController
         workbook = Roo::Spreadsheet.open(file.path, extension: :xls)
       when ".xlsx"
         workbook = Roo::Spreadsheet.open(file.path, extension: :xlsx)
+      when ".xlsm"
+        workbook = Roo::Spreadsheet.open(file.path, extension: :xlsx)
     end
 
     workbook.sheets.each_with_index do |worksheet, k|
@@ -154,6 +154,7 @@ class OrganizationsController < ApplicationController
                                                                                           :alias => name,
                                                                                           :organization_id => @organization.id)
 
+        workbook.default_sheet=workbook.sheets[k]
         workbook.each_with_index do |row, i|
           row.each_with_index do |cell, j|
             unless row.nil?

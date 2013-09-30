@@ -99,8 +99,8 @@ gem 'cache_digests'
 #Continious integration and monitoring
 gem 'newrelic_rpm'
 
+# spreadsheet files management
 gem 'rubyzip', '~> 0.9'
-gem 'rubyXL'
 gem 'axlsx'
 gem 'roo'
 
