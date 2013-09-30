@@ -142,7 +142,7 @@ class PermissionsController < ApplicationController
       group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
     end
 
-    redirect_to '/globals_permissions', :notice => "#{I18n.t (:notice_permission_successful_saved)}"
+    redirect_to session[:return_to], :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 
   def set_rights_project_security
@@ -159,6 +159,6 @@ class PermissionsController < ApplicationController
       end
     end
 
-    redirect_to '/globals_permissions##tabs-projects', :notice => "#{I18n.t (:notice_permission_successful_saved)}"
+    redirect_to globals_permissions_path(:anchor => "tabs-projects"), :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 end
