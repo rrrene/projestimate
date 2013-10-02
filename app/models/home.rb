@@ -21,6 +21,7 @@ require 'open-uri'
 require 'mysql2'
 
 class Home < ActiveRecord::Base
+  attr_accessible
   include ExternalMasterDatabase
 
   EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalPeAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,

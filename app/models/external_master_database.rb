@@ -54,77 +54,92 @@ module ExternalMasterDatabase
   }
 
   class ExternalWbsActivityRatioElement < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalWbsActivityRatio < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalWbsActivity < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalWbsActivityElement < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalSchemaMigration < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     self.table_name = 'schema_migrations'
   end
 
   class ExternalAcquisitionCategory < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalPeAttribute < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
     serialize :options, Array
   end
 
   class ExternalAttributeCategory < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalAttributeModule < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalCurrency < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalEventType < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalLaborCategory < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalLanguage < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalMasterSetting < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalPeicon < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
 
@@ -136,63 +151,75 @@ module ExternalMasterDatabase
   end
 
   class ExternalPemodule < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalPlatformCategory < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalProjectArea < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalProjectCategory < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalProjectSecurityLevel < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalRecordStatus < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalWorkElementType < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalAdminSetting < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalAuthMethod < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end
 
   class ExternalGroup < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
     has_and_belongs_to_many :permissions
   end
 
   class ExternalPermission < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
     has_and_belongs_to_many :groups
   end
 
   class ExternalRecordStatus < ActiveRecord::Base
+    attr_accessible
     establish_connection HOST
     include ExternalInclude
   end

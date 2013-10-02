@@ -20,7 +20,7 @@
 
 #ProjectSecurity belongs to User, Group and Project
 class ProjectSecurity < ActiveRecord::Base
-  attr_accessible :project_id, :user_id, :group_id, :project_security_level_id
+  attr_accessible :project_id, :user_id, :group_id, :project_security_level_id, :user, :project_security_level
 
   belongs_to :user
   belongs_to :group

@@ -19,7 +19,7 @@
 ########################################################################
 
 class OrganizationTechnology < ActiveRecord::Base
-  attr_accessible :name, :alias, :description, :productivity_ratio, :state
+  attr_accessible :alias, :description, :name, :organization_id, :productivity_ratio, :state, :unit_of_work_ids
 
   include AASM
 
@@ -29,7 +29,6 @@ class OrganizationTechnology < ActiveRecord::Base
     state :retired
   end
 
-  attr_accessible :alias, :description, :name, :organization_id, :productivity_ratio, :state, :unit_of_work_ids
 
   belongs_to :organization
   has_and_belongs_to_many :unit_of_works
