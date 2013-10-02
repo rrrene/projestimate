@@ -134,31 +134,38 @@ class PermissionsController < ApplicationController
   #Set all global rights
   def set_rights
     #authorize! :manage_roles, Permission
+    if params[:commit] == I18n.t('cancel')
+      redirect_to session[:return_to], :notice => "#{I18n.t (:notice_permission_successful_cancelled)}"
+    else
+      @groups = Group.defined_or_local
+      @permissions = Permission.defined
 
-    @groups = Group.defined_or_local
-    @permissions = Permission.defined
+      @groups.each do |group|
+        group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
+      end
 
-    @groups.each do |group|
-      group.update_attribute('permission_ids', params[:permissions][group.id.to_s])
+      redirect_to session[:return_to], :notice => "#{I18n.t (:notice_permission_successful_saved)}"
     end
-
-    redirect_to session[:return_to], :notice => "#{I18n.t (:notice_permission_successful_saved)}"
   end
 
   def set_rights_project_security
     #authorize! :manage_roles, Permission
+    #For the cancel button
+    if params[:commit] == I18n.t('cancel')
+      redirect_to globals_permissions_path(:anchor => "tabs-projects"), :notice => "#{I18n.t (:notice_permission_successful_cancelled)}"
+    else
+      @project_security_levels = ProjectSecurityLevel.defined
+      @permissions = Permission.defined
 
-    @project_security_levels = ProjectSecurityLevel.defined
-    @permissions = Permission.defined
-
-    @project_security_levels.each do |psl|
-      if params[:permissions].nil?
-        psl.update_attribute('permission_ids', nil)
-      else
-        psl.update_attribute('permission_ids', params[:permissions][psl.id.to_s])
+      @project_security_levels.each do |psl|
+        if params[:permissions].nil?
+          psl.update_attribute('permission_ids', nil)
+        else
+          psl.update_attribute('permission_ids', params[:permissions][psl.id.to_s])
+        end
       end
-    end
 
-    redirect_to globals_permissions_path(:anchor => "tabs-projects"), :notice => "#{I18n.t (:notice_permission_successful_saved)}"
+      redirect_to globals_permissions_path(:anchor => "tabs-projects"), :notice => "#{I18n.t (:notice_permission_successful_saved)}"
+    end
   end
 end
