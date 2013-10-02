@@ -21,6 +21,8 @@
 #Special Data
 #Group class contains some User.
 class Group < ActiveRecord::Base
+  attr_accessible :name, :description, :for_global_permission, :for_project_security, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_and_belongs_to_many :users
