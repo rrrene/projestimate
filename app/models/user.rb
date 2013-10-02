@@ -22,6 +22,8 @@ require 'net/ldap'
 
 # User of the application. User has many projects, groups, permissions and project securities. User have one language
 class User < ActiveRecord::Base
+  attr_accessible :email, :login_name, :first_name, :last_name, :initials, :auth_type, :auth_method_id, :user_status, :time_zone, :language_id, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token,:created_at,:updated_at, :organization_ids, :group_ids, :project_ids, :password, :password_confirmation, :project_security_ids
+
   include AASM
 
   has_and_belongs_to_many :projects
@@ -34,7 +36,7 @@ class User < ActiveRecord::Base
 
   has_many :project_securities
   has_many :wbs_project_elements, :foreign_key => 'author_id' ###has_many :authors, :foreign_key => 'author_id', :class_name => 'WbsProjectElement'
-  has_one :creator, :class_name => "User", :foreign_key => "creator_id"
+  has_one :creator, :class_name => 'User', :foreign_key => 'creator_id'
 
   #Master and Special Data Tables
   has_many :change_on_acquisition_categories, :foreign_key => 'owner_id', :class_name => 'AcquisitionCategory'

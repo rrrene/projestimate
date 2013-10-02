@@ -161,8 +161,6 @@ Projestimate::Application.routes.draw do
 
   resources :pe_wbs_projects
 
-
-
   resources :projects
   get 'append_pemodule' => 'projects#append_pemodule'
   get 'select_categories' => 'projects#select_categories', :as => 'select_categories'

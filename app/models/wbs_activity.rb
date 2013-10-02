@@ -20,11 +20,10 @@
 ########################################################################
 
 class WbsActivity < ActiveRecord::Base
+  attr_accessible :name, :description, :state, :record_status_id, :custom_value, :change_comment, :organization_id, :parent_id
 
   include AASM
   include MasterDataHelper
-
-  #attr_accessible :description, :name, :organization_id, :state, :uuid
 
   aasm :column => :state do # defaults to aasm_state
     state :draft, :initial => true

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,8 +18,9 @@
 #
 ########################################################################
 
-#Sous-découpage du domaine du projet (elle est lié à la table ProjectAreas).
 class OrganizationLaborCategory < ActiveRecord::Base
+  attr_accessible  :organization_id, :labor_category_id
+
   belongs_to :labor_category
   belongs_to :currency
 

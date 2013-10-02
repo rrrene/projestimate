@@ -22,15 +22,17 @@
 #Special table
 
 class AuthMethod < ActiveRecord::Base
+
+  attr_accessible :name, :server_name, :port, :base_dn, :user_name_attribute, :owner_id, :on_the_fly_user_creation, :ldap_bind_dn, :password, :ldap_bind_encrypted_password, :ldap_bind_salt, :priority_order, :first_name_attribute, :last_name_attribute, :email_attribute, :initials_attribute, :encryption, :record_status_id, :custom_value, :change_comment
+
+  attr_accessor :password
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :users, :foreign_key => 'auth_type'
 
   belongs_to :record_status
   belongs_to :owner_of_change, :class_name => 'User', :foreign_key => 'owner_id'
-
-  attr_accessor :priority_order, :password
-
 
   before_save :encrypt_password
 

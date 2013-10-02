@@ -21,6 +21,8 @@
 #Master Data
 #ProjectArea management
 class ProjectArea < ActiveRecord::Base
+  attr_accessible :name, :description, :record_status_id, :custom_value, :change_comment, :acquisition_category_ids, :platform_category_ids,:project_category_ids,:labor_category_ids
+
   include MasterDataHelper  #Module master data management (UUID generation, deep clone, ...)
   has_and_belongs_to_many :labor_categories
   has_and_belongs_to_many :platform_categories
@@ -32,7 +34,7 @@ class ProjectArea < ActiveRecord::Base
 
   has_many :projects
 
-  validates_presence_of :description, :record_status
+  validates :record_status, :presence => true
   validates :uuid, :presence => true, :uniqueness => {:case_sensitive => false}
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false, :scope => :record_status_id}
   validates :custom_value, :presence => true, :if => :is_custom?

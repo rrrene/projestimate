@@ -822,6 +822,7 @@ en:
   notice_function_successful_updated: "Function was successfully updated."
   notice_permission_successful_deleted: "Permission was successfully deleted."
   notice_permission_successful_saved: "Permissions saved successfully"
+  notice_permission_successful_cancelled: "Your changes were cancelled"
   warning_platform_category_cant_be_edit: "This platform category can not be edited, previous changes have not yet been validated."
   notice_platform_category_successful_created: "Platform category was successfully created."
   notice_platform_category_successful_updated: "Platform category was successfully updated."

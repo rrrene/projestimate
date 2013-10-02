@@ -32,8 +32,7 @@ class HomesController < ApplicationController
         #To get all version : ActiveRecord::Migrator.get_all_versions
         local_last_schema_version = ActiveRecord::Migrator.current_version  #current local migration version
 
-        #if local_last_schema_version.to_i == external_last_schemas_version.version.to_i
-        if local_last_schema_version.to_i >= external_last_schemas_version.version.to_i
+        #if local_last_schema_version.to_i >= external_last_schemas_version.version.to_i
           puts I18n.t (:same_schema_version)
 
           #Test if local data are up to date
@@ -47,9 +46,9 @@ class HomesController < ApplicationController
             flash[:notice] =  I18n.t (:notice_masterdata_already_latest)
           end
 
-        else
-          flash[:warning] = I18n.t (:warning_db_schema_differ_to_masterdata)
-        end
+        #else
+        #  flash[:warning] = I18n.t (:warning_db_schema_differ_to_masterdata)
+        #end
       end
 
       redirect_to about_url

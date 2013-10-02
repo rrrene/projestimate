@@ -20,6 +20,7 @@
 
 #Master Data
 class PlatformCategory < ActiveRecord::Base
+  attr_accessible :name, :description, :record_status_id, :custom_value, :change_comment
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :projects

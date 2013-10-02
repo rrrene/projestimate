@@ -21,6 +21,7 @@ require 'open-uri'
 require 'mysql2'
 
 class Home < ActiveRecord::Base
+  attr_accessible
   include ExternalMasterDatabase
 
   EXTERNAL_BASES = [ExternalWbsActivityElement, ExternalWbsActivity, ExternalLanguage, ExternalPeAttribute, ExternalMasterSetting, ExternalProjectArea, ExternalProjectCategory, ExternalPlatformCategory, ExternalAcquisitionCategory, ExternalPeicon,
@@ -39,13 +40,34 @@ class Home < ActiveRecord::Base
   def self.update_master_data!
     db=Home::connect_external_database
     puts 'Updating from Master Data...'
+
     #begin
+
+    #Get the external and local record_status ID
+    ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Defined').id
+    local_defined_rs_id = RecordStatus.find_by_name('Defined').id
 
     puts '   - Projestimate Module'
     self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
 
     puts '   - Attribute Module'
     self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'is_mandatory', 'uuid'])
+
+    #Associate attribute modules to modules
+    ext_pemodules = ExternalPemodule.all
+    ext_attr_modules = ExternalAttributeModule.all
+    ext_pemodules.each do |ext_module|
+      ext_attr_modules.each do |ext_attr_module|
+        if ext_module.id == ext_attr_module.pemodule_id and ext_module.record_status_id == ext_defined_rs_id
+          loc_module = Pemodule.find_by_uuid(ext_module.uuid)
+          ext_attr = ExternalMasterDatabase::ExternalPeAttribute.find_by_id(ext_attr_module.pe_attribute_id)
+          loc_attr = PeAttribute.find_by_uuid(ext_attr.uuid)
+          ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pemodule_id = #{loc_module.id} WHERE uuid = '#{ext_attr_module.uuid}'")
+          ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET pe_attribute_id = #{loc_attr.id} WHERE uuid = '#{ext_attr_module.uuid}'")
+          ActiveRecord::Base.connection.execute("UPDATE attribute_modules SET record_status_id = #{local_defined_rs_id} WHERE uuid = '#{ext_attr_module.uuid}'")
+        end
+      end
+    end
 
     puts '   - WBS Activity'
     self.update_records(ExternalMasterDatabase::ExternalWbsActivity, WbsActivity, ['name', 'description', 'uuid', 'state'])
@@ -82,8 +104,6 @@ class Home < ActiveRecord::Base
 
     puts '   - Projestimate Icons'
     #self.update_records(ExternalMasterDatabase::ExternalPeicon, Peicon, ['name', 'icon_file_name', 'icon_content_type', 'icon_updated_at', 'icon_file_size', 'uuid'])
-    ext_defined_rs_id = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Defined').id
-    local_defined_rs_id = RecordStatus.find_by_name('Defined').id
     external_icons = ExternalMasterDatabase::ExternalPeicon.send(:defined, ext_defined_rs_id).send(:all)
 
     external_icons.each do |ext_icon|

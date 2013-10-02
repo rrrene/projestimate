@@ -20,6 +20,7 @@
 
 #PE-WBS6Project has many pbs_project_element and belongs to project
 class PeWbsProject < ActiveRecord::Base
+  attr_accessible :name, :project_id, :wbs_type
 
   has_many :pbs_project_elements, :dependent => :destroy
   has_many :wbs_project_elements, :dependent => :destroy

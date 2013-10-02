@@ -19,6 +19,7 @@
 ########################################################################
 
 class ModuleProject < ActiveRecord::Base
+  attr_accessible  :project_id, :pemodule_id, :pemodule, :position_x, :position_y
   belongs_to :pemodule
   belongs_to :project, :touch => true
 
