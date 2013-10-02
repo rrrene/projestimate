@@ -18,8 +18,7 @@
             <th>
               <span class="attribute_tooltip" title='<%= group.description %>'><%= group.name %></span>
               &nbsp;
-              <%#= link_to '', '#', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :id => "toto" %>
-              <%= link_to '', '#', :id => "cols_select_all_#{group.id}", 'data-group_id' => group.id, 'data-rows_or_cols' => 'cols', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all_permissions(this);' %>
+              <%= link_to '', '#', :id => "cols_select_all_global_#{group.id}", 'data-group_global_id' => group.id, 'data-rows_or_cols_global' => 'cols', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'group_global_id', 'permission_global_id', 'global');" %>
             </th>
           <% end %>
         </tr>
@@ -40,15 +39,14 @@
                   <% if perm.category.to_s == cla %>
                       <td>
                         &nbsp;
-                        <%#= link_to '', '#', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
-                        <%= link_to '', '#', :id => "lines_select_all_#{perm.id}", 'data-group_id' => perm.id, 'data-rows_or_cols' => 'rows', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => 'select_or_unselect_all_permissions(this);' %>
+                        <%= link_to '', '#', :id => "lines_select_all_global_#{perm.id}", 'data-permission_global_id' => perm.id, 'data-rows_or_cols_global' => 'rows', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'group_global_id', 'permission_global_id', 'global');" %>
                         &nbsp;
                         <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
                       </td>
                       <% @groups.each do |group| %>
                           <%= hidden_field_tag "permissions[#{group.id}][]" %>
                           <td style="text-align: center;">
-                            <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id} permission_#{perm.id}") %>
+                            <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_global_id_#{group.id} permission_global_id_#{perm.id}") %>
                           </td>
                       <% end %>
                   <% end %>
@@ -69,7 +67,7 @@
                 <th style="text-align:center;">
                   <span class="attribute_tooltip" title='<%= group.description %>'><%= group.name %></span>
                   &nbsp;
-                  <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                  <%= link_to '', '#', :id => "cols_select_all_master_#{group.id}", 'data-group_master_id' => group.id, 'data-rows_or_cols_master' => 'cols', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'group_master_id', 'permission_master_id', 'master');" %>
                 </th>
             <% end %>
           </tr>
@@ -90,13 +88,13 @@
                   <% if perm.category.to_s == cla %>
                       <td>
                         &nbsp;
-                        <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                        <%= link_to '', '#', :id => "lines_select_all_master_#{perm.id}", 'data-permission_master_id' => perm.id, 'data-rows_or_cols_master' => 'rows', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'group_master_id', 'permission_master_id', 'master');" %>
                         &nbsp;
                         <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
                       </td>
                       <% @groups.each do |group| %>
                           <td style="text-align: center;">
-                            <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{group.id}") %>
+                            <%= check_box_tag("permissions[#{group.id}][]", perm.id, (group.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_master_id_#{group.id} permission_master_id_#{perm.id}") %>
                           </td>
                       <% end %>
                   <% end %>
@@ -119,7 +117,7 @@
             <th style="text-align:center;">
               <span class="attribute_tooltip" title='<%= ps.description %>'><%= ps.name %></span>
               &nbsp;
-              <%= link_to '', '#', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+              <%= link_to '', '#', :id => "cols_select_all_project_security_#{ps.id}", 'data-project_security_id' => ps.id, 'data-rows_or_cols_project_security' => 'cols', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'project_security_id', 'permission_project_id', 'project_security');" %>
             </th>
           <% end %>
         </tr>
@@ -141,13 +139,13 @@
               <% if perm.category.to_s == cla %>
                 <td>
                   &nbsp;
-                  <%= link_to '', '', :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all') %>
+                  <%= link_to '', '#', :id => "lines_select_all_project_security_#{perm.id}", 'data-permission_project_id' => perm.id, 'data-rows_or_cols_project_security' => 'rows', :remote => true, :class => 'icon-check icon check_color', :title => I18n.t('select_unselect_all'), :onclick => "select_or_unselect_all_permissions(this, 'project_security_id', 'permission_project_id', 'project_security');" %>
                   &nbsp;
                   <span class="attribute_tooltip" title='<%= perm.description %>'><%= perm.name %></span>
                 </td>
                 <% @project_security_levels.each do |ps| %>
                   <td style="text-align: center;">
-                    <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "group_#{ps.id}") %>
+                    <%= check_box_tag("permissions[#{ps.id}][]", perm.id, (ps.permissions.map(&:id).include? perm.id), :id => nil, :class => "project_security_id_#{ps.id} permission_project_id_#{perm.id}") %>
                   </td>
                 <% end %>
               <% end %>
