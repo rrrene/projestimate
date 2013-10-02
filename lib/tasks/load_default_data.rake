@@ -68,7 +68,6 @@ end
 private
 def load_data!
   #begin
-    
   puts ' Creating Master Parameters ...'
 
     # Version
