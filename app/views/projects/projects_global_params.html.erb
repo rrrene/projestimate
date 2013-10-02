@@ -94,7 +94,7 @@
                     <% if i.is_retired? and can? :restore, :all %>
                         <%= link_to('', "project_categories/#{i.id}/restore_change", confirm: I18n.t('restoring'), :class => 'button_attribute_tooltip icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
                     <% else %>
-                        <% if i.is_defined? and !i.is_retired? and can? :validate, :all %>
+                        <% if !i.is_defined? and !i.is_retired? and can? :validate, :all %>
                             <%= link_to('', "project_categories/#{i.id}/validate_change", confirm: I18n.t('validation'), :class => 'button_attribute_tooltip icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
                         <% end %>
                     <% end %>
@@ -146,7 +146,7 @@
                     <% if i.is_retired? and can? :restore, :all %>
                         <%= link_to('', "platform_categories/#{i.id}/restore_change", confirm: I18n.t('restoring'), :class => 'button_attribute_tooltip icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
                     <% else %>
-                        <% if i.is_defined? and !i.is_retired? and can? :validate, :all %>
+                        <% if !i.is_defined? and !i.is_retired? and can? :validate, :all %>
                             <%= link_to('', "platform_categories/#{i.id}/validate_change", confirm: I18n.t('validation'), :class => 'button_attribute_tooltip icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
                         <% end %>
                     <% end %>
@@ -197,7 +197,7 @@
                     <% if i.is_retired? and can? :restore, :all %>
                         <%= link_to('', "acquisition_categories/#{i.id}/restore_change", confirm: I18n.t('restoring'), :class => 'button_attribute_tooltip icon-undo icon-large icon-border pull-left', :style => 'color:orange', :title => I18n.t('restore_title')) %>
                     <% else %>
-                        <% if i.is_defined? and !i.is_retired? and can? :validate, :all %>
+                        <% if !i.is_defined? and !i.is_retired? and can? :validate, :all %>
                             <%= link_to('', "acquisition_categories/#{i.id}/validate_change", confirm: I18n.t('validation'), :class => 'button_attribute_tooltip icon-ok icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('validate_title')) %>
                         <% end %>
                     <% end %>

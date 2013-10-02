@@ -20,6 +20,8 @@
 
 #Organization of the User
 class Organization < ActiveRecord::Base
+  attr_accessible :name, :description
+
   has_and_belongs_to_many :users
   has_many :wbs_activities, :dependent => :destroy
   has_many :attribute_organizations, :dependent => :destroy

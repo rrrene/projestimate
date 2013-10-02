@@ -20,6 +20,7 @@
 ########################################################################
 
 class WbsActivityRatio < ActiveRecord::Base
+  attr_accessible :name, :description, :record_status_id, :custom_value, :change_comment, :wbs_activity_id
 
   include MasterDataHelper
 

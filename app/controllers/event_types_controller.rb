@@ -20,6 +20,7 @@
 
 class EventTypesController < ApplicationController
   include DataValidationHelper #Module for master data changes validation
+  load_resource
 
   before_filter :get_record_statuses
 

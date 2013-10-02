@@ -19,6 +19,8 @@
 ########################################################################
 
 class OrganizationUowComplexity < ActiveRecord::Base
+  attr_accessible :name, :description, :display_order, :state
+
   include AASM
   aasm :column => :state do # defaults to aasm_state
     state :draft, :initial => true

@@ -1,7 +1,7 @@
 #########################################################################
 #
 # ProjEstimate, Open Source project estimation web application
-# Copyright (c) 2012 Spirula (http://www.spirula.fr)
+# Copyright (c) 2012-2013 Spirula (http://www.spirula.fr)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,6 +20,8 @@
 
 #ProjectSecurity belongs to User, Group and Project
 class ProjectSecurity < ActiveRecord::Base
+  attr_accessible :project_id, :user_id, :group_id, :project_security_level_id
+
   belongs_to :user
   belongs_to :group
   belongs_to :project, :touch => true

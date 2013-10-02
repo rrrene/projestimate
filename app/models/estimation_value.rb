@@ -20,6 +20,7 @@
 
 #Module Attribute are duplicated on AttributeProject in order to use it.
 class EstimationValue < ActiveRecord::Base
+  attr_accessible :string_data_low, :string_data_most_likely, :string_data_high, :string_data_probable
 
   belongs_to :pe_attribute
   belongs_to :module_project

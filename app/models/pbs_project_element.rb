@@ -19,8 +19,10 @@
 ########################################################################
 
 #Component of the PE-WBS-Project. Component belongs to a type (dev, cots, folder, link...)
-#Component use Ancestry gem (has_ancestry). See ancestry on github for more informations.
+#Component use Ancestry gem (has_ancestry). See ancestry on github for more information.
 class PbsProjectElement < ActiveRecord::Base
+  attr_accessible :name, :pe_wbs_project_id, :is_completed, :is_validated, :position
+
   has_ancestry
 
   belongs_to :pe_wbs_project, :touch => true

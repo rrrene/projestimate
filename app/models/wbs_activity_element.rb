@@ -20,6 +20,7 @@
 ########################################################################
 
 class WbsActivityElement < ActiveRecord::Base
+  attr_accessible :name, :description, :dotted_id, :record_status_id, :custom_value, :change_comment, :ancestry,:ancestry_depth,:copy_id,:is_root,:master_ancestry, :owner_id,:wbs_activity_id , :wbs_activity_ratio_element_ids, :wbs_activity_element_ids
   include MasterDataHelper
 
   has_ancestry :cache_depth => true

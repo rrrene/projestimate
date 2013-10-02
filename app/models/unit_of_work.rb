@@ -19,6 +19,7 @@
 ########################################################################
 
 class UnitOfWork < ActiveRecord::Base
+  attr_accessible :name, :description, :alias, :state
   include AASM
 
   aasm :column => :state do # defaults to aasm_state

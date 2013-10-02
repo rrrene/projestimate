@@ -21,6 +21,8 @@
 #Master Data
 #Currency - not yet begin
 class Currency < ActiveRecord::Base
+  attr_accessible :name, :alias, :description, :record_status_id, :custom_value, :change_comment
+
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)
 
   has_many :organization_labor_categories

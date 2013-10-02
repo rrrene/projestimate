@@ -19,8 +19,8 @@
 #
 ########################################################################
 
-
 class Project < ActiveRecord::Base
+  attr_accessible :title, :description, :version, :alias, :state, :start_date, :is_model, :organization_id, :project_area_id, :project_category_id, :acquisition_category_id, :platform_category_id
   include AASM
   include ActionView::Helpers
   include ActiveModel::Dirty
@@ -34,7 +34,7 @@ class Project < ActiveRecord::Base
   belongs_to :acquisition_category
   belongs_to :platform_category
   belongs_to :project_category
-  belongs_to :creator, :class_name => "User", :foreign_key => "creator_id"
+  belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
 
   has_many :events
   has_many :module_projects, :dependent => :destroy

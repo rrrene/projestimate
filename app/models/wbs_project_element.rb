@@ -19,6 +19,7 @@
 ########################################################################
 
 class WbsProjectElement < ActiveRecord::Base
+  attr_accessible :pe_wbs_project_id, :wbs_activity_element_id, :wbs_activity_id, :name, :description, :additional_description, :exclude
 
   has_ancestry :cache_depth => true
 

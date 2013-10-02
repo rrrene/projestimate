@@ -20,6 +20,7 @@
 ########################################################################
 
 class WbsActivity < ActiveRecord::Base
+  attr_accessible :name, :description, :state, :record_status_id, :custom_value, :change_comment, :organization_id,:wbs_activity_element_ids
 
   include AASM
   include MasterDataHelper

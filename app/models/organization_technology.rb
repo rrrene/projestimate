@@ -19,6 +19,8 @@
 ########################################################################
 
 class OrganizationTechnology < ActiveRecord::Base
+  attr_accessible :name, :alias, :description, :productivity_ratio, :state
+
   include AASM
 
   aasm :column => :state do # defaults to aasm_state

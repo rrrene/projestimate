@@ -20,6 +20,7 @@
 ########################################################################
 
 class WbsActivityRatioElement < ActiveRecord::Base
+  attr_accessible :ratio_value,:simple_reference, :multiple_references,:wbs_activity_element_id
 
   include MasterDataHelper
 
