@@ -22,7 +22,7 @@
 #Pemodule represent the Module of the application.
 #Pemodule can be common (sum, average) or typed(cocomo, pnr...)
 class Pemodule < ActiveRecord::Base
-  attr_accessible :alias, :title, :description, :with_activities, :compliant_component_type, :record_status, :record_status_id, :custom_value, :change_comment
+  #attr_accessible :alias, :title, :description, :with_activities, :compliant_component_type, :record_status, :record_status_id, :custom_value, :change_comment
 
   include AASM
   include MasterDataHelper #Module master data management (UUID generation, deep clone, ...)

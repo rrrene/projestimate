@@ -50,6 +50,9 @@ class Home < ActiveRecord::Base
     puts '   - Projestimate Module'
     self.update_records(ExternalMasterDatabase::ExternalPemodule, Pemodule, ['title', 'alias', 'description', 'compliant_component_type', 'with_activities', 'uuid'])
 
+    puts '   - Attribute...'
+    self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ['name', 'alias', 'description', 'attr_type', 'aggregation', 'options', 'uuid'])
+
     puts '   - Attribute Module'
     self.update_records(ExternalMasterDatabase::ExternalAttributeModule, AttributeModule, ['description', 'default_low', 'default_most_likely', 'default_high', 'in_out', 'is_mandatory', 'uuid'])
 
@@ -95,9 +98,6 @@ class Home < ActiveRecord::Base
 
     puts '   - Acquisition categories'
     self.update_records(ExternalMasterDatabase::ExternalAcquisitionCategory, AcquisitionCategory, ['name', 'description', 'uuid'])
-
-    puts '   - Attribute...'
-    self.update_records(ExternalMasterDatabase::ExternalPeAttribute, PeAttribute, ['name', 'alias', 'description', 'attr_type', 'aggregation', 'options', 'uuid'])
 
     puts '   - Attribute Category'
     self.update_records(ExternalMasterDatabase::ExternalAttributeCategory, AttributeCategory, ['name', 'alias','uuid'])
