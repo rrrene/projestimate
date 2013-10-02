@@ -141,6 +141,14 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
+  def set_return_to
+    #session[:return_to] = request.referer
+    session[:anchor_value] ||= params[:anchor_value]
+    session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
+    session[:anchor_value] ||= ''
+    session[:anchor] = session[:anchor_value].to_s.split('#')[1]
+  end
+
   def allow_feedback?
     @admin_setting=AdminSetting.find_by_key_and_record_status_id('allow_feedback', @defined_record_status)
     if @admin_setting.nil?
@@ -206,14 +214,6 @@ class ApplicationController < ActionController::Base
     rescue
       url
     end
-  end
-
-  def set_return_to
-    #session[:return_to] = request.referer
-    session[:anchor_value] ||= params[:anchor_value]
-    session[:return_to] = "#{request.referer}#{session[:anchor_value]}"
-    session[:anchor_value] ||= ''
-    session[:anchor] = session[:anchor_value].to_s.split('#')[1]
   end
 
   def previous_page

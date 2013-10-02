@@ -180,7 +180,9 @@ class GroupsController < ApplicationController
     end
 
     if @group.update_attributes(params[:group])
-      redirect_to redirect(groups_path), :notice => "#{I18n.t (:notice_group_successful_updated)}"
+      #redirect_to redirect(groups_path), :notice => "#{I18n.t (:notice_group_successful_updated)}"
+      flash[:notice] =  "#{I18n.t (:notice_group_successful_updated)}"
+      redirect_to redirect_apply(edit_group_path(@group), nil, groups_path)
     else
       render action: 'edit'
     end
