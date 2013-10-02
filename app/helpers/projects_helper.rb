@@ -556,39 +556,43 @@ module ProjectsHelper
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
 
-    if module_project.compatible_with(current_component.work_element_type.alias) || current_component
-      pemodule = Pemodule.find(module_project.pemodule.id)
-      res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
-      res << "<table class='table table-condensed table-bordered'>
-                      <tr>
-                        <th></th>"
-      ['low', '', 'most_likely', 'high'].each do |level|
-        res << "<th>#{level.humanize}</th>"
-      end
-      res << '</tr>'
-      module_project.estimation_values.order('display_order ASC').each do |est_val|
-        est_val_pe_attribute = est_val.pe_attribute
-        est_val_in_out = est_val.in_out
-        if (est_val_in_out == 'input' or est_val_in_out == 'both') and (est_val.module_project.id == module_project.id) and est_val_pe_attribute
-          res << '<tr>'
-          res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val_pe_attribute.description} #{display_rule(est_val)}'>#{est_val_pe_attribute.name}</span></td>"
-          level_estimation_values = Hash.new
-          ['low', 'most_likely', 'high'].each do |level|
-            level_estimation_values = est_val.send("string_data_#{level}")
-            res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
-            if level == 'low'
-              input_id = "_#{est_val_pe_attribute.alias}_#{module_project.id}"
-              res << '<td>'
-              res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
-              res << '</td>'
-            end
-          end
+    if module_project.pemodule.alias == "uos"
+      display_uos_module(module_project.id)
+    else
+      if module_project.compatible_with(current_component.work_element_type.alias) || current_component
+        pemodule = Pemodule.find(module_project.pemodule.id)
+        res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
+        res << "<table class='table table-condensed table-bordered'>
+                        <tr>
+                          <th></th>"
+        ['low', '', 'most_likely', 'high'].each do |level|
+          res << "<th>#{level.humanize}</th>"
         end
         res << '</tr>'
+        module_project.estimation_values.order('display_order ASC').each do |est_val|
+          est_val_pe_attribute = est_val.pe_attribute
+          est_val_in_out = est_val.in_out
+          if (est_val_in_out == 'input' or est_val_in_out == 'both') and (est_val.module_project.id == module_project.id) and est_val_pe_attribute
+            res << '<tr>'
+            res << "<td><span class='attribute_tooltip tree_element_in_out' title='#{est_val_pe_attribute.description} #{display_rule(est_val)}'>#{est_val_pe_attribute.name}</span></td>"
+            level_estimation_values = Hash.new
+            ['low', 'most_likely', 'high'].each do |level|
+              level_estimation_values = est_val.send("string_data_#{level}")
+              res << "<td>#{pemodule_input(level, est_val, module_project, level_estimation_values, pbs_project_element)}</td>"
+              if level == 'low'
+                input_id = "_#{est_val_pe_attribute.alias}_#{module_project.id}"
+                res << '<td>'
+                res << "<span id='#{input_id}' class='copyLib icon  icon-chevron-right' data-effort_input_id='#{input_id}' title='Copy value in other fields' onblur='this.style.cursor='default''></span>"
+                res << '</td>'
+              end
+            end
+          end
+          res << '</tr>'
+        end
+        res << '</table>'
       end
-      res << '</table>'
+      res
     end
-    res
   end
 
 
