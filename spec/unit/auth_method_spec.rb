@@ -4,7 +4,9 @@ describe AuthMethod do
   before :each do
     @default_auth_method = FactoryGirl.create(:auth_method)
     proposed_status = FactoryGirl.build(:proposed_status)
-    @another_auth_method = AuthMethod.new(:user_name_attribute => "cn", :name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :encryption => "simple_tls", :uuid => "124563", :record_status => proposed_status)
+    @another_auth_method = AuthMethod.new(:user_name_attribute => "cn", :name => "LDAP", :server_name => "example.com", :port => 636, :base_dn => "something", :encryption => "simple_tls")
+    @another_auth_method.uuid = "124563"
+    @another_auth_method.record_status = proposed_status
     @custom_status = FactoryGirl.build(:custom_status)
   end
 
@@ -42,5 +44,16 @@ describe AuthMethod do
     @default_auth_method2.reference_id = @default_auth_method.id
     @default_auth_method2.reference_uuid = @default_auth_method.uuid
   end
+
+  it "should display ecncryption" do
+    @another_auth_method.encryption2.should eql("")
+    @another_auth_method.encryption = 'No encryption'
+    @another_auth_method.encryption2.should eql("")
+    @another_auth_method.encryption = 'SSL (ldaps://)'
+    @another_auth_method.encryption2.should eql(:simple_tls)
+    @another_auth_method.encryption = 'StartTLS'
+    @another_auth_method.encryption2.should eql(:start_tls)
+  end
+
 
 end

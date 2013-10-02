@@ -141,6 +141,8 @@ group :test do
   # run some required services using foreman start, more on this at the end of the article
   gem 'foreman'
 
+  gem 'uos', :path => 'vendor/gems/uos'
+
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), 'Gemfile.local')

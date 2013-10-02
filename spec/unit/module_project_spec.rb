@@ -123,98 +123,27 @@ describe ModuleProject do
   end
 
 
-  #it "should be a One Activity-elements" do
-  #  @one_elt_reference_value = FactoryGirl.create(:reference_value, :one_activity_elements)
-  #  @one_elt_reference_value.value = "One Activity-element"
-  #  @mp1.reference_value_id = @one_elt_reference_value.id
-  #  @mp1.is_One_Activity_Element?.should be_true
-  #end
+  it "should be a One Activity-elements" do
+    @mp1.is_One_Activity_Element?.should be_false
+  end
 
-  #TODO : will be transfer in ModuleProject class
-  #it "should be an All Activity-elements" do
-  #  all_activity_elt_ref_value = FactoryGirl.create(:reference_value, :all_activity_elements)
-  #  all_activity_elt_ref_value.value = "All Activity-elements"
-  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => all_activity_elt_ref_value)
-  #  @wbs_activity_ratio.is_All_Activity_Elements?.should be_true
-  #end
+  it "should be a One Activity-elements" do
+    @mp1.is_All_Activity_Elements?.should be_false
+  end
+  it "should be a One Activity-elements" do
+    @mp1.is_A_Set_Of_Activity_Elements?.should be_false
+  end
 
-  #TODO : will be transfer in ModuleProject class
-  #it "should be a Set Of Activity-elements" do
-  #  set_of_reference_value = FactoryGirl.create(:reference_value, :a_set_of_activity_elements)
-  #  set_of_reference_value.value = "A set of activity-elements"
-  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => set_of_reference_value)
-  #  @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_true
-  #end
+  it 'should be an Array' do
+    @mp1.links.should be_an_instance_of(Array)
+  end
 
-  #Should be false
-  #it "It's a set of activity-elements" do
-  #  set_of_reference_value = FactoryGirl.create(:reference_value, :a_set_of_activity_elements)
-  #  set_of_reference_value.value = "A set of activity-elements"
-  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => set_of_reference_value)
-  #  @wbs_activity_ratio.is_One_Activity_Element?.should be_false
-  #end
+  it 'should be an Array' do
+    @mp1.input_attributes.should be_an_instance_of(Array)
+  end
 
-  #it "It's one of activity-element" do
-  #  one_elt_reference_value = FactoryGirl.create(:reference_value, :one_activity_elements)
-  #  one_elt_reference_value.value = "One Activity-element"
-  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => one_elt_reference_value)
-  #  @wbs_activity_ratio.is_All_Activity_Elements?.should be_false
-  #end
+  it 'should be an Array' do
+    @mp1.output_attributes.should be_an_instance_of(Array)
+  end
 
-  #TODO : will be transfer in ModuleProject class
-  #it "It's All of activity-elements" do
-  #  all_activity_elt_ref_value = FactoryGirl.create(:reference_value, :all_activity_elements)
-  #  all_activity_elt_ref_value.value = "All Activity-elements"
-  #  @wbs_activity_ratio = FactoryGirl.create(:wbs_activity_ratio, :wbs_activity => @wbs_activity, :reference_value => all_activity_elt_ref_value)
-  #  @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_false
-  #end
-
-
-  #Rescue
-  #it "Rescue is_A_Set_Of_Activity_Elements " do
-  #  @wbs_activity_ratio.is_A_Set_Of_Activity_Elements?.should be_false
-  #end
-  #
-  #it "Rescue is_All_Activity_Elements" do
-  #  @wbs_activity_ratio.is_All_Activity_Elements?.should be_false
-  #end
-  #
-  #it "Rescue is_One_Activity_Element" do
-  #  @wbs_activity_ratio.is_One_Activity_Element?.should be_false
-  #end
-
-
-
-
-
-  #
-  #it "should verify if two modules in the same project are linked" do
-  #
-  #end
-  #
-  #it "should return false if two module of project aren't linked between them" do
-  #  @mp1.is_linked_to?(@mp5, 1).should be_false
-  #end
-  #
-  #it "should return true if two module of project are linked between them" do
-  #  @mp1.is_linked_to?(@mp3, 1).should be_false
-  #end
-
-  #describe "Liaison" do
-  #  before do
-  #    @pe_wbs_project = FactoryGirl.create(:pe_wbs_project, :project => @project)
-  #    @wet_link = FactoryGirl.create(:work_element_type, :wet_link)
-  #    @attribute = FactoryGirl.create(:ksloc_attribute)
-  #    @pbs_project_element = FactoryGirl.create(:pbs_project_element, :pe_wbs_project => @pe_wbs_project, :work_element_type => @wet_link)
-  #    @estimation_value = FactoryGirl.create(:estimation_value, :module_project=> @mp1, :pbs_project_element => @pbs_project_element, :attribute => @attribute )
-  #  end
-  #
-  #  it "should return the list of attributes that two modules of the project linked between them." do
-  #    @mp1.liaison(nil, nil).should_not be_empty
-  #  end
-  #
-  #  it "should return an empty array" do
-  #    @mp2.liaison(nil, nil).should be_empty
-  #  end
-  #end
 end

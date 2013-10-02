@@ -18,6 +18,8 @@
 #
 ########################################################################
 Projestimate::Application.routes.draw do
+  mount Uos::Engine, :at => '/uos'
+  post "save_uos" => "inputs#save_uos", :as => "save_uos"
 
   resources :abacus_organizations
   match 'organizations/:id/export_abacus' => 'organizations#export_abacus', :as => 'export_abacus'

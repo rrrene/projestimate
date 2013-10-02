@@ -20,4 +20,8 @@ describe ProjectSecurity do
   it "should return level name if level is not nil" do
     @project_security.level.should eql(@project_security_level.name)
   end
+
+  it "should return id" do
+    @project_security.to_s.should eql(@project_security.id.to_s)
+  end
 end
