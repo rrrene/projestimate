@@ -122,17 +122,18 @@ describe ModuleProject do
     @mp5.previous.first.position_y.should eql(4)
   end
 
-
-  it "should be a One Activity-elements" do
-    @mp1.is_One_Activity_Element?.should be_false
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #it "should be a One Activity-elements" do
+  #  @mp1.is_One_Activity_Element?.should be_false
+  #end
 
   it "should be a One Activity-elements" do
     @mp1.is_All_Activity_Elements?.should be_false
   end
-  it "should be a One Activity-elements" do
-    @mp1.is_A_Set_Of_Activity_Elements?.should be_false
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #it "should be a One Activity-elements" do
+  #  @mp1.is_A_Set_Of_Activity_Elements?.should be_false
+  #end
 
   it 'should be an Array' do
     @mp1.links.should be_an_instance_of(Array)

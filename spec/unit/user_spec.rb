@@ -136,13 +136,14 @@ describe User do
 
   #AUTHENTICATION VALIDATION
 
-  describe 'check if password is not blank' do
-    before {@user.password = ''
-    }
-    it 'should return false' do
-      @user.password_present?.should be_false
-    end
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #describe 'check if password is not blank' do
+  #  before {@user.password = ''
+  #  }
+  #  it 'should return false' do
+  #    @user.password_present?.should be_false
+  #  end
+  #end
 
   describe 'return value of authenticate method' do
     before { @new_user = User.first }
@@ -340,16 +341,17 @@ describe User do
   it 'should return a search result (using for data-tables plugins)' do
   end
 
+  # TODO double-check it is an Unused Method, if so remove it
+  #it "should return '-' if time zone is nil" do
+  #  @user.time_zone=nil
+  #  @user.tz.should eql('UTC')
+  #end
 
-  it "should return '-' if time zone is nil" do
-    @user.time_zone=nil
-    @user.tz.should eql('UTC')
-  end
-
-  it 'should return level name if time zone is not nil' do
-    @user.time_zone='fr'
-    @user.tz.should eql( @user.time_zone)
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #it 'should return level name if time zone is not nil' do
+  #  @user.time_zone='fr'
+  #  @user.tz.should eql( @user.time_zone)
+  #end
 
   def valid_user_hash
     {:last_name => 'test_last_name', :first_name => 'test_first_name', :login_name => 'test', :email => 'email@test.fr', :user_status => 'pending', :auth_type => 1, :password => 'test_me', :password_confirmation => 'test_me'}

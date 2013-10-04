@@ -131,9 +131,9 @@ class Project < ActiveRecord::Base
 
   # TODO double-check it is an Unused Method, if so remove it
   #Return folders of wbs product of a list of a projects
-  #def folders
-  #  self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
-  #end
+  def folders
+    self.pe_wbs_projects.products_wbs.first.pbs_project_elements.select { |i| i.work_element_type.alias == 'folder' }
+  end
 
   def self.table_search(search)
     if search
