@@ -28,8 +28,6 @@ module DataValidationHelper
     #get the record controller name
     controller = params[:controller]    #controller.controller_name
     record_class_name = controller.classify  #controller.singularize.capitalize
-    #TODO: Define authorization for master data validation
-    #authorize! :"edit_#{record_class_name.downcase.pluralize}", "#{record_class_name.constantize}"
 
     begin
       #Get the record to validate from its ID

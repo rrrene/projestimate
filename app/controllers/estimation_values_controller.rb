@@ -61,11 +61,4 @@ class EstimationValuesController < ApplicationController
     send_data(@data, :type => "text/#{params[:type]}; header=present", :disposition => "attachment; filename=data.#{params[:type]}")
 
   end
-
-  # TODO double-check it is an Unused Method, if so remove it
-  #def generate_pdf
-  #  #pdf = PDFKit.new('/404.html')
-  #  #send_data(pdf, :type => "application/pdf", :disposition => "inline", :filename => "data.pdf")
-  #end
-
 end

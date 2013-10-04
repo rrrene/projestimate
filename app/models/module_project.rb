@@ -122,18 +122,17 @@ class ModuleProject < ActiveRecord::Base
     self.pemodule.title.humanize
   end
 
-  # TODO double-check it is an Unused Method, if so remove it
-  #def is_One_Activity_Element?
-  #  begin
-  #    if self.reference_value.value == I18n.t(:one_activity_element)
-  #      return true
-  #    else
-  #      return false
-  #    end
-  #  rescue
-  #    return false
-  #  end
-  #end
+  def is_One_Activity_Element?
+    begin
+      if self.reference_value.value == I18n.t(:one_activity_element)
+        return true
+      else
+        return false
+      end
+    rescue
+      return false
+    end
+  end
 
   def is_All_Activity_Elements?
     begin
@@ -147,18 +146,17 @@ class ModuleProject < ActiveRecord::Base
     end
   end
 
-  # TODO double-check it is an Unused Method, if so remove it
-  #def is_A_Set_Of_Activity_Elements?
-  #  begin
-  #    if self.reference_value.value == I18n.t(:all_activity_elements)
-  #      return true
-  #    else
-  #      return false
-  #    end
-  #  rescue
-  #    return false
-  #  end
-  #end
+  def is_A_Set_Of_Activity_Elements?
+    begin
+      if self.reference_value.value == I18n.t(:all_activity_elements)
+        return true
+      else
+        return false
+      end
+    rescue
+      return false
+    end
+  end
 
   def crawl(starting_node)
     list = []

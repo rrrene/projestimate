@@ -26,9 +26,6 @@ class GroupsController < ApplicationController
   before_filter :get_record_statuses
 
   helper_method :enable_update_in_local?
-  # TODO double-check it is an Unused Method, if so remove it
-  #helper_method :user_organizations_users
-  #helper_method :user_organizations_projects
 
   def index
     if (can? :create_and_edit_groups, Group) || (can? :manage, User)
@@ -231,39 +228,4 @@ class GroupsController < ApplicationController
       end
     end
   end
-
-  # TODO double-check it is an Unused Method, if so remove it
-  #def associated_users
-  #  #TODO authorize
-  #  @group = Group.find(params[:id])
-  #end
-
-  # TODO double-check it is an Unused Method, if so remove it
-  # #def associated_projects
-  #  #TODO authorize
-  #  @group = Group.find(params[:id])
-  #end
-
-  # TODO double-check it is an Unused Method, if so remove it
-  #def user_organizations_users
-  #  #TODO authorize
-  #  users = []
-  #  organizations = current_user.organizations
-  #  organizations.each do |org|
-  #    users = users + org.users
-  #  end
-  #  users
-  #end
-
-  # TODO double-check it is an Unused Method, if so remove it
-  #def user_organizations_projects
-  #  #TODO authorize
-  #  projects = []
-  #  organizations = current_user.organizations
-  #  organizations.each do |org|
-  #    projects = projects + org.projects
-  #  end
-  #  projects
-  #end
-
 end
