@@ -40,7 +40,7 @@ class InputsController < ApplicationController
       high = { :pe_attribute_name => @module_project.pemodule.pe_attributes.first.name, current_component.id => results_out[:string_data_high] }
 
       EstimationValue.create( :module_project_id => @module_project.id,
-                              :pe_attribute_id => @module_project.pemodule.pe_attributes.first.id,
+                              :pe_attribute_id => @module_project.pemodule.pe_attributes.last.id,
                               :string_data_low => low,
                               :string_data_most_likely => ml,
                               :string_data_high => high,

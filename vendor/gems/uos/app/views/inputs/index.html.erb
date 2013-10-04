@@ -48,9 +48,9 @@
           <td>
             <%= select_tag "complexities", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}) %>
           </td>
-          <td><%= text_field_tag "size_low", @in_ev.string_data_low[current_component.id] %></td>
-          <td><%= text_field_tag "size_most_likely", @in_ev.string_data_most_likely[current_component.id] %></td>
-          <td><%= text_field_tag "size_high", @in_ev.string_data_high[current_component.id] %></td>
+          <td><%= text_field_tag "size_low", @in_ev.nil? ? '' : string_data_low[current_component.id] %></td>
+          <td><%= text_field_tag "size_most_likely", @in_ev.nil? ? '' : string_data_most_likely[current_component.id] %></td>
+          <td><%= text_field_tag "size_high", @in_ev.nil? ? '' : string_data_high[current_component.id] %></td>
           <td><%= text_field_tag "weight" %></td>
         </tr>
       </table>
