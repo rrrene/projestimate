@@ -101,45 +101,47 @@ class PeAttribute < ActiveRecord::Base
     self.attr_type
   end
 
+  # TODO double-check it is an Unused Method, if so remove it
   #return the data type
-  def attribute_type
-    case self.attr_type
-      when 'integer'
-        'numeric'
-      when 'float'
-        'numeric'
-      when 'date'
-        'date'
-      when 'text'
-        'string'
-      when 'list'
-        'string'
-      when 'array'
-        'string'
-      else
-        'string'
-    end
-  end
+  #def attribute_type
+  #  case self.attr_type
+  #    when 'integer'
+  #      'numeric'
+  #    when 'float'
+  #      'numeric'
+  #    when 'date'
+  #      'date'
+  #    when 'text'
+  #      'string'
+  #    when 'list'
+  #      'string'
+  #    when 'array'
+  #      'string'
+  #    else
+  #      'string'
+  #  end
+  #end
 
+  # TODO double-check it is an Unused Method, if so remove it
   #return the data type
-  def explicit_data_type
-    case self.attr_type
-      when 'integer'
-        'numeric'
-      when 'float'
-        'numeric'
-      when 'date'
-        'date'
-      when 'text'
-        'string'
-      when 'list'
-        'string'
-      when 'array'
-        'string'
-      else
-        'string'
-    end
-  end
+  #def explicit_data_type
+  #  case self.attr_type
+  #    when 'integer'
+  #      'numeric'
+  #    when 'float'
+  #      'numeric'
+  #    when 'date'
+  #      'date'
+  #    when 'text'
+  #      'string'
+  #    when 'list'
+  #      'string'
+  #    when 'array'
+  #      'string'
+  #    else
+  #      'string'
+  #  end
+  #end
 
 
 end

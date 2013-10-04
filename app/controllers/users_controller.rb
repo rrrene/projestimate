@@ -20,7 +20,10 @@
 ########################################################################
 
 class UsersController < ApplicationController
-  helper_method :sort_column, :sort_direction
+
+  # TODO double-check it is an Unused Method, if so remove it
+  #helper_method :sort_column, :sort_direction
+
   before_filter :verify_authentication, :except => [:show, :create_inactive_user]
   before_filter :load_data, :only => [:update, :edit, :new, :create, :create_inactive_user]
   #load_and_authorize_resource :except => [:edit, :show, :update, :create_inactive_user]

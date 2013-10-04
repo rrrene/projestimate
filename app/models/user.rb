@@ -413,10 +413,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  # TODO double-check it is an Unused Method, if so remove it
   #Check if password is present
-  def password_present?
-    !password.blank?
-  end
+  #def password_present?
+  #  !password.blank?
+  #end
 
   #Override
   def to_s
@@ -488,9 +489,10 @@ class User < ActiveRecord::Base
     Group.find_all_by_name(['Admin', 'MasterAdmin'])
   end
 
-  def tz
-    self.time_zone.nil? ? 'UTC' : self.time_zone
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #def tz
+  #  self.time_zone.nil? ? 'UTC' : self.time_zone
+  #end
 
   def locale
     begin
