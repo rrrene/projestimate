@@ -147,17 +147,18 @@ class WbsProjectElementsController < ApplicationController
     end
   end
 
+  # TODO double-check it is an Unused Method, if so remove it
   #Select the current pbs_project_element and refresh the partial
-  def selected_wbs_project_element
-    session[:wbs_project_element_id] = params[:id]
-
-    @user = current_user
-    @project = current_project
-    @wbs_project_element = current_wbs_project_element
-    @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
-
-    render :partial => 'wbs_project_elements/refresh'
-  end
+  #def selected_wbs_project_element
+  #  session[:wbs_project_element_id] = params[:id]
+  #
+  #  @user = current_user
+  #  @project = current_project
+  #  @wbs_project_element = current_wbs_project_element
+  #  @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
+  #
+  #  render :partial => 'wbs_project_elements/refresh'
+  #end
 
   # Allow user to switch from on ratio table to another
   def change_wbs_project_ratio

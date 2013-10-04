@@ -86,7 +86,7 @@ namespace :locales do
 
     files.each do |path|
       # Skip certain locales
-      (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
+      (puts "Skipping #{path}"; next) if File.basename(path, '.yml') =~ skips
       puts "Deleting selected keys from #{path}"
       orig_content = File.open(path, 'r') {|file| file.read}
       File.open(path, 'w') {|file| orig_content.each_line {|line| file.puts line unless line.chomp =~ delete_regex}}
@@ -108,13 +108,13 @@ namespace :locales do
     files = Dir.glob(File.join(dir,'*.yml'))
     skips = ENV['skip'] ? Regexp.union(ENV['skip'].split(',')) : nil
     keys_regex = /\Akey(\d+|_.+)?\z/
-    adds = ENV.reject {|k,v| !(k =~ keys_regex)}.values.collect {|v| Array.new v.split("=",2)}
-    key_list = adds.collect {|v| v[0]}.join(", ")
+    adds = ENV.reject {|k,v| !(k =~ keys_regex)}.values.collect {|v| Array.new v.split('=',2)}
+    key_list = adds.collect {|v| v[0]}.join(', ')
 
     files.each do |path|
       # Skip certain locales
-      (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
-      # TODO: Check for dupliate/existing keys
+      (puts "Skipping #{path}"; next) if File.basename(path, '.yml') =~ skips
+      # TODO: Check for duplicate/existing keys
       puts "Adding #{key_list} to #{path}"
       File.open(path, 'a') do |file|
         adds.each do |kv|
@@ -126,19 +126,19 @@ namespace :locales do
     end
   end
 
-  desc 'Duplicates a key. Exemple rake locales:dup key=foo new_key=bar'
+  desc 'Duplicates a key. Example rake locales:dup key=foo new_key=bar'
   task :dup do
     dir = ENV['DIR'] || './config/locales'
     files = Dir.glob(File.join(dir,'*.yml'))
     skips = ENV['skip'] ? Regexp.union(ENV['skip'].split(',')) : nil
     key = ENV['key']
     new_key = ENV['new_key']
-    abort "Missing key argument" if key.blank?
-    abort "Missing new_key argument" if new_key.blank?
+    abort 'Missing key argument' if key.blank?
+    abort 'Missing new_key argument' if new_key.blank?
 
     files.each do |path|
       # Skip certain locales
-      (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
+      (puts "Skipping #{path}"; next) if File.basename(path, '.yml') =~ skips
       puts "Adding #{new_key} to #{path}"
 
       strings = File.read(path)
@@ -171,12 +171,12 @@ namespace :locales do
         puts "parsing #{filename}..."
         begin
           parser.parse File.open(filename)
-        rescue Exception => e1
+        rescue => e1
           puts(e1.message)
-          puts("")
+          puts('')
         end
       end
-    rescue Exception => e
+    rescue => e
       puts(e.message)
     end
   end

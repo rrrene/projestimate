@@ -675,7 +675,7 @@ class Home < ActiveRecord::Base
         loc_group= Group.find_by_uuid(ext_group_uuid['uuid']).id
         loc_records_permissions << [loc_permission_id,loc_group]
       end
-    rescue Exception => e
+    rescue => e
       puts e.message
       puts e.backtrace.inspect
     end

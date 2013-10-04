@@ -69,7 +69,7 @@ class AttributeModule < ActiveRecord::Base
           str_to_eval = val + str.to_s
           begin
             eval(str_to_eval)
-          rescue Exception => se
+          rescue => se
             return false
           end
         end
@@ -86,7 +86,7 @@ class AttributeModule < ActiveRecord::Base
       begin
         #eval chain
         eval(str_to_eval)
-      rescue Exception => se
+      rescue => se
         return false
       end
     end

@@ -72,7 +72,7 @@ class SessionsController < ApplicationController
         else
           session[:current_project_id] = user.projects.first.id
         end
-        redirect_to params["return_to_url"].nil? ? '/dashboard' : params["return_to_url"], :flash => {:notice => "#{I18n.t (:text_welcome)} "+ user.name}
+        redirect_to params['return_to_url'].nil? ? '/dashboard' : params['return_to_url'], :flash => {:notice => "#{I18n.t (:text_welcome)} "+ user.name}
 
       else #user.suspended? || user.blacklisted?
         redirect_to '/dashboard', :flash => {:warning => "#{I18n.t (:warning_account_black_listed)}"}

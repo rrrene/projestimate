@@ -49,11 +49,11 @@ class EstimationValuesController < ApplicationController
     end
 
     #res.each do |r|
-      if params[:type] == "json"
+      if params[:type] == 'json'
         @data << res.first.to_json
-      elsif params[:type] == "xml"
+      elsif params[:type] == 'xml'
         @data << res.first.to_xml
-      elsif params[:type] == "csv"
+      elsif params[:type] == 'csv'
         @data << res.first.to_csv
       end
     #end
@@ -62,9 +62,10 @@ class EstimationValuesController < ApplicationController
 
   end
 
-  def generate_pdf
-    #pdf = PDFKit.new('/404.html')
-    #send_data(pdf, :type => "application/pdf", :disposition => "inline", :filename => "data.pdf")
-  end
+  # TODO double-check it is an Unused Method, if so remove it
+  #def generate_pdf
+  #  #pdf = PDFKit.new('/404.html')
+  #  #send_data(pdf, :type => "application/pdf", :disposition => "inline", :filename => "data.pdf")
+  #end
 
 end
