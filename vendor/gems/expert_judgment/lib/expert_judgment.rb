@@ -70,7 +70,6 @@ module ExpertJudgment
             wbs_project_element.children.each do |child|
               node_effort = node_effort + new_effort_man_hour[child.id].to_f
             end
-            ### TODO: REMOVE THIS LINE AFTER    new_effort_man_hour[wbs_project_element.id] = node_effort
             new_effort_man_hour[wbs_project_element.id] = compact_array_and_compute_node_value(wbs_project_element, new_effort_man_hour)
           end
         end

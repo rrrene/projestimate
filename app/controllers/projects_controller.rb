@@ -25,9 +25,6 @@ class ProjectsController < ApplicationController
 
   load_resource
 
-  # TODO double-check it is an Unused Method, if so remove it
-  #helper_method :sort_column
-
   helper_method :sort_direction
 
   before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
@@ -485,7 +482,6 @@ class ProjectsController < ApplicationController
       @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
 
       #For each attribute of this new ModuleProject, it copy in the table ModuleAttributeProject, the attributes of modules.
-      # TODO Now only one record is created for the couple (module, attribute) : value for each PBS is serialize in only one string
       my_module_project.pemodule.attribute_modules.each do |am|
         if am.in_out == 'both'
           ['input', 'output'].each do |in_out|
@@ -817,40 +813,6 @@ class ProjectsController < ApplicationController
     consistency
   end
 
-
-  # TODO: Verify if it still being used ... Unless DELETE function from code. Looks unused,
-  # After estimation, need to know if node value are consistent or not
-  #def set_element_consistency(estimation_result, module_project)
-  #  @project = current_project
-  #  authorize! :alter_wbsproducts, @project
-  #
-  #  result_with_consistency = Hash.new
-  #  #unless estimation_result.nil? || estimation_result.eql?("-")
-  #  if !estimation_result.nil? && !estimation_result.eql?('-')
-  #    estimation_result.each do |wbs_project_elt_id, est_value|
-  #      consistency = true
-  #      wbs_project_element = WbsProjectElement.find(wbs_project_elt_id)
-  #      if wbs_project_element.has_children?
-  #        if !module_project.pemodule.alias.to_s == 'effort_breakdown' && wbs_project_element.has_new_complement_child?
-  #          children_est_value = 0.0
-  #          wbs_project_element.child_ids.each do |child_id|
-  #            children_est_value = children_est_value + estimation_result[child_id].to_f
-  #          end
-  #          if est_value.to_f != children_est_value.to_f
-  #            consistency = false
-  #          end
-  #        end
-  #      end
-  #      result_with_consistency[wbs_project_elt_id] = {:value => est_value, :is_consistent => consistency}
-  #    end
-  #  else
-  #    result_with_consistency = nil
-  #  end
-  #
-  #  result_with_consistency
-  #end
-
-
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, pbs_project_element_id, level, project, current_mp_to_execute)
     @project = current_project
@@ -1006,11 +968,6 @@ class ProjectsController < ApplicationController
   def projects_global_params
     set_page_title 'Project global parameters'
   end
-
-# TODO double-check it is an Unused Method, if so remove it
-# def sort_column
-#    Project.column_names.include?(params[:sort]) ? params[:sort] : 'title'
-#  end
 
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'

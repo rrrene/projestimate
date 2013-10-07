@@ -143,12 +143,6 @@ describe Project do
     end
   end
 
-  it 'should return an array of folder' do
-    project = FactoryGirl.create(:project)
-    pe_wbs_project = FactoryGirl.create(:wbs_1, :project_id => project.id)
-    project.folders.should eql(project.pe_wbs_projects.products_wbs.first.pbs_project_elements.select{|i| i.folder? })
-  end
-
   it 'should return table search' do
     Project::table_search('').should be_kind_of(ActiveRecord::Relation)
     Project::table_search('').should be_an_instance_of(ActiveRecord::Relation)

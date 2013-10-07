@@ -182,12 +182,6 @@ class PemodulesController < ApplicationController
     redirect_to pemodules_url, :notice => "#{I18n.t (:notice_pemodule_successful_deleted)}"
   end
 
-  #TODO opi : add a comment to explain when/how
-  def estimations_params
-    #TODO opi define authorize!
-    set_page_title 'Estimations parameters'
-  end
-
   def update_link_between_modules(project, module_project, last_position_x=nil)
     #TODO opi define authorize!
     return if @capitalization_module.nil?

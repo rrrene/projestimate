@@ -153,11 +153,4 @@ class AdminSettingsController < ApplicationController
     end
   end
 
-
-  # TODO double-check it is an Unused Method, if so remove it
-  #def unselect_conditions
-  #  #TODO authorize
-  #  (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ''
-  #end
-
 end
