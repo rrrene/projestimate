@@ -1,0 +1,3 @@
+<% @level.each do |l| %>
+  $(".gross_<%= l %>").val(<%= @result[l.to_s] %>);
+<% end %>
