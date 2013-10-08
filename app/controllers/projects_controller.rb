@@ -147,13 +147,10 @@ class ProjectsController < ApplicationController
         redirect_to projects_url
       end
     end
-
-
   end
 
   #Edit a selected project
   def edit
-
     set_page_title 'Edit project'
 
     @project = Project.find(params[:id])
@@ -183,6 +180,14 @@ class ProjectsController < ApplicationController
         @wbs_activity_elements << elements_root #wbs_activity.wbs_activity_elements.last.root
       end
     end
+
+    #Project tree as JSON DATA for the graphical representation
+    project_root = @project.root
+    project_tree = project_root.subtree
+    arranged_projects = project_tree.arrange
+    array_json_tree = Project.json_tree(arranged_projects)
+    @projects_json_tree = Hash[*array_json_tree.flatten]
+    @projects_json_tree = @projects_json_tree.to_json
   end
 
   def update
@@ -1329,8 +1334,27 @@ class ProjectsController < ApplicationController
           @projects = Project.all
       end
     end
-
     @projects
+  end
+
+
+  #Function that show project history graphically
+  def show_project_history
+    #Project graphical history
+    project = Project.find(304)
+    project_root = project.root
+    project_tree = project_root.subtree
+
+    #@projects = @project.siblings.arrange
+    @projects = project_tree.arrange
+    @my_tree = Project.json_tree(@projects)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @projects }
+      #format.json { render :json =>  Project.json_tree(@projects)}
+      format.json { render :json => Hash[*@my_tree.flatten] }
+    end
   end
 
 end

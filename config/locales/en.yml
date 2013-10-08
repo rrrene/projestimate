@@ -1062,3 +1062,4 @@ en:
   confirm: "Can you confirm...?"
   error_project_state: "Sorry... this transaction is not possible!"
   warning_project_cannot_be_deleted: "Project with this state cannot be deleted"
+  label_project_history: "Project history"

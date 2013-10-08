@@ -1062,3 +1062,4 @@ fr:
   confirm: "Confirmez-vous...?"
   error_project_state: "Désolé... mais cette transaction n'est pas possible!"
   warning_project_cannot_be_deleted: "Les projets se trouvant dans ce état ne peuvent être supprimés"
+  label_project_history: "Historique projet"

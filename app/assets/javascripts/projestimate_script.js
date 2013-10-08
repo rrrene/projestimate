@@ -81,6 +81,7 @@ $(document).ready(function() {
         });
     });
 
+
     $(".accordion").on("show", function (e) {
        $(e.target).parent().find(".icon-caret-right").removeClass("icon-caret-right").addClass("icon-caret-down");
     });

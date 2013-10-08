@@ -192,8 +192,8 @@ Projestimate::Application.routes.draw do
 
   match 'projects/:project_id/duplicate' => 'projects#duplicate', :as => :duplicate
   match 'projects/:project_id/confirm_deletion' => 'projects#confirm_deletion', :as => :confirm_deletion
-
   match 'projects/:project_id/locked_plan' => 'projects#locked_plan', :as => :locked_plan
+  #get 'show_project_history' => 'projects#show_project_history', :as => :show_project_history
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
 

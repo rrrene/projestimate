@@ -12,6 +12,7 @@
             <li><a href="#tabs-6"><%= I18n.t(:calendar) %> </a></li>
             <li><a href="#tabs-7"><%= I18n.t(:resources) %> </a></li>
             <li><a href="#tabs-8"><%= I18n.t(:analyse) %> </a></li>
+            <li><a href="#tabs-9"><%= I18n.t(:label_project_history) %> </a></li>
         <% end %>
       </ul>
 
@@ -229,6 +230,13 @@
 
     <div id="tabs-8">
       <div style="color:red"><i class="icon-ambulance icon-large icon-border pull-left"></i> Not yet implemented. I'm sure someone is working hard to solve this problem<br /> </div>
+    </div>
+
+    <div id="tabs-9">
+      <%= hidden_field_tag "project_title", @project.title %>
+      <div id="project_tree_id" data-project_tree="<%= @projects_json_tree %>" data-project_version="<%= @project.version %>"></div>
+      <%= render :partial => "show_project_tree_history", :object => @projects_json_tree %>
+
     </div>
 <% end %>
 </div>

@@ -151,4 +151,37 @@ class Project < ActiveRecord::Base
     (self.state.in?(%w(rejected released checkpoint))) ? true : false
   end
 
+
+  def self.json_tree(nodes)
+    nodes.map do |node, sub_nodes|
+      #{:id => node.id.to_s, :name => node.title, :title => node.title, :version => node.version, :data => {}, :children => json_tree(sub_nodes).compact}
+      #{id: node.id.to_s, name: node.title, title: node.title, version: node.version, data: {}, children: json_tree(sub_nodes).compact}
+      {:id => node.id.to_s, :name => node.version, :data => {:title => node.title, :version => node.version}, :children => json_tree(sub_nodes).compact}
+    end
+  end
+
+  # order project List accordingly to the tree structure
+  def self.arrange_as_array(options={}, hash=nil)
+    hash ||= arrange(options)
+
+    arr = []
+    hash.each do |node, children|
+      arr << node
+      arr += arrange_as_array(options, children) unless children.empty?
+    end
+    arr
+  end
+
+
+  def self.arrange_as_json(options={}, hash=nil)
+    hash ||= arrange(options)
+    arr = []
+    hash.each do |node, children|
+      branch = {id: node.id, title: node.title}
+      branch[:children] = arrange_as_json(options, children) unless children.empty?
+      arr << branch
+    end
+    arr
+  end
+
 end

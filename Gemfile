@@ -104,6 +104,9 @@ gem 'rubyzip', '~> 0.9'
 gem 'axlsx'
 gem 'roo'
 
+# This gem provides the JavaScript InfoVis Toolkit for your rails application.
+gem "jit-rails", "~> 0.0.2"
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

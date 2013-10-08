@@ -728,4 +728,56 @@ module ProjectsHelper
     end
 
   end
+
+  #Helper method that build project history graph
+  def build_project_history_graph
+    #Project.arrange_as_array.each{|n| "#{'-' * n.depth} #{n.version}" }
+    Project.arrange_as_json.each do |n|
+      project = Project.find(n[:id])
+      "#{'-' * project.depth} #{n[:title]}"
+    end
+  end
+
+  def build_project_history_graph_as_array
+    #Project.arrange_as_array.each{|n| "#{'-' * n.depth} #{n.version}" }
+    Project.arrange_as_array.each do |n|
+      "#{'-' * n.depth} #{n.title}"
+    end
+  end
+
+  def build_project_history_graph_json
+    proj = Project.find(304)
+  end
+
+  def helper_show_project_history
+    @projects.each do |prj|
+      "#{'-' * prj[0].depth} #{prj[0].title}(#{prj[0].version})"
+    end
+  end
+
+
+  def show_project_history_graph(project)
+    require 'gratr/import'
+    require 'gratr/dot'
+
+    #ObjectSpace.each_object(Module) do |m|
+    #  m.ancestors.each {|a| module_graph.add_edge!(m,a) if m != a}
+    #end
+    project = Project.find(301)
+    project_root = project.root
+    project_tree = project_root.subtree
+
+    module_graph = Digraph.new
+
+    project_tree.each do |proj|
+      #proj.parent.each {|parent| module_graph.add_edge!(parent.version, proj.version) if proj != parent} unless proj.is_root?
+      module_graph.add_edge!(proj.parent.version, proj.version) unless proj.is_root?
+      proj.children.each {|child| module_graph.add_edge!(proj.version, child.version) if proj != child}
+    end
+
+    gv = module_graph.vertices.select {|v| v.to_s.match(/GRATR/)}
+    #module_graph.induced_subgraph(gv).write_to_graphic_file('jpg','module_graph_project')
+    module_graph.write_to_graphic_file('jpg','graph_project_history')
+
+  end
 end
