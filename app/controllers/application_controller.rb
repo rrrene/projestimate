@@ -320,10 +320,6 @@ class ApplicationController < ActionController::Base
     @page_title = page_title
   end
 
-  def current_url(page_title)
-    @page_title = page_title
-  end
-
   #Get record statuses
   def get_record_statuses
     @retired_status = RecordStatus.find_by_name('Retired')

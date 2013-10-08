@@ -153,10 +153,4 @@ class AdminSettingsController < ApplicationController
     end
   end
 
-
-  def unselect_conditions
-    #TODO authorize
-    (@admin_setting.is_retired? || !is_master_instance?) ? "#{I18n.t (:unselectable)}" : ''
-  end
-
 end

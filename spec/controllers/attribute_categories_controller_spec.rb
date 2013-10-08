@@ -65,19 +65,19 @@ describe AttributeCategoriesController do
     end
   end
 
-  describe 'PUT update' do
-    before :each do
-      @new_ac =  FactoryGirl.create(:product_quality)
-    end
-
-    context "with valid params" do
-      it "updates the requested attribute_category" do
-        @params = { id: @new_ac, attribute_category: FactoryGirl.attributes_for(:product_quality) }
-        put :update, @params
-        response.should be_success
-      end
-    end
-  end
+  #describe 'PUT update' do
+  #  before :each do
+  #    @new_ac =  FactoryGirl.create(:product_quality)
+  #  end
+  #
+  #  context "with valid params" do
+  #    it "updates the requested attribute_category" do
+  #      @params = { id: @new_ac, attribute_category: FactoryGirl.attributes_for(:product_quality) }
+  #      put :update, @params
+  #      response.should be_success
+  #    end
+  #  end
+  #end
 
   describe 'DELETE destroy' do
     #it "destroys the requested @acquisition_category" do

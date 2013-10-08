@@ -132,7 +132,7 @@ def load_data!
     PlatformCategory.create(:name => 'Server', :description => 'TBD', :record_status_id => rsid)
     PlatformCategory.create(:name => 'Telecommunications', :description => 'TBD', :record_status_id => rsid)
     PlatformCategory.create(:name => 'Web Based Development', :description => 'TBD', :record_status_id => rsid)
-    
+
     puts '   - Acquisition categories'
     #Default acquisition category
       acquisition_category = Array.new

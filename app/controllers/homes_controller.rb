@@ -56,8 +56,9 @@ class HomesController < ApplicationController
     rescue Errno::ECONNREFUSED
       flash[:error] = I18n.t (:error_default_data_failed_update)
       redirect_to about_url and return
-    rescue Exception
+    rescue => e
       flash[:error] = I18n.t (:error_default_data_exception_update)
+      flash[:warning] = "#{e}"
       redirect_to about_url
     end
   end

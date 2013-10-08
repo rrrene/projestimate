@@ -111,7 +111,6 @@ class PeAttributesController < ApplicationController
 
   #TODO opi : add a comment to explain when/how is used check_attribute
   def check_attribute
-    #TODO opi define authorize!
     if params[:est_val_id]
       @ev = EstimationValue.find(params[:est_val_id])
       @is_valid = @ev.is_validate(params[:value])

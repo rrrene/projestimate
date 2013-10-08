@@ -124,14 +124,7 @@ describe ModuleProject do
 
 
   it "should be a One Activity-elements" do
-    @mp1.is_One_Activity_Element?.should be_false
-  end
-
-  it "should be a One Activity-elements" do
     @mp1.is_All_Activity_Elements?.should be_false
-  end
-  it "should be a One Activity-elements" do
-    @mp1.is_A_Set_Of_Activity_Elements?.should be_false
   end
 
   it 'should be an Array' do

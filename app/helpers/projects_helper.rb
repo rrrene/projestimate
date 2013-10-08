@@ -21,17 +21,6 @@
 
 
 module ProjectsHelper
-  def build_find_use_project_popup(project_id)
-    project = Project.find(project_id)
-    pop_up("find_use_project_#{project_id}", "Find use Project #{project_id}") do
-      title = content_tag(:p, "Relationships with #{project} :")
-      x = content_tag(:li, "Liste des projets associés au projet #{project}")
-
-      ul = content_tag(:ul, title+x)
-
-      ul
-    end
-  end
 
   # This helper method will display Estimation Result according the estimation purpose (PBS and/or Activities)
   def display_results
@@ -356,11 +345,6 @@ module ProjectsHelper
       end
     end
     res
-  end
-
-  # Function that display Capitalization Method input
-  def display_capitalisation_input
-    pbs_project_element = @pbs_project_element || current_project.root_component
   end
 
   #Display the Effort Balancing Input
