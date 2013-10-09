@@ -107,35 +107,33 @@ class PbsProjectElementsController < ApplicationController
 
   #Create a new pbs_project_element and refresh the partials
   def new
-    @pe_wbs_project = PeWbsProject.find(params[:pe_wbs_project_id])
-    @project = @pe_wbs_project.project
-    @module_positions = ModuleProject.where(:project_id => @project.id).sort_by{|i| i.position_y}.map(&:position_y).uniq.max || 1
     @pbs_project_element = PbsProjectElement.new
-    @pbs_project_element.pe_wbs_project_id = params[:pe_wbs_project_id]
-    @pbs_project_element.parent_id = params[:comp_parent_id]
+    set_page_title("New #{@pbs_project_element.name}")
 
-    if params[:type_component] == "folder"
-      @pbs_project_element.name = "New folder"
-      @pbs_project_element.work_element_type_id = WorkElementType.find_by_alias("folder").id
-    elsif params[:type_component] == "link"
-      @pbs_project_element.name = "New link"
-      @pbs_project_element.work_element_type_id = WorkElementType.find_by_alias("link").id
+    @project = Project.find(params[:project_id])
+    @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
+    @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
+    @pbs_wbs_activity_ratios = []
+
+    unless @pbs_project_element.wbs_activity.nil?
+      @pbs_wbs_activity_ratios = @pbs_project_element.wbs_activity.wbs_activity_ratios
+    end
+  end
+
+  def create
+    @pbs_project_element = PbsProjectElement.new(params[:pbs_project_element])
+
+    if @pbs_project_element.save
+      if params[:pbs_project_element][:ancestry]
+        @pbs_project_element.update_attribute :parent, PbsProjectElement.find(params[:pbs_project_element][:ancestry])
+      else
+        @pbs_project_element.update_attribute :parent, nil
+      end
     else
-      @pbs_project_element.name = "New pbs_project_element"
-      @pbs_project_element.work_element_type_id = WorkElementType.find_by_alias("undefined").id
+      flash[:error] = I18n.t (:error_pbs_project_element_failed_update)
     end
 
-    @pbs_project_element.position = @pbs_project_element.siblings.length + 1
-    @pbs_project_element.save
-
-    #Set current pbs_project_element
-    session[:pbs_project_element_id] = @pbs_project_element.id
-
-    @user = current_user
-
-    @module_projects = @project.module_projects
-
-    render :partial => "pbs_project_elements/refresh"
+    redirect_to "/dashboard"
   end
 
   #Pushed up the pbs_project_element

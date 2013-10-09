@@ -1,0 +1,43 @@
+<%= hidden_field_tag "module_project_id", params[:mp] %>
+
+<tr>
+  <td class="span1">
+    <%= link_to "", "#", :class => "icon icon-plus", :id => "icon_0" %>
+  </td>
+  <td class="span1">
+    <i class="icon icon-flag"></i>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "name" %>
+  </td>
+  <td class="span1">
+    <%= select_tag "technology_1", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}, { :id => "technology_1", :class => "technology" }) %>
+  </td>
+  <td class="span1">
+    <%= select_tag "uow_1", options_for_select(current_project.organization.unit_of_works.map{|i| [i.name, i.id]}, { :id => "uow_1", :class => "uow" }) %>
+  </td>
+  <td class="span1">
+    <%= select_tag "complexity_1", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}, { :id => "complexity_1", :class => "complexity" } ) %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "size_low", "", :class => "size", :"data-level" => "low" %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "size_most_likely", "", :class => "size", :"data-level" => "most_likely" %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "size_high", "", :class => "size", :"data-level" => "high" %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "weight", "", :class => "weight" %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "gross_low", "", :class => "gross_low" %>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "gross_most_likely", "", :class => "gross_most_likely"%>
+  </td>
+  <td class="span1">
+    <%= text_field_tag "gross_high", "", :class => "gross_high" %>
+  </td>
+</tr>

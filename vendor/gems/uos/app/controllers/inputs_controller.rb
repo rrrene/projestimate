@@ -62,6 +62,8 @@ class InputsController < ApplicationController
       end
     end
 
+
+
     redirect_to redirect_apply("/uos?mp=#{@module_project.id}", "/uos?mp=#{@module_project.id}",  "/dashboard")
 
   end
