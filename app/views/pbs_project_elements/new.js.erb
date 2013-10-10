@@ -1,7 +1,7 @@
 $("#notifications").html("");
-$(".modal-body-inner").html("<%= j render(:partial => "pbs_project_elements/edit") %>");
+$(".modal-body-inner").html("<%= j render(:partial => "pbs_project_elements/new") %>");
 
-$("#myModalLabel").html("Edit <%= @pbs_project_element.name %>");
+$("#myModalLabel").html("New Element");
 
 $("#edit_component").modal({
   keyboard: false,
