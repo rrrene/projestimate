@@ -4824,6 +4824,42 @@ function warn_me(message){
     });
 
 
+    //Handler Action link_to event
+    $('.node_link_to').live('click', function(){
+        var counter = 0,
+            i = 0,
+            node_ids = new Array(),
+            input_obj = document.getElementsByTagName('input');
+
+        var get_function_url = "/show_project_history";
+
+        // loop through all collected objects
+        for (i = 0; i < input_obj.length; i++) {
+            // if input object is checkbox and checkbox is checked then ...
+            if (input_obj[i].type === 'checkbox' && input_obj[i].checked === true) {
+                // ... increase counter and concatenate checkbox value to the url string
+                counter++;
+                node_ids.push(input_obj[i].value);
+            }
+        }
+
+        if($(this).attr('id') === "find_use_projects_from_history"){
+            get_function_url = "/find_use_project";
+        }
+
+        return $.ajax({
+            url: get_function_url,
+            data: {
+                checked_node_ids: node_ids,
+                counter:  counter,
+                action_id: $(this).attr('id'),
+                project_id: node_ids[0]
+            }
+        })
+
+
+    });
+
 
     // update select and all input types in the tablesorter cache when the change event fires.
     // This method only works with jQuery 1.7+
