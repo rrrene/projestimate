@@ -41,27 +41,33 @@
         <tr>
           <th colspan="6">Overall</th>
           <td class="span1">
-            <%= text_field_tag "size_low", @size.nil? ? '' : @size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id] %>
+            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "size_high", @size.nil? ? '' : @size.string_data_high[current_component.id] %>
+            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id] %>
           </td>
           <td> - </td>
           <td class="span1">
-            <%= text_field_tag "gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "gross_high", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id] %>
           </td>
         </tr>
 
-        <%= render :partial => 'row' %>
+        <% if @inputs.empty? %>
+          <%= render :partial => 'initial_row' %>
+        <% else %>
+          <%= render :partial => 'row' %>
+        <% end %>
+
+
       </table>
 
       <%= submit_tag I18n.t(:save), :class => "btn" %>
@@ -85,12 +91,14 @@
       });
     });
 
-    var i = 0;
-    $(".icon").on("click",  function( event ){
-//      var i = $(event.target).closest("tr").index(event.target)
-      $(event.target).closest("table").last().append("<%=raw j(render :partial => 'row') %>")
+    var template = $('#template'), id = 1;
+
+    $(".icon").click(function() {
+      var row = template.clone();
+      row.find("input:text").val("");
+      template.before(row);
     });
-    i++;
+
   });
 
 </script>

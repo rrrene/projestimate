@@ -24,6 +24,7 @@ class ModuleProject < ActiveRecord::Base
   belongs_to :project, :touch => true
 
   has_many :estimation_values, :dependent => :destroy
+  has_many :inputs
 
   has_and_belongs_to_many :pbs_project_elements
 
