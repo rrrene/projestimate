@@ -15,7 +15,7 @@
 
     <%= hidden_field_tag "module_project_id", @module_project.id %>
     <div id="tabs-1" style="overflow-x: auto;">
-      <table class="table table-striped table-bordered table-condensed ">
+      <table id="myTable" class="table table-striped table-bordered table-condensed ">
         <tr>
           <th colspan="6"></th>
           <th colspan="3">Size</th>
@@ -41,67 +41,33 @@
         <tr>
           <th colspan="6">Overall</th>
           <td class="span1">
-            <%= text_field_tag "size_low", @size.nil? ? '' : @size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id] %>
+            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "size_high", @size.nil? ? '' : @size.string_data_high[current_component.id] %>
+            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id] %>
           </td>
           <td> - </td>
           <td class="span1">
-            <%= text_field_tag "gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id] %>
           </td>
           <td class="span1">
-            <%= text_field_tag "gross_high", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id] %>
           </td>
         </tr>
 
-        <tr>
-          <td class="span1">
-            <%= link_to "Add", "#" %>
-          </td>
-          <td class="span1">
-            <i class="icon icon-flag"></i>
-          </td>
-          <td>
-            Item numero 1
-          </td>
-          <td class="span1">
-            <%= select_tag "technology_1", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}, { :id => "technology_1", :class => "technology" }) %>
-          </td>
-          <td class="span1">
-            <%= select_tag "uow_1", options_for_select(current_project.organization.unit_of_works.map{|i| [i.name, i.id]}, { :id => "uow_1", :class => "uow" }) %>
-          </td>
-          <td class="span1">
-            <%= select_tag "complexity_1", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}, { :id => "complexity_1", :class => "complexity" } ) %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "size", :"data-level" => "low" %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "size", :"data-level" => "most_likely" %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "size", :"data-level" => "high" %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "weight_1", "", :class => "weight" %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "gross_low" %>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "gross_most_likely"%>
-          </td>
-          <td class="span1">
-            <%= text_field_tag "", "", :class => "gross_high" %>
-          </td>
-        </tr>
+        <% if @inputs.empty? %>
+          <%= render :partial => 'initial_row' %>
+        <% else %>
+          <%= render :partial => 'row' %>
+        <% end %>
+
+
       </table>
 
       <%= submit_tag I18n.t(:save), :class => "btn" %>
@@ -124,5 +90,15 @@
                 + '&level=' + $(this).attr("data-level")
       });
     });
+
+    var template = $('#template'), id = 1;
+
+    $(".icon").click(function() {
+      var row = template.clone();
+      row.find("input:text").val("");
+      template.before(row);
+    });
+
   });
+
 </script>

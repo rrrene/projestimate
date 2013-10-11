@@ -11,10 +11,10 @@
       <% end %>
 
       <% unless @pbs_project_element.is_root? %>
-          <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :label => 'Parent', :selected => @pbs_project_element.parent.id %>
-
-          <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
+        <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :label => 'Parent', :selected => @pbs_project_element.parent.id %>
+        <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
       <% end %>
+
       <% unless @pbs_project_element.link? %>
           <%= I18n.t(:text_overloading_default_ratio_table) %>
           <table cellspacing="2" border=0>

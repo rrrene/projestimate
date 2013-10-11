@@ -54,7 +54,11 @@ class PbsProjectElement < ActiveRecord::Base
   types_wet = WorkElementType::work_element_type_list
   types_wet.each do |type|
     define_method("#{type}?") do
-      (self.work_element_type.alias == type) ? true : false
+      begin
+        (self.work_element_type.alias == type) ? true : false
+      rescue
+        false
+      end
     end
   end
 
