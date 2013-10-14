@@ -16,12 +16,12 @@
     /*margin-left:7px;*/
 /*}*/
 
-/*h4 {*/
-    /*font-size:1.1em;*/
-    /*text-decoration:none;*/
-    /*font-weight:normal;*/
-    /*color:#23A4FF;*/
-/*}*/
+.project_history h4 {
+    font-size:1.1em;
+    text-decoration:none;
+    font-weight:normal;
+    color:#23A4FF;
+}
 
 /*a {*/
     /*color:#23A4FF;*/
@@ -49,7 +49,7 @@
     overflow: auto;
     background-color:#fff;
     background-repeat:no-repeat;
-    border-bottom:1px solid #ddd;
+    /*border-bottom:1px solid #ddd;*/
 }
 
 #left-container {
@@ -62,22 +62,24 @@
 
 #right-container {
     right:0;
-    background-image:url('col1.png');
-    background-position:center left;
-    border-right:1px solid #ddd;
+    /*background-image:url('col1.png');*/
+    /*background-position:center left;*/
+    /*border-right:1px solid #ddd;*/
 }
 
 #right-container h4{
-    text-indent:8px;
+    /*text-indent:50px;*/
 }
+
 
 #center-container {
     width:600px;
-    left:200px;
+    left:150px;
     /*background-color:#1a1a1a;*/
     background-color: #F9F9F9;
     color:#ccc;
 }
+
 
 /*.text {*/
     /*margin: 7px;*/
@@ -103,7 +105,7 @@
     width:600px;
     height:600px;
     margin:auto;
-    overflow:hidden;
+    overflow:auto;  /*overflow:hidden;*/
 }
 
 /*TOOLTIPS*/

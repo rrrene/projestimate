@@ -151,7 +151,7 @@ class Project < ActiveRecord::Base
     nodes.map do |node, sub_nodes|
       #{:id => node.id.to_s, :name => node.title, :title => node.title, :version => node.version, :data => {}, :children => json_tree(sub_nodes).compact}
       #{id: node.id.to_s, name: node.title, title: node.title, version: node.version, data: {}, children: json_tree(sub_nodes).compact}
-      {:id => node.id.to_s, :name => node.version, :data => {:title => node.title, :version => node.version}, :children => json_tree(sub_nodes).compact}
+      {:id => node.id.to_s, :name => node.version, :data => {:title => node.title, :version => node.version, :state => node.state}, :children => json_tree(sub_nodes).compact}
     end
   end
 

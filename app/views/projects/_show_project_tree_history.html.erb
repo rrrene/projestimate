@@ -1,6 +1,31 @@
+<div id="container">
+  <div id="center-container">
+    <div id="infovis"></div>
+  </div>
+
+  <div id="right-container">
+    <h4 style="color:#23A4FF;">Project Actions : </h4>
+    <div class="project_history">
+        <h4><i class="icon-pencil pull-left"></i><%= link_to I18n.t('edit'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'edit_node_path', :title => I18n.t('edit'), :remote => true %> </h4>
+        <h4><i class="icon-star pull-left"></i><%= link_to I18n.t('label_activate_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'activate_node_path', :title => I18n.t('button_activate_project'), :remote => true %></h4>
+        <h4><i class="icon-info pull-left"></i><%= link_to I18n.t('label_find_use_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'find_use_projects_from_history', :title => I18n.t('button_find_use'), :remote => true %></h4>
+        <h4><i class="icon-ok-circle pull-left"></i><%= link_to I18n.t('label_promote_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'promote_node_path', :title => I18n.t('button_commit_project'),  :remote => true %></h4>    <!-- :confirm => send_notice(project), -->
+
+        <h4><i class="icon-copy pull-left"></i><%= link_to I18n.t('label_duplicate_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'duplicate_node_path', :title => I18n.t('button_duplicate_project'), :remote => true %></h4>
+
+        <!--<h4><i class="icon-step-forward pull-left"></i><%#= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true, :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?) %></h4>-->
+        <h4><i class="icon-step-forward pull-left"></i><%= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true %></h4>
+
+      <h4><i class="icon-trash pull-left"></i><%= link_to I18n.t('delete'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'delete_node_path', :title => I18n.t('delete'), :remote => true %></h4>
+        <h4><i class="icon-pencil pull-left"></i><%= link_to I18n.t('label_collapse_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'collapse_node_path', :title => I18n.t('button_collapse_project'), :remote => true %></h4>
+    </div>
+  </div>
+
+  <div id="log"></div>
+</div>
+
 
 <script>
-   $(document).ready(function() {
 
     var labelType, useGradients, nativeTextSupport, animate;
 
@@ -25,21 +50,15 @@
             if (!this.elem)
                 this.elem = document.getElementById('log');
             this.elem.innerHTML = text;
-            this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
+            this.elem.style.left = (450 - this.elem.offsetWidth / 2) + 'px';
         }
     };
 
-
-    //function init(){
-        //init data
-
+//    function init(){
        //Init data from Rails project history data
        //Fo ex. var json = {"id":"301","name":"ggg","title":"ggg","version":"1.0","data":{},"children":[{"id":"305","name":"ggg","title":"ggg","version":"1.0-1.0","data":{},"children":[]},{"id":"304","name":"ggg","title":"ggg","version":"1.1","data":{},"children":[{"id":"306","name":"ggg","title":"ggg","version":"1.2","data":{},"children":[]}]}]};
-
        var json = $("#project_tree_id").data("project_tree");
-
         //end
-
 
         //init Spacetree
         //Create a new ST instance
@@ -47,7 +66,7 @@
             //id of viz container element
             injectInto: 'infovis',
             //set duration for the animation
-            duration: 800,
+            duration: 0, //800,
             //set animation transition type
             transition: $jit.Trans.Quart.easeInOut,
             //set distance between node and its children
@@ -61,9 +80,9 @@
             //set overridable=true for styling individual
             //nodes or edges
             Node: {
-                height: 20,
+                height: 75, //20,
                 width: 60,
-                type: 'rectangle',
+                type: 'circle', //'rectangle',
                 color: '#aaa',
                 overridable: true
             },
@@ -77,7 +96,7 @@
                 Log.write("loading " + node.name);
             },
 
-            onAfterCompute: function(node){
+            onAfterCompute: function(){
                 var project_title = $("#project_title").val();
                 var project_version = $("#project_tree_id").data("project_version");
                 Log.write("Project: " + project_title + " (version " + project_version + ")");
@@ -88,16 +107,42 @@
             //your node.
             onCreateLabel: function(label, node){
                 label.id = node.id;
-                label.innerHTML = node.name;
-                label.onclick = function(){
-                    alert("Version " + node.name);  //ADDED BY ME
+                //label.innerHTML = node.name;
 
-                    if(normal.checked) {
-                        st.onClick(node.id);
-                    } else {
-                        st.setRoot(node.id, 'animate');
-                    }
-                };
+                //TEST
+                var display = node.name;
+                var data = node.data;
+
+                var my_check_box = document.createElement('input');
+                my_check_box.type = 'checkbox';
+                my_check_box.name = 'checkbox_'+node.id;
+                my_check_box.value = node.id;
+
+                var state = document.createElement('Label');
+                state.type = 'text';
+                state.innerText = node.data.state;
+
+                display += "<br>";
+                label.innerHTML = display;
+                label.appendChild(state);
+                label.appendChild(my_check_box);
+
+                //END TEST
+
+
+                //Remove Or Review this onClick event handler : added by ME
+//                label.onclick = function(){
+//
+//                    //if(normal.checked) {
+//                    if(node.checked) {
+//                        alert($("#checkbox_"+node.id).val());
+//                        st.onClick(node.id);
+//                    } else {
+//                        //alert($(this));
+//                        st.setRoot(node.id, 'animate');
+//                    }
+//                };
+
                 //set label styles
                 var style = label.style;
                 style.width = 60 + 'px';
@@ -107,6 +152,20 @@
                 style.fontSize = '0.8em';
                 style.textAlign= 'center';
                 style.paddingTop = '3px';
+
+
+            },
+
+            //For displaying Tooltips
+            Tips: {
+                enable: true,
+                type: 'HTML',
+                offsetX: 10,
+                offsetY: 10,
+                onShow: function (tip, node)
+                {
+                    tip.innerHTML = getToolTip(node);
+                }
             },
 
             //This method is called right before plotting
@@ -151,6 +210,17 @@
             }
 
         });
+
+       var infovis_canvas = document.getElementById("infovis-canvas");
+       var infovis_label = document.getElementById("infovis-label");
+       var infovis_canvas_widget = document.getElementById("infovis-canvaswidget");
+       infovis_canvas.style.left =  "-200px";
+       infovis_label.style.left =  "-200px";
+       //infovis_canvas_widget.style.minWidth =  "300px";
+       //infovis_canvas_widget.style.maxWidth =  "600px";
+
+       //alert(infovis_canvas.style.left); //alert(infovis_canvas.style.position);
+
         //load json data
         st.loadJSON(json);
         //compute node positions and layout
@@ -190,16 +260,14 @@
         top.onchange = left.onchange = bottom.onchange = right.onchange = changeHandler;
         //end
 
-//    };
+//    };  // END init
 
-    });
+       //Function that display Tooltips
+       function getToolTip(node){
+           return node.name;
+       }
 
 </script>
 
 
-<div id="container">
-  <div id="center-container">
-    <div id="infovis"></div>
-  </div>
-  <div id="log"></div>
-</div>
+
