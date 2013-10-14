@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Uos::VERSION
   s.authors     = ["Projestimate"]
   s.email       = ["contact@projestimate.org"]
-  s.homepage    = "www.projestimate.org"
+  s.homepage    = "http://projestimate.org"
   s.summary     = "Summary of Uos."
   s.description = "Description of Uos."
 
