@@ -7,11 +7,11 @@ require "uos/version"
 Gem::Specification.new do |s|
   s.name        = "uos"
   s.version     = Uos::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Uos."
-  s.description = "TODO: Description of Uos."
+  s.authors     = ["Projestimate"]
+  s.email       = ["contact@projestimate.org"]
+  s.homepage    = "www.projestimate.org"
+  s.summary     = "Summary of Uos."
+  s.description = "Description of Uos."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.13"
   # s.add_dependency "jquery-rails"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_depensdency "sqlite3"
 end
