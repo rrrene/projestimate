@@ -83,9 +83,11 @@
 
     <div id="tabs-2">
       <div class="component_tree" id="project_wbs_product_section">
-        <% unless @project.nil? || @pe_wbs_project_product.nil? %>
+        <div class="tab-pane active">
+          <% unless @project.nil? || @pe_wbs_project_product.nil? %>
             <%= raw generate_wbs_product(@project.root_component, @project, '', 5) unless @pe_wbs_project_product.pbs_project_elements.last.nil? %>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
 

@@ -19,9 +19,14 @@
 ########################################################################
 
 class ModuleProjectsController < ApplicationController
+
+  load_resource
+
   def pbs_element_matrix
     set_page_title 'Associate PBS-element'
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_estimation_plan, @project
     @module_projects = @project.module_projects
 
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -31,6 +36,8 @@ class ModuleProjectsController < ApplicationController
 
   def associate
     @project = Project.find(params[:project_id])
+    authorize! :alter_estimation_plan, @project
+
     @module_projects = @project.module_projects
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
@@ -41,13 +48,12 @@ class ModuleProjectsController < ApplicationController
     redirect_to redirect_save(edit_project_path(@project, :anchor => 'tabs-4'))
   end
 
-  def index
-    @module_projects = ModuleProject.all
-  end
-
   def edit
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
+
+    authorize! :alter_estimation_plan, @project
+
     @module_projects = @project.module_projects
     @capitalization_module_project = @capitalization_module.nil? ? nil : @module_projects.find_by_pemodule_id(@capitalization_module.id)
 
@@ -58,23 +64,11 @@ class ModuleProjectsController < ApplicationController
     set_page_title "Editing #{@module_project.pemodule.title}"
   end
 
-  def new
-    @module_project = ModuleProject.new
-  end
-
-  def create
-    @module_project = ModuleProject.new(params[:module_project])
-
-    if @module_project.save
-      redirect_to redirect(@module_project), notice: "#{I18n.t (:notice_module_project_successful_created)}"
-    else
-      render action: 'new'
-    end
-  end
-
   def update
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
+
+    authorize! :alter_estimation_plan, @project
 
     @module_project.estimation_values.each_with_index do |est_val, j|
       corresponding_am = AttributeModule.where('pemodule_id =? and pe_attribute_id = ?', @module_project.pemodule.id, est_val.pe_attribute.id).first
@@ -94,6 +88,7 @@ class ModuleProjectsController < ApplicationController
 
   def module_projects_matrix
     @project = Project.find(params[:project_id])
+    authorize! :alter_estimation_plan, @project
     @module_projects = @project.module_projects
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
@@ -102,6 +97,7 @@ class ModuleProjectsController < ApplicationController
 
   def associate_modules_projects
     @project = Project.find(params[:project_id])
+    authorize! :alter_estimation_plan, @project
     @module_projects = @project.module_projects
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
 
@@ -116,6 +112,8 @@ class ModuleProjectsController < ApplicationController
   def destroy
     @module_project = ModuleProject.find(params[:id])
     @project = @module_project.project
+
+    authorize! :alter_estimation_plan, @project
 
     #re-set positions
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
@@ -136,6 +134,9 @@ class ModuleProjectsController < ApplicationController
   def associate_module_project_to_ratios
     @module_project = ModuleProject.find(params[:module_project_id])
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_estimation_plan, @project
+
     @module_projects = @project.module_projects
 
     @module_projects.each do |mp|
@@ -154,6 +155,9 @@ class ModuleProjectsController < ApplicationController
   def activate_module_project
     session[:module_project_id] = params[:module_project_id]
     @project = current_project
+
+    authorize! :alter_estimation_plan, @project
+
     @module_projects ||= @project.module_projects
     @pbs_project_element = current_component
 

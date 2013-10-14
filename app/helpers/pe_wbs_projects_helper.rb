@@ -103,9 +103,9 @@ module PeWbsProjectsHelper
         </div>
         <div class='block_link'>
           #{ link_to "", edit_pbs_project_element_path(pbs_project_element, :project_id => @project.id), :remote => true, :class => 'button_attribute_tooltip icon-edit icon-large icon-border', :title => I18n.t('edit') unless is_project_show_view }
-          #{ link_to("", new_pbs_project_element_path(:project_id => @project.id), :remote => true, :class => 'button_attribute_tooltip icon-folder-open icon-large icon-border', :title => I18n.t('add_folder')) unless is_project_show_view }
-          #{ link_to "", new_pbs_project_element_path(:project_id => @project.id), :remote => true, :class => 'button_attribute_tooltip icon-plus icon-large icon-border', :title => I18n.t('add_component') unless is_project_show_view }
-          #{ link_to "", new_pbs_project_element_path(:project_id => @project.id), :remote => true, :class => 'button_attribute_tooltip icon-link icon-large icon-border', :title => I18n.t('add_link') unless is_project_show_view }
+          #{ link_to("", new_pbs_project_element_path(:project_id => @project.id, :work_element_type => "folder"), :remote => true, :class => 'button_attribute_tooltip icon-folder-open icon-large icon-border', :title => I18n.t('add_folder')) unless is_project_show_view }
+          #{ link_to "", new_pbs_project_element_path(:project_id => @project.id, :work_element_type => "component"), :remote => true, :class => 'button_attribute_tooltip icon-plus icon-large icon-border', :title => I18n.t('add_component') unless is_project_show_view }
+          #{ link_to "", new_pbs_project_element_path(:project_id => @project.id, :work_element_type => "link"), :remote => true, :class => 'button_attribute_tooltip icon-link icon-large icon-border', :title => I18n.t('add_link') unless is_project_show_view }
         </div>
       </li>"
   end
