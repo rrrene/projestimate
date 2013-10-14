@@ -10,7 +10,7 @@
       <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge'} %>
     <% end %>
 
-    <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :label => 'Parent' %>
+    <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :selected => @parent.id, :label => 'Parent' %>
     <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false, :selected => @work_element_type.id %>
 
     <% unless @work_element_type.alias == "link" %>

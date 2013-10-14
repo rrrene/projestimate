@@ -39,6 +39,8 @@ class PbsProjectElementsController < ApplicationController
       @work_element_type = WorkElementType.find_by_alias("undefined")
     end
 
+    @parent = PbsProjectElement.find(params[:parent_id])
+
     @folder_components = @project.pe_wbs_projects.products_wbs.first.pbs_project_elements.select{ |i| i.work_element_type.alias == "folder" }
 
     unless @pbs_project_element.wbs_activity.nil?
