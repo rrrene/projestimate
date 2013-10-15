@@ -348,16 +348,22 @@ class ProjectsController < ApplicationController
             @project.destroy
             current_user.delete_recent_project(@project.id)
             session[:current_project_id] = current_user.projects.first
-            redirect_to projects_path, :notice => I18n.t(:notice_project_successful_deleted, :value => 'Project')
+            flash[:notice] = I18n.t(:notice_project_successful_deleted, :value => 'Project')
+            if params[:from_tree_history_view] && params['current_showed_project_id'] != params[:id]
+              redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+            else
+              redirect_to projects_path
+            end
           else
-            redirect_to projects_path, :notice => {:warning => I18n.t(:error_access_denied)}
+            flash[:warning] = I18n.t(:error_access_denied)
+            redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
           end
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
         end
       when I18n.t('cancel')
-        redirect_to projects_path
+        redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
       else
         render :template => 'projects/confirm_deletion'
     end
@@ -366,9 +372,15 @@ class ProjectsController < ApplicationController
   def confirm_deletion
     @project = Project.find(params[:project_id])
     authorize! :delete_project, @project
+    @from_tree_history_view = params[:from_tree_history_view]
+    @current_showed_project_id = params['current_showed_project_id']
 
     if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
-      redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+      if @from_tree_history_view
+        redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'), :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+      else
+        redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+      end
     end
   end
 
@@ -929,7 +941,12 @@ class ProjectsController < ApplicationController
     project = Project.find(params[:project_id])
     authorize! :commit_project, project
     project.commit!
-    redirect_to '/projects'
+
+    if params[:from_tree_history_view]
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+    else
+      redirect_to '/projects'
+    end
   end
 
   def activate
@@ -939,7 +956,11 @@ class ProjectsController < ApplicationController
     u = current_user
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
-    redirect_to '/projects'
+    if params[:from_tree_history_view]
+     redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+    else
+      redirect_to '/projects'
+    end
   end
 
   def find_use_project
@@ -1313,26 +1334,30 @@ class ProjectsController < ApplicationController
     action_id = params['action_id']
     @string_url = ""
     if @counter.to_i > 0
-      project_id = checked_node_ids.first
-      case action_id
-        when "edit_node_path"
-          @string_url = edit_project_path(:id => project_id)
-        when "delete_node_path"
-          @string_url = confirm_deletion_path(:project_id => project_id)
-        when "activate_node_path"
-          @string_url = activate_project_path(:project_id => project_id)
-        when "find_use_projects" #when "find_use_node_path"
-          @string_url = find_use_project_path(:project_id => project_id)
-        when "promote_node_path"
-          @string_url = commit_path(:project_id => project_id)
-        when "duplicate_node_path"
-          @string_url = "/projects/#{project_id}/duplicate"
-        when "checkout_node_path"
-          @string_url = checkout_path(:project_id => project_id)
-        when "collapse_node_path"
+      begin
+        project_id = checked_node_ids.first
 
-        else
-          @string_url = session[:return_to]
+        case action_id
+          when "edit_node_path"
+            @string_url = edit_project_path(:id => project_id)
+          when "delete_node_path"
+            @string_url = confirm_deletion_path(:project_id => project_id, :from_tree_history_view => true, :current_showed_project_id => params['current_showed_project_id'])
+          when "activate_node_path"
+            @string_url = activate_project_path(:project_id => project_id, :from_tree_history_view => true, :current_showed_project_id => params['current_showed_project_id'])
+          when "find_use_projects" #when "find_use_node_path"
+            @string_url = find_use_project_path(:project_id => project_id)
+          when "promote_node_path"
+            @string_url = commit_path(:project_id => project_id, :from_tree_history_view => true, :current_showed_project_id => params['current_showed_project_id'])
+          when "duplicate_node_path"
+            @string_url = "/projects/#{project_id}/duplicate"
+          when "checkout_node_path"
+            @string_url = checkout_path(:project_id => project_id)
+          when "collapse_node_path"
+          else
+            @string_url = session[:return_to]
+        end
+      rescue
+        @string_url = session[:return_to]
       end
     end
     #

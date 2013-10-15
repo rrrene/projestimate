@@ -97,17 +97,7 @@
 
 //                $("#center-container").attr("style", "height:" + LastnodeTopInt + "px");
 //                $("#center-container").attr("style", "width:" + LastnodeLeftInt + "px");
-//
-//                $("#infovis").attr("style", "height:" + LastnodeTopInt + "px");
-//                $("#infovis").attr("style", "width:" + LastnodeLeftInt + "px");
-//
-//                $("#infovis-canvas").attr("style", "height:" + LastnodeTopInt + "px");
-//                $("#infovis-canvas").attr("style", "width:" + LastnodeLeftInt + "px");
-
-                //$("#infovis").attr("style", "width:" + 900 + "px");
-                //$("#infovis-canvas").attr("style", "width:" + 900 + "px");
                 var treeRoot = st.root;
-                //$("#"+treeRoot.id).attr("style", "left:" + -200 + "px");
             },
 
             //enable panning
@@ -146,8 +136,15 @@
                 label.id = node.id;
                 //label.innerHTML = node.name;
 
-                //TEST
-                var display = node.name;
+                //Display node version and state
+                var version_maxi_length = 16;
+                var node_version = "";
+                if (node.name.length > version_maxi_length)
+                    node_version = node.name.substring(0, 16) + "...";
+                else
+                    node_version = node.name;
+
+                var display = node_version;
                 var data = node.data;
 
                 var my_check_box = document.createElement('input');
@@ -193,7 +190,6 @@
                 type: 'HTML',
                 offsetX: 10,
                 offsetY: 10,
-                width: 16,
                 onShow: function (tip, node)
                 {
                     tip.innerHTML = getToolTip(node);
@@ -299,7 +295,7 @@
 
        //Function that display Tooltips
        function getToolTip(node){
-           return node.name;
+           return node.data.title + "-" + node.name;
        }
 
 </script>
