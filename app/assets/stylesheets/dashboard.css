@@ -737,3 +737,7 @@ div.block_label.selected_pbs {
     font-weight: inherit;
 }
 
+.history_actions_margin{
+    margin-right: 50px;
+}
+
