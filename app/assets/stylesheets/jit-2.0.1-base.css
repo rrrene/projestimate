@@ -28,7 +28,7 @@
 /*}*/
 
 #container {
-    width: 600px;
+    /*width: 600px;*/
     height: 600px;
     margin:0 auto;
     position:relative;
@@ -37,16 +37,17 @@
 #left-container, 
 #right-container, 
 #center-container {
-    height:600px;
-    position:absolute;
-    top:0;
+    /*height:600px;*/
+    /*position:absolute;*/
+    /*top:0;*/
 }
 
 #center-container {
-    width: 800px; /*width:600px;*/
-    left: -200px;
+    /*width: 900px; *//*width:600px;*/
+    /*left: -245px;*/
     /*background-color:#1a1a1a;*/
-    background-color: #F9F9F9;
+    /*background-color: #F9F9F9;*/
+    /*background-color: #ffffff;*/
     color:#ccc;
 }
 
@@ -101,7 +102,7 @@
 
 #infovis {
     position:relative;
-    width:900px;    /*600px;*/
+    width:100%;    /*600px;*/
     height:600px;
     margin:auto;
     overflow:auto;  /*overflow:hidden;*/

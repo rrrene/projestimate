@@ -1,7 +1,7 @@
 <div id="project_history_actions" style="margin-bottom: 50px;" xmlns="http://www.w3.org/1999/html">
   <div class="project_history">
     <h4>
-      <span style="color:#23A4FF; float: left; margin-left: 30px; margin-right: 10px;">Project Actions : </span>
+      <span style="color:#23A4FF; float: left; margin-left: 0px; margin-right: 10px;">Project Actions : </span>
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-pencil icon-border pull-left', :id => 'edit_node_path', :title => I18n.t('edit'), :remote => true %>
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-star icon-border pull-left', :id => 'activate_node_path', :title => I18n.t('button_activate_project'), :remote => true %>
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-info icon-border pull-left', :id => 'find_use_projects_from_history', :title => I18n.t('button_find_use'), :remote => true %>
@@ -57,10 +57,6 @@
        //Init data from Rails project history data
        // FOr ex. var json = {"id":"301","name":"ggg","title":"ggg","version":"1.0","data":{},"children":[{"id":"305","name":"ggg","title":"ggg","version":"1.0-1.0","data":{},"children":[]},{"id":"304","name":"ggg","title":"ggg","version":"1.1","data":{},"children":[{"id":"306","name":"ggg","title":"ggg","version":"1.2","data":{},"children":[{"id":"30","name":"moi","title":"moi","version":"1.2","data":{},"children":[]}]}]}]};
        var json = $("#project_tree_id").data("project_tree");
-       //var json = {"id":"301","name":"1.0","data":{"title":"ggg","version":"1.0","state":"released"},"children":[{"id":"305","name":"1.0-1.0","data":{"title":"ggg","version":"1.0-1.0","state":"in_progress"},"children":[]},{"id":"304","name":"1.1","data":{"title":"ggg","version":"1.1","state":"released"},"children":[{"id":"306","name":"1.2utikghliuluigffffffffffffffffffffffffffffffffffffffffffffffff","data":{"title":"ggg","version":"1.2utikghliuluigffffffffffffffffffffffffffffffffffffffffffffffff","state":"released"},"children":[{"id":"312","name":"1.2utikghliului.1","data":{"title":"ggg","version":"1.2utikghliului.1","state":"preliminary"},"children":[]},{"id":"315","name":"1.2utikghliuluigffffffffffffffffffffffffffffffffffffffffffffffff","data":{"title":"ggg","version":"1.2utikghliuluigffffffffffffffffffffffffffffffffffffffffffffffff","state":"preliminary"},"children":[]}]}]}]}
-
-       var my_text = JSON.stringify(json);
-       //alert(my_text);
         //end
 
         //init Spacetree
@@ -82,20 +78,35 @@
             //offsetWidth: 100,
 
             onComplete: function () {
-//                var LastnodeTop = 0;
-//                $("div.node").each(function () {
-//                    var pos = $(this).position();
-//                    if (pos.top > LastnodeTop)
-//                        LastnodeTop = pos.top;
-//                });
-//                var LastnodeTopStr = LastnodeTop.toString();
-//                LastnodeTopStr = LastnodeTopStr.substring(0, 4);
-//                var LastnodeTopInt = parseInt(LastnodeTopStr) + 100;
+                var LastnodeTop = 0;
+                var LastnodeLeft = 0;
+                $("div.node").each(function () {
+                    var pos = $(this).position();
+                    if (pos.top > LastnodeTop)
+                        LastnodeTop = pos.top;
+                    if (pos.left > LastnodeLeft)
+                    LastnodeLeft = pos.left;
+                });
+
+                var LastnodeTopStr = LastnodeTop.toString();
+                var LastnodeLeftStr = LastnodeLeft.toString();
+                LastnodeTopStr = LastnodeTopStr.substring(0, 4);
+                LastnodeLeftStr = LastnodeLeftStr.substring(0, 4);
+                var LastnodeTopInt = parseInt(LastnodeTopStr) + 100;
+                var LastnodeLeftInt = parseInt(LastnodeLeftStr) + 100;
+
+//                $("#center-container").attr("style", "height:" + LastnodeTopInt + "px");
+//                $("#center-container").attr("style", "width:" + LastnodeLeftInt + "px");
+//
 //                $("#infovis").attr("style", "height:" + LastnodeTopInt + "px");
+//                $("#infovis").attr("style", "width:" + LastnodeLeftInt + "px");
+//
+//                $("#infovis-canvas").attr("style", "height:" + LastnodeTopInt + "px");
+//                $("#infovis-canvas").attr("style", "width:" + LastnodeLeftInt + "px");
 
                 //$("#infovis").attr("style", "width:" + 900 + "px");
                 //$("#infovis-canvas").attr("style", "width:" + 900 + "px");
-                var treeRoot = st.getRoot();
+                var treeRoot = st.root;
                 //$("#"+treeRoot.id).attr("style", "left:" + -200 + "px");
             },
 
@@ -125,9 +136,7 @@
             },
 
             onAfterCompute: function(){
-                var project_title = $("#project_title").val();
-                var project_version = $("#project_tree_id").data("project_version");
-                //Log.write("Project: " + project_title + " (version " + project_version + ")");
+                //Log.write("Project: Title");
             },
 
             //This method is called on DOM label creation.
@@ -155,9 +164,6 @@
                 label.appendChild(state);
                 label.appendChild(my_check_box);
 
-                //END TEST
-
-                //Remove Or Review this onClick event handler : added by ME
 //                label.onclick = function(){
 //
 //                    //if(normal.checked) {
@@ -179,14 +185,6 @@
                 style.fontSize = '0.8em';
                 style.textAlign= 'center';
                 style.paddingTop = '3px';
-            },
-
-            //For the root node position
-            move: function(node, onComplete) {
-                this.calculatePositions(this.tree, new Complex(0, 0), "endPos");
-                Tree.Geometry.translate(this.tree, node.endPos.scale(-1), "endPos");
-                Tree.Plot.animate(this, $_.merge(this.controller, onComplete, {
-                    modes: ['linear'] }));
             },
 
             //For displaying Tooltips
@@ -248,16 +246,8 @@
        var infovis_canvas = document.getElementById("infovis-canvas");
        var infovis_label = document.getElementById("infovis-label");
        var infovis_canvas_widget = document.getElementById("infovis-canvaswidget");
-       infovis_canvas.style.left =  "-300px";
-       infovis_label.style.left =  "-300px";
-
-
-       //infovis_canvas_widget.style.minWidth =  "300px";
-       //infovis_canvas_widget.style.maxWidth =  "600px";
-
-       //alert(infovis_canvas.style.left); //alert(infovis_canvas.style.position);
-
-//        st.switchPosition("top", "replot");
+//       infovis_canvas.style.left =  "-300px";
+//       infovis_label.style.left =  "-300px";
 
         //load json data
         st.loadJSON(json);
@@ -266,7 +256,14 @@
         //optional: make a translation of the tree
         st.geom.translate(new $jit.Complex(-200, 0), "current");
         //emulate a click on the root node.
-        st.onClick(st.root);
+        ///st.onClick(st.root);
+        //Add offset on the Tree Root
+        st.onClick(st.root, {
+            Move: {
+                offsetX: 400,
+                offsetY: 100
+            }
+        });
         //end
 
        //Added by me
