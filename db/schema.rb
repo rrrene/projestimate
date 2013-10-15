@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131011083740) do
+ActiveRecord::Schema.define(:version => 20131014091705) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -654,7 +654,7 @@ ActiveRecord::Schema.define(:version => 20131011083740) do
 
   create_table "projects", :force => true do |t|
     t.string   "title"
-    t.string   "version",                 :default => "1.0"
+    t.string   "version",                 :limit => 64, :default => "1.0"
     t.string   "alias"
     t.string   "ancestry"
     t.text     "description"
@@ -692,6 +692,7 @@ ActiveRecord::Schema.define(:version => 20131011083740) do
     t.string   "description"
     t.string   "uuid"
     t.integer  "record_status_id"
+    t.integer  "status_id"
     t.string   "custom_value"
     t.integer  "owner_id"
     t.text     "change_comment"
@@ -797,8 +798,8 @@ ActiveRecord::Schema.define(:version => 20131011083740) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.string   "dotted_id"
     t.integer  "copy_id"
+    t.string   "dotted_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
