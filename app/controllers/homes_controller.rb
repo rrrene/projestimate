@@ -20,7 +20,8 @@
 
 class HomesController < ApplicationController
   def update_install
-    begin
+  #No authorize required
+  begin
       expire_fragment('about_page')
 
       if is_master_instance?

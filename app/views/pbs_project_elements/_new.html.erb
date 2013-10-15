@@ -4,16 +4,16 @@
     <%= f.error_notification %>
     <%= hidden_field_tag :project_id, @project.id %>
 
-    <% if @pbs_project_element.link? %>
+    <% if @work_element_type.alias == "link" %>
       <%= f.input :project_link, :label => I18n.t('project_link'), :input_html => {:class => 'input-xlarge'}, :as => :select, :collection => Project.all.map { |i| [i.title, i.id] } %>
     <% else %>
       <%= f.input :name, :label => I18n.t('name'), :input_html => {:class => 'input-xlarge'} %>
     <% end %>
 
-    <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :label => 'Parent' %>
-    <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false %>
+    <%= f.input :ancestry, :label => I18n.t('ancestry'), :as => :select, :collection => @folder_components, :selected => @parent.id, :label => 'Parent' %>
+    <%= f.input :work_element_type_id, :label => I18n.t('work_element_type'), :as => :select, :collection => WorkElementType.all, :include_blank => false, :selected => @work_element_type.id %>
 
-    <% unless @pbs_project_element.link? %>
+    <% unless @work_element_type.alias == "link" %>
       <%= I18n.t(:text_overloading_default_ratio_table) %>
       <table cellspacing="2" border=0>
         <tr>

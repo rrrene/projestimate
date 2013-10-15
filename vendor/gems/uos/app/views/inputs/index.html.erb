@@ -95,6 +95,7 @@
 
     $(".icon").click(function() {
       var row = template.clone();
+      row.find("input:text[name='name_1'").attr('name', 'name_' + (++id));
       row.find("input:text").val("");
       template.before(row);
     });
