@@ -98,6 +98,7 @@
 //                $("#center-container").attr("style", "height:" + LastnodeTopInt + "px");
 //                $("#center-container").attr("style", "width:" + LastnodeLeftInt + "px");
                 var treeRoot = st.root;
+
             },
 
             //enable panning
@@ -161,6 +162,11 @@
                 label.appendChild(state);
                 label.appendChild(my_check_box);
 
+                //Current project is styled in bold
+                if ( node.id == $('#current_showed_project_id').val()){
+                    label.innerHTML = "<b style='font-weight: bold; color: #990000;'>"+ label.innerHTML +"</b>";
+                }
+
 //                label.onclick = function(){
 //
 //                    //if(normal.checked) {
@@ -179,9 +185,10 @@
                 style.height = 17 + 'px';
                 style.cursor = 'pointer';
                 style.color = '#333';
-                style.fontSize = '0.8em';
+                style.fontSize = '0.9em'; /*'0.8em';*/
                 style.textAlign= 'center';
                 style.paddingTop = '3px';
+                style.fontWeight = 'bold';
             },
 
             //For displaying Tooltips
@@ -236,7 +243,6 @@
                     delete adj.data.$lineWidth;
                 }
             }
-
         });
 
        var infovis_canvas = document.getElementById("infovis-canvas");
