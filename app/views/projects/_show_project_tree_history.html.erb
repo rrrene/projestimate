@@ -5,7 +5,7 @@
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-pencil icon-border pull-left', :id => 'edit_node_path', :title => I18n.t('edit'), :remote => true %>
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-star icon-border pull-left', :id => 'activate_node_path', :title => I18n.t('button_activate_project'), :remote => true %>
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-info icon-border pull-left', :id => 'find_use_projects_from_history', :title => I18n.t('button_find_use'), :remote => true %>
-      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-ok-circle icon-border pull-left', :id => 'promote_node_path', :title => I18n.t('button_commit_project'),  :remote => true %>    <!-- :confirm => send_notice(project), -->
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-ok-circle icon-border pull-left', :id => 'promote_node_path', :title => I18n.t('button_commit_project'), :remote => true %>    <!-- :confirm => send_notice(project), -->
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-copy icon-border pull-left', :id => 'duplicate_node_path', :title => I18n.t('button_duplicate_project'), :remote => true %>
       <!--<h4><i class="icon-step-forward pull-left"></i><%#= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true, :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?) %></h4>-->
       <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-step-forward icon-border pull-left', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true %>
@@ -150,6 +150,7 @@
                 var my_check_box = document.createElement('input');
                 my_check_box.type = 'checkbox';
                 my_check_box.name = 'checkbox_'+node.id;
+                my_check_box.id = 'checkbox_'+node.id;
                 my_check_box.value = node.id;
 
                 var state = document.createElement('Label');
@@ -166,10 +167,26 @@
                     label.innerHTML = "<b style='font-weight: bold; color: #990000;'>"+ label.innerHTML +"</b>";
                 }
 
+                //Enable/disable some actions according to the checked node
+                label.onclick = function(){
+                    var checked_node = document.getElementById('checkbox_'+node.id);
+                    var states_to_confirm = {checkpoint: "checkpoint", released: "released", rejected: "rejected"};
+                    if( checked_node.checked === true ){
+                        if(test = node.data.state in states_to_confirm ) {
+                            var promote_button = document.getElementById('promote_node_path');
+                            //promote_button.disabled = true;
+                            $('#promote_node_path').removeClass('icon-ok-circle icon-border');
+                            //alert ("<%#= I18n.t(:warning_project_state_from_checkpoint_release_rejected, :state => 'CHECKPOINT')%>");
+                        }
+                    }
+                    else{
+                        $('#promote_node_path').addClass('icon-ok-circle icon-border');
+                    }
+                };
+
 //                label.onclick = function(){
-//
-//                    //if(normal.checked) {
-//                    if(node.checked) {
+//                    if(normal.checked) {
+//                    //if(node.checked) {
 //                        alert($("#checkbox_"+node.id).val());
 //                        st.onClick(node.id);
 //                    } else {
@@ -177,6 +194,7 @@
 //                        st.setRoot(node.id, 'animate');
 //                    }
 //                };
+
 
                 //set label styles
                 var style = label.style;
