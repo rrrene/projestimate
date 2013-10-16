@@ -235,6 +235,7 @@
     </div>
 
     <div id="tabs-9">
+      <%= hidden_field_tag "current_showed_project_id", @project.id %>
       <div id="project_tree_id" data-project_tree="<%= @projects_json_tree %>"></div>
       <%= render :partial => "show_project_tree_history", :object => @projects_json_tree %>
     </div>
