@@ -53,8 +53,6 @@ module Projestimate
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/lib)
     config.autoload_paths += %W(#{config.root}/vendor/gems/effort_balancing/app)
     config.autoload_paths += %W(#{config.root}/vendor/gems/capitalization/lib)
-    config.autoload_paths += %W(#{config.root}/vendor/gems/uos/lib)
-    config.autoload_paths += %W(#{config.root}/vendor/gems/uos/app)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

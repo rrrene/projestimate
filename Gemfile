@@ -145,7 +145,6 @@ group :test do
   gem 'foreman'
 
   gem 'uos', :path => 'vendor/gems/uos'
-
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), 'Gemfile.local')

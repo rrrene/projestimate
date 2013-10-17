@@ -1,4 +1,4 @@
-module Uos
-  class ApplicationController < ActionController::Base
+
+  class ApplicationController < 
   end
 end
