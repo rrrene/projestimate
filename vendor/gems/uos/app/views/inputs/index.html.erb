@@ -2,6 +2,17 @@
   select, input{
     width: 100px;
   }
+
+  .flag_center{
+    padding-left: 9px;
+  }
+
+  .checked{
+    color: forestgreen;
+  }
+  .unchecked{
+    color: black;
+  }
 </style>
 
 <div class="tabs">
@@ -11,7 +22,7 @@
     </li>
   </ul>
 
-  <%= form_tag "/save_uos" do %>
+  <%= form_tag "/uos/save_uos" do %>
 
     <%= hidden_field_tag "module_project_id", @module_project.id %>
     <div id="tabs-1" style="overflow-x: auto;">
@@ -81,24 +92,99 @@
 
 <script>
   $(document).ready(function(){
-    $(".size, .weight, #technology_1, #uow_1, #complexity_1").on("blur change", function(){
-      $.ajax({ url:'/load_gross',
-        data:'size=' + this.value + '&weight=' + $('#weight_1').val()
-                + '&technology=' + $('#technology_1').val()
-                + '&uow=' + $('#uow_1').val()
-                + '&complexity=' + $('#complexity_1').val()
-                + '&level=' + $(this).attr("data-level")
-      });
-    });
 
-    var template = $('#template'), id = 1;
+    initialize_gross_behaviour();
 
-    $(".icon").click(function() {
+    $(".icon.icon-flag").click(function(){
+      $(this).toggleClass("checked");
+      if($(this).next().val() == "checked"){
+        $(this).next().val("unchecked");
+      }else{
+        $(this).next().val("checked");
+      }
+    })
+
+    $(".icon.icon-plus").click(function() {
+      var template = $(this).closest('tr');
       var row = template.clone();
-      row.find("input:text[name='name_1'").attr('name', 'name_' + (++id));
-      row.find("input:text").val("");
       template.before(row);
+      $("#myTable").find("tr").each(function(index){
+
+        alter_input($(this), 'name', index-2)
+        alter_input($(this), 'technology', index-2)
+        alter_input($(this), 'uow', index-2)
+        alter_input($(this), 'complexity', index-2)
+        alter_input($(this), 'size_low', index-2)
+        alter_input($(this), 'size_most_likely', index-2)
+        alter_input($(this), 'size_high', index-2)
+        alter_input($(this), 'weight', index-2)
+        alter_input($(this), 'gross_low', index-2)
+        alter_input($(this), 'gross_most_likely', index-2)
+        alter_input($(this), 'gross_high', index-2)
+        alter_input($(this), 'gross_high', index-2)
+        alter_input($(this), 'gross_high', index-2)
+        alter_input($(this), 'gross_high', index-2)
+
+        $(this).find("select[class='complexity']").attr('id', 'complexity_' + (index-2));
+        $(this).find("select[class='uow']").attr('id', 'uow_' + (index-2));
+        $(this).find("select[class='technology']").attr('id', 'technology_' + (index-2));
+
+        $(this).find("select[class='complexity']").attr('name', 'complexity[' + (index-2) + ']');
+        $(this).find("select[class='uow']").attr('name', 'uow[' + (index-2) + ']');
+        $(this).find("select[class='technology']").attr('name', 'technology[' + (index-2) + ']');
+
+      });
+
     });
+
+    function alter_input(elem, name, index){
+      elem.find("input[class=" + name + "]").attr('name', name + '[' + (index) + ']');
+      elem.find("input[class=" +  name + "]").attr('id', name + '_' + (index));
+
+      var selector = "#size_low_" + index +
+                     ", #size_most_likely_" + index +
+                     ", #size_high_" + index +
+                     ", #weight_" + index +
+                     ", #uow_" + index +
+                     ", #technology_" + index +
+                     ", #complexity_" + index
+
+      $(selector).on("blur change", function(){
+        $.ajax({ url:'/uos/load_gross',
+          data: 'size_low=' + $('#size_low_' + index).val()
+              + '&size_most_likely=' + $('#size_most_likely_' + index).val()
+              + '&size_high=' + $('#size_high_' + index).val()
+              + '&weight=' + $('#weight_' + index).val()
+              + '&technology=' + $('#technology_' + index).val()
+              + '&uow=' + $('#uow_' + index).val()
+              + '&complexity=' + $('#complexity_' + index).val()
+              + '&index=' + $(this).closest('tr').index()
+        });
+      });
+    }
+
+    function initialize_gross_behaviour(){
+      var selector = "#size_low_1" +
+              ", #size_most_likely_1" +
+              ", #size_high_1" +
+              ", #weight_1" +
+              ", #uow_1" +
+              ", #technology_1" +
+              ", #complexity_1"
+
+      $(selector).on("blur change", function(){
+        $.ajax({ url:'/uos/load_gross',
+          data: 'size_low=' + $('#size_low_1').val()
+                  + '&size_most_likely=' + $('#size_most_likely_1').val()
+                  + '&size_high=' + $('#size_high_1').val()
+                  + '&weight=' + $('#weight_1').val()
+                  + '&technology=' + $('#technology_1').val()
+                  + '&uow=' + $('#uow_1').val()
+                  + '&complexity=' + $('#complexity_1').val()
+                  + '&index=' + $(this).closest('tr').index()
+        });
+      });
+    }
 
   });
 

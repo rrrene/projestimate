@@ -5,12 +5,12 @@ class InputsController < ApplicationController
     @module_project.pemodule.attribute_modules.each do |am|
       if am.pe_attribute.alias ==  "size"
         @size = EstimationValue.where(:module_project_id => @module_project.id,
-                                     :pe_attribute_id => am.pe_attribute.id,
-                                     :in_out => "input" ).first
+                                      :pe_attribute_id => am.pe_attribute.id,
+                                      :in_out => "input" ).first
       else
         @gross_size = EstimationValue.where(:module_project_id => @module_project.id,
-                                             :pe_attribute_id => am.pe_attribute.id,
-                                             :in_out => "output" ).first
+                                            :pe_attribute_id => am.pe_attribute.id,
+                                            :in_out => "output" ).first
       end
     end
   end
@@ -35,36 +35,58 @@ class InputsController < ApplicationController
     end
 
 
-    input = Input.new
-    input.name = params[:name]["1"]
-    input.module_project_id = params[:module_project_id]
-    input.technology_id = params[:technologies]["1"]
-    input.unit_of_work_id = params[:uows]["1"]
-    input.complexity_id = params[:complexities]["1"]
-    input.size_low = params[:size_low]["1"]
-    input.size_most_likely = params[:size_most_likely]["1"]
-    input.size_high = params[:size_high]["1"]
-    input.weight = params[:weight]["1"]
-    input.gross_low = params[:gross_low]["1"]
-    input.gross_most_likely = params[:gross_most_likely]["1"]
-    input.gross_high = params[:gross_high]["1"]
-    input.save
+    (0..params[:name].size).each do |r|
+      input = Input.new
+      input.name = params[:name]["#{r}"]
+      input.module_project_id = params[:module_project_id]
+      input.technology_id = params[:technology]["#{r}"]
+      input.unit_of_work_id = params[:uow]["#{r}"]
+      input.complexity_id = params[:complexity]["#{r}"]
+      input.size_low = params[:size_low]["#{r}"]
+      input.size_most_likely = params[:size_most_likely]["#{r}"]
+      input.size_high = params[:size_high]["#{r}"]
+      input.weight = params[:weight]["#{r}"]
+      input.gross_low = params[:gross_low]["#{r}"]
+      input.gross_most_likely = params[:gross_most_likely]["#{r}"]
+      input.gross_high = params[:gross_high]["#{r}"]
+      input.flag = params[:flag]["#{r}"]
+      input.save
+    end
+
 
     redirect_to redirect_apply("/uos?mp=#{@module_project.id}", "/uos?mp=#{@module_project.id}",  "/dashboard")
   end
 
   def load_gross
+    @size = Array.new
+    @tmp_result = Hash.new
     @result = Hash.new
-    weight = params[:weight].blank? ? 1 : 2
-    size = params[:size].to_i
+    @level = ["gross_low", "gross_most_likely", "gross_high"]
+
+    @size << params[:size_low]
+    @size << params[:size_ml]
+    @size << params[:size_high]
+
+    if params['index']
+      @index = params['index'].to_i - 2
+    else
+      @index = 1
+    end
+
     abacus = AbacusOrganization.where(:organization_id => current_project.organization_id,
                                       :organization_technology_id => params[:technology],
                                       :unit_of_work_id => params[:uow],
                                       :organization_uow_complexity_id => params[:complexity])
-    abacus_value = abacus.first.value
-    @level = (params[:level] == "undefined") ? ["low", "most_likely", "high"] : [params[:level]]
-    @level.each do |l|
-      @result[l] = (size * abacus_value) * weight
+    begin
+      abacus_value = abacus.first.value
+    rescue
+      abacus_value = 1
     end
+
+    weight = params[:"weight"].nil? ? 1 : params[:"weight"]
+
+    @result[:"gross_low_#{@index.to_s}"] = params[:size_low].to_i * abacus_value * weight.to_i
+    @result[:"gross_most_likely_#{@index.to_s}"] = params[:size_most_likely].to_i * abacus_value * weight.to_i
+    @result[:"gross_high_#{@index.to_s}"] = params[:size_high].to_i * abacus_value * weight.to_i
   end
 end

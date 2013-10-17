@@ -5,28 +5,29 @@
     <%= link_to "", "#", :class => "icon icon-plus", :id => "icon_0" %>
   </td>
   <td class="span1">
-    <i class="icon icon-flag"></i>
+    <i class="icon icon-flag flag_center"></i>
+    <%= hidden_field_tag "flag[1]", "unchecked" %>
   </td>
   <td class="span1">
-    <%= text_field_tag "name[1]" %>
+    <%= text_field_tag "name[1]", "", :class => "name" %>
   </td>
   <td class="span1">
-    <%= select_tag "technologies[1]", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}, { :id => "technology_1", :class => "technology" }) %>
+    <%= select_tag "technology[1]", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}), :class => "technology" %>
   </td>
   <td class="span1">
-    <%= select_tag "uows[1]", options_for_select(current_project.organization.unit_of_works.map{|i| [i.name, i.id]}, { :id => "uow_1", :class => "uow" }) %>
+    <%= select_tag "uow[1]", options_for_select(current_project.organization.unit_of_works.map{|i| [i.name, i.id]}), :class => "uow" %>
   </td>
   <td class="span1">
-    <%= select_tag "complexities[1]", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}, { :id => "complexity_1", :class => "complexity" } ) %>
+    <%= select_tag "complexity[1]", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}), :class => "complexity"  %>
   </td>
   <td class="span1">
-    <%= text_field_tag "size_low[1]", "", :class => "size", :"data-level" => "low" %>
+    <%= text_field_tag "size_low[1]", "", :class => "size_low", :"data-level" => "low" %>
   </td>
   <td class="span1">
-    <%= text_field_tag "size_most_likely[1]", "", :class => "size", :"data-level" => "most_likely" %>
+    <%= text_field_tag "size_most_likely[1]", "", :class => "size_most_likely", :"data-level" => "most_likely" %>
   </td>
   <td class="span1">
-    <%= text_field_tag "size_high[1]", "", :class => "size", :"data-level" => "high" %>
+    <%= text_field_tag "size_high[1]", "", :class => "size_high", :"data-level" => "high" %>
   </td>
   <td class="span1">
     <%= text_field_tag "weight[1]", "", :class => "weight" %>

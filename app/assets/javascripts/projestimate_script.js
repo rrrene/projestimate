@@ -4854,6 +4854,7 @@ function warn_me(message){
                 counter:  counter,
                 action_id: $(this).attr('id'),
                 project_id: node_ids[0],
+                project_ids: node_ids,
                 current_showed_project_id: $('#current_showed_project_id').val()
             }
         })

@@ -1,3 +1,3 @@
-<% @level.each do |l| %>
-  $(".gross_<%= l %>").val(<%= @result[l.to_s] %>);
+<% @result.keys.each do |k| %>
+  $("#<%= k %>").val(<%= @result[k] %>);
 <% end %>

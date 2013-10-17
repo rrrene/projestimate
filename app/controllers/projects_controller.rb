@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
 
   load_resource
 
-  helper_method :sort_direction
+  helper_method :sort_direction, :is_collapsible?
 
   before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
   before_filter :get_record_statuses
@@ -349,7 +349,7 @@ class ProjectsController < ApplicationController
             current_user.delete_recent_project(@project.id)
             session[:current_project_id] = current_user.projects.first
             flash[:notice] = I18n.t(:notice_project_successful_deleted, :value => 'Project')
-            if params[:from_tree_history_view] && params['current_showed_project_id'] != params[:id]
+            if !params[:from_tree_history_view].blank? && params['current_showed_project_id'] != params[:id]
               redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
             else
               redirect_to projects_path
@@ -1130,13 +1130,9 @@ class ProjectsController < ApplicationController
 
   #Checkout the project
   def checkout
-    #@project = Project.find(params[:project_id])
-    #redirect_to projects_url
-
     old_prj = Project.find(params[:project_id])
 
     if (old_prj.checkpoint? || old_prj.released?) && ((can? :commit_project, old_prj)||(can? :manage, old_prj))
-
       begin
         #old_prj = Project.find(params[:project_id])
         authorize! :commit_project, old_prj
@@ -1336,7 +1332,6 @@ class ProjectsController < ApplicationController
     if @counter.to_i > 0
       begin
         project_id = checked_node_ids.first
-
         case action_id
           when "edit_node_path"
             @string_url = edit_project_path(:id => project_id)
@@ -1353,6 +1348,7 @@ class ProjectsController < ApplicationController
           when "checkout_node_path"
             @string_url = checkout_path(:project_id => project_id)
           when "collapse_node_path"
+            @string_url = collapse_project_version_path(:project_ids => params[:project_ids], :from_tree_history_view => true, :current_showed_project_id => params['current_showed_project_id'])
           else
             @string_url = session[:return_to]
         end
@@ -1360,11 +1356,54 @@ class ProjectsController < ApplicationController
         @string_url = session[:return_to]
       end
     end
-    #
-    #respond_to do |format|
-    #  format.js { redirect_to edit_project_path(:id => 304) }
-    #end
   end
+
+  #Function for collapsing project version
+  def collapse_project_version
+    projects = Project.find_all_by_id(params[:project_ids])
+    flash_error = ""
+    projects.each do |project|
+      if is_collapsible?(project)
+        project_parent =  project.parent
+        project_child = project.children.first
+        #delete link between project to delete and its parent and child
+        project_child.parent_id = project_parent
+        project_child.save
+        project.destroy
+        current_user.delete_recent_project(project.id)
+        session[:current_project_id] = current_user.projects.first
+      else
+        flash_error += I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
+        next
+      end
+    end
+    unless flash_error.blank?
+      flash[:error] = flash_error
+    end
+    if params['current_showed_project_id'].nil? || (params['current_showed_project_id'] && params['current_showed_project_id'].in?(params[:project_ids]) )
+      redirect_to projects_path, :notice => I18n.t('notice_successful_collapse_project_version')
+    else
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'), :notice => I18n.t('notice_successful_collapse_project_version')
+    end
+  end
+
+  #Function that check if project is collapsible
+  def is_collapsible?(project)
+    begin
+      if project.checkpoint?
+        if !project.is_root? && project.child_ids.length==1
+          true
+        else
+          false
+        end
+      else
+        false
+      end
+    rescue
+      false
+    end
+  end
+
 
   #Function that show project history graphically
   def show_project_history_SAVE

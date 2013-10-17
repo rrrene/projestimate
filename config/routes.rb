@@ -19,8 +19,6 @@
 ########################################################################
 Projestimate::Application.routes.draw do
   mount Uos::Engine, :at => '/uos'
-  post "save_uos" => "inputs#save_uos", :as => "save_uos"
-  get 'load_gross' => 'inputs#load_gross', :as => 'load_gross'
 
   resources :abacus_organizations
   match 'organizations/:id/export_abacus' => 'organizations#export_abacus', :as => 'export_abacus'
@@ -182,6 +180,7 @@ Projestimate::Application.routes.draw do
   get 'select_pbs_project_elements' => 'projects#select_pbs_project_elements', :as => 'select_pbs_project_elements'
   get 'add_filter_on_project_version' => 'projects#add_filter_on_project_version', :as => 'add_filter_on_project_version'
   get 'checkout' => 'projects#checkout', :as => 'checkout'
+  get 'collapse_project_version' => 'projects#collapse_project_version', :as => 'collapse_project_version'
 
   post 'add_wbs_activity_to_project' => 'projects#add_wbs_activity_to_project',  :as => 'add_wbs_activity_to_project'
   post 'update_project_security_level_group' => 'projects#update_project_security_level_group',  :as => 'update_project_security_level_group'

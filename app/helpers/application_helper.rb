@@ -20,7 +20,7 @@
 
 #Some helper for the app...
 module ApplicationHelper
-
+  include InputsHelper
   def pop_up(id, title, to_container=true, &block)
 		content_tag(:div, { :class => 'pop_up', :style => 'display: none;', :id => id }) do
 			res = content_tag(:div, { :class => 'pop_up_title_bar'}) do
