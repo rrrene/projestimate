@@ -152,6 +152,8 @@
                 my_check_box.name = 'checkbox_'+node.id;
                 my_check_box.id = 'checkbox_'+node.id;
                 my_check_box.value = node.id;
+                my_check_box.className = 'tree_node_checkbox';
+                my_check_box.dataset['node_state'] = node.data.state;
 
                 var state = document.createElement('Label');
                 state.type = 'text';
@@ -169,18 +171,45 @@
 
                 //Enable/disable some actions according to the checked node
                 label.onclick = function(){
-                    var checked_node = document.getElementById('checkbox_'+node.id);
+                    var counter = 0,
+                        checkout_counter = 0,
+                        i = 0;
                     var states_to_confirm = {checkpoint: "checkpoint", released: "released", rejected: "rejected"};
-                    if( checked_node.checked === true ){
-                        if(test = node.data.state in states_to_confirm ) {
-                            var promote_button = document.getElementById('promote_node_path');
-                            //promote_button.disabled = true;
-                            $('#promote_node_path').removeClass('icon-ok-circle icon-border');
-                            //alert ("<%#= I18n.t(:warning_project_state_from_checkpoint_release_rejected, :state => 'CHECKPOINT')%>");
+                    var states_to_checkout = {checkpoint: "checkpoint", released: "released"};
+                    var checkbox_objects = document.getElementsByClassName('tree_node_checkbox');
+                    // loop through all collected checkbox objects
+                    for (i = 0; i < checkbox_objects.length; i++) {
+                        // if input object is checkbox and checkbox is checked then ... for promote
+                        if (checkbox_objects[i].dataset['node_state'] in states_to_confirm && checkbox_objects[i].checked === true) {
+                            // ... increase counter
+                            counter++;
+                        }
+                        //For checkout button
+                        if ( !(checkbox_objects[i].dataset['node_state'] in states_to_checkout) && checkbox_objects[i].checked === true ) {
+                            // ... increase checkout counter
+                            checkout_counter++;
                         }
                     }
+                    //Get promote link_to
+                    var promote_button = document.getElementById('promote_node_path');
+                    if(counter > 0){
+                        promote_button.disabled = true;
+                        $('#promote_node_path').removeClass('icon-ok-circle icon-border');
+                    }
                     else{
+                        promote_button.disabled = false;
                         $('#promote_node_path').addClass('icon-ok-circle icon-border');
+                    }
+
+                    //Get checkout link_to
+                    var checkout_button = document.getElementById('checkout_node_path');
+                    if(checkout_counter > 0){
+                        checkout_button.disabled = true;
+                        $('#checkout_node_path').removeClass('icon-step-forward icon-border');
+                    }
+                    else{
+                        checkout_button.disabled = false;
+                        $('#checkout_node_path').addClass('icon-step-forward icon-border');
                     }
                 };
 

@@ -4824,7 +4824,7 @@ function warn_me(message){
     });
 
 
-    //Handler Action link_to event
+    //Handler Action link_to event for project history tree view
     $('.node_link_to').live('click', function(){
         var counter = 0,
             i = 0,
@@ -4837,7 +4837,7 @@ function warn_me(message){
         for (i = 0; i < input_obj.length; i++) {
             // if input object is checkbox and checkbox is checked then ...
             if (input_obj[i].type === 'checkbox' && input_obj[i].checked === true) {
-                // ... increase counter and concatenate checkbox value to the url string
+                // ... increase counter and update the nodes Array
                 counter++;
                 node_ids.push(input_obj[i].value);
             }
