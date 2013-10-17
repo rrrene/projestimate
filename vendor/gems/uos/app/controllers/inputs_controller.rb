@@ -49,6 +49,7 @@ class InputsController < ApplicationController
       input.gross_low = params[:gross_low]["#{r}"]
       input.gross_most_likely = params[:gross_most_likely]["#{r}"]
       input.gross_high = params[:gross_high]["#{r}"]
+      input.flag = params[:flag]["#{r}"]
       input.save
     end
 
@@ -82,7 +83,7 @@ class InputsController < ApplicationController
       abacus_value = 1
     end
 
-    weight = params[:"weight"].blank? ? 1 : params[:"weight"]
+    weight = params[:"weight"].nil? ? 1 : params[:"weight"]
 
     @result[:"gross_low_#{@index.to_s}"] = params[:size_low].to_i * abacus_value * weight.to_i
     @result[:"gross_most_likely_#{@index.to_s}"] = params[:size_most_likely].to_i * abacus_value * weight.to_i

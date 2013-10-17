@@ -2,6 +2,17 @@
   select, input{
     width: 100px;
   }
+
+  .flag_center{
+    padding-left: 9px;
+  }
+
+  .checked{
+    color: forestgreen;
+  }
+  .unchecked{
+    color: black;
+  }
 </style>
 
 <div class="tabs">
@@ -82,7 +93,17 @@
 <script>
   $(document).ready(function(){
 
-    $(".icon").click(function() {
+    $(".icon.icon-flag").click(function(){
+      $(this).toggleClass("checked");
+      if($(this).next().val() == "checked"){
+        $(this).next().val("unchecked");
+      }else{
+        $(this).next().val("checked");
+      }
+
+    })
+
+    $(".icon.icon-plus").click(function() {
       var template = $(this).closest('tr');
       var row = template.clone();
       template.before(row);

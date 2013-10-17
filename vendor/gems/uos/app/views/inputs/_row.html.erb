@@ -6,7 +6,8 @@
       <%= link_to "", "#", :class => "icon icon-plus", :id => "icon_0" %>
     </td>
     <td class="span1">
-      <i class="icon icon-flag"></i>
+      <i class="icon icon-flag flag_center <%= input.flag %>"></i>
+      <%= hidden_field_tag "flag[#{i+1}]", input.flag %>
     </td>
     <td class="span1">
       <%= text_field_tag "name[#{i+1}]", input.name %>
