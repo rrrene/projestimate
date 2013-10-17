@@ -2034,26 +2034,26 @@ var warnLeavingUnsavedMessage;
 function warn_me(message){
     warnLeavingUnsavedMessage = message;
     $('.simple_form').submit(function(){
-        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").removeData('changed');
-        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").removeData('changed');
+        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").removeData('changed');
+        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").removeData('changed');
     });
-    $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").change(function(){
+    $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").change(function(){
         $(this).data('changed', 'changed');
     });
-    $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").change(function(){
+    $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").change(function(){
         $(this).data('changed', 'changed');
     });
 
     window.onbeforeunload = function(){
         var warn = false;
-        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").blur().each(function(){
+        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").blur().each(function(){
             if ($(this).data('changed')) {
                 warn = true;
             }
         });
 
 
-        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").blur().each(function(){
+        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").blur().each(function(){
             if ($(this).data('changed')) {
                 warn = true;
             }
@@ -4824,7 +4824,7 @@ function warn_me(message){
     });
 
 
-    //Handler Action link_to event
+    //Handler Action link_to event for project history tree view
     $('.node_link_to').live('click', function(){
         var counter = 0,
             i = 0,
@@ -4837,7 +4837,7 @@ function warn_me(message){
         for (i = 0; i < input_obj.length; i++) {
             // if input object is checkbox and checkbox is checked then ...
             if (input_obj[i].type === 'checkbox' && input_obj[i].checked === true) {
-                // ... increase counter and concatenate checkbox value to the url string
+                // ... increase counter and update the nodes Array
                 counter++;
                 node_ids.push(input_obj[i].value);
             }
