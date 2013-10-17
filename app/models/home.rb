@@ -568,8 +568,6 @@ class Home < ActiveRecord::Base
       end
     end
 
-
-
     puts '   - Currencies'
     self.create_records(ExternalMasterDatabase::ExternalCurrency, Currency, ['name', 'description', 'uuid'])
 
@@ -593,7 +591,8 @@ class Home < ActiveRecord::Base
     self.create_records(ExternalMasterDatabase::ExternalGroup, Group, ['name', 'description', 'for_global_permission', 'for_project_security', 'uuid'])
 
     #Associated default user with group first group (Admin)
-    user.group_ids = [Group.first.id]
+    master_admin_group = Group.where('name = ? AND record_status_id = ?', 'MasterAdmin', local_defined_rs_id).first
+    user.group_ids = [Group.first.id, master_admin_group.id]
     user.save
 
     puts '   - Labor categories'

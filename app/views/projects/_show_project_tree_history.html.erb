@@ -1,26 +1,24 @@
+<div id="project_history_actions" style="margin-bottom: 50px;" xmlns="http://www.w3.org/1999/html">
+  <div class="project_history">
+    <h4>
+      <span style="color:#23A4FF; float: left; margin-left: 0px; margin-right: 10px;">Project Actions : </span>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-pencil icon-border pull-left', :id => 'edit_node_path', :title => I18n.t('edit'), :remote => true %>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-star icon-border pull-left', :id => 'activate_node_path', :title => I18n.t('button_activate_project'), :remote => true %>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-info icon-border pull-left', :id => 'find_use_projects_from_history', :title => I18n.t('button_find_use'), :remote => true %>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-ok-circle icon-border pull-left', :id => 'promote_node_path', :title => I18n.t('button_commit_project'), :remote => true %>    <!-- :confirm => send_notice(project), -->
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-copy icon-border pull-left', :id => 'duplicate_node_path', :title => I18n.t('button_duplicate_project'), :remote => true %>
+      <!--<h4><i class="icon-step-forward pull-left"></i><%#= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true, :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?) %></h4>-->
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-step-forward icon-border pull-left', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true %>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-trash icon-border pull-left', :id => 'delete_node_path', :title => I18n.t('delete'), :remote => true %>
+      <%= link_to '', '', :class => 'node_link_to button_attribute_tooltip icon-cut icon-border pull-left', :id => 'collapse_node_path', :title => I18n.t('button_collapse_project'), :remote => true %>
+    </h4>
+  </div>
+</div>
+
 <div id="container">
   <div id="center-container">
     <div id="infovis"></div>
   </div>
-
-  <div id="right-container">
-    <h4 style="color:#23A4FF;">Project Actions : </h4>
-    <div class="project_history">
-        <h4><i class="icon-pencil pull-left"></i><%= link_to I18n.t('edit'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'edit_node_path', :title => I18n.t('edit'), :remote => true %> </h4>
-        <h4><i class="icon-star pull-left"></i><%= link_to I18n.t('label_activate_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'activate_node_path', :title => I18n.t('button_activate_project'), :remote => true %></h4>
-        <h4><i class="icon-info pull-left"></i><%= link_to I18n.t('label_find_use_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'find_use_projects_from_history', :title => I18n.t('button_find_use'), :remote => true %></h4>
-        <h4><i class="icon-ok-circle pull-left"></i><%= link_to I18n.t('label_promote_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'promote_node_path', :title => I18n.t('button_commit_project'),  :remote => true %></h4>    <!-- :confirm => send_notice(project), -->
-
-        <h4><i class="icon-copy pull-left"></i><%= link_to I18n.t('label_duplicate_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'duplicate_node_path', :title => I18n.t('button_duplicate_project'), :remote => true %></h4>
-
-        <!--<h4><i class="icon-step-forward pull-left"></i><%#= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true, :confirm => (I18n.t(:confirm_new_branch_project_checkout) unless project.is_childless?) %></h4>-->
-        <h4><i class="icon-step-forward pull-left"></i><%= link_to I18n.t('label_checkout_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'checkout_node_path', :title => I18n.t('button_checkout_project'), :remote => true %></h4>
-
-      <h4><i class="icon-trash pull-left"></i><%= link_to I18n.t('delete'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'delete_node_path', :title => I18n.t('delete'), :remote => true %></h4>
-        <h4><i class="icon-pencil pull-left"></i><%= link_to I18n.t('label_collapse_project'), '', :class => 'node_link_to button_attribute_tooltip', :id => 'collapse_node_path', :title => I18n.t('button_collapse_project'), :remote => true %></h4>
-    </div>
-  </div>
-
   <div id="log"></div>
 </div>
 
@@ -56,7 +54,7 @@
 
 //    function init(){
        //Init data from Rails project history data
-       //Fo ex. var json = {"id":"301","name":"ggg","title":"ggg","version":"1.0","data":{},"children":[{"id":"305","name":"ggg","title":"ggg","version":"1.0-1.0","data":{},"children":[]},{"id":"304","name":"ggg","title":"ggg","version":"1.1","data":{},"children":[{"id":"306","name":"ggg","title":"ggg","version":"1.2","data":{},"children":[]}]}]};
+       // FOr ex. var json = {"id":"301","name":"ggg","title":"ggg","version":"1.0","data":{},"children":[{"id":"305","name":"ggg","title":"ggg","version":"1.0-1.0","data":{},"children":[]},{"id":"304","name":"ggg","title":"ggg","version":"1.1","data":{},"children":[{"id":"306","name":"ggg","title":"ggg","version":"1.2","data":{},"children":[{"id":"30","name":"moi","title":"moi","version":"1.2","data":{},"children":[]}]}]}]};
        var json = $("#project_tree_id").data("project_tree");
         //end
 
@@ -65,12 +63,43 @@
         var st = new $jit.ST({
             //id of viz container element
             injectInto: 'infovis',
+            //set orientation
+            orientation: 'left',
             //set duration for the animation
             duration: 0, //800,
             //set animation transition type
             transition: $jit.Trans.Quart.easeInOut,
             //set distance between node and its children
             levelDistance: 50,
+            //set the maximum depth/level to show in the Tree
+            levelsToShow: 9999,
+
+            //offsetWidth: 100,
+
+            onComplete: function () {
+                var LastnodeTop = 0;
+                var LastnodeLeft = 0;
+                $("div.node").each(function () {
+                    var pos = $(this).position();
+                    if (pos.top > LastnodeTop)
+                        LastnodeTop = pos.top;
+                    if (pos.left > LastnodeLeft)
+                    LastnodeLeft = pos.left;
+                });
+
+                var LastnodeTopStr = LastnodeTop.toString();
+                var LastnodeLeftStr = LastnodeLeft.toString();
+                LastnodeTopStr = LastnodeTopStr.substring(0, 4);
+                LastnodeLeftStr = LastnodeLeftStr.substring(0, 4);
+                var LastnodeTopInt = parseInt(LastnodeTopStr) + 100;
+                var LastnodeLeftInt = parseInt(LastnodeLeftStr) + 100;
+
+//                $("#center-container").attr("style", "height:" + LastnodeTopInt + "px");
+//                $("#center-container").attr("style", "width:" + LastnodeLeftInt + "px");
+                var treeRoot = st.root;
+
+            },
+
             //enable panning
             Navigation: {
                 enable:true,
@@ -93,13 +122,11 @@
             },
 
             onBeforeCompute: function(node){
-                Log.write("loading " + node.name);
+                //Log.write("loading " + node.name);
             },
 
             onAfterCompute: function(){
-                var project_title = $("#project_title").val();
-                var project_version = $("#project_tree_id").data("project_version");
-                Log.write("Project: " + project_title + " (version " + project_version + ")");
+                //Log.write("Project: Title");
             },
 
             //This method is called on DOM label creation.
@@ -109,14 +136,24 @@
                 label.id = node.id;
                 //label.innerHTML = node.name;
 
-                //TEST
-                var display = node.name;
+                //Display node version and state
+                var version_maxi_length = 16;
+                var node_version = "";
+                if (node.name.length > version_maxi_length)
+                    node_version = node.name.substring(0, 16) + "...";
+                else
+                    node_version = node.name;
+
+                var display = node_version;
                 var data = node.data;
 
                 var my_check_box = document.createElement('input');
                 my_check_box.type = 'checkbox';
                 my_check_box.name = 'checkbox_'+node.id;
+                my_check_box.id = 'checkbox_'+node.id;
                 my_check_box.value = node.id;
+                my_check_box.className = 'tree_node_checkbox';
+                my_check_box.dataset['node_state'] = node.data.state;
 
                 var state = document.createElement('Label');
                 state.type = 'text';
@@ -127,14 +164,58 @@
                 label.appendChild(state);
                 label.appendChild(my_check_box);
 
-                //END TEST
+                //Current project is styled in bold
+                if ( node.id == $('#current_showed_project_id').val()){
+                    label.innerHTML = "<b style='font-weight: bold; color: #990000;'>"+ label.innerHTML +"</b>";
+                }
 
+                //Enable/disable some actions according to the checked node
+                label.onclick = function(){
+                    var counter = 0,
+                        checkout_counter = 0,
+                        i = 0;
+                    var states_to_confirm = {checkpoint: "checkpoint", released: "released", rejected: "rejected"};
+                    var states_to_checkout = {checkpoint: "checkpoint", released: "released"};
+                    var checkbox_objects = document.getElementsByClassName('tree_node_checkbox');
+                    // loop through all collected checkbox objects
+                    for (i = 0; i < checkbox_objects.length; i++) {
+                        // if input object is checkbox and checkbox is checked then ... for promote
+                        if (checkbox_objects[i].dataset['node_state'] in states_to_confirm && checkbox_objects[i].checked === true) {
+                            // ... increase counter
+                            counter++;
+                        }
+                        //For checkout button
+                        if ( !(checkbox_objects[i].dataset['node_state'] in states_to_checkout) && checkbox_objects[i].checked === true ) {
+                            // ... increase checkout counter
+                            checkout_counter++;
+                        }
+                    }
+                    //Get promote link_to
+                    var promote_button = document.getElementById('promote_node_path');
+                    if(counter > 0){
+                        promote_button.disabled = true;
+                        $('#promote_node_path').removeClass('icon-ok-circle icon-border');
+                    }
+                    else{
+                        promote_button.disabled = false;
+                        $('#promote_node_path').addClass('icon-ok-circle icon-border');
+                    }
 
-                //Remove Or Review this onClick event handler : added by ME
+                    //Get checkout link_to
+                    var checkout_button = document.getElementById('checkout_node_path');
+                    if(checkout_counter > 0){
+                        checkout_button.disabled = true;
+                        $('#checkout_node_path').removeClass('icon-step-forward icon-border');
+                    }
+                    else{
+                        checkout_button.disabled = false;
+                        $('#checkout_node_path').addClass('icon-step-forward icon-border');
+                    }
+                };
+
 //                label.onclick = function(){
-//
-//                    //if(normal.checked) {
-//                    if(node.checked) {
+//                    if(normal.checked) {
+//                    //if(node.checked) {
 //                        alert($("#checkbox_"+node.id).val());
 //                        st.onClick(node.id);
 //                    } else {
@@ -143,17 +224,17 @@
 //                    }
 //                };
 
+
                 //set label styles
                 var style = label.style;
                 style.width = 60 + 'px';
                 style.height = 17 + 'px';
                 style.cursor = 'pointer';
                 style.color = '#333';
-                style.fontSize = '0.8em';
+                style.fontSize = '0.9em'; /*'0.8em';*/
                 style.textAlign= 'center';
                 style.paddingTop = '3px';
-
-
+                style.fontWeight = 'bold';
             },
 
             //For displaying Tooltips
@@ -208,18 +289,13 @@
                     delete adj.data.$lineWidth;
                 }
             }
-
         });
 
        var infovis_canvas = document.getElementById("infovis-canvas");
        var infovis_label = document.getElementById("infovis-label");
        var infovis_canvas_widget = document.getElementById("infovis-canvaswidget");
-       infovis_canvas.style.left =  "-200px";
-       infovis_label.style.left =  "-200px";
-       //infovis_canvas_widget.style.minWidth =  "300px";
-       //infovis_canvas_widget.style.maxWidth =  "600px";
-
-       //alert(infovis_canvas.style.left); //alert(infovis_canvas.style.position);
+//       infovis_canvas.style.left =  "-300px";
+//       infovis_label.style.left =  "-300px";
 
         //load json data
         st.loadJSON(json);
@@ -228,7 +304,14 @@
         //optional: make a translation of the tree
         st.geom.translate(new $jit.Complex(-200, 0), "current");
         //emulate a click on the root node.
-        st.onClick(st.root);
+        ///st.onClick(st.root);
+        //Add offset on the Tree Root
+        st.onClick(st.root, {
+            Move: {
+                offsetX: 400,
+                offsetY: 100
+            }
+        });
         //end
 
        //Added by me
@@ -264,7 +347,7 @@
 
        //Function that display Tooltips
        function getToolTip(node){
-           return node.name;
+           return node.data.title + "-" + node.name;
        }
 
 </script>

@@ -1071,3 +1071,4 @@ en:
   label_collapse_project: "Collapse"
   button_collapse_project: "Collapse project"
   warning_project_cannot_be_checkout: "Only project in 'Checkpoint' and 'Released' statuses can be checkout"
+  warning_project_state_from_checkpoint_release_rejected: "Project in '%{state}' cannot be modified from this view. Edit the project global properties to promote the project states."

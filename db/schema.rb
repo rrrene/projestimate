@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131011083740) do
+ActiveRecord::Schema.define(:version => 20131014091705) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -654,7 +654,7 @@ ActiveRecord::Schema.define(:version => 20131011083740) do
 
   create_table "projects", :force => true do |t|
     t.string   "title"
-    t.string   "version",                 :default => "1.0"
+    t.string   "version",                 :limit => 64, :default => "1.0"
     t.string   "alias"
     t.string   "ancestry"
     t.text     "description"
