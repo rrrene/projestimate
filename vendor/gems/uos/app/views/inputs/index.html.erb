@@ -93,6 +93,8 @@
 <script>
   $(document).ready(function(){
 
+    initialize_gross_behaviour();
+
     $(".icon.icon-flag").click(function(){
       $(this).toggleClass("checked");
       if($(this).next().val() == "checked"){
@@ -100,7 +102,6 @@
       }else{
         $(this).next().val("checked");
       }
-
     })
 
     $(".icon.icon-plus").click(function() {
@@ -157,8 +158,30 @@
               + '&technology=' + $('#technology_' + index).val()
               + '&uow=' + $('#uow_' + index).val()
               + '&complexity=' + $('#complexity_' + index).val()
-              + '&level=' + $(this).attr("data-level")
               + '&index=' + $(this).closest('tr').index()
+        });
+      });
+    }
+
+    function initialize_gross_behaviour(){
+      var selector = "#size_low_1" +
+              ", #size_most_likely_1" +
+              ", #size_high_1" +
+              ", #weight_1" +
+              ", #uow_1" +
+              ", #technology_1" +
+              ", #complexity_1"
+
+      $(selector).on("blur change", function(){
+        $.ajax({ url:'/uos/load_gross',
+          data: 'size_low=' + $('#size_low_1').val()
+                  + '&size_most_likely=' + $('#size_most_likely_1').val()
+                  + '&size_high=' + $('#size_high_1').val()
+                  + '&weight=' + $('#weight_1').val()
+                  + '&technology=' + $('#technology_1').val()
+                  + '&uow=' + $('#uow_1').val()
+                  + '&complexity=' + $('#complexity_1').val()
+                  + '&index=' + $(this).closest('tr').index()
         });
       });
     }

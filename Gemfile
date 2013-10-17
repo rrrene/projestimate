@@ -104,6 +104,8 @@ gem 'rubyzip', '~> 0.9'
 gem 'axlsx'
 gem 'roo'
 
+gem 'uos', :path => 'vendor/gems/uos'
+
 # This gem provides the JavaScript InfoVis Toolkit for your rails application.
 gem "jit-rails", "~> 0.0.2"
 
@@ -143,8 +145,6 @@ group :test do
   gem 'simplecov', :require => false, :group => :test
   # run some required services using foreman start, more on this at the end of the article
   gem 'foreman'
-
-  gem 'uos', :path => 'vendor/gems/uos'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), 'Gemfile.local')
