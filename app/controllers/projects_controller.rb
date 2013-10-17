@@ -350,20 +350,20 @@ class ProjectsController < ApplicationController
             session[:current_project_id] = current_user.projects.first
             flash[:notice] = I18n.t(:notice_project_successful_deleted, :value => 'Project')
             if !params[:from_tree_history_view].blank? && params['current_showed_project_id'] != params[:id]
-              redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+              redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
             else
               redirect_to projects_path
             end
           else
             flash[:warning] = I18n.t(:error_access_denied)
-            redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
+            redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'))
           end
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
         end
       when I18n.t('cancel')
-        redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
+        redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'))
       else
         render :template => 'projects/confirm_deletion'
     end
@@ -377,7 +377,7 @@ class ProjectsController < ApplicationController
 
     if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
       if @from_tree_history_view
-        redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'), :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+        redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'), :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
       else
         redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
       end
@@ -943,7 +943,7 @@ class ProjectsController < ApplicationController
     project.commit!
 
     if params[:from_tree_history_view]
-      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
     else
       redirect_to '/projects'
     end
@@ -957,7 +957,7 @@ class ProjectsController < ApplicationController
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
     if params[:from_tree_history_view]
-     redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+     redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
     else
       redirect_to '/projects'
     end
@@ -1383,7 +1383,7 @@ class ProjectsController < ApplicationController
     if params['current_showed_project_id'].nil? || (params['current_showed_project_id'] && params['current_showed_project_id'].in?(params[:project_ids]) )
       redirect_to projects_path, :notice => I18n.t('notice_successful_collapse_project_version')
     else
-      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'), :notice => I18n.t('notice_successful_collapse_project_version')
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'), :notice => I18n.t('notice_successful_collapse_project_version')
     end
   end
 

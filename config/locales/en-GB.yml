@@ -1062,7 +1062,7 @@ en-gb:
   confirm: "Can you confirm...?"
   error_project_state: "Sorry... this transaction is not possible!"
   warning_project_cannot_be_deleted: "Project with this state cannot be deleted"
-  label_project_history: "Project history"
+  label_project_history: "History"
   label_activate_project: "Activate"
   label_find_use_project: "Find use"
   label_promote_project: "Promote"
