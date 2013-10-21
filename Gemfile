@@ -50,9 +50,6 @@ else
   warn('Please configure your config/database.yml first')
 end
 
-#Translations (not yet used)
-#gem 'globalize3'
-
 #Permissions
 gem 'cancan'
 #Authentication for tests
@@ -97,7 +94,7 @@ gem 'rb-readline'
 gem 'cache_digests'
 
 #Continious integration and monitoring
-gem 'newrelic_rpm'
+#gem 'newrelic_rpm'
 
 # spreadsheet files management
 gem 'rubyzip', '~> 0.9'
