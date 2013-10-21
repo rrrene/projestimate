@@ -1,5 +1,5 @@
 <% if @attribute_modules.nil? || @attribute_modules.empty? %>
-    <div class="alert alert-info" colspan="2"><%= raw "#{I18n.t(:notice_no_module_use_current_attribute, :value => @pe_attribute.name)}" %></div>
+    <div class="alert alert-info" colspan="2"><%=raw "#{h I18n.t(:notice_no_module_use_current_attribute, :value => @pe_attribute.name)}" %></div>
     <br/>
 <% else %>
     <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
@@ -23,7 +23,7 @@
 <% end %>
 
 <% if @attribute_organizations.empty? %>
-    <div class="alert alert-info" colspan="2"><%= raw "#{I18n.t(:notice_no_organization_use_current_attribute, :value => @pe_attribute.name)}" %></div>
+    <div class="alert alert-info" colspan="2"><%=raw "#{h I18n.t(:notice_no_organization_use_current_attribute, :value => @pe_attribute.name)}" %></div>
     <br/>
 <% else %>
     <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">

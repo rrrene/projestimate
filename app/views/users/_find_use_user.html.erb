@@ -1,5 +1,5 @@
 <% if @related_projects_securities.nil? || @related_projects_securities.empty? %>
-  <div class="alert alert-info" colspan="2"><%=raw "#{I18n.t(:notice_user_finduse_no_project, :value => @user)}" %></div>
+  <div class="alert alert-info" colspan="2"><%=raw "#{h I18n.t(:notice_user_finduse_no_project, :value => @user)}" %></div>
     <br>
 <% else %>
   <table border="0" width="100%" class="table tablesorterPager table-striped table-bordered table-condensed">
