@@ -1,8 +1,14 @@
-<tr id="template">
+<tr>
   <%= hidden_field_tag "module_project_id", params[:mp] %>
+  <%= hidden_field_tag "input_id[1]", nil, :class => "input_id" %>
 
-  <td class="span1">
-    <%= link_to "", "#", :class => "icon icon-plus", :id => "icon_0" %>
+  <td class="span3">
+    <%= link_to "", "#", :class => "icon icon-plus" %>
+    <%= link_to "", "#", :class => "icon icon-angle-up" %>
+    <%= link_to "", "#", :class => "icon icon-angle-down" %>
+    <%= link_to "", "#", :class => "icon icon-angle-left" %>
+    <%= link_to "", "#", :class => "icon icon-angle-right" %>
+    <%= link_to "", "#", :class => "icon icon-trash" %>
   </td>
   <td class="span1">
     <i class="icon icon-flag flag_center"></i>
@@ -20,14 +26,14 @@
   <td class="span1">
     <%= select_tag "complexity[1]", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}), :class => "complexity"  %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "size_low[1]", "", :class => "size_low", :"data-level" => "low" %>
+  <td class="">
+    <%= text_field_tag "size_low[1]", "", :class => "size_low" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "size_most_likely[1]", "", :class => "size_most_likely", :"data-level" => "most_likely" %>
+  <td class="">
+    <%= text_field_tag "size_most_likely[1]", "", :class => "size_most_likely" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "size_high[1]", "", :class => "size_high", :"data-level" => "high" %>
+  <td class="">
+    <%= text_field_tag "size_high[1]", "", :class => "size_high" %>
   </td>
   <td class="span1">
     <%= text_field_tag "weight[1]", "", :class => "weight" %>
@@ -36,7 +42,7 @@
     <%= text_field_tag "gross_low[1]", "", :class => "gross_low" %>
   </td>
   <td class="span1">
-    <%= text_field_tag "gross_most_likely[1]", "", :class => "gross_most_likely"%>
+    <%= text_field_tag "gross_most_likely[1]", "", :class => "gross_most_likely" %>
   </td>
   <td class="span1">
     <%= text_field_tag "gross_high[1]", "", :class => "gross_high" %>
