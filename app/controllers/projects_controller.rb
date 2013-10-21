@@ -1362,23 +1362,29 @@ class ProjectsController < ApplicationController
   def collapse_project_version
     projects = Project.find_all_by_id(params[:project_ids])
     flash_error = ""
+    Project.transaction do
     projects.each do |project|
-      if is_collapsible?(project)
-        project_parent =  project.parent
-        project_child = project.children.first
-        #delete link between project to delete and its parent and child
-        project_child.parent_id = project_parent
-        project_child.save
-        project.destroy
-        current_user.delete_recent_project(project.id)
-        session[:current_project_id] = current_user.projects.first
-      else
-        flash_error += I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
-        next
-      end
+      #project.transaction do
+        if is_collapsible?(project.reload)
+          project_parent =  project.parent
+          project_child = project.children.first
+          #delete link between project to delete and its parent and child
+          new_ancestry = project_child.ancestor_ids.delete_if { |x| x == project.id }.join("/")
+          #project_child.update_attribute project.class.ancestry_column, new_ancestry || nil
+          project_child.update_attribute(:parent, project_parent)
+          project_child.save
+          project.destroy
+          current_user.delete_recent_project(project.id)
+          session[:current_project_id] = current_user.projects.first
+        else
+          flash_error += "\n\n" + I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
+          next
+        end
+      #end
+    end
     end
     unless flash_error.blank?
-      flash[:error] = flash_error
+      flash[:error] = flash_error + I18n.t('collapsible_project_only')
     end
     if params['current_showed_project_id'].nil? || (params['current_showed_project_id'] && params['current_showed_project_id'].in?(params[:project_ids]) )
       redirect_to projects_path, :notice => I18n.t('notice_successful_collapse_project_version')

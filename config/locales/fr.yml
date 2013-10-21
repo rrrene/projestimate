@@ -1073,4 +1073,5 @@ fr:
   warning_project_cannot_be_checkout: "Only project in 'Checkpoint' and 'Released' statuses can be checkout"
   warning_project_state_from_checkpoint_release_rejected: "Project in '%{state}' cannot be modified from this view. Edit the project global properties to promote the project states."
   notice_successful_collapse_project_version: "Le(s) version(s) de projet sélectionnée(s) ont été supprimée(s) avec succès"
-  project_is_not_collapsible: "Le Project '%{project_title_version}' n'est pas collapsable. Seul un projet dans l'état 'checkpoint' peut être collapsé."
+  project_is_not_collapsible: "Le Project '%{project_title_version}' n'est pas collapsable.\n\n"
+  collapsible_project_only: "Seul un projet dans l'état 'CHECKPOINT' peut être collapsé."

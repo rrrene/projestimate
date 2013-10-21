@@ -2034,26 +2034,26 @@ var warnLeavingUnsavedMessage;
 function warn_me(message){
     warnLeavingUnsavedMessage = message;
     $('.simple_form').submit(function(){
-        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").removeData('changed');
-        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").removeData('changed');
+        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not(".tree_node_checkbox").removeData('changed');
+        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not(".tree_node_checkbox").removeData('changed');
     });
-    $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").change(function(){
+    $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not(".tree_node_checkbox").change(function(){
         $(this).data('changed', 'changed');
     });
-    $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").change(function(){
+    $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not(".tree_node_checkbox input").change(function(){
         $(this).data('changed', 'changed');
     });
 
     window.onbeforeunload = function(){
         var warn = false;
-        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not("#infovis").blur().each(function(){
+        $('textarea').not("table.tablesorterPager textarea").not("#send_feedback_description").not(".tree_node_checkbox").blur().each(function(){
             if ($(this).data('changed')) {
                 warn = true;
             }
         });
 
 
-        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not("#infovis").blur().each(function(){
+        $('input').not("table.tablesorterPager input").not("#send_feedback_user_name").not(".tree_node_checkbox").blur().each(function(){
             if ($(this).data('changed')) {
                 warn = true;
             }
