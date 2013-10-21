@@ -51,9 +51,6 @@ else
   warn('Please configure your config/database.yml first')
 end
 
-#Translations (not yet used)
-#gem 'globalize3'
-
 #Permissions
 gem 'cancan'
 #Authentication for tests

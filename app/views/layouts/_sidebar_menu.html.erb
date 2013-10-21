@@ -6,17 +6,17 @@
   <% if current_project %>
     <% if can? :write_access_to_inreview_project, current_project %>
       <li>
-        <a href="<%= edit_project_path(current_project, :anchor => 'tabs-1') %>"><i class="icon-edit icon-large icon-border pull-left"></i> <%= I18n.t('edit') %> <%= current_project.title %>
+        <a href="<%= main_app.edit_project_path(current_project, :anchor => 'tabs-1') %>"><i class="icon-edit icon-large icon-border pull-left"></i> <%= I18n.t('edit') %> <%= current_project.title %>
         </a>
       </li>
     <% end %>
   <% end %>
   <li>
-    <a href="<%= projects_url %>"><i class=" icon-list icon-large icon-border pull-left"></i> <%= I18n.t('all_projects') %>
+    <a href="<%= main_app.projects_url %>"><i class=" icon-list icon-large icon-border pull-left"></i> <%= I18n.t('all_projects') %>
     </a></li>
   <% if (can? :create_project_from_scratch, Project) or (can? :create_project_from_template, Project) %>
       <li>
-        <a href="<%= new_project_path %>"><i class="icon-plus icon-large icon-border pull-left"></i><%= I18n.t('create_new_project') %>
+        <a href="<%= main_app.new_project_path %>"><i class="icon-plus icon-large icon-border pull-left"></i><%= I18n.t('create_new_project') %>
         </a></li>
   <% end %>
 </ul>
@@ -29,7 +29,7 @@
             </a></li>
           <li><a href="/organizationals_params">
             <i class="icon-globe icon-large icon-border pull-left"></i><%= I18n.t(:organization_setting) %></a></li>
-          <li><a href="<%= wbs_activities_path %>">
+          <li><a href="<%= main_app.wbs_activities_path %>">
             <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:wbs_activities) %></a></li>
     </ul>
 <% end %>
@@ -40,18 +40,18 @@
 
       <% if can? :manage, AdminSetting or can? :edit_admin_settings, AdminSetting %>
           <li>
-            <a href="<%= admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %>
+            <a href="<%= main_app.admin_settings_path %>"><i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:administration) %>
             </a></li>
       <% end %>
 
       <% if can? :manage, User %>
           <li>
-            <a href="<%= users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %>
+            <a href="<%= main_app.users_path %>"> <i class="icon-user icon-large icon-border pull-left"></i><%= I18n.t(:users) %>
             </a></li>
       <% end %>
 
       <% if can? :manage, User or can? :create_and_edit_groups, Group %>
-          <li><a href="<%= groups_path %>">
+          <li><a href="<%= main_app.groups_path %>">
             <i class="icon-group icon-large icon-border pull-left"></i><%= I18n.t(:groups) %></a></li>
       <% end %>
 
@@ -61,12 +61,12 @@
       <% end %>
 
       <% if can? :manage, AuthMethod %>
-          <li><a href="<%= auth_methods_path %>">
+          <li><a href="<%= main_app.auth_methods_path %>">
             <i class="icon-signin icon-large icon-border pull-left"></i><%= I18n.t(:auth_methods) %></a></li>
       <% end %>
 
       <% if can? :manage, Event %>
-          <li><a href="<%= events_path %>">
+          <li><a href="<%= main_app.events_path %>">
             <i class="icon-calendar icon-large icon-border pull-left"></i><%= I18n.t(:events) %></a></li>
       <% end %>
     </ul>
@@ -76,50 +76,50 @@
     <ul class="nav nav-list">
       <li class="nav-header"><h5><%= I18n.t(:label_menu_master_admin) %></h5></li>
       <% if can? :manage, MasterSetting %>
-          <li><a href="<%= master_settings_path %>">
+          <li><a href="<%= main_app.master_settings_path %>">
             <i class="icon-cog icon-large icon-border pull-left"></i><%= I18n.t(:master) %></a></li>
       <% end %>
 
       <% if can? :manage, PeAttribute or can? :create_and_edit_attributes, PeAttribute %>
-          <li><a href="<%= pe_attributes_path %>">
+          <li><a href="<%= main_app.pe_attributes_path %>">
             <i class="icon-list-ol icon-large icon-border pull-left"></i><%= I18n.t(:pe_attributes) %></a></li>
-          <li><a href="<%= attribute_categories_path %>">
+          <li><a href="<%= main_app.attribute_categories_path %>">
             <i class="icon-list-alt icon-large icon-border pull-left"></i><%= I18n.t(:attribute_categories) %></a></li>
       <% end %>
 
       <% if can? :manage, Pemodule or can? :create_and_edit_modules, Pemodule %>
-          <li><a href="<%= pemodules_path %>">
+          <li><a href="<%= main_app.pemodules_path %>">
             <i class="icon-th icon-large icon-border pull-left"></i><%= I18n.t(:projestimate_module) %></a></li>
       <% end %>
 
       <% if can? :manage, LaborCategory or can? :create_and_edit_labor_categories, LaborCategory %>
-          <li><a href="<%= labor_categories_path %>">
+          <li><a href="<%= main_app.labor_categories_path %>">
             <i class="icon-user-md icon-large icon-border pull-left"></i><%= I18n.t(:labor_categories) %></a></li>
       <% end %>
 
       <% if can? :manage, WorkElementType or can? :create_and_edit_work_element_type, WorkElementType %>
-          <li><a href="<%= work_element_types_path %>">
+          <li><a href="<%= main_app.work_element_types_path %>">
             <i class="icon-sitemap icon-large icon-border pull-left"></i><%= I18n.t(:work_element) %></a></li>
       <% end %>
 
       <% if can? :manage, Peicon or can? :create_and_edit_projestimate_icons, Peicon %>
           <li>
-            <a href="<%= peicons_path %>"> <i class="icon-paper-clip icon-large icon-border pull-left"></i>Projestimate
+            <a href="<%= main_app.peicons_path %>"> <i class="icon-paper-clip icon-large icon-border pull-left"></i>Projestimate
               Icons</a></li>
       <% end %>
 
       <% if can? :manage, ProjectSecurityLevel %>
-          <li><a href="<%= project_security_levels_path %>">
+          <li><a href="<%= main_app.project_security_levels_path %>">
             <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:security_level) %></a></li>
       <% end %>
 
       <% if can? :manage, Permission %>
-          <li><a href="<%= permissions_path %>">
+          <li><a href="<%= main_app.permissions_path %>">
             <i class="icon-check icon-large icon-border pull-left"></i><%= I18n.t(:all_permissions) %></a></li>
       <% end %>
 
       <% if can? :manage, Language or can? :create_and_edit_languages, Language %>
-          <li><a href="<%= languages_path %>">
+          <li><a href="<%= main_app.languages_path %>">
             <i class="icon-comments icon-large icon-border pull-left"></i><%= I18n.t(:languages) %></a></li>
       <% end %>
 
@@ -130,7 +130,7 @@
       <% end %>
       <!--<li><a href="#"> <i class="icon-github-alt icon-large"></i><%= I18n.t(:community) %></a></li>-->
       <% if can? :manage, RecordStatus %>
-          <li><a href="<%= record_statuses_path %>">
+          <li><a href="<%= main_app.record_statuses_path %>">
             <i class="icon-legal icon-large icon-border pull-left"></i><%= I18n.t(:record_status) %></a></li>
       <% end %>
     </ul>

@@ -152,7 +152,7 @@ class UsersController < ApplicationController
   #Create a inactive user if the demand is ok.
   def create_inactive_user
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
-      user = User.first(:conditions => ["login_name = '#{params[:login_name]}' or email = '#{params[:email]}'"])
+      user = User.where('login_name = ? OR email = ?', params[:login_name], params[:email]).first
       is_an_automatic_account_activation?() ? status = 'active' : 'pending'
       if !user.nil?
         redirect_to :back, :flash => {:warning => "#{I18n.t (:warning_email_or_username_already_exist)}"}

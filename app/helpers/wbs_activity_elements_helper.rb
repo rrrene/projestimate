@@ -69,7 +69,7 @@ module WbsActivityElementsHelper
         tree << "<ul style='margin-left:1px;' id='tree'>
                    <li style='margin-left:-1px;'>
                     <div class='block_label'>
-                        #{show_element_name(element)}
+                        #{ show_element_name(element) }
                     </div>
                     <div class='block_link'>
                       #{ link_activity_element(element, is_project_show_view) }
@@ -118,20 +118,20 @@ module WbsActivityElementsHelper
   def show_element_name(element)
     if element.attributes.has_key? 'record_status_id'
       if element.is_root?
-        "<span class='#{ element.record_status.to_s }'>#{element.name} </span>"
+        "<span class='#{h element.record_status.to_s }'>#{h element.name} </span>"
       else
-        "<span class='#{ element.record_status.to_s }'> #{element.name} </span>"
+        "<span class='#{h element.record_status.to_s }'> #{h element.name} </span>"
       end
 
     else
       if element.is_root?
         #"<span class=''>#{element.pe_wbs_project.name} WBS-Activity</span>"
-        "<span class=''>#{@project.title} WBS-Activity </span>"
+        "<span class=''>#{h @project.title} WBS-Activity </span>"
       else
         if element.wbs_activity_element.nil? && element.wbs_activity.nil?
-          "<span class=''> * #{element.name} </span>"
+          "<span class=''> * #{h element.name} </span>"
         else
-          "<span class=''> #{element.name} </span>"
+          "<span class=''> #{h element.name} </span>"
         end
       end
     end

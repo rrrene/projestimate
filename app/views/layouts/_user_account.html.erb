@@ -5,14 +5,14 @@
       </a>
     </li>
     <li>
-      <a href="<%= edit_user_path(current_user) %>">
+      <a href="<%= main_app.edit_user_path(current_user) %>">
         <i class="icon-user"></i>
         <%= I18n.t 'connected_as' %> <%= current_user %>
       </a>
     </li>
 
     <li>
-      <a href="<%= log_out_path %>#">
+      <a href="<%= main_app.log_out_path %>#">
         <i class="icon-off"></i>
             <%= I18n.t 'logout' %>
       </a>
