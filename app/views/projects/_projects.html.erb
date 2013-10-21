@@ -49,8 +49,10 @@
                 <% end %>
               <% end %>
 
-              <%#= link_to('', "projects/#{project.id}/show_project_history", :class => 'button_attribute_tooltip icon-signal icon-bar-chart icon-border pull-left', :title => I18n.t('label_project_history')) %>
-              <%= link_to('', edit_project_path(project, :anchor => 'tabs-9'), :class => 'button_attribute_tooltip icon-signal icon-bar-chart icon-border pull-left', :title => I18n.t('label_project_history')) %>
+              <%= link_to('', edit_project_path(project, :anchor => 'tabs-history'), :class => 'button_attribute_tooltip icon-signal icon-bar-chart icon-border pull-left', :title => I18n.t('label_project_history')) %>
+              <% if is_collapsible?(project) %>
+                  <%= link_to('', collapse_project_version_path(:project_ids => [project.id]), :class => 'button_attribute_tooltip icon-eraser icon-border pull-left', :style => 'color:red', :title => I18n.t('button_collapse_project'), :confirm => I18n.t('label_collapse_project')) %>
+              <% end %>
             </td>
           </tr>
         <% end %>

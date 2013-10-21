@@ -121,7 +121,7 @@ class Project < ActiveRecord::Base
 
   #Override
   def to_s
-    self.title + ' - ' + self.description.truncate(40)
+    self.title + '-' + self.version  + ' - ' + self.description.truncate(40)
   end
 
   #Return project value
@@ -153,30 +153,6 @@ class Project < ActiveRecord::Base
       #{id: node.id.to_s, name: node.title, title: node.title, version: node.version, data: {}, children: json_tree(sub_nodes).compact}
       {:id => node.id.to_s, :name => node.version, :data => {:title => node.title, :version => node.version, :state => node.state}, :children => json_tree(sub_nodes).compact}
     end
-  end
-
-  # order project List accordingly to the tree structure
-  def self.arrange_as_array(options={}, hash=nil)
-    hash ||= arrange(options)
-
-    arr = []
-    hash.each do |node, children|
-      arr << node
-      arr += arrange_as_array(options, children) unless children.empty?
-    end
-    arr
-  end
-
-
-  def self.arrange_as_json(options={}, hash=nil)
-    hash ||= arrange(options)
-    arr = []
-    hash.each do |node, children|
-      branch = {id: node.id, title: node.title}
-      branch[:children] = arrange_as_json(options, children) unless children.empty?
-      arr << branch
-    end
-    arr
   end
 
 end

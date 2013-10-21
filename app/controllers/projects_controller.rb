@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
 
   load_resource
 
-  helper_method :sort_direction
+  helper_method :sort_direction, :is_collapsible?
 
   before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
   before_filter :get_record_statuses
@@ -349,21 +349,21 @@ class ProjectsController < ApplicationController
             current_user.delete_recent_project(@project.id)
             session[:current_project_id] = current_user.projects.first
             flash[:notice] = I18n.t(:notice_project_successful_deleted, :value => 'Project')
-            if params[:from_tree_history_view] && params['current_showed_project_id'] != params[:id]
-              redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+            if !params[:from_tree_history_view].blank? && params['current_showed_project_id'] != params[:id]
+              redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
             else
               redirect_to projects_path
             end
           else
             flash[:warning] = I18n.t(:error_access_denied)
-            redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
+            redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'))
           end
         else
           flash[:warning] = I18n.t('warning_need_check_box_confirmation')
           render :template => 'projects/confirm_deletion'
         end
       when I18n.t('cancel')
-        redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'))
+        redirect_to (params[:from_tree_history_view].nil? ?  projects_path : edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'))
       else
         render :template => 'projects/confirm_deletion'
     end
@@ -377,7 +377,7 @@ class ProjectsController < ApplicationController
 
     if @project.has_children? || @project.rejected? || @project.released? || @project.checkpoint?
       if @from_tree_history_view
-        redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9'), :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
+        redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'), :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
       else
         redirect_to projects_path, :flash => {:warning => I18n.t(:warning_project_cannot_be_deleted)}
       end
@@ -943,7 +943,7 @@ class ProjectsController < ApplicationController
     project.commit!
 
     if params[:from_tree_history_view]
-      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
     else
       redirect_to '/projects'
     end
@@ -957,7 +957,7 @@ class ProjectsController < ApplicationController
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
     if params[:from_tree_history_view]
-     redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-9')
+     redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history')
     else
       redirect_to '/projects'
     end
@@ -1130,13 +1130,9 @@ class ProjectsController < ApplicationController
 
   #Checkout the project
   def checkout
-    #@project = Project.find(params[:project_id])
-    #redirect_to projects_url
-
     old_prj = Project.find(params[:project_id])
 
     if (old_prj.checkpoint? || old_prj.released?) && ((can? :commit_project, old_prj)||(can? :manage, old_prj))
-
       begin
         #old_prj = Project.find(params[:project_id])
         authorize! :commit_project, old_prj
@@ -1336,7 +1332,6 @@ class ProjectsController < ApplicationController
     if @counter.to_i > 0
       begin
         project_id = checked_node_ids.first
-
         case action_id
           when "edit_node_path"
             @string_url = edit_project_path(:id => project_id)
@@ -1353,6 +1348,7 @@ class ProjectsController < ApplicationController
           when "checkout_node_path"
             @string_url = checkout_path(:project_id => project_id)
           when "collapse_node_path"
+            @string_url = collapse_project_version_path(:project_ids => params[:project_ids], :from_tree_history_view => true, :current_showed_project_id => params['current_showed_project_id'])
           else
             @string_url = session[:return_to]
         end
@@ -1360,11 +1356,60 @@ class ProjectsController < ApplicationController
         @string_url = session[:return_to]
       end
     end
-    #
-    #respond_to do |format|
-    #  format.js { redirect_to edit_project_path(:id => 304) }
-    #end
   end
+
+  #Function for collapsing project version
+  def collapse_project_version
+    projects = Project.find_all_by_id(params[:project_ids])
+    flash_error = ""
+    Project.transaction do
+    projects.each do |project|
+      #project.transaction do
+        if is_collapsible?(project.reload)
+          project_parent =  project.parent
+          project_child = project.children.first
+          #delete link between project to delete and its parent and child
+          new_ancestry = project_child.ancestor_ids.delete_if { |x| x == project.id }.join("/")
+          #project_child.update_attribute project.class.ancestry_column, new_ancestry || nil
+          project_child.update_attribute(:parent, project_parent)
+          project_child.save
+          project.destroy
+          current_user.delete_recent_project(project.id)
+          session[:current_project_id] = current_user.projects.first
+        else
+          flash_error += "\n\n" + I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
+          next
+        end
+      #end
+    end
+    end
+    unless flash_error.blank?
+      flash[:error] = flash_error + I18n.t('collapsible_project_only')
+    end
+    if params['current_showed_project_id'].nil? || (params['current_showed_project_id'] && params['current_showed_project_id'].in?(params[:project_ids]) )
+      redirect_to projects_path, :notice => I18n.t('notice_successful_collapse_project_version')
+    else
+      redirect_to edit_project_path(:id => params['current_showed_project_id'], :anchor => 'tabs-history'), :notice => I18n.t('notice_successful_collapse_project_version')
+    end
+  end
+
+  #Function that check if project is collapsible
+  def is_collapsible?(project)
+    begin
+      if project.checkpoint?
+        if !project.is_root? && project.child_ids.length==1
+          true
+        else
+          false
+        end
+      else
+        false
+      end
+    rescue
+      false
+    end
+  end
+
 
   #Function that show project history graphically
   def show_project_history_SAVE
