@@ -51,24 +51,24 @@
 
         <tr>
           <th colspan="6">Overall</th>
-          <td class="span1">
-            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id] %>
+          <td>
+            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id], :class => "input-small" %>
           </td>
-          <td class="span1">
-            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id] %>
+          <td>
+            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id], :class => "input-small"  %>
           </td>
-          <td class="span1">
-            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id] %>
+          <td>
+            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id], :class => "input-small"  %>
           </td>
           <td> - </td>
-          <td class="span1">
-            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id] %>
+          <td >
+            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id], :class => "input-small"  %>
           </td>
-          <td class="span1">
-            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id] %>
+          <td>
+            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id], :class => "input-small"  %>
           </td>
-          <td class="span1">
-            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id] %>
+          <td >
+            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id], :class => "input-small"%>
           </td>
         </tr>
 
@@ -93,27 +93,16 @@
 <script>
   $(document).ready(function(){
 
-    initialize_gross_behaviour();
+    initialize_gross_behaviour(1);
 
-    $(".icon.icon-flag").click(function(){
-      $(this).toggleClass("checked");
-      if($(this).next().val() == "checked"){
-        $(this).next().val("unchecked");
-      }else{
-        $(this).next().val("checked");
-      }
-    })
-
-    $(".icon.icon-plus").click(function() {
+    $(".icon-plus").click(function() {
       var template = $(this).closest('tr');
       var row = template.clone();
+      row.find("input").val("")
       template.before(row);
       $("#myTable").find("tr").each(function(index){
 
         alter_input($(this), 'name', index-2)
-        alter_input($(this), 'technology', index-2)
-        alter_input($(this), 'uow', index-2)
-        alter_input($(this), 'complexity', index-2)
         alter_input($(this), 'size_low', index-2)
         alter_input($(this), 'size_most_likely', index-2)
         alter_input($(this), 'size_high', index-2)
@@ -121,9 +110,7 @@
         alter_input($(this), 'gross_low', index-2)
         alter_input($(this), 'gross_most_likely', index-2)
         alter_input($(this), 'gross_high', index-2)
-        alter_input($(this), 'gross_high', index-2)
-        alter_input($(this), 'gross_high', index-2)
-        alter_input($(this), 'gross_high', index-2)
+        alter_input($(this), 'input_id', index-2)
 
         $(this).find("select[class='complexity']").attr('id', 'complexity_' + (index-2));
         $(this).find("select[class='uow']").attr('id', 'uow_' + (index-2));
@@ -133,54 +120,49 @@
         $(this).find("select[class='uow']").attr('name', 'uow[' + (index-2) + ']');
         $(this).find("select[class='technology']").attr('name', 'technology[' + (index-2) + ']');
 
+        initialize_gross_behaviour(index-2);
+
       });
 
     });
 
-    function alter_input(elem, name, index){
-      elem.find("input[class=" + name + "]").attr('name', name + '[' + (index) + ']');
-      elem.find("input[class=" +  name + "]").attr('id', name + '_' + (index));
+    function alter_input(elem, classname, index){
+      elem.find("input[class=" + classname + "]").attr('name', classname + '[' + (index) + ']');
+      elem.find("input[class=" +  classname + "]").attr('id', classname + '_' + (index));
+    }
+
+    function initialize_gross_behaviour(index){
+
+      $(".icon-flag").click(function(){
+        $(this).toggleClass("checked");
+        if($(this).next().val() == "checked"){
+          $(this).next().val("unchecked");
+        }else{
+          $(this).next().val("checked");
+        }
+      })
+
+      $(".icon-trash").click(function(){
+        $(this).closest('tr').remove();
+      })
 
       var selector = "#size_low_" + index +
-                     ", #size_most_likely_" + index +
-                     ", #size_high_" + index +
-                     ", #weight_" + index +
-                     ", #uow_" + index +
-                     ", #technology_" + index +
-                     ", #complexity_" + index
+              ", #size_most_likely_" + index +
+              ", #size_high_" + index +
+              ", #weight_" + index +
+              ", #uow_" + index +
+              ", #technology_" + index +
+              ", #complexity_" + index
 
       $(selector).on("blur change", function(){
         $.ajax({ url:'/uos/load_gross',
           data: 'size_low=' + $('#size_low_' + index).val()
-              + '&size_most_likely=' + $('#size_most_likely_' + index).val()
-              + '&size_high=' + $('#size_high_' + index).val()
-              + '&weight=' + $('#weight_' + index).val()
-              + '&technology=' + $('#technology_' + index).val()
-              + '&uow=' + $('#uow_' + index).val()
-              + '&complexity=' + $('#complexity_' + index).val()
-              + '&index=' + $(this).closest('tr').index()
-        });
-      });
-    }
-
-    function initialize_gross_behaviour(){
-      var selector = "#size_low_1" +
-              ", #size_most_likely_1" +
-              ", #size_high_1" +
-              ", #weight_1" +
-              ", #uow_1" +
-              ", #technology_1" +
-              ", #complexity_1"
-
-      $(selector).on("blur change", function(){
-        $.ajax({ url:'/uos/load_gross',
-          data: 'size_low=' + $('#size_low_1').val()
-                  + '&size_most_likely=' + $('#size_most_likely_1').val()
-                  + '&size_high=' + $('#size_high_1').val()
-                  + '&weight=' + $('#weight_1').val()
-                  + '&technology=' + $('#technology_1').val()
-                  + '&uow=' + $('#uow_1').val()
-                  + '&complexity=' + $('#complexity_1').val()
+                  + '&size_most_likely=' + $('#size_most_likely_' + index).val()
+                  + '&size_high=' + $('#size_high_' + index).val()
+                  + '&weight=' + $('#weight_' + index).val()
+                  + '&technology=' + $('#technology_' + index).val()
+                  + '&uow=' + $('#uow_' + index).val()
+                  + '&complexity=' + $('#complexity_' + index).val()
                   + '&index=' + $(this).closest('tr').index()
         });
       });

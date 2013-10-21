@@ -1,16 +1,22 @@
 <% @inputs.each_with_index do |input, i| %>
-  <tr id="template">
+  <tr>
     <%= hidden_field_tag "module_project_id", params[:mp] %>
+    <%= hidden_field_tag "input_id[#{i+1}]", input.id, :class => "input_id" %>
 
-    <td class="span1">
-      <%= link_to "", "#", :class => "icon icon-plus", :id => "icon_0" %>
+    <td class="span3">
+      <%= link_to "", "#", :class => "icon icon-plus" %>
+      <%= link_to "", "#", :class => "icon icon-angle-up" %>
+      <%= link_to "", "#", :class => "icon icon-angle-down" %>
+      <%= link_to "", "#", :class => "icon icon-angle-left" %>
+      <%= link_to "", "#", :class => "icon icon-angle-right" %>
+      <%= link_to "", "#", :class => "icon icon-trash" %>
     </td>
     <td class="span1">
       <i class="icon icon-flag flag_center <%= input.flag %>"></i>
       <%= hidden_field_tag "flag[#{i+1}]", input.flag %>
     </td>
     <td class="span1">
-      <%= text_field_tag "name[#{i+1}]", input.name %>
+      <%= text_field_tag "name[#{i+1}]", input.name, :class => "name" %>
     </td>
     <td class="span1">
       <%= select_tag "technology[#{i+1}]", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}, :selected => input.technology_id ), :class => "technology" %>
@@ -22,13 +28,13 @@
       <%= select_tag "complexity[#{i+1}]", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}, :selected => input.complexity_id ), :class => "complexity" %>
     </td>
     <td class="span1">
-      <%= text_field_tag "size_low[#{i+1}]", input.size_low, :class => "size_low", :"data-level" => "low" %>
+      <%= text_field_tag "size_low[#{i+1}]", input.size_low, :class => "size_low" %>
     </td>
     <td class="span1">
-      <%= text_field_tag "size_most_likely[#{i+1}]", input.size_most_likely, :class => "size_most_likely", :"data-level" => "most_likely" %>
+      <%= text_field_tag "size_most_likely[#{i+1}]", input.size_most_likely, :class => "size_most_likely" %>
     </td>
     <td class="span1">
-      <%= text_field_tag "size_high[#{i+1}]", input.size_high, :class => "size_high", :"data-level" => "high" %>
+      <%= text_field_tag "size_high[#{i+1}]", input.size_high, :class => "size_high" %>
     </td>
     <td class="span1">
       <%= text_field_tag "weight[#{i+1}]", input.weight, :class => "weight" %>
@@ -37,7 +43,7 @@
       <%= text_field_tag "gross_low[#{i+1}]", input.gross_low, :class => "gross_low" %>
     </td>
     <td class="span1">
-      <%= text_field_tag "gross_most_likely[#{i+1}]", input.gross_most_likely, :class => "gross_most_likely"%>
+      <%= text_field_tag "gross_most_likely[#{i+1}]", input.gross_most_likely, :class => "gross_most_likely" %>
     </td>
     <td class="span1">
       <%= text_field_tag "gross_high[#{i+1}]", input.gross_high, :class => "gross_high" %>
