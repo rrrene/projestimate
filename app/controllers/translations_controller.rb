@@ -27,9 +27,9 @@ class TranslationsController < ApplicationController
 
     I18n.backend.send(:init_translations)
     if params[:locale].nil?
-      @translations = I18n.backend.send(:translations)[session[:current_locale].to_sym]
+      @translations = I18n.backend.send(:translations)[session[:current_locale]]
     else
-      @translations = I18n.backend.send(:translations)[params[:locale].to_sym]
+      @translations = I18n.backend.send(:translations)[params[:locale]]
     end
     @available_locales = I18n.backend.send(:available_locales)
   end
@@ -43,14 +43,14 @@ class TranslationsController < ApplicationController
     end
     Translate::Storage.new(:fr).write_to_file
 
-    redirect_to translations_url, :notice => "#{I18n.t (:notice_translation_successful_added)}"
+    redirect_to translations_url, :notice => "#{I18n.t(:notice_translation_successful_added)}"
   end
 
   #Load translations from config/locale/*.yml files
   def load_translations
     authorize! :manage_translations, Language
 
-    @translations = I18n.backend.send(:translations)[params[:locale].to_sym]
+    @translations = I18n.backend.send(:translations)[params[:locale]]
   end
 
 end
