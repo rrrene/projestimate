@@ -5,10 +5,10 @@
 
     <td class="span3">
       <%= link_to "", "#", :class => "icon icon-plus" %>
-      <%= link_to "", "#", :class => "icon icon-angle-up" %>
-      <%= link_to "", "#", :class => "icon icon-angle-down" %>
-      <%= link_to "", "#", :class => "icon icon-angle-left" %>
-      <%= link_to "", "#", :class => "icon icon-angle-right" %>
+      <%# link_to "", "#", :class => "icon icon-angle-up" %>
+      <%# link_to "", "#", :class => "icon icon-angle-down" %>
+      <%# link_to "", "#", :class => "icon icon-angle-left" %>
+      <%# link_to "", "#", :class => "icon icon-angle-right" %>
       <%= link_to "", "#", :class => "icon icon-trash" %>
     </td>
     <td class="span1">
@@ -19,13 +19,13 @@
       <%= text_field_tag "name[#{i+1}]", input.name, :class => "name" %>
     </td>
     <td class="span1">
-      <%= select_tag "technology[#{i+1}]", options_for_select(current_project.organization.organization_technologies.map{|i| [i.name, i.id]}, :selected => input.technology_id ), :class => "technology" %>
+      <%= select_tag "technology[#{i+1}]", options_for_select(@organization_technologies, :selected => input.technology_id ), :class => "technology" %>
     </td>
     <td class="span1">
-      <%= select_tag "uow[#{i+1}]", options_for_select(current_project.organization.unit_of_works.map{|i| [i.name, i.id]}, :selected => input.unit_of_work_id ), :class => "uow" %>
+      <%= select_tag "uow[#{i+1}]", options_for_select(@unit_of_works, :selected => input.unit_of_work_id ), :class => "uow" %>
     </td>
     <td class="span1">
-      <%= select_tag "complexity[#{i+1}]", options_for_select(current_project.organization.organization_uow_complexities.map{|i| [i.name, i.id]}, :selected => input.complexity_id ), :class => "complexity" %>
+      <%= select_tag "complexity[#{i+1}]", options_for_select(@complexities, :selected => input.complexity_id ), :class => "complexity" %>
     </td>
     <td class="span1">
       <%= text_field_tag "size_low[#{i+1}]", input.size_low, :class => "size_low" %>
