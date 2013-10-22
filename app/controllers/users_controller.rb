@@ -30,7 +30,8 @@ class UsersController < ApplicationController
     if params[:id]
       @user = User.find(params[:id])
     else
-      @user = User.new :auth_type => AuthMethod.first.id, :user_status => 'active'
+      @user = User.new :user_status => 'active'
+      @user.auth_type = AuthMethod.first.id
     end
     @projects = Project.all.reject{ |i| i.is_childless? == false }
     @organizations = Organization.all
@@ -52,8 +53,8 @@ class UsersController < ApplicationController
 
     set_page_title 'New user'
 
-    @user = User.new(:auth_type => AuthMethod.first.id,
-                     :user_status => 'active')
+    @user = User.new(:user_status => 'active')
+    @user.auth_type = AuthMethod.first.id
   end
 
   def create
@@ -62,7 +63,12 @@ class UsersController < ApplicationController
     set_page_title 'New user'
 
     @user = User.new(params[:user])
-    @user.group_ids = Group.find_by_name('Everyone').id
+    @user.auth_type = params[:user][:auth_type]
+    @user.language_id = params[:user][:language_id]
+    @user.project_ids = params[:user][:project_ids]
+    @user.organization_ids = params[:user][:organization_ids]
+    @user.group_ids = params[:user][:group_ids]
+    @user.group_ids << Group.find_by_name('Everyone').id
 
     if @user.save
       redirect_to redirect_apply(edit_user_path(@user), new_user_path(:anchor => 'tabs-1'), users_path), :notice => "#{I18n.t (:notice_account_successful_created)}"
@@ -98,6 +104,12 @@ class UsersController < ApplicationController
         params[:user].delete :password
         params[:user].delete :password_confirmation
       end
+      @user.auth_type = params[:user][:auth_type]
+      @user.language_id = params[:user][:language_id]
+      @user.project_ids = params[:user][:project_ids]
+      @user.group_ids = params[:user][:group_ids]
+      @user.organization_ids = params[:user][:organization_ids]
+      @user.save
 
       if @user.update_attributes(params[:user])
         set_user_language

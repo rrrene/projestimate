@@ -43,9 +43,11 @@ class ProjectSecuritiesController < ApplicationController
 
   def create
     @project_security = ProjectSecurity.new(params[:project_security])
+    @project_security.project_id = params[:project_security][:project_id]
+    @project_security.user_id = params[:project_security][:user_id]
+    @project_security.project_security_level = params[:project_security_level]
 
     if @project_security.save
-      @project_security.update_attribute('project_security_level', params[:project_security_level])
       redirect_to redirect(project_securities_url), notice: "#{I18n.t (:notice_project_securities_successful_created)}"
     else
       render action: 'new'
@@ -54,15 +56,16 @@ class ProjectSecuritiesController < ApplicationController
 
   def update
     @project_security = ProjectSecurity.find(params[:id])
+    @project_security.project_id = params[:project_security][:project_id]
+    @project_security.user_id = params[:project_security][:user_id]
+    @project_security.project_security_level = params[:project_security_level]
 
-    respond_to do |format|
-      if @project_security.update_attributes(params[:project_security])
-        @project_security.update_attribute('project_security_level', params[:project_security_level])
-        format.html { redirect_to project_securities_url, notice: "#{I18n.t (:notice_project_securities_successful_updated)}" }
-      else
-        format.html { render action: 'edit' }
-      end
+    if @project_security.save
+      redirect_to project_securities_url, notice: "#{I18n.t (:notice_project_securities_successful_updated)}"
+    else
+      render action: 'edit'
     end
+
   end
 
   def destroy
