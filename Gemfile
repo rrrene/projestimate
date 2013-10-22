@@ -8,6 +8,7 @@ gem 'builder', '3.0.0'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem "useragent"
+
 # Include database gems for the adapters found in the database
 # configuration file
 require 'erb'
@@ -49,9 +50,6 @@ if File.exist?(database_file)
 else
   warn('Please configure your config/database.yml first')
 end
-
-#Translations (not yet used)
-#gem 'globalize3'
 
 #Permissions
 gem 'cancan'
@@ -96,8 +94,10 @@ gem 'rb-readline'
 #Cache management
 gem 'cache_digests'
 
-#Continious integration and monitoring
-gem 'newrelic_rpm'
+#Optional gem for monitoring
+group :ic do
+  gem 'newrelic_rpm'
+end
 
 # spreadsheet files management
 gem 'rubyzip', '~> 0.9'
