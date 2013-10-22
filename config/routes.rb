@@ -173,7 +173,7 @@ Projestimate::Application.routes.draw do
   get 'commit' => 'projects#commit', :as => 'commit'
   get 'activate' => 'projects#activate', :as => 'activate'
   get 'activate_project' => 'projects#activate', :as => 'activate_project'
-  get 'choose_project' => 'projects#choose_project', :as => 'choose_project'
+  match 'projects/:project_id/choose_project' => 'projects#choose_project', :as => 'choose_project'
   get 'find_use_project' => 'projects#find_use_project', :as => 'find_use_project'
   get 'check_in' => 'projects#check_in', :as => 'check_in'
   get 'check_out' => 'projects#check_out', :as => 'check_out'
