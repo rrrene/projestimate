@@ -74,7 +74,9 @@ class ProjectsController < ApplicationController
 
     #Give full control to project creator
     full_control_security_level = ProjectSecurityLevel.find_by_name('FullControl')
-    @project.project_securities.build(:user => current_user, :project_security_level => full_control_security_level)
+    current_user_ps = @project.project_securities.build
+    current_user_ps.user = current_user
+    current_user_ps.project_security_level = full_control_security_level
 
     @wbs_activity_elements = []
     @project.is_locked = false
@@ -155,8 +157,8 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 
     if (cannot? :edit_project, @project) ||                                            # No write access to project
-        (@project.in_frozen_status? && (cannot? :alter_frozen_project, @project)) ||     # frozen project
-        (@project.in_review? && (cannot? :write_access_to_inreview_project, @project))     # InReview project
+        (@project.in_frozen_status? && (cannot? :alter_frozen_project, @project)) ||   # frozen project
+        (@project.in_review? && (cannot? :write_access_to_inreview_project, @project)) # InReview project
       redirect_to(:action => 'show')
     end
 
@@ -209,9 +211,9 @@ class ProjectsController < ApplicationController
           ps.project_security_level_id = params["user_securities_#{u.id}"]
           ps.save
         elsif !params["user_securities_#{u.id}"].blank?
-          ProjectSecurity.create(:user_id => u.id,
-                                 :project_id => @project.id,
-                                 :project_security_level_id => params["user_securities_#{u.id}"])
+          new_ps = @project.project_securities.build #ProjectSecurity.new
+          new_ps.user_id = u.id
+          new_ps.project_security_level_id = params["user_securities_#{u.id}"]
         end
       end
 
@@ -221,7 +223,10 @@ class ProjectsController < ApplicationController
           ps.project_security_level_id = params["group_securities_#{gpe.id}"]
           ps.save
         elsif !params["group_securities_#{gpe.id}"].blank?
-          ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
+          #ProjectSecurity.create(:group_id => gpe.id, :project_id => @project.id, :project_security_level_id => params["group_securities_#{gpe.id}"])
+          new_ps = @project.project_securities.build
+          new_ps.group_id = gpe.id
+          new_ps.project_security_level_id = params["group_securities_#{gpe.id}"]
         end
       end
 
@@ -233,7 +238,6 @@ class ProjectsController < ApplicationController
       project_organization = @project.organization
 
       if @project.update_attributes(params[:project])
-
         begin
           date = Date.strptime(params[:project][:start_date], I18n.t('date.formats.default'))
           @project.start_date = date
