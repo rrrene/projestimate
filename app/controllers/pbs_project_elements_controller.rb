@@ -25,8 +25,10 @@ class PbsProjectElementsController < ApplicationController
   def new
     @pbs_project_element = PbsProjectElement.new
     set_page_title("New #{@pbs_project_element.name}")
-
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_wbsproducts, @project
+
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
     @pbs_wbs_activity_ratios = []
@@ -51,8 +53,10 @@ class PbsProjectElementsController < ApplicationController
   def edit
     @pbs_project_element = PbsProjectElement.find(params[:id])
     set_page_title("Editing #{@pbs_project_element.name}")
-
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_wbsproducts, @project
+
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
     @pbs_wbs_activity_ratios = []
@@ -69,8 +73,10 @@ class PbsProjectElementsController < ApplicationController
   def create
     @pbs_project_element = PbsProjectElement.new(params[:pbs_project_element])
     @pbs_project_element.position = @pbs_project_element.siblings.length + 1
-
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_wbsproducts, @project
+
     @pbs_project_element.pe_wbs_project_id = @project.pe_wbs_projects.products_wbs.first.id
 
     if @pbs_project_element.save
@@ -90,6 +96,8 @@ class PbsProjectElementsController < ApplicationController
     @pbs_project_element = PbsProjectElement.find(params[:id])
     @project = @pbs_project_element.pe_wbs_project.project
 
+    authorize! :alter_wbsproducts, @project
+
     if @pbs_project_element.update_attributes(params[:pbs_project_element])
       # Another update attributes...
       if params[:pbs_project_element][:ancestry]
@@ -107,6 +115,9 @@ class PbsProjectElementsController < ApplicationController
   def destroy
     pbs_project_element = PbsProjectElement.find(params[:id])
     @project = pbs_project_element.pe_wbs_project.project
+
+    authorize! :alter_wbsproducts, @project
+
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects
 
@@ -127,6 +138,8 @@ class PbsProjectElementsController < ApplicationController
 
   #Select the current pbs_project_element and refresh the partial
   def selected_pbs_project_element
+    #No authorize required since everyone can select a PBS
+
     session[:pbs_project_element_id] = params[:pbs_id]
 
     @user = current_user
@@ -150,9 +163,12 @@ class PbsProjectElementsController < ApplicationController
     render :partial => "pbs_project_elements/refresh"
   end
 
+
   #Pushed up the pbs_project_element
   def up
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_wbsproducts, @project
 
     component_a = PbsProjectElement.find(params[:pbs_project_element_id])
     component_b = component_a.siblings.all.select{|i| i.position == component_a.position - 1 }.first
@@ -163,15 +179,15 @@ class PbsProjectElementsController < ApplicationController
       component_a.update_attribute("position", component_a.position - 1)
       component_b.update_attribute("position", component_b.position + 1)
     end
-
     @user = current_user
-
     render :partial => "pbs_project_elements/refresh_tree"
   end
 
   #Pushed down the pbs_project_element
   def down
     @project = Project.find(params[:project_id])
+
+    authorize! :alter_wbsproducts, @project
 
     component_a = PbsProjectElement.find(params[:pbs_project_element_id])
     component_b = component_a.siblings.all.select{|i| i.position == component_a.position + 1 }.first
@@ -182,13 +198,12 @@ class PbsProjectElementsController < ApplicationController
       component_a.update_attribute("position", component_a.position + 1)
       component_b.update_attribute("position", component_b.position - 1)
     end
-
     @user = current_user
-
     render :partial => "pbs_project_elements/refresh_tree"
   end
 
   def refresh_pbs_activity_ratios
+    #No authorize required since everyone can select view project PBS
     puts "Params_activity = #{params[:wbs_activity_id]}"
     if params[:wbs_activity_id].empty? || params[:wbs_activity_id].nil?
       @pbs_activity_ratios = []

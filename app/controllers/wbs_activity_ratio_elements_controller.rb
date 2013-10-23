@@ -24,16 +24,19 @@ class WbsActivityRatioElementsController < ApplicationController
   before_filter :get_record_statuses
 
   def edit
+    authorize! :edit_wbs_activities, WbsActivity
     set_page_title 'Edit wbs-activity ratio'
     @wbs_activity_ratio_element = WbsActivityRatioElement.find(params[:id])
   end
 
   def new
+    authorize! :edit_wbs_activities, WbsActivity
     set_page_title 'New wbs-activity ratio'
     @wbs_activity_ratio_element = WbsActivityRatioElement.new
   end
 
   def save_values
+    authorize! :edit_wbs_activities, WbsActivity
     #set ratio values
     ratio_values = params[:ratio_values]
     ratio_values.each do |key, value|
@@ -44,9 +47,7 @@ class WbsActivityRatioElementsController < ApplicationController
           flash.now[:warning] = I18n.t(:warning_wbs_activity_ratio_elt_value_range)
         end
       end
-
       w.ratio_value = value
-
       w.save(:validate => false)
     end
 
@@ -89,7 +90,5 @@ class WbsActivityRatioElementsController < ApplicationController
       format.js
     end
   end
-
-
 
 end

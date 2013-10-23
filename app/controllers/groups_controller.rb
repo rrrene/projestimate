@@ -210,7 +210,10 @@ class GroupsController < ApplicationController
     redirect_to groups_url
   end
 
+protected
+
   def enable_update_in_local?
+    #No authorize required since this method is protected and won't be call from route
     if is_master_instance?
       true
     else

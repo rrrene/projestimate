@@ -30,8 +30,10 @@ class ProjectsController < ApplicationController
   before_filter :load_data, :only => [:update, :edit, :new, :create, :show]
   before_filter :get_record_statuses
 
+protected
+
   def load_data
-    #No authorize required since this method is usd to load data and shared by the other one.
+    #No authorize required since this method protected and is used to load data and shared by the other one.
     if params[:id]
       @project = Project.find(params[:id])
     else
@@ -52,6 +54,9 @@ class ProjectsController < ApplicationController
     @project_security_levels = ProjectSecurityLevel.all
     @module_project = ModuleProject.find_by_project_id(@project.id)
   end
+
+
+public
 
   def index
     #No authorize required since everyone can access the list (permission will be managed project per project)

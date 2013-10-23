@@ -104,6 +104,7 @@ class OrganizationsController < ApplicationController
 
   def organizationals_params
     set_page_title 'Organizational Parameters'
+    #No authorize required since everyone can list
     @organizations = Organization.all
     @organizations_labor_categories = OrganizationLaborCategory.all || []
   end

@@ -22,20 +22,10 @@ class WbsProjectElementsController < ApplicationController
   load_and_authorize_resource
   helper_method :disabled_if_from_library
 
-  def disabled_if_from_library
-    if params[:action] == 'new'
-      false
-    else
-      if @wbs_project_element.wbs_activity.nil?
-        false
-      else
-        true
-      end
-    end
-  end
-
-
   def index
+    @project = Project.find(params[:project_id])
+    authorize! :edit, @project
+
     @wbs_project_elements = WbsProjectElement.all
 
     respond_to do |format|
@@ -46,6 +36,9 @@ class WbsProjectElementsController < ApplicationController
 
 
   def show
+    @project = Project.find(params[:project_id])
+    authorize! :edit, @project
+
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
     respond_to do |format|
@@ -56,10 +49,11 @@ class WbsProjectElementsController < ApplicationController
 
 
   def new
-    @wbs_project_element = WbsProjectElement.new
-
-    @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @project = Project.find(params[:project_id])
+    authorize! :alter_wbsactivities, @project
+
+    @wbs_project_element = WbsProjectElement.new
+    @selected_parent ||= WbsProjectElement.find_by_id(params[:selected_parent_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
     @potential_parents = @pe_wbs_project_activity.wbs_project_elements.all.reject{|elt| elt.can_get_new_child == false}
@@ -73,9 +67,10 @@ class WbsProjectElementsController < ApplicationController
 
   # GET /wbs_project_elements/1/edit
   def edit
-    @wbs_project_element = WbsProjectElement.find(params[:id])
-
     @project = Project.find(params[:project_id])
+    authorize! :edit, @project
+
+    @wbs_project_element = WbsProjectElement.find(params[:id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
 
@@ -91,10 +86,11 @@ class WbsProjectElementsController < ApplicationController
 
 
   def create
+    @project = Project.find(params[:project_id])
+    authorize! :alter_wbsactivities, @project
+
     @wbs_project_element = WbsProjectElement.new(params[:wbs_project_element])
     @wbs_project_element.author_id = current_user.id
-
-    @project = Project.find(params[:project_id])
     @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
 
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
@@ -110,9 +106,10 @@ class WbsProjectElementsController < ApplicationController
   end
 
   def update
-    @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
+    authorize! :alter_wbsactivities, @project
 
+    @wbs_project_element = WbsProjectElement.find(params[:id])
     @selected_parent ||= WbsProjectElement.find_by_id(params[:wbs_project_element][:parent_id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @pe_wbs_project_product = @project.pe_wbs_projects.products_wbs.first
@@ -131,18 +128,17 @@ class WbsProjectElementsController < ApplicationController
   end
 
   def destroy
-    @wbs_project_element = WbsProjectElement.find(params[:id])
     @project = Project.find(params[:project_id])
+    authorize! :manage, @project
 
+    @wbs_project_element = WbsProjectElement.find(params[:id])
     if @wbs_project_element.destroy
       @project.included_wbs_activities.delete(@wbs_project_element.wbs_activity_id)
       @project.save
     end
 
     respond_to do |format|
-      #format.html { redirect_to edit_project_path(@project), :notice => 'Wbs-Project-Element was successfully deleted.' }
       format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3'), :notice => "#{I18n.t (:notice_wbs_project_element_successful_deleted)}" }
-
       format.json { head :no_content }
     end
   end
@@ -150,12 +146,16 @@ class WbsProjectElementsController < ApplicationController
   # Allow user to switch from on ratio table to another
   def change_wbs_project_ratio
     @project = Project.find(params[:project_id])
+    authorize! :alter_wbsactivities, @project
+
     @wbs_project_element = WbsProjectElement.find(params[:wbs_project_id])
     @possible_wbs_activity_ratios = @wbs_project_element.wbs_activity.wbs_activity_ratios
   end
 
   def update_wbs_project_ratio_value
     @project = Project.find(params[:project_id])
+    authorize! :alter_wbsactivities, @project
+
     @wbs_project_element = WbsProjectElement.find(params[:wbs_project_id])
     @possible_wbs_activity_ratios = @wbs_project_element.wbs_activity.wbs_activity_ratios
 
@@ -168,8 +168,23 @@ class WbsProjectElementsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
-
       format.js { redirect_to edit_project_path(@project, :anchor => 'tabs-3') }
+    end
+  end
+
+
+protected
+
+  def disabled_if_from_library
+    #No authorize required since this method is protected and won't be call from any route
+    if params[:action] == 'new'
+      false
+    else
+      if @wbs_project_element.wbs_activity.nil?
+        false
+      else
+        true
+      end
     end
   end
 

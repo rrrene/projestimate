@@ -25,10 +25,9 @@ class ModuleProjectsController < ApplicationController
   def pbs_element_matrix
     set_page_title 'Associate PBS-element'
     @project = Project.find(params[:project_id])
-
     authorize! :alter_estimation_plan, @project
-    @module_projects = @project.module_projects
 
+    @module_projects = @project.module_projects
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
@@ -89,6 +88,7 @@ class ModuleProjectsController < ApplicationController
   def module_projects_matrix
     @project = Project.find(params[:project_id])
     authorize! :alter_estimation_plan, @project
+
     @module_projects = @project.module_projects
     @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
     @module_positions_x = @project.module_projects.order(:position_x).all.map(&:position_x).max
@@ -98,12 +98,11 @@ class ModuleProjectsController < ApplicationController
   def associate_modules_projects
     @project = Project.find(params[:project_id])
     authorize! :alter_estimation_plan, @project
+
     @module_projects = @project.module_projects
     @capitalization_module_project = @capitalization_module.nil? ? nil : @project.module_projects.find_by_pemodule_id(@capitalization_module.id)
-
     @module_projects.each do |mp|
       mp.update_attribute('associated_module_project_ids', params[:module_projects][mp.id.to_s])
-
     end
     redirect_to redirect(edit_project_path(@project.id, :anchor => 'tabs-4')), notice: "#{I18n.t (:notice_module_project_successful_updated)}"
   end
