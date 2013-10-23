@@ -92,10 +92,9 @@ class PbsProjectElementsController < ApplicationController
   end
 
   def update
+    @pbs_project_element = PbsProjectElement.find(params[:id])
     @project = @pbs_project_element.pe_wbs_project.project
     authorize! :alter_wbsproducts, @project
-
-    @pbs_project_element = PbsProjectElement.find(params[:id])
 
     if @pbs_project_element.update_attributes(params[:pbs_project_element])
       # Another update attributes...

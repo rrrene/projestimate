@@ -9,11 +9,15 @@ describe ProjectSecurity do
 
     #@project_security = FactoryGirl.create(:project_security)
     #@project_security.project_security_level_id= @project_security_level.id
-    @project_security = ProjectSecurity.create(:user => @user, :project => @project, :project_security_level => @project_security_level)
+    #@project_security = ProjectSecurity.create(:user => @user, :project => @project, :project_security_level => @project_security_level)
+    @project_security = @project.project_securities.build
+    @project_security.user = @user
+    @project_security.project_security_level = @project_security_level
+    @project_security.save
    end
 
   it "should return '-' if level is nil" do
-    @project_security.project_security_level_id=nil
+    @project_security.project_security_level_id = nil
     @project_security.level.should eql('-')
   end
 

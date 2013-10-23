@@ -22,19 +22,6 @@ class WbsProjectElementsController < ApplicationController
   load_and_authorize_resource
   helper_method :disabled_if_from_library
 
-  def index
-    @project = Project.find(params[:project_id])
-    authorize! :edit_project, @project
-
-    @wbs_project_elements = WbsProjectElement.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @wbs_project_elements }
-    end
-  end
-
-
   def show
     @project = Project.find(params[:project_id])
     authorize! :edit_project, @project

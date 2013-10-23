@@ -44,19 +44,6 @@ describe WbsProjectElementsController do
     {}
   end
 
-  describe 'GET index for Test' do
-
-    it 'index' do
-      get :index
-      @wbs_project_element.should be_a_kind_of(WbsProjectElement)
-      @wbs_project_element.should_not be_nil
-      expect(response).to be_success
-      expect(response.status).to eq(200)
-      response.should render_template('index')
-      #assigns(:wbs_project_elements).should eq([@wbs_project_element])
-    end
-  end
-
   describe 'GET new' do
     it 'assigns a new wbs_project_element as @wbs_project_element' do
       get :new, {:project_id => @project.id}
