@@ -52,23 +52,23 @@
         <tr>
           <th colspan="6">Overall</th>
           <td>
-            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id], :class => "input-small" %>
+            <%= text_field_tag "overall_size_low", @size.nil? ? '' : @size.string_data_low[current_component.id], :class => "overall" %>
           </td>
           <td>
-            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id], :class => "input-small"  %>
+            <%= text_field_tag "overall_size_most_likely", @size.nil? ? '' : @size.string_data_most_likely[current_component.id], :class => "overall" %>
           </td>
           <td>
-            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id], :class => "input-small"  %>
+            <%= text_field_tag "overall_size_high", @size.nil? ? '' : @size.string_data_high[current_component.id], :class => "overall" %>
           </td>
           <td> - </td>
           <td >
-            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id], :class => "input-small"  %>
+            <%= text_field_tag "overall_gross_low", @gross_size.nil? ? '' : @gross_size.string_data_low[current_component.id], :class => "overall" %>
           </td>
           <td>
-            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id], :class => "input-small"  %>
+            <%= text_field_tag "overall_gross_most_likely", @gross_size.nil? ? '' : @gross_size.string_data_most_likely[current_component.id], :class => "overall" %>
           </td>
           <td >
-            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id], :class => "input-small"%>
+            <%= text_field_tag "overall_gross_high", @gross_size.nil? ? '' : @gross_size.string_data_high[current_component.id], :class => "overall" %>
           </td>
         </tr>
 

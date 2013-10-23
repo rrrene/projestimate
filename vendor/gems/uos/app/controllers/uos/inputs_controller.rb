@@ -2,6 +2,10 @@ class Uos::InputsController < ApplicationController
   def index
     @module_project = ModuleProject.find(params[:mp])
     @inputs = @module_project.inputs
+    @organization_technologies = current_project.organization.organization_technologies.defined.map{|i| [i.name, i.id]}
+    @unit_of_works = current_project.organization.unit_of_works.defined.map{|i| [i.name, i.id]}
+    @complexities = current_project.organization.organization_uow_complexities.defined.map{|i| [i.name, i.id]}
+
     @module_project.pemodule.attribute_modules.each do |am|
       if am.pe_attribute.alias ==  "size"
         @size = EstimationValue.where(:module_project_id => @module_project.id,
@@ -16,6 +20,9 @@ class Uos::InputsController < ApplicationController
 
     def save_uos
       @module_project = ModuleProject.find(params[:module_project_id])
+      @organization_technologies = current_project.organization.organization_technologies.defined.map{|i| [i.name, i.id]}
+      @unit_of_works = current_project.organization.unit_of_works.defined.map{|i| [i.name, i.id]}
+      @complexities = current_project.organization.organization_uow_complexities.defined.map{|i| [i.name, i.id]}
 
       @module_project.pemodule.attribute_modules.each do |am|
         @in_ev = EstimationValue.where(:module_project_id => @module_project.id,
