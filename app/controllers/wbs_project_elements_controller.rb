@@ -24,7 +24,7 @@ class WbsProjectElementsController < ApplicationController
 
   def index
     @project = Project.find(params[:project_id])
-    authorize! :edit, @project
+    authorize! :edit_project, @project
 
     @wbs_project_elements = WbsProjectElement.all
 
@@ -37,7 +37,7 @@ class WbsProjectElementsController < ApplicationController
 
   def show
     @project = Project.find(params[:project_id])
-    authorize! :edit, @project
+    authorize! :edit_project, @project
 
     @wbs_project_element = WbsProjectElement.find(params[:id])
 
@@ -68,7 +68,7 @@ class WbsProjectElementsController < ApplicationController
   # GET /wbs_project_elements/1/edit
   def edit
     @project = Project.find(params[:project_id])
-    authorize! :edit, @project
+    authorize! :edit_project, @project
 
     @wbs_project_element = WbsProjectElement.find(params[:id])
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first

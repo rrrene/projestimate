@@ -23,11 +23,11 @@ class PbsProjectElementsController < ApplicationController
 
   #Create a new pbs_project_element and refresh the partials
   def new
+    @project = Project.find(params[:project_id])
+    authorize! :alter_wbsproducts, @project
+
     @pbs_project_element = PbsProjectElement.new
     set_page_title("New #{@pbs_project_element.name}")
-    @project = Project.find(params[:project_id])
-
-    authorize! :alter_wbsproducts, @project
 
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
@@ -51,11 +51,11 @@ class PbsProjectElementsController < ApplicationController
   end
 
   def edit
+    @project = Project.find(params[:project_id])
+    authorize! :alter_wbsproducts, @project
+
     @pbs_project_element = PbsProjectElement.find(params[:id])
     set_page_title("Editing #{@pbs_project_element.name}")
-    @project = Project.find(params[:project_id])
-
-    authorize! :alter_wbsproducts, @project
 
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @project_wbs_activities = @pe_wbs_project_activity.wbs_activities(:id).uniq   # Select only Wbs-Activities affected to current project
@@ -71,12 +71,11 @@ class PbsProjectElementsController < ApplicationController
   end
 
   def create
-    @pbs_project_element = PbsProjectElement.new(params[:pbs_project_element])
-    @pbs_project_element.position = @pbs_project_element.siblings.length + 1
     @project = Project.find(params[:project_id])
-
     authorize! :alter_wbsproducts, @project
 
+    @pbs_project_element = PbsProjectElement.new(params[:pbs_project_element])
+    @pbs_project_element.position = @pbs_project_element.siblings.length + 1
     @pbs_project_element.pe_wbs_project_id = @project.pe_wbs_projects.products_wbs.first.id
 
     if @pbs_project_element.save
@@ -93,10 +92,10 @@ class PbsProjectElementsController < ApplicationController
   end
 
   def update
-    @pbs_project_element = PbsProjectElement.find(params[:id])
     @project = @pbs_project_element.pe_wbs_project.project
-
     authorize! :alter_wbsproducts, @project
+
+    @pbs_project_element = PbsProjectElement.find(params[:id])
 
     if @pbs_project_element.update_attributes(params[:pbs_project_element])
       # Another update attributes...
@@ -116,7 +115,7 @@ class PbsProjectElementsController < ApplicationController
     pbs_project_element = PbsProjectElement.find(params[:id])
     @project = pbs_project_element.pe_wbs_project.project
 
-    authorize! :alter_wbsproducts, @project
+    authorize! :manage, @project
 
     @pbs_project_element = @project.root_component
     @module_projects = @project.module_projects

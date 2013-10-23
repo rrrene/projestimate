@@ -409,8 +409,9 @@ public
 
   #Change selected project ("Jump to a project" select box)
   def change_selected_project
-    #TODO check if No authorize is required
     if params[:project_id]
+      project = Project.find(params[:project_id])
+      authorize! :edit_project, project
       session[:current_project_id] = params[:project_id]
     end
     redirect_to '/dashboard'
@@ -476,7 +477,6 @@ public
     respond_to do |format|
       format.js { render :partial => 'projects/run_estimation' }
     end
-
   end
 
   #Allow o add or append a pemodule to a estimation process
@@ -571,28 +571,6 @@ public
     next_nodes.each do |n|
       read_tree_nodes(n)
     end
-  end
-
-  # Breadth-First Traversal of a Tree
-  # This function list the next module_projects according to the given (starting_node) module_project
-  # compatibility between the module_projects with the current_component is verified
-  # Then return the module_projects like Tree Breadth
-  def crawl_module_project(starting_node, pbs_project_element)
-    #TODO check if No authorize is required
-    list = []
-    items=[starting_node]
-    until items.empty?
-      # Returns the first element of items and removes it (shifting all other elements down by one).
-      item = items.shift
-
-      # Get all next module_projects that are linked to the current item
-      list << item unless list.include?(item)
-      kids = item.next.select { |i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }
-      kids = kids.sort { |mp1, mp2| (mp1.position_y <=> mp2.position_y) && (mp1.position_x <=> mp2.position_x) } #Get next module_project
-
-      kids.each { |kid| items << kid }
-    end
-    list - [starting_node]
   end
 
   #Run estimation process
@@ -766,10 +744,34 @@ public
   end
 
 
+private
+
+  # Breadth-First Traversal of a Tree
+  # This function list the next module_projects according to the given (starting_node) module_project
+  # compatibility between the module_projects with the current_component is verified
+  # Then return the module_projects like Tree Breadth
+  def crawl_module_project(starting_node, pbs_project_element)
+    #No authorize required since this method is private and won't be call from any route
+    list = []
+    items=[starting_node]
+    until items.empty?
+      # Returns the first element of items and removes it (shifting all other elements down by one).
+      item = items.shift
+
+      # Get all next module_projects that are linked to the current item
+      list << item unless list.include?(item)
+      kids = item.next.select { |i| i.pbs_project_elements.map(&:id).include?(pbs_project_element.id) }
+      kids = kids.sort { |mp1, mp2| (mp1.position_y <=> mp2.position_y) && (mp1.position_x <=> mp2.position_x) } #Get next module_project
+
+      kids.each { |kid| items << kid }
+    end
+    list - [starting_node]
+  end
+
   # Compute the input element value
   ## values_to_set : Hash
   def compute_tree_node_estimation_value(tree_root, values_to_set)
-    #TODO check if No authorize is required
+    #No authorize required since this method is private and won't be call from any route
     WbsProjectElement.rebuild_depth_cache!
     new_effort_man_hour = Hash.new
 
@@ -788,6 +790,7 @@ public
     new_effort_man_hour[tree_root.id] = compact_array_and_compute_node_value(tree_root, new_effort_man_hour) ###root_element_effort_man_hour
     new_effort_man_hour
   end
+
 
   #This method set result in DB with the :value key for node estimation value
   def set_element_value_with_activities(estimation_result, module_project)
@@ -818,7 +821,6 @@ public
     result_with_consistency
   end
 
-
   # After estimation, need to know if node value are consistent or not for WBS-Completion modules
   def set_wbs_completion_node_consistency(estimation_result, wbs_project_element)
     @project = current_project
@@ -838,6 +840,9 @@ public
     end
     consistency
   end
+
+
+public
 
   # This estimation plan method is called for each component
   def run_estimation_plan(input_data, pbs_project_element_id, level, project, current_mp_to_execute)
@@ -1066,8 +1071,11 @@ public
     end
   end
 
+
+private
+
   def get_new_ancestors(node, pe_wbs_activity, wbs_elt_root)
-    #TODO check if No authorize is required
+    #No authorize required since this method is private and won't be call from any route
     node_ancestors = node.ancestry.split('/')
     new_ancestors = []
     new_ancestors << wbs_elt_root.id
@@ -1079,6 +1087,9 @@ public
   end
 
   def create_wbs_activity_from_child(node, pe_wbs_activity, wbs_elt_root)
+    project = pe_wbs_activity.project
+    authorize! :alter_wbsactivities, @project
+
     wbs_project_element = WbsProjectElement.new(:pe_wbs_project_id => pe_wbs_activity.id, :wbs_activity_element_id => node.id, :wbs_activity_id => node.wbs_activity_id, :name => node.name,
                                                 :description => node.description, :ancestry => get_new_ancestors(node, pe_wbs_activity, wbs_elt_root), :author_id => current_user.id, :copy_number => 0)
     wbs_project_element.transaction do
@@ -1095,9 +1106,13 @@ public
     end
   end
 
+
+public
+
   def refresh_wbs_project_elements
-    #TODO check if No authorize is required
     @project = Project.find(params[:project_id])
+    authorize! :edit_project, @project
+
     @pe_wbs_project_activity = @project.pe_wbs_projects.activities_wbs.first
     @show_hidden = params[:show_hidden]
     @is_project_show_view = params[:is_project_show_view]
@@ -1105,7 +1120,9 @@ public
 
   #On edit page, select ratios according to the selected wbs_activity
   def refresh_wbs_activity_ratios
-    #TODO check if No authorize is required
+    project = Project.find(params[:project_id])
+    authorize! :edit_project, project
+
     if params[:wbs_activity_element_id].empty? || params[:wbs_activity_element_id].nil?
       @wbs_activity_ratios = []
     else
@@ -1116,11 +1133,13 @@ public
   end
 
   def choose_project
-    #TODO check if No authorize is required
     u = current_user
+    project = Project.find(params[:project_id])
+    authorize! :edit_project, project
+
     u.add_recent_project(params[:project_id])
     session[:current_project_id] = params[:project_id]
-    redirect_to root_url
+    redirect_to edit_project_path(params[:project_id])
   end
 
   def locked_plan
@@ -1143,7 +1162,6 @@ public
 
     if (old_prj.checkpoint? || old_prj.released?) && ((can? :commit_project, old_prj)||(can? :manage, old_prj))
       begin
-        #old_prj = Project.find(params[:project_id])
         authorize! :commit_project, old_prj
         old_prj_copy_number = old_prj.copy_number
         old_prj_pe_wbs_product_name = old_prj.pe_wbs_projects.products_wbs.first.name
@@ -1235,9 +1253,11 @@ public
   end
 
 
+private
+
   # Set the new checked-outed project version
   def set_project_version(project_to_checkout)
-    #TODO check if No authorize is required
+    #No authorize is required as method is private and could not be accessed by any route
     new_version = ''
     parent_version = project_to_checkout.version
 
@@ -1283,7 +1303,6 @@ public
         branch_version = branch_version+1
         new_version = "#{branch_name}-#{branch_version}.#{parent_version_ended_end}"
       end
-
     end
     new_version
   end
@@ -1303,6 +1322,8 @@ public
     end
   end
 
+
+public
 
   #Filter the projects list according to version
   def add_filter_on_project_version
@@ -1334,6 +1355,7 @@ public
 
   #Function that manage link_to from project history graphical view
   def show_project_history
+    #No authorize required as authorizations are manage  in each called function...
     @counter = params['counter']
     checked_node_ids = params['checked_node_ids']
     action_id = params['action_id']
@@ -1372,25 +1394,31 @@ public
     projects = Project.find_all_by_id(params[:project_ids])
     flash_error = ""
     Project.transaction do
-    projects.each do |project|
-      #project.transaction do
-        if is_collapsible?(project.reload)
-          project_parent =  project.parent
-          project_child = project.children.first
-          #delete link between project to delete and its parent and child
-          new_ancestry = project_child.ancestor_ids.delete_if { |x| x == project.id }.join("/")
-          #project_child.update_attribute project.class.ancestry_column, new_ancestry || nil
-          project_child.update_attribute(:parent, project_parent)
-          project_child.save
-          project.destroy
-          current_user.delete_recent_project(project.id)
-          session[:current_project_id] = current_user.projects.first
-        else
-          flash_error += "\n\n" + I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
+      projects.each do |project|
+        begin
+
+          authorize! :delete_project, project
+
+          if is_collapsible?(project.reload)
+            project_parent =  project.parent
+            project_child = project.children.first
+            #delete link between project to delete and its parent and child
+            new_ancestry = project_child.ancestor_ids.delete_if { |x| x == project.id }.join("/")
+            #project_child.update_attribute project.class.ancestry_column, new_ancestry || nil
+            project_child.update_attribute(:parent, project_parent)
+            project_child.save
+            project.destroy
+            current_user.delete_recent_project(project.id)
+            session[:current_project_id] = current_user.projects.first
+          else
+            flash_error += "\n\n" + I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}")
+            next
+          end
+        rescue CanCan::AccessDenied
+          flash_error += "\n\n" + I18n.t('project_is_not_collapsible', :project_title_version => "#{project.title}-#{project.version}") + "," +  I18n.t(:error_access_denied)
           next
         end
-      #end
-    end
+      end
     end
     unless flash_error.blank?
       flash[:error] = flash_error + I18n.t('collapsible_project_only')

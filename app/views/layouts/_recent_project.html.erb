@@ -3,7 +3,7 @@
   <ul class="dropdown-menu">
     <% current_user.ten_latest_projects.each do |i| %>
       <% p = Project.find(i.to_i) %>
-      <li><%= link_to p.title, main_app.choose_project_path(p.id), :title => 'Activate' %></li>
+      <li><%= link_to p.title, main_app.choose_project_path(:project_id => p.id), :title => 'Activate' %></li>
     <% end %>
   </ul>
 </div>
