@@ -26,7 +26,10 @@ class UsersController < ApplicationController
   #load_and_authorize_resource :except => [:edit, :show, :update, :create_inactive_user]
   load_resource
 
+protected
+
   def load_data
+    #No authorize required since this method is protected and won't be call from any route
     if params[:id]
       @user = User.find(params[:id])
     else
@@ -40,6 +43,8 @@ class UsersController < ApplicationController
     @project_groups = @user.groups
     @org_users = @user.organizations
   end
+
+public
 
   def index
     authorize! :manage, User
@@ -123,7 +128,7 @@ class UsersController < ApplicationController
 
   #Dashboard of the application
   def show
-    #authorize! :manage, User
+    #No authorize required since this method is called for the dashbord
 
     set_page_title 'Dashboard'
     session[:anchor_value] = params[:anchor_value]
@@ -157,15 +162,13 @@ class UsersController < ApplicationController
     end
   end
 
-  def is_an_automatic_account_activation?()
-    AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
-  end
-
   #Create a inactive user if the demand is ok.
   def create_inactive_user
+    #No authorize required since everyone can ask for new account which will be validated by an Admin
+
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.where('login_name = ? OR email = ?', params[:login_name], params[:email]).first
-      is_an_automatic_account_activation?() ? status = 'active' : 'pending'
+      is_an_automatic_account_activation? ? status = 'active' : status = 'pending'
       if !user.nil?
         redirect_to :back, :flash => {:warning => "#{I18n.t (:warning_email_or_username_already_exist)}"}
       else
@@ -240,6 +243,7 @@ class UsersController < ApplicationController
 
   def display_states
     #TODO authorize
+    #No authorize required since this method is not used since now
 
     unless params[:state] == ''
       @users = User.where(:user_status => params[:state]).page(params[:page])
@@ -280,6 +284,12 @@ class UsersController < ApplicationController
       flash[:error] = I18n.t (:error_send_feedback_failed)
     end
 
+  end
+
+protected
+  def is_an_automatic_account_activation?
+    #No authorize required since this method is protected and won't be call from any route
+    AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'
   end
 
 end

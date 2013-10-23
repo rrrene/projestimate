@@ -168,7 +168,7 @@ class User < ActiveRecord::Base
   def import_user_from_ldap(ldap_cn, login, ldap_server)
     login_filter = Net::LDAP::Filter.eq ldap_server.user_name_attribute, "#{login}"
     object_filter = Net::LDAP::Filter.eq 'objectClass', '*'
-    is_an_automatic_account_activation? ? status = 'active' : 'pending'
+    is_an_automatic_account_activation? ? status = 'active' : status = 'pending'
 
     search = ldap_cn.search(:base => ldap_server.base_dn,
                             :filter => object_filter & login_filter,

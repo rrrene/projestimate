@@ -22,10 +22,13 @@
 class SessionsController < ApplicationController
 
   def new
+    #No authorize required since there is nothing to do
   end
 
   #Create a session for user if user is authorized
   def create
+    #No authorize required since everyone can logged in  with (username and password) or LDAP
+
     user = User.authenticate(params[:username], params[:password])
     if user
     if user == 0
@@ -84,6 +87,7 @@ class SessionsController < ApplicationController
 
   #Logout
   def destroy
+    #No authorize required since everyone can logout after login
     session[:current_user_id] = nil
     redirect_to root_path(:return_to => session[:return_to])
   end
@@ -95,20 +99,26 @@ class SessionsController < ApplicationController
 
   #Display new account page
   def ask_new_account
+    #No authorize required since everyone can ask for new account
     @user = User.new
   end
 
   #Display help login page
   def help_login
+    #No authorize required since everyone can ask for help when logged in
   end
 
   #Display "forgotten password" page
   def forgotten_password
+    #No authorize required since everyone can ask for new password
   end
 
   #Reset the password depending of the status of the user
   def reset_forgotten_password
     user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
+
+    authorize! :manage, User
+
     if user
       if user.auth_method.name == 'Application' or user.auth_method.nil?
         if user.active?

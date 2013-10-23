@@ -24,6 +24,7 @@ class SearchesController < ApplicationController
   #Display search result
   # Search with the "scoped_search " gem
   def results
+    #No authorize required since everyone can search
     if params[:search].class == Array
       classes = params[:search][:classes].map { |i| String::keep_clean_space(i).camelcase.constantize }
     else

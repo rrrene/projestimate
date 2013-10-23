@@ -126,9 +126,11 @@ class AdminSettingsController < ApplicationController
     redirect_to admin_settings_path
   end
 
+protected
+
   def admin_setting_selected_status
     begin
-      #TODO authorize
+      #No authorize required since this method is protected and won't be call from any route
       selected = nil
       @admin_setting = AdminSetting.find(params[:id])  unless params[:id].nil?
 

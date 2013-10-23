@@ -24,13 +24,16 @@ class WbsActivityRatiosController < ApplicationController
   before_filter :get_record_statuses
 
   def export
+    #No authorize required since everyone can access the list
     @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     csv_string = WbsActivityRatio::export(@wbs_activity_ratio.id)
     send_data(csv_string, :type => 'text/csv; header=present', :disposition => "attachment; filename=#{@wbs_activity_ratio.name}.csv")
   end
 
   def import
-      @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
+    authorize! :edit_wbs_activities, WbsActivity
+
+    @wbs_activity_ratio = WbsActivityRatio.find(params[:wbs_activity_ratio_id])
     begin
       error_count = WbsActivityRatio::import(params[:file], params[:separator], params[:encoding])
     rescue
@@ -53,6 +56,7 @@ class WbsActivityRatiosController < ApplicationController
   end
 
   def edit
+    authorize! :edit_wbs_activities, WbsActivity
     set_page_title 'Edit wbs-activity ratio'
     @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
@@ -61,6 +65,7 @@ class WbsActivityRatiosController < ApplicationController
 
 
   def update
+    authorize! :edit_wbs_activities, WbsActivity
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
     @wbs_activity=@wbs_activity_ratio.wbs_activity
 
@@ -79,12 +84,14 @@ class WbsActivityRatiosController < ApplicationController
   end
 
   def new
+    authorize! :edit_wbs_activities, WbsActivity
     set_page_title 'New wbs-activity ratio'
     @activity_id = params[:activity_id]
     @wbs_activity_ratio = WbsActivityRatio.new
   end
 
   def create
+    authorize! :edit_wbs_activities, WbsActivity
     @wbs_activity_ratio = WbsActivityRatio.new(params[:wbs_activity_ratio])
     #If we are on local instance, Status is set to "Local"
     unless is_master_instance?   #so not on master
@@ -92,7 +99,6 @@ class WbsActivityRatiosController < ApplicationController
     end
 
     if @wbs_activity_ratio.save
-
       @wbs_activity_ratio.wbs_activity.wbs_activity_elements.each do |wbs_activity_element|
         ware = WbsActivityRatioElement.new(:ratio_value => nil,
                                            :wbs_activity_ratio_id => @wbs_activity_ratio.id,
@@ -109,6 +115,7 @@ class WbsActivityRatiosController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, WbsActivity
     @wbs_activity_ratio = WbsActivityRatio.find(params[:id])
 
     if is_master_instance?
@@ -132,6 +139,8 @@ class WbsActivityRatiosController < ApplicationController
   end
 
   def validate_ratio
+    authorize! :edit_wbs_activities, WbsActivity
+
     @ratio = WbsActivityRatio.find(params[:ratio_id])
     @ratio.record_status =  @defined_status
     @ratio.transaction do

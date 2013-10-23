@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
       return false
     else
       @admin_setting.value.to_i
-      if @admin_setting.value== '0'
+      if @admin_setting.value == '0'
         return false
       else
         return true

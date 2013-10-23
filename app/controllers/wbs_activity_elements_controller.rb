@@ -28,9 +28,10 @@ class WbsActivityElementsController < ApplicationController
   before_filter :get_record_statuses
 
   def new
+    authorize! :edit_wbs_activities, WbsActivity
+
     set_page_title 'WBS-Activity elements'
     @wbs_activity_element = WbsActivityElement.new
-
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
       @potential_parents = @wbs_activity.wbs_activity_elements
@@ -38,13 +39,13 @@ class WbsActivityElementsController < ApplicationController
 
     @selected_parent ||= WbsActivityElement.find(params[:selected_parent_id])
     @selected_record_status = RecordStatus.where('id = ? ', @selected_parent.record_status_id).first
-
   end
 
   def edit
+    authorize! :edit_wbs_activities, WbsActivity
+
     set_page_title 'WBS-Activity elements'
     @wbs_activity_element = WbsActivityElement.find(params[:id])
-
     if params[:activity_id]
       @wbs_activity = WbsActivity.find(params[:activity_id])
       if @wbs_activity_element.ancestry.nil?
@@ -66,6 +67,8 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def create
+    authorize! :edit_wbs_activities, WbsActivity
+
     @wbs_activity_element = WbsActivityElement.new(params[:wbs_activity_element])
 
     @selected_parent ||= WbsActivityElement.find(params[:wbs_activity_element][:parent_id])
@@ -101,6 +104,8 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def update
+    authorize! :edit_wbs_activities, WbsActivity
+
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
     @wbs_activity ||= WbsActivity.find_by_id(params[:wbs_activity_element][:wbs_activity_id])
@@ -126,6 +131,8 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, WbsActivity
+
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
     if is_master_instance?
@@ -147,6 +154,7 @@ class WbsActivityElementsController < ApplicationController
   end
 
   def show
+    #No authorize required since everyone can access the list of ABS
     @wbs_activity_element = WbsActivityElement.find(params[:id])
 
     respond_to do |format|
@@ -156,7 +164,26 @@ class WbsActivityElementsController < ApplicationController
     end
   end
 
+  def update_status_collection
+    authorize! :edit_wbs_activities, WbsActivity  ###TODO: Verify as this method is not accessible from view
+
+    @wbs_record_status_collection = []
+    unless params[:selected_parent_id].blank?
+      element_parent = WbsActivityElement.find(params[:selected_parent_id])
+      parent_record_status = RecordStatus.find(element_parent.record_status_id)
+      if parent_record_status == @defined_status
+        @wbs_record_status_collection = RecordStatus.where('id =? ', element_parent.record_status_id)
+      else
+        @wbs_record_status_collection = RecordStatus.where('name <> ? ', 'Defined')
+      end
+    end
+  end
+
+
+protected
+
   def wbs_record_statuses_collection
+    #No authorize required since this method is protected and won't be call from route
     @wbs_record_status_collection = []
     if @wbs_activity_element.new_record?
       unless params[:selected_parent_id].blank?
@@ -171,19 +198,6 @@ class WbsActivityElementsController < ApplicationController
       end
     end
     @wbs_record_status_collection
-  end
-
-  def update_status_collection
-    @wbs_record_status_collection = []
-    unless params[:selected_parent_id].blank?
-      element_parent = WbsActivityElement.find(params[:selected_parent_id])
-      parent_record_status = RecordStatus.find(element_parent.record_status_id)
-      if parent_record_status == @defined_status
-        @wbs_record_status_collection = RecordStatus.where('id =? ', element_parent.record_status_id)
-      else
-        @wbs_record_status_collection = RecordStatus.where('name <> ? ', 'Defined')
-      end
-    end
   end
 
 end
