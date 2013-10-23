@@ -179,7 +179,7 @@ public
                         :language_id => params[:language],
                         :initials => 'your_initials',
                         :user_status => status,
-                        :auth_method => AuthMethod.find_by_name('Application'))
+                        :auth_type => AuthMethod.find_by_name('Application').id)
 
         user.password = Standards.random_string(8)
         user.group_ids = [Group.last.id]
@@ -242,7 +242,6 @@ public
   end
 
   def display_states
-    #TODO authorize
     #No authorize required since this method is not used since now
 
     unless params[:state] == ''
@@ -286,7 +285,7 @@ public
 
   end
 
-protected
+  protected
   def is_an_automatic_account_activation?
     #No authorize required since this method is protected and won't be call from any route
     AdminSetting.where(:record_status_id => RecordStatus.find_by_name('Defined').id, :key => 'self-registration').first.value == 'automatic account activation'

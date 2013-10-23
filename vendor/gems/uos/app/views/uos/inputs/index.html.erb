@@ -95,7 +95,11 @@
 <script>
   $(document).ready(function(){
 
-    initialize_gross_behaviour(1);
+    var classes = ["name","size_low","size_most_likely","size_high","weight","gross_low","gross_most_likely","gross_high","input_id"];
+
+    $("#myTable").find("tr").each(function(index){
+      initialize_gross_behaviour(index);
+    });
 
     $(".icon-plus").click(function() {
       var template = $(this).closest('tr');
@@ -104,15 +108,9 @@
       template.before(row);
       $("#myTable").find("tr").each(function(index){
 
-        alter_input($(this), 'name', index-2)
-        alter_input($(this), 'size_low', index-2)
-        alter_input($(this), 'size_most_likely', index-2)
-        alter_input($(this), 'size_high', index-2)
-        alter_input($(this), 'weight', index-2)
-        alter_input($(this), 'gross_low', index-2)
-        alter_input($(this), 'gross_most_likely', index-2)
-        alter_input($(this), 'gross_high', index-2)
-        alter_input($(this), 'input_id', index-2)
+        for (var i=0; i < classes.length ; i++){
+          alter_input($(this), classes[i], index-2)
+        }
 
         $(this).find("select[class='complexity']").attr('id', 'complexity_' + (index-2));
         $(this).find("select[class='uow']").attr('id', 'uow_' + (index-2));
@@ -123,7 +121,6 @@
         $(this).find("select[class='technology']").attr('name', 'technology[' + (index-2) + ']');
 
         initialize_gross_behaviour(index-2);
-
       });
 
     });
@@ -165,11 +162,14 @@
             $(this).removeClass('red-star').addClass('black-question-mark');
             $(this).next().val("black");
         }
-      })
+      });
 
       $(".icon-trash").click(function(){
         $(this).closest('tr').remove();
-      })
+        $("#myTable").find("tr").each(function(index){
+          initialize_gross_behaviour(index);
+        });
+      });
 
       var selector = "#size_low_" + index +
               ", #size_most_likely_" + index +

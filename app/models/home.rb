@@ -584,7 +584,7 @@ class Home < ActiveRecord::Base
     #Create first user
     user = User.new(:first_name => 'Administrator', :last_name => 'Projestimate', :login_name => 'admin', :initials => 'ad', :email => 'youremail@yourcompany.net', :auth_type => AuthMethod.first.id, :user_status => 'active', :language_id => Language.first.id, :time_zone => 'GMT')
     user.password = user.password_confirmation = 'projestimate'
-    user.save
+    user.save(:validate => false)
 
     puts '   - Default groups'
     #Create default groups
