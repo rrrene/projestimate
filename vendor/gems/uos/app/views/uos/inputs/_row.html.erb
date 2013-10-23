@@ -12,8 +12,8 @@
       <%= link_to "", "#", :class => "icon icon-trash" %>
     </td>
     <td class="span1">
-      <i class="icon icon-flag flag_center <%= input.flag %>"></i>
-      <%= hidden_field_tag "flag[#{i+1}]", input.flag %>
+      <i class="icon icon-star icon-center <%= input.flag.blank? ? 'black-question-mark' : input.flag %>"></i>
+      <%= hidden_field_tag "flag[#{i+1}]", input.flag.blank? ? 'black-question-mark' : input.flag %>
     </td>
     <td class="span1">
       <%= text_field_tag "name[#{i+1}]", input.name, :class => "name" %>
