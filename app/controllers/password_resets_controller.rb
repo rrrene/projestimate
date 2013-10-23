@@ -20,19 +20,16 @@
 
 #encoding: utf-8
 class PasswordResetsController < ApplicationController
-  load_and_authorize_resource
   layout 'login'
 
   #Edit the new password, checks token validity
   def edit
-    authorize! :manage, User
     @user = User.find_by_password_reset_token!(params[:id])
   end
 
   #Update the new password
   def update
     @user = User.find_by_password_reset_token!(params[:id])
-    authorize! :manage, User
 
     if @user.password_reset_sent_at < 2.hours.ago
       UserMailer.new_password(@user).deliver

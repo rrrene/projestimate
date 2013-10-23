@@ -23,7 +23,7 @@ require 'net/ldap'
 # User of the application. User has many projects, groups, permissions and project securities. User have one language
 class User < ActiveRecord::Base
   #attr_accessible :email, :login_name, :first_name, :last_name, :initials, :auth_type, :auth_method_id, :user_status, :time_zone, :language_id, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token,:created_at,:updated_at, :organization_ids, :group_ids, :project_ids, :password, :password_confirmation, :project_security_ids
-  attr_accessible :email, :login_name, :first_name, :last_name, :initials, :user_status, :time_zone, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token,:created_at,:updated_at, :password, :password_confirmation#, :project_security_ids
+  attr_accessible :email, :login_name, :first_name, :last_name, :initials, :user_status, :time_zone, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token, :created_at, :updated_at, :password, :password_confirmation, :auth_type#, :project_security_ids
 
   include AASM
 
@@ -260,7 +260,7 @@ class User < ActiveRecord::Base
     user = User.find(:first, :conditions => ['login_name = ? OR email = ?', login, login])
 
     #if a user is found
-    if user and user.auth_method != nil
+    if user and !user.auth_method.nil?
       if user.auth_method.name != 'Application'
         begin
           user.ldap_authentication(password, login)

@@ -116,9 +116,6 @@ class SessionsController < ApplicationController
   #Reset the password depending of the status of the user
   def reset_forgotten_password
     user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
-
-    authorize! :manage, User
-
     if user
       if user.auth_method.name == 'Application' or user.auth_method.nil?
         if user.active?

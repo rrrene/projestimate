@@ -3,16 +3,18 @@
     width: 100px;
   }
 
-  .flag_center{
+  .icon-center{
     padding-left: 9px;
   }
 
-  .checked{
-    color: forestgreen;
-  }
-  .unchecked{
-    color: black;
-  }
+  .black-question-mark { color:black; }
+  .purple-exclamation-mark { color:pink; }
+  .yellow-exclamation-mark { color: #ebeb00; }
+  .green-check-mark { color:green; }
+  .blue-info-mark { color:blue; }
+  .orange-exclamation-mark { color:orange; }
+  .red-star { color:red; }
+
 </style>
 
 <div class="tabs">
@@ -93,7 +95,11 @@
 <script>
   $(document).ready(function(){
 
-    initialize_gross_behaviour(1);
+    var classes = ["name","size_low","size_most_likely","size_high","weight","gross_low","gross_most_likely","gross_high","input_id"];
+
+    $("#myTable").find("tr").each(function(index){
+      initialize_gross_behaviour(index);
+    });
 
     $(".icon-plus").click(function() {
       var template = $(this).closest('tr');
@@ -102,15 +108,9 @@
       template.before(row);
       $("#myTable").find("tr").each(function(index){
 
-        alter_input($(this), 'name', index-2)
-        alter_input($(this), 'size_low', index-2)
-        alter_input($(this), 'size_most_likely', index-2)
-        alter_input($(this), 'size_high', index-2)
-        alter_input($(this), 'weight', index-2)
-        alter_input($(this), 'gross_low', index-2)
-        alter_input($(this), 'gross_most_likely', index-2)
-        alter_input($(this), 'gross_high', index-2)
-        alter_input($(this), 'input_id', index-2)
+        for (var i=0; i < classes.length ; i++){
+          alter_input($(this), classes[i], index-2)
+        }
 
         $(this).find("select[class='complexity']").attr('id', 'complexity_' + (index-2));
         $(this).find("select[class='uow']").attr('id', 'uow_' + (index-2));
@@ -121,7 +121,6 @@
         $(this).find("select[class='technology']").attr('name', 'technology[' + (index-2) + ']');
 
         initialize_gross_behaviour(index-2);
-
       });
 
     });
@@ -133,18 +132,44 @@
 
     function initialize_gross_behaviour(index){
 
-      $(".icon-flag").click(function(){
-        $(this).toggleClass("checked");
-        if($(this).next().val() == "checked"){
-          $(this).next().val("unchecked");
-        }else{
-          $(this).next().val("checked");
+      $(".icon-star").click(function(){
+        switch(true) {
+          case ($(this).hasClass('black-question-mark')):
+            $(this).removeClass('black-question-mark').addClass('purple-exclamation-mark');
+            $(this).next().val("purple");
+            break;
+          case ($(this).hasClass('purple-exclamation-mark')):
+            $(this).removeClass('purple-exclamation-mark').addClass('yellow-exclamation-mark');
+            $(this).next().val("yellow");
+            break;
+          case ($(this).hasClass('yellow-exclamation-mark')):
+            $(this).removeClass('yellow-exclamation-mark').addClass('green-check-mark');
+            $(this).next().val("green");
+            break;
+          case ($(this).hasClass('green-check-mark')):
+            $(this).removeClass('green-check-mark').addClass('blue-info-mark');
+            $(this).next().val("blue");
+            break;
+          case ($(this).hasClass('blue-info-mark')):
+            $(this).removeClass('blue-info-mark').addClass('orange-exclamation-mark');
+            $(this).next().val("orange");
+            break;
+          case ($(this).hasClass('orange-exclamation-mark')):
+            $(this).removeClass('orange-exclamation-mark').addClass('red-star');
+            $(this).next().val("red");
+            break;
+          case ($(this).hasClass('red-star')):
+            $(this).removeClass('red-star').addClass('black-question-mark');
+            $(this).next().val("black");
         }
-      })
+      });
 
       $(".icon-trash").click(function(){
         $(this).closest('tr').remove();
-      })
+        $("#myTable").find("tr").each(function(index){
+          initialize_gross_behaviour(index);
+        });
+      });
 
       var selector = "#size_low_" + index +
               ", #size_most_likely_" + index +
