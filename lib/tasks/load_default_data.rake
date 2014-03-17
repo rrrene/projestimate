@@ -237,8 +237,9 @@ def load_data!
     as.save(:validate => false)
 
     puts '   - Auth Method'
-    AuthMethod.create(:name => 'Application', :server_name => 'Not necessary', :port => 0, :base_dn => 'Not necessary', :certificate => 'false', :record_status_id => rsid)
-    
+    authmethod = AuthMethod.new(:name => 'Application', :server_name => 'Not necessary', :port => 0, :base_dn => 'Not necessary', :certificate => 'false', :record_status_id => rsid)
+    authmethod.save(validate: false)
+
     puts '   - Admin user'
     #Create first user
     user = User.new(:first_name => 'Administrator', :last_name => 'Projestimate', :login_name => 'admin', :initials => 'ad', :email => 'youremail@yourcompany.net', :auth_type => AuthMethod.first.id, :user_status => 'active', :language_id => Language.first.id, :time_zone => 'GMT')

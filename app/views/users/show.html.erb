@@ -1,10 +1,5 @@
 <div id="main">
   <% unless current_project.nil? or current_user.nil? %>
-      <div>
-        <h3>&nbsp;<%= I18n.t(:label_dashboard, :value => current_project.title) %>
-          <%= image_tag '/assets/ajax-loader.gif', :class => 'spiner hide' %>
-        </h3>
-      </div>
       <%= hidden_field_tag :project_id, current_project.id %>
       <%= render 'dashboard_inner' %>
   <% else %>
