@@ -101,8 +101,8 @@ def load_data!
 
     puts '   - Master setting'
     #Create master/admin setting
-    MasterSetting.create(:key => 'url_wiki', :value => 'http://projestimate.org/projects/pe/wiki', :record_status_id => rsid)
-    MasterSetting.create(:key => 'url_service', :value => 'http://projestimate.org/projects/pe/wiki/Community_Services', :record_status_id => rsid)
+    MasterSetting.create(:key => 'url_wiki', :value => 'http://forge.estimancy.com/projects/pe/wiki', :record_status_id => rsid)
+    MasterSetting.create(:key => 'url_service', :value => 'http://forge.estimancy.com/projects/pe/wiki/Community_Services', :record_status_id => rsid)
 
     puts '   - Project areas'
     #Default project area

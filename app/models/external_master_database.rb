@@ -44,12 +44,12 @@ module ExternalMasterDatabase
 
   HOST = {
       :adapter => 'mysql2',
-      :database => 'projestimate_MasterData',
+      :database => 'projestimate_production',
       :reconnect => false,
-      :host => 'ns305372.ovh.net',
+      :host => 'tool.estimancy.com',
       :port => 3306,
-      :username => 'MasterData',
-      :password => 'MasterData',
+      :username => 'estimancy',
+      :password => 'masterdata',
       :encoding => 'utf8'
   }
 
