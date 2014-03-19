@@ -1075,3 +1075,11 @@ fr:
   notice_successful_collapse_project_version: "Le(s) version(s) de projet sélectionnée(s) ont été supprimée(s) avec succès"
   project_is_not_collapsible: "Le Project '%{project_title_version}' n'est pas collapsable.\n\n"
   collapsible_project_only: "Seul un projet dans l'état 'CHECKPOINT' peut être collapsé."
+
+  #new added translations
+  audit_users_activities: "Activités utilisateurs"
+  audit_element_type: "Type élément"
+  audit_element_id: "Id élément"
+  audit_action: "Action"
+  audit_changes: "Changements"
+  audit_user: "Auteur"

@@ -1076,3 +1076,11 @@ en:
   project_is_not_collapsible: "Project '%{project_title_version}' is not collapsible.\n\n"
   collapsible_project_only: "Only project in 'CHECKPOINT' state could be collapsed."
 
+  #new added translations
+  audit_users_activities: "Users activities"
+  audit_element_type: "Element type"
+  audit_element_id: "Element id"
+  audit_action: "Action"
+  audit_changes: "Changes"
+  audit_user: "Author"
+

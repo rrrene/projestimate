@@ -51,6 +51,8 @@ public
 
     set_page_title 'Users'
     @users = User.all
+
+    @audits = Audit.all
   end
 
   def new
