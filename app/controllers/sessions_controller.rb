@@ -115,27 +115,34 @@ class SessionsController < ApplicationController
 
   #Reset the password depending of the status of the user
   def reset_forgotten_password
-    user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
-    if user
-      if user.auth_method.name == 'Application' or user.auth_method.nil?
-        if user.active?
-          user.send_password_reset if user
-          flash[:notice] = I18n.t(:notice_session_password_reset_instruction)
-          redirect_to root_url
+    begin
+      user = User.first(:conditions => ['login_name = ? or email = ?', params[:login_name], params[:login_name]])
+      if user
+        if user.auth_method.name == 'Application' or user.auth_method.nil?
+          if user.active?
+            user.send_password_reset if user
+            flash[:notice] = I18n.t(:notice_session_password_reset_instruction)
+            #redirect_to root_url
+          else
+            user.send_password_reset if user
+            flash[:warning] = I18n.t(:warning_session_account_not_active)
+            #redirect_to root_url
+          end
         else
-          user.send_password_reset if user
-          flash[:warning] = I18n.t(:warning_session_account_not_active)
-          redirect_to root_url
+          flash[:error] = I18n.t(:error_account_ldap_association)
+          #redirect_to root_url
         end
+        redirect_to :back
       else
-        flash[:error] = I18n.t(:error_account_ldap_association)
-        redirect_to root_url
+        cookies[:login_name] = {:value => params[:login_name], :expires => Time.now + 3600}
+        flash[:warning] = I18n.t(:warning_session_bad_username)
+        render :layout => 'login'
       end
-    else
-      cookies[:login_name] = {:value => params[:login_name], :expires => Time.now + 3600}
-      flash[:warning] = I18n.t(:warning_session_bad_username)
-      render :layout => 'login'
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :back
     end
   end
+
 
 end
