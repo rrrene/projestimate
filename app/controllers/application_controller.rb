@@ -281,7 +281,7 @@ class ApplicationController < ActionController::Base
 
   def capitalization_module
     @defined_record_status = RecordStatus.where('name = ?', 'Defined').last
-    @capitalization_module ||= Pemodule.find_by_alias_and_record_status_id('capitalization', @defined_record_status.id) if defined?(@defined_record_statuss)
+    @capitalization_module = Pemodule.where(alias: 'capitalization', record_status_id: @defined_record_status.id).first
   end
 
   def load_master_setting(args)

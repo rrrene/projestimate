@@ -189,7 +189,8 @@ def load_data!
   ]
 
   modules.each do |i|
-    Pemodule.create(:title => i[0], :alias => i[1], :description => i[2], :with_activities => 'no', :record_status_id => rsid)
+    pemodule = Pemodule.new(:title => i[0], :alias => i[1], :description => i[2], :with_activities => 'no', :record_status_id => rsid)
+    pemodule.save(validate: false)
   end
 
   # Get the Capitalization Module
