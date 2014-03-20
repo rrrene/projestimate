@@ -931,7 +931,7 @@ fr:
   mail_password_unchanged: "Votre mot de passe est inchangé. (nous vous conseillons de le changer à partir de votre profil utilisateur)"
   mail_password_from_ldap: "Mot de passe de votre annuaire d'entreprise"
   mail_subject_account_suspended: "[ProjEstimate] Votre compte est suspendu"
-  mail_body_account_suspended: "ous tenons à vous informer que votre compte ProjEstimate (%{value}) a été suspendu.\nVous pouvez demander à le réactiver en envoyant un email à l'administrateur %{adm}\n\n"
+  mail_body_account_suspended: "Nous tenons à vous informer que votre compte ProjEstimate (%{value}) a été suspendu.\nVous pouvez demander à le réactiver en envoyant un email à l'administrateur %{adm}\n\n"
 
   text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
   label_module_with_activities: "Est-ce que le module utilise les activités?"
@@ -1075,3 +1075,13 @@ fr:
   notice_successful_collapse_project_version: "Le(s) version(s) de projet sélectionnée(s) ont été supprimée(s) avec succès"
   project_is_not_collapsible: "Le Project '%{project_title_version}' n'est pas collapsable.\n\n"
   collapsible_project_only: "Seul un projet dans l'état 'CHECKPOINT' peut être collapsé."
+
+  #new added translations
+  audit_users_activities: "Activités utilisateurs"
+  audit_element_type: "Type élément"
+  audit_element_id: "Id élément"
+  audit_action: "Action"
+  audit_changes: "Changements"
+  audit_user: "Auteur"
+
+  record_not_found_password_reset_token: "Aucun utilisateur ne correspond au token généré.\n\n Veuillez vérifier qu'il s'agit du dernier mail reçu."

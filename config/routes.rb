@@ -18,6 +18,9 @@
 #
 ########################################################################
 Projestimate::Application.routes.draw do
+
+  resources :audits
+
   mount Uos::Engine, :at => '/uos'
 
   resources :abacus_organizations

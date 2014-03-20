@@ -24,7 +24,13 @@ class PasswordResetsController < ApplicationController
 
   #Edit the new password, checks token validity
   def edit
-    @user = User.find_by_password_reset_token!(params[:id])
+    begin
+      @user = User.find_by_password_reset_token!(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      @user = nil
+      flash[:error] = I18n.t(:record_not_found_password_reset_token)
+      redirect_to root_path
+    end
   end
 
   #Update the new password
@@ -36,7 +42,7 @@ class PasswordResetsController < ApplicationController
       redirect_to new_password_reset_path, :error => "#{I18n.t (:warning_reset_password_expired)}"
     elsif @user.update_attributes(params[:user])
       UserMailer.new_password(@user).deliver
-      redirect_to root_url, :notice => "#{I18n.t (:notice_password_successful_reset)}"
+      redirect_to root_path, :notice => "#{I18n.t (:notice_password_successful_reset)}"
     else
       render :edit
     end
