@@ -15,7 +15,7 @@ before_script:
 
 ###- bundle install
 ###- bundle exec rake db:create #db:schema:load
-###bundler_args: "--without development"
+bundler_args: "--without development"
 
 #- SETTINGS = YAML.load(IO.read(Rails.root.join("config", "sensitive_settings.yml")))
 #- openssl aes-256-cbc -k "SECRET_TOKEN" -in config.yml.enc -d -a -out sensitive_settings.yml
