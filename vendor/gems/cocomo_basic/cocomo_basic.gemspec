@@ -7,11 +7,11 @@ Gem::Specification.new do |gem|
   gem.name = 'cocomo_basic'
   gem.version = CocomoBasic::VERSION
   gem.authors = 'Spirula'
-  gem.email = 'info@projestimate.org'
+  gem.email = 'contact@estimancy.com'
   gem.summary = 'Implementation of Cocomo Basis (aka Cocomo 81-classic) estimation method for ProjEstimate'
   gem.description = 'Basic COCOMO (Constructive Cost Model) computes software development effort (and cost) as a function of program size. Program size is expressed in estimated thousands of source lines of code (SLOC)'
   gem.license = 'AGPL-3'
-  gem.homepage = 'http://projestimate.org/'
+  gem.homepage = 'httpforge.estimancy.comorg/'
 
   gem.files = `git ls-files`.split($/)
   gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }

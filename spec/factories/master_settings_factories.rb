@@ -7,12 +7,12 @@ FactoryGirl.define do
 
     trait :wiki_url do
       sequence(:key) {|n| "url_wiki_#{n}"}
-      value "http://projestimate.org/projects/pe/wiki"
+      value "http://forge.estimancy.com/projects/pe/wiki"
     end
 
     trait :service_url do
       sequence(:key) {|n| "url_service_#{n}"}
-      value "http://projestimate.org/projects/pe/wiki/Community_Services"
+      value "httpforge.estimancy.comorg/projects/pe/wiki/Community_Services"
     end
 
     factory :master_setting_wiki_url do

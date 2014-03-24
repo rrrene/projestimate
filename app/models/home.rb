@@ -111,7 +111,7 @@ class Home < ActiveRecord::Base
       icon_url=ext_icon.icon.url
       icon_id=icon_url.split('/')[7]
       #unless Dir.entries("#{Rails.root}/public/").include?(icon_name)
-      #  url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
+      #  url = "http://forge.estimancy.com:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
       #  File.open("#{Rails.root}/public/#{icon_name}", 'wb') do |saved_file|
       #    # the following "open" is provided by open-uri
       #    open(url, 'rb') do |read_file|
@@ -532,7 +532,7 @@ class Home < ActiveRecord::Base
     #    icon_name = ext_icon.icon_file_name
     #    icon_url=ext_icon.icon.url
     #    icon_id=icon_url.split('/')[7]
-    #    url = "http://projestimate.org:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
+    #    url = "http://forge.estimancy.com:8888/system/peicons/icons/000/000/#{icon_id}/small/#{icon_name}"
     #    File.open("#{Rails.root}/public/#{icon_name}", 'wb') do |saved_file|
     #      # the following "open" is provided by open-uri
     #      open(url, 'rb') do |read_file|
