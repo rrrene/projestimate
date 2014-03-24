@@ -286,15 +286,17 @@ class ApplicationController < ActionController::Base
 
   def load_master_setting(args)
     ms = MasterSetting.find_by_key(args)
+    r = RecordStatus.find_by_name('Defined')
     unless ms.nil?
-      MasterSetting.find_by_key(args).value
+      MasterSetting.where(key: args, record_status_id: r.id).first.value
     end
   end
 
   def load_admin_setting(args)
     as = AdminSetting.find_by_key(args)
+    r = RecordStatus.find_by_name('Defined')
     unless as.nil?
-      AdminSetting.find_by_key(args).value
+      AdminSetting.where(key: args, record_status_id: r.id).first.value
     end
   end
 
