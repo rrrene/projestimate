@@ -855,7 +855,8 @@ public
     inputs['pbs_project_element_id'.to_sym] = pbs_project_element_id
     inputs['module_project_id'.to_sym] = current_mp_to_execute.id
 
-    current_mp_to_execute.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+    #current_mp_to_execute.estimation_values.sort! { |a, b| a.in_out <=> b.in_out }.each do |est_val|
+    current_mp_to_execute.estimation_values.each do |est_val|
       if est_val.in_out == 'input' or est_val.in_out=='both'
         inputs[est_val.pe_attribute.alias.to_sym] = input_data[est_val.pe_attribute.alias] #[current_mp_to_execute.id.to_s]
       end
