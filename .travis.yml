@@ -1,16 +1,20 @@
-#language
 language: ruby
-#supported versions of ruby for test
 rvm:
-  - "1.9.3"
-
+- 1.9.3
 script:
-  - bundle install
-  #- RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rspec spec
-#  - bundle exec rake db:test:prepare
-#  - bundle exec rake
-
+- bundle install
+- bundle exec rspec spec
 before_script:
-  - cp config/database.travis.yml config/database.yml
-  #- mysql -e 'create database projestimate_test'
+- cp config/database.travis.yml config/database.yml
+- cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
+#- mysql -e 'create database projestimate_test'
+env:
+  global:
+  - secure: UMObaDV2U11ccp2VdxayS6NiQAFdD23hXm/zNkF3kW7nSF9ah8WdNMKzk0BHgxWQhwAapSKDWOjiH8/w39OPgyFf0d1ePvQs9w+jG+Fx/yZcwhXpjXx8Wk07exUEv3RVfob0nwApDNRQaEgeCwBaYknKCCKvZOWeWETfHSm5bRY=
+  - secure: eZDfKCb5s2B28dPIh/QwCVQj2+sHqPMdPSw8s/Nr5mE//4yrVhSpZFnL2M8A+PH+Im+R6NGkkqD7mLri/C2ORmLb4+SD1lv0hXDaXPJYpVb27hT156Kn3vek8QN0JTvKNHSlrtQ4o6eBbMsBHtVQc1Njmxh4+hTD1IKWBqMDWs8=
+  - secure: ij03AsDmqueQkKQU9RO+P8VdGWEUSt66+HcO0CfWV7Wa8ZdtbIKQzFOBGZEUYcjT8lwQHElIgFbXJw7T17R9aESnYM/KE0IPGGqLJG3K9TJzKSAP0X5hI2t/E65fGKi/E0CU2otHwuG+PfQPzElGPbdRlOVp5r4B7/XrqnWFPt4=
+  - secure: dY7w5GZ1tmia5twRvyp387NYHdLi1jGO74yxzcHMLA0PElZvJIM5u2D/sO0F8WldLvj+g8q9mKoF7RTonSf4UyqsgDa6I2saYDsyDLPmEz91Rekxe+RpEhRb2ZuYhaiwKPq2VskuoJJWyAuXmfMY/UDN+5VqYXosa/cdkI1tyuY=
+  - secure: HYrX0p2+4E8WiPU124t55lT2rvoOU0a3OVa4GsgeNgpkkDCu70AYPj8szhOKI0lvqnASDtjPX5LzNTWHmXVA8qfyYKzdSpeX/pprJf2Ou9TehfQ9PG+oe/Up4zWzMkKta8/Iaj3IKXyfotVEDh7XhZ2R0BeY/O7vUfEsPR5/6Mc=
+  - secure: Qg3zWccprVxcfx8KrL47PlImOoZg2OCbVxFltC7o772CCutHOMFiGlnsL1on8kfareKUwvzmSqUUPa4Bzw0Llxxg2i3PQwRJsh6+3QfhOswO80O+Raj1g9EygUqK6bHT9YXnPvQduh7UBgq5xT40ofQ0c0BZCsWF6iDrtCjyPKI=
+  - secure: d2LTifCdQQ8ie78k9i9HzpmjbgIq3S4FwUchCRRCHYK51GuUHGzvoFx6+nrFXgegRASA17USJ9roEzb4heUBEzP4jB1Q/+Vfka3bogcAPFX65eQz/iLvxUMGafUEzM2A1VRCNH/cBBJqjPGeOg9yUO65isRAdErj1ih1v6NemA4=
+  - secure: C79mWn/Ykpxeu8CbdSM1Oaq9jy2z2IHcJOLW+LbsI47QICIhGPXxrXlegl6OlKiwUwmPNdDdt4llFvjkvWKAzLc+shp/PiLpyPX2RJ/vl7oNrOBQgXQnjEuv+s+PQ3kvepByGHoBJy6cJQQO+BGUnet4KFBdHKeCBE2GiWDJXOs=
