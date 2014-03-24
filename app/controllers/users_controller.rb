@@ -157,7 +157,7 @@ public
         @capitalization_module_project ||= ModuleProject.where('pemodule_id = ? AND project_id = ?', @capitalization_module.id, @project.id).first unless @capitalization_module.nil?
 
         @module_positions = ModuleProject.where(:project_id => @project.id).order(:position_y).all.map(&:position_y).uniq.max || 1
-        @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.max
+        @module_positions_x = ModuleProject.where(:project_id => @project.id).all.map(&:position_x).uniq.count
       end
     else
       render :layout => 'login'

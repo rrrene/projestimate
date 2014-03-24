@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140318151525) do
+ActiveRecord::Schema.define(:version => 20140318132927) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -148,8 +148,8 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.integer  "port"
     t.string   "base_dn"
     t.string   "user_name_attribute"
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "uuid"
     t.integer  "record_status_id"
     t.string   "custom_value"
@@ -200,14 +200,14 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.text     "string_data_high"
     t.text     "string_data_probable"
     t.date     "date_data_probable"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "links"
     t.boolean  "is_mandatory"
     t.string   "in_out"
     t.text     "description"
     t.string   "custom_attribute"
     t.string   "project_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "display_order"
   end
 
@@ -363,15 +363,15 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
   add_index "master_settings", ["uuid"], :name => "index_master_settings_on_uuid", :unique => true
 
   create_table "module_projects", :force => true do |t|
-    t.integer "pemodule_id"
-    t.integer "project_id"
-    t.integer "position_x"
-    t.integer "position_y"
-    t.integer "nb_input_attr"
-    t.integer "nb_output_attr"
-    t.integer "copy_id"
-    t.string  "created_at"
-    t.string  "updated_at"
+    t.integer  "pemodule_id"
+    t.integer  "project_id"
+    t.integer  "position_x"
+    t.integer  "position_y"
+    t.integer  "nb_input_attr"
+    t.integer  "nb_output_attr"
+    t.integer  "copy_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "module_projects_pbs_project_elements", :id => false, :force => true do |t|
@@ -437,8 +437,6 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
 
   create_table "pbs_project_elements", :force => true do |t|
     t.integer  "pe_wbs_project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "ancestry"
     t.boolean  "is_root"
     t.integer  "work_element_type_id"
@@ -450,6 +448,8 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.integer  "wbs_activity_ratio_id"
     t.boolean  "is_completed"
     t.boolean  "is_validated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "pbs_project_elements", ["ancestry"], :name => "index_components_on_ancestry"
@@ -481,15 +481,15 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
   create_table "pe_wbs_projects", :force => true do |t|
     t.string   "name"
     t.integer  "project_id"
+    t.string   "wbs_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "wbs_type"
   end
 
   create_table "peicons", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "icon_file_name"
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
@@ -650,9 +650,9 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.integer  "project_id"
     t.integer  "user_id"
     t.integer  "project_security_level_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_id"
   end
 
   create_table "project_security_levels", :force => true do |t|
@@ -683,8 +683,6 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.date     "start_date"
     t.integer  "organization_id"
     t.integer  "project_area_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "project_category_id"
     t.integer  "platform_category_id"
     t.integer  "acquisition_category_id"
@@ -697,6 +695,8 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.integer  "copy_number"
     t.text     "included_wbs_activities"
     t.boolean  "is_locked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "projects", ["ancestry"], :name => "index_projects_on_ancestry"
@@ -818,8 +818,8 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.text     "change_comment"
     t.integer  "reference_id"
     t.string   "reference_uuid"
-    t.integer  "copy_id"
     t.string   "dotted_id"
+    t.integer  "copy_id"
     t.boolean  "is_root"
     t.string   "master_ancestry"
   end
@@ -887,25 +887,13 @@ ActiveRecord::Schema.define(:version => 20140318151525) do
     t.integer  "author_id"
     t.integer  "copy_id"
     t.integer  "copy_number",             :default => 0
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
     t.boolean  "is_root"
     t.boolean  "can_get_new_child"
     t.integer  "wbs_activity_ratio_id"
     t.boolean  "is_added_wbs_root"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
-
-  create_table "will_filter_filters", :force => true do |t|
-    t.string   "type"
-    t.string   "name"
-    t.text     "data"
-    t.integer  "user_id"
-    t.string   "model_class_name"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  add_index "will_filter_filters", ["user_id"], :name => "index_will_filter_filters_on_user_id"
 
   create_table "work_element_types", :force => true do |t|
     t.string   "name"
