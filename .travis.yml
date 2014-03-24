@@ -4,13 +4,15 @@ rvm:
 script:
 - bundle install
 - RAILS_ENV=test bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake 'projestimate:load_default_data'
 - bundle exec rake db:test:prepare
-- bundle exec rspec spec
+- bundle exec rspec spec/
 
 before_script:
 - cp config/database.travis.yml config/database.yml
 - cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
 - mysql -e 'create database projestimate_test'
+
 #- SETTINGS = YAML.load(IO.read(Rails.root.join("config", "sensitive_settings.yml")))
 #- openssl aes-256-cbc -k "SECRET_TOKEN" -in config.yml.enc -d -a -out sensitive_settings.yml
 
