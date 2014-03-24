@@ -97,6 +97,7 @@ gem 'cache_digests'
 #Optional gem for monitoring
 group :ic do
   gem 'newrelic_rpm'
+  gem 'coveralls', require: false
 end
 
 # spreadsheet files management
