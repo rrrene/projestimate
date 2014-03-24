@@ -7,11 +7,11 @@ Gem::Specification.new do |gem|
   gem.name = 'expert_judgment'
   gem.version = ExpertJudgment::VERSION
   gem.authors = 'Spirula'
-  gem.email = 'info@projestimate.org'
+  gem.email = 'contact@estimancy.com'
   gem.description = 'As a project owner an expert need the capability to fill 3 point-values for each WBS-activity-element (leaf) instancied on the project.'
   gem.summary = 'Implementation of a basic Expert Judgement estimation method for ProjEstimate'
   gem.license = 'AGPL-3'
-  gem.homepage = 'http://projestimate.org/'
+  gem.homepage = 'httpforge.estimancy.comorg/'
 
   gem.files = `git ls-files`.split($/)
   gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }

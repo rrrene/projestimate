@@ -287,7 +287,7 @@ class OrganizationsController < ApplicationController
       sheet.merge_cells 'A8:F8'
       sheet.add_row(['Advanced users can remove the protection (there is no password). For further information you can have a look on the ProjEstimate Help.'])
       row=sheet.add_row(['For ProjEstimate Help, Click to go'])
-      sheet.add_hyperlink :location => 'http://projestimate.org/projects/pe/wiki/Organizations', :ref => "A#{row.index+1}"
+      sheet.add_hyperlink :location => 'http://forge.estimancy.com/projects/pe/wiki/Organizations', :ref => "A#{row.index+1}"
       sheet.add_row([' '])
       sheet.add_row([' '])
       sheet.add_row(['Technologies'], :style => [style_title_right])

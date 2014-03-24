@@ -7,11 +7,11 @@ Gem::Specification.new do |gem|
   gem.name = 'sandbox'
   gem.version = Sandbox::VERSION
   gem.authors = 'Spirula'
-  gem.email = 'info@projestimate.org'
+  gem.email = 'contact@estimancy.com'
   gem.description = 'This is a sample module for testing purpose only'
   gem.summary = 'Implementation of dummy estimation method for ProjEstimate'
   gem.license = 'AGPL-3'
-  gem.homepage = 'http://projestimate.org/'
+  gem.homepage = 'httpforge.estimancy.comorg/'
 
   gem.files = `git ls-files`.split($/)
   gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }

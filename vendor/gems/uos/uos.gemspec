@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name        = "uos"
   s.version     = Uos::VERSION
   s.authors     = ["Projestimate"]
-  s.email       = ["contact@projestimate.org"]
-  s.homepage    = "http://projestimate.org"
+  s.email       = ["contact@forge.estimancy.com"]
+  s.homepage    = "httpforge.estimancy.comorg"
   s.summary     = "Summary of Uos."
   s.description = "Description of Uos."
 
