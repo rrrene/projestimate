@@ -2,7 +2,7 @@ language: ruby
 rvm:
 - 1.9.3
 script:
-#- bundle install
+- bundle install
 - RAILS_ENV=test bundle exec rake --trace db:migrate test
 #- RAILS_ENV=test bundle exec rake 'projestimate:load_default_data'
 #- bundle exec rake db:test:prepare
