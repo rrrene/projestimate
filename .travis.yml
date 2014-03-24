@@ -14,7 +14,8 @@ before_script:
 - cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
 - mysql -e 'create database projestimate_test'  ###
 
-###- bundle install
+- bundle install
+- RAILS_ENV=test bundle exec rake --trace db:migrate test
 ###- bundle exec rake db:create #db:schema:load
 bundler_args: "--without development"
 
