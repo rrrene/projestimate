@@ -3,7 +3,7 @@ rvm:
 - 1.9.3
 script:
 #- bundle install
-#- RAILS_ENV=test bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
 #- RAILS_ENV=test bundle exec rake 'projestimate:load_default_data'
 #- bundle exec rake db:test:prepare
 - bundle exec rspec spec/
@@ -13,7 +13,7 @@ before_script:
 - cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
 #- mysql -e 'create database projestimate_test'
 - bundle install
-- bundle exec rake db:create db:schema:load
+- bundle exec rake db:create #db:schema:load
 bundler_args: "--without development"
 
 #- SETTINGS = YAML.load(IO.read(Rails.root.join("config", "sensitive_settings.yml")))
