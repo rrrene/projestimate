@@ -6,8 +6,8 @@ script:
 - bundle exec rspec spec
 before_script:
 - cp config/database.travis.yml config/database.yml
-#- cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
-#- mysql -e 'create database projestimate_test'
+- cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
+#- openssl aes-256-cbc -k "SECRET_TOKEN" -in config.yml.enc -d -a -out sensitive_settings.yml
 env:
   global:
   - secure: UMObaDV2U11ccp2VdxayS6NiQAFdD23hXm/zNkF3kW7nSF9ah8WdNMKzk0BHgxWQhwAapSKDWOjiH8/w39OPgyFf0d1ePvQs9w+jG+Fx/yZcwhXpjXx8Wk07exUEv3RVfob0nwApDNRQaEgeCwBaYknKCCKvZOWeWETfHSm5bRY=
@@ -18,3 +18,5 @@ env:
   - secure: Qg3zWccprVxcfx8KrL47PlImOoZg2OCbVxFltC7o772CCutHOMFiGlnsL1on8kfareKUwvzmSqUUPa4Bzw0Llxxg2i3PQwRJsh6+3QfhOswO80O+Raj1g9EygUqK6bHT9YXnPvQduh7UBgq5xT40ofQ0c0BZCsWF6iDrtCjyPKI=
   - secure: d2LTifCdQQ8ie78k9i9HzpmjbgIq3S4FwUchCRRCHYK51GuUHGzvoFx6+nrFXgegRASA17USJ9roEzb4heUBEzP4jB1Q/+Vfka3bogcAPFX65eQz/iLvxUMGafUEzM2A1VRCNH/cBBJqjPGeOg9yUO65isRAdErj1ih1v6NemA4=
   - secure: C79mWn/Ykpxeu8CbdSM1Oaq9jy2z2IHcJOLW+LbsI47QICIhGPXxrXlegl6OlKiwUwmPNdDdt4llFvjkvWKAzLc+shp/PiLpyPX2RJ/vl7oNrOBQgXQnjEuv+s+PQ3kvepByGHoBJy6cJQQO+BGUnet4KFBdHKeCBE2GiWDJXOs=
+  #SECRET_TOKEN
+  - secure: HV2ss8dRB0+pgg95UxUyLFnIGOuuHYRHvyx8TXjXAA3kvYsE9dbOOEU8R3Hpde7ya6ALqq2MLH15/Jg5LAIY2jZOWOsnNdSsKplKJ7nguFC30FCfKQfV6WSnq9oOJW1OCfuWSDYPJZ/Utgqe7qXEtn23CJCoLjbhxMZkvV497eo=
