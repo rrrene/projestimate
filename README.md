@@ -9,7 +9,7 @@ ProjEstimate an Open Source project estimation web application. More details can
 
   <a href='https://coveralls.io/r/estimancy/projestimate'><img src='https://coveralls.io/repos/estimancy/projestimate/badge.png' alt='Coverage Status' data-canonical-src="https://coveralls.io/repos/estimancy/projestimate/badge.png?branch=master" style="max-width:100%;" /></a>
 
-  <img src="https://gemnasium.com/estimancy/projestimate" alt="Dependency Status" data-canonical-src="https://gemnasium.com/estimancy/projestimate.png" style="max-width:100%;">
+  <img src="https://gemnasium.com/estimancy/projestimate.png" alt="Dependency Status" data-canonical-src="https://gemnasium.com/estimancy/projestimate.png?branch=master" style="max-width:100%;">
 </p>
 
 ProjEstimate is released under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE version 3 (AGPL - http://www.gnu.org/licenses/agpl.html)
