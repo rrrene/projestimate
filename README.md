@@ -1,5 +1,3 @@
-ProjEstimate an Open Source project estimation web application. More details can be found on the http://www.ProjEstimate.org web site.
-
 <p>
   <a href="https://travis-ci.org/estimancy/projestimate">
     <img src="https://travis-ci.org/estimancy/projestimate.png" alt="Build Status" data-canonical-src="https://travis-ci.org/estimancy/projestimate.png?branch=master" style="max-width:100%;">
@@ -11,6 +9,8 @@ ProjEstimate an Open Source project estimation web application. More details can
 
   <a href='https://gemnasium.com/estimancy/projestimate'><img src="https://gemnasium.com/estimancy/projestimate.png" alt="Dependency Status" data-canonical-src="https://gemnasium.com/estimancy/projestimate.png" style="max-width:100%;"></a>
 </p>
+
+ProjEstimate an Open Source project estimation web application. More details can be found on the http://www.ProjEstimate.org web site.
 
 ProjEstimate is released under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE version 3 (AGPL - http://www.gnu.org/licenses/agpl.html)
 
