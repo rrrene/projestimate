@@ -542,6 +542,8 @@ module ProjectsHelper
 
     if module_project.pemodule.alias == "uos"
       display_uos_module(module_project.id)
+    elsif module_project.pemodule.alias == "cocomo_advanced"
+      display_cocomo_advanced(module_project.id)
     else
       if module_project.compatible_with(current_component.work_element_type.alias) || current_component
         pemodule = Pemodule.find(module_project.pemodule.id)
