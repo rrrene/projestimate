@@ -15,3 +15,5 @@ projestimate.iws
 Gemfile.local
 /coverage
 /solr/*
+# Gemnasium gem configuration file
+config/gemnasium.yml
