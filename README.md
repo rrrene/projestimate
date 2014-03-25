@@ -1,8 +1,10 @@
 ProjEstimate an Open Source project estimation web application. More details can be found on the http://www.ProjEstimate.org web site.
 
-[![Build Status](https://travis-ci.org/estimancy/projestimate.png)](https://travis-ci.org/estimancy/projestimate)
+<p>
+    [![Build Status](https://travis-ci.org/estimancy/projestimate.png)](https://travis-ci.org/estimancy/projestimate)
 
-<a href="https://codeclimate.com/github/estimancy/projestimate"><img src="https://codeclimate.com/github/estimancy/projestimate.png" /></a>
+    <a href="https://codeclimate.com/github/estimancy/projestimate"><img src="https://codeclimate.com/github/estimancy/projestimate.png" /></a>
+</p>
 
 ProjEstimate is released under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE version 3 (AGPL - http://www.gnu.org/licenses/agpl.html)
 
