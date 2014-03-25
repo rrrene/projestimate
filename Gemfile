@@ -97,7 +97,9 @@ gem 'cache_digests'
 #Optional gem for monitoring
 group :ic do
   gem 'newrelic_rpm'
-  ###gem 'coveralls', require: false
+  gem 'coveralls', require: false
+  gem "codeclimate-test-reporter", group: :test, require: nil
+  #gem 'gemnasium'
 end
 
 # spreadsheet files management
