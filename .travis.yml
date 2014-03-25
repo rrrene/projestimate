@@ -3,9 +3,9 @@ rvm:
 - 1.9.3
 script:
 - bundle install
-- bundle exec rake
+- bundle exec rake db:test:load
 ###- bundle exec rake db:test:prepare
-- RAILS_ENV=test bundle exec rake --trace db:migrate #test
+###- RAILS_ENV=test bundle exec rake --trace db:migrate #test
 #- RAILS_ENV=test bundle exec rake 'projestimate:load_default_data'
 #- bundle exec rake db:test:prepare
 - bundle exec rspec spec/
@@ -19,7 +19,7 @@ before_script:
 ####- RAILS_ENV=test bundle exec rake --trace db:migrate test
 
 ###- bundle exec rake db:create #db:schema:load
-bundler_args: "--without development"
+###bundler_args: "--without development"
 
 #- SETTINGS = YAML.load(IO.read(Rails.root.join("config", "sensitive_settings.yml")))
 #- openssl aes-256-cbc -k "SECRET_TOKEN" -in config.yml.enc -d -a -out sensitive_settings.yml
