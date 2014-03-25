@@ -1,3 +1,9 @@
+<h1>
+  <a name="projestimate" class="anchor" href="#projestimate">
+    <span class="octicon octicon-link"></span>
+  </a>
+  "ProjEstimate"
+</h1>
 <p>
   <a href="https://travis-ci.org/estimancy/projestimate">
     <img src="https://travis-ci.org/estimancy/projestimate.png" alt="Build Status" data-canonical-src="https://travis-ci.org/estimancy/projestimate.png?branch=master" style="max-width:100%;">
