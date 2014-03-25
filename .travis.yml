@@ -8,7 +8,7 @@ before_script:
 - cp config/database.travis.yml config/database.yml
 - cp config/sensitive_settings.travis.yml config/sensitive_settings.yml
 - mysql -e 'create database projestimate_test;'
-- mysql -e 'create table projestimate_test.work_element_types'
+- mysql -e 'create table work_element_types;'
 
 script:
 #  - bundle install
