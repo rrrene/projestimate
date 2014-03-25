@@ -2,7 +2,7 @@
   <a name="projestimate" class="anchor" href="#projestimate">
     <span class="octicon octicon-link"></span>
   </a>
-  "ProjEstimate"
+  ProjEstimate
 </h1>
 <p>
   <a href="https://travis-ci.org/estimancy/projestimate">
