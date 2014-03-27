@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @factor.name %>
+</p>
+
+<p>
+  <b>Alias:</b>
+  <%= @factor.alias %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @factor.description %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @factor.state %>
+</p>
+
+
+<%= link_to 'Edit', edit_factor_path(@factor) %> |
+<%= link_to 'Back', factors_path %>

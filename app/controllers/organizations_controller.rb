@@ -42,6 +42,8 @@ class OrganizationsController < ApplicationController
     @attribute_settings = AttributeOrganization.all(:conditions => {:organization_id => @organization.id})
 
     @complexities = @organization.organization_uow_complexities
+    @factors = Factor.all
+
     begin
       @ot = @organization.organization_technologies.first
       @unitofworks = @ot.unit_of_works

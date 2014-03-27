@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140318132927) do
+ActiveRecord::Schema.define(:version => 20140326171842) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20140318132927) do
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
     t.integer  "organization_id"
+    t.integer  "factor_id"
   end
 
   create_table "acquisition_categories", :force => true do |t|
@@ -243,6 +244,15 @@ ActiveRecord::Schema.define(:version => 20140318132927) do
     t.datetime "updated_at"
   end
 
+  create_table "factors", :force => true do |t|
+    t.string   "name"
+    t.string   "alias"
+    t.text     "description"
+    t.string   "state"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -421,6 +431,9 @@ ActiveRecord::Schema.define(:version => 20140318132927) do
     t.datetime "updated_at",                    :null => false
     t.integer  "display_order"
     t.string   "state",           :limit => 20
+    t.integer  "factor_id"
+    t.integer  "unit_of_work_id"
+    t.float    "value"
   end
 
   create_table "organizations", :force => true do |t|

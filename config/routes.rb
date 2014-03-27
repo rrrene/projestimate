@@ -19,6 +19,9 @@
 ########################################################################
 Projestimate::Application.routes.draw do
 
+  resources :factors
+
+
   resources :audits
 
   mount Uos::Engine, :at => '/uos'

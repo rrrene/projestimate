@@ -19,7 +19,7 @@
 ########################################################################
 
 class OrganizationUowComplexity < ActiveRecord::Base
-  attr_accessible :name, :description, :display_order, :state
+  attr_accessible :name, :description, :display_order, :state, :factor_id, :unit_of_work_id, :value
 
   include AASM
   aasm :column => :state do # defaults to aasm_state
@@ -35,6 +35,9 @@ class OrganizationUowComplexity < ActiveRecord::Base
 
   has_many :organization_uow_complexities, :through => :abacus_organizations
   has_many :abacus_organizations, :dependent => :destroy
+
+  belongs_to :factor
+  belongs_to :unit_of_work
 
   default_scope order('display_order ASC')
 

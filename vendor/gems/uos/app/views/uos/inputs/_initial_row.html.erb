@@ -4,47 +4,43 @@
 
   <td class="span3">
     <%= link_to "", "#", :class => "icon icon-plus" %>
-    <%# link_to "", "#", :class => "icon icon-angle-up" %>
-    <%# link_to "", "#", :class => "icon icon-angle-down" %>
-    <%# link_to "", "#", :class => "icon icon-angle-left" %>
-    <%# link_to "", "#", :class => "icon icon-angle-right" %>
     <%= link_to "", "#", :class => "icon icon-trash" %>
   </td>
-  <td class="span1">
+  <td>
     <i class="icon icon-star icon-center black-question-mark"></i>
     <%= hidden_field_tag "flag[1]", "unchecked" %>
   </td>
-  <td class="span1">
+  <td>
     <%= text_field_tag "name[1]", "", :class => "name" %>
   </td>
-  <td class="span1">
+  <td>
     <%= select_tag "technology[1]", options_for_select(@organization_technologies), :class => "technology" %>
   </td>
-  <td class="span1">
+  <td>
     <%= select_tag "uow[1]", options_for_select(@unit_of_works), :class => "uow" %>
   </td>
-  <td class="span1">
+  <td>
     <%= select_tag "complexity[1]", options_for_select(@complexities), :class => "complexity"  %>
   </td>
   <td class="">
-    <%= text_field_tag "size_low[1]", "", :class => "size_low" %>
+    <%= text_field_tag "size_low[1]", "", :class => "size_low compressed" %>
   </td>
   <td class="">
-    <%= text_field_tag "size_most_likely[1]", "", :class => "size_most_likely" %>
+    <%= text_field_tag "size_most_likely[1]", "", :class => "size_most_likely compressed" %>
   </td>
   <td class="">
-    <%= text_field_tag "size_high[1]", "", :class => "size_high" %>
+    <%= text_field_tag "size_high[1]", "", :class => "size_high compressed" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "weight[1]", "", :class => "weight" %>
+  <td>
+    <%= text_field_tag "weight[1]", "", :class => "weight compressed" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "gross_low[1]", "", :class => "gross_low" %>
+  <td>
+    <%= text_field_tag "gross_low[1]", "", :class => "gross_low compressed" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "gross_most_likely[1]", "", :class => "gross_most_likely" %>
+  <td>
+    <%= text_field_tag "gross_most_likely[1]", "", :class => "gross_most_likely compressed" %>
   </td>
-  <td class="span1">
-    <%= text_field_tag "gross_high[1]", "", :class => "gross_high" %>
+  <td>
+    <%= text_field_tag "gross_high[1]", "", :class => "gross_high compressed" %>
   </td>
 </tr>

@@ -35,6 +35,9 @@ class UnitOfWork < ActiveRecord::Base
   has_many :organization_uow_complexities, :through => :abacus_organizations
   has_many :abacus_organizations, :dependent => :destroy
 
+  has_many :organization_uow_complexities, :dependent => :destroy
+
+
   validates :name, :alias, :presence => true
 
   default_scope order('alias ASC')
