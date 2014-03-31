@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140326171842) do
+ActiveRecord::Schema.define(:version => 20140331100445) do
 
   create_table "abacus_organizations", :force => true do |t|
     t.float    "value"
@@ -291,6 +291,17 @@ ActiveRecord::Schema.define(:version => 20140326171842) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "input_cocomos", :force => true do |t|
+    t.integer  "factor_id"
+    t.integer  "organization_uow_complexity_id"
+    t.integer  "pbs_project_element_id"
+    t.integer  "project_id"
+    t.integer  "module_project_id"
+    t.float    "coefficient"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "inputs", :force => true do |t|

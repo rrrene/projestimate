@@ -24,6 +24,7 @@ Projestimate::Application.routes.draw do
 
   resources :audits
 
+  mount CocomoAdvanced::Engine, at: "/cocomo_advanced"
   mount Uos::Engine, :at => '/uos'
 
   resources :abacus_organizations
