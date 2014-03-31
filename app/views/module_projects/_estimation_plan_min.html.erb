@@ -1,49 +1,48 @@
+<% module_projects = @project.module_projects %>
+<% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
 
-  <% module_projects = @project.module_projects %>
-  <% @alphabet = %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) %>
+<% unless module_projects.empty? %>
+  <table class="table table-condensed table-bordered table-estimation">
+    <tr>
+      <th></th>
+      <% for x in 1..@module_positions_x.to_i do %>
+          <th><h6><%= @alphabet[x-1] %></h6></th>
+      <% end %>
+    </tr>
 
-  <% unless module_projects.empty? %>
-    <table class="table table-condensed table-bordered table-estimation">
-      <tr>
-        <th></th>
-        <% for x in 1..@module_positions_x.to_i do %>
-            <th><h6><%= @alphabet[x-1] %></h6></th>
-        <% end %>
-      </tr>
+      <!-- The Capitalization module -->
+      <%= render :partial => 'module_projects/capitalization_module_min' %>
 
-        <!-- The Capitalization module -->
-        <%= render :partial => 'module_projects/capitalization_module_min' %>
+      <% for y in 1..@module_positions do %>
+        <tr>
+          <td class="line_number">
+            <h6 class="text-center"><%= y %></h6>
+          </td>
 
-        <% for y in 1..@module_positions do %>
-          <tr>
-            <td class="line_number">
-              <h6 class="text-center"><%= y %></h6>
+          <% for x in 1..@module_positions_x.to_i do %>
+            <td>
+              <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
+
+              <% unless current_module_project.nil? or pmod.nil? %>
+                <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
+              <% end %>
+
+              <% unless pmod.nil? %>
+                <div class="<%= select_pemodule %> module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
+                  <%= link_to pmod.pemodule.title, activate_module_project_path(pmod), :remote => true %>
+                  <%= link_to ' ', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
+                </div>
+                <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>
+              <% end %>
+
+              <% select_pemodule = '' %>
+
             </td>
-
-            <% for x in 1..@module_positions_x.to_i do %>
-              <td>
-                <% pmod = @project.module_projects.where("position_x = ? AND position_y = ?", x, y).first %>
-
-                <% unless current_module_project.nil? or pmod.nil? %>
-                  <% (current_module_project.id == pmod.id) ? select_pemodule = 'selected_module_project' : 'unselected_module_project' %>
-                <% end %>
-
-                <% unless pmod.nil? %>
-                  <div class="<%= select_pemodule %> module_project_min <%= "#{pmod.pemodule.alias}_#{pmod.position_x}_#{pmod.position_y}" %> text-center">
-                    <%= link_to pmod.pemodule.title, activate_module_project_path(pmod), :remote => true %>
-                    <%= link_to ' ', '#', :title => "#{pmod.pemodule.title}: \n #{pmod.pemodule.description}", :class => "icon-info attribute_tooltip" %>
-                  </div>
-                  <%= render :partial => 'module_projects/estimation_paths', :locals => { :pmod => pmod } %>
-                <% end %>
-
-                <% select_pemodule = '' %>
-
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-    </table>
-  <% else %>
-    <%= content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info') %>
-  <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+  </table>
+<% else %>
+  <%= content_tag(:div, I18n.t(:notice_no_estimation_plan_defined), :class => 'alert alert-info') %>
+<% end %>
 

@@ -24,7 +24,7 @@ module CocomoBasic
   #Definition of CocomoBasic
   class CocomoBasic
 
-    attr_accessor :coef_a, :coef_b, :coef_c, :coef_kls, :complexity
+    attr_accessor :coef_a, :coef_b, :coef_c, :coef_kls, :complexity, :effort, :delay
 
     #Constructor
     def initialize(elem)
@@ -37,7 +37,7 @@ module CocomoBasic
         when 'Embedded'
           set_cocomo_embedded
         else
-          nil
+          set_cocomo_organic
       end
     end
 
@@ -65,42 +65,49 @@ module CocomoBasic
 
     #Getters
     #Return effort (in man-hour)
-    def get_effort_man_hour
+    def get_effort_man_hour(*args)
       if @coef_kls && @complexity
-        (152 * @coef_a*(@coef_kls**@coef_b)).to_f
+        @effort = (152 * @coef_a*(@coef_kls**@coef_b)).to_f
       else
-        nil
+        @effort = nil
       end
+
+      return @effort
     end
 
     #Return delay (in hour)
-    def get_delay
+    def get_delay(*args)
       if @coef_kls && @complexity
-        (152 * 2.5*((get_effort_man_hour/152)**@coef_c)).to_f
+        @delay = (152 * 2.5*((@effort/152)**@coef_c)).to_f
       else
         nil
       end
+
+      return @delay
     end
 
     #Return end date
-    def get_end_date
+    def get_end_date(*args)
       if @coef_kls && @complexity
-        Time.now + (get_delay/152).to_i.months
+        @end_date = (Time.now + (@delay/152).to_i.months)
       else
         nil
       end
+
+      return @end_date
     end
 
     #Return staffing
-    def get_staffing
+    def get_staffing(*args)
       if @coef_kls && @complexity
-        get_effort_man_hour / get_delay
+        @staffing = (@effort / @delay)
       else
         nil
       end
+      return @staffing
     end
 
-    def get_complexity
+    def get_complexity(*args)
       if @complexity
         @complexity
       else

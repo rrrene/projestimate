@@ -869,12 +869,12 @@ public
       cm = current_module.send(:new, inputs)
 
       if est_val.in_out == 'output' or est_val.in_out=='both'
-        begin
+        #begin
           @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = cm.send("get_#{est_val.pe_attribute.alias}", project.id, current_mp_to_execute.id, pbs_project_element_id)
-        rescue => e
-          @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = nil
-          puts e.message
-        end
+        #rescue => e
+        #  @result_hash["#{est_val.pe_attribute.alias}_#{current_mp_to_execute.id}".to_sym] = nil
+        #  puts e.message
+        #end
       end
     end
     @result_hash

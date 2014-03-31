@@ -27,23 +27,23 @@ module CocomoAdvanced
     def set_cocomo_organic
       @coef_a = 3.02
       @coef_b = 1.05
-      @complexity = "organic"
+      @complexity = "Organic"
     end
 
     def set_cocomo_embedded
       @coef_a = 3
       @coef_b = 1.12
-      @complexity = "organic"
+      @complexity = "Semi-detached"
     end
 
     def set_cocomo_semidetached
       @coef_a = 2.8
       @coef_b = 1.2
-      @complexity = "organic"
+      @complexity = "Embedded"
     end
 
     # Return effort
-    def get_effort_man_month(*args)
+    def get_effort_man_hour(*args)
       coeff = Array.new
 
       Factor.all.each do |factor|
