@@ -46,7 +46,7 @@ module ExternalMasterDatabase
       :adapter => 'mysql2',
       :database => 'projestimate_production',
       :reconnect => false,
-      :host => 'tool.estimancy.com',
+      :host => 'dev.estimancy.com',
       :port => 3306,
       :username => 'estimancy',
       :password => 'masterdata',

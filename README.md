@@ -5,9 +5,7 @@
   ProjEstimate
 </h1>
 <p>
-  <a href="https://travis-ci.org/estimancy/projestimate">
-    <img src="https://travis-ci.org/estimancy/projestimate.png" alt="Build Status" data-canonical-src="https://travis-ci.org/estimancy/projestimate.png?branch=master" style="max-width:100%;">
-  </a>
+  <a href="https://travis-ci.org/estimancy/projestimate"><img src="https://travis-ci.org/estimancy/projestimate.png" alt="Build Status" data-canonical-src="https://travis-ci.org/estimancy/projestimate.png?branch=master" style="max-width:100%;"></a>
 
   <a href="https://codeclimate.com/github/estimancy/projestimate"><img src="https://codeclimate.com/github/estimancy/projestimate.png" /></a>
 

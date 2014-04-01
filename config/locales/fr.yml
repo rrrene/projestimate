@@ -596,6 +596,7 @@ fr:
   administrators: "les administrateurs."
   button_need_help: "Besoin d'aide ?"
   connect: "Connexion"
+  connect_me: "Se connecter"
   remember_me: "Se souvenir de moi"
   edit_password: "Mettre à jour votre mot de passe"
   text_forgotten_password_help: "Vous recevrez un email avec un lien qui vous permettra de changer votre mot de passe."

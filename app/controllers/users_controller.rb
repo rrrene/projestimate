@@ -171,6 +171,7 @@ public
     unless (params[:email].blank? || params[:first_name].blank? || params[:last_name].blank? || params[:login_name].blank?)
       user = User.where('login_name = ? OR email = ?', params[:login_name], params[:email]).first
       is_an_automatic_account_activation? ? status = 'active' : status = 'pending'
+
       if !user.nil?
         redirect_to :back, :flash => {:warning => "#{I18n.t (:warning_email_or_username_already_exist)}"}
       else
@@ -184,8 +185,11 @@ public
                         :auth_type => AuthMethod.find_by_name('Application').id)
 
         user.password = Standards.random_string(8)
+
         user.group_ids = [Group.last.id]
+
         user.save(:validate => false)
+
         UserMailer.account_created(user).deliver
         if !user.active?
           UserMailer.account_request(@defined_record_status).deliver
