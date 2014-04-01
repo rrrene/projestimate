@@ -16,22 +16,22 @@
       <p style="text-align:center;"> <%= I18n.t('empty') %></p>
   <% else %>
       <% @users.each do |user| %>
-          <tr>
-            <td><%= user.last_name %></td>
-            <td><%= user.first_name %></td>
-            <td><%= user.login_name %></td>
-            <td><%= user.email %></td>
-            <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>
-            <td><%= user.auth_method %></td>
-            <td><%= user.user_status %></td>
-            <td>
-              <%= link_to(' ', edit_user_path(user, :anchor => "tabs-1"), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
-                          link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('button_activate_user_account')) +
-                          link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => I18n.t('button_find_use')) +
-                          link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete'))
-              %>
-            </td>
-          </tr>
+        <tr>
+          <td><%= user.last_name %></td>
+          <td><%= user.first_name %></td>
+          <td><%= user.login_name %></td>
+          <td><%= user.email %></td>
+          <td><%= I18n.l(user.last_login) unless user.last_login.nil? %></td>
+          <td><%= user.auth_method %></td>
+          <td><%= user.user_status %></td>
+          <td>
+            <%= link_to(' ', edit_user_path(user, :anchor => "tabs-1"), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit')) +
+                        link_to(' ', "users/#{user.id}/activate", :class => 'icon-legal icon-large icon-border pull-left', :style => 'color:green', :title => I18n.t('button_activate_user_account')) +
+                        link_to(' ', {:controller => 'users', :action => 'find_use_user', :user_id => user.id}, :remote => true, :class => 'icon-info icon-large icon-border pull-left', :title => I18n.t('button_find_use')) +
+                        link_to(' ', user, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete'))
+            %>
+          </td>
+        </tr>
       <% end %>
 
       <%= render :partial => 'layouts/footer_table' %>

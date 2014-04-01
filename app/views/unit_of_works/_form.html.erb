@@ -32,12 +32,12 @@
             <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
                 <i class="icon-caret-down"></i>
-                <b><%= I18n.t 'text_organization_technology' %></b>
+                <b>Complexities</b>
               </a>
             </div>
             <div id="collapseOne" class="accordion-body in collapse">
               <div class="accordion-inner">
-                <%= f.association :organization_uow_complexities, :collection => @organization.organization_uow_complexities, :as => :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
+                <%= f.association :organization_uow_complexities, :collection => @unit_of_work.organization_uow_complexities, :as => :check_boxes, :input_html => {:class => 'input-xxlarge'} %>
               </div>
             </div>
           </div>
@@ -46,15 +46,16 @@
         <div class="actions-tabs">
 
           <% if can? :edit_organizations, Organization %>
-              <% if action_name.in?(%w(new create)) %>
-                  <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
-                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
-              <% elsif action_name == 'edit' || action_name=='update' %>
-                  <%= submit_tag I18n.t('save'), :class => 'btn' %>
-                  <%= submit_tag I18n.t('apply'), :class => 'btn' %>
-              <% end %>
+            <% if action_name.in?(%w(new create)) %>
+                <%= submit_tag I18n.t('save_and_create'), :class => 'btn' %>
+                <%= submit_tag I18n.t('save'), :class => 'btn' %>
+            <% elsif action_name == 'edit' || action_name=='update' %>
+                <%= submit_tag I18n.t('save'), :class => 'btn' %>
+                <%= submit_tag I18n.t('apply'), :class => 'btn' %>
+            <% end %>
           <% end %>
 
+          <%= link_to "Create a new complexity", new_organization_uow_complexity_path(organization_id: @organization || params[:organization_id]), :class => 'btn' %>
           <%= link_to I18n.t('back'), edit_organization_path(@organization || params[:organization_id], :anchor => 'tabs-6'), :class => 'btn' %>
 
         </div>

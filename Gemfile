@@ -107,6 +107,7 @@ gem 'rubyzip', '~> 0.9'
 gem 'axlsx'
 gem 'roo'
 
+gem 'cocomo_advanced', path: "vendor/gems/cocomo_advanced"
 gem 'uos', :path => 'vendor/gems/uos'
 
 # This gem provides the JavaScript InfoVis Toolkit for your rails application.

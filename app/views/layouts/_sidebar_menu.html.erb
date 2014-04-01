@@ -53,12 +53,17 @@
       <% if can? :manage, User or can? :create_and_edit_groups, Group %>
           <li><a href="<%= main_app.groups_path %>">
             <i class="icon-group icon-large pull-left"></i><%= I18n.t(:groups) %></a></li>
-      <% end %>
+    <% end %>
 
       <% if can? :manage_roles, :All %>
-          <li><a href="/globals_permissions">
-            <i class="icon-check-sign icon-large pull-left"></i>Roles</a></li>
-      <% end %>
+        <li><a href="/globals_permissions">
+          <i class="icon-check-sign icon-large pull-left"></i>Roles</a></li>
+    <% end %>
+
+      <% if can? :manage, :organizations %>
+        <li><a href="/factors">
+          <i class="icon-check-sign icon-large pull-left"></i>Factors</a></li>
+    <% end %>
 
       <% if can? :manage, AuthMethod %>
           <li><a href="<%= main_app.auth_methods_path %>">

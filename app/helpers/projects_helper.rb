@@ -540,11 +540,11 @@ module ProjectsHelper
     pbs_project_element = @pbs_project_element || current_project.root_component
     res = String.new
 
-    if module_project.pemodule.alias == "uos"
-      display_uos_module(module_project.id)
-    elsif module_project.pemodule.alias == "cocomo_advanced"
-      display_cocomo_advanced(module_project.id)
-    else
+    #if module_project.pemodule.alias == "uos"
+    #  display_uos_module(module_project.id)
+    #elsif module_project.pemodule.alias == "cocomo_advanced"
+    #  link_to "Cocomo Advanced", "/cocomo_advanced"
+    #else
       if module_project.compatible_with(current_component.work_element_type.alias) || current_component
         pemodule = Pemodule.find(module_project.pemodule.id)
         res << "<h4>#{ I18n.t(:label_input_data) }</h4>"
@@ -576,9 +576,17 @@ module ProjectsHelper
           res << '</tr>'
         end
         res << '</table>'
+
+        if module_project.pemodule.alias == "uos"
+          res << "#{ link_to 'Unit of Works Setting', '/uos?mp=' + module_project.id.to_s }"
+        elsif module_project.pemodule.alias == "cocomo_advanced"
+          res << "#{ link_to 'Cocomo Advanced Setting', '/cocomo_advanced' }"
+        else
+          ""
+        end
       end
       res
-    end
+    #end
   end
 
 

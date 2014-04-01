@@ -5,10 +5,12 @@
       <li><a href="#tabs-2"><%= I18n.t(:pe_attributes) %> </a></li>
       <li><a href="#tabs-3"><%= I18n.t(:attributes_settings) %> </a></li>
       <li><a href="#tabs-4"><%= I18n.t(:organization_technology) %> </a></li>
-      <li><a href="#tabs-5"><%= I18n.t(:organization_uow_complexity) %> </a></li>
-      <li><a href="#tabs-6"><%= I18n.t(:organization_unit_of_work) %> </a></li>
-      <li><a href="#tabs-7"><%= I18n.t(:organization_subcontractor) %> </a></li>
-      <li><a href="#tabs-8"><%= I18n.t(:organization_abacus) %> </a></li>
+      <li><a href="#tabs-5">Complexity (UoW) </a></li>
+      <li><a href="#tabs-6">Complexity (Factors) </a></li>
+      <li><a href="#tabs-7"><%= I18n.t(:organization_unit_of_work) %> </a></li>
+      <li><a href="#tabs-8"><%= I18n.t(:organization_subcontractor) %> </a></li>
+      <!--<li><a href="#tabs-9"><%= I18n.t(:organization_abacus) %> </a></li>-->
+      <!--<li><a href="#tabs-10">Abacus </a></li>-->
   <% end %>
 </ul>
 
@@ -159,50 +161,108 @@
     </div>
 
     <div id="tabs-5">
-      <b><%= I18n.t(:text_organization_uow_complexity) %></b>
+      <b>Complexity (Unit of work)</b>
+
       <br>
+
       <% if can? :edit_organizations, Organization %>
-          <%= link_to I18n.t('new_organization_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+          <%= link_to I18n.t('new_uow_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
       <% end %>
-      <table id="table_list_5" class="table tablesorterPager table-striped table-bordered table-condensed">
+
+      <% @unitofworks.each do |uow| %>
+
+        <h4>
+          <%= uow.name %>
+        </h4>
+
+        <table id="table_list_5" class="table table-bordered">
+          <thead>
+            <tr>
+              <th><%= I18n.t(:name) %></th>
+              <th><%= I18n.t(:description) %></th>
+              <th><%= I18n.t(:value) %></th>
+              <th><%= I18n.t(:state) %></th>
+              <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% uow.organization_uow_complexities.each do |oc| %>
+              <% if oc.state == 'retired' %>
+                  <tr style="font-style:italic; color:Red">
+              <% elsif oc.state == 'draft' %>
+                  <tr style="font-style:italic; color:DarkOrange ">
+              <% else %>
+                  <tr>
+              <% end %>
+              <td><%= oc.name %></td>
+              <td><%= oc.description %></td>
+              <td><%= oc.value %></td>
+              <td><%= oc.state %></td>
+              <td>
+                <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+                <% if can? :manage, Organization %>
+                    <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
+                <% end %>
+              </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+
+  <div id="tabs-6">
+    <b>Complexity (factors)</b>
+
+    <br>
+
+    <% if can? :edit_organizations, Organization %>
+      <%= link_to I18n.t('new_factor_complexity'), new_organization_uow_complexity_path(:organization_id => @organization.id), :class => 'btn pull-right' %>
+    <% end %>
+
+    <% @factors.each do |factor| %>
+
+      <h4>
+        <%= factor.name %>
+      </h4>
+
+      <table id="table_list_5" class="table table-bordered">
         <thead>
         <tr>
-          <th><%= I18n.t(:display_order) %></th>
           <th><%= I18n.t(:name) %></th>
           <th><%= I18n.t(:description) %></th>
-          <th class="filter-select" title="<%= I18n.t(:tooltip_state) %>"><%= I18n.t(:state) %></th>
+          <th><%= I18n.t(:value) %></th>
+          <th><%= I18n.t(:state) %></th>
           <th class="action" colspan="2"><%= I18n.t(:actions) %></th>
         </tr>
         </thead>
         <tbody>
-        <% @organization.organization_uow_complexities.each do |oc| %>
-            <% if oc.state == 'retired' %>
-                <tr style="font-style:italic; color:Red">
-            <% elsif oc.state == 'draft' %>
-                <tr style="font-style:italic; color:DarkOrange ">
-            <% else %>
-                <tr>
+        <% factor.organization_uow_complexities.each do |f| %>
+          <% if f.state == 'retired' %>
+            <tr style="font-style:italic; color:Red">
+          <% elsif f.state == 'draft' %>
+            <tr style="font-style:italic; color:DarkOrange ">
+          <% else %>
+            <tr>
+          <% end %>
+          <td><%= f.name %></td>
+          <td><%= f.description %></td>
+          <td><%= f.value %></td>
+          <td><%= f.state %></td>
+          <td>
+            <%= link_to '', edit_organization_uow_complexity_path(f.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
+            <% if can? :manage, Organization %>
+              <%= link_to '', f, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
             <% end %>
-            <td><%= oc.display_order %></td>
-            <td><%= oc.name %></td>
-            <td><%= oc.description %></td>
-            <td><%= oc.state %></td>
-            <td>
-              <%= link_to '', edit_organization_uow_complexity_path(oc.id, :organization_id => @organization.id), :class => 'icon-pencil icon-large icon-border pull-left', :title => I18n.t('edit') %>
-              <% if can? :manage, Organization %>
-                  <%= link_to '', oc, confirm: I18n.t('are_you_sur'), method: :delete, :class => 'icon-remove icon-large icon-border pull-left', :style => 'color:red', :title => I18n.t('delete') %>
-              <% end %>
-            </td>
-            </tr>
+          </td>
+          </tr>
         <% end %>
-
-
-        <%= render :partial => 'layouts/footer_table' %>
         </tbody>
       </table>
-    </div>
+    <% end %>
+  </div>
 
-    <div id="tabs-6">
+    <div id="tabs-7">
       <b><%= I18n.t(:text_organization_unit_of_work) %></b>
       <br>
       <% if can? :edit_organizations, Organization %>
@@ -245,7 +305,7 @@
       </table>
     </div>
 
-    <div id="tabs-7">
+    <div id="tabs-8">
       <b><%= I18n.t(:text_organization_subcontractor) %></b>
       <br>
       <% if can? :edit_organizations, Organization %>
@@ -290,7 +350,12 @@
       </table>
     </div>
 
-    <div id="tabs-8">
-      <%= render :partial => 'organization_technologies/abacus' %></div>
+    <div id="tabs-9">
+      <%# render :partial => 'organization_technologies/abacus' %>
+    </div>
+
+    <div id="tabs-10">
+      <%# render :partial => 'organization_technologies/factors_abacus' %>
+    </div>
 <% end %>
 </div>
