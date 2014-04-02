@@ -39,14 +39,21 @@ class Audit < ActiveRecord::Base
 
 
   def customize_user_id
-    user = ""
-    if self.user_id
-      if user = User.find(self.user_id)
-        user = "#{user.login_name}"
+    user_login = ""
+    begin
+      if self.user_id
+        user = User.find(self.user_id)
+        if user
+          user_login = "#{user.login_name}"
+        end
       end
+    rescue
+      user_login = "Introuvable"
     end
-    return user
+
+    return user_login
   end
+
 end
 
 

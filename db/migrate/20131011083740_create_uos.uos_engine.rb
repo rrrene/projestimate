@@ -1,7 +1,7 @@
 # This migration comes from uos_engine (originally 20131009092730)
 class CreateUos < ActiveRecord::Migration
   def self.up
-    create_table :inputs do |t|
+    create_table :inputs, :force => true do |t|
       t.integer :module_project_id
       t.integer :technology_id
       t.integer :unit_of_work_id

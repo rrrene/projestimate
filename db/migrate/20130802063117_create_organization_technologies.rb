@@ -1,6 +1,6 @@
 class CreateOrganizationTechnologies < ActiveRecord::Migration
   def change
-    create_table :organization_technologies do |t|
+    create_table :organization_technologies, :force => true do |t|
       t.integer :organization_id
       t.string :name
       t.string :alias

@@ -1,6 +1,3 @@
-require 'uuidtools'
-require 'csv'
-
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 
@@ -18,6 +15,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 SimpleCov.start 'rails' do
   SimpleCov.merge_timeout 3600
 end
+
+require 'uuidtools'
+require 'csv'
 
 require 'spork'
 

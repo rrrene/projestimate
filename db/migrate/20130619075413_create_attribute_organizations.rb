@@ -1,6 +1,6 @@
 class CreateAttributeOrganizations < ActiveRecord::Migration
   def change
-    create_table :attribute_organizations do |t|
+    create_table :attribute_organizations, :force => true do |t|
       t.integer :pe_attribute_id
       t.integer :organization_id
       t.boolean :is_mandatory
