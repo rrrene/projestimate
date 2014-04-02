@@ -21,10 +21,34 @@ Projestimate::Application.routes.draw do
 
   resources :factors
 
+  devise_for :users, :controllers => {:registrations => "registrations", :omniauth_callbacks => "omniauth_callbacks"} #, :path => '', :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
+
+  get 'awaiting_confirmation' => 'registrations#awaiting_confirmation', :as => 'awaiting_confirmation'
+
+  resources :users
+
+  get 'dashboard' => 'users#show', :as => 'dashboard'
+  ####get 'sign_up' => 'users#new', :as => 'sign_up'    #is replace with Devise
+  get 'validate' => 'users#validate', :as => 'validate'
+  post 'create_inactive_user' => 'users#create_inactive_user', :as => 'create_inactive_user'
+  get 'find_use_user' => 'users#find_use_user', :as => 'find_use_user'
+  get 'about' => 'users#about', :as => 'about'
+  match 'users/:id/activate' => 'users#activate', :as => 'activate'
+  get 'display_states' => 'users#display_states', :as => 'display_states'
+  post 'send_feedback' => 'users#send_feedback', :as => 'send_feedback'
+
+  resources :password_resets
+
+  #resources :sessions
+  #get 'log_in' => 'sessions#new', :as => 'log_in'
+  #get 'log_out' => 'sessions#destroy', :as => 'log_out'
+  #get 'ask_new_account' => 'sessions#ask_new_account', :as => 'ask_new_account'
+  #get 'help_login' => 'sessions#help_login', :as => 'help_login'
+  #get 'forgotten_password' => 'sessions#forgotten_password', :as => 'forgotten_password'
+  #post 'reset_forgotten_password' => 'sessions#reset_forgotten_password', :as => 'reset_forgotten_password'
 
   resources :audits
 
-  mount CocomoAdvanced::Engine, at: "/cocomo_advanced"
   mount Uos::Engine, :at => '/uos'
 
   resources :abacus_organizations
@@ -204,27 +228,6 @@ Projestimate::Application.routes.draw do
   get 'show_project_history' => 'projects#show_project_history', :as => :show_project_history
 
   get 'projects_from' => 'projects#projects_from', :as => 'projects_from'
-
-  resources :users
-  get 'dashboard' => 'users#show', :as => 'dashboard'
-  get 'sign_up' => 'users#new', :as => 'sign_up'
-  get 'validate' => 'users#validate', :as => 'validate'
-  post 'create_inactive_user' => 'users#create_inactive_user', :as => 'create_inactive_user'
-  get 'find_use_user' => 'users#find_use_user', :as => 'find_use_user'
-  get 'about' => 'users#about', :as => 'about'
-  match 'users/:id/activate' => 'users#activate', :as => 'activate'
-  get 'display_states' => 'users#display_states', :as => 'display_states'
-  post 'send_feedback' => 'users#send_feedback', :as => 'send_feedback'
-
-  resources :password_resets
-
-  resources :sessions
-  get 'log_in' => 'sessions#new', :as => 'log_in'
-  get 'log_out' => 'sessions#destroy', :as => 'log_out'
-  get 'ask_new_account' => 'sessions#ask_new_account', :as => 'ask_new_account'
-  get 'help_login' => 'sessions#help_login', :as => 'help_login'
-  get 'forgotten_password' => 'sessions#forgotten_password', :as => 'forgotten_password'
-  post 'reset_forgotten_password' => 'sessions#reset_forgotten_password', :as => 'reset_forgotten_password'
 
   #Master Data validation and restoration routes
   match ':controller/:id/validate_change' => ':controller#validate_change', :as => 'validate_change'

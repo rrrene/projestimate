@@ -32,7 +32,6 @@ module ExternalInclude
         current_table_name2 = current_table_name1.gsub!('External', '')
         base.table_name = current_table_name2.tableize
         scope :defined, lambda { |de| where('record_status_id = ?', de) } #scope :custom_defined, lambda {|de, cu| where("record_status_id = ? or record_status_id = ?", de, cu) }
-
       end
     end
 
@@ -44,11 +43,12 @@ module ExternalMasterDatabase
 
   HOST = {
       :adapter => 'mysql2',
-      :database => 'projestimate_production',
+      #:database => 'projestimate_production',
+      :database => 'projestimate_dev',
       :reconnect => false,
       :host => 'dev.estimancy.com',
       :port => 3306,
-      :username => 'estimancy',
+      :username => 'master',
       :password => 'masterdata',
       :encoding => 'utf8'
   }

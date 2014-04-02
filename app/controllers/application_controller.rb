@@ -20,7 +20,13 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  before_filter :authenticate_user!
+
+  layout :layout_by_controller
+
   require 'socket'
+
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = I18n.t(:error_access_denied)
     begin
@@ -49,7 +55,7 @@ class ApplicationController < ActionController::Base
   helper_method :is_master_instance? #Identify if we are on Master or Local instance
   helper_method :send_feedback
   helper_method :allow_feedback?
-  helper_method :current_user
+  ###helper_method :current_user
   helper_method :current_project
   helper_method :current_component
   helper_method :current_module_project
@@ -64,7 +70,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_language
   before_filter :set_return_to
   before_filter :previous_page
-  before_filter :session_expiration
+  ###before_filter :session_expiration
   before_filter :update_activity_time
   before_filter :capitalization_module
 
@@ -222,7 +228,7 @@ class ApplicationController < ActionController::Base
     session[:now] = request.referer
   end
 
-  def current_user
+  def current_user_SAVE
     begin
       (User.find(session[:current_user_id]) if session[:current_user_id]) || (User.find_by_email(cookies[:login]) if cookies[:login] || nil)
     rescue ActiveRecord::RecordNotFound
@@ -281,7 +287,7 @@ class ApplicationController < ActionController::Base
 
   def capitalization_module
     @defined_record_status = RecordStatus.where('name = ?', 'Defined').last
-    @capitalization_module = Pemodule.where(alias: 'capitalization', record_status_id: @defined_record_status.id).first
+    @capitalization_module = Pemodule.where(alias: 'capitalization', record_status_id: @defined_record_status.id).first unless @defined_record_status.nil?
   end
 
   def load_master_setting(args)
@@ -409,4 +415,10 @@ class ApplicationController < ActionController::Base
   def root_url
     @root_url=request.env['HTTP_HOST']
   end
+
+  protected
+  def layout_by_controller
+    devise_controller? ? 'devise' : 'application'
+  end
+
 end

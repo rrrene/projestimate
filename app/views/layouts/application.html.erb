@@ -40,7 +40,9 @@
   <div class="navbar-inner">
     <div class="container">
 
-      <%= render 'layouts/user_account' %>
+      <% if user_signed_in? %>
+        <%= render 'layouts/user_account' %>
+      <% end %>
       <div id="notifications">
         <%= render 'layouts/notifications' %>
       </div>
@@ -52,13 +54,16 @@
 
 <div class="row-fluid">
   <div id="sidebar" class="span2">
-    <%= render 'layouts/sidebar_menu' %>
+    <% if user_signed_in? %>
+        <%= render 'layouts/sidebar_menu' %>
+    <% end %>
   </div>
 
   <div id="mycontent" class="span10 main">
     <%= yield %>
   </div>
 </div>
+
 
 </body>
 </html>

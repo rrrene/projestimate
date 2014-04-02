@@ -22,11 +22,23 @@ require 'net/ldap'
 
 # User of the application. User has many projects, groups, permissions and project securities. User have one language
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         ###:confirmable, #we are waiting for email validation
+         :omniauthable, :omniauth_providers => [:google_oauth2]
+
+  # Setup accessible (or protected) attributes for your model for Devise gem
+  #attr_accessible :email, :password, :password_confirmation, :remember_me
 
   audited # audit the users (comptes utilisateurs)
 
   #attr_accessible :email, :login_name, :first_name, :last_name, :initials, :auth_type, :auth_method_id, :user_status, :time_zone, :language_id, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token,:created_at,:updated_at, :organization_ids, :group_ids, :project_ids, :password, :password_confirmation, :project_security_ids
-  attr_accessible :email, :login_name, :first_name, :last_name, :initials, :user_status, :time_zone, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token, :created_at, :updated_at, :password, :password_confirmation, :auth_type#, :project_security_ids
+  attr_accessible :email, :login_name, :id_connexion, :password, :password_confirmation, :remember_me, :provider, :uid, :avatar, :language_id, :first_name, :last_name, :initials, :user_status, :time_zone, :object_per_page, :password_salt, :password_hash, :password_reset_token, :auth_token, :created_at, :updated_at, :auth_type#, :project_security_ids
+
+  # Virtual attribute for authenticating by either login_name or email  # This is in addition to a real persisted field like 'login_name'
+  attr_accessor :id_connexion
 
   include AASM
 
@@ -65,14 +77,13 @@ class User < ActiveRecord::Base
   has_many :change_on_groups, :foreign_key => 'owner_id', :class_name => 'Group'
   has_many :change_on_permissions, :foreign_key => 'owner_id', :class_name => 'Permission'
 
-  attr_accessor :password, :password_confirmation
+  #attr_accessor :password, :password_confirmation
+  #before_save :encrypt_password
+  #before_create { generate_token(:auth_token) }
 
   serialize :ten_latest_projects, Array
 
-  before_save :encrypt_password
-  before_create { generate_token(:auth_token) }
-
-  validates_presence_of :last_name, :first_name, :user_status, :auth_type
+  validates_presence_of :last_name, :first_name#, :user_status, :auth_type
   validates :login_name, :presence => true, :uniqueness => {case_sensitive: false}
   #validates :email, :presence => true, :format => {:with => /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i}, :uniqueness => {case_sensitive: false}
   validates :email, :presence => true, :format => {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}, :uniqueness => {case_sensitive: false}
@@ -118,6 +129,10 @@ class User < ActiveRecord::Base
     where('email >= ? OR login_name < ?', login, login)
   }
 
+
+  ####====================================== AUTHENTICATION METHODS ============================================================
+
+  # Default auth_method is "Application"
   def auth_method_application
     begin
       self.auth_method.name == 'Application'
@@ -146,8 +161,38 @@ class User < ActiveRecord::Base
     if self.password.length < password_length
       errors.add(:password, "password is too short (minimum is #{password_length} characters)")
     end
-
   end
+
+  # DEVISE : override the find_first_by_auth_conditions method, as we want to use both 'login_name' and 'email' for authentication
+  #withoyt case_sensitive = false
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:id_connexion)
+      where(conditions).where(conditions).where(["login_name = :value OR lower(email) = lower(:value)", { :value => login }]).first
+    else
+      where(conditions).first
+    end
+  end
+
+  # GOOGLE AUTHENTICATION FROM DEVISE
+  def self.from_omniauth(auth)
+    if user = User.find_by_email(auth.info.email)
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user
+    else
+      where(auth.slice(:provider, :uid)).first_or_create do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.login_name = auth.info.name
+        user.email = auth.info.email
+        user.avatar = auth.info.image
+        user.password = Devise.friendly_token[0,20]
+      end
+    end
+  end
+
+  ####====================================== END AUTHENTICATION METHODS ============================================================
 
   #return groups using for global permissions
   def group_for_global_permissions
@@ -494,5 +539,6 @@ class User < ActiveRecord::Base
       :en
     end
   end
+
 end
 

@@ -100,6 +100,7 @@ group :ic do
   gem 'coveralls', require: false
   gem "codeclimate-test-reporter", group: :test, require: nil
   #gem 'gemnasium'
+  gem 'inch'
 end
 
 # spreadsheet files management
@@ -115,6 +116,11 @@ gem "jit-rails", "~> 0.0.2"
 
 # Gem to audit User actions
 gem "audited-activerecord", "~> 3.0"
+
+#Authentication gem
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
 
 
 # Gems used only for assets and not required

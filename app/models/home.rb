@@ -368,6 +368,7 @@ class Home < ActiveRecord::Base
     ext_custom_rsid = ExternalMasterDatabase::ExternalRecordStatus.find_by_name('Custom').id
 
     #get all records (ex : ExternalMasterDatabase::ExternalLanguage.all)
+    puts "Class = #{ExternalMasterDatabase::ExternalPemodule}"
     externals = external.send(:defined, ext_rsid).send(:all)
 
     #for each external records...

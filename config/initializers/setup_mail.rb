@@ -26,7 +26,10 @@ ActionMailer::Base.smtp_settings = {
     :user_name => SETTINGS['SMTP_USER_NAME'],
     :password => SETTINGS['SMTP_PASSWORD'],
     :authentication => SETTINGS['SMTP_AUTHENTICATION'],
-    :enable_starttls_auto => true
+    :enable_starttls_auto => true,
+    :ssl => true,
+    :openssl_verify_mode => 'none'
 }
+
 
 Projestimate::Application.config.action_mailer.default_url_options = { :host => SETTINGS['HOST_URL'] }
