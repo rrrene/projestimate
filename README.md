@@ -1,4 +1,4 @@
-[![Inline docs](http://inch-pages.github.io/github/estimancy/projestimate.png)](http://inch-pages.github.io/github/estimancy/projestimate)
+[![Inline docs](http://inch-ci.org/github/estimancy/projestimate.png)](http://inch-ci.org/github/estimancy/projestimate)
 
 ProjEstimate an Open Source project estimation web application. More details can be found on the http://www.ProjEstimate.org web site.
 
